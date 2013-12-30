@@ -1,0 +1,44 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2005/11/09/pixel-perfect-collision-detection-in-flash8/" title="Permanent link to Pixel Collision Detection in Flash8" rel="bookmark" rev="post-28">Pixel Collision Detection in Flash8</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>In my last post i talked about an ImagesLoader that holds a map of the bitmapdata copied from any images loaded into an offscreen buffer. Well, i thought that was well and good, but i started thinking about collision detection between two bitmaps. Take for instance the “load and chop” of a strip of sprite states. Since it does a check on the dimensions of the image loaded and just divides by the number of states (columns and rows) specified, each state has the same width and height.<br>
+That’s fine if you’re running a collision detection based on movieclip bounds, but the state of a sprite can have a fair amount of empty (tranparent) pixels within the bounding rectangle detected from the movieclip it’s attached to (using mc.getBounds()). What if you want to run a collision of something hitting any opaque pixels in the sprite and not use the bounding box of the mc?</p>
+<p>Well, i whipped up a quick little class that will do that.<a href="javascript:MM_openBrWindow('http://www.custardbelly.com/flash8/CollisionTest.html','coll_trial','resizable=no,width=170,height=150');"><br>
+You can view it here</a><br>
+ (just click and drag the little colbys).<br>
+Sorry i couldn’t put it on the page, there seems to be a problem with loading images into a flashObject embedded in this page.</p>
+<p>This is a pretty “lite” example since it’s only checking three objects during onMouseMove, but you can see how it works, and in theory you wouldn’t run this detection process unless sprites were in a certain area of each other.</p>
+<p>After i clean up my code and make a better example i’ll throw the source up here, but i’ll show you some things it’s doing.</p>
+<p>Before it goes into the process of checking pixel transparencies between two sprites, it runs the age old<br>
+<pre><br>
+if(	ay2 &lt; by1 ||<br>
+	ay1 &gt; by2 ||<br>
+	ax2 &lt; bx1 ||<br>
+	ax1 &gt; bx2)<br>
+{<br>
+	return false;<br>
+}<br>
+</pre></p>
+<p>operation (where ay1 is mc1._y, ay2 is mc1._height, and the b’s are the same but with other movieclip). If that returns, the two sprites being checked don’t overlap, so we don’t even bother going on to check if it’s only transparent pixels that are overlapping.</p>
+<p>If that doesn’t return, it goes on to determine the rectangle of intersection, from which it derives what pixels to check in each bitmapdata instance.<br>
+It runs the alpha check with this operation:<br>
+<pre><br>
+var aVal:Number = ((bmpData.getPixel32(x, y) &gt;&gt; 24) &amp; 0xFF);<br>
+</pre></p>
+<p>If that shows up as 0, it’s transparent. I stink at techinical explanations, so if you want to learn about this visit this article by Grant Skinner – <a href="http://www.macromedia.com/devnet/flash/articles/bitwise_operators.html">Using Bitwise Operators to Manipulate Bits and Colors</a>, but it’s basically checking for any similar bits between the alpha channel of the pixel and 0xFF.</p>
+<p>I’d also like to point out Grant Skinner’s great example of <a href="http://www.gskinner.com/blog/archives/2005/10/source_code_sha.html">Shape-Based Collision Detection</a>, if you haven’t already seen it. </p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>,  <a href="http://custardbelly.com/blog/category/flash8/" title="View all posts in Flash8" rel="category tag">Flash8</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-28-target"></div>
+	<div class="clear"></div>
+	
+	

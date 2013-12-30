@@ -1,0 +1,26 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2005/10/20/as3-follow-up/" title="Permanent link to AS3 follow up" rel="bookmark" rev="post-24">AS3 follow up</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>After studying over some great AS3 examples by <a href="http://www.helpqlodhelp.com/blog/archives/000127.html">Ralf Bokelberg</a> and <a href="http://kelvinluck.com/article/first-actionscript-3-example">Kevin Luck </a>, and running through the <a href="http://livedocs.macromedia.com/labs/1/flex/langref/index.html ">AS3 documentation</a></p>
+<p>i eventually drummed up an AS3 representation of <a href="http://custardbelly.com/blog/?p=19">my first Flash8 BitmapData experiment</a>. Whether or not it’s the best solution ( or necessarily a good one ), i thought i’d throw up the source here for any one to comment or question.<br>
+it’s very simple and probably could use some refactoring.<br>
+Basically, what i was contemplating about the removal of attachBitmap and the subsequent use of copyPixels method is resolved in this example by using copyPixels on a source bitmap and storing those in a states array. I then pass along those states, and dependent on the user interaction, employ drawRect on the graphic layer.</p>
+<p>one thing i noticed – pressing anywhere in the embedded movie to enable keyboard events (as it is in previous flash players), did not draw that focus in 8.5 – at least i think. To get around it i had to create a sprite the size of the stage and listen for a MOUSE_DOWN event to set the focus again. If anyone’s got some thought on this, please leave a comment.  </p>
+<p>you can find the source <a href="http://www.custardbelly.com/examples/BitmapSample.htm">here</a>.</p>
+<p>i’d also like to point out another great collection of AS3 resources made possible by franto: </p>
+<p><a href="http://www.franto.com/blog2/collected-links-to-actionscript-30-examples">http://www.franto.com/blog2/collected-links-to-actionscript-30-examples</a></p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/as3/" title="View all posts in AS3" rel="category tag">AS3</a>,  <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-24-target"></div>
+	<div class="clear"></div>
+	
+	

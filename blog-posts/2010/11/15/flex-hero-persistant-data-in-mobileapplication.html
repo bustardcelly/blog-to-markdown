@@ -1,0 +1,69 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2010/11/15/flex-hero-persistant-data-in-mobileapplication/" title="Permanent link to Flex 4.5 (Hero) – Persistant Data in MobileApplication" rel="bookmark" rev="post-220">Flex 4.5 (Hero) – Persistant Data in MobileApplication</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>I had the a great time at <a href="http://riaunleashed.com/" target="_blank"><strong>RIAUnleashed</strong></a> this year and had a chance to check out <a href="http://coenraets.org/" target="_blank">Christophe Coenraet</a>’s session on <a href="http://labs.adobe.com/technologies/flashbuilder_burrito/" target="_blank">Flex 4 “Burrito” and Flex “Hero” SDK</a>. An excellent speaker and one I had been hoping to see for some time. His presentation was mainly focused on <strong>Mobile Application</strong> development with <strong>Hero SDK</strong> in <em>“Burrito”</em>.</p>
+<p><a href="http://coenraets.org/" target="_blank">Christophe</a> gave a great talk and one thing that really stood out to me – as far as the navigation framework for a Mobile Application in <strong>Hero</strong> – was how to persist state for a view in as far as the life of the current application session. And it got me thinking about how there really is a difference between persisting data within the session of an application, and persisting data throughout the life (or rather, until the user deletes) your application from their device. I am familiar with – what i still call (thanks objective-c!) – “user prefs” and session data within the iOS and Android frameworks, but Flex (granted) takes on a different context on how a view is notified of data, both in session and from recovery/restart.</p>
+<p>[<strong>[NOTE]</strong> <em>It should be noted that this post will be discussing some of the finer points of the persistant data API available, as of this writing, with the free trial download of <a href="http://labs.adobe.com/technologies/flashbuilder_burrito/" target="_blank">Flash Builder “Burrito”</a> and the included Flex SDK Version 4.5.0 build 17689</em>]</p>
+<h2>A Brief Rundown</h2>
+<h3>View</h3>
+<p>A Flex <strong>MobileApplication</strong> is *roughly* made up of multiple <strong>View</strong> objects. Each <strong>View</strong> is pushed on or popped from a history stack depending on the user action. As one <strong>View</strong> is activated, the previous view is deactivated and its state is cached through its <em>data</em> property. Meaning, each time you enter a view, a new instance of it is instantiated and provided a data object through its <strong>IDataRenderer</strong> method implementation of the <em>data</em> attribute. There is much more to a <strong>View</strong>, including its display which was explained in great detail by <a href="http://coenraets.org" target="_blank">Christophe</a>, but for the purposes of this post I just wanted to touch on the importance of the <em>data</em> property of <strong>View</strong> and two additional methods: <em>serializeData</em>() and <em>deserializePersistedData</em>(). Keep those in the back of your mind.</p>
+<h3>PeristanceManager</h3>
+<p><strong>MobileApplication</strong>, the base view and main application instance used when creating a new <em>Flex Mobile Application</em>, has a <strong>PersistanceManager</strong> member whose primary job is to read and write data to a <strong>Shared Object</strong> and save it on the local disk.</p>
+<p><em>Where are those saved?</em></p>
+<p><strong>Mac OSX</strong>: /Users/{user}/Library/Preferences/{project.name}/<br>
+LocalStore/#SharedObjects/{project.name}.swf/FXAppCache.sol</p>
+<p><del datetime="2010-11-23T09:20:56+00:00"><strong>PC</strong>: I don’t know.</del></p>
+<p><strong>PC</strong>: (Window 7): C:\Users\{user}\AppData\Roaming\{project.name}/<br>
+LocalStore/#SharedObjects/{project.name}.swf/FXAppCache.sol <em>[ED: Thanks, <a href="http://www.gread.net/devdesign/" target="_blank">Dennis</a>!]</em></p>
+<p>Seeing as we are storing data out of the application, when employing the <strong>PersistanceManager</strong> we intend to serialize some state information to be used throughout the life of the application (from installation to un-installation). In order to enable a <strong>MobileApplication</strong> to use persistant data in such a way, you need to set <em>sessionCachingEnabled</em> to <em>true</em>:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;"><span style="color: #66cc66;">&lt;</span>s :MobileApplication xmlns:fx=<span style="color: #ff0000;">"http://ns.adobe.com/mxml/2009"</span> 
+					 xmlns:s=<span style="color: #ff0000;">"library://ns.adobe.com/flex/spark"</span> 
+					 firstView=<span style="color: #ff0000;">"MyHome"</span> 
+					 sessionCachingEnabled=<span style="color: #ff0000;">"true"</span><span style="color: #66cc66;">&gt;</span>
+<span style="color: #66cc66;">&lt;/</span>s<span style="color: #66cc66;">&gt;</span></pre></div></div>
+
+<p>In brief, that will enable the application to invoke serialization and deserialization of state data when exiting and entering new <strong>View</strong> instances, respectively; those methods mentioned previously when explaining <strong>View</strong>. Enabling session caching in your <strong>MobileApplication</strong> also allows for event handling of the following events when the application is initializing and deactivated:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;"><span style="color: #808080; font-style: italic;">/* dispatched in MobileApplication +initialize() */</span>
+FlexEvent.<span style="color: #006600;">APPLICATION_RESTORING</span>
+FlexEvent.<span style="color: #006600;">APPLICATION_RESTORE</span>
+<span style="color: #808080; font-style: italic;">/* dispatched in MobileApplication -applicationDeactivateHandler() */</span>
+FlexEvent.<span style="color: #006600;">APPLICATION_PERSISTING</span>
+FlexEvent.<span style="color: #006600;">APPLICATION_PERSIST</span></pre></div></div>
+
+<p>Those events are fired on startup and close of the application. Do with them what you will, but the real magic happens when creating and destroying <strong>View</strong> objects within the <strong>ViewNavigator</strong> of an application session.</p>
+<h3>ViewNavigator</h3>
+<p>The <strong>ViewNavigator</strong> member of <strong>MobileApplication</strong> is actually a skin part and is instantiated in <em>MobileApplicationSkin.as</em>. It is an ActionScript file in the SDK (as opposed to MXML which most <strong>Spark</strong> skins are) i suppose in the hopes that if you do create a custom skin for <strong>MobileApplication</strong>, you extend <strong>MobileApplicationSkin</strong>. That’s a whole ‘nother topic… back to the role of <strong>ViewNavigator</strong>. The <strong>ViewNavigator</strong>, while providing some visual elements in relation to action bar content, serves as a manager for a collection of <strong>View</strong> objects. The top-most <strong>View</strong> is visible and active, while any other View objects are represented by a data object. Meaning, each time a <strong>View</strong> is added to the display list (via <em>pushView</em>()), an instance of it its class is instantiated. Each time a <strong>View</strong> is removed from the display list (via <em>popView</em>() or <em>pushView</em>()) its instance is destroyed, but its data model is stored in memory.</p>
+<p>It should be noted that once the *first* new instance of a <strong>View</strong> class is instantiated, it is first notified to handle any persistent data (previously serialized) through <strong>View</strong>:<em>deserializePersistedData</em>(). If there is persistent data available, that data is handed along to the new <strong>View</strong> instance through the <em>data</em> property. Any subesequent instantiations of the same <strong>View</strong> class within the same application session will not be requested to deserialize persistent data and will just be given its data model through the <em>data</em> property. The reason being that the the <strong>View</strong> has already been re-activated previously with any persisted data and data currently relates to the session. Now any new state must be updated on the <em>data</em> property for the rest of the application session and if required for restart of the application at a later date.</p>
+<p>In order to save session state for a <strong>View</strong>, you must modify the <em>data</em> property. This property will be requested when destroying the current instance of the <strong>View</strong> class. And the <em>data</em> property value will be assigned back to a newly created instance of the same <strong>View</strong> class when navigating back to that view. Behind the scenes is the <strong>ViewHistoryData</strong> model object which, in essence, is keeping track of the <strong>View</strong> class and its factory instance as well as the data model and related persistent data. In fact, by extending <strong>IExternalizable</strong>, it is the <strong>ViewHistoryData</strong> class that handles reading and writing the persistent data to the disk.</p>
+<h2>Summary</h2>
+<p>In short, persisting data between sessions of an AIR-enabled <strong>MobileApplication</strong> is possible. And the implementation is rather straight forward:</p>
+<p>1. View is first created.<br>
+2. View is asked to de-serialize persisted data.<br>
+3. View is given de-serialized data through its <em>data</em> property.<br>
+4. View is later requested to be removed.<br>
+5. The data property of the View is accessed and stored.<br>
+6. View is asked to serialize any persistent data.<br>
+7. View is later created.<br>
+8. View is handed the stored data property value.</p>
+<p>It is important to note how the progress from step 7 to 8 differs from 1 to 3. Even though the <strong>View</strong> is requested to serialize its data on each removal, it is not necessarily requested to de-serialize on each creation. It gets a little tricky, but the <strong>View</strong> is guaranteed to have <em>deserializePersistedData</em>() invoked on first creation. However, if you override the <em>data</em> property getter in the <strong>View</strong> and return custom data, <em>deserializePersistedData</em>() will not be invoked in following creations.  Subsequent creations are just handed the custom model through its <em>data</em> property. If the <strong>View</strong> does not override the data property getter, then <em>deserializePersistedData</em>() is invoked each time on creation. In most cases, the <strong>View</strong>s i create do override the <em>data</em> property in order to persist session data. This creation&gt;de-serialization/destruction&gt;serialization flow can be a little tricky to wrap the head around, and hopefully i have explained it well enough. Once I got it, I got it.</p>
+<p>So application state can be maintained both throughout a session (from open to close) and through the life (from install to uninstall) of an application. Just be sure to properly manage the state data of a <strong>View</strong> class through its <em>serializeData</em>(), <em>deserializePersistantData</em>() method overrides and its <em>data</em> attribute.</p>
+<p>I had originally began this article to address how to get away from “code-behind” and use the <a href="http://martinfowler.com/eaaDev/SupervisingPresenter.html" target="_target">SupervisingPresenter</a> pattern to drive the logic of a view. This would get away from the notion of subclassing a view-controller for each <strong>View</strong>, and more importantly keep instantiation of the logic controller down by persisting a “presenter” instance within a session of the application. I think i am going to push that to another post, so if interested look for that soon.</p>
+<p>I hope i explained this stuff coherently. I really enjoyed <a href="http://coenraets.org/" target="_blank">Christophe</a>’s session and immediately wanted to poke around under the hood. </p>
+<p>On a side-note <a href="http://riaunleashed.com/" target="_blank">RIAUnleashed</a> this year was excellent and was <a href="http://www.remotesynthesis.com/" target="_blank">Brian Rinaldi</a>’s last at running the event. He put together an excellent conference and I don’t think I am alone in thanking him for bringing so much talent out this way.</p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/air/" title="View all posts in AIR" rel="category tag">AIR</a>,  <a href="http://custardbelly.com/blog/category/burrito/" title="View all posts in Burrito" rel="category tag">Burrito</a>,  <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>,  <a href="http://custardbelly.com/blog/category/flex/" title="View all posts in Flex" rel="category tag">Flex</a>,  <a href="http://custardbelly.com/blog/category/flex-4-5/" title="View all posts in Flex 4.5" rel="category tag">Flex 4.5</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-220-target"></div>
+	<div class="clear"></div>
+	
+	

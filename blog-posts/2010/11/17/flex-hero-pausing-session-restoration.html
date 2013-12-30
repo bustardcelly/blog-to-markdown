@@ -1,0 +1,134 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2010/11/17/flex-hero-pausing-session-restoration/" title="Permanent link to Flex 4.5 (Hero) – Pausing Session Restoration" rel="bookmark" rev="post-231">Flex 4.5 (Hero) – Pausing Session Restoration</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>While<a href="http://labs.adobe.com/technologies/flashbuilder_burrito/" target="_blank"> Flex 4.5 (Hero)</a> provides an API for persisting session data within <strong>View</strong> objects, as discussed in my <a href="http://custardbelly.com/blog/?p=228" target="_blank">previous post</a>, <strong>MobileApplication</strong> dispatches events at the initialization and deactivation of the application that allow for you to perform any subsequent custom handling of persistent data – such as re-logging a user back into a service on relaunch of the application.</p>
+<p>[<strong>[NOTE]</strong> <em>It should be noted that this post will be discussing some of the finer points of the persistant data API available, as of this writing, with the free trial download of <a href="http://labs.adobe.com/technologies/flashbuilder_burrito/" target="_blank">Flash Builder “Burrito”</a> and the included Flex SDK Version 4.5.0 build 17689</em>]</p>
+<p>When the <em>sessionCachingEnabled</em> property of <strong>MobileApplication</strong> is declared as true, the following events are broadcast:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;"><span style="color: #808080; font-style: italic;">/* dispatched in MobileApplication +initialize() */</span>
+FlexEvent.<span style="color: #006600;">APPLICATION_RESTORING</span>
+FlexEvent.<span style="color: #006600;">APPLICATION_RESTORE</span>
+<span style="color: #808080; font-style: italic;">/* dispatched in MobileApplication -applicationDeactivateHandler() */</span>
+FlexEvent.<span style="color: #006600;">APPLICATION_PERSISTING</span>
+FlexEvent.<span style="color: #006600;">APPLICATION_PERSIST</span></pre></div></div>
+
+<p>In responding to these events, a client can serialize any other custom data to the disk that is relevant between sessions (launch, close, re-launch) of your application – be it as a <strong>Shared Object</strong>, which the <strong>PersistenceManager</strong> writes to, or a file using the <strong>File</strong> API.</p>
+<p>When working with persisted data between <strong>View</strong> objects, what essentially is happening is the serialization of the <strong>NavigationStack</strong>. The <strong>NavigationStack</strong> is, in rough terms, a history manager. It holds a list of <strong>ViewHistoryData</strong> objects that pertain to the progression of <strong>View</strong> requests; popping and pushing the <strong>ViewHistoryData</strong> objects from the stack as the user progresses through the application.</p>
+<p>When responding to the session-persistent events, you most likely will not be modifying that stack that is being serialized between <strong>View</strong> objects already for you (using the <em>data</em> property and<em> serializeData</em>() and <em>deserializePersistedData</em>() methods discuss in my <a href="http://custardbelly.com/blog/?p=228" target="_blank">previous post</a>). Though you could, you could hijack that <strong>Shared Object</strong> from the <strong>PersistenceManager</strong> and overwrite the work it had previously done, but most likely the serialized <strong>NavigationStack</strong> will be left untouched or at the very least only inspected.</p>
+<p>What had originally got me looking into working with these session-persistent events was to have the ability to re-log in a user who had previously been logged into a service in a prior session. It is a common practice and user experience and one the user rarely thinks about. Think about every time you open a <a href="http://twitter.com/#!/bustardcelly" target="_blank">Twitter</a> client on your device. The session is most-likely not kept alive while you have it closed and are playing <a href="http://itunes.apple.com/us/app/falling-balls/id301545989?mt=8" target="_blank">Falling Balls</a>. But when you re-launch it, you don’t (typically) have to log back in. You can begin sending tweets again. Right away.</p>
+<p>This can be achieved in a Flex Hero <strong>MobileApplication</strong>, but you will have to suspend the “restoring” of the application upon initialization in order to read in any custom persisted data and log a user into a service. I’ll touch on that later, but for now let’s look at how you would first serialize custom data when the application is being deactivated:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;">protected <span style="color: #000000; font-weight: bold;">var</span> _currentUser:CustomUser;
+protected <span style="color: #000000; font-weight: bold;">var</span> storedUserFilename:<span style="color: #0066CC;">String</span> = <span style="color: #ff0000;">"currentUser.obj"</span>;
+...
+<span style="color: #808080; font-style: italic;">// Event handler for FlexEvent.APPLICATION_PERSIST of MobileApplication.</span>
+protected <span style="color: #000000; font-weight: bold;">function</span> handleApplicationPersist<span style="color: #66cc66;">(</span> evt:Event <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+<span style="color: #66cc66;">{</span>
+	<span style="color: #000000; font-weight: bold;">var</span> user:CustomUser = _currentUser;
+	<span style="color: #000000; font-weight: bold;">var</span> file:File = File.<span style="color: #006600;">applicationStorageDirectory</span>.<span style="color: #006600;">resolvePath</span><span style="color: #66cc66;">(</span> storedUserFilename <span style="color: #66cc66;">)</span>;
+	<span style="color: #000000; font-weight: bold;">var</span> stream:FileStream = <span style="color: #000000; font-weight: bold;">new</span> FileStream<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+	stream.<span style="color: #006600;">open</span><span style="color: #66cc66;">(</span> file, FileMode.<span style="color: #006600;">WRITE</span> <span style="color: #66cc66;">)</span>;
+	stream.<span style="color: #006600;">writeObject</span><span style="color: #66cc66;">(</span> user <span style="color: #66cc66;">)</span>;
+	stream.<span style="color: #0066CC;">close</span><span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+<span style="color: #66cc66;">}</span></pre></div></div>
+
+<p>Pretty familiar if you have worked with the <strong>File</strong> API. Nothing actually new in regards to 4.5, just writing the serializable <strong>CustomUser</strong> object to the application storage directory. It’s another topic on how to maintain the reference to <em>_currentUser</em>, so for the purposes of this example we’ll just say that object is available and managed here. If you are familiar with the <strong>File</strong> API, you probably are aware that <strong>CustomUser</strong> needs to be registered with a class alias in order to be properly written to and read back in from the file system as that ActionScript object. That can be achieved by wither declaring a <strong>[RemoteClass]</strong> meta-tag or the <em>registerClassAlias</em>() method. <em>[*Fun fact*: MobileApplication registers the ViewNavigator and NavigationStack classes upon initialization in the </em><em>registerPersistenceClassAliases</em>() method]. Here’s a quick exmaple of using the <strong>[RemoteClass]</strong> meta:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;">package com.<span style="color: #006600;">custardbelly</span>.<span style="color: #006600;">examples</span>.<span style="color: #006600;">model</span>
+<span style="color: #66cc66;">{</span>
+	<span style="color: #66cc66;">[</span>RemoteClass<span style="color: #66cc66;">(</span>alias=<span style="color: #ff0000;">"com.custardbelly.examples.model.CustomUser"</span><span style="color: #66cc66;">)</span><span style="color: #66cc66;">]</span>
+	<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">class</span> CustomUser
+	<span style="color: #66cc66;">{</span>
+		<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">var</span> username:<span style="color: #0066CC;">String</span>;
+		<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">var</span> <span style="color: #0066CC;">password</span>:<span style="color: #0066CC;">String</span>;
+&nbsp;
+		<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> CustomUser<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span> <span style="color: #66cc66;">{</span><span style="color: #66cc66;">}</span>
+	<span style="color: #66cc66;">}</span>
+<span style="color: #66cc66;">}</span></pre></div></div>
+
+<p>One thing to remember when serializing ActionScript objects, don’t have any non-defaulted constructor parameters. You will get an error when the object is being de-serialized.</p>
+<p>Back to the task at hand – logging a user back into the service on relaunch of the application (start of a new session). In order to do that, the “restoring” process of the application needs to be suspended so as to inspect the serialized “history stack” and determine if the user is being brought back to the “login” view or not. If not, the application should log the user back in and resume to the <strong>View</strong> persisted at the top of the stack from a previous session:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;"><span style="color: #808080; font-style: italic;">// [Sublass of MobileApplication]</span>
+&nbsp;
+<span style="color: #808080; font-style: italic;">// Event handler for FlexEvent.APPLICATION_RESTORING on MobileApplication</span>
+protected <span style="color: #000000; font-weight: bold;">function</span> handleApplicationRestoring<span style="color: #66cc66;">(</span> evt:Event <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+<span style="color: #66cc66;">{</span>
+	<span style="color: #808080; font-style: italic;">// Stop any subsequent work so we can determine if we need to log a user back in. </span>
+	evt.<span style="color: #006600;">preventDefault</span><span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+&nbsp;
+	<span style="color: #808080; font-style: italic;">// Access the serialized navigator state, maintained between view navigation.</span>
+	<span style="color: #000000; font-weight: bold;">var</span> savedState:<span style="color: #0066CC;">Object</span> = persistenceManager.<span style="color: #0066CC;">getProperty</span><span style="color: #66cc66;">(</span><span style="color: #ff0000;">"navigatorState"</span><span style="color: #66cc66;">)</span>;
+	<span style="color: #808080; font-style: italic;">// Check if the topview from the stack is the view we deliver as the login view.</span>
+	<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> topViewIsNotLogIn<span style="color: #66cc66;">(</span> savedState <span style="color: #66cc66;">)</span> <span style="color: #66cc66;">)</span>
+	<span style="color: #66cc66;">{</span>
+		<span style="color: #0066CC;">try</span>
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #808080; font-style: italic;">// Access a file we serialized to the disk that represents the previously logged-in user.</span>
+			<span style="color: #000000; font-weight: bold;">var</span> file:File = File.<span style="color: #006600;">applicationStorageDirectory</span>.<span style="color: #006600;">resolvePath</span><span style="color: #66cc66;">(</span> storedUserFilename <span style="color: #66cc66;">)</span>;
+			<span style="color: #000000; font-weight: bold;">var</span> stream:FileStream = <span style="color: #000000; font-weight: bold;">new</span> FileStream<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+			stream.<span style="color: #006600;">open</span><span style="color: #66cc66;">(</span> file, FileMode.<span style="color: #006600;">READ</span> <span style="color: #66cc66;">)</span>;
+			<span style="color: #000000; font-weight: bold;">var</span> user:CustomUser = stream.<span style="color: #006600;">readObject</span><span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span> as CustomUser;
+			<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> user <span style="color: #66cc66;">!</span>= <span style="color: #000000; font-weight: bold;">null</span> <span style="color: #66cc66;">)</span>
+			<span style="color: #66cc66;">{</span>
+				<span style="color: #808080; font-style: italic;">// Log user back into service.</span>
+				<span style="color: #808080; font-style: italic;">// Upon complete, make sure to call:</span>
+				<span style="color: #808080; font-style: italic;">// restoreApplicationState();</span>
+			<span style="color: #66cc66;">}</span>
+		<span style="color: #66cc66;">}</span>
+		<span style="color: #0066CC;">catch</span><span style="color: #66cc66;">(</span> <span style="color: #0066CC;">e</span>:<span style="color: #0066CC;">Error</span> <span style="color: #66cc66;">)</span>
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #808080; font-style: italic;">// Most likely file does not exist.</span>
+			restoreApplicationState<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+		<span style="color: #66cc66;">}</span>
+	<span style="color: #66cc66;">}</span>
+	<span style="color: #b1b100;">else</span>
+	<span style="color: #66cc66;">{</span>
+		<span style="color: #808080; font-style: italic;">// Else continue on our way.</span>
+		restoreApplicationState<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+	<span style="color: #66cc66;">}</span>
+<span style="color: #66cc66;">}</span>
+&nbsp;
+<span style="color: #808080; font-style: italic;">// Determines if the topView in our perstisted stack is not what we consider to be the log in view.</span>
+protected <span style="color: #000000; font-weight: bold;">function</span> topViewIsNotLogIn<span style="color: #66cc66;">(</span> savedState:<span style="color: #0066CC;">Object</span> <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">Boolean</span>
+<span style="color: #66cc66;">{</span>
+	<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> savedState == <span style="color: #000000; font-weight: bold;">null</span> <span style="color: #66cc66;">)</span> <span style="color: #b1b100;">return</span> <span style="color: #000000; font-weight: bold;">false</span>;
+&nbsp;
+	<span style="color: #808080; font-style: italic;">// The index within our view stack that we consider as the log in view.</span>
+	const loginViewIndex:<span style="color: #0066CC;">int</span> = <span style="color: #cc66cc;">0</span>;
+	<span style="color: #808080; font-style: italic;">// The serialized stack.</span>
+	<span style="color: #000000; font-weight: bold;">var</span> stack:NavigationStack = savedState.<span style="color: #006600;">navigationStack</span> as NavigationStack;
+	<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> stack <span style="color: #66cc66;">!</span>= <span style="color: #000000; font-weight: bold;">null</span> <span style="color: #66cc66;">)</span>
+	<span style="color: #66cc66;">{</span>
+		use namespace mx_internal;
+		<span style="color: #808080; font-style: italic;">// If we have a stack to inspect.</span>
+		<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> stack.<span style="color: #006600;">source</span> <span style="color: #66cc66;">&amp;&amp;</span> stack.<span style="color: #006600;">source</span>.<span style="color: #0066CC;">length</span> <span style="color: #66cc66;">&gt;</span> <span style="color: #cc66cc;">0</span> <span style="color: #66cc66;">)</span>
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #000000; font-weight: bold;">var</span> topView:ViewHistoryData = stack.<span style="color: #006600;">topView</span>;
+			<span style="color: #000000; font-weight: bold;">var</span> loginView:ViewHistoryData = stack.<span style="color: #006600;">source</span><span style="color: #66cc66;">[</span>loginViewIndex<span style="color: #66cc66;">]</span> as ViewHistoryData;
+			<span style="color: #b1b100;">return</span> <span style="color: #66cc66;">(</span> topView <span style="color: #66cc66;">!</span>= loginView <span style="color: #66cc66;">)</span>;
+		<span style="color: #66cc66;">}</span>
+	<span style="color: #66cc66;">}</span>
+	<span style="color: #b1b100;">return</span> <span style="color: #000000; font-weight: bold;">false</span>;
+<span style="color: #66cc66;">}</span></pre></div></div>
+
+<p>One point to grasp is that the event object dispatched for <strong>FlexEvent.APPLICATION_RESTORING</strong> needs to be halted so we can do some work before the <strong>MobileApplication</strong> proceeds with business as usual. That is done by calling <strong>event</strong>.<em>preventDefault</em>(). That actually flips a flag in the -<em>initialize</em>() method of <strong>MobileApplication</strong>, telling it to not proceed with restoring.</p>
+<p>The other point, is that, once halted, <strong>MobileApplication</strong>:<em>restoreApplicationState</em>() must be called at a later time in order to proceed with initialization. In this example, if it is determined that the user is being brought to the “log in” <strong>View</strong> on re-launch, then the stored user is not logged back in and <em>restoreApplicationState</em>() is invoked to proceed. If it is determined that the user will be taken to another <strong>View</strong>, then log in to the service must be done and, upon success, then invoke <em>restoreApplicationState</em>().</p>
+<p>[<strong>Tip</strong>: <em>If you start working with persistent data and you just want to clear it from time to time while developing in order to know that you are working with it properly, call persistenceManager.clear() in your FlexEvent.APPLICATION_RESTORING handler and all your wishes will come true.</em>]</p>
+<p>Since Flex 4.5 is beta, you can’t have an example without seeing use namespace <strong>mx_internal</strong> <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley">  Half-kidding, but for those unfamiliar with that namespace, some methods and properties in the SDK are declared with the <strong>mx_internal</strong> <em>access specifier</em> to denote that they are in limbo of being given the proper access. So in a later version of the SDK, they may be changed to <em>public</em>, <em>private</em>, <em>protected</em> or any other custom specifier. For this example, in order to access the <em>source</em> property of <strong>NavigationStack</strong> we needed to resolve to <strong>mx_internal</strong>. Hopefully it will be opened up at a later date, or at least a public accessor for that list.</p>
+<p>So there you have it. The best practice on notifying the user that you are logging them back into a service upon relaunch? I haven’t found the best solution that meets my needs yet, but I do not recommend pushing a <strong>View</strong> to the stack of the <strong>ViewNavigator</strong> during that restore suspension. It caused some weird UI glitches. Probably the best bet is to use the <strong>PopUpManager</strong> – but do not use the <strong>ProgressBar</strong> in that… bad things happen. Hopefully a new <strong>ProgressBar</strong> is on the horizon for Flex 4.5.</p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/air/" title="View all posts in AIR" rel="category tag">AIR</a>,  <a href="http://custardbelly.com/blog/category/burrito/" title="View all posts in Burrito" rel="category tag">Burrito</a>,  <a href="http://custardbelly.com/blog/category/flex/" title="View all posts in Flex" rel="category tag">Flex</a>,  <a href="http://custardbelly.com/blog/category/flex-4-5/" title="View all posts in Flex 4.5" rel="category tag">Flex 4.5</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-231-target"></div>
+	<div class="clear"></div>
+	
+	

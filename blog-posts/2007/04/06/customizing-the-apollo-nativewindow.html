@@ -1,0 +1,127 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2007/04/06/customizing-the-apollo-nativewindow/" title="Permanent link to Customizing the Apollo NativeWindow" rel="bookmark" rev="post-60">Customizing the Apollo NativeWindow</a></h1>
+	
+	<div class="entry-content full-content">
+		<p><a href="http://www.danieldura.com/" target="_blank">Daniel Dura</a> wrote up a <a href="http://www.danieldura.com/archive/apollo-multi-window-support-using-flex" target="_blank">great post</a> on adding Flex components to NativeWindows. If you are looking to add Flex components to your NativeWindow instance, you will need to follow what Daniel described.  As Daniel has mentioned, this is an issue concerning the <a href="http://www.adobe.com/go/apollo" target="_blank">alpha version of Apollo</a> and may be cleared up in the next release, but if you can’t wait and are looking to add custom ActionScript components that extend Flex components, there is another option. </p>
+<p>I don’t pretend to know enough about the architecture (so someone speak up if i am off track), but adding components to NativeWindows – without Daniel’s or the proceeding example- fails due to the reference to your main ApolloApplication’s stage when displaying components within the Flex framework. You can add all the displays existent in the AS3 library (Sprite, TextField, etc.) to the stage of your NativeWindow instance, but any in the Flex framework need a little push. Adding MXML components to your NativeWindows will still have to follow the formula Daniel laid out using the addChild/removeChild methods, yet there is a workaround to this for ActionScript components by adding an ADDED_TO_STAGE event listener within its constructor.</p>
+<p>I have a tendency to try and word things right and it comes out all mush, so i’ll just show some code. <em>You can alternatively look at<a href="http://custardbelly.com/downloads/apollo/NativeWindowExample" target="_blank"> source view</a></em>. </p>
+<p>The CustomLabel (CustomLabel.as) component that will be added to our NativeWindow:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;">        <span style="color: #0066CC;">import</span> flash.<span style="color: #006600;">events</span>.<span style="color: #006600;">Event</span>;
+	<span style="color: #0066CC;">import</span> flash.<span style="color: #0066CC;">text</span>.<span style="color: #0066CC;">TextField</span>;
+&nbsp;
+	<span style="color: #0066CC;">import</span> mx.<span style="color: #006600;">containers</span>.<span style="color: #006600;">Canvas</span>;
+&nbsp;
+	<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">class</span> CustomLabel <span style="color: #0066CC;">extends</span> Canvas
+	<span style="color: #66cc66;">{</span>
+		<span style="color: #0066CC;">private</span> <span style="color: #000000; font-weight: bold;">var</span> _label:<span style="color: #0066CC;">TextField</span>;
+&nbsp;
+		<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> CustomLabel<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #0066CC;">super</span><span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+			addEventListener<span style="color: #66cc66;">(</span> Event.<span style="color: #006600;">ADDED_TO_STAGE</span>, init <span style="color: #66cc66;">)</span>;
+		<span style="color: #66cc66;">}</span>
+&nbsp;
+		<span style="color: #0066CC;">private</span> <span style="color: #000000; font-weight: bold;">function</span> init<span style="color: #66cc66;">(</span> evt:Event <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+		<span style="color: #66cc66;">{</span>
+			createChildren<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+		<span style="color: #66cc66;">}</span>
+&nbsp;
+		override protected <span style="color: #000000; font-weight: bold;">function</span> createChildren<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #0066CC;">super</span>.<span style="color: #006600;">createChildren</span><span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+&nbsp;
+			_label = createField<span style="color: #66cc66;">(</span> <span style="color: #ff0000;">"HelloWorld"</span> <span style="color: #66cc66;">)</span>;
+			<span style="color: #0066CC;">stage</span>.<span style="color: #006600;">addChild</span><span style="color: #66cc66;">(</span> _label <span style="color: #66cc66;">)</span>;
+		<span style="color: #66cc66;">}</span>
+&nbsp;
+		override protected <span style="color: #000000; font-weight: bold;">function</span> updateDisplayList<span style="color: #66cc66;">(</span> unscaledWidth:<span style="color: #0066CC;">Number</span>, unscaledHeight:<span style="color: #0066CC;">Number</span> <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #0066CC;">super</span>.<span style="color: #006600;">updateDisplayList</span><span style="color: #66cc66;">(</span> unscaledWidth, unscaledHeight <span style="color: #66cc66;">)</span>;
+		<span style="color: #66cc66;">}</span>
+&nbsp;
+		<span style="color: #0066CC;">private</span> <span style="color: #000000; font-weight: bold;">function</span> createField<span style="color: #66cc66;">(</span> txt:<span style="color: #0066CC;">String</span> = <span style="color: #ff0000;">""</span> <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">TextField</span>
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #000000; font-weight: bold;">var</span> label:<span style="color: #0066CC;">TextField</span> = <span style="color: #000000; font-weight: bold;">new</span> <span style="color: #0066CC;">TextField</span><span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+			label.<span style="color: #0066CC;">text</span> = txt;
+			<span style="color: #b1b100;">return</span> label;	
+		<span style="color: #66cc66;">}</span>
+	<span style="color: #66cc66;">}</span></pre></div></div>
+
+<p>… And the main mxml  (NativeWindowExample.mxml):</p>
+
+<div class="wp_syntax"><div class="code"><pre class="mxml" style="font-family:monospace;"><span style="color: #000000;">&lt;mx :ApolloApplication </span>
+<span style="color: #000000;">	xmlns:mx=<span style="color: #ff0000;">"http://www.adobe.com/2006/mxml"</span></span>
+<span style="color: #000000;">	width=<span style="color: #ff0000;">"200"</span></span>
+<span style="color: #000000;">	height=<span style="color: #ff0000;">"100"</span> </span>
+<span style="color: #000000;">	layout=<span style="color: #ff0000;">"absolute"</span></span>
+<span style="color: #000000;">	applicationComplete=<span style="color: #ff0000;">"onAppInit();"</span><span style="color: #7400FF;">&gt;</span></span>
+&nbsp;
+	<span style="color: #000000;">&lt;/mx<span style="color: #7400FF;">&gt;</span>&lt;mx :Script<span style="color: #7400FF;">&gt;</span></span>
+		<span style="color: #000000;">&lt; !<span style="color: #66cc66;">[</span>CDATA<span style="color: #66cc66;">[</span></span>
+&nbsp;
+<span style="color: #000000;">			private var _launchWindow:NativeWindow;</span>
+<span style="color: #000000;">			private var _customWindow:NativeWindow;</span>
+&nbsp;
+<span style="color: #000000;">			private function onAppInit<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:void</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				_launchWindow = this.stage.window;</span>
+<span style="color: #000000;">				_launchWindow.addEventListener<span style="color: #66cc66;">(</span> Event.CLOSE, onAppClose <span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">}</span></span>
+&nbsp;
+<span style="color: #000000;">			private function openCustomWindow<span style="color: #66cc66;">(</span> evt:MouseEvent <span style="color: #66cc66;">)</span>:void</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				if<span style="color: #66cc66;">(</span> _customWindow != null <span style="color: #66cc66;">)</span> return;</span>
+&nbsp;
+<span style="color: #000000;">				var options:NativeWindowInitOptions = new NativeWindowInitOptions<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">				_customWindow = new NativeWindow<span style="color: #66cc66;">(</span> true, options <span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">				_customWindow.stage.align = StageAlign.TOP_LEFT;</span>
+<span style="color: #000000;">				_customWindow.stage.scaleMode = StageScaleMode.NO_SCALE;</span>
+<span style="color: #000000;">				_customWindow.title = <span style="color: #ff0000;">"CustomWindow"</span>;</span>
+<span style="color: #000000;">				_customWindow.stage.addChild<span style="color: #66cc66;">(</span> new CustomLabel<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span> <span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">				_customWindow.addEventListener<span style="color: #66cc66;">(</span> Event.CLOSE, onWindowClose <span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">}</span></span>
+&nbsp;
+<span style="color: #000000;">			private function onWindowClose<span style="color: #66cc66;">(</span> evt:Event <span style="color: #66cc66;">)</span>:void</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				_customWindow = null;</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">}</span></span>
+&nbsp;
+<span style="color: #000000;">			private function onAppClose<span style="color: #66cc66;">(</span> evt:Event <span style="color: #66cc66;">)</span>:void</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				if<span style="color: #66cc66;">(</span> _customWindow != null <span style="color: #66cc66;">)</span> _customWindow.close<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">}</span></span>
+&nbsp;
+<span style="color: #000000;">		<span style="color: #66cc66;">]</span><span style="color: #66cc66;">]</span><span style="color: #7400FF;">&gt;</span></span>
+	<span style="color: #000000;">&lt;/mx<span style="color: #7400FF;">&gt;</span></span>
+&nbsp;
+	<span style="color: #000000;">&lt;mx :Button id=<span style="color: #ff0000;">"windowBtn"</span> </span>
+<span style="color: #000000;">		top=<span style="color: #ff0000;">"10"</span> left=<span style="color: #ff0000;">"10"</span> right=<span style="color: #ff0000;">"10"</span> bottom=<span style="color: #ff0000;">"10"</span></span>
+<span style="color: #000000;">		label=<span style="color: #ff0000;">"open custom window"</span></span>
+<span style="color: #000000;">		click=<span style="color: #ff0000;">"openCustomWindow( event );"</span><span style="color: #7400FF;">&gt;</span></span>
+	<span style="color: #000000;">&lt;/mx<span style="color: #7400FF;">&gt;</span></span></pre></div></div>
+
+<p><strong>NOTE:</strong> <em>the preceding code has some major problems due to mx tags in wordpress, so disregard all affending close tags <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley"> </em></p>
+<p> — As well, you could extend NativeWindow and add the AS components to its stage to bypass adding them in the main app. –</p>
+<p>In the main app file we are just creating a new NativeWindow instance and adding the custom AS component, CustomLabel, to it’s display.</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;">_customWindow.<span style="color: #0066CC;">stage</span>.<span style="color: #006600;">addChild</span><span style="color: #66cc66;">(</span> <span style="color: #000000; font-weight: bold;">new</span> CustomLabel<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span> <span style="color: #66cc66;">)</span>;</pre></div></div>
+
+<p>What is happening in the constructor of the CustomLabel is of importance in this example, as it listens for its event of being added to a clients stage. From there we can call the override of UIComponent:createChildren, and add whatever we want to the display. When creating AS components NOT to be added to the NativeWindow, that method (createChildren) would be called as long as you call the super constructor. That is not the case when adding components extending the Flex framework in NativeWindow. Again, if i am missing something crucial or if you have more insight, please leave a comment. So that’s it. Once it has been added to the stage, we can go about our business. Of course, when using ActionScript components you lose the inherent layout capabilities within MXML components, but that is why we’ve added the override of #updateDisplayList.<br>
+Until Flex came around, i know i spent more than my fair share nailing down layouts for applications- so this is like going back home… <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+<p>To find out more about extending ActionScript components, visit<a href="http://blog.flashgen.com/2006/11/08/base-component-methods-actionscript-20-to-30/" target="_blank"> this post</a> on FlashGen and <a href="http://download.macromedia.com/pub/documentation/en/flex/2/flex2_createextendcomponents.pdf" target="_blank">this doc</a> from <a href="http://labs.adobe.com/">the labs</a>.</p>
+<p>PS. I’ve been a little lacking in the post area, and though i have the usual excuses- family, work, beer… – i could be more on top of it and you should be seeing more Flex and Apollo thoughts in the near future, but no promises because i love those excuses. I also am working on something that i hope to announce here a little later if all goes well…</p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/as3/" title="View all posts in AS3" rel="category tag">AS3</a>,  <a href="http://custardbelly.com/blog/category/apollo/" title="View all posts in Apollo" rel="category tag">Apollo</a>,  <a href="http://custardbelly.com/blog/category/flex/" title="View all posts in Flex" rel="category tag">Flex</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-60-target"></div>
+	<div class="clear"></div>
+	
+	

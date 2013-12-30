@@ -1,0 +1,32 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2006/01/11/how-do-you-manage-your-filters/" title="Permanent link to How do you manage your filters?" rel="bookmark" rev="post-30">How do you manage your filters?</a></h1>
+	
+	<div class="entry-content full-content">
+		<p><strong>[Update: 2/24/2006]</strong><br>
+I’ve updated my workings of a management system for a movieclip’s filters after Lars Schwarz brought up some interesting thoughts. <a href="http://custardbelly.com/downloads/ManagedFilterMap.zip">Here are the new files.</a> I basically pushed some management methods through a Singleton (McFilterManager), that registers/unregisters managed clips ( FilterManagedClip ). It’s not that necessary and the FilterManagedClip class can be used by itself, but if you want to hold references for all the clips that have filters, then it could be useful and expanded upon.</p>
+<p>FilterManagedClip really does all the managing, and as Lars suggested, it now holds a reference to a unique id supplied, instead of using a instanceof check on the filter list.</p>
+<p>plus i fixed that bug in removeFilter – sorry about that.<br>
+<strong>[End Update.]</strong></p>
+<p>I’ve been playing around with filters in Flash 8, and started to get annoyed that if i wanted to update a filter’s settings i had to grab an instance from the movieclip’s filter array, change the properties and then reassign the filter array- particualarly because this caused problems if i had more than one type of filter and only wanted to change one propetry from one filter. Just seemed like too much code to change one thing.</p>
+<p>-example<br>
+Say your throwing up some particles that have a trajectory and prior to their apex, you want an increasing blur filter. as they hit the apex you want to add a glow filter, as they descend you want to increase that glow filter, while decreasing the blur filter. That’s a lot of grab-instances-of-filters, replace-values-of-properties-in-filters, reapply-changed-filters-to-mc, gobbildy-gook. Yeah, i went there… gobbildy-gook.</p>
+<p>Then i thought, well i’ll just make a class with a couple static methods that will add, remove, replace, and update filters held in the filter array of a movieclip. That’s well and good, but i’m still a little dissatisfied. </p>
+<p>What if i want to make one for bitmapdata? sure, just copy-and-paste the code and replace the movieclip instances with bitmapdata in a new class.</p>
+<p>What if i have more than one instance of the same type of filter? Uh-oh. (you’ll see what i mean if you check out the <a href="http://www.custardbelly.com/downloads/McFilterMap.as">class</a>). I could make a manager class with handles a specified movieclip and holds unique ids in a map reference each new filter, but then if i have multiple particles… i don’t know… i just don’t like having so many managers.</p>
+<p>I could be totally off the mark here and am missing some operation which i haven’t found and suits this very purpose… but i was just wondering what other people do to manage their filters.</p>
+<p>suggestions? </p>
+<p>feel free to use the <a href="http://www.custardbelly.com/downloads/McFilterMap.as">McFilterMap class</a>.</p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>,  <a href="http://custardbelly.com/blog/category/flash8/" title="View all posts in Flash8" rel="category tag">Flash8</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-30-target"></div>
+	<div class="clear"></div>
+	
+	

@@ -1,0 +1,48 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2005/11/11/as3-pixel-collision-detection/" title="Permanent link to AS3 Pixel Collision Detection" rel="bookmark" rev="post-29">AS3 Pixel Collision Detection</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>check it out <a href="javascript:MM_openBrWindow('http://www.custardbelly.com/AS3/PixelCollision.html','coll_trial','resizable=no,width=150,height=110');">here</a> <em>(requires 8.5)</em></p>
+<p>It’s the same code as the prior post, just a different implementation for sending the data to check the collision because it’s in AS3.</p>
+<p>One thing i found that may be helpful to others… i spent about 10 minutes trying to figure out why i couldn’t “press” on the sprite. Turns out i could have all along, but since i didn’t see the hand cursor on rollover, i just figured my code was wrong…</p>
+<p>I guess i have some new visual learning to go along with the new code.</p>
+<p>Here’s a little snippet of how you do startDrag/stopDrag in AS3. It can be found in the online docs… if i had bothered to read them <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley">  .<br>
+ If you want to see the hand cursor, you have to set buttonMode to true (as far as i know)- which will turn on useHandCursor with the default value of true.</p>
+<p><pre><br>
+import flash.display.Sprite;<br>
+import flash.events.Event;<br>
+import flash.events.MouseEventType;</p>
+<p>public class SpriteExample extends Sprite<br>
+{<br>
+	public function SpriteExample()<br>
+	{<br>
+		buttonMode = true;<br>
+		addEventListener(MouseEventType.MOUSE_DOWN, onMouseDown);<br>
+		addEventListener(MouseEventType.MOUSE_UP, onMouseUp);<br>
+	}</p>
+<p>	private function onMouseDown(evt:Event):Void<br>
+	{<br>
+		this.startDrag();<br>
+	}</p>
+<p>	private function onMouseUp(evt:Event):Void<br>
+	{<br>
+		this.stopDrag();<br>
+	}<br>
+}<br>
+</pre></p>
+<p>i’m looking to put up the code for the Pixel Collision Detection for both Flash8 and AS3, still running some test and cleaning up.</p>
+<p><a href="javascript:MM_openBrWindow('http://www.custardbelly.com/flash8/PixelHit.html','coll_trial','resizable=no,width=415,height=415');">Here’s a “30-Colby at 30FPS” trial</a> in flash8, but it seems to take a huge hit on a Mac for all browsers… don’t know what’s up with that. Does drop about 10 frames on a PC even with a proximity detector, but as i said in the previous post, i probably wouldn’t use this detection for large amounts of objects.</p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/as3/" title="View all posts in AS3" rel="category tag">AS3</a>,  <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-29-target"></div>
+	<div class="clear"></div>
+	
+	

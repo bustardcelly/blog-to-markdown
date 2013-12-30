@@ -1,0 +1,69 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2010/10/01/timers-in-android/" title="Permanent link to Timers in Android" rel="bookmark" rev="post-194">Timers in Android</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>Thought i’d make a quick post as part of a reminder for me or for those coming from ActionScript to <strong>Android</strong> and wondering how to create a <strong>Timer</strong>. It’s no secret but took me some searching to find (what i think is) the correct way to use timers in Android while i was working on some stuff for <a href="http://custardbelly.com/blog/?p=191" target="_blank"><strong>MassRoute</strong></a>.</p>
+<p>Within the <strong>Android SDK</strong> there is a <strong>Handler</strong> class. I won’t go into the specifics of Handler as there is a pretty good explanation within the <a href="http://developer.android.com/reference/android/os/Handler.html" target="_blank">documentation</a>, but the basics is that you pass a <strong>Runnable</strong> object that will be invoked at a given time.</p>
+<p><em>To run the timer once:</em></p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;">protected Handler taskHandler = <span style="color: #000000; font-weight: bold;">new</span> Handler<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+protected <span style="color: #0066CC;">void</span> setTimer<span style="color: #66cc66;">(</span> long <span style="color: #0066CC;">time</span> <span style="color: #66cc66;">)</span>
+<span style="color: #66cc66;">{</span>
+    Runnable t = <span style="color: #000000; font-weight: bold;">new</span> Runnable<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span> <span style="color: #66cc66;">{</span>
+	<span style="color: #0066CC;">public</span> <span style="color: #0066CC;">void</span> run<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>
+	<span style="color: #66cc66;">{</span>
+		runNextTask<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+	<span style="color: #66cc66;">}</span>
+    <span style="color: #66cc66;">}</span>;
+    taskHandler.<span style="color: #006600;">postAtTime</span><span style="color: #66cc66;">(</span> t, <span style="color: #0066CC;">time</span> <span style="color: #66cc66;">)</span>;
+<span style="color: #66cc66;">}</span>
+&nbsp;
+protected <span style="color: #0066CC;">void</span> runNextTask<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>
+<span style="color: #66cc66;">{</span>
+    <span style="color: #808080; font-style: italic;">// run my task.</span>
+<span style="color: #66cc66;">}</span></pre></div></div>
+
+<p>[<strong>UPDATE 10/20/2010</strong>: After talking with <a href="http://jessefreeman.com/" target="_blank">Jesse Freeman</a> over continuous delayed timers in using Runnable in Android development, we discovered that the previous solution didn't quite go the whole mile. This example has been updated to provide a continuous delayed timer that stops based on a flag]</p>
+<p><em>To run the timer continuously at a given time:</em></p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;"><span style="color: #808080; font-style: italic;">// -- Class Members --</span>
+protected Handler taskHandler = <span style="color: #000000; font-weight: bold;">new</span> Handler<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+protected <span style="color: #0066CC;">Boolean</span> isComplete = <span style="color: #000000; font-weight: bold;">false</span>;
+&nbsp;
+<span style="color: #808080; font-style: italic;">// -- Set Timer --</span>
+protected <span style="color: #0066CC;">void</span> setTimer<span style="color: #66cc66;">(</span> long <span style="color: #0066CC;">time</span> <span style="color: #66cc66;">)</span>
+<span style="color: #66cc66;">{</span>
+    final long elapse = <span style="color: #cc66cc;">1000</span>;
+&nbsp;&nbsp;&nbsp; Runnable t = <span style="color: #000000; font-weight: bold;">new</span> Runnable<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span> <span style="color: #66cc66;">{</span>
+&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;<span style="color: #0066CC;">public</span> <span style="color: #0066CC;">void</span> run<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>
+&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;<span style="color: #66cc66;">{</span>
+&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;runNextTask<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> <span style="color: #66cc66;">!</span>isComplete <span style="color: #66cc66;">)</span>
+&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<span style="color: #66cc66;">{</span>
+&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;_taskHandler.<span style="color: #006600;">postDelayed</span><span style="color: #66cc66;">(</span> <span style="color: #0066CC;">this</span>, elapse <span style="color: #66cc66;">)</span>;
+&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<span style="color: #66cc66;">}</span>
+&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;<span style="color: #66cc66;">}</span>
+&nbsp;&nbsp;&nbsp; <span style="color: #66cc66;">}</span>;
+	_taskHandler.<span style="color: #006600;">postDelayed</span><span style="color: #66cc66;">(</span> t, elapse <span style="color: #66cc66;">)</span>;
+<span style="color: #66cc66;">}</span>
+&nbsp;
+protected <span style="color: #0066CC;">void</span> runNextTask<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>
+<span style="color: #66cc66;">{</span>
+    <span style="color: #808080; font-style: italic;">// run my task.</span>
+    <span style="color: #808080; font-style: italic;">// determine isComplete.</span>
+<span style="color: #66cc66;">}</span></pre></div></div>
+
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/android/" title="View all posts in Android" rel="category tag">Android</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-194-target"></div>
+	<div class="clear"></div>
+	
+	

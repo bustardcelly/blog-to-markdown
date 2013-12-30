@@ -1,0 +1,50 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2010/10/25/as3flobile-update-now-using-as3-signals/" title="Permanent link to as3flobile update: now using as3-signals" rel="bookmark" rev="post-217">as3flobile update: now using as3-signals</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>If you have been following/using <a href="http://github.com/bustardcelly/as3flobile" target="_blank">as3flobile</a>, I just recently committed an update for <a href="http://github.com/bustardcelly/as3flobile" target="_blank">v0.3 to github</a>. The new version now utilizes <a href="http://github.com/robertpenner/as3-signals" target="_blank">as3-signals</a> by <strong><a href="http://robertpenner.com/flashblog/" target="_blank">Robert Penner</a></strong> for assigning delegate handling.</p>
+<p>In the previous versions of <a href="http://github.com/bustardcelly/as3flobile" target="_blank">as3flobile</a>, interface delegates were used in order to notify subscribing clients of a change to a control. I knew i did not want to institute event dispatching in <a href="http://github.com/bustardcelly/as3flobile" target="_blank">as3flobile</a> because it was faster to notify a client through a method than going through an observer. So interface delegates were originally used. In basic terms, each control in <a href="http://github.com/bustardcelly/as3flobile" target="_blank">as3flobile</a> declared one or more optional delegates whose method(s) would be invoked when a change to the control had occured. As an example, this was the now deprecated <strong>IButtonDelegate</strong>:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;"><span style="color: #0066CC;">public</span> <span style="color: #0066CC;">interface</span> IButtonDelegate
+<span style="color: #66cc66;">{</span>
+	<span style="color: #000000; font-weight: bold;">function</span> buttonTapped<span style="color: #66cc66;">(</span> <span style="color: #0066CC;">button</span>:<span style="color: #0066CC;">Button</span> <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>;
+<span style="color: #66cc66;">}</span></pre></div></div>
+
+<p>When a client wanted to subscribe as the delegate for a tap gesture on the <strong>Button</strong>, it would point itself as the delegate for the <strong>Button</strong>:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;"><span style="color: #000000; font-weight: bold;">var</span> <span style="color: #0066CC;">button</span>:<span style="color: #0066CC;">Button</span> = <span style="color: #000000; font-weight: bold;">new</span> <span style="color: #0066CC;">Button</span><span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+<span style="color: #0066CC;">button</span>.<span style="color: #006600;">delegate</span> = <span style="color: #0066CC;">this</span>;
+addChild<span style="color: #66cc66;">(</span> <span style="color: #0066CC;">button</span> <span style="color: #66cc66;">)</span>;
+&nbsp;
+<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> buttonTapped<span style="color: #66cc66;">(</span> <span style="color: #0066CC;">button</span>:<span style="color: #0066CC;">Button</span> <span style="color: #66cc66;">)</span>
+<span style="color: #66cc66;">{</span>
+<span style="color: #0066CC;">trace</span><span style="color: #66cc66;">(</span> <span style="color: #ff0000;">"button tapped: "</span> + <span style="color: #0066CC;">button</span> <span style="color: #66cc66;">)</span>;
+<span style="color: #66cc66;">}</span></pre></div></div>
+
+<p>I had some issues with this, but i went ahead with that implementation for the first couple versions of <a href="http://github.com/bustardcelly/as3flobile" target="_blank">as3flobile</a>. As far as how this solution stacked up:</p>
+<p><strong>Pros:</strong><br>
+1. No event system. Faster execution.</p>
+<p><strong>Cons:</strong><br>
+1. Only one subscribing delegate allowed.<br>
+2. No @optional interface method declarations. A delegate had to strictly adhere to the interface and declare all the methods whether or not it cared to handle them.</p>
+<p>So the one <strong>Pro</strong> was good, but the 2nd <strong>Con</strong> really started to bother me. In some cases i started adding multiple delegate properties to a control so they could target different changes to the control. Take for instance a delegate for the scroll of a list and a delegate for the selection of a list. It started to feel cumbersome.</p>
+<p>Then last week, i finally decide to see what <a href="http://github.com/robertpenner/as3-signals" target="_blank">as3-signals</a> was about. Very intuitive and an excellent library. I was impressed and decided that <a href="http://github.com/robertpenner/as3-signals" target="_blank">as3-signals</a> was a perfect fit for the delegate handling in <a href="http://github.com/robertpenner/as3flobile" target="_blank">as3flobile</a>. So the library has moved to support that. More information is available at <a href="http://github.com/robertpenner/as3flobile" target="_blank">as3flobile on github</a> and <a href="http://github.com/bustardcelly/as3flobile/wiki" target="_blank">its wiki</a>.</p>
+<p>As with every project i create that has a dependency on another library, there are now two flavors of the build: <strong>Standalone</strong> and <strong>External</strong>. The <strong>Standalone</strong> is meant as a standalone library with the parts required of the dependency compiled in. The <strong>External</strong> is solely the <a href="http://github.com/bustardcelly/as3flobile" target="blank">as3flobile</a> bits and any personal project using the <strong>External</strong> library will also need to build against the <strong>as3-signals</strong> library. <a href="http://github.com/robertpenner/as3-signals" target="_blank">The as3-signals library can be found on github</a>.</p>
+<p>Subsequently, the<a href="http://github.com/bustardcelly/as3flobile-air" target="_blank"> as3flobile-air</a> and <a href="http://github.com/bustardcelly/as3flobile-android" target="_blank">as3flobile-android</a> extensions have been updated due to this change.</p>
+<p>So, a big change, i know. But I think a step in the right direction. If you are using <strong>as3flobile</strong>, update and let me know how you feel about this change.</p>
+<p><strong><a href="http://flashblog.robertpenner.com/" target="_blank">Robert Penner</a></strong>’s <a href="http://github.com/robertpenner/as3-signals">as3-signals</a><br>
+<a href="http://github.com/bustardcelly/as3flobile">as3flobile on github</a></p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/general/" title="View all posts in General" rel="category tag">General</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-217-target"></div>
+	<div class="clear"></div>
+	
+	

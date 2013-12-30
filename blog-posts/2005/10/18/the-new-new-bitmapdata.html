@@ -1,0 +1,50 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2005/10/18/the-new-new-bitmapdata/" title="Permanent link to the New New BitmapData" rel="bookmark" rev="post-23">the New New BitmapData</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>In <a href="http://livedocs.macromedia.com/labs/1/flex/langref/migration.html">AS3</a>, the MovieClip method attachBitmap is removed. what does that mean for setPixel, getPixel and copyPixel?<br>
+The documentation roughly states that addChild is the equivalent of attachBitmap… but only display objects can be “attached” using addChild.<br>
+Running addChild(myBitmapData) within a MovieClip or Sprite class throws an error, because it appears that BitmapData is not considered a DisplayObject.</p>
+<p>With the previous experiments presentated on this blog, i used the BitmapData.copyPixel method to render states of a sprite. But that was only made possible by loading an image, using BitmapData.draw, (unloading the image), and then passing that BitmapData to a movieclip, attaching a new BitmapData object and copying pixels dependant on user interaction.</p>
+<p>There has to be a way to represent this in AS3… but for my first day of trying, i’ve come up empty.</p>
+<p>With all the flash 8 experiments out there, has anyone else come across this, and come up with a solution?</p>
+<p><em>As a side note:</em><br>
+I am a huge fan of the new Loader class. Here’s a small sample:<br>
+<pre><br>
+import flash.net.URLRequest;<br>
+import flash.display.Loader;<br>
+import flash.util.trace;<br>
+import flash.events.*;</p>
+<p>class LoaderTest extends Sprite<br>
+{<br>
+	private var __loader:Loader;<br>
+	private static var IMAGE_URL:String = “myimage.png”;</p>
+<p>	public function LoaderTest()<br>
+	{<br>
+		__loader = new Loader();<br>
+		__loader.addEventListener(EventType.COMPLETE, onLoadComplete);<br>
+		var request:URLRequest = new URLRequest(IMAGE_URL);</p>
+<p>		__loader.load(request);<br>
+	}</p>
+<p>	private function onLoadComplete(evt:Event)<br>
+	{<br>
+		trace(”load that sucker ” + evt);<br>
+	}<br>
+}<br>
+</pre></p>
+<p>…. no more loadMovie / onEnterFrame, or MovieClipLoader (which for some reason seems to crash Flash8 for me).</p>
+<p>i guess i should get off the double-underscore train too… i don’t know … my head’s about to burst.</p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/as3/" title="View all posts in AS3" rel="category tag">AS3</a>,  <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-23-target"></div>
+	<div class="clear"></div>
+	
+	

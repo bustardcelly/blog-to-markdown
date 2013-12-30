@@ -1,0 +1,26 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2006/04/09/state-behavior-system-for-sprites/" title="Permanent link to State behavior system for sprites" rel="bookmark" rev="post-41">State behavior system for sprites</a></h1>
+	
+	<div class="entry-content full-content">
+		<p><a href="http://www.custardbelly.com/blog/insets/states.html" target="_blank"><img src="http://www.custardbelly.com/blog/images/states.gif" alt="click me"></a></p>
+<p>Here’s a little example of what i’ve progressed to since i went down the path of changing my thought process of what a user-controlled sprite is.<br>
+Hit the block to produce a bonus ( or the hammer-fountain ) and collect the bonus by running into it. You can become big, a racoon or a frog. When you’re the racoon, once you reach max acceleration, the screen will display “tap spacebar” – tap that spacebar fast and you’ll be able to fly.</p>
+<p>What’s happening:<br>
+My implementation of a user-controlled sprite has been reduced to a simple particle with a display movieclip inside and reacts to key controls. Upon pixel collision of a “bonus” not of current sprite type, the display bitmap is updated with a different graphics source, and the sprite model is changed accordingly.<br>
+Each sprite model has a set of behaviors that respond to key controls – and in the case of the racoon, those behaviors are switch out on recognition of maximum acceleration; meaning you can fly if you tap the space bar fast enough once you are at max speed. Another neat thing is that the Fly Behavior is on a timer, so after about 5 seconds, it’s switched back to your previous behavior. The frog is interesting to see the difference in behaviors – when you move left or right, the hop behavior is called, as opposed to the basic roam ( or walk/run ) behavior of the others.</p>
+<p>I’m also employing the particle sytem structure i had before, and switch action policies based on whether the sprite is “hurt” or not. A visual clue to let you know that the sprite responds to key controls again is once the stars start falling and turning red.</p>
+<p>I think this is going to be the last in my Flash8 experiments of sprites and effects, and start porting what i have over to <a href="http://labs.macromedia.com/">AS3</a>- cleaning and documenting as i go. Hopefully i’ll have something up soon, but seeing as i’m a newly proud owner of a DS, my productiveness may wane for a bit <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>,  <a href="http://custardbelly.com/blog/category/flash8/" title="View all posts in Flash8" rel="category tag">Flash8</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-41-target"></div>
+	<div class="clear"></div>
+	
+	

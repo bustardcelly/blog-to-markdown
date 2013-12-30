@@ -1,0 +1,59 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2005/06/28/return-class-type-function/" title="Permanent link to return class; = [type Function] ?" rel="bookmark" rev="post-5">return class; = [type Function] ?</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>[Edit: sorry about all the italics and bolds. i really need to get some sort of style sheet for actionscript code]<br>
+[Edit 2: and i got one. have to do some color changes. <a href="http://blog.igeek.info/index.php">IG: Syntax Hiliter</a>]<br>
+i found something i don’t quite understand today (not that much of a shock) when trying to make a <em>CharacterManager</em> class to control the registration and reference of classes extending a <em>Character</em> class. In short, when i make a new character that a user can use, i just want to create a new class that extends the <em>Character</em> class, go into my main class register it and drop the new character movieclip into the library, brush off my hands give a little grunt and call it a day.<br>
+Now i found this odd, but technically i know very little, so i was hoping someone out there might be able to explain it to me.<br>
+The way i want this to work is when i register a new character, i say something like this:</p>
+<p>	__characterManager.registerCharacterClass(MyNewCharacterClass, “class name”);</p>
+<p>- where <strong>__characterManager</strong> is the singleton</p>
+<p>….(in <em>Character Manager</em>)<br>
+<pre><br>
+	public function registerCharacterClass(classToAdd, classNameStr)<br>
+	{<br>
+		__classList[ classNameStr ] = classToAdd;<br>
+	}<br>
+</pre></p>
+<p>- and then when i want to retrive that class when i create a new character i say:</p>
+<p>(1)<br>
+<pre><br>
+     Application.addCharacter(”class name”, “symbol linkage id”, “instance name”);<br>
+</pre><br>
+(2)<br>
+<pre><br>
+     function addCharacter(classNameStr, clipID, name)<br>
+      {</p>
+<p>          var characterClass:Character =  </p>
+<p>                                  characterManager.getCharacterClassByName(classNameStr);</p>
+<p>          var character:Character = characterClass.create(clipID, name);<br>
+      }<br>
+</pre><br>
+- what i had in the <em>CharacterManager</em> class before i found the reason why i’m asking this question is this:<br>
+<pre><br>
+	public function getCharacterClassByName(classNameStr):Character<br>
+	{<br>
+		return __classList[ classNameStr ];<br>
+	}<br>
+</pre></p>
+<p>- but that always returned the [type Function]- never a reference to the class i was trying to get.<br>
+So i peeked into the <em>CommandTemplate</em> class within <a href="http://ariaware.com/products/arp/">the ariaware package</a>, and noticed how they did it.<br>
+Using this:  </p>
+<p>	<strong>return new __classList[ classNameStr]();</strong></p>
+<p>Now this makes sense to me, since when you create an instance of a class you use new most of the time. But i guess i’m wondering why it would return [type Function] before, and not even [object Object], or something else. and if this is always true, can i not create a Singleton from here, or should i make a <em>CharacterSingletonManager</em> class and <strong>return __classList[ classNameStr].getInstance();</strong> ?<br>
+The answer is probably simple and can be summed up in one line, and here i write a novel out of a question.. but oh well.</p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-5-target"></div>
+	<div class="clear"></div>
+	
+	

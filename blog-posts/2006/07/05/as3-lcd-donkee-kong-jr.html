@@ -1,0 +1,26 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2006/07/05/as3-lcd-donkee-kong-jr/" title="Permanent link to AS3 LCD Donkee Kong Jr" rel="bookmark" rev="post-51">AS3 LCD Donkee Kong Jr</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>click to play. <a href="http://www.adobe.com/products/flashplayer/">Flash Player 9</a> required.<br>
+<a href="javascript:MM_openBrWindow('http://www.custardbelly.com/dev/junior/index.html', 'dk_jr','resizable=no,width=340,height=280')" alt="click to play"><img src="http://www.custardbelly.com/blog/images/dkjr.gif" alt="click me"></a></p>
+<p>After i brought those old Game&amp;Watch <a href="http://custardbelly.com/blog/?p=49" target="_blank">handhelds home</a>, i started playing them heavily. After being beat into submission hundreds of times i began thinking ‘these games are too damn hard’ – so i put them down and decided to try and recreate one in <a href="http://livedocs.macromedia.com/flex/2/langref/index.html" target="_blank">Actionscript3</a>… here’s the first one i came out with – a remake of Donkey Kong Jr from the widescreen <a href="http://gameandwatch.com/" target="_blank">Game&amp;Watch</a> series.</p>
+<p>With the previous games i have worked on, i employed a pixel collision detection system to drive game play- but when thinking about LCD games, spaces on the screen are reserved and there is no real overlap of pixels to detected when an enemy runs into a hero, an enemy connects with a projectile, etc. Instead i had to employ a sort-of ‘mother may i’ management system where a call is made from every ‘object’ prior to it’s bitmap update to see if anything is in between where what block it’s in and what block needs to be rendered next. The development was based mainly on <a href="http://electronics.howstuffworks.com/lcd7.htm" target="_blank">Passive Matrix LCDs</a>. </p>
+<p>Ultimately how it is put together is by loading a graphics sheet with all the states for each ‘player’ and then basing it’s rendered state upon game interaction and a list of state ‘matrices’. On each ‘allowance’ of movement the bitmapdata is cleared and redrawn with a new state. And in the case of the enemies, based on your progression through the game, the ‘allowance’ timing is sped up.</p>
+<p>The biggest thing i have gained from working this through is the beauty of the new <a href="http://livedocs.macromedia.com/flex/2/langref/index.html" target="_blank">Timer class</a>. With the introduction of BitmapData in Flash8 As2 i began rethinking how i was developing, and now with the Timer class i’m doing it again. I loved onEnterFrame for so long, but that just wasn’t gonna hack it for this project… and i’m glad it didn’t.</p>
+<p>I kept the architecture pretty open for easy adaptation and extension so that i could make more of these LCD games with ease, but i think i have to step away for a bit. Sound would be a good addition to this and i plan to do a little work on that, but i’m getting pretty busy.<br>
+Enough talk, enjoy the game and keep in mind that this is a rough prototype, so you may encounter a bug or two <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif" alt=";)" class="wp-smiley"> </p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/as3/" title="View all posts in AS3" rel="category tag">AS3</a>,  <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-51-target"></div>
+	<div class="clear"></div>
+	
+	

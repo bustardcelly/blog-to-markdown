@@ -1,0 +1,59 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2008/05/10/prana-and-compiled-classes/" title="Permanent link to Prana and compiled classes" rel="bookmark" rev="post-71">Prana and compiled classes</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>I have recently gotten into incorporating <a href="http://www.pranaframework.org/" target="_blank">Prana – the Inversion of Control framework of AS3</a> created by <a href="http://www.herrodius.com/blog/" target="_blank">Christophe Herreman</a>- into my projects. I gotta say, it’s beautiful piece of work and makes me rethink my approach to the architecture of applications again.</p>
+<p>I don’t want to go into IoC and dependency injection and how your applications can truly benefit by using the <a href="http://www.pranaframework.org/" target="_blank">Prana</a> framework, as this post may get pretty long and these references are much better reading than my rambling:</p>
+<p>Christophe’s blog: <a href="http://www.herrodius.com/blog/" target="_blank">http://www.herrodius.com/blog/</a><br>
+Martin Fowler’s <a href="http://martinfowler.com/articles/injection.html" target="_blank">Inversion of Control Containers and the Dependency injection pattern</a><br>
+<a href="http://en.wikipedia.org/wiki/Hollywood_Principle" target="_blank">the hollywood principle</a></p>
+<p>What i did want to bring up is that i had a small problem with the workflow and how i develop. Which is my problem, of course <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley">  but nonetheless…</p>
+<p>One important thing to remember is that the context file is an external file that is loaded by the application at runtime. This means you will need to have all the possible classes your application <em>may</em> use already compiled into the SWF in order for the objects to be instantiated and your application to work. If you are typing to interfaces, this could prove to be a bit of a problem. You could create a reference for each class that may be needed in another class that is known to be compiled into the SWF – as Christophe explains <a href="http://www.herrodius.com/blog/65">in this post</a> – but that always seemed dirty to me. </p>
+<p>As is mentioned in the comments to that <a href="http://www.herrodius.com/blog/65">post</a>, you can also go about adding each class using the -includes compiler option. Adding all possible classes using the -includes option makes for an excellent case on when to use additional compiler configurations, and presents the option to really just change the application context file and the additional configuration file as the project sees fit, without having to open up the source and tack on or remove dummy references to classes.</p>
+<p>As an example, take for instance this application context file:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="mxml" style="font-family:monospace;"><span style="color: #000000;">&lt; ?xml version=<span style="color: #ff0000;">"1.0"</span> encoding=<span style="color: #ff0000;">"utf-8"</span>?<span style="color: #7400FF;">&gt;</span></span>
+<span style="color: #000000;">&lt;objects<span style="color: #7400FF;">&gt;</span></span>
+	<span style="color: #000000;">&lt;property file=<span style="color: #ff0000;">"app.properties"</span> <span style="color: #7400FF;">/&gt;</span></span>
+	<span style="color: #000000;"><span style="color: #808080; font-style: italic;">&lt;!-- Handles direct invocation on client --&gt;</span></span>
+	<span style="color: #000000;">&lt;object id=<span style="color: #ff0000;">"callbackHandler"</span> class=<span style="color: #ff0000;">"com.example.responder.CallbackResponderImpl"</span> <span style="color: #7400FF;">/&gt;</span></span>
+	<span style="color: #000000;"><span style="color: #808080; font-style: italic;">&lt;!-- Handles connection to Red5 application --&gt;</span></span>
+	<span style="color: #000000;">&lt;object id=<span style="color: #ff0000;">"connectionDelegate"</span> class=<span style="color: #ff0000;">"com.example.business.ConnectionDelegateImpl"</span><span style="color: #7400FF;">&gt;</span></span>
+		<span style="color: #000000;">&lt;property name=<span style="color: #ff0000;">"rtmpURI"</span> value=<span style="color: #ff0000;">"${app.rtmpURI}"</span> <span style="color: #7400FF;">/&gt;</span></span>
+		<span style="color: #000000;">&lt;property name=<span style="color: #ff0000;">"client"</span><span style="color: #7400FF;">&gt;</span></span>
+			<span style="color: #000000;">&lt;ref<span style="color: #7400FF;">&gt;</span></span>callbackHandler<span style="color: #000000;">&lt;/ref<span style="color: #7400FF;">&gt;</span></span>
+		<span style="color: #000000;">&lt;/property<span style="color: #7400FF;">&gt;</span></span>
+	<span style="color: #000000;">&lt;/object<span style="color: #7400FF;">&gt;</span></span>
+<span style="color: #000000;">&lt;/objects<span style="color: #7400FF;">&gt;</span></span></pre></div></div>
+
+<p>.. for each possible implementation of <strong>ConnectionDelegate</strong> and <strong>CallbackResponder</strong> that i may decide to swap in and out as the project seems fit, i would either need to hold a reference to each implementation in some class sure or be compiled into the SWF, or i could store them in an additional config file that can be added using the -load-config option with an additional value:</p>
+<p>The <strong>prana.config</strong> file:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="mxml" style="font-family:monospace;"><span style="color: #000000;">&lt;flex -config<span style="color: #7400FF;">&gt;</span></span>
+	<span style="color: #000000;">&lt;includes append=<span style="color: #ff0000;">"true"</span><span style="color: #7400FF;">&gt;</span></span>
+		<span style="color: #000000;">&lt;symbol<span style="color: #7400FF;">&gt;</span></span>com.example.reponder.CallbackResponderImpl<span style="color: #000000;">&lt;/symbol<span style="color: #7400FF;">&gt;</span></span>
+		<span style="color: #000000;">&lt;symbol<span style="color: #7400FF;">&gt;</span></span>com.example.business.ConnectionDelegateImpl<span style="color: #000000;">&lt;/symbol<span style="color: #7400FF;">&gt;</span></span>
+	<span style="color: #000000;">&lt;/includes<span style="color: #7400FF;">&gt;</span></span>
+<span style="color: #000000;">&lt;/flex<span style="color: #7400FF;">&gt;</span></span></pre></div></div>
+
+<p>… drop that in my source folder and add the compiler option:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="mxml" style="font-family:monospace;">-load-config+=prana.config</pre></div></div>
+
+<p>From there, i could change the context as i see fit, update the prana.config file to reflect my preferences and just recompile the application without having to go into the source and muck about. It’s a little more clean for me and allows me to happily go about using the <a href="http://www.pranaframework.org/" target="_blank">Prana</a> framework.</p>
+<p>The best part is that <a href="http://www.herrodius.com/blog/64">Prana is truthfully AS3 compliant</a>! Meaning you can use it in your Flex <em>AND</em> AS3 projects, which cannot be said for some frameworks that claim to be AS3 and actually use class from the mx package… (looking at you <a href="http://code.google.com/p/as3lib/">as3lib</a>). <em>A huge pet-peeve of mine.</em><br>
+*Last i checked, the source under version control doesn’t seem to reflect the current changes <a href="http://www.herrodius.com/blog/" target="_blank">Christophe</a> has made, but they are included in the downloads.</p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/as3/" title="View all posts in AS3" rel="category tag">AS3</a>,  <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>,  <a href="http://custardbelly.com/blog/category/flex/" title="View all posts in Flex" rel="category tag">Flex</a>,  <a href="http://custardbelly.com/blog/category/prana/" title="View all posts in Prana" rel="category tag">Prana</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-71-target"></div>
+	<div class="clear"></div>
+	
+	

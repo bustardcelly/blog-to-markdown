@@ -15,7 +15,6 @@ page.onConsoleMessage = function(msg) {
 };
 
 page.open(index, function() {
-  console.log('opened');
   page.includeJs('http://code.jquery.com/jquery-1.10.1.min.js', function() {
     var post,
         postTitle,
@@ -24,12 +23,12 @@ page.open(index, function() {
           return str.replace(find, replace);
         },
         postProcessBlockCode = function(textContent) {
-          textContent = replaceAll('/\[as\]/gi', '<pre>', textContent);
-          textContent = replaceAll('/\[\/as\]/gi', '</pre>', textContent);
+          textContent = replaceAll(/\[as\]/gi, '<pre>', textContent);
+          textContent = replaceAll(/\[\/as\]/gi, '</pre>', textContent);
           return textContent;
         },
         postProcessLocation = function(textContent) {
-          return replaceAll('/http:\/\/darko.liquidweb.com\/~custardb/gi', 'http://custardbelly.com', textContent);
+          return replaceAll(/http:\/\/darko.liquidweb.com\/~custardb/gi, 'http://custardbelly.com', textContent);
         },
         posts = page.evaluate(function() {
           var items = $('.post'),
@@ -67,7 +66,7 @@ page.open(index, function() {
     for(postTitle in posts) {
       post = posts[postTitle];
       postText = postProcessBlockCode(post.toString());
-      postText = postProcessLocation(post.toString());
+      postText = postProcessLocation(postText);
       fs.write('blog-posts/' + postTitle, postText, 'w');
     }
     phantom.exit();

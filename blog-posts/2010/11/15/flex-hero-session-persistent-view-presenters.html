@@ -1,0 +1,204 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2010/11/15/flex-hero-session-persistent-view-presenters/" title="Permanent link to Flex 4.5 (Hero) – Session-Persistent View Presenters" rel="bookmark" rev="post-228">Flex 4.5 (Hero) – Session-Persistent View Presenters</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>As I had hinted at in my <a href="http://custardbelly.com/blog/?p=220" target="_blank">previous post</a>, before i went down the rabbit-hole of state data with regards to the life-cycle of a <strong>View</strong> object, I had intended to write about persisting <a href="http://martinfowler.com/eaaDev/SupervisingPresenter.html" target="_blank">Supervising Presenters</a> for <strong>View</strong>s within an application session. Before I go much farther, i do want to note that <a href="http://blogs.adobe.com/paulw/" target="_blank">Paul Williams</a> has some excellent posts up on different presenter patterns within the context of a Flex application which can be found at <a href="http://blogs.adobe.com/paulw/" target="_blank">http://blogs.adobe.com/paulw/</a>. Specifically, I am taken by the <a href="http://blogs.adobe.com/paulw/archives/2007/10/presentation_pa_2.html" target="_blank">Supervising Presenter</a>, though i am not totally sold… which I hope to address in this post, but my main intent here is to show how I re-use a presenter for a View object to cut down on memory within an application session.</p>
+<p>I may touch upon the life-cycle of a <strong>View</strong> and how state data is maintained in this post, but not to the extent in my <a href="http://custardbelly.com/blog/?p=220">previous article</a>. I want to talk more about moving away from “<em>code behind</em>” in Flex-based mobile applications and implementing session-persistent presenters for <strong>View</strong>s.</p>
+<p>If you want to skip the yammering, you can view the source of an example here: <a href="http://www.custardbelly.com/downloads/hero/supervisor/" target="_blank">Mobile (Hero) Supervising Presenter Example</a></p>
+<h3>New View instance on each request</h3>
+<p>Due to the instantiation of a new <strong>View</strong> instance upon each request from the <strong>ViewNavigator</strong> within a <strong>MobileApplication</strong> as discussed in my <a href="http://custardbelly.com/blog/?p=220" target="_blank">previous post</a>, I started really considering my choice to always use what is loosely called <a href="http://ted.onflash.org/2007/02/code-behind-in-flex-2.php" target="_blank">“<em>code behind</em>” in Flex</a>. I’ve always had somewhat of a problem with the implementation but just kept at it because it worked – separated logic into AS file from view mark-up in MXML – and (not always a fast and hard rule) don’t utilize another micro-architecture framework in projects. I’m not going to get into an argument about frameworks, but let’s leave it that i don’t always agree on their necessity when weighed against project requirements, deadlines and multi-developer teams.</p>
+<p>So “<em>code behind</em>” always was a minor sore point, but it got the job done and got it done in an organized fashion. But I am really taking it into consideration when optimizing applications for the mobile paradigm, mainly inheritance chain. To extend <strong>View</strong> for logic and then extend that view-controller for display again just seems like the wrong choice, especially when <strong>View</strong> is an nth extension of <strong>UIComponent</strong> already and taking in the inheritance memory point described here: <a href="http://help.adobe.com/en_US/flash/cs/using/WSD7F8E1A9-680A-4000-9BA9-D7B01FDD7ECD.html" target="_blank">http://help.adobe.com/en_US/flash/cs/using/WSD7F8E1A9-680A-4000-9BA9-D7B01FDD7ECD.html</a></p>
+<p>I started shopping around for <strong>Presenter</strong> patterns that i felt were the least intrusive (as i mentioned before Paul Williams has some great posts up <a href="http://blogs.adobe.com/paulw/" target="_blank">here</a>) and settled on the <strong>Supervising Presenter</strong> at the moment.</p>
+<p>Yet, seeing as a <strong>View</strong> is instantiated upon each request from <strong>ViewNavigator</strong>, I wanted to keep the overhead low and ensure that only one <strong>Presenter</strong> was created and associated with a view. In other words, upon the first instantiation of a <strong>View</strong> object, a <strong>Presenter</strong> is created and associated with the view. Upon destruction of the view, the <strong>Presenter</strong> reference is notified to stop supervising and is stored in the state data for that <strong>View</strong> object. When another instance of the <strong>View</strong> is instantiated, that data is read in and the <strong>Presenter</strong> is notified to start supervising again. So now we not only have the logic (depends on *how* much logic you determine necessary) separated from the view, but are re-using the same <strong>Presenter</strong> without having to create a new instance each time a user navigates to that View.</p>
+<p>Here are some examples:</p>
+<h3>ISupervisingPresenter</h3>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;"><span style="color: #0066CC;">import</span> flash.<span style="color: #006600;">events</span>.<span style="color: #006600;">IEventDispatcher</span>;
+<span style="color: #0066CC;">import</span> spark.<span style="color: #006600;">components</span>.<span style="color: #006600;">View</span>;
+&nbsp;
+<span style="color: #0066CC;">public</span> <span style="color: #0066CC;">interface</span> ISupervisingPresenter <span style="color: #0066CC;">extends</span> IEventDispatcher
+<span style="color: #66cc66;">{</span>
+	<span style="color: #000000; font-weight: bold;">function</span> supervise<span style="color: #66cc66;">(</span> view:View <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>;
+	<span style="color: #000000; font-weight: bold;">function</span> unsupervise<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>;
+	<span style="color: #000000; font-weight: bold;">function</span> dispose<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>;
+<span style="color: #66cc66;">}</span></pre></div></div>
+
+<p><strong>ISupervisingPresenter</strong> supervises a single <strong>View</strong> and can be instructed to unsupervise as well as tear down any loose reference to offer itself up for garbage collection.</p>
+<h3>ISupervisingPresenter Implementation</h3>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;"><span style="color: #0066CC;">import</span> com.<span style="color: #006600;">custardbelly</span>.<span style="color: #006600;">example</span>.<span style="color: #006600;">event</span>.<span style="color: #006600;">LogInEvent</span>;
+<span style="color: #0066CC;">import</span> com.<span style="color: #006600;">custardbelly</span>.<span style="color: #006600;">example</span>.<span style="color: #006600;">views</span>.<span style="color: #006600;">HomeView</span>;
+&nbsp;
+<span style="color: #0066CC;">import</span> flash.<span style="color: #006600;">events</span>.<span style="color: #006600;">Event</span>;
+<span style="color: #0066CC;">import</span> flash.<span style="color: #006600;">events</span>.<span style="color: #006600;">EventDispatcher</span>;
+<span style="color: #0066CC;">import</span> flash.<span style="color: #006600;">events</span>.<span style="color: #006600;">MouseEvent</span>;
+&nbsp;
+<span style="color: #0066CC;">import</span> spark.<span style="color: #006600;">components</span>.<span style="color: #006600;">View</span>;
+&nbsp;
+<span style="color: #66cc66;">[</span>Event<span style="color: #66cc66;">(</span><span style="color: #0066CC;">name</span>=<span style="color: #ff0000;">"success"</span>, <span style="color: #0066CC;">type</span>=<span style="color: #ff0000;">"com.custardbelly.example.event.LogInEvent"</span><span style="color: #66cc66;">)</span><span style="color: #66cc66;">]</span>
+&nbsp;
+<span style="color: #66cc66;">[</span>RemoteClass<span style="color: #66cc66;">(</span>alias=<span style="color: #ff0000;">"com.custardbelly.example.presenter.HomePresenter"</span><span style="color: #66cc66;">)</span><span style="color: #66cc66;">]</span>
+<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">class</span> HomePresenter <span style="color: #0066CC;">extends</span> EventDispatcher <span style="color: #0066CC;">implements</span> ISupervisingPresenter
+<span style="color: #66cc66;">{</span>
+	protected <span style="color: #000000; font-weight: bold;">var</span> _view:HomeView;
+&nbsp;
+	<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> HomePresenter<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span> <span style="color: #66cc66;">{</span><span style="color: #66cc66;">}</span>
+&nbsp;
+	protected <span style="color: #000000; font-weight: bold;">function</span> addHandlers<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+	<span style="color: #66cc66;">{</span>
+		_view.<span style="color: #006600;">logInButton</span>.<span style="color: #006600;">addEventListener</span><span style="color: #66cc66;">(</span> MouseEvent.<span style="color: #006600;">CLICK</span>, handleLogIn, <span style="color: #000000; font-weight: bold;">false</span>, <span style="color: #cc66cc;">0</span>, <span style="color: #000000; font-weight: bold;">true</span> <span style="color: #66cc66;">)</span>;
+	<span style="color: #66cc66;">}</span>
+&nbsp;
+	protected <span style="color: #000000; font-weight: bold;">function</span> removeHandlers<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+	<span style="color: #66cc66;">{</span>
+		_view.<span style="color: #006600;">logInButton</span>.<span style="color: #006600;">removeEventListener</span><span style="color: #66cc66;">(</span> MouseEvent.<span style="color: #006600;">CLICK</span>, handleLogIn, <span style="color: #000000; font-weight: bold;">false</span> <span style="color: #66cc66;">)</span>;
+	<span style="color: #66cc66;">}</span>
+&nbsp;
+	protected <span style="color: #000000; font-weight: bold;">function</span> handleLogIn<span style="color: #66cc66;">(</span> evt:Event <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+	<span style="color: #66cc66;">{</span>
+		dispatchEvent<span style="color: #66cc66;">(</span> <span style="color: #000000; font-weight: bold;">new</span> LogInEvent<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span> <span style="color: #66cc66;">)</span>;
+	<span style="color: #66cc66;">}</span>
+&nbsp;
+	<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> supervise<span style="color: #66cc66;">(</span> view:View <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+	<span style="color: #66cc66;">{</span>
+		_view = <span style="color: #66cc66;">(</span> view as HomeView <span style="color: #66cc66;">)</span>;
+		addHandlers<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+	<span style="color: #66cc66;">}</span>
+&nbsp;
+	<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> unsupervise<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+	<span style="color: #66cc66;">{</span>
+		removeHandlers<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+		_view = <span style="color: #000000; font-weight: bold;">null</span>;
+	<span style="color: #66cc66;">}</span>
+&nbsp;
+	<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> dispose<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+	<span style="color: #66cc66;">{</span>
+		<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> _view <span style="color: #66cc66;">)</span> unsupervise<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+		<span style="color: #808080; font-style: italic;">// remove any other references to ensure GC of this instance...</span>
+	<span style="color: #66cc66;">}</span>
+<span style="color: #66cc66;">}</span></pre></div></div>
+
+<p>When supervising a view, the <strong>ISupervisingPresenter</strong> implementation essentially assigns event handlers to child controls of that target <strong>View</strong>. Its up to you how much logic the ISupervisingPresenter holds. For instance i could forgo dispatching an event and just access the ViewNavigator from the target view and tell it to go to another screen.</p>
+<h3>Supervised View</h3>
+
+<div class="wp_syntax"><div class="code"><pre class="mxml" style="font-family:monospace;"><span style="color: #000000;">&lt; ?xml version=<span style="color: #ff0000;">"1.0"</span> encoding=<span style="color: #ff0000;">"utf-8"</span>?<span style="color: #7400FF;">&gt;</span></span>
+<span style="color: #000000;">&lt;s :View xmlns:fx=<span style="color: #ff0000;">"http://ns.adobe.com/mxml/2009"</span> </span>
+<span style="color: #000000;">		xmlns:s=<span style="color: #ff0000;">"library://ns.adobe.com/flex/spark"</span> </span>
+<span style="color: #000000;">		title=<span style="color: #ff0000;">"home"</span> </span>
+<span style="color: #000000;">		creationComplete=<span style="color: #ff0000;">"handleCreationComplete();"</span><span style="color: #7400FF;">&gt;</span></span>
+&nbsp;
+	<span style="color: #000000;">&lt;fx :Script<span style="color: #7400FF;">&gt;</span></span>
+		<span style="color: #000000;">&lt; !<span style="color: #66cc66;">[</span>CDATA<span style="color: #66cc66;">[</span></span>
+<span style="color: #000000;">			import com.custardbelly.example.event.LogInEvent;</span>
+<span style="color: #000000;">			import com.custardbelly.example.presenter.HomePresenter;</span>
+<span style="color: #000000;">			import com.custardbelly.example.presenter.ISupervisingPresenter;</span>
+&nbsp;
+<span style="color: #000000;">			import mx.events.FlexEvent;</span>
+&nbsp;
+<span style="color: #000000;">			protected var _data:Object;</span>
+<span style="color: #000000;">			protected var _presenter:ISupervisingPresenter;</span>
+&nbsp;
+<span style="color: #000000;">			// Listen for deactivate in order to assemble session data accessed from View:data<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span></span>
+<span style="color: #000000;">			protected function handleCreationComplete<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:void</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				addEventListener<span style="color: #66cc66;">(</span> FlexEvent.VIEW_DEACTIVATE, handleDeactivate, false, <span style="color: #cc66cc;">0</span>, true <span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">}</span></span>
+&nbsp;
+<span style="color: #000000;">			// Is called before navigator.destroy of this instance. Serialize the data property and clear out refs for GC.</span>
+<span style="color: #000000;">			protected function handleDeactivate<span style="color: #66cc66;">(</span> evt:FlexEvent <span style="color: #66cc66;">)</span>:void</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				removeEventListener<span style="color: #66cc66;">(</span> FlexEvent.VIEW_DEACTIVATE, handleDeactivate, false <span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">				serializeSessionData<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">				disassemblePresenter<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">}</span></span>
+&nbsp;
+<span style="color: #000000;">			// Create the supervising presenter.</span>
+<span style="color: #000000;">			protected function  establishPresenter<span style="color: #66cc66;">(</span> value:Object <span style="color: #66cc66;">)</span>:void</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				if<span style="color: #66cc66;">(</span> value &amp;&amp; value.hasOwnProperty<span style="color: #66cc66;">(</span> <span style="color: #ff0000;">"presenter"</span> <span style="color: #66cc66;">)</span> <span style="color: #66cc66;">)</span></span>
+<span style="color: #000000;">				<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">					_presenter = <span style="color: #66cc66;">(</span> value<span style="color: #66cc66;">[</span><span style="color: #ff0000;">"presenter"</span><span style="color: #66cc66;">]</span> as ISupervisingPresenter <span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">				<span style="color: #66cc66;">}</span></span>
+<span style="color: #000000;">				else</span>
+<span style="color: #000000;">				<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">					_presenter = new HomePresenter<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">					if<span style="color: #66cc66;">(</span> value <span style="color: #66cc66;">)</span> value<span style="color: #66cc66;">[</span><span style="color: #ff0000;">"presenter"</span><span style="color: #66cc66;">]</span> = _presenter;</span>
+<span style="color: #000000;">				<span style="color: #66cc66;">}</span></span>
+&nbsp;
+<span style="color: #000000;">				_presenter.supervise<span style="color: #66cc66;">(</span> this <span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">				addPresenterHandlers<span style="color: #66cc66;">(</span> _presenter <span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">}</span></span>
+&nbsp;
+<span style="color: #000000;">			// Clear refs for GC of this instance.</span>
+<span style="color: #000000;">			protected function disassemblePresenter<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:void</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				removePresenterHandlers<span style="color: #66cc66;">(</span> _presenter <span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">				_presenter.unsupervise<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">				_presenter = null;</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">}</span></span>
+&nbsp;
+<span style="color: #000000;">			protected function addPresenterHandlers<span style="color: #66cc66;">(</span> presenter:ISupervisingPresenter <span style="color: #66cc66;">)</span>:void</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				presenter.addEventListener<span style="color: #66cc66;">(</span> LogInEvent.SUCCESS, handleLogInSuccess, false, <span style="color: #cc66cc;">0</span>, true <span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">}</span></span>
+<span style="color: #000000;">			protected function removePresenterHandlers<span style="color: #66cc66;">(</span> presenter:ISupervisingPresenter <span style="color: #66cc66;">)</span>:void</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				presenter.removeEventListener<span style="color: #66cc66;">(</span> LogInEvent.SUCCESS, handleLogInSuccess, false <span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">}</span></span>
+&nbsp;
+<span style="color: #000000;">			// Modify session state data to hold reference to the supervising presenter for re-use.</span>
+<span style="color: #000000;">			protected function serializeSessionData<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:void</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				if<span style="color: #66cc66;">(</span> _data == null <span style="color: #66cc66;">)</span> _data = <span style="color: #66cc66;">{</span><span style="color: #66cc66;">}</span>;</span>
+<span style="color: #000000;">				_data<span style="color: #66cc66;">[</span><span style="color: #ff0000;">"presenter"</span><span style="color: #66cc66;">]</span> = _presenter;</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">}</span></span>
+&nbsp;
+<span style="color: #000000;">			// Navigate to nother view.</span>
+<span style="color: #000000;">			protected function handleLogInSuccess<span style="color: #66cc66;">(</span> evt:LogInEvent <span style="color: #66cc66;">)</span>:void</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				navigator.pushView<span style="color: #66cc66;">(</span> WelcomeView <span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">}</span></span>
+&nbsp;
+<span style="color: #000000;">			// Need to override in order to persist state data through session.</span>
+<span style="color: #000000;">			override public function get data<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:Object</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				return _data;</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">}</span></span>
+<span style="color: #000000;">			// Override to read in session state data.</span>
+<span style="color: #000000;">			override public function set data<span style="color: #66cc66;">(</span> value:Object <span style="color: #66cc66;">)</span>:void</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				_data = value;</span>
+<span style="color: #000000;">				establishPresenter<span style="color: #66cc66;">(</span> _data <span style="color: #66cc66;">)</span>;</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">}</span></span>
+&nbsp;
+<span style="color: #000000;">		<span style="color: #66cc66;">]</span><span style="color: #66cc66;">]</span><span style="color: #7400FF;">&gt;</span></span>
+	<span style="color: #000000;">&lt;/fx<span style="color: #7400FF;">&gt;</span></span>
+&nbsp;
+	<span style="color: #000000;">&lt;s :navigationContent <span style="color: #7400FF;">/&gt;</span></span>
+&nbsp;
+	<span style="color: #000000;">&lt;/s<span style="color: #7400FF;">&gt;</span>&lt;s :layout<span style="color: #7400FF;">&gt;</span></span>
+		<span style="color: #000000;">&lt;s :VerticalLayout paddingLeft=<span style="color: #ff0000;">"10"</span> paddingRight=<span style="color: #ff0000;">"10"</span> paddingTop=<span style="color: #ff0000;">"10"</span> paddingBottom=<span style="color: #ff0000;">"10"</span> <span style="color: #7400FF;">/&gt;</span></span>
+	<span style="color: #000000;">&lt;/s<span style="color: #7400FF;">&gt;</span></span>
+&nbsp;
+	<span style="color: #000000;">&lt;s :TextInput id=<span style="color: #ff0000;">"usernameField"</span> width=<span style="color: #ff0000;">"100%"</span> <span style="color: #7400FF;">/&gt;</span></span>
+	<span style="color: #000000;">&lt;s :TextInput id=<span style="color: #ff0000;">"passwordField"</span> width=<span style="color: #ff0000;">"100%"</span> displayAsPassword=<span style="color: #ff0000;">"true"</span> <span style="color: #7400FF;">/&gt;</span></span>
+	<span style="color: #000000;">&lt;s :Button id=<span style="color: #ff0000;">"logInButton"</span> label=<span style="color: #ff0000;">"log in"</span> <span style="color: #7400FF;">/&gt;</span></span></pre></div></div>
+
+<p>In essence, upon first creation of this <strong>View</strong> instance, the <strong>Supervising Presenter</strong> is created and assigned through a call to the <em>data</em> property setter (invoked by the <strong>ViewNavigator</strong> upon creation of the view). When the view is deactivated (by the <strong>ViewNavigator</strong> before destruction) the view-local <em>_data</em> property is updated to hold a reference to the associated supervising presenter for this view. Upon creation of a new instance, it is read in though the <em>data</em> setter and instructed to begin supervising again.</p>
+<p>The <strong>Supervising Presenter</strong> reference is persisted through the current session of the application and re-used upon each new instance of the <strong>View</strong>. Though i do hate using <strong>Script</strong> in MXML, this code does address my concerns in re-use, inheritance and separation of logic while utilizing the session-persistent hook-ins now present in the <strong>View</strong> API in Flex Hero.</p>
+<p><a href="http://www.custardbelly.com/downloads/hero/supervisor/" target="_blank">Mobile (Hero) Supervising Presenter Example</a></p>
+<p>Now… i gotta think about getting that <strong>Script</strong> outta my MXML <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/air/" title="View all posts in AIR" rel="category tag">AIR</a>,  <a href="http://custardbelly.com/blog/category/flex/" title="View all posts in Flex" rel="category tag">Flex</a>,  <a href="http://custardbelly.com/blog/category/flex-4-5/" title="View all posts in Flex 4.5" rel="category tag">Flex 4.5</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-228-target"></div>
+	<div class="clear"></div>
+	
+	

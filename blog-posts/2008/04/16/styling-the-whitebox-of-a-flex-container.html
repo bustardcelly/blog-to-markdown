@@ -1,0 +1,42 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2008/04/16/styling-the-whitebox-of-a-flex-container/" title="Permanent link to Styling the whiteBox of a Flex Container" rel="bookmark" rev="post-70">Styling the whiteBox of a Flex Container</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>You can’t… That is to say, there is no style property to change the color of that little white box that appears in the lower right of a Container component when the vertical and horizontal scrollbars are present.</p>
+<p>Today, i added a Canvas that had fixed dimensions to the displaylist of a Flex application. Because the content within the Canvas instance would vary in size, vertical and horizontal scrollbars are needed for content that is larger than the width and height of the fixed dimensions of its parent container. When both scrollbars are present on the display, they meet in the lower right and create an empty space. That empty space is actually a FlexShape in the Container class called whiteBox. The whiteBox shape is protected, but is added and removed programmatically within private methods based on the presence of both directional scrollbars. </p>
+<p>Fine by me… the problem i have is that the color of whiteBox is hard-coded ( to #FFFFFF ). Super! I guess if you name something with a prefix that is a color, you have to hard-code the actual color it will be using to draw… </p>
+<p>There is an easy work-around by just creating a subclass of Canvas and overriding the updateDisplayList() method to remove whiteBox, but it seems kind of hackish, especially if it is going to be added each time the vert and horiz scrollbars are added to the display and then i have to remove it again.</p>
+<p>Here’s an example of how i resolved my issue:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;">package
+<span style="color: #66cc66;">{</span>
+    <span style="color: #0066CC;">import</span> mx.<span style="color: #006600;">containers</span>.<span style="color: #006600;">Canvas</span>;
+&nbsp;
+    <span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">class</span> NoWhiteBoxContainer <span style="color: #0066CC;">extends</span> Canvas
+    <span style="color: #66cc66;">{</span>
+        <span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> NoWhiteBoxContainer<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span> <span style="color: #66cc66;">{</span>	<span style="color: #0066CC;">super</span><span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>; <span style="color: #66cc66;">}</span>
+&nbsp;
+        override protected <span style="color: #000000; font-weight: bold;">function</span> updateDisplayList<span style="color: #66cc66;">(</span> unscaledWidth:<span style="color: #0066CC;">Number</span>, unscaledHeight:<span style="color: #0066CC;">Number</span> <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+        <span style="color: #66cc66;">{</span>
+            <span style="color: #0066CC;">super</span>.<span style="color: #006600;">updateDisplayList</span><span style="color: #66cc66;">(</span> unscaledWidth, unscaledHeight <span style="color: #66cc66;">)</span>;
+&nbsp;
+            <span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> whiteBox <span style="color: #66cc66;">)</span> rawChildren.<span style="color: #006600;">removeChild</span><span style="color: #66cc66;">(</span> whiteBox <span style="color: #66cc66;">)</span>;
+        <span style="color: #66cc66;">}</span>
+    <span style="color: #66cc66;">}</span>
+<span style="color: #66cc66;">}</span></pre></div></div>
+
+<p>Nothing extremely complicated, but it would have been nice to just set a style property or for the fill color to inherit from the backgroundColor property. ah well… Hopefully someone may find this post if they are wondering what to do with that white box.</p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/flex/" title="View all posts in Flex" rel="category tag">Flex</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-70-target"></div>
+	<div class="clear"></div>
+	
+	

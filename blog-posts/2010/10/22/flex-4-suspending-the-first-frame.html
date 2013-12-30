@@ -1,0 +1,154 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2010/10/22/flex-4-suspending-the-first-frame/" title="Permanent link to Flex 4: Suspending the first frame" rel="bookmark" rev="post-211">Flex 4: Suspending the first frame</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>Have you ever wanted to add some extra loading process to the first frame so you can utilize the same <strong>download progress bar</strong> for other things beside <strong>RSL</strong> loading and initialization? Take for instance the desire to append the loading of a <a href="http://www.springactionscript.org/" target="_blank">Spring ActionScript</a> application context to the end of the initial loading process. Well, you can. Or rather, until someone tells me i am a fool, you can.</p>
+<p>You can quickly check out the source files for how to do this up on <strong>github</strong> at <a href="http://github.com/bustardcelly/custom-system-manager" target="_blank">http://github.com/bustardcelly/custom-system-manager</a> and/or you can keep reading to find out more…</p>
+<p>The main reason i started looking in to suspending the first frame in <strong>SystemManager</strong> in order to perform some other essential loading tasks is generally my dislike for seeing the download progress bar AND THEN seeing another loading bar once the application is initialized and on the display. Say for instance, your application needed to load some extra configurations or assets or what have you. It always bothered me that, as a user, i see the initial download progress bar of the Flex Application and, when complete, i see another one. The second one is usually designed differently, which is incongruent with my experience BUT if both loaders were designed the same, i am presented <em>TWO</em>. I see one, it goes away. I see another. Not a good user experience.</p>
+<p>I wanted to hook into that first frame in <strong>SystemManager</strong> and keep loading what was essential for my application to run. From start up.</p>
+<p><strong>Why do you keep talking about frames?</strong></p>
+<p>If you are unfamiliar about the <a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/mx/managers/SystemManager.html" target="_blank"><strong>SystemManager</strong></a> and the loading and initialization of a <strong>Flex Application</strong>, there is some really <a href="http://flexblog.faratasystems.com/2006/08/02/systemmanager-and-application-initialization" target="_blank">great stuff</a> out there that describes it. Particularly <a href="http://iamdeepa.com/blog/?p=11" target="_blank">this post</a> from <a href="http://iamdeepa.com/blog" target="_blank">Deepa Subramaniam</a>. But basically, a <strong>Flex Application</strong> is a two-frame SWF. The first frame is ruled by the <strong>SystemManager</strong> which goes about, among other things, tracking the load progress of the framework <strong>RSL</strong>s and the application code and presenting that (<em>at least the application code loading by default</em>) visually in a <strong>SparkDownloadProgressBar</strong> (if using <strong>Spark Application</strong> from Flex 4).</p>
+<p>The API allows for customizing the <strong>download progress bar</strong>, and if you are unfamiliar with how that can be done, there are also great articles out there about that. In particular, i will point you to <a href="http://jessewarden.com/2007/07/making-a-cooler-preloader-in-flex-part-1-of-3.html" target="_blank">Jesse Warden’s post</a>, this one by <a href="http://renaun.com/blog/2010/08/using-flex-hero-rsl-enhancements/" target="_blank">Renaun Erickson</a>, and this one by <a href="http://www.developmentarc.com/site/2010/09/rsl-calculations-new-flex-4-preloader" target="_blank">James Polanco</a>. All great stuff and informative reading. And <em>please, please, please</em> make sure you update your custom progress bar to display progress on loading the <strong>RSL</strong>s.</p>
+<p>The problem is that i don’t care about customizing the preloader (well actually, I DO, and you should too. Or i will come over there personally and give you the sad-face). The problem is that there are no hooks available to pause the preloader to perform other tasks. Meaning all the protected methods opened up in the <strong>DownloadProgressBar</strong> of the Flex 4 SDK have no way of suspending the first frame by preventing the default action. You can call <strong>event.preventDefault()</strong> and <strong>event.stopPropegation()</strong> all you want in the protected event handlers available, but they won’t keep the <strong>SystemManager</strong> from moving forward when it has finished loading the application code. (At least, i haven’t been able to).</p>
+<p>But fear not, there is a way to suspend that frame. The code to do it is up on github at <a href="http://github.com/bustardcelly/custom-system-manager" target="_blank">http://github.com/bustardcelly/custom-system-manager</a>. </p>
+<p><strong>The basics?</strong></p>
+<p>I created a subclass of <strong>SystemManager</strong> and overrode the <strong>mx_internal</strong> event handler <em>preloader_completeHandler()</em>. This method is generally called after all the <strong>RSL</strong>s and framework code is loaded in to the SWF. Within <strong>SystemManager</strong>, this would move on towards initializing all the other goodies available from <strong>SystemManager</strong> (including all the <strong>[Mixin] init()</strong> calls if you defined them in you application) by invoking <em>kickOff()</em>. By extending <strong>SystemManager</strong> and overriding <em>preloader_completeHandler()</em> we can suspend that call to <em>kickOff()</em> and notify our custom downloader that the frame is now suspended and we can do some custom loading:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;"><span style="color: #66cc66;">[</span>Event<span style="color: #66cc66;">(</span><span style="color: #0066CC;">name</span>=<span style="color: #ff0000;">"frameSuspended"</span>, <span style="color: #0066CC;">type</span>=<span style="color: #ff0000;">"com.custardbelly.application.event.CustomSystemManagerEvent"</span><span style="color: #66cc66;">)</span><span style="color: #66cc66;">]</span>
+<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">class</span> CustomSystemManager <span style="color: #0066CC;">extends</span> SystemManager <span style="color: #0066CC;">implements</span> ICustomSystemManager
+<span style="color: #66cc66;">{</span>
+	protected <span style="color: #000000; font-weight: bold;">var</span> _resumable:<span style="color: #0066CC;">Boolean</span>;		
+	<span style="color: #808080; font-style: italic;">/**
+	 * Constructor.
+	 */</span>
+	<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> CustomSystemManager<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span> <span style="color: #66cc66;">{</span> <span style="color: #0066CC;">super</span><span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>; <span style="color: #66cc66;">}</span>
+&nbsp;
+	<span style="color: #808080; font-style: italic;">/**
+	 * @inherit
+	 */</span>
+	override mx_internal <span style="color: #000000; font-weight: bold;">function</span> docFrameHandler<span style="color: #66cc66;">(</span> event:Event = <span style="color: #000000; font-weight: bold;">null</span> <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+	<span style="color: #66cc66;">{</span>	
+		<span style="color: #808080; font-style: italic;">// Override to protected flag to recognize to continue kickoff.</span>
+		<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> _resumable <span style="color: #66cc66;">)</span>
+			kickOff<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+	<span style="color: #66cc66;">}</span>
+&nbsp;
+	<span style="color: #808080; font-style: italic;">/**
+	 * @inherit
+	 */</span>
+	override mx_internal <span style="color: #000000; font-weight: bold;">function</span> preloader_completeHandler<span style="color: #66cc66;">(</span> event:Event <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+	<span style="color: #66cc66;">{</span>
+		<span style="color: #808080; font-style: italic;">// Override to stop super operation and dispatch a frame suspension event for any handling clients.</span>
+		preloader.<span style="color: #006600;">removeEventListener</span><span style="color: #66cc66;">(</span> Event.<span style="color: #006600;">COMPLETE</span>, preloader_completeHandler <span style="color: #66cc66;">)</span>;
+		preloader.<span style="color: #006600;">dispatchEvent</span><span style="color: #66cc66;">(</span> <span style="color: #000000; font-weight: bold;">new</span> CustomSystemManagerEvent<span style="color: #66cc66;">(</span> <span style="color: #0066CC;">this</span> <span style="color: #66cc66;">)</span> <span style="color: #66cc66;">)</span>;
+	<span style="color: #66cc66;">}</span>		
+&nbsp;
+	<span style="color: #808080; font-style: italic;">/**
+	 * @inherit
+	 */</span>
+	<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> resumeNextFrame<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+	<span style="color: #66cc66;">{</span>
+		<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> currentFrame <span style="color: #66cc66;">&gt;</span>= <span style="color: #cc66cc;">2</span> <span style="color: #66cc66;">)</span>
+		<span style="color: #66cc66;">{</span>
+			_resumable = <span style="color: #000000; font-weight: bold;">true</span>;
+			kickOff<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+		<span style="color: #66cc66;">}</span>
+	<span style="color: #66cc66;">}</span>
+<span style="color: #66cc66;">}</span></pre></div></div>
+
+<p>Now, it should be noted that it’s not always the best idea to override <strong>mx_internal</strong> methods from the SDK. From my understanding, properties and methods marked as <strong>mx_internal</strong> basically mean they are in limbo of either being removed or declared with their proper access specifier at a later version in the SDK. So be wary. This all works now, but it may no longer work when building against future version of the <strong>Flex SDK</strong>… <em>unless they open these methods up as protected!</em></p>
+<p>In any event, this stops the SWF from progress on to displaying the load of the application code and allows any client (most often your custom <strong>DownloadProgressBar</strong>) listening for the event of suspension to do whatever it needs to:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;"><span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">class</span> CustomPreloader <span style="color: #0066CC;">extends</span> SparkDownloadProgressBar
+<span style="color: #66cc66;">{</span>
+	protected <span style="color: #000000; font-weight: bold;">var</span> _customSystemManager:ICustomSystemManager;
+&nbsp;
+	<span style="color: #808080; font-style: italic;">/**
+	 * Constructor.
+	 */</span>
+	<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> CustomPreloader<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span> <span style="color: #66cc66;">{</span> <span style="color: #0066CC;">super</span><span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>; <span style="color: #66cc66;">}</span>
+&nbsp;
+	<span style="color: #808080; font-style: italic;">/**
+	 * @inherit
+	 */</span>
+	override <span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> <span style="color: #0066CC;">set</span> preloader<span style="color: #66cc66;">(</span> value:Sprite <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+	<span style="color: #66cc66;">{</span>
+		<span style="color: #0066CC;">super</span>.<span style="color: #006600;">preloader</span> = value;
+		<span style="color: #808080; font-style: italic;">// Add listener for frame suspension from preloader. </span>
+                <span style="color: #808080; font-style: italic;">// The ICustomSystemManager will dispatch this event through the preloader for stalling the 1st frame.</span>
+		value.<span style="color: #006600;">addEventListener</span><span style="color: #66cc66;">(</span> CustomSystemManagerEvent.<span style="color: #006600;">FRAME_SUSPENDED</span>, handleFrameSuspension <span style="color: #66cc66;">)</span>;
+	<span style="color: #66cc66;">}</span>
+&nbsp;
+	<span style="color: #808080; font-style: italic;">/**
+	 * @private 
+	 * 
+	 * Abstract method to be override by subclass in order to perform any operations during the suspension of the 1st frame.
+	 * In order to resume movement to the 2nd frame, the subclass must call resumeInitialization().
+	 */</span>
+	protected <span style="color: #000000; font-weight: bold;">function</span> onFrameSuspension<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+	<span style="color: #66cc66;">{</span>
+		<span style="color: #808080; font-style: italic;">// abstract method.</span>
+		<span style="color: #808080; font-style: italic;">// Override to perform any other initialization tasks on the first frame.</span>
+	<span style="color: #66cc66;">}</span>
+&nbsp;
+	<span style="color: #808080; font-style: italic;">/**
+	 * @private 
+	 * 
+	 * Invokes the ICustomSystemManager to resume its loading and movement to the 2nd frame.
+	 */</span>
+	protected <span style="color: #000000; font-weight: bold;">function</span> resumeInitialization<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+	<span style="color: #66cc66;">{</span>
+		_customSystemManager.<span style="color: #006600;">resumeNextFrame</span><span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+	<span style="color: #66cc66;">}</span>
+&nbsp;
+	<span style="color: #808080; font-style: italic;">/**
+	 * @private
+	 * 
+	 * Event handler for frame suspension from the ICustomSystemManager. 
+	 * @param evt CustomSystemManagerEvent
+	 */</span>
+	protected <span style="color: #000000; font-weight: bold;">function</span> handleFrameSuspension<span style="color: #66cc66;">(</span> evt:CustomSystemManagerEvent <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+	<span style="color: #66cc66;">{</span>
+		<span style="color: #66cc66;">(</span> evt.<span style="color: #0066CC;">target</span> as IEventDispatcher <span style="color: #66cc66;">)</span>.<span style="color: #006600;">removeEventListener</span><span style="color: #66cc66;">(</span> CustomSystemManagerEvent.<span style="color: #006600;">FRAME_SUSPENDED</span>, handleFrameSuspension <span style="color: #66cc66;">)</span>;
+		_customSystemManager = evt.<span style="color: #006600;">manager</span>;
+		onFrameSuspension<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+	<span style="color: #66cc66;">}</span>
+<span style="color: #66cc66;">}</span></pre></div></div>
+
+<p>Now, all this is only possible if we specify the <strong>CustomSystemManager</strong> as the stand-in for the default <strong>SystemManager</strong>… But this is all before the loading of the application code, so we can just define a new <strong>SystemManager</strong> in our application. Well, not directly in a method anyway.</p>
+<p><strong>The [Frame] Metdata</strong></p>
+<p>In general terms the <strong>[Frame]</strong> metdata defines the factory instance used in initialization of your SWF file. By default, this points to the <strong>SystemManager</strong> of the SDK and you can see that declaration if you opened up the <strong>Spark Application</strong> class in any IDE. I won’t go more into detail about <strong>[Frame]</strong> as there are many great articles out there, and in particular, these posts by <a href="http://blogs.adobe.com/rgonzalez/2006/06/modular_applications_part_2.html" target="_blank">Roger Gonzalez</a> and the always lovable <a href="http://www.bit-101.com/blog/?p=946" target="_blank">Keith Peters</a>. I will however talk about how you need to declare <strong>[Frame]</strong> in your Flex application.</p>
+<p><b>YOU CAN’T DO IT IN THE MXML.</b></p>
+<p>Meaning that you can’t define <strong>[Frame]</strong> in the <em>&lt;Metadata/&gt;</em> declaration. You can only define the <strong>[Frame]</strong> in ActionScript else it won’t work. YET, you can only define your preloader in the MXML, else that won’t work. Confusing yet? Any way, that’s the case. Make sure you main application class is in ActionScript and declare the metadata in that file:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;"><span style="color: #66cc66;">[</span>Frame<span style="color: #66cc66;">(</span>factoryClass=<span style="color: #ff0000;">"com.custardbelly.application.CustomSystemManager"</span><span style="color: #66cc66;">)</span><span style="color: #66cc66;">]</span></pre></div></div>
+
+<p>… and then extend that main AS file in your main MXML view and define the preloader instance:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;"><span style="color: #66cc66;">&amp;</span>lt;Main xmlns=<span style="color: #ff0000;">"*"</span>
+	xmlns:fx=<span style="color: #ff0000;">"http://ns.adobe.com/mxml/2009"</span> 
+	xmlns:s=<span style="color: #ff0000;">"library://ns.adobe.com/flex/spark"</span> 
+	xmlns:mx=<span style="color: #ff0000;">"library://ns.adobe.com/flex/mx"</span>
+	preloader=<span style="color: #ff0000;">"com.custardbelly.manager.example.CustomContextPreloader"</span><span style="color: #66cc66;">&amp;</span>gt;</pre></div></div>
+
+<p>There you go, you are all set. <strong>CustomSystemManager</strong> is now your stand-in for the initialization process and suspends the first frame, notifying the <em>concrete</em> <strong>CustomPreloader</strong> to perform some extra tasks, which in turn tells the <strong>CustomSystemManager</strong> that is okay to continue onto the next frame once it has finished its task(s).</p>
+<p>I would have posted an example SWF here, but it would have been a moot point as it would have loaded already by the time you arrived all the way down here <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley">  So one is available here: <a href="http://www.custardbelly.com/examples/csm/index.html" target="_blank">http://www.custardbelly.com/examples/csm/index.html</a> with source view here: <a href="http://www.custardbelly.com/examples/csm/srcview/" target="_blank">http://www.custardbelly.com/examples/csm/srcview/</a>.</p>
+<p>It’s not terribly exciting, but in that example i am basically loading a <a href="http://www.springactionscript.org/" target="_blank">Spring ActionScript</a> application context file. I wanted to hook into the initial load progress as the<strong> IoC container</strong> was an essential part of my application. And, as i said before, i hate seeing the initial progress bar and then another progress bar after application create. I just want one.</p>
+<p>Once the application code is loaded and the <strong>Flex Application</strong> receives a <em>CREATION_COMPLETE</em> event, a custom style manager defined in the application context is accessed from the <strong>IoC container</strong> and a <a href="http://github.com/bustardcelly/flex-runtime-css" target="_blank">Runtime CSS SWF</a> is loaded, after which the font-size is updated on the <strong>Label</strong> field. Incredible, no? Not really, but you can see where this example can go, hopefully.</p>
+<p>One thing to note, if you will use this to load a <a href="http://www.springactionscript.org/" target="_blank">Spring ActionScript</a> application context file as i have done, you MUST use the <strong>XMLApplicationContext</strong> class and NOT the <strong>FlexXMLApplicationContext</strong> class from <a href="http://www.springactionscript.org/" target="_blank">Spring ActionScript</a>. The reason is that <strong>FlexXMLApplicationContext</strong> accesses a reference to Application upon initialization. Since we haven’t finished loading the Application code in the <strong>CustomSystemManager</strong>, this access will throw a null pointer exception.</p>
+<p>Also, if i am totally off-base on all this, please leave a comment and let me know.</p>
+<p>The files for all this, including the example, can be found on github: <a href="http://github.com/bustardcelly/custom-system-manager">http://github.com/bustardcelly/custom-system-manager</a></p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/as3/" title="View all posts in AS3" rel="category tag">AS3</a>,  <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>,  <a href="http://custardbelly.com/blog/category/flex/" title="View all posts in Flex" rel="category tag">Flex</a>,  <a href="http://custardbelly.com/blog/category/flex-4/" title="View all posts in Flex 4" rel="category tag">Flex 4</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-211-target"></div>
+	<div class="clear"></div>
+	
+	

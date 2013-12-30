@@ -1,0 +1,50 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2008/05/15/yet-another-post-about-astro/" title="Permanent link to Yet another post about Astro" rel="bookmark" rev="post-72">Yet another post about Astro</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>If you read MXNA, you probably have stopped checking quite some time ago because every post is about <a href="http://labs.adobe.com/technologies/flashplayer10/" target="_blank">Astro</a>…<br>
+but if you are interested in another way to set up your projects in FlexBuilder to target FP10 without having to muck about with files in the frameworks folder of your <em>original</em> Flex3 SDK installation this post may shed some light.</p>
+<p>I am a workspace fanatic when it comes to development. I like things tidy, and when i start a new client project or go into some new exploration that involves multiple projects, i create a new workspace. The great thing about workspaces for me, aside from keeping things neat in my head, is that each new project you create in that workspace inherits from any default settings. So <a href="http://blogs.zdnet.com/Stewart/?p=841" target="_blank">when the big news hit</a> and i wanted to check out the latest SDK, i created a new workspace and followed <em>most</em> of the <a href="http://opensource.adobe.com/wiki/display/flexsdk/Targeting+Flash+Player+10+Beta+with+Flex+SDK+3.0.x">excellent directions already available on the adobe open source site</a>. I only strayed a little in how i went about setting my workspace up so that every new project i created in it was *almost* set for development targeted at FP10 without having to run through the process each time. </p>
+<p>The following is the process i took to only mess with the files from the nightly build and set defaults for a single workspace in order to play around with the current features available in Astro:<br>
+<strong><br>
+1</strong>. Download Flash Player 10 codenamed Astro.<br>
+<strong>2</strong>. Download the nightly build and unzip to some directory. (for me that is /Applications/flex_sdk_3.0.1.1728<br>
+<strong>3</strong>. Open FlexBuilder or Eclipse (if you have the plugin) and create a new workspace. (ie. ~/Documents/workspace/astro).<br>
+<strong>4</strong>. Create a new project.<br>
+<strong>5</strong>. Navigate to Project&gt;Properties<br>
+<strong>6</strong>. Select the Flex Compiler option<br>
+<strong>7</strong>. Under Flex SDK version, click Configure Flex SDKs…<br>
+<strong>8</strong>. In the Preferences (Filtered) window, select Add<br>
+<strong>9.</strong> Navigate to the installation of your nightly build. (ie. /Applications/flex_sdk_3.0.1.1728)<br>
+<strong>10</strong>. Add a new name for the SDK… you should see something like so:</p>
+<p><img src="http://custardbelly.com/blog/images/astro.jpg" alt="Flex Builder Astro set up">””””””””””””””””””””””””””””””””””””””””””””””””””””””’                                                                                                          </p>
+<p><strong>11</strong>. Click OK, Then tick the checkbox next to the newly added sdk in the Installed Flex SDKs window.<br>
+<strong>12</strong>. Click Apply, then OK.<br>
+<strong>13</strong>. Then back in the Project Properties folder, under Use a specific SDK, if the newly added SDK isn’t selected, select it.<br>
+<strong>14</strong>. Under the Required Flash Player Version, change the value to 10.0.0<br>
+<strong>15</strong>. In the Project Properties window on the left side, select Flex Build Path&gt; Library Path.<br>
+<strong>16</strong>. Expand the SDK you just set as default, and select the playerglobal.swc and Remove it.<br>
+<strong>17</strong>. Click Add SWC, and navigate to the player 10 swc from your nightly build SDK installation (ie. /Applications/flex_sdk_3.0.1.1728/frameworks/libs/player/10/playerglobal.swc)<br>
+<strong>18</strong>. Click Apply, then OK.<br>
+<strong>19</strong>. Open up the flex-config.xml file from the Astro SDK installation and update the settings <a href="http://opensource.adobe.com/wiki/display/flexsdk/Targeting+Flash+Player+10+Beta+with+Flex+SDK+3.0.x" target="_blank">as described in the first part of the Command-line Compiler instructions from here</a>.</p>
+<p>Thats it! Only 19 steps… that seems like a lot. In any case, in ensures that any project you now build under that workspace will default to using the targeted SDK. You will still have to manually change the Required Flash Version (from step 14) before you compile a new project, but other than that when you want to tinker with the nightly build – and not mess with your stable Flex 3 SDK release that other projects in other workspaces are targeting – just hop over to that workspace.<br>
+<strong><br>
+Good reading</strong>:<br>
+Ryan Stewart – <a href="http://blogs.zdnet.com/Stewart/?p=841">Flash Player 10 codename “Astro” goes beta</a><br>
+Tinic Uro – <a href="http://www.kaourantin.net/">Adobe Is Making Noise series</a><br>
+Keith Peters – <a href="http://www.bit-101.com/blog/?p=1264">Astro Dynamic Sound!</a><br>
+Josh Tynjala – <a href="http://www.zeuslabs.us/2008/05/15/gratuitous-text-effects-courtesy-of-flash-player-10/">Gratuitous Text Effects</a></p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/as3/" title="View all posts in AS3" rel="category tag">AS3</a>,  <a href="http://custardbelly.com/blog/category/astro/" title="View all posts in Astro" rel="category tag">Astro</a>,  <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>,  <a href="http://custardbelly.com/blog/category/flex/" title="View all posts in Flex" rel="category tag">Flex</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-72-target"></div>
+	<div class="clear"></div>
+	
+	

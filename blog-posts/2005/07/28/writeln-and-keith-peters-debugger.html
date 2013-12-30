@@ -1,0 +1,55 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2005/07/28/writeln-and-keith-peters-debugger/" title="Permanent link to writeln and Keith Peters’ debugger" rel="bookmark" rev="post-8">writeln and Keith Peters’ debugger</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>I use a little function called writeln in all my classes to keep track of where my traces are coming from. i started doing it to keep myself from going crazy when seeing random text come up in the output panel and not knowing where or how it got there- not to mention running through an app and then have that panel open up out of nowhere to tell me something that i have no idea what it means.<br>
+Recently i have been loving this new debugger <a href="http://www.bit-101.com/blog/archives/000170.html">Keith Peters’ unleashed</a>, and coupling my writeln with it has put a smile on my face.<br>
+i have extended the arguments in my writeln and now i can trace (recusively no less, thanks keith) with a specified level of importance and color coding!</p>
+<p>Basically, what once was this:</p>
+<p><pre>function writeln(str):Void<br>
+{<br>
+	trace(”#com.site.MyClass#\n     – ” + str);<br>
+}</pre></p>
+<p>..has become this:</p>
+<p><pre>function writeln(str, line:Number, type:String, clear:Boolean, levels:Number):Void<br>
+{<br>
+	if(clear)<br>
+	{<br>
+		Debug.clear();<br>
+	};</p>
+<p>	type = (type == undefined) ? “DEBUG” : type;</p>
+<p>	if(arguments.length &lt; 5)<br>
+	{<br>
+		Debug.trace("\n#com.site.MyClass#\n     " +  line + "- " + str, Debug[type]);<br>
+	}<br>
+	else<br>
+	{<br>
+		Debug.trace("\n#com.siteMyClass#\n     " +  line + "- " + str);<br>
+		Debug.traceObject(str, levels, Debug[type]);<br>
+	};<br>
+} </pre></p>
+<p>..with this somewhere in the class file:</p>
+<p><pre><br>
+writeln("i'm debugging!", 20);<br>
+</pre></p>
+<p>or</p>
+<p><pre><br>
+writeln(someObject, 20, "INFO", false, 1);<br>
+</pre></p>
+<p>and with the FlashDedugPanel open i gets all i needs.</p>
+<p>i'd like to do something with that if(clear), i just don't like it... but for now i'm very happy.</p>
+<p>thanks again <a href="http://bit-101.com">Keith and </a><a href="http://www.timwalling.com/">Tim</a></p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-8-target"></div>
+	<div class="clear"></div>
+	
+	

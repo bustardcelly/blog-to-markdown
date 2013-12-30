@@ -1,0 +1,25 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2006/04/28/an-imagesloader-in-as3/" title="Permanent link to An ImagesLoader in AS3" rel="bookmark" rev="post-43">An ImagesLoader in AS3</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>[<strong>Edit:</strong> Files have been updated for <a href="http://labs.adobe.com/">Flex2_beta3</a>]</p>
+<p>You can view ( although it’s pretty unexciting visually ) and download the <a href="javascript:MM_openBrWindow('http://www.custardbelly.com/blog/files/ImagesLoader/imgsLoader.html','imgsLoader','resizable=no,width=325,height=360');">source here.</a></p>
+<p>My first ‘real’ dabbling in AS3 was to tackle a port of my <a href="http://custardbelly.com/blog/?p=27">ImagesLoader</a> classes from Flash8.<br>
+I’ve been using the ImagesLoader, or at least one of the buffer classes, in all of my personal projects since i created it – which is styled after <a href="http://fivedots.coe.psu.ac.th/~ad/">Andrew Davison</a>’s ImagesLoader – and find it extremely convenient. i hope if anyone has downloaded the classes and used them, they found it so as well. If not, i’m up for any criticism you may have.</p>
+<p><a href="http://www.5etdemi.com/blog/">Patrick Mineault</a> had mentioned loading more than one file within the ImageLoaderQueue class ( which is mainly used in the MultiBuffer ), but i didn’t get around to it. Mainly because i’d have to have multiple instances of the ImageLoader in the queue… and i’m being lazy <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley"><br>
+If someone’s got a different take on that, i’d be glad to hear it.</p>
+<p>I think it works pretty well right now, but i may go back in and flesh out the BufferEvent to handle event parameters as <a href="http://www.darronschall.com/weblog/archives/000191.cfm">Darron Schall explains here.</a> Right now a buffer queue just calls back to it’s instance of ImageLoader after an event and grabs any data needed… not sure how i feel about that…</p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/as3/" title="View all posts in AS3" rel="category tag">AS3</a>,  <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-43-target"></div>
+	<div class="clear"></div>
+	
+	

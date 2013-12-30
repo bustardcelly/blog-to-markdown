@@ -1,0 +1,61 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2006/08/28/asdoc-and-keith-peters-flashdevelop-templates/" title="Permanent link to ASDoc and Keith Peters’ FlashDevelop templates" rel="bookmark" rev="post-55">ASDoc and Keith Peters’ FlashDevelop templates</a></h1>
+	
+	<div class="entry-content full-content">
+		<p>… via <a href="http://blog.je2050.de/?p=80" target="_blank">Joa Eberts fairwell to AS3Doc</a> …</p>
+<p><a href="http://www.adobe.com/" target="_blank">Adobe</a> had release their <a href="http://labs.adobe.com/wiki/index.php/ASDoc" target="_blank">ASDoc command line tool</a> around the 11th- i was otherwise <a href="http://custardbelly.com/blog/?p=54" target="_blank">occupied</a>, but am happy to find a way to figure documentation into <a href="http://www.bit-101.com/blog/?p=849" target="_blank">Keith Peters’ FlashDevelop templates for Flex2 and As3 projects</a> now that i am back at my computer.</p>
+<p>( If you haven’t already, follow that l<a href="http://www.bit-101.com/blog/?p=849" target="_blank">ink to Keith’s tutorial</a> on adding project templates if you are interested in creating an excellent dev environment in FD and are curious about what i added to target auto-documentation in the ANT process ). </p>
+<p>To sum it up, all i added was a couple properties to the build.properties file and a conditional target to the build.xml. The modified files are here:</p>
+<p><a href="http://custardbelly.com/downloads/fd/build.properties" target="_blank">build.properties</a><br>
+<a href="http://custardbelly.com/downloads/fd/build.xml" target="_blank">build.xml</a></p>
+<p>… be aware that these are modified files downloaded from keith’s post, so if you have changed some values in the properties file on your own machine you shouldn’t explicitly replace these with your own.</p>
+<p>[Note: it's not really actionscript code below, i'm just being lazy]</p>
+<p><strong>The additions to <em>build.properties</em></strong>:</p>
+<p><em>1 – under the project properties header…</em><br>
+<pre>#document titles<br>
+docbuild=false<br>
+doc.maintitle=templatetest<br>
+doc.windowtitle=’template test’</pre><br>
+<em><br>
+… the docbuild property is a string boolean evaluated in a conditional in the build.xml. The others are command params <a href="http://labs.adobe.com/wiki/index.php/ASDoc:Using_ASDoc" target="_blank">found here</a>. Remember that anything with spaces needs quotes around it, as is the value for doc.windowtitle.</em></p>
+<p><em>2 – under the tools header…</em><br>
+<pre># where you installed your documenter:<br>
+asdoc.dir=C:/Flex_2_sdk<br>
+…<br>
+# most of this shouldn’t need to change<br>
+…<br>
+documenter=bin/asdoc.exe<br>
+…<br>
+</pre></p>
+<p><em>… where asdoc.dir and documenter are relative to where you unzipped the ASDoc – in this case i threw it into the directory of the sdk.</em></p>
+<p><strong>the additions to <em>build.xml:</em></strong></p>
+<p><em>1- conditional added to the compile target:</em><br>
+<pre><condition property="builddocument"><br>
+<equals arg1="${docbuild}" arg2="true"><br>
+</equals></condition><br>
+</pre><br>
+<em>2 – the document target</em><br>
+<pre><target name="document" if="builddocument"><br>
+	<exec executable="${asdoc.dir}/${documenter}"><br>
+            <arg line="-source-path ${source.dir} -doc-sources ${source.dir}/. -main-title ${doc.maintitle} -window-title ${doc.windowtitle} -output ${doc.dir}"><br>
+         </arg></exec><br>
+</target><br>
+</pre><br>
+<em>3 – antcall added to build target:</em><br>
+<pre><antcall target="document"></pre></antcall></p>
+<p>… Changing the doc.build value in build.properties to any string other than ‘true’ will cause this to not rebuild the documentation, which can be handy if you are just doing quick tests or bug finding – otherwise, if set to ‘true’ it will document any AS files recursively found in ${source.dir}.</p>
+<p>I had a similar build made up for AS2 projects and <a href="http://www.blinex.com/index.cfm?view=bldoc&amp;nav_view=products" target="_blank">BlDoc</a> in FlashDevelop using ANT earlier and thought i’d have a go with it using <a href="http://labs.adobe.com/wiki/index.php/ASDoc" target="_blank">ASDoc</a>, maybe someone else will find this useful…</p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/as3/" title="View all posts in AS3" rel="category tag">AS3</a>,  <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-55-target"></div>
+	<div class="clear"></div>
+	
+	

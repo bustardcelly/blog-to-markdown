@@ -1,0 +1,328 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2009/09/02/viewstack-in-flex-4/" title="Permanent link to Viewstack in Flex 4?" rel="bookmark" rev="post-91">Viewstack in Flex 4?</a></h1>
+	
+	<div class="entry-content full-content">
+		<p><strong>[UPDATE: April 26th, 2010]</strong><br>
+This post was originally written after playing around with a nightly build of the Flex SDK many months before it was officially released. Since that release, there has been more traffic to this post from people looking for a Spark Viewstack solution (assuming), however the SDK had changed since the initial example within this post. As such, i have only updated the source and inline code within the post. I am keeping the original wording of the post for prosperity sake.</p>
+<p>As well, <a href="http://www.tink.ws/blog/">Tink</a> has done some <a href="http://www.tink.ws/blog/spark-datanavigators/">amazing work on bring Spark equivalents (and additions) to containers</a>. If you have not done so, please check out some of his work.<br>
+<strong>[/UPDATE]</strong></p>
+<p>I’ll start off by saying that i love what is happening with the Spark architecture in the Flex SDK. When the time comes that we at IR5 are given the green-light to use it in production for clients, i will be giddy. That said, I am aware that a lot of people have gripes about the lack of complete parity between the Halo and Spark sets, and particularly the lack of Spark equivalents for the Halo navigation containers such as Accordion and ViewStack. </p>
+<p>Truth be told, they probably have good reason to not hop on board, and without raising your voice you can’t raise concerns to the owners of the Platform to make informed decisions based on feedback. However, I feel the Platform developed because people started doing things it was never intended to do and (while at times complaining) developers just rolled up their sleeves and bent the code to their will. Now this is going into a whole ‘nother discussion that was the intent of the post, so we’ll just leave the discussion at that and ask, ‘Why not make what is not there?’ The answer is a whole ‘nother discussion and I am fully aware that the SDK is not *perfect* for this, but it is available to make something work somehow… that’s how we all got here.</p>
+<p>Enough jibber-jabber… I set apart a couple hours to make a ViewStack for Flex 4 just to see how easy it would be with the Spark architecture. Honestly, I never really use the Halo navigation containers much – maybe some quick prototypes here and there, but have always found that in a medium to large application they provide no benefits that go along with their overhead. But still, I thought i would choose one (and yes i know it is probably the easiest one <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley"> ) just to see what all the fuss was about.</p>
+<p><del datetime="2009-09-03T17:00:28+00:00"><br>
+My first step was getting excited about the mxmlContent and mxmlContentFactory properties available on Spark containers. ‘think of the possiblities,’ my mind said, ‘this probably contains all the declared children within the markup!’ Oh with that i can stop instantiation of them and deferred until requested. Case closed. Viewstack done. Until i realized that most everything that handles these values is private. bugger.</del></p>
+<p><strong>[Update 2009-09-03]</strong><br>
+Event though i did start down the path of mxmlContent and mxmlContentFactory and came up empty, thanks to the brain on <a href="http://www.razorberry.com/blog/" target="_blank">Ash Atkins</a> for pointing out that i coudl use the [DefaultProperty] metatag to still allow inline declaration of child elements for the ViewStack. The inline code has been updated. Thanks, <a href="http://www.razorberry.com/blog/" target="_blank">Ash</a>!<br>
+<strong>[/Update]</strong></p>
+<p>Next step was extending SkinnableContainer and just exposing a property on which you can pass an array of IVisualElement instances, along with the standard selectedIndex and selectedChildren. With the new Flex 4 <i>Declarations</i> tag, this solution was made sweeter in that I could declare my children without instantiating them directly and could pass them along for the Flex 4 Viewstack to handle them as seen fit, allowing for deferred instantation. Making sure set selectedIndex and selectedChild work accordingly and dispatch an event on change of index, i called it a day. It took a couple hours and I called it a day… until Keith walked into my office and started yammering about me not working.</p>
+<p>Example. Made with Flex 4 SDK build 9864. You will need the latest player:</p>
+
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="fm_ViewStackExample_1376435495" class="flashmovie" width="400" height="400" style="visibility: visible; ">
+	<param name="movie" value="http://custardbelly.com/downloads/viewstack/ViewStackExample.swf">
+	<!--[if !IE]>-->
+	<object type="application/x-shockwave-flash" data="http://custardbelly.com/downloads/viewstack/ViewStackExample.swf" name="fm_ViewStackExample_1376435495" width="400" height="400">
+	<!--<![endif]-->
+		
+<p><a href="http://adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player"></a></p>
+
+	<!--[if !IE]>-->
+	</object>
+	<!--<![endif]-->
+</object>
+<p><a href="http://custardbelly.com/downloads/viewstack/srcview/index.html">view source</a> .  There seems to be bug in the view source code in the nightly builds, so i will post the code here as well if you don’t feel like Right Click&gt; View Source and downloading the zip…</p>
+<p>Here is the implementation i came up with:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="actionscript" style="font-family:monospace;"><span style="color: #808080; font-style: italic;">// -----------------------------------------------------------</span>
+<span style="color: #808080; font-style: italic;">// CBViewStack.as</span>
+<span style="color: #808080; font-style: italic;">// -----------------------------------------------------------</span>
+&nbsp;
+<span style="color: #808080; font-style: italic;">/**
+ * Copyright (c) 2009 Todd Anderson. All Right Reserved.
+ * 
+ * Code provided has not been tested in a production environment
+ * and should be used by another party at their own risk. I disclaim any
+ * and all responsibility for any loss or damage of property that may occur
+ * from using it.
+ * 
+ * ===================================
+ * custardbelly.com
+ */</span>
+package com.<span style="color: #006600;">custardbelly</span>.<span style="color: #006600;">container</span>
+<span style="color: #66cc66;">{</span>
+	<span style="color: #0066CC;">import</span> mx.<span style="color: #006600;">core</span>.<span style="color: #006600;">IVisualElement</span>;
+&nbsp;
+	<span style="color: #0066CC;">import</span> spark.<span style="color: #006600;">components</span>.<span style="color: #006600;">BorderContainer</span>;
+	<span style="color: #0066CC;">import</span> spark.<span style="color: #006600;">components</span>.<span style="color: #006600;">SkinnableContainer</span>;
+	<span style="color: #0066CC;">import</span> spark.<span style="color: #006600;">core</span>.<span style="color: #006600;">IViewport</span>;
+	<span style="color: #0066CC;">import</span> spark.<span style="color: #006600;">events</span>.<span style="color: #006600;">IndexChangeEvent</span>;
+&nbsp;
+	<span style="color: #808080; font-style: italic;">/**
+	 * Dispatched on change to selectedIndex property value. 
+	 */</span>
+	<span style="color: #66cc66;">[</span>Event<span style="color: #66cc66;">(</span><span style="color: #0066CC;">name</span>=<span style="color: #ff0000;">"change"</span>, <span style="color: #0066CC;">type</span>=<span style="color: #ff0000;">"spark.events.IndexChangeEvent"</span><span style="color: #66cc66;">)</span><span style="color: #66cc66;">]</span>
+&nbsp;
+	<span style="color: #808080; font-style: italic;">/**
+	 * Basic implementation of a ViewStack container targeting the Spark environment.
+	 * CBViewStack inherently supports deferred instantiation. All methods and properties
+	 * have been made protected in order to subclass and implement any desired creation 
+	 * policy.
+	 * 
+	 * Child content cannot be added in markup due to the black-boxing of the mxmlContent and 
+	 * mxmlContentFactory properties and corresponding methods. As such, supply content to the
+	 * CBViewStack using the &lt;b&gt;content&lt;/b&gt; property. The &lt;b&gt;content&lt;/b&gt; property is an array
+	 * of declared IVisibleElement instances.
+	 * 
+	 * To enable scrolling of content added to the display list of CBViewStack, it is recommended
+	 * the either programatically control the viewport with an external scrollbar or wrap the 
+	 * container in a &lt;s :Scroller&gt; instance.
+	 * 
+	 * The &lt;b&gt;content&lt;/b&gt; and &lt;b&gt;selectedIndex&lt;/b&gt; properties can be set in-line in MXML.
+	 * The &lt;b&gt;selectedChild&lt;/b&gt; property can only be set within ActionScript.
+	 */</span>
+	<span style="color: #66cc66;">[</span>Event<span style="color: #66cc66;">(</span><span style="color: #0066CC;">name</span>=<span style="color: #ff0000;">"change"</span>, <span style="color: #0066CC;">type</span>=<span style="color: #ff0000;">"spark.events.IndexChangeEvent"</span><span style="color: #66cc66;">)</span><span style="color: #66cc66;">]</span>
+	<span style="color: #66cc66;">[</span>DefaultProperty<span style="color: #66cc66;">(</span><span style="color: #ff0000;">"content"</span><span style="color: #66cc66;">)</span><span style="color: #66cc66;">]</span>
+	<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">class</span> CBViewStack <span style="color: #0066CC;">extends</span> BorderContainer
+	<span style="color: #66cc66;">{</span>
+		<span style="color: #808080; font-style: italic;">/**
+		 * Represents the collection of IVisualElement instances to be displayed. 
+		 */</span>
+		<span style="color: #66cc66;">[</span>ArrayElementType<span style="color: #66cc66;">(</span><span style="color: #ff0000;">"mx.core.IVisualElement"</span><span style="color: #66cc66;">)</span><span style="color: #66cc66;">]</span>
+		protected <span style="color: #000000; font-weight: bold;">var</span> _content:<span style="color: #0066CC;">Array</span>;
+		<span style="color: #808080; font-style: italic;">/**
+		 * The index within the colleciton of IVisualElements to be added to the display list. 
+		 */</span>
+		protected <span style="color: #000000; font-weight: bold;">var</span> _selectedIndex:<span style="color: #0066CC;">int</span> = -<span style="color: #cc66cc;">1</span>;
+		<span style="color: #808080; font-style: italic;">/**
+		 * Represents the current IVisualElement on the display list. 
+		 */</span>
+		protected <span style="color: #000000; font-weight: bold;">var</span> _selectedChild:IVisualElement
+&nbsp;
+		<span style="color: #808080; font-style: italic;">/**
+		 * Held value for selectedIndex.
+		 */</span>
+		protected <span style="color: #000000; font-weight: bold;">var</span> _pendingSelectedIndex:<span style="color: #0066CC;">int</span> = -<span style="color: #cc66cc;">1</span>;
+&nbsp;
+		<span style="color: #808080; font-style: italic;">/**
+		 * @private 
+		 * 
+		 * Override to update selectedIndex and subsequently content on the display list.
+		 */</span>
+		override protected <span style="color: #000000; font-weight: bold;">function</span> commitProperties<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span> : <span style="color: #0066CC;">void</span>
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #0066CC;">super</span>.<span style="color: #006600;">commitProperties</span><span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+			<span style="color: #808080; font-style: italic;">// if pending change to selectedIndex property.</span>
+			<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> _pendingSelectedIndex <span style="color: #66cc66;">!</span>= -<span style="color: #cc66cc;">1</span> <span style="color: #66cc66;">)</span>
+			<span style="color: #66cc66;">{</span>
+				<span style="color: #808080; font-style: italic;">// commit the change.</span>
+				updateSelectedIndex<span style="color: #66cc66;">(</span> _pendingSelectedIndex <span style="color: #66cc66;">)</span>;
+				<span style="color: #808080; font-style: italic;">// set pending back to default.</span>
+				_pendingSelectedIndex = -<span style="color: #cc66cc;">1</span>;
+			<span style="color: #66cc66;">}</span>
+		<span style="color: #66cc66;">}</span>
+&nbsp;
+		<span style="color: #808080; font-style: italic;">/**
+		 * Updates the selectedIndex value and subsequent display. 
+		 * @param index int The value representing the selected child index within the content property.
+		 */</span>
+		protected <span style="color: #000000; font-weight: bold;">function</span> updateSelectedIndex<span style="color: #66cc66;">(</span> <span style="color: #0066CC;">index</span>:<span style="color: #0066CC;">int</span> <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #808080; font-style: italic;">// store old for event.</span>
+			<span style="color: #000000; font-weight: bold;">var</span> oldIndex:<span style="color: #0066CC;">int</span> = _selectedIndex;
+			<span style="color: #808080; font-style: italic;">// set new.</span>
+			_selectedIndex = <span style="color: #0066CC;">index</span>;
+&nbsp;
+			<span style="color: #808080; font-style: italic;">// remove old element.</span>
+			<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> numElements <span style="color: #66cc66;">&gt;</span> <span style="color: #cc66cc;">0</span> <span style="color: #66cc66;">)</span> 
+				removeElementAt<span style="color: #66cc66;">(</span> <span style="color: #cc66cc;">0</span> <span style="color: #66cc66;">)</span>;
+&nbsp;
+			<span style="color: #808080; font-style: italic;">// add new element.</span>
+			selectedChild = _content<span style="color: #66cc66;">[</span>_selectedIndex<span style="color: #66cc66;">]</span>;
+			addElement<span style="color: #66cc66;">(</span> _selectedChild <span style="color: #66cc66;">)</span>;
+&nbsp;
+			<span style="color: #808080; font-style: italic;">// dispatch index change.</span>
+			dispatchEvent<span style="color: #66cc66;">(</span> <span style="color: #000000; font-weight: bold;">new</span> IndexChangeEvent<span style="color: #66cc66;">(</span> IndexChangeEvent.<span style="color: #006600;">CHANGE</span>, <span style="color: #000000; font-weight: bold;">false</span>, <span style="color: #000000; font-weight: bold;">false</span>, oldIndex, _selectedIndex <span style="color: #66cc66;">)</span> <span style="color: #66cc66;">)</span>;
+		<span style="color: #66cc66;">}</span>
+&nbsp;
+		<span style="color: #808080; font-style: italic;">/**
+		 * Returns the elemental index of the IVisualElement from the content array. 
+		 * @param element IVisualElement The IVisualElement instance to find in the content array.
+		 * @return int The elemental index in which the IVisualElement resides. If not available returns -1.
+		 * 
+		 */</span>
+		<span style="color: #0066CC;">private</span> <span style="color: #000000; font-weight: bold;">function</span> getElementIndexFromContent<span style="color: #66cc66;">(</span> element:IVisualElement <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">int</span>
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> _content == <span style="color: #000000; font-weight: bold;">null</span> <span style="color: #66cc66;">)</span> <span style="color: #b1b100;">return</span> -<span style="color: #cc66cc;">1</span>;
+&nbsp;
+			<span style="color: #000000; font-weight: bold;">var</span> i:<span style="color: #0066CC;">int</span> = _content.<span style="color: #0066CC;">length</span>;
+			<span style="color: #000000; font-weight: bold;">var</span> contentElement:IVisualElement;
+			<span style="color: #b1b100;">while</span><span style="color: #66cc66;">(</span> --i <span style="color: #66cc66;">&gt;</span> -<span style="color: #cc66cc;">1</span> <span style="color: #66cc66;">)</span>
+			<span style="color: #66cc66;">{</span>
+				contentElement = _content<span style="color: #66cc66;">[</span>i<span style="color: #66cc66;">]</span> as IVisualElement;
+				<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> contentElement == element <span style="color: #66cc66;">)</span>
+				<span style="color: #66cc66;">{</span>
+					<span style="color: #b1b100;">break</span>;
+				<span style="color: #66cc66;">}</span>
+			<span style="color: #66cc66;">}</span>
+			<span style="color: #b1b100;">return</span> i;
+		<span style="color: #66cc66;">}</span>
+&nbsp;
+		<span style="color: #66cc66;">[</span>Bindable<span style="color: #66cc66;">]</span>
+		<span style="color: #808080; font-style: italic;">/**
+		 * Sets the array of IVisualElement instances to display based on selectedIndex and selectedChild.
+		 * CBViewStack inherently supports deferred instantiation, creating and adding only IVisualElements
+		 * that are requested for display. 
+		 * @return Array
+		 */</span>
+		<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> <span style="color: #0066CC;">get</span> content<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">Array</span> <span style="color: #808080; font-style: italic;">/*IVisualElement*/</span>
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #b1b100;">return</span> _content;
+		<span style="color: #66cc66;">}</span>
+		<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> <span style="color: #0066CC;">set</span> content<span style="color: #66cc66;">(</span> value:<span style="color: #0066CC;">Array</span> <span style="color: #808080; font-style: italic;">/*IVisualElement*/</span> <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+		<span style="color: #66cc66;">{</span>
+			_content = value;
+			<span style="color: #808080; font-style: italic;">// update selected index based on pending operations.</span>
+			selectedIndex = _pendingSelectedIndex == -<span style="color: #cc66cc;">1</span> ? <span style="color: #cc66cc;">0</span> : _pendingSelectedIndex;
+		<span style="color: #66cc66;">}</span>
+&nbsp;
+		<span style="color: #66cc66;">[</span>Bindable<span style="color: #66cc66;">]</span>
+		<span style="color: #808080; font-style: italic;">/**
+		 * Sets the selectedIndex to be used to add an IVisualElement instance from the content property
+		 * to the display list. 
+		 * @return int
+		 */</span>
+		<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> <span style="color: #0066CC;">get</span> selectedIndex<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">int</span>
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #b1b100;">return</span> _pendingSelectedIndex <span style="color: #66cc66;">!</span>= -<span style="color: #cc66cc;">1</span> ? _pendingSelectedIndex : _selectedIndex;
+		<span style="color: #66cc66;">}</span>
+		<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> <span style="color: #0066CC;">set</span> selectedIndex<span style="color: #66cc66;">(</span> value:<span style="color: #0066CC;">int</span> <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> _selectedIndex == value <span style="color: #66cc66;">)</span> <span style="color: #b1b100;">return</span>;
+&nbsp;
+			_pendingSelectedIndex = value;
+			invalidateProperties<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>;
+		<span style="color: #66cc66;">}</span>
+&nbsp;
+		<span style="color: #66cc66;">[</span>Bindable<span style="color: #66cc66;">]</span>
+		<span style="color: #808080; font-style: italic;">/**
+		 * Sets the selectedChild to be added to the display list form the content array.
+		 * SelectedChild can only be set in ActionScript and will not be properly updated
+		 * if added inline in MXML declaration. 
+		 * @return IVisualElement
+		 */</span>
+		<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> <span style="color: #0066CC;">get</span> selectedChild<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:IVisualElement
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #b1b100;">return</span> _selectedChild;
+		<span style="color: #66cc66;">}</span>
+		<span style="color: #0066CC;">public</span> <span style="color: #000000; font-weight: bold;">function</span> <span style="color: #0066CC;">set</span> selectedChild<span style="color: #66cc66;">(</span> value:IVisualElement <span style="color: #66cc66;">)</span>:<span style="color: #0066CC;">void</span>
+		<span style="color: #66cc66;">{</span>
+			<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> _selectedChild == value <span style="color: #66cc66;">)</span> <span style="color: #b1b100;">return</span>;
+&nbsp;
+			<span style="color: #808080; font-style: italic;">// if not pending operation on selectedIndex, induce.</span>
+			<span style="color: #b1b100;">if</span><span style="color: #66cc66;">(</span> _pendingSelectedIndex == -<span style="color: #cc66cc;">1</span> <span style="color: #66cc66;">)</span>
+			<span style="color: #66cc66;">{</span>
+				<span style="color: #000000; font-weight: bold;">var</span> proposedIndex:<span style="color: #0066CC;">int</span> = getElementIndexFromContent<span style="color: #66cc66;">(</span> value <span style="color: #66cc66;">)</span>;
+				selectedIndex = proposedIndex;
+			<span style="color: #66cc66;">}</span>
+			<span style="color: #808080; font-style: italic;">// else just hold a reference for binding update.</span>
+			<span style="color: #b1b100;">else</span> _selectedChild = value;
+		<span style="color: #66cc66;">}</span>
+	<span style="color: #66cc66;">}</span>
+<span style="color: #66cc66;">}</span>
+<span style="color: #66cc66;">&lt;/</span>s<span style="color: #66cc66;">&gt;</span></pre></div></div>
+
+<p>and its usage:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="mxml" style="font-family:monospace;"><span style="color: #000000;">&lt;s :Application </span>
+<span style="color: #000000;">	xmlns:fx=<span style="color: #ff0000;">"http://ns.adobe.com/mxml/2009"</span> </span>
+<span style="color: #000000;">	xmlns:s=<span style="color: #ff0000;">"library://ns.adobe.com/flex/spark"</span> </span>
+<span style="color: #000000;">	xmlns:mx=<span style="color: #ff0000;">"library://ns.adobe.com/flex/mx"</span> </span>
+<span style="color: #000000;">	xmlns:container=<span style="color: #ff0000;">"com.custardbelly.container.*"</span> viewSourceURL=<span style="color: #ff0000;">"srcview/index.html"</span><span style="color: #7400FF;">&gt;</span></span>
+&nbsp;
+	<span style="color: #000000;">&lt;fx :Declarations<span style="color: #7400FF;">&gt;</span></span>
+		<span style="color: #000000;">&lt;/fx<span style="color: #7400FF;">&gt;</span>&lt;fx :String id=<span style="color: #ff0000;">"lorem"</span><span style="color: #7400FF;">&gt;</span></span>Lorem ipsum dolor sit amet consectetur adipisicing elit.<span style="color: #000000;">&lt;/fx<span style="color: #7400FF;">&gt;</span></span>
+&nbsp;
+&nbsp;
+	<span style="color: #000000;">&lt;fx :Script<span style="color: #7400FF;">&gt;</span></span>
+		<span style="color: #000000;">&lt; !<span style="color: #66cc66;">[</span>CDATA<span style="color: #66cc66;">[</span></span>
+<span style="color: #000000;">			private function changeIndex<span style="color: #66cc66;">(</span><span style="color: #66cc66;">)</span>:void</span>
+<span style="color: #000000;">			<span style="color: #66cc66;">{</span></span>
+<span style="color: #000000;">				var index:int = viewstack.selectedIndex;</span>
+<span style="color: #000000;">				index = <span style="color: #66cc66;">(</span> index + <span style="color: #cc66cc;">1</span> <span style="color: #7400FF;">&gt;</span></span> viewstack.content.length - 1 ) ? 0 : index + 1;
+				viewstack.selectedIndex = index;
+			}
+		]]&gt;
+	<span style="color: #000000;">&lt;/fx<span style="color: #7400FF;">&gt;</span></span>
+&nbsp;
+	<span style="color: #000000;">&lt;/s<span style="color: #7400FF;">&gt;</span>&lt;s :layout<span style="color: #7400FF;">&gt;</span></span>
+		<span style="color: #000000;">&lt;s :VerticalLayout <span style="color: #7400FF;">/&gt;</span></span>
+	<span style="color: #000000;">&lt;/s<span style="color: #7400FF;">&gt;</span></span>
+&nbsp;
+	<span style="color: #000000;">&lt;container :CBViewStack id=<span style="color: #ff0000;">"viewstack"</span> width=<span style="color: #ff0000;">"300"</span> height=<span style="color: #ff0000;">"300"</span> </span>
+<span style="color: #000000;">						   skinClass=<span style="color: #ff0000;">"com.custardbelly.skin.CBScrollableSkin"</span><span style="color: #7400FF;">&gt;</span></span>
+		<span style="color: #000000;">&lt;s :Group id=<span style="color: #ff0000;">"child1"</span> </span>
+<span style="color: #000000;">				 width=<span style="color: #ff0000;">"800"</span> height=<span style="color: #ff0000;">"100%"</span> </span>
+<span style="color: #000000;">				 clipAndEnableScrolling=<span style="color: #ff0000;">"true"</span><span style="color: #7400FF;">&gt;</span></span>
+			<span style="color: #000000;">&lt;/s<span style="color: #7400FF;">&gt;</span>&lt;s :layout<span style="color: #7400FF;">&gt;</span></span>
+				<span style="color: #000000;">&lt;s :VerticalLayout horizontalAlign=<span style="color: #ff0000;">"justify"</span> <span style="color: #7400FF;">/&gt;</span></span>
+			<span style="color: #000000;">&lt;/s<span style="color: #7400FF;">&gt;</span></span>
+			<span style="color: #000000;">&lt;s :Button label=<span style="color: #ff0000;">"top"</span> <span style="color: #7400FF;">/&gt;</span></span>
+			<span style="color: #000000;">&lt;s :Button label=<span style="color: #ff0000;">"bottom"</span> bottom=<span style="color: #ff0000;">"0"</span> <span style="color: #7400FF;">/&gt;</span></span>
+&nbsp;
+		<span style="color: #000000;">&lt;s :Panel id=<span style="color: #ff0000;">"child2"</span> </span>
+<span style="color: #000000;">				 width=<span style="color: #ff0000;">"100%"</span> height=<span style="color: #ff0000;">"200"</span> </span>
+<span style="color: #000000;">				 title=<span style="color: #ff0000;">"Child 2"</span><span style="color: #7400FF;">&gt;</span></span>
+			<span style="color: #000000;">&lt;/s<span style="color: #7400FF;">&gt;</span>&lt;s :Scroller<span style="color: #7400FF;">&gt;</span></span>
+				<span style="color: #000000;">&lt;/s<span style="color: #7400FF;">&gt;</span>&lt;s :Group width=<span style="color: #ff0000;">"100%"</span> height=<span style="color: #ff0000;">"100%"</span><span style="color: #7400FF;">&gt;</span></span>
+					<span style="color: #000000;">&lt;/s<span style="color: #7400FF;">&gt;</span>&lt;s :layout<span style="color: #7400FF;">&gt;</span></span>
+						<span style="color: #000000;">&lt;s :VerticalLayout horizontalAlign=<span style="color: #ff0000;">"center"</span> <span style="color: #7400FF;">/&gt;</span></span>
+					<span style="color: #000000;">&lt;/s<span style="color: #7400FF;">&gt;</span></span>
+					<span style="color: #000000;">&lt;s :Button label=<span style="color: #ff0000;">"panel button 1"</span> <span style="color: #7400FF;">/&gt;</span></span>
+					<span style="color: #000000;">&lt;s :Button label=<span style="color: #ff0000;">"panel button 2"</span> <span style="color: #7400FF;">/&gt;</span></span>
+&nbsp;
+&nbsp;
+&nbsp;
+		<span style="color: #000000;">&lt;s :DataGroup id=<span style="color: #ff0000;">"child3"</span> </span>
+<span style="color: #000000;">					 width=<span style="color: #ff0000;">"100%"</span> height=<span style="color: #ff0000;">"100%"</span></span>
+<span style="color: #000000;">					 itemRenderer=<span style="color: #ff0000;">"spark.skins.spark.DefaultItemRenderer"</span><span style="color: #7400FF;">&gt;</span></span>
+			<span style="color: #000000;">&lt;/s<span style="color: #7400FF;">&gt;</span>&lt;s :layout<span style="color: #7400FF;">&gt;</span></span>
+				<span style="color: #000000;">&lt;s :VerticalLayout <span style="color: #7400FF;">/&gt;</span></span>
+			<span style="color: #000000;">&lt;/s<span style="color: #7400FF;">&gt;</span></span>
+			<span style="color: #000000;">&lt;s :dataProvider<span style="color: #7400FF;">&gt;</span></span>
+				<span style="color: #000000;">&lt;s :ArrayCollection source=<span style="color: #ff0000;">"{lorem.split(' ')}"</span> <span style="color: #7400FF;">/&gt;</span></span>
+			<span style="color: #000000;">&lt;/s<span style="color: #7400FF;">&gt;</span></span>
+&nbsp;
+	<span style="color: #000000;">&lt;/container<span style="color: #7400FF;">&gt;</span></span>
+&nbsp;
+	<span style="color: #000000;">&lt;s :Button label=<span style="color: #ff0000;">"switch index"</span> click=<span style="color: #ff0000;">"changeIndex();"</span> <span style="color: #7400FF;">/&gt;</span></span>
+&nbsp;
+	<span style="color: #000000;">&lt;s :HGroup<span style="color: #7400FF;">&gt;</span></span>
+		<span style="color: #000000;">&lt;s :Button label=<span style="color: #ff0000;">"select child 1"</span></span>
+<span style="color: #000000;">				  enabled=<span style="color: #ff0000;">"{viewstack.selectedChild != child1}"</span></span>
+<span style="color: #000000;">				  click=<span style="color: #ff0000;">"{viewstack.selectedChild = child1}"</span> </span>
+<span style="color: #000000;">				  <span style="color: #7400FF;">/&gt;</span></span>
+		<span style="color: #000000;">&lt;s :Button label=<span style="color: #ff0000;">"select child 2"</span></span>
+<span style="color: #000000;">				  enabled=<span style="color: #ff0000;">"{viewstack.selectedChild != child2}"</span></span>
+<span style="color: #000000;">				  click=<span style="color: #ff0000;">"{viewstack.selectedChild = child2}"</span> </span>
+<span style="color: #000000;">				  <span style="color: #7400FF;">/&gt;</span></span>
+		<span style="color: #000000;">&lt;s :Button label=<span style="color: #ff0000;">"select child 3"</span></span>
+<span style="color: #000000;">				  enabled=<span style="color: #ff0000;">"{viewstack.selectedChild != child3}"</span></span>
+<span style="color: #000000;">				  click=<span style="color: #ff0000;">"{viewstack.selectedChild = child3}"</span> </span>
+<span style="color: #000000;">				  <span style="color: #7400FF;">/&gt;</span></span>
+	<span style="color: #000000;">&lt;/s<span style="color: #7400FF;">&gt;</span></span></pre></div></div>
+
+<p>So that is basically it. Allow for skinning of the Viewstack by extending SkinnableContainer. Expose content, selectedIndex and selectedChild properties. Dispatch and index change event. Optionally wrap CVBViewStack in a Scroller to enable child content that extends the viewport of the viewstack. I know it probably won’t serve every need, but in a few short hours I made Viewstakc in Flex 4 for the purposes i mainly use it for in prototypes. I haven’t put it through the ringer in testing, but feel free to. There’s no license, completely free. Modify, take, steal, have fun.</p>
+<p>*Note: Seems as though the generated ‘View Source’ files in the nightly build from September 1st (of which i mad the example) has some bugs. So feel free to click this link -&gt; <a href="http://custardbelly.com/downloads/viewstack/srcview/index.html" target="_blank">view source</a> &lt; - but be aware that you won't actually be able to view the class files in the browser. You will need to download the zip file.</p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/flex/" title="View all posts in Flex" rel="category tag">Flex</a>,  <a href="http://custardbelly.com/blog/category/flex-4/" title="View all posts in Flex 4" rel="category tag">Flex 4</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-91-target"></div>
+	<div class="clear"></div>
+	
+	

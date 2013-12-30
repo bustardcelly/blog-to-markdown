@@ -1,0 +1,49 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2008/12/11/flex-ant-tasks-and-flexfileset-error/" title="Permanent link to Flex Ant Tasks and FlexFileSet error" rel="bookmark" rev="post-77">Flex Ant Tasks and FlexFileSet error</a></h1>
+	
+	<div class="entry-content full-content">
+		<p><em>*This is more of a post-reminder or a google-search aha than a soliloquy on the joys of FlexTasks and how to use them. If you want to know more about <a href="http://labs.adobe.com/wiki/index.php/Flex_Ant_Tasks">flextasks, visit here</a>, or <a href="http://www.boostworthy.com/blog/" target="_blank">Ryan Taylor’s blog</a> for some good tips, or pick up <a href="http://www.amazon.com/Flex-Cookbook-Code-Recipes-Developers-Developer/dp/0596529856/ref=pd_bbs_sr_1?ie=UTF8&amp;s=books&amp;qid=1229047533&amp;sr=8-1" target="_blank">this wonderful book</a>… the holidays are coming.</em></p>
+<p>I have had the fortunate opportunity to work with <a href="http://blog.zupko.info/" target="_blank">Andy Zupko</a> on a project here at <a href="http://infrared5.com/" target="_blank">Infrared5</a>. We have our good days and our bad days – as most projects go – and hopefully we’ll be able to showcase our efforts at some time. Recently i started whipping the project into shape to handle modules, rsls and loaded styles to minimize the download time and highten user experience. Why does it always come down to the last few days to get this up and running? I don’t know. Maybe we’re so gung-ho to get things finished for an iteration and to show a client that deployment structure falls a little to the wayside. In any event Andy, and in some part me i suppose, structured the project to have minimal impact when it came time to have a deployment routine and manage runtime styles and rsls. Enough horn-tooting! What am i talking about?</p>
+<p>Well, when it came time to set up the ant tasks that will take over the deployment and distribution of the application i was hitting a wall in compiling against an rsl. More to the point, i was getting this error:</p>
+
+<div class="wp_syntax"><div class="code"><pre class="mxml" style="font-family:monospace;">BUILD FAILED : No directory specified for FlexFileSet.</pre></div></div>
+
+<p>… when combined with this directive</p>
+
+<div class="wp_syntax"><div class="code"><pre class="mxml" style="font-family:monospace;"><span style="color: #000000;">&lt;compiler .external-library-path<span style="color: #7400FF;">&gt;</span></span>
+	<span style="color: #000000;">&lt;include name=<span style="color: #ff0000;">"${app.dir}/${rsl.name}.swc"</span> <span style="color: #7400FF;">/&gt;</span></span>
+<span style="color: #000000;">&lt;/compiler<span style="color: #7400FF;">&gt;</span></span></pre></div></div>
+
+<p>I’m not gonna go into the nuts and bolts of the build file or even attempt to explain what that error means. I am familiar with compiling applications and modules from the Terminal and pretty much love doing most things from the terminal rather than relying on tools in eclipse, but i thought to bring experience down to a playing ground for a project that will be handed off to a client at some point, go with flex ant tasks. It’s well documented. Google finds most answers. Etc. But there are subtle changes to syntax that i am unfamiliar with when it comes to create a build file targeting the command line tools of the SDK.</p>
+<p>In any event, it baffled me why this command would not work. It syntactically looked correct to me. The compiler directive is spelled correctly, the option variable is the correct path… wtf. Well just like the -library-path option i suppose you had to remove the directory that the SWC lives in from the variable and add it as a dir property.</p>
+
+<div class="wp_syntax"><div class="code"><pre class="mxml" style="font-family:monospace;"><span style="color: #000000;">&lt;compiler .external-library-path dir=<span style="color: #ff0000;">"${app.dir}"</span><span style="color: #7400FF;">&gt;</span></span>
+	<span style="color: #000000;">&lt;include name=<span style="color: #ff0000;">"${rsl.name}.swc"</span> <span style="color: #7400FF;">/&gt;</span></span>
+<span style="color: #000000;">&lt;/compiler<span style="color: #7400FF;">&gt;</span></span></pre></div></div>
+
+<p>Works! All is fine… but it took a hell of a long time to figure that out. Thought i would post this for any Terminal monkeys out there that run across this issue when building an ant file for compiling rsls into your application.</p>
+<p>Was I bone-head for 2 hours? Probably…. feel free to leave a comment.</p>
+<p><strong>[Update February 3rd, 2009]</strong> – <a href="http://www.boostworthy.com/blog/" target="_blank">Ryan Taylor</a> sent a solution that he uses (after being welcomed by my wordpress comments failure), which i find pretty elegant and will use in the future.</p>
+
+<div class="wp_syntax"><div class="code"><pre class="mxml" style="font-family:monospace;"><span style="color: #000000;">&lt;mxmlc ...<span style="color: #7400FF;">&gt;</span></span>
+       <span style="color: #000000;">&lt;runtime -shared-library-path path-element=<span style="color: #ff0000;">"${libs}/MyLibrary.swc"</span><span style="color: #7400FF;">&gt;</span></span>
+           <span style="color: #000000;">&lt;url rsl-url=<span style="color: #ff0000;">"MyLibrary.swf"</span> <span style="color: #7400FF;">/&gt;</span></span>
+           <span style="color: #000000;">&lt;url policy-file-url=<span style="color: #ff0000;">""</span> <span style="color: #7400FF;">/&gt;</span></span>
+    <span style="color: #000000;">&lt;/runtime<span style="color: #7400FF;">&gt;</span></span>
+<span style="color: #000000;">&lt;/mxmlc<span style="color: #7400FF;">&gt;</span></span></pre></div></div>
+
+<p>Thanks, Ryan!</p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>,  <a href="http://custardbelly.com/blog/category/flex/" title="View all posts in Flex" rel="category tag">Flex</a>,  <a href="http://custardbelly.com/blog/category/flextasks/" title="View all posts in FlexTasks" rel="category tag">FlexTasks</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-77-target"></div>
+	<div class="clear"></div>
+	
+	

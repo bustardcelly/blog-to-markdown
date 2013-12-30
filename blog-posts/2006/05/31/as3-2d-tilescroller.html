@@ -1,0 +1,25 @@
+
+	
+	<h1 class="entry-title full-title"><a href="http://custardbelly.com/blog/2006/05/31/as3-2d-tilescroller/" title="Permanent link to AS3 2D Tilescroller" rel="bookmark" rev="post-47">AS3 2D Tilescroller</a></h1>
+	
+	<div class="entry-content full-content">
+		<p><a href="javascript:MM_openBrWindow('http://www.custardbelly.com/AS3/MapScroll/index.html','til_scroller','resizable=no,width=400,height=200');"><img src="http://www.custardbelly.com/AS3/MapScroll/tilescroller.gif" alt="click me"></a>click me.</p>
+<p>During the port of my AS2 classes into AS3, i thought i might take a stab at a tile scrolling engine. I never got into making one before, and since I’ve been delving into the magic that is BitmapData, i decided to give it stab. I need to do a little house cleaning, but i plan to throw up the code here soon…</p>
+<p>In previous versions of Actionscript it was common to do variations of ‘move and replace’ based on movieclip positions and key strokes ( see <a href="http://www.tonypa.pri.ee/tbw/index.html">TonyPa</a>, <a href="http://www.strille.net/tutorials/part1_scrolling.php">Strille</a>, <a href="http://oos.moxiecode.com/tut_10/index.html">Outside of Society</a>, <a href="http://recycle.andre-michelle.com/">André Michelle</a>, etc ). There was some great implementations and they worked well, but i figured with BitmapData it could be boiled down to a smoother and less intensive process – kind of what <a href="http://www.bit-101.com/blog/">Keith</a> has been<a href="http://www.bit-101.com/lab/?p=18"> labbing with</a>.</p>
+<p>What’s going on-<br>
+The layers ( there are 3 in the example but you can add however many before your graphics card yells at you ) are just a grid of Bitmap objects – the amount based on the ‘visable’ area divided by the tile size of the graphics.<br>
+They don’t move at all – instead they are offscreen and are updated based on the characters ‘x’ and ‘y’ velocity divided by tile size, of which its remainders are parameters supplied to the scroll method of a BitmapData instance that is redawing the layers upon key press.</p>
+<p>In the coming days, i hope to strip out a little code and throw the source ( and maybe some drawings that will clear up my terrible explanation ) up here… just wanted to do a quick post for proof of concept.</p>
+		<div class="clear"></div>
+	</div><!-- .entry-content-->
+	
+	<p class="filed categories alt-font tight">Posted in <a href="http://custardbelly.com/blog/category/as3/" title="View all posts in AS3" rel="category tag">AS3</a>,  <a href="http://custardbelly.com/blog/category/flash/" title="View all posts in Flash" rel="category tag">Flash</a>.</p>
+	
+	
+
+	<!--/by-line-->
+
+	<div id="post-comments-47-target"></div>
+	<div class="clear"></div>
+	
+	

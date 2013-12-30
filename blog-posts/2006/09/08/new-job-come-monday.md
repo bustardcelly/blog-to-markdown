@@ -6,3 +6,6 @@ Just finishing up some documentation on the numerous projects and products i hav
 Also celebrating a birthday Monday- so if anyone out there is going to the [Radio Birdman](http://www.myspace.com/theofficialradiobirdman) show on Saturday, buy me a beer.
 
 Posted in [General](http://custardbelly.com/blog/category/general/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 8, 2006
+  *[September 8, 2006]: 2006-09-08T11:04

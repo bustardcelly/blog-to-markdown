@@ -50,3 +50,6 @@ If that shows up as 0, it’s transparent. I stink at techinical explanations, s
 I’d also like to point out Grant Skinner’s great example of [Shape-Based Collision Detection](http://www.gskinner.com/blog/archives/2005/10/source_code_sha.html), if you haven’t already seen it. 
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 9, 2005
+  *[November 9, 2005]: 2005-11-09T16:28

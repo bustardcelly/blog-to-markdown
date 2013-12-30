@@ -4,3 +4,6 @@ thank you [Sleater-Kinney](http://www.sleater-kinney.com/index2.php). thank you 
 officially the loudest concert i have been to- but the temporary hearing loss has afforded me the pleasure of muffling any trivial outside noise so i can clearly hear my head replaying all the songs.
 
 Posted in [Music](http://custardbelly.com/blog/category/music/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – June 23, 2005
+  *[June 23, 2005]: 2005-06-23T13:38

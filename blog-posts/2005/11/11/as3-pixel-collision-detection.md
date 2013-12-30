@@ -69,3 +69,6 @@ i’m looking to put up the code for the Pixel Collision Detection for both Flas
 [Here’s a “30-Colby at 30FPS” trial](javascript:MM_openBrWindow('http://www.custardbelly.com/flash8/PixelHit.html','coll_trial','resizable=no,width=415,height=415');) in flash8, but it seems to take a huge hit on a Mac for all browsers… don’t know what’s up with that. Does drop about 10 frames on a PC even with a proximity detector, but as i said in the previous post, i probably wouldn’t use this detection for large amounts of objects.
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 11, 2005
+  *[November 11, 2005]: 2005-11-11T02:30

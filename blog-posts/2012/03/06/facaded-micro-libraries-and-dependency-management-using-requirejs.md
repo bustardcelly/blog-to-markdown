@@ -259,3 +259,6 @@ Will I recommend this approach for production-level application deployment?
 That is yet to be determined. I still subscribe to the practice that you should compile in (concatenate and minify) all the sources required by an application. So, having the ability to switch the target facade at runtime or on the server by just modifying a line in some script file doesn’t seem to be the right approach in delivering a web-based application at the moment for me. I would evaluate a handful of libraries, determine the best suited one for the application and include that one (along with the accompanying facade) in my [r.js build](https://github.com/jrburke/r.js/). But I reserve the right to be proven wrong and/or change my mind ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 Posted in [AMD](http://custardbelly.com/blog/category/amd/), [JavaScript](http://custardbelly.com/blog/category/javascript/), [RequireJS](http://custardbelly.com/blog/category/requirejs/), [micro-library](http://custardbelly.com/blog/category/micro-library/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – March 6, 2012
+  *[March 6, 2012]: 2012-03-06T06:45

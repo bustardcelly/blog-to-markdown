@@ -38,3 +38,6 @@ Was I bone-head for 2 hours? Probably…. feel free to leave a comment.
 Thanks, Ryan!
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [FlexTasks](http://custardbelly.com/blog/category/flextasks/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – December 11, 2008
+  *[December 11, 2008]: 2008-12-11T22:14

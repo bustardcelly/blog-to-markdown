@@ -10,3 +10,6 @@ To sum it up… go pick up this book.
 To draw it out… go pick up this book now. The formula summary for each chapter and the Tips and Tricks Section is enough to make this an essential reference book for Flash Animation, but the explanations of the concepts behind them in each chapter make this an essential book to have in my library.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 6, 2005
+  *[November 6, 2005]: 2005-11-06T23:31

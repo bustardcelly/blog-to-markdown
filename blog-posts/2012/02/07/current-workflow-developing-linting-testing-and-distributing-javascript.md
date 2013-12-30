@@ -520,3 +520,6 @@ A quick round-up from the original listing of what i wanted to achieve, marked w
 cheers!
 
 Posted in [AMD](http://custardbelly.com/blog/category/amd/), [JSHint](http://custardbelly.com/blog/category/jshint/), [JavaScript](http://custardbelly.com/blog/category/javascript/), [PhantomJS](http://custardbelly.com/blog/category/phantomjs/), [QUnit](http://custardbelly.com/blog/category/qunit/), [RequireJS](http://custardbelly.com/blog/category/requirejs/), [r.js](http://custardbelly.com/blog/category/r-js/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – February 7, 2012
+  *[February 7, 2012]: 2012-02-07T10:53

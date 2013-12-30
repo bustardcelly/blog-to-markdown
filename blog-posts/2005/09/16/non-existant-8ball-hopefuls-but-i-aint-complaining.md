@@ -15,3 +15,6 @@ I really wish that presented a check list of library items that have conflicting
 that said, these perform the same as before… nothing new here… and there are a lot of new things that need to be explored with Flash8!
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 16, 2005
+  *[September 16, 2005]: 2005-09-16T00:14

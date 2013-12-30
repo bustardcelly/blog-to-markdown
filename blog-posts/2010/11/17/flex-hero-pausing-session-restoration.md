@@ -129,3 +129,6 @@ Since Flex 4.5 is beta, you can’t have an example without seeing use namespace
 So there you have it. The best practice on notifying the user that you are logging them back into a service upon relaunch? I haven’t found the best solution that meets my needs yet, but I do not recommend pushing a **View** to the stack of the **ViewNavigator** during that restore suspension. It caused some weird UI glitches. Probably the best bet is to use the **PopUpManager** – but do not use the **ProgressBar** in that… bad things happen. Hopefully a new **ProgressBar** is on the horizon for Flex 4.5.
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [Burrito](http://custardbelly.com/blog/category/burrito/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4.5](http://custardbelly.com/blog/category/flex-4-5/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 17, 2010
+  *[November 17, 2010]: 2010-11-17T08:16

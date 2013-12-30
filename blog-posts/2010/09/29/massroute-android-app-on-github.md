@@ -13,3 +13,6 @@ As such, i wanted to have this application that is being actively worked on up i
 [Check out **MassRoute** on github](http://github.com/bustardcelly/MassRoute)
 
 Posted in [Android](http://custardbelly.com/blog/category/android/), [MassRoute](http://custardbelly.com/blog/category/massroute/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 29, 2010
+  *[September 29, 2010]: 2010-09-29T05:59

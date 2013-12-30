@@ -16,3 +16,6 @@ I also have had the opportunity to join the [Infrared5](http://www.infrared5.com
 All in all, 2007 was a great year and i am making out 2008 to be even better. Here’s to posting more!
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [AS3](http://custardbelly.com/blog/category/as3/), [Apollo](http://custardbelly.com/blog/category/apollo/), [Books](http://custardbelly.com/blog/category/books/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Infrared5](http://custardbelly.com/blog/category/infrared5/), [Red5](http://custardbelly.com/blog/category/red5/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – February 24, 2008
+  *[February 24, 2008]: 2008-02-24T11:22

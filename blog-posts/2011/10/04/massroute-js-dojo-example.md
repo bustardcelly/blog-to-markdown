@@ -316,3 +316,6 @@ All in all, I was pretty impressed by **Dojo** and would recommend trying it out
 [massroute-js/dojo](https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/dojo)
 
 Posted in [JavaScript](http://custardbelly.com/blog/category/javascript/), [dojo](http://custardbelly.com/blog/category/dojo/), [massroute-js](http://custardbelly.com/blog/category/massroute-js/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 4, 2011
+  *[October 4, 2011]: 2011-10-04T09:46

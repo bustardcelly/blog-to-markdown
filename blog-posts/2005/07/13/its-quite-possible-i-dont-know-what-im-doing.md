@@ -21,3 +21,6 @@ with player 8, however, **onLoad **was never triggered.
 now, it could be the case that i never should have done that in the first place ( i certainly haven’t done something like that in a while ), but i wonder why it worked using player 7 and not using player 8.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – July 13, 2005
+  *[July 13, 2005]: 2005-07-13T10:40

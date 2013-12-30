@@ -55,3 +55,6 @@ _To run the timer continuously at a given time:_
     }
 
 Posted in [Android](http://custardbelly.com/blog/category/android/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 1, 2010
+  *[October 1, 2010]: 2010-10-01T09:19

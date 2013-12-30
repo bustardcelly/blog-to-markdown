@@ -19,3 +19,6 @@ This new Bitmap API just sets my mind reeling… as i’ve confessed to many, my
 i can’t wait.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – August 12, 2005
+  *[August 12, 2005]: 2005-08-12T15:36

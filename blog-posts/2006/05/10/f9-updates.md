@@ -14,3 +14,6 @@ It basically is an [example](http://custardbelly.com/AS3/FruitApp/srcview/index.
 And i gotta throw up something i’ve been porting on my own … [strip example](javascript:MM_openBrWindow('http://www.custardbelly.com/blog/files/StripExample/index.html','stripExample','resizable=no,width=300,height=100');)
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – May 10, 2006
+  *[May 10, 2006]: 2006-05-10T23:46

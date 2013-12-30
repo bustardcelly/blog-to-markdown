@@ -55,7 +55,7 @@ page.open(index, function() {
                     $(this).replaceWith('<pre>' + $codeContainer.html() + '</pre>');
                   });
                 };
-            removeAuthor(this);
+            // removeAuthor(this);
             removeComments(this);
             convertSyntaxHiCode(this);
             list[title] = $(this).html();

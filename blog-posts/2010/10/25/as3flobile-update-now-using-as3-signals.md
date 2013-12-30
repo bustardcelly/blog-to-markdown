@@ -43,3 +43,6 @@ So, a big change, i know. But I think a step in the right direction. If you are 
 [as3flobile on github](http://github.com/bustardcelly/as3flobile)
 
 Posted in [General](http://custardbelly.com/blog/category/general/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 25, 2010
+  *[October 25, 2010]: 2010-10-25T09:54

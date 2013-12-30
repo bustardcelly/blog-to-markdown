@@ -17,3 +17,6 @@ if you are interested in learning more about the Makers, visit your local librar
 don’t stop there.
 
 Posted in [Music](http://custardbelly.com/blog/category/music/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 15, 2005
+  *[September 15, 2005]: 2005-09-15T01:43

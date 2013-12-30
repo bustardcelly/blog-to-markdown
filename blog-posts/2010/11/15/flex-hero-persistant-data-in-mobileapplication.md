@@ -77,3 +77,6 @@ I hope i explained this stuff coherently. I really enjoyed [Christophe](http://c
 On a side-note [RIAUnleashed](http://riaunleashed.com/) this year was excellent and was [Brian Rinaldi](http://www.remotesynthesis.com/)’s last at running the event. He put together an excellent conference and I don’t think I am alone in thanking him for bringing so much talent out this way.
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [Burrito](http://custardbelly.com/blog/category/burrito/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4.5](http://custardbelly.com/blog/category/flex-4-5/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 15, 2010
+  *[November 15, 2010]: 2010-11-15T06:21

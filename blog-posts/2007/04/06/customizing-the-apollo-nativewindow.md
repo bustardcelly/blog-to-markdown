@@ -118,3 +118,6 @@ To find out more about extending ActionScript components, visit[ this post](http
 PS. I’ve been a little lacking in the post area, and though i have the usual excuses- family, work, beer… – i could be more on top of it and you should be seeing more Flex and Apollo thoughts in the near future, but no promises because i love those excuses. I also am working on something that i hope to announce here a little later if all goes well…
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Apollo](http://custardbelly.com/blog/category/apollo/), [Flex](http://custardbelly.com/blog/category/flex/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – April 6, 2007
+  *[April 6, 2007]: 2007-04-06T07:50

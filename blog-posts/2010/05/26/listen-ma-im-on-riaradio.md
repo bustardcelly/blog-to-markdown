@@ -11,3 +11,6 @@ That’s him on the shark… obviously, someone shopped in the grenade launcher 
 **pps.** [**Flex 4 Cookbook** is dropping soon!](http://oreilly.com/catalog/9780596805623) go pick up a copy and read it with a loved one on Memorial Day.
 
 Posted in [General](http://custardbelly.com/blog/category/general/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – May 26, 2010
+  *[May 26, 2010]: 2010-05-26T19:06

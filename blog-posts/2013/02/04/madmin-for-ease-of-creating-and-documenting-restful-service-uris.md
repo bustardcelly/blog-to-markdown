@@ -9,3 +9,6 @@ Anyway, you can read a more detailed description of the project and how it came 
 If you check it out, I hope you find it useful in any way and please log issues for requests or fork it to add features! I intend to get more basic instructions up on the wiki at its [github location](https://github.com/infrared5/madmin) and perhaps write a few blog posts as well.
 
 Posted in [Infrared5](http://custardbelly.com/blog/category/infrared5/), [JavaScript](http://custardbelly.com/blog/category/javascript/), [madmin](http://custardbelly.com/blog/category/madmin/), [node](http://custardbelly.com/blog/category/node/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – February 4, 2013
+  *[February 4, 2013]: 2013-02-04T10:28

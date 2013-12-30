@@ -39,3 +39,6 @@ Keith Peters – [Astro Dynamic Sound!](http://www.bit-101.com/blog/?p=1264)
 Josh Tynjala – [Gratuitous Text Effects](http://www.zeuslabs.us/2008/05/15/gratuitous-text-effects-courtesy-of-flash-player-10/)
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Astro](http://custardbelly.com/blog/category/astro/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – May 15, 2008
+  *[May 15, 2008]: 2008-05-15T22:25

@@ -394,3 +394,6 @@ Testing spies for [Jasmine](https://github.com/pivotal/jasmine/wiki/Spies) and [
 the [infamous](http://www.flickr.com/photos/unitzeroone/4721521533/) [eye-roller](http://bit-101.com)
 
 Posted in [JavaScript](http://custardbelly.com/blog/category/javascript/), [RequireJS](http://custardbelly.com/blog/category/requirejs/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/), [unit-testing](http://custardbelly.com/blog/category/unit-testing/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – December 6, 2012
+  *[December 6, 2012]: 2012-12-06T14:19

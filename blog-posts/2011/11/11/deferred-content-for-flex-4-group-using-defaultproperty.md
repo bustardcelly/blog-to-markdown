@@ -311,3 +311,6 @@ This post got rather long as far as just wanting to show off how to defer child 
 See the whole gist here: [https://gist.github.com/1340472](https://gist.github.com/1340472).
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4](http://custardbelly.com/blog/category/flex-4/), [Flex 4.5](http://custardbelly.com/blog/category/flex-4-5/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 11, 2011
+  *[November 11, 2011]: 2011-11-11T15:50

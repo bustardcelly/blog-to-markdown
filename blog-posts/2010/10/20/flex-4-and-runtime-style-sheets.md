@@ -15,3 +15,6 @@ So, long story long, **[flex-runtime-css](http://github.com/bustardcelly/flex-ru
 [flex-runtime-css on github](http://github.com/bustardcelly/flex-runtime-css).
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [flex-runtime-css](http://custardbelly.com/blog/category/flex-runtime-css/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 20, 2010
+  *[October 20, 2010]: 2010-10-20T14:53

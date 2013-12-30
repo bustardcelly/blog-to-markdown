@@ -7,3 +7,6 @@ This beautiful lady and i said ‘I do’ on August 12th in New Hope, PA. On Aug
 Needless to say, i haven’t been around a computer for two weeks… looking forward to coding with a ring on.
 
 Posted in [General](http://custardbelly.com/blog/category/general/).
+
+By [Administrator](http://custardbelly.com/blog/author/administrator/) – August 27, 2006
+  *[August 27, 2006]: 2006-08-27T21:27

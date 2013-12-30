@@ -23,3 +23,6 @@ I’ve been playing with AS3, Java and Red5 lately and have something up and run
 - I’d also like to point out a blog to watch. [Josh Noble](http://www.thefactoryfactory.com/wordpress/) is an expert in .Net and Flex/Flash technologies, a recent employee ( as am i ) to Schematic’s Boston office… and will be bombarded with questions from me.
 
 Posted in [Red5](http://custardbelly.com/blog/category/red5/), [Westhost](http://custardbelly.com/blog/category/webhost/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – December 10, 2006
+  *[December 10, 2006]: 2006-12-10T00:47

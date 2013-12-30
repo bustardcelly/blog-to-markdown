@@ -14,3 +14,6 @@ I find it helpful and it probably could use some optimization, but hopefully you
 In the [zip](http://www.custardbelly.com/downloads/ImagesLoader.zip) are the files, a sample FLA, some images and an image.txt file. I realized that some of the images don’t really illustrate the point because they’re simple and you’d probably use the drawing API instead, but you get the idea of how the ImagesLoader works.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 7, 2005
+  *[November 7, 2005]: 2005-11-07T22:52

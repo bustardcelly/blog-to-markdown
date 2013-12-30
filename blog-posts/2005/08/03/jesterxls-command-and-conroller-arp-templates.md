@@ -5,3 +5,6 @@ I use the ARP framework at work and have often wanted to pass arguments along to
 I had started trying to work on putting this together, but work got back up and projects needed to be escorted out the door… so… thanks Jesse!
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – August 3, 2005
+  *[August 3, 2005]: 2005-08-03T10:08

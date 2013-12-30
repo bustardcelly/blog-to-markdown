@@ -19,3 +19,6 @@ Some people found me after our panel and had some questions about things i broug
 In any event, if you sat in on the panel, I would love to hear your thoughts – good, bad and ugly. Leave a comment… and bundle up, it’s cold here in boston.
 
 Posted in [Conferences](http://custardbelly.com/blog/category/conferences/), [Flex](http://custardbelly.com/blog/category/flex/), [Infrared5](http://custardbelly.com/blog/category/infrared5/), [Prana](http://custardbelly.com/blog/category/prana/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 23, 2008
+  *[November 23, 2008]: 2008-11-23T19:05

@@ -36,3 +36,6 @@ One thought… for some reason when i set the color and mask arguments both to w
 Two thought… if my states held that same offending color (say in the eyes), it will remove it – i’ll have to work on that.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 21, 2005
+  *[September 21, 2005]: 2005-09-21T23:44

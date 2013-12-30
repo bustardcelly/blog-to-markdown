@@ -14,3 +14,6 @@ See my sad face and full belly as i drink all the Ruination.
 [Follow](http://twitter.com/flashontap)
 
 Posted in [Beer!](http://custardbelly.com/blog/category/beer/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [flash on tap](http://custardbelly.com/blog/category/flash-on-tap/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – April 8, 2009
+  *[April 8, 2009]: 2009-04-08T20:29

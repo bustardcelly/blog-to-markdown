@@ -274,3 +274,6 @@ Big ups go to [Ash](http://razorberry.com/blog) who did some testing and kept me
 [nude women having sex](http://www.healthcentral.com/adhd/c/160794/profile)
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [MUWL](http://custardbelly.com/blog/category/muwl/), [Music](http://custardbelly.com/blog/category/music/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – March 9, 2009
+  *[March 9, 2009]: 2009-03-09T08:25

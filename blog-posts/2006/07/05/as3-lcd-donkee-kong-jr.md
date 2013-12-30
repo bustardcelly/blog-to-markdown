@@ -15,3 +15,6 @@ I kept the architecture pretty open for easy adaptation and extension so that i 
 Enough talk, enjoy the game and keep in mind that this is a rough prototype, so you may encounter a bug or two ![;)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif)
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/).
+
+By [Administrator](http://custardbelly.com/blog/author/administrator/) – July 5, 2006
+  *[July 5, 2006]: 2006-07-05T07:53

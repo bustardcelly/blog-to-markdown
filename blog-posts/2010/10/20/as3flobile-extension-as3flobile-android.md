@@ -15,3 +15,6 @@ There are a few more custom controls targeting the Android platform that i have 
 Criticism and feedback is always welcome.
 
 Posted in [Android](http://custardbelly.com/blog/category/android/), [Flash](http://custardbelly.com/blog/category/flash/), [as3flobile](http://custardbelly.com/blog/category/as3flobile/), [as3flobile-android](http://custardbelly.com/blog/category/as3flobile-android/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 20, 2010
+  *[October 20, 2010]: 2010-10-20T11:04

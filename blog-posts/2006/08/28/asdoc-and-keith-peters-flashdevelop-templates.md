@@ -91,3 +91,6 @@ _3 – antcall added to build target:_
 I had a similar build made up for AS2 projects and [BlDoc](http://www.blinex.com/index.cfm?view=bldoc&nav_view=products) in FlashDevelop using ANT earlier and thought i’d have a go with it using [ASDoc](http://labs.adobe.com/wiki/index.php/ASDoc), maybe someone else will find this useful…
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – August 28, 2006
+  *[August 28, 2006]: 2006-08-28T22:50

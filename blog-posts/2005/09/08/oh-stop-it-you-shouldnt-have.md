@@ -7,3 +7,6 @@ i might keep the comments up for another day or two, just until my strut starts 
 [Edit 9-16-05(i have removed the wonderful comments... the rain today aggrevated the old leg-bender)]
 
 Posted in [General](http://custardbelly.com/blog/category/general/).
+
+By [Administrator](http://custardbelly.com/blog/author/administrator/) – September 8, 2005
+  *[September 8, 2005]: 2005-09-08T23:04

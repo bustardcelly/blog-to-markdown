@@ -729,3 +729,6 @@ _If you have found this post and any piece has moved forward, hopefully the exam
 [Full source for albums couchapp here.](http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
 
 Posted in [CouchDB](http://custardbelly.com/blog/category/couchdb/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – January 12, 2011
+  *[January 12, 2011]: 2011-01-12T07:34

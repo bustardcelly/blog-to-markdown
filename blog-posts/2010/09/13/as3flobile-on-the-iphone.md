@@ -11,3 +11,6 @@ If you are interested, the [**as3flobile** project is available on github](http:
 Here’s also a great [refresher post on the **PFI**](http://blogs.adobe.com/cantrell/archives/2010/09/packager-for-iphone-refresher.html) by [Christian Cantrell](http://blogs.adobe.com/cantrell/).
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [AS3](http://custardbelly.com/blog/category/as3/), [Android](http://custardbelly.com/blog/category/android/), [Flash](http://custardbelly.com/blog/category/flash/), [as3flobile](http://custardbelly.com/blog/category/as3flobile/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 13, 2010
+  *[September 13, 2010]: 2010-09-13T09:40

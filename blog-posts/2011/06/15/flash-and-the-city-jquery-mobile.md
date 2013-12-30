@@ -50,3 +50,6 @@ http://developer.apple.com/library/safari/#)
 [me on twitter](https://twitter.com/#!/bustardcelly)
 
 Posted in [Flash and the City](http://custardbelly.com/blog/category/flash-and-the-city/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – June 15, 2011
+  *[June 15, 2011]: 2011-06-15T09:12

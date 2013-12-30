@@ -13,3 +13,6 @@ They don’t move at all – instead they are offscreen and are updated based on
 In the coming days, i hope to strip out a little code and throw the source ( and maybe some drawings that will clear up my terrible explanation ) up here… just wanted to do a quick post for proof of concept.
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – May 31, 2006
+  *[May 31, 2006]: 2006-05-31T07:21

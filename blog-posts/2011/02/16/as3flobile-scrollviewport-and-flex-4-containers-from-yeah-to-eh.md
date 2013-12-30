@@ -365,3 +365,6 @@ as3flobile uses the [as3-signals](https://github.com/robertpenner/as3-signals) l
 _[as3flobile](https://github.com/bustardcelly/as3flobile) is a set of ActionScript 3 components targeting the Flash Player on mobile devices. [You can read more about the project here](http://custardbelly.com/blog/?page_id=180). To see working examples, visit [http://www.custardbelly.com/android/froyo/as3flobile/](http://www.custardbelly.com/android/froyo/as3flobile/)_
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4](http://custardbelly.com/blog/category/flex-4/), [as3flobile](http://custardbelly.com/blog/category/as3flobile/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – February 16, 2011
+  *[February 16, 2011]: 2011-02-16T11:24

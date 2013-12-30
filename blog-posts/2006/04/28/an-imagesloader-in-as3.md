@@ -13,3 +13,6 @@ If someone’s got a different take on that, i’d be glad to hear it.
 I think it works pretty well right now, but i may go back in and flesh out the BufferEvent to handle event parameters as [Darron Schall explains here.](http://www.darronschall.com/weblog/archives/000191.cfm) Right now a buffer queue just calls back to it’s instance of ImageLoader after an event and grabs any data needed… not sure how i feel about that…
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – April 28, 2006
+  *[April 28, 2006]: 2006-04-28T19:46

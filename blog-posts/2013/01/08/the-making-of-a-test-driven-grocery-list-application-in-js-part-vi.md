@@ -528,3 +528,6 @@ Anyway, in the next article I think we should address a new feature – Removal.
 [Part X – It Lives!](http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
 
 Posted in [AMD](http://custardbelly.com/blog/category/amd/), [JavaScript](http://custardbelly.com/blog/category/javascript/), [RequireJS](http://custardbelly.com/blog/category/requirejs/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/), [unit-testing](http://custardbelly.com/blog/category/unit-testing/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – January 8, 2013
+  *[January 8, 2013]: 2013-01-08T11:31

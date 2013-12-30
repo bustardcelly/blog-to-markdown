@@ -49,3 +49,6 @@ as3httpclientlib – [http://github.com/gabriel/as3httpclient](http://github.com
 More information about the custom metadata, and the inner workings of as3couchdb can be found [on the wiki](http://wiki.github.com/bustardcelly/as3couchdb/) for the [project in github](http://github.com/bustardcelly/as3couchdb).
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [CouchDB](http://custardbelly.com/blog/category/couchdb/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [as3couchdb](http://custardbelly.com/blog/category/as3couchdb/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – April 13, 2010
+  *[April 13, 2010]: 2010-04-13T05:15

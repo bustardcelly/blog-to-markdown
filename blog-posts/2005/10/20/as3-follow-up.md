@@ -15,3 +15,6 @@ i’d also like to point out another great collection of AS3 resources made poss
 [http://www.franto.com/blog2/collected-links-to-actionscript-30-examples](http://www.franto.com/blog2/collected-links-to-actionscript-30-examples)
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 20, 2005
+  *[October 20, 2005]: 2005-10-20T22:00

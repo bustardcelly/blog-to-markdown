@@ -9,3 +9,6 @@ We hope people are enjoying the book at what any level developer you are. Cheers
 [read Josh’s post](http://thefactoryfactory.com/wordpress/?p=435)
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Books](http://custardbelly.com/blog/category/books/), [Flex](http://custardbelly.com/blog/category/flex/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – July 15, 2008
+  *[July 15, 2008]: 2008-07-15T20:01

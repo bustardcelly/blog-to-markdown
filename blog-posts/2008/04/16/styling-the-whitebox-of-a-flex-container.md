@@ -30,3 +30,6 @@ Here’s an example of how i resolved my issue:
 Nothing extremely complicated, but it would have been nice to just set a style property or for the fill color to inherit from the backgroundColor property. ah well… Hopefully someone may find this post if they are wondering what to do with that white box.
 
 Posted in [Flex](http://custardbelly.com/blog/category/flex/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – April 16, 2008
+  *[April 16, 2008]: 2008-04-16T18:01

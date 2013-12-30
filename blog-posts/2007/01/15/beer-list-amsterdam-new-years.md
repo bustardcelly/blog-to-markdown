@@ -47,3 +47,6 @@ Time between the Venloosch/Lindebloom incedent and Amstel Bock was @ two days, s
 If you get a chance, please see what you can do to get to Amsterdam.
 
 Posted in [Beer!](http://custardbelly.com/blog/category/beer/), [General](http://custardbelly.com/blog/category/general/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – January 15, 2007
+  *[January 15, 2007]: 2007-01-15T20:54

@@ -1142,3 +1142,6 @@ Before we just start chopping out and inserting code from _list-controller_, I w
 [Part X – It Lives!](http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
 
 Posted in [AMD](http://custardbelly.com/blog/category/amd/), [JavaScript](http://custardbelly.com/blog/category/javascript/), [RequireJS](http://custardbelly.com/blog/category/requirejs/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/), [unit-testing](http://custardbelly.com/blog/category/unit-testing/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – December 17, 2012
+  *[December 17, 2012]: 2012-12-17T17:01

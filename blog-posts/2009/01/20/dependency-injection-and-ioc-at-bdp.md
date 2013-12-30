@@ -253,3 +253,6 @@ _
 _
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Prana](http://custardbelly.com/blog/category/prana/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – January 20, 2009
+  *[January 20, 2009]: 2009-01-20T11:17

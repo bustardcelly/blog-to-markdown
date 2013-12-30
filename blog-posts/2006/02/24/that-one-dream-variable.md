@@ -11,3 +11,6 @@ I was thinking more along the lines of something that would only have context in
 Leave a comment for what yours is… try to keep it clean.
 
 Posted in [General](http://custardbelly.com/blog/category/general/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – February 24, 2006
+  *[February 24, 2006]: 2006-02-24T14:47

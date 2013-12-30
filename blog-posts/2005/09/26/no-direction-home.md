@@ -7,3 +7,6 @@ Still fresh. Still harrowing. Still hopeful. Still making me wish i didn’t tal
 Now if we can only get some coverage of [Jim Croce](http://www.jimcroce.com/discography.html)…
 
 Posted in [Music](http://custardbelly.com/blog/category/music/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 26, 2005
+  *[September 26, 2005]: 2005-09-26T23:46

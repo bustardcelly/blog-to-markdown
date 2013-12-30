@@ -694,3 +694,6 @@ _[Note] This post was written against the following software versions:_
 _If you have found this post and any piece has moved forward, hopefully the examples are still viable/useful. I will not be updating the examples in this post in parellel with updates to any of the previously mentioned software, unless explicitly noted._
 
 Posted in [CouchDB](http://custardbelly.com/blog/category/couchdb/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – December 8, 2010
+  *[December 8, 2010]: 2010-12-08T05:13

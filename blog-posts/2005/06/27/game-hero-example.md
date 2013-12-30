@@ -20,3 +20,6 @@ and here is a short list of people and sites you should really check out:
 maybe i’ll make a bigger list of resources some day.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – June 27, 2005
+  *[June 27, 2005]: 2005-06-27T12:06

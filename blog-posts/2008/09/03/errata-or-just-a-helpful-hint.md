@@ -28,3 +28,6 @@ I apologise if anyone had purchased [the book](http://www.amazon.com/Adobe-AIR-C
 For those of you have a copy of the book, i hope you are enjoying it. For those who are trying to get the tools up and running and just switched to Leopard i hope this is useful.
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [Books](http://custardbelly.com/blog/category/books/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 3, 2008
+  *[September 3, 2008]: 2008-09-03T21:14

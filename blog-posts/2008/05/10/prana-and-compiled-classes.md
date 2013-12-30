@@ -51,3 +51,6 @@ The best part is that [Prana is truthfully AS3 compliant](http://www.herrodius.c
 *Last i checked, the source under version control doesn’t seem to reflect the current changes [Christophe](http://www.herrodius.com/blog/) has made, but they are included in the downloads.
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Prana](http://custardbelly.com/blog/category/prana/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – May 10, 2008
+  *[May 10, 2008]: 2008-05-10T14:58

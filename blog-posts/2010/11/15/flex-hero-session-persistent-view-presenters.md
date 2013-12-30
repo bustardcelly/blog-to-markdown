@@ -202,3 +202,6 @@ The **Supervising Presenter** reference is persisted through the current session
 Now… i gotta think about getting that **Script** outta my MXML ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4.5](http://custardbelly.com/blog/category/flex-4-5/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 15, 2010
+  *[November 15, 2010]: 2010-11-15T11:54

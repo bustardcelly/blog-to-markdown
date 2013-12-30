@@ -312,3 +312,6 @@ So that is basically it. Allow for skinning of the Viewstack by extending Skinna
 *Note: Seems as though the generated ‘View Source’ files in the nightly build from September 1st (of which i mad the example) has some bugs. So feel free to click this link -> [view source](http://custardbelly.com/downloads/viewstack/srcview/index.html) < - but be aware that you won't actually be able to view the class files in the browser. You will need to download the zip file.
 
 Posted in [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4](http://custardbelly.com/blog/category/flex-4/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 2, 2009
+  *[September 2, 2009]: 2009-09-02T17:44

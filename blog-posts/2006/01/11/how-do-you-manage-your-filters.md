@@ -26,3 +26,6 @@ suggestions?
 feel free to use the [McFilterMap class](http://www.custardbelly.com/downloads/McFilterMap.as).
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – January 11, 2006
+  *[January 11, 2006]: 2006-01-11T21:43

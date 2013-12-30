@@ -159,3 +159,6 @@ Also, if i am totally off-base on all this, please leave a comment and let me kn
 The files for all this, including the example, can be found on github: [http://github.com/bustardcelly/custom-system-manager](http://github.com/bustardcelly/custom-system-manager)
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4](http://custardbelly.com/blog/category/flex-4/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 22, 2010
+  *[October 22, 2010]: 2010-10-22T09:31

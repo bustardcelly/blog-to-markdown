@@ -12,3 +12,6 @@ _The change_: The way i was cycling through the states was switching copies of a
 ..and of course there’s this [awesome news](http://www.dsfanboy.com/2006/03/13/dont-look-at-these-new-super-mario-screenshots/)… might have to actually go and buy a DS.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – March 20, 2006
+  *[March 20, 2006]: 2006-03-20T14:26

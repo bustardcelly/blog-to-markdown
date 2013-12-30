@@ -12,3 +12,6 @@ I won’t list all those that have caught my eye, so if you have any suggestions
 If you look at the source of the examples in the repo, I don’t claim to be a master of the library or frameworks I am exploring, needless to say the JavaScript language itself. So, if you see something that is considered bad practice or all together wrong, please let me know.
 
 Posted in [JavaScript](http://custardbelly.com/blog/category/javascript/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 27, 2011
+  *[September 27, 2011]: 2011-09-27T05:08

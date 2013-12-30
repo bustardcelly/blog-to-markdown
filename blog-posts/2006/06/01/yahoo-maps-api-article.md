@@ -5,3 +5,6 @@
 go check it out.](http://www.adobe.com/devnet/flash/articles/yahoo_mashup.html)
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – June 1, 2006
+  *[June 1, 2006]: 2006-06-01T21:55

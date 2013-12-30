@@ -79,3 +79,6 @@ i'd like to do something with that if(clear), i just don't like it... but for no
 thanks again [Keith and ](http://bit-101.com)[Tim](http://www.timwalling.com/)
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – July 28, 2005
+  *[July 28, 2005]: 2005-07-28T21:22

@@ -138,3 +138,6 @@ This just scratches the surface. There are icons you can associate with file typ
 If you made it this far and haven’t checked out [AIR](http://labs.adobe.com/technologies/air/), go [download the bits](http://labs.adobe.com/). And maybe consider buying [a book](http://www.amazon.com/Adobe-AIR-Create-Modify-Reuse/dp/0470182075/ref=pd_bbs_sr_6/002-5985048-8156021?ie=UTF8&s=books&qid=1191552882&sr=8-6) or [ two](http://amazon.com/s/ref=nb_ss_gw/102-6567738-0807350?initialSearch=1&url=search-alias%3Daps&field-keywords=Adobe+AIR&Go.x=0&Go.y=0&Go=Go)… ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [Apollo](http://custardbelly.com/blog/category/apollo/), [Books](http://custardbelly.com/blog/category/books/), [Flex](http://custardbelly.com/blog/category/flex/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 5, 2007
+  *[October 5, 2007]: 2007-10-05T09:24

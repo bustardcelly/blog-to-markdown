@@ -22,3 +22,6 @@ And, aside from obvious design and nomenclature, i am wondering if there was som
 I don’t know where i am going with this. Just rambling and looking at the crates of LP’s and stacks of CDs for something new to listen to…
 
 Posted in [General](http://custardbelly.com/blog/category/general/), [Music](http://custardbelly.com/blog/category/music/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 16, 2007
+  *[October 16, 2007]: 2007-10-16T20:24

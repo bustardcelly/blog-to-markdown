@@ -9,3 +9,6 @@ What could come of such a stellar line-up? More pages of writing than can be pub
 This is a huge step in the Flex 4 SDK and, in my opinion, a much needed step and the correct vision of the future of development for the Flash Platform. The Flex 4 engineers did an amazing job and i highly recommend [downloading the SDK](http://opensource.adobe.com/wiki/display/flexsdk/Download+Flex+4) and playing around. The separation of responsibilities within the new Spark component architecture is a huge boost in my workflow and a stellar achievement.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4](http://custardbelly.com/blog/category/flex-4/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – March 24, 2010
+  *[March 24, 2010]: 2010-03-24T09:27

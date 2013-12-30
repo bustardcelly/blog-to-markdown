@@ -11,3 +11,6 @@ Also available from Wiley Wrox is [_Professional AIR_](http://www.amazon.com/Pro
 Wrox AIR Instant Results](http://www.amazon.com/AIR-Instant-Results-Marc-Luchner/dp/0470182075/ref=sr_1_1/105-9609728-7107659?ie=UTF8&s=books&qid=1186022411&sr=8-1)
 
 Posted in [Apollo](http://custardbelly.com/blog/category/apollo/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/).
+
+By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – August 3, 2007
+  *[August 3, 2007]: 2007-08-03T09:57

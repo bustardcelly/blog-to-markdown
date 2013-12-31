@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <link rel="stylesheet" type="text/css" href="<%= css %>" media="all" />
     <link rel="alternate" type="application/rss+xml" title="<%= site.title %> - feed" href="/index.xml" />
     <title><%= site.title %><%= post ? ' - '+post.title() : '' %></title>

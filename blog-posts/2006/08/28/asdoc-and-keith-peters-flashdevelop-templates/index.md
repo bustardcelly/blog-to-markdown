@@ -1,4 +1,10 @@
-# [ASDoc and Keith Peters’ FlashDevelop templates](http://custardbelly.com/blog/2006/08/28/asdoc-and-keith-peters-flashdevelop-templates/)
+---
+title: 'ASDoc and Keith Peters’ FlashDevelop templates'
+url: 'http://custardbelly.com/blog/2006/08/28/asdoc-and-keith-peters-flashdevelop-templates/'
+author:
+  name: 'todd anderson'
+date: '2006-08-28'
+---
 
 … via [Joa Eberts fairwell to AS3Doc](http://blog.je2050.de/?p=80) …
 
@@ -91,6 +97,3 @@ _3 – antcall added to build target:_
 I had a similar build made up for AS2 projects and [BlDoc](http://www.blinex.com/index.cfm?view=bldoc&nav_view=products) in FlashDevelop using ANT earlier and thought i’d have a go with it using [ASDoc](http://labs.adobe.com/wiki/index.php/ASDoc), maybe someone else will find this useful…
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – August 28, 2006
-  *[August 28, 2006]: 2006-08-28T22:50

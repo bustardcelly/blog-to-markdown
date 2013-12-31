@@ -1,4 +1,10 @@
-# [2007](http://custardbelly.com/blog/2007/01/12/2007/)
+---
+title: '2007'
+url: 'http://custardbelly.com/blog/2007/01/12/2007/'
+author:
+  name: 'todd anderson'
+date: '2007-01-12'
+---
 
 First off… [best new years ever – Amsterdam](http://www.flickr.com/photos/91582541@N00/sets/72157594462173687/). Beautiful city. Would move there in a New York minute…
 
@@ -11,6 +17,3 @@ I dunno. I’m just searching for something… and part of it probably has to do
 Now i’m gonna shut up and spin some records.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [General](http://custardbelly.com/blog/category/general/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – January 12, 2007
-  *[January 12, 2007]: 2007-01-12T22:23

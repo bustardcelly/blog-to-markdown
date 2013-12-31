@@ -1,4 +1,10 @@
-# [AS3 LCD Donkee Kong Jr](http://custardbelly.com/blog/2006/07/05/as3-lcd-donkee-kong-jr/)
+---
+title: 'AS3 LCD Donkee Kong Jr'
+url: 'http://custardbelly.com/blog/2006/07/05/as3-lcd-donkee-kong-jr/'
+author:
+  name: 'Administrator'
+date: '2006-07-05'
+---
 
 click to play. [Flash Player 9](http://www.adobe.com/products/flashplayer/) required.  
 [![click me](http://www.custardbelly.com/blog/images/dkjr.gif)](javascript:MM_openBrWindow('http://www.custardbelly.com/dev/junior/index.html', 'dk_jr','resizable=no,width=340,height=280'))
@@ -15,6 +21,3 @@ I kept the architecture pretty open for easy adaptation and extension so that i 
 Enough talk, enjoy the game and keep in mind that this is a rough prototype, so you may encounter a bug or two ![;)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif)
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/).
-
-By [Administrator](http://custardbelly.com/blog/author/administrator/) – July 5, 2006
-  *[July 5, 2006]: 2006-07-05T07:53

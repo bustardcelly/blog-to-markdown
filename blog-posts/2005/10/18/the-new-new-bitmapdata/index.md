@@ -1,4 +1,10 @@
-# [the New New BitmapData](http://custardbelly.com/blog/2005/10/18/the-new-new-bitmapdata/)
+---
+title: 'the New New BitmapData'
+url: 'http://custardbelly.com/blog/2005/10/18/the-new-new-bitmapdata/'
+author:
+  name: 'todd anderson'
+date: '2005-10-18'
+---
 
 In [AS3](http://livedocs.macromedia.com/labs/1/flex/langref/migration.html), the MovieClip method attachBitmap is removed. what does that mean for setPixel, getPixel and copyPixel?  
 The documentation roughly states that addChild is the equivalent of attachBitmap… but only display objects can be “attached” using addChild.  
@@ -75,6 +81,3 @@ I am a huge fan of the new Loader class. Here’s a small sample:
 i guess i should get off the double-underscore train too… i don’t know … my head’s about to burst.
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 18, 2005
-  *[October 18, 2005]: 2005-10-18T22:20

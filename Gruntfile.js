@@ -18,6 +18,24 @@ module.exports = function(grunt) {
         tasks: ['jshint:gruntfile']
       }
     },
+    copy: {
+      dist: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= markdown.dev.dest %>/blog-posts',
+            src: ['**/*'],
+            dest: 'dist/'
+          },
+          {
+            expand: true,
+            cwd: '<%= markdown.dev.dest %>',
+            src: ['archive.html', 'index.html', 'index.xml'],
+            dest: 'dist/'
+          }
+        ]
+      }
+    },
     markdown: {
       options: {
         author: 'Todd Anderson',
@@ -50,16 +68,31 @@ module.exports = function(grunt) {
         dest: 'dist'
       }
     }
+    // markdown: {
+    //   all: {
+    //     files: [
+    //       {
+    //         expand: true,
+    //         cwd: 'blog-posts',
+    //         src: ['**/*.md'],
+    //         dest: 'dist/',
+    //         ext: '.html'
+    //       }
+    //     ]
+    //   }
+    // }
   });
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-markdown-blog');
+  // grunt.loadNpmTasks('grunt-markdown');
 
   grunt.registerTask('dryrun', ['markdown:dev']);
   // grunt.registerTask('deploy', ['markdown:dev', 'copy:dist', 'uglify']);
-  
+
   // Default task.
   grunt.registerTask('default', ['jshint']);
 

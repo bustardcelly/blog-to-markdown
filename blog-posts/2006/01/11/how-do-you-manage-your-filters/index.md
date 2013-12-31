@@ -1,4 +1,10 @@
-# [How do you manage your filters?](http://custardbelly.com/blog/2006/01/11/how-do-you-manage-your-filters/)
+---
+title: 'How do you manage your filters?'
+url: 'http://custardbelly.com/blog/2006/01/11/how-do-you-manage-your-filters/'
+author:
+  name: 'todd anderson'
+date: '2006-01-11'
+---
 
 **[Update: 2/24/2006]**  
 I’ve updated my workings of a management system for a movieclip’s filters after Lars Schwarz brought up some interesting thoughts. [Here are the new files.](http://custardbelly.com/downloads/ManagedFilterMap.zip) I basically pushed some management methods through a Singleton (McFilterManager), that registers/unregisters managed clips ( FilterManagedClip ). It’s not that necessary and the FilterManagedClip class can be used by itself, but if you want to hold references for all the clips that have filters, then it could be useful and expanded upon.
@@ -26,6 +32,3 @@ suggestions?
 feel free to use the [McFilterMap class](http://www.custardbelly.com/downloads/McFilterMap.as).
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – January 11, 2006
-  *[January 11, 2006]: 2006-01-11T21:43

@@ -1,4 +1,10 @@
-# [writeln and Keith Peters’ debugger](http://custardbelly.com/blog/2005/07/28/writeln-and-keith-peters-debugger/)
+---
+title: 'writeln and Keith Peters’ debugger'
+url: 'http://custardbelly.com/blog/2005/07/28/writeln-and-keith-peters-debugger/'
+author:
+  name: 'todd anderson'
+date: '2005-07-28'
+---
 
 I use a little function called writeln in all my classes to keep track of where my traces are coming from. i started doing it to keep myself from going crazy when seeing random text come up in the output panel and not knowing where or how it got there- not to mention running through an app and then have that panel open up out of nowhere to tell me something that i have no idea what it means.  
 Recently i have been loving this new debugger [Keith Peters’ unleashed](http://www.bit-101.com/blog/archives/000170.html), and coupling my writeln with it has put a smile on my face.  
@@ -79,6 +85,3 @@ i'd like to do something with that if(clear), i just don't like it... but for no
 thanks again [Keith and ](http://bit-101.com)[Tim](http://www.timwalling.com/)
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – July 28, 2005
-  *[July 28, 2005]: 2005-07-28T21:22

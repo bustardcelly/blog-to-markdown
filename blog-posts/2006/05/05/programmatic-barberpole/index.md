@@ -1,4 +1,10 @@
-# [Programmatic barberpole](http://custardbelly.com/blog/2006/05/05/programmatic-barberpole/)
+---
+title: 'Programmatic barberpole'
+url: 'http://custardbelly.com/blog/2006/05/05/programmatic-barberpole/'
+author:
+  name: 'todd anderson'
+date: '2006-05-05'
+---
 
 Flash8 and AS3 examples – [you can view and download the source here](http://custardbelly.com/blog/insets/ProgressIndicator.html)
 
@@ -12,6 +18,3 @@ In the [link](http://custardbelly.com/blog/insets/ProgressIndicator.html) above 
 …as they say in these parts… [‘it aint no red ball, but it does me just fine’.](http://www.razorberry.com/blog/archives/2006/05/03/i-was-forced-to-post-this/)
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – May 5, 2006
-  *[May 5, 2006]: 2006-05-05T07:48

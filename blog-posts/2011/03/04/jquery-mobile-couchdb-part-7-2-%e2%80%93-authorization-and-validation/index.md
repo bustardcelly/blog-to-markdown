@@ -1,4 +1,10 @@
-# [jQuery Mobile + CouchDB: Part 7.2 – Authorization and Validation](http://custardbelly.com/blog/2011/03/04/jquery-mobile-couchdb-part-7-2-%e2%80%93-authorization-and-validation/)
+---
+title: 'jQuery Mobile + CouchDB: Part 7.2 – Authorization and Validation'
+url: 'http://custardbelly.com/blog/2011/03/04/jquery-mobile-couchdb-part-7-2-%e2%80%93-authorization-and-validation/'
+author:
+  name: 'todd anderson'
+date: '2011-03-04'
+---
 
 In my [previous post](http://custardbelly.com/blog/?p=360), I covered authorization and validation on the [CouchDB](http://couchdb.apache.org/) side. We set up an administrator, created a user or two and established a **user-role** for our **albums** database that will be used in validation on document operations based on the user context of a session. We got to write some code – our **validate_doc_update** – but mainly it was all clicking around and filling in fields in [Futon](http://127.0.0.1:5984/_utils/). Necessary stuff, mind you… but let’s get back to code. More importantly, let’s get back to our [jQuery Mobile](http://jquerymobile.com/) application. We didn’t even touch it in the last mini-series in a series.
 
@@ -22,37 +28,37 @@ _/vendor/couchapp/_attachments/loader.js_
     
     function couchapp_load(scripts) {
     
-    &nbsp_place_holder;&nbsp_place_holder;for (var i=0; i < scripts.length; i++) {
+      for (var i=0; i < scripts.length; i++) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;document.write('<script src="'+scripts[i]+'"><\/script>')
+        document.write('<script src="'+scripts[i]+'"><\/script>')
     
-    &nbsp_place_holder;&nbsp_place_holder;};
+      };
     
     };
     
-    &nbsp_place_holder;
+     
     
     couchapp_load([
     
-    &nbsp_place_holder;&nbsp_place_holder;"/_utils/script/sha1.js",
+      "/_utils/script/sha1.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"/_utils/script/json2.js",
+      "/_utils/script/json2.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"vendor/couchapp/jquery-1.4.4.js",
+      "vendor/couchapp/jquery-1.4.4.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"/_utils/script/jquery.couch.js",
+      "/_utils/script/jquery.couch.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"vendor/couchapp/jquery.couch.app.js",
+      "vendor/couchapp/jquery.couch.app.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"vendor/couchapp/jquery.couch.app.util.js",
+      "vendor/couchapp/jquery.couch.app.util.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"vendor/couchapp/jquery.mustache.js",
+      "vendor/couchapp/jquery.mustache.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"vendor/couchapp/jquery.evently.js",
+      "vendor/couchapp/jquery.evently.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"vendor/couchapp/jquery.mobile-1.0a2.js",
+      "vendor/couchapp/jquery.mobile-1.0a2.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"vendor/couchapp/jquery.tmpl.js"
+      "vendor/couchapp/jquery.tmpl.js"
     
     ]);
 
@@ -62,49 +68,49 @@ Pretty straight forward; just adding the _jquery.tmpl_ **plugin** to be loaded i
     
     <script id="loginSignupDialog" type="text/x-jquery-tmpl">
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<div role="dialog" data-backbtn="false" class="ui-dialog ui-body-a">
+        <div role="dialog" data-backbtn="false" class="ui-dialog ui-body-a">
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<div class="ui-header ui-bar-a ui-corner-top ui-overlay-shadow">
+          <div class="ui-header ui-bar-a ui-corner-top ui-overlay-shadow">
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<h1 class="ui-title"></h1>
+        <h1 class="ui-title"></h1>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<a id="dialogCloseButton" href="#" data-icon="delete" data-iconpos="notext" style="left: 15px; top: .4em; position: absolute;" />
+        <a id="dialogCloseButton" href="#" data-icon="delete" data-iconpos="notext" style="left: 15px; top: .4em; position: absolute;" />
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</div>
+          </div>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<div data-role="content" class="ui-body-c ui-corner-bottom ui-overlay-shadow">
+          <div data-role="content" class="ui-body-c ui-corner-bottom ui-overlay-shadow">
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<p>You need to be logged in to do that!</p>
+            <p>You need to be logged in to do that!</p>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<form action="#" method="post">
+            <form action="#" method="post">
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<label for="username">Username:</label>
+              <label for="username">Username:</label>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<input type="text" name="username" id="username" value=""&nbsp_place_holder; />
+              <input type="text" name="username" id="username" value=""  />
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<label for="password">Password:</label>
+              <label for="password">Password:</label>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<input type="password" name="password" id="password" value="" />
+              <input type="password" name="password" id="password" value="" />
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<a id="submitButton" href="#" type="submit" data-role="button" data-theme="b">Submit</a>
+              <a id="submitButton" href="#" type="submit" data-role="button" data-theme="b">Submit</a>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<hr/>
+              <hr/>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<a id="optionLinkButton" href="#" />
+              <a id="optionLinkButton" href="#" />
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</form>
+            </form>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</div>
+          </div>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<div data-role="footer" />
+          <div data-role="footer" />
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</div>
+        </div>
     
     </script>
     
     <script type="text/javascript" charset="utf-8">
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$db = $.couch.db("albums");
+         $db = $.couch.db("albums");
 
 The **loginSignupDialog** template looks pretty familiar if you have been following along in this series. It is just a hacked up [jQuery Mobile](http://jquerymobile.com/) page dialog with a form – looks pretty much what our _albumdelete.html_ **template** we created before but with a form in it. You may notice that the header and **optionLinkButton** have no textual content. That will be updated based on the state of the dialog (login or signup). We’ll get to that later. What is important is to know that this template declaration can be rendered using the following:
     
@@ -152,261 +158,261 @@ _/_attachments/script/jquery.albums.loginDialog.js_
     
     (function( $ ) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;$.widget( "albums.loginDialog", {
+      $.widget( "albums.loginDialog", {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;options: {
+        options: {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;state: 0, // 0 - log in state. 1 - sign up state.
+          state: 0, // 0 - log in state. 1 - sign up state.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;loginText: "Log In",
+          loginText: "Log In",
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;signUpText: "Sign Up"
+          signUpText: "Sign Up"
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;_create: function() {
+        _create: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var ops = this.options;
+          var ops = this.options;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var $element = this.element;
+          var $element = this.element;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// Current page reference.
+          // Current page reference.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var currentPage = $.mobile.activePage;
+          var currentPage = $.mobile.activePage;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var pageLink = currentPage.attr( "id" );
+          var pageLink = currentPage.attr( "id" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// It is an internal page link.
+          // It is an internal page link.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( pageLink.indexOf( ".html" ) == -1 ) pageLink = "#" + pageLink;
+          if( pageLink.indexOf( ".html" ) == -1 ) pageLink = "#" + pageLink;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var closeButton = $element.find( "div[class*='ui-header'] a#dialogCloseButton" )
+          var closeButton = $element.find( "div[class*='ui-header'] a#dialogCloseButton" )
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;.attr( "href", pageLink );
+                                    .attr( "href", pageLink );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// Hold reference in custom data expando.
+          // Hold reference in custom data expando.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$element.data("previous", pageLink );
+          $element.data("previous", pageLink );
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// Wrap the content in a dialog page.
+          // Wrap the content in a dialog page.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var wrapper = this._wrapDialog( $element );
+          var wrapper = this._wrapDialog( $element );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// Wire interactions.
+          // Wire interactions.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this._wire();
+          this._wire();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this._changeState( ops.state );
+          this._changeState( ops.state );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// For some reason, i have to add it to the DOM in order to changePage() to it.
+          // For some reason, i have to add it to the DOM in order to changePage() to it.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$("body[class*=\"ui-mobile-viewport\"]").append(wrapper);
+          $("body[class*=\"ui-mobile-viewport\"]").append(wrapper);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.mobile.changePage( [currentPage, wrapper], "pop", false );
+          $.mobile.changePage( [currentPage, wrapper], "pop", false );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;_setOption: function( key, value ) {
+        _setOption: function( key, value ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this._changeState( ( key == "state" ) ? value : this.options.state );
+          this._changeState( ( key == "state" ) ? value : this.options.state );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;jQuery.Widget.prototype._setOption.apply( this, arguments );
+          jQuery.Widget.prototype._setOption.apply( this, arguments );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;_wrapDialog: function( dialogElement ) {
+        _wrapDialog: function( dialogElement ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// Page wrapper usually created on external page.
+          // Page wrapper usually created on external page.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var dialogPage = $("<div data-role=\"page\">");
+          var dialogPage = $("<div data-role=\"page\">");
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;dialogPage.append( dialogElement );
+          dialogPage.append( dialogElement );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;dialogPage.page();
+          dialogPage.page();
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;dialogPage.bind( "pagebeforeshow", function() {
+          dialogPage.bind( "pagebeforeshow", function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;dialogPage.unbind( "pagebeforeshow" );
+              dialogPage.unbind( "pagebeforeshow" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var h = parseFloat(dialogPage.innerHeight());
+              var h = parseFloat(dialogPage.innerHeight());
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;h -= ( parseFloat(dialogElement.css("border-top-width")) + parseFloat(dialogElement.css("border-bottom-width")) );
+              h -= ( parseFloat(dialogElement.css("border-top-width")) + parseFloat(dialogElement.css("border-bottom-width")) );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// define the height based on innerHeight of wrapping parent page and the border styles applied to a dialog.
+              // define the height based on innerHeight of wrapping parent page and the border styles applied to a dialog.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;dialogElement.css( "height", h + "px" );
+              dialogElement.css( "height", h + "px" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+          });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;dialogPage.bind( "pagehide", function() {
+          dialogPage.bind( "pagehide", function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;dialogPage.unbind( "pagehide" );
+              dialogPage.unbind( "pagehide" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;dialogPage.empty();
+              dialogPage.empty();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;dialogPage.remove();
+              dialogPage.remove();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+          });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return dialogPage;
+          return dialogPage;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;_changeState: function( state ) {
+        _changeState: function( state ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var mainText = ( state == 0 ) ? this.options.loginText : this.options.signUpText;
+          var mainText = ( state == 0 ) ? this.options.loginText : this.options.signUpText;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var optionText = ( state == 0 ) ? this.options.signUpText : this.options.loginText;
+          var optionText = ( state == 0 ) ? this.options.signUpText : this.options.loginText;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var $element = this.element;
+          var $element = this.element;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var header = $element.find( "div[class*='ui-header']" );
+          var header = $element.find( "div[class*='ui-header']" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var page = $element.find( "div[data-role='content']" );
+          var page = $element.find( "div[data-role='content']" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var title = header.find( "[class*='ui-title']" );
+          var title = header.find( "[class*='ui-title']" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var optionLinkButton =&nbsp_place_holder; page.find( "#optionLinkButton" );
+          var optionLinkButton =  page.find( "#optionLinkButton" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var submitButton = page.find( "a[aria-label='submit']" );
+          var submitButton = page.find( "a[aria-label='submit']" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;title.html( mainText );
+          title.html( mainText );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;optionLinkButton.html( optionText + "?" );
+          optionLinkButton.html( optionText + "?" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;submitButton.html( mainText );
+          submitButton.html( mainText );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;submitButton.buttonMarkup();
+          submitButton.buttonMarkup();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;_wire: function() {
+        _wire: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var ref = this;
+          var ref = this;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var $element = ref.element;
+          var $element = ref.element;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var ops = ref.options;
+          var ops = ref.options;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var page = $element.find("div[data-role='content']");
+          var page = $element.find("div[data-role='content']");
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var optionLinkButton = page.find( "#optionLinkButton" );
+          var optionLinkButton = page.find( "#optionLinkButton" );
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;optionLinkButton.bind( "click", function(event) {
+          optionLinkButton.bind( "click", function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;event.preventDefault();
+            event.preventDefault();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// toggle state.
+            // toggle state.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;ref._setOption( "state", ( ops.state == 1 ) ? 0 : 1 );
+            ref._setOption( "state", ( ops.state == 1 ) ? 0 : 1 );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return false;
+            return false;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+          });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$element.bind( "submit", function(event) {
+          $element.bind( "submit", function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;event.preventDefault();
+            event.preventDefault();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var username = $element.find( "input#username" ).val();
+            var username = $element.find( "input#username" ).val();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var password = $element.find( "input#password" ).val();
+            var password = $element.find( "input#password" ).val();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var uievent = ( ops.state == 0 ) ? "login" : "signup";
+            var uievent = ( ops.state == 0 ) ? "login" : "signup";
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var ui = {name:username, password:password};
+            var ui = {name:username, password:password};
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;ref._trigger( uievent, {type:uievent}, ui );
+            ref._trigger( uievent, {type:uievent}, ui );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return false;
+            return false;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+          });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;_unwire: function() {
+        _unwire: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var $element = this.element;
+          var $element = this.element;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var page = $element.find( "div[data-role='content']" );
+          var page = $element.find( "div[data-role='content']" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var optionLinkButton =&nbsp_place_holder; page.find( "#optionLinkButton" );
+          var optionLinkButton =  page.find( "#optionLinkButton" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;optionLinkButton.unbind( "click" );
+          optionLinkButton.unbind( "click" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$element.unbind( "submit" );
+          $element.unbind( "submit" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;close: function() {
+        close: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var $element = this.element;
+          var $element = this.element;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this._trigger( "close", {type:"close"} );
+          this._trigger( "close", {type:"close"} );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.mobile.changePage( $element.data("previous"), undefined, false );
+          $.mobile.changePage( $element.data("previous"), undefined, false );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;destroy: function() {
+        destroy: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this._unwire();
+          this._unwire();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// jQuery Mobile keeps adding a Submit button substitue to the template upon show,
+          // jQuery Mobile keeps adding a Submit button substitue to the template upon show,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// Lets remove it here.
+          // Lets remove it here.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var $element = this.element;
+          var $element = this.element;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var page = $element.find( "div[data-role='content']" );
+          var page = $element.find( "div[data-role='content']" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var submitButton = page.find( "a[aria-label='submit']" );
+          var submitButton = page.find( "a[aria-label='submit']" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;submitButton.remove();
+          submitButton.remove();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// super destroy.
+          // super destroy.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;jQuery.Widget.prototype.destroy.call( this );
+          jQuery.Widget.prototype.destroy.call( this );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.element = null;
+          this.element = null;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
     })(jQuery)
 
@@ -436,11 +442,11 @@ _/_attachments/script/jquery.albums.loginDialog.js_
     
     options: {
     
-    &nbsp_place_holder;&nbsp_place_holder;state: 0, // 0 - log in state. 1 - sign up state.
+      state: 0, // 0 - log in state. 1 - sign up state.
     
-    &nbsp_place_holder;&nbsp_place_holder;loginText: "Log In",
+      loginText: "Log In",
     
-    &nbsp_place_holder;&nbsp_place_holder;signUpText: "Sign Up"
+      signUpText: "Sign Up"
     
     },
 
@@ -450,7 +456,7 @@ _/_attachments/script/jquery.albums.loginDialog.js_
     
     var $element = this.element;
     
-    &nbsp_place_holder;
+     
     
     // Current page reference.
     
@@ -464,7 +470,7 @@ _/_attachments/script/jquery.albums.loginDialog.js_
     
     var closeButton = $element.find( "div[class*='ui-header'] a#dialogCloseButton" )
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;.attr( "href", pageLink );
+                              .attr( "href", pageLink );
     
     // Hold reference in custom data expando.
     
@@ -514,29 +520,29 @@ _/_attachments/script/jquery.albums.loginDialog.js_
     
     },
     
-    &nbsp_place_holder;
+     
     
     destroy: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;this._unwire();
+      this._unwire();
     
-    &nbsp_place_holder;&nbsp_place_holder;// jQuery Mobile keeps adding a Submit button substitue to the template upon show,
+      // jQuery Mobile keeps adding a Submit button substitue to the template upon show,
     
-    &nbsp_place_holder;&nbsp_place_holder;// Lets remove it here.
+      // Lets remove it here.
     
-    &nbsp_place_holder;&nbsp_place_holder;var $element = this.element;
+      var $element = this.element;
     
-    &nbsp_place_holder;&nbsp_place_holder;var page = $element.find( "div[data-role='content']" );
+      var page = $element.find( "div[data-role='content']" );
     
-    &nbsp_place_holder;&nbsp_place_holder;var submitButton = page.find( "a[aria-label='submit']" );
+      var submitButton = page.find( "a[aria-label='submit']" );
     
-    &nbsp_place_holder;&nbsp_place_holder;submitButton.remove();
+      submitButton.remove();
     
-    &nbsp_place_holder;&nbsp_place_holder;// super destroy.
+      // super destroy.
     
-    &nbsp_place_holder;&nbsp_place_holder;jQuery.Widget.prototype.destroy.call( this );
+      jQuery.Widget.prototype.destroy.call( this );
     
-    &nbsp_place_holder;&nbsp_place_holder;this.element = null;
+      this.element = null;
     
     }
 
@@ -548,11 +554,11 @@ That’s one way to do it, though i often assign handlers by passing in a **call
     
     $("#loginSignupDialog").tmpl().loginDialog( {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;close: function( evt, ui ) {
+            close: function( evt, ui ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;...
+                ...
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
     });
 
@@ -586,15 +592,15 @@ _/_attachments/script/jquery.albums.app.js_
     
     (function($) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;$.albums = $.albums || {};
+      $.albums = $.albums || {};
     
-    &nbsp_place_holder;&nbsp_place_holder;$.extend( $.albums, {
+      $.extend( $.albums, {
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
     })(jQuery)
 
@@ -611,85 +617,85 @@ _/_attachments/script/jquery.albums.app.js_
     
     (function($) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;$.albums = $.albums || {};
+      $.albums = $.albums || {};
     
-    &nbsp_place_holder;&nbsp_place_holder;$.extend( $.albums, {
+      $.extend( $.albums, {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;dialog: undefined,
+        dialog: undefined,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;database: undefined,
+        database: undefined,
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;logIn: function( name, password, options ) {
+        logIn: function( name, password, options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;doLogIn( name, password, options );
+          doLogIn( name, password, options );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;logOut: function( options ) {
+        logOut: function( options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;doLogOut( options );
+          doLogOut( options );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;saveDocument: function( document, options ) {
+        saveDocument: function( document, options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;checkSession( {
+          checkSession( {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;available: function( userCtx ) {
+            available: function( userCtx ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;document.user = user;
+              document.user = user;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.albums.database.saveDoc( document, options );
+              $.albums.database.saveDoc( document, options );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;unavailable: function() {
+            unavailable: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;showDialog( options );
+              showDialog( options );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+          });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;deleteDocument: function( document, options ) {
+        deleteDocument: function( document, options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;checkSession( {
+          checkSession( {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;available: function( userCtx ) {
+            available: function( userCtx ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.albums.database.removeDoc( document, options );
+              $.albums.database.removeDoc( document, options );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;unavailable: function() {
+            unavailable: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;showDialog( options );
+              showDialog( options );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+          });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
     })(jQuery)
 
@@ -699,35 +705,35 @@ _/_attachments/script/jquery.albums.app.js_
     
     function checkSession( options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;options = options || {};
+        options = options || {};
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.couch.session( {
+        $.couch.session( {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function( response ) {
+          success: function( response ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var context = response.userCtx;
+            var context = response.userCtx;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( context.name == null ) {
+            if( context.name == null ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.unavailable ) options.unavailable();
+              if( options.unavailable ) options.unavailable();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;else{
+            else{
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.available ) options.available( context );
+              if( options.available ) options.available( context );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function( status, error, reason ) {
+          error: function( status, error, reason ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.unavailable ) options.unavailable();
+            if( options.unavailable ) options.unavailable();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
     }
 
@@ -743,49 +749,49 @@ _/_attachments/script/jquery.albums.app.js_
     
     function showDialog( options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.albums.dialog.loginDialog( {
+        $.albums.dialog.loginDialog( {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;login: function( evt, ui ) {
+          login: function( evt, ui ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;doLogIn( ui.name, ui.password, {
+            doLogIn( ui.name, ui.password, {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function( response ) {
+              success: function( response ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.albums.dialog.loginDialog( "close" );
+                $.albums.dialog.loginDialog( "close" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+              },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function( status, error, reason ) {
+              error: function( status, error, reason ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;alert( "Error: " + error + ", " + reason );
+                alert( "Error: " + error + ", " + reason );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+              }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+            });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;signup: function( evt, ui ) {
+          signup: function( evt, ui ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;doSignUp( ui.name, ui.password, {
+            doSignUp( ui.name, ui.password, {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function( response ) {
+              success: function( response ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.albums.dialog.loginDialog( "close" );
+                $.albums.dialog.loginDialog( "close" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+              },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function( status, error, reason ) {
+              error: function( status, error, reason ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;alert( "Error: " + error + ", " + reason );
+                alert( "Error: " + error + ", " + reason );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+              }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+            });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
     }
 
@@ -801,7 +807,7 @@ If you remember back when we created the **widget**, it will dispatch two events
     
     success: function( response ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.albums.dialog.loginDialog( "close" );
+        $.albums.dialog.loginDialog( "close" );
     
     }
 
@@ -813,61 +819,61 @@ _/_attachments/script/jquery.albums.app.js_
     
     var user; /* _user > document.name */
     
-    &nbsp_place_holder;
+     
     
     function doLogIn( name, password, options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;options = options || {};
+        options = options || {};
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var loginObj = {
+        var loginObj = {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;name:name,
+          name:name,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;password:password,
+          password:password,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function( response ) {
+          success: function( response ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;user = response.name;
+            user = response.name;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.success ) options.success( response );
+            if( options.success ) options.success( response );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function( status, error, reason ) {
+          error: function( status, error, reason ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.error ) options.error( status, error, reason );
+            if( options.error ) options.error( status, error, reason );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+        };
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.couch.login( loginObj );
+        $.couch.login( loginObj );
     
     }
     
-    &nbsp_place_holder;
+     
     
     function doLogOut( options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;options = options || {};
+        options = options || {};
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.couch.logout( {
+        $.couch.logout( {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function( response ) {
+          success: function( response ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;user = undefined;
+            user = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.success ) options.success( response );
+            if( options.success ) options.success( response );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function( status, error, reason ) {
+          error: function( status, error, reason ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.error ) options.error( status, error, reason );
+            if( options.error ) options.error( status, error, reason );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;})
+        })
     
     }
 
@@ -892,137 +898,137 @@ _/_attachments/script/command_queue.js_
     
     (function(window) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;function Commandable() {}
+        function Commandable() {}
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;Commandable.prototype.execute = function( data ){};
+        Commandable.prototype.execute = function( data ){};
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;function Queue( ops ) {
+        function Queue( ops ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.options = ops || {};
+            this.options = ops || {};
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.list = [];
+            this.list = [];
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.command;
+            this.command;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.addCommand = function( command ) {
+            this.addCommand = function( command ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var length = this.list.length;
+                var length = this.list.length;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( length > 0 ) {
+                if( length > 0 ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.list[length-1].nextCommand = this;
+                    this.list[length-1].nextCommand = this;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+                }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.list.push( command );
+                this.list.push( command );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var q = Queue.prototype = new Commandable();
+        var q = Queue.prototype = new Commandable();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;q.options = undefined;
+        q.options = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;q.list = undefined;
+        q.list = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;q.command = undefined;
+        q.command = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;q.constructor = Queue;
+        q.constructor = Queue;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;q.execute = function( data ) {
+        q.execute = function( data ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( this.list.length > 0 ) {
+            if( this.list.length > 0 ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.command = this.list.shift();
+                this.command = this.list.shift();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.command.execute( data );
+                this.command.execute( data );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;else {
+            else {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.command = undefined;
+                this.command = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( this.options.complete ) {
+                if( this.options.complete ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.options.complete();
+                    this.options.complete();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+                }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;function Command( target, args, ops ) {
+        function Command( target, args, ops ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.target = target;
+            this.target = target;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.args = args || [];
+            this.args = args || [];
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.options = ops || {};
+            this.options = ops || {};
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.nextCommand = undefined;
+            this.nextCommand = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var c = Command.prototype = new Commandable();
+        var c = Command.prototype = new Commandable();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;c.constructor = Command;
+        c.constructor = Command;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;c.getCommandOptions = function( options, nextCommand ) {
+        c.getCommandOptions = function( options, nextCommand ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var responder = {
+            var responder = {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;ops: options,
+                ops: options,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function( response ) {
+                success: function( response ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options && options.success ) options.success( response );
+                    if( options && options.success ) options.success( response );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( nextCommand ) {
+                    if( nextCommand ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;nextCommand.execute( response );
+                        nextCommand.execute( response );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+                    }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+                },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function( status, error, reason ) {
+                error: function( status, error, reason ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options && options.error ) options.error( status, error, reason );
+                    if( options && options.error ) options.error( status, error, reason );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+                }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+            };
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return $.extend( {}, this.options, responder );
+            return $.extend( {}, this.options, responder );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;c.execute = function( data ) {
+        c.execute = function( data ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.args.push( this.getCommandOptions( this.options, this.nextCommand ) );
+            this.args.push( this.getCommandOptions( this.options, this.nextCommand ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.target.apply( this, this.args );
+            this.target.apply( this, this.args );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;
+     
     
     window.Queue = Queue;
     
     window.Command = Command;
     
-    &nbsp_place_holder;
+     
     
     }(window));
 
@@ -1032,33 +1038,33 @@ _/_attachments/script/jquery.albums.app.js_
     
     function doSignUp( name, password, options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;options = options || {};
+        options = options || {};
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var queueOptions = {
+        var queueOptions = {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;complete: function() {
+          complete: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.success ) options.success();
+            if( options.success ) options.success();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var queue = new Queue( queueOptions );
+        var queue = new Queue( queueOptions );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;queue.addCommand( new Command( $.albums.logIn, ["toddanderson", "admin123"] ) );
+        queue.addCommand( new Command( $.albums.logIn, ["toddanderson", "admin123"] ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;queue.addCommand( new Command( $.couch.signup, [{name:name}, password] ) );
+        queue.addCommand( new Command( $.couch.signup, [{name:name}, password] ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;queue.addCommand( new OpenUserDocCommand() );
+        queue.addCommand( new OpenUserDocCommand() );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;queue.addCommand( new AssignRoleCommand() );
+        queue.addCommand( new AssignRoleCommand() );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;queue.addCommand( new Command( $.albums.logOut ) );
+        queue.addCommand( new Command( $.albums.logOut ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;queue.addCommand( new Command( $.albums.logIn, [name, password], options ) );
+        queue.addCommand( new Command( $.albums.logIn, [name, password], options ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;queue.execute();
+        queue.execute();
     
     }
 
@@ -1072,13 +1078,13 @@ _/_attachments/script/jquery.albums.app.js_
     
     OpenUserDocCommand.prototype.execute = function( data ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var $userDB = $.couch.db("_users");
+          var $userDB = $.couch.db("_users");
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$userDB.openDoc( data.id, this.getCommandOptions( this.options, this.nextCommand ) );
+          $userDB.openDoc( data.id, this.getCommandOptions( this.options, this.nextCommand ) );
     
     }
     
-    &nbsp_place_holder;
+     
     
     function AssignRoleCommand( target, args, options ) {}
     
@@ -1086,11 +1092,11 @@ _/_attachments/script/jquery.albums.app.js_
     
     AssignRoleCommand.prototype.execute = function( data ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;data.roles = ["albums-user"];
+          data.roles = ["albums-user"];
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var $userDB = $.couch.db("_users");
+          var $userDB = $.couch.db("_users");
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$userDB.saveDoc( data, this.getCommandOptions( this.options, this.nextCommand ) );
+          $userDB.saveDoc( data, this.getCommandOptions( this.options, this.nextCommand ) );
     
     }
 
@@ -1102,297 +1108,297 @@ _/_attachments/script/jquery.albums.app.js_
     
     (function($) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;$.albums = $.albums || {};
+      $.albums = $.albums || {};
     
-    &nbsp_place_holder;&nbsp_place_holder;$.extend( $.albums, {
+      $.extend( $.albums, {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;dialog: undefined,
+        dialog: undefined,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;database: undefined,
+        database: undefined,
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;logIn: function( name, password, options ) {
+        logIn: function( name, password, options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;doLogIn( name, password, options );
+          doLogIn( name, password, options );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;logOut: function( options ) {
+        logOut: function( options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;doLogOut( options );
+          doLogOut( options );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;saveDocument: function( document, options ) {
+        saveDocument: function( document, options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;checkSession( {
+          checkSession( {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;available: function( userCtx ) {
+            available: function( userCtx ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;document.user = user;
+              document.user = user;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.albums.database.saveDoc( document, options );
+              $.albums.database.saveDoc( document, options );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;unavailable: function() {
+            unavailable: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;showDialog( options );
+              showDialog( options );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+          });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;deleteDocument: function( document, options ) {
+        deleteDocument: function( document, options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;checkSession( {
+          checkSession( {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;available: function( userCtx ) {
+            available: function( userCtx ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.albums.database.removeDoc( document, options );
+              $.albums.database.removeDoc( document, options );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;unavailable: function() {
+            unavailable: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;showDialog( options );
+              showDialog( options );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+          });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;var user; /* _user > document.name */
+      var user; /* _user > document.name */
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;function OpenUserDocCommand( target, args, options ) {}
+      function OpenUserDocCommand( target, args, options ) {}
     
-    &nbsp_place_holder;&nbsp_place_holder;OpenUserDocCommand.prototype = new Command();
+      OpenUserDocCommand.prototype = new Command();
     
-    &nbsp_place_holder;&nbsp_place_holder;OpenUserDocCommand.prototype.execute = function( data ) {
+      OpenUserDocCommand.prototype.execute = function( data ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var $userDB = $.couch.db("_users");
+          var $userDB = $.couch.db("_users");
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$userDB.openDoc( data.id, this.getCommandOptions( this.options, this.nextCommand ) );
+          $userDB.openDoc( data.id, this.getCommandOptions( this.options, this.nextCommand ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;function AssignRoleCommand( target, args, options ) {}
+      function AssignRoleCommand( target, args, options ) {}
     
-    &nbsp_place_holder;&nbsp_place_holder;AssignRoleCommand.prototype = new Command();
+      AssignRoleCommand.prototype = new Command();
     
-    &nbsp_place_holder;&nbsp_place_holder;AssignRoleCommand.prototype.execute = function( data ) {
+      AssignRoleCommand.prototype.execute = function( data ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;data.roles = ["albums-user"];
+          data.roles = ["albums-user"];
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var $userDB = $.couch.db("_users");
+          var $userDB = $.couch.db("_users");
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$userDB.saveDoc( data, this.getCommandOptions( this.options, this.nextCommand ) );
+          $userDB.saveDoc( data, this.getCommandOptions( this.options, this.nextCommand ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;function checkSession( options ) {
+      function checkSession( options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;options = options || {};
+        options = options || {};
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.couch.session( {
+        $.couch.session( {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function( response ) {
+          success: function( response ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var context = response.userCtx;
+            var context = response.userCtx;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( context.name == null ) {
+            if( context.name == null ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.unavailable ) options.unavailable();
+              if( options.unavailable ) options.unavailable();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;else{
+            else{
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.available ) options.available( context );
+              if( options.available ) options.available( context );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function( status, error, reason ) {
+          error: function( status, error, reason ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.unavailable ) options.unavailable();
+            if( options.unavailable ) options.unavailable();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;function doLogIn( name, password, options ) {
+      function doLogIn( name, password, options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;options = options || {};
+        options = options || {};
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var loginObj = {
+        var loginObj = {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;name:name,
+          name:name,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;password:password,
+          password:password,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function( response ) {
+          success: function( response ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;user = response.name;
+            user = response.name;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.success ) options.success( response );
+            if( options.success ) options.success( response );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function( status, error, reason ) {
+          error: function( status, error, reason ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.error ) options.error( status, error, reason );
+            if( options.error ) options.error( status, error, reason );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+        };
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.couch.login( loginObj );
+        $.couch.login( loginObj );
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;function doLogOut( options ) {
+      function doLogOut( options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;options = options || {};
+        options = options || {};
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.couch.logout( {
+        $.couch.logout( {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function( response ) {
+          success: function( response ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;user = undefined;
+            user = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.success ) options.success( response );
+            if( options.success ) options.success( response );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function( status, error, reason ) {
+          error: function( status, error, reason ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.error ) options.error( status, error, reason );
+            if( options.error ) options.error( status, error, reason );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;})
+        })
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;function doSignUp( name, password, options ) {
+      function doSignUp( name, password, options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;options = options || {};
+        options = options || {};
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var queueOptions = {
+        var queueOptions = {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;complete: function() {
+          complete: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( options.success ) options.success();
+            if( options.success ) options.success();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var queue = new Queue( queueOptions );
+        var queue = new Queue( queueOptions );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;queue.addCommand( new Command( $.albums.logIn, ["toddanderson", "admin123"] ) );
+        queue.addCommand( new Command( $.albums.logIn, ["toddanderson", "admin123"] ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;queue.addCommand( new Command( $.couch.signup, [{name:name}, password] ) );
+        queue.addCommand( new Command( $.couch.signup, [{name:name}, password] ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;queue.addCommand( new OpenUserDocCommand() );
+        queue.addCommand( new OpenUserDocCommand() );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;queue.addCommand( new AssignRoleCommand() );
+        queue.addCommand( new AssignRoleCommand() );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;queue.addCommand( new Command( $.albums.logOut ) );
+        queue.addCommand( new Command( $.albums.logOut ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;queue.addCommand( new Command( $.albums.logIn, [name, password], options ) );
+        queue.addCommand( new Command( $.albums.logIn, [name, password], options ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;queue.execute();
+        queue.execute();
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;function showDialog( options ) {
+      function showDialog( options ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.albums.dialog.loginDialog( {
+        $.albums.dialog.loginDialog( {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;login: function( evt, ui ) {
+          login: function( evt, ui ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;doLogIn( ui.name, ui.password, {
+            doLogIn( ui.name, ui.password, {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function( response ) {
+              success: function( response ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.albums.dialog.loginDialog( "close" );
+                $.albums.dialog.loginDialog( "close" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+              },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function( status, error, reason ) {
+              error: function( status, error, reason ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;alert( "Error: " + error + ", " + reason );
+                alert( "Error: " + error + ", " + reason );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+              }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+            });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;signup: function( evt, ui ) {
+          signup: function( evt, ui ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;doSignUp( ui.name, ui.password, {
+            doSignUp( ui.name, ui.password, {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function( response ) {
+              success: function( response ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.albums.dialog.loginDialog( "close" );
+                $.albums.dialog.loginDialog( "close" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+              },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function( status, error, reason ) {
+              error: function( status, error, reason ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;alert( "Error: " + error + ", " + reason );
+                alert( "Error: " + error + ", " + reason );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+              }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+            });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;
+     
     
     })(jQuery)
 
@@ -1406,43 +1412,43 @@ _/vendor/couchapp/_attachments/loader.js_
     
     function couchapp_load(scripts) {
     
-    &nbsp_place_holder;&nbsp_place_holder;for (var i=0; i < scripts.length; i++) {
+      for (var i=0; i < scripts.length; i++) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;document.write('<script src="'+scripts[i]+'"><\/script>')
+        document.write('<script src="'+scripts[i]+'"><\/script>')
     
-    &nbsp_place_holder;&nbsp_place_holder;};
+      };
     
     };
     
-    &nbsp_place_holder;
+     
     
     couchapp_load([
     
-    &nbsp_place_holder;&nbsp_place_holder;"/_utils/script/sha1.js",
+      "/_utils/script/sha1.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"/_utils/script/json2.js",
+      "/_utils/script/json2.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"vendor/couchapp/jquery-1.4.4.js",
+      "vendor/couchapp/jquery-1.4.4.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"/_utils/script/jquery.couch.js",
+      "/_utils/script/jquery.couch.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"vendor/couchapp/jquery.couch.app.js",
+      "vendor/couchapp/jquery.couch.app.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"vendor/couchapp/jquery.couch.app.util.js",
+      "vendor/couchapp/jquery.couch.app.util.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"vendor/couchapp/jquery.mustache.js",
+      "vendor/couchapp/jquery.mustache.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"vendor/couchapp/jquery.evently.js",
+      "vendor/couchapp/jquery.evently.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"vendor/couchapp/jquery.mobile-1.0a2.js",
+      "vendor/couchapp/jquery.mobile-1.0a2.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"vendor/couchapp/jquery.tmpl.js",
+      "vendor/couchapp/jquery.tmpl.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"script/command_queue.js",
+      "script/command_queue.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"script/jquery.albums.app.js",
+      "script/jquery.albums.app.js",
     
-    &nbsp_place_holder;&nbsp_place_holder;"script/jquery.albums.loginDialog.js"
+      "script/jquery.albums.loginDialog.js"
     
     ]);
 
@@ -1454,69 +1460,69 @@ _/attachments/index.html_
     
     {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$("#home").bind( "pagebeforeshow", refreshAlbums );
+        $("#home").bind( "pagebeforeshow", refreshAlbums );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;refreshAlbums();
+        refreshAlbums();
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// Set database reference and dialog template on albums.
+        // Set database reference and dialog template on albums.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.extend( $.albums, {
+        $.extend( $.albums, {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;database: $db,
+            database: $db,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;dialog:&nbsp_place_holder; $("#loginSignupDialog").tmpl()
+            dialog:  $("#loginSignupDialog").tmpl()
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$("#addSubmitButton").live( "click", function( event ) {
+        $("#addSubmitButton").live( "click", function( event ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;event.preventDefault();
+            event.preventDefault();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var document = {};
+            var document = {};
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;document.artist = $("input#addArtistField").val();
+            document.artist = $("input#addArtistField").val();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;document.title = $("input#addTitleField").val();
+            document.title = $("input#addTitleField").val();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;document.description = $("textarea#addDescriptionField").val();
+            document.description = $("textarea#addDescriptionField").val();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;document.creation_date = ( new Date() ).getTime();
+            document.creation_date = ( new Date() ).getTime();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.albums.saveDocument( document, {
+            $.albums.saveDocument( document, {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function() {
+                success: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.mobile.changePage( "#home", "slidedown", true, true );
+                    $.mobile.changePage( "#home", "slidedown", true, true );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+                },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function( status, error, reason ) {
+                error: function( status, error, reason ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;alert( "Cannot save new document.\n" + status + ", " + reason + ", " + error );
+                    alert( "Cannot save new document.\n" + status + ", " + reason + ", " + error );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+                }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+            });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return false;
+            return false;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$("#addAlbum").bind( "pagehide", function() {
+        $("#addAlbum").bind( "pagehide", function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$("input#addArtistField").val( "" );
+            $("input#addArtistField").val( "" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$("input#addTitleField").val( "" );
+            $("input#addTitleField").val( "" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$("textarea#addDescriptionField").val( "" );
+            $("textarea#addDescriptionField").val( "" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
     }
 
@@ -1540,45 +1546,45 @@ _/_attachments/script/album-delete-dialog.js_
     
     {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;event.preventDefault();
+        event.preventDefault();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var docId = $("#dialogContent").data("identity");
+        var docId = $("#dialogContent").data("identity");
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// First open doc based on ID in order to get full document.
+        // First open doc based on ID in order to get full document.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$db.openDoc( docId, {
+        $db.openDoc( docId, {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function( document ) {
+            success: function( document ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// Then use the opened doc as reference to remove.
+                // Then use the opened doc as reference to remove.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.albums.deleteDocument( document, {
+                $.albums.deleteDocument( document, {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function() {
+                    success: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.mobile.changePage( "#home", "slide", true, true );
+                        $.mobile.changePage( "#home", "slide", true, true );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+                    },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function() {
+                    error: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;alert( "Could not remove document with id: " + docId );
+                        alert( "Could not remove document with id: " + docId );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+                    }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+                });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function() {
+            error: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;alert( "Could not find document with id: " + docId );
+                alert( "Could not find document with id: " + docId );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return false;
+        return false;
     
     }
 
@@ -1590,23 +1596,23 @@ _/_attachments/script/album-edit-page.js_
     
     {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$.albums.saveDocument( document, {
+        $.albums.saveDocument( document, {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;success: function( response )&nbsp_place_holder; {
+            success: function( response )  {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;updateEditableAlbum( document );
+                updateEditableAlbum( document );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;navigateToAlbumPage( document._id );
+                navigateToAlbumPage( document._id );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;error: function( status, error, reason ) {
+            error: function( status, error, reason ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;alert( "Cannot save document: " + document._id + "\n" + reason );
+                alert( "Cannot save document: " + document._id + "\n" + reason );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
     }
 
@@ -1658,6 +1664,3 @@ _If you have found this post and any piece has moved forward, hopefully the exam
 [Full source for albums couchapp available here](http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
 
 Posted in [CouchDB](http://custardbelly.com/blog/category/couchdb/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – March 4, 2011
-  *[March 4, 2011]: 2011-03-04T12:42

@@ -1,4 +1,10 @@
-# [The Making of a Test-Driven Grocery List Application in JS: Part II](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/)
+---
+title: 'The Making of a Test-Driven Grocery List Application in JS: Part II'
+url: 'http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/'
+author:
+  name: 'todd anderson'
+date: '2012-11-26'
+---
 
 _This is the second installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
 —
@@ -69,75 +75,75 @@ Here is an example of the **specrunner.html** from _/test/jasmine_ directory of 
     
     <html>
     
-    &nbsp_place_holder;&nbsp_place_holder;<head>
+      <head>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<title>grocery-ls Spec Runner</title>
+        <title>grocery-ls Spec Runner</title>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<link rel="stylesheet" type="text/css" href="lib/jasmine-1.2.0/jasmine.css">
+        <link rel="stylesheet" type="text/css" href="lib/jasmine-1.2.0/jasmine.css">
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<script src="../../lib/require-2.1.1.min.js"></script>
+        <script src="../../lib/require-2.1.1.min.js"></script>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<script src="lib/jasmine-1.2.0/jasmine.js"></script>
+        <script src="lib/jasmine-1.2.0/jasmine.js"></script>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<script src="lib/jasmine-1.2.0/jasmine-html.js"></script>
+        <script src="lib/jasmine-1.2.0/jasmine-html.js"></script>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<script src="lib/jasmine.async.min.js"></script>
+        <script src="lib/jasmine.async.min.js"></script>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<script src="lib/sinon-1.5.0.js"></script>
+        <script src="lib/sinon-1.5.0.js"></script>
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<script>
+        <script>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;(function( window, require ) {
+          (function( window, require ) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;require.config({
+            require.config({
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;baseUrl: "../..",
+              baseUrl: "../..",
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;paths: {
+              paths: {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"spec": "./test/jasmine/spec",
+                "spec": "./test/jasmine/spec",
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"script": "./script",
+                "script": "./script",
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"jquery": "./lib/jquery-1.8.3.min.js"
+                "jquery": "./lib/jquery-1.8.3.min.js"
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+              }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+            });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;require( ['spec/newitem.spec.js'], function() {
+            require( ['spec/newitem.spec.js'], function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var jasmineEnv = jasmine.getEnv(),
+              var jasmineEnv = jasmine.getEnv(),
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;htmlReporter = new jasmine.HtmlReporter();
+                  htmlReporter = new jasmine.HtmlReporter();
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;jasmineEnv.updateInterval = 1000;
+              jasmineEnv.updateInterval = 1000;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;jasmineEnv.addReporter(htmlReporter);
+              jasmineEnv.addReporter(htmlReporter);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;jasmineEnv.execute();
+              jasmineEnv.execute();
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});&nbsp_place_holder; 
+            });  
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}(window, requirejs));
+          }(window, requirejs));
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</script>
+        </script>
     
-    &nbsp_place_holder;
+     
     
     </head>
     
@@ -170,31 +176,31 @@ With this knowledge, we can create a basic skeleton of the spec file to cover th
     
     define( function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;describe('User requests to add new item', function() {
+      describe('User requests to add new item', function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;it('should save new item when name supplied', function() {
+        it('should save new item when name supplied', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(false).toBe(true);
+            expect(false).toBe(true);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;it('should not save new item when name not supplied', function() {
+        it('should not save new item when name not supplied', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(false).toBe(true);
+            expect(false).toBe(true);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
     });
 
@@ -214,57 +220,57 @@ _/test/jasmine/spec/newitem.spec.js_
     
     describe('User requests to add new item', function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var listController = {
+        var listController = {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;editableItem: undefined,
+                  editableItem: undefined,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemList: []
+                  itemList: []
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+              };
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;beforeEach( function() {
+        beforeEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.createNewItem();
+          listController.createNewItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.editFocusedItem('apples');
+          listController.editFocusedItem('apples');
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.saveFocusedItem();
+          listController.saveFocusedItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;it('should save new item when name supplied', function() {
+        it('should save new item when name supplied', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(false).toBe(true);
+          expect(false).toBe(true);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;it('should not save new item when name not supplied', function() {
+        it('should not save new item when name not supplied', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(false).toBe(true);
+          expect(false).toBe(true);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;afterEach( function() {
+        afterEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.itemList = [];
+          listController.itemList = [];
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.editableItem = undefined;
+          listController.editableItem = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
 
 Before each spec is entered, the list controller is requested to create a new item, modify it and save it to the list. After each spec, reference to the newly created item is returned to an undefined value and the list is emptied. All this will fail if you run it – even before getting to the specifications; the _listController_ variable only exposes the item and list properties and does not provide the API we have defined in the _beforeEach()_ method. 
 
@@ -272,7 +278,7 @@ Now we could go about stubbing the _listController_ out with an API, like such:
     
     sinon.stub(listController, "createNewItem", function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.editableItem = {};
+        listController.editableItem = {};
     
     });
 
@@ -282,63 +288,63 @@ _/test/jasmine/spec/newitem.spec.js_
     
     var itemProperties = function(id) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return {
+          return {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"id": {
+            "id": {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;value: id,
+              value: id,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;writable: false,
+              writable: false,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;enumerable: true
+              enumerable: true
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"name": {
+            "name": {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;value: '',
+              value: '',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;writable: true,
+              writable: true,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;enumerable: true
+              enumerable: true
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+          };
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+        },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController = {
+        listController = {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemList: [],
+          itemList: [],
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;editableItem: undefined,
+          editableItem: undefined,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;createNewItem: function() {
+          createNewItem: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.editableItem = Object.create(Object.prototype, itemProperties(new Date().getTime()));
+            this.editableItem = Object.create(Object.prototype, itemProperties(new Date().getTime()));
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;editFocusedItem: function(name) {
+          editFocusedItem: function(name) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.editableItem.name = name;
+            this.editableItem.name = name;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;saveFocusedItem: function() {
+          saveFocusedItem: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( this.editableItem.name.length !== 0 ) {
+            if( this.editableItem.name.length !== 0 ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.itemList.push(this.editableItem);
+              this.itemList.push(this.editableItem);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.editableItem = undefined;
+            this.editableItem = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+        };
 
 The _listController_ now exposes the methods for creation, edit and save of an item and internally updates the property values of _itemList_ and _editableItem_. As well, you will notice how a new item is generated using the _Object.create()_ method and supplying a _defineProperties_ object with an immutable “_id_” property and a mutable “_name_” property. With the _listController_ fleshed out a bit more, we can return to the specs and defined some expectations. Remembering that we instruct the _listController_ to create, modify and save an item to the list in the _beforeEach()_ method fo the spec suite, we can modify the first spec that pertains to the successful add of an item:
 
@@ -346,13 +352,13 @@ _/test/jasmine/spec/newitem.spec.js_
     
     it('should save new item when name supplied', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList.length).toBe(1);
+      expect(listController.itemList.length).toBe(1);
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList[0]).not.toBe(undefined);
+      expect(listController.itemList[0]).not.toBe(undefined);
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList[0].hasOwnProperty('name')).toBe(true);
+      expect(listController.itemList[0].hasOwnProperty('name')).toBe(true);
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList[0].name).toBe('apples');
+      expect(listController.itemList[0].name).toBe('apples');
     
     });
 
@@ -363,13 +369,13 @@ _/test/jasmine/spec/newitem.spec.js_
     
     it('should not save new item when name not supplied', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;listController.createNewItem();
+      listController.createNewItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;listController.saveFocusedItem();
+      listController.saveFocusedItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList.length).toBe(1);
+      expect(listController.itemList.length).toBe(1);
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList[0].name).toBe('apples');
+      expect(listController.itemList[0].name).toBe('apples');
     
     });
 
@@ -386,167 +392,167 @@ _/test/jasmine/spec/newitem.spec.js_
     
     define( function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;var itemProperties = function(id) {
+      var itemProperties = function(id) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return {
+            return {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"id": {
+              "id": {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;value: id,
+                value: id,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;writable: false,
+                writable: false,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;enumerable: true
+                enumerable: true
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+              },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"name": {
+              "name": {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;value: '',
+                value: '',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;writable: true,
+                writable: true,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;enumerable: true
+                enumerable: true
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+              }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+            };
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController = {
+          listController = {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemList: [],
+            itemList: [],
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;editableItem: undefined,
+            editableItem: undefined,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;createNewItem: function() {
+            createNewItem: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.editableItem = Object.create(Object.prototype, itemProperties(new Date().getTime()));
+              this.editableItem = Object.create(Object.prototype, itemProperties(new Date().getTime()));
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;editFocusedItem: function(name) {
+            editFocusedItem: function(name) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.editableItem.name = name;
+              this.editableItem.name = name;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;saveFocusedItem: function() {
+            saveFocusedItem: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( this.editableItem.name.length !== 0 ) {
+              if( this.editableItem.name.length !== 0 ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.itemList.push(this.editableItem);
+                this.itemList.push(this.editableItem);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+              }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.editableItem = undefined;
+              this.editableItem = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemName = 'apples';
+          itemName = 'apples';
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;describe('List Controller creates a new item', function() {
+      describe('List Controller creates a new item', function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;beforeEach( function() {
+        beforeEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.createNewItem();
+          listController.createNewItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;it('should expose the editableItem upon creation', function() {
+        it('should expose the editableItem upon creation', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var createdItem = listController.editableItem;
+          var createdItem = listController.editableItem;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(createdItem).not.toBeUndefined();
+          expect(createdItem).not.toBeUndefined();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(typeof createdItem.name).toBe('string');
+          expect(typeof createdItem.name).toBe('string');
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(createdItem.name.length).toBe(0);
+          expect(createdItem.name.length).toBe(0);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;afterEach( function() {
+        afterEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.editableItem = undefined;
+          listController.editableItem = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;describe('User requests to add new item', function() {
+      describe('User requests to add new item', function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;beforeEach( function() {
+        beforeEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.createNewItem();
+          listController.createNewItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.editFocusedItem(itemName);
+          listController.editFocusedItem(itemName);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.saveFocusedItem();
+          listController.saveFocusedItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;it('should save new item when name supplied', function() {
+        it('should save new item when name supplied', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList.length).toBe(1);
+          expect(listController.itemList.length).toBe(1);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList[0]).not.toBe(undefined);
+          expect(listController.itemList[0]).not.toBe(undefined);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList[0].hasOwnProperty('name')).toBe(true);
+          expect(listController.itemList[0].hasOwnProperty('name')).toBe(true);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList[0].name).toBe(itemName);
+          expect(listController.itemList[0].name).toBe(itemName);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;it('should not save new item when name not supplied', function() {
+        it('should not save new item when name not supplied', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.createNewItem();
+          listController.createNewItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.saveFocusedItem();
+          listController.saveFocusedItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList.length).toBe(1);
+          expect(listController.itemList.length).toBe(1);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList[0].name).toBe(itemName);
+          expect(listController.itemList[0].name).toBe(itemName);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;afterEach( function() {
+        afterEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.itemList = [];
+          listController.itemList = [];
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.editableItem = undefined;
+          listController.editableItem = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
     });
 
@@ -570,69 +576,69 @@ _/script/controller/list-controller.js_
     
     define(function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;var itemProperties = function(id) {
+      var itemProperties = function(id) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return {
+            return {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"id": {
+              "id": {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;value: id,
+                value: id,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;writable: false,
+                writable: false,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;enumerable: true
+                enumerable: true
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+              },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"name": {
+              "name": {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;value: '',
+                value: '',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;writable: true,
+                writable: true,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;enumerable: true
+                enumerable: true
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+              }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+            };
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController = {
+          listController = {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemList: [],
+            itemList: [],
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;editableItem: undefined,
+            editableItem: undefined,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;createNewItem: function() {
+            createNewItem: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.editableItem = Object.create(Object.prototype, itemProperties(new Date().getTime()));
+              this.editableItem = Object.create(Object.prototype, itemProperties(new Date().getTime()));
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;editFocusedItem: function(name) {
+            editFocusedItem: function(name) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.editableItem.name = name;
+              this.editableItem.name = name;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;saveFocusedItem: function() {
+            saveFocusedItem: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( this.editableItem.name.length !== 0 ) {
+              if( this.editableItem.name.length !== 0 ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.itemList.push(this.editableItem);
+                this.itemList.push(this.editableItem);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+              }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.editableItem = undefined;
+              this.editableItem = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+          };
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;return listController;
+      return listController;
     
     });
 
@@ -640,101 +646,101 @@ _/test/jasmine/spec/newitem.spec.js_
     
     define( ['script/controller/list-controller'], function(listController) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;var itemName = 'apples';
+      var itemName = 'apples';
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;describe('List Controller creates a new item', function() {
+      describe('List Controller creates a new item', function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;beforeEach( function() {
+        beforeEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.createNewItem();
+          listController.createNewItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;it('should expose the editableItem upon creation', function() {
+        it('should expose the editableItem upon creation', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.editableItem).not.toBeUndefined();
+          expect(listController.editableItem).not.toBeUndefined();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;afterEach( function() {
+        afterEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.editableItem = undefined;
+          listController.editableItem = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;describe('User requests to add new item', function() {
+      describe('User requests to add new item', function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;beforeEach( function() {
+        beforeEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.createNewItem();
+          listController.createNewItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.editFocusedItem(itemName);
+          listController.editFocusedItem(itemName);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.saveFocusedItem();
+          listController.saveFocusedItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;it('should save new item when name supplied', function() {
+        it('should save new item when name supplied', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList.length).toBe(1);
+          expect(listController.itemList.length).toBe(1);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList[0]).not.toBe(undefined);
+          expect(listController.itemList[0]).not.toBe(undefined);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList[0].hasOwnProperty('name')).toBe(true);
+          expect(listController.itemList[0].hasOwnProperty('name')).toBe(true);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList[0].name).toBe(itemName);
+          expect(listController.itemList[0].name).toBe(itemName);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;it('should not save new item when name not supplied', function() {
+        it('should not save new item when name not supplied', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.createNewItem();
+          listController.createNewItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.saveFocusedItem();
+          listController.saveFocusedItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList.length).toBe(1);
+          expect(listController.itemList.length).toBe(1);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList[0].name).toBe(itemName);
+          expect(listController.itemList[0].name).toBe(itemName);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;afterEach( function() {
+        afterEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.itemList = [];
+          listController.itemList = [];
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.editableItem = undefined;
+          listController.editableItem = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
     });
 
@@ -756,33 +762,33 @@ _/index.html_
     
     <html>
     
-    &nbsp_place_holder;&nbsp_place_holder;<head>
+      <head>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<title>grocery-ls</title>
+        <title>grocery-ls</title>
     
-    &nbsp_place_holder;&nbsp_place_holder;</head>
+      </head>
     
-    &nbsp_place_holder;&nbsp_place_holder;<body>
+      <body>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<header>
+        <header>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<h1>grocery-ls</h1>
+          <h1>grocery-ls</h1>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</header>
+        </header>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<section class="groceries">
+        <section class="groceries">
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<ul class="grocery-list"></ul>
+          <ul class="grocery-list"></ul>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<button id="add-item-button">add item</button>
+          <button id="add-item-button">add item</button>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</section>
+        </section>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<script src="lib/require-2.1.1.min.js"></script>
+        <script src="lib/require-2.1.1.min.js"></script>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<script src="script/grocery-ls.js"></script>
+        <script src="script/grocery-ls.js"></script>
     
-    &nbsp_place_holder;&nbsp_place_holder;</body>
+      </body>
     
     </html>
 
@@ -792,33 +798,33 @@ _/script/grocery-ls.js_
     
     (function(window, require) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;require.config({
+      require.config({
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;baseUrl: ".",
+        baseUrl: ".",
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;paths: {
+        paths: {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"lib": "./lib",
+          "lib": "./lib",
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"script": "./script",
+          "script": "./script",
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"jquery": "./lib/jquery-1.8.3.min"
+          "jquery": "./lib/jquery-1.8.3.min"
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;require( ['jquery', 'script/controller/list-controller'], function($, listController) {
+      require( ['jquery', 'script/controller/list-controller'], function($, listController) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.setView($('section.groceries'));
+        listController.setView($('section.groceries'));
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
     }(window, requirejs));
 
@@ -830,137 +836,137 @@ _/script/controller/list-controller.js_
     
     define(['jquery', 'script/model/grocery-ls-item'], function($, itemModel) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;var $view,
+      var $view,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$item,
+          $item,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemList,
+          $itemList,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemFragment&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; = '<li class="grocery-item" />',
+          itemFragment              = '<li class="grocery-item" />',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;editableItemFragment&nbsp_place_holder; = '<li class="editable-grocery-item">' +
+          editableItemFragment  = '<li class="editable-grocery-item">' +
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;'<input id="editableItem" name="editableItem" ' +
+                                    '<input id="editableItem" name="editableItem" ' +
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;'class="editable-item" placeholder="Enter item name...">' +
+                                      'class="editable-item" placeholder="Enter item name...">' +
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;'</input>' +
+                                    '</input>' +
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;'</li>',
+                                  '</li>',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;findItemList = function() {
+          findItemList = function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( typeof $itemList === 'undefined' ) {
+            if( typeof $itemList === 'undefined' ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemList = $('.grocery-list', $view);
+              $itemList = $('.grocery-list', $view);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return $itemList;
+            return $itemList;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController = {
+          listController = {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemList: [],
+            itemList: [],
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;editableItem: undefined,
+            editableItem: undefined,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;setView: function(value) {
+            setView: function(value) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var controller = this;
+              var controller = this;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$view = $(value);
+              $view = $(value);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$('#add-item-button', this.$view).on( 'click', function(event) {
+              $('#add-item-button', this.$view).on( 'click', function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;controller.createNewItem();
+                controller.createNewItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+              });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;createNewItem: function() {
+            createNewItem: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var $list = findItemList(),
+              var $list = findItemList(),
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$input,
+                  $input,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;controller = this;
+                  controller = this;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.editableItem = itemModel.create();
+              this.editableItem = itemModel.create();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$item = $(editableItemFragment);
+              $item = $(editableItemFragment);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$input = $('input', $item);
+              $input = $('input', $item);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$input.first().bind( 'blur', function(event) {
+              $input.first().bind( 'blur', function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var $this = $(this);
+                var $this = $(this);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$this.unbind('blur');
+                $this.unbind('blur');
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;controller.editFocusedItem( $this.val() );
+                controller.editFocusedItem( $this.val() );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;controller.saveFocusedItem();
+                controller.saveFocusedItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+              });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$item.data('gls-item', this.editableItem);
+              $item.data('gls-item', this.editableItem);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$list.append($item);
+              $list.append($item);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$input.first().focus();
+              $input.first().focus();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;editFocusedItem: function(name) {
+            editFocusedItem: function(name) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.editableItem.name = name;
+              this.editableItem.name = name;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;saveFocusedItem: function() {
+            saveFocusedItem: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var $list = findItemList();
+              var $list = findItemList();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemFragment = $(itemFragment);
+                  $itemFragment = $(itemFragment);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$item.remove();
+              $item.remove();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( this.editableItem.name.length > 0 ) {
+              if( this.editableItem.name.length > 0 ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemFragment.append('p').text(this.editableItem.name);
+                $itemFragment.append('p').text(this.editableItem.name);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemFragment.data('gls-item', this.editableItem);
+                $itemFragment.data('gls-item', this.editableItem);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$list.append($itemFragment);
+                $list.append($itemFragment);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.itemList.push(this.editableItem);
+                this.itemList.push(this.editableItem);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+              }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.editableItem = undefined;
+              this.editableItem = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+          };
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;return listController;
+      return listController;
     
-    &nbsp_place_holder;
+     
     
     });
 
@@ -968,49 +974,49 @@ _/script/model/grocery-ls-item.js_
     
     define(function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;var properties = function(id) {
+      var properties = function(id) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return {
+        return {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"id": {
+          "id": {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;value: id,
+            value: id,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;writable: false,
+            writable: false,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;enumerable: true
+            enumerable: true
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"name": {
+          "name": {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;value: '',
+            value: '',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;writable: true,
+            writable: true,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;enumerable: true
+            enumerable: true
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+        };
     
-    &nbsp_place_holder;&nbsp_place_holder;};
+      };
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;return {
+      return {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;create: function() {
+        create: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return Object.create(Object.prototype, properties(new Date().getTime()));
+          return Object.create(Object.prototype, properties(new Date().getTime()));
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;&nbsp_place_holder;};
+      };
     
-    &nbsp_place_holder;
+     
     
     });
 
@@ -1060,6 +1066,3 @@ Thanks for sticking around. I hope this series proves to be helpful in some way.
 [Jasmine.Async](https://github.com/derickbailey/jasmine.async)
 
 Posted in [JavaScript](http://custardbelly.com/blog/category/javascript/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/), [unit-testing](http://custardbelly.com/blog/category/unit-testing/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 26, 2012
-  *[November 26, 2012]: 2012-11-26T07:01

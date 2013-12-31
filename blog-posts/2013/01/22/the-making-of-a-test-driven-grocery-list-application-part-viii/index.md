@@ -1,4 +1,10 @@
-# [The Making of a Test-Driven Grocery List Application: Part VIII](http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)
+---
+title: 'The Making of a Test-Driven Grocery List Application: Part VIII'
+url: 'http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/'
+author:
+  name: 'todd anderson'
+date: '2013-01-22'
+---
 
 _This is the eighth installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
 —
@@ -53,23 +59,23 @@ _/test/jasmine/spec/feature/saveitem.spec.js_
     
     define(['jquery', 'script/controller/list-controller', 'script/controller/list-item-controller'],
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;function($, listController, itemControllerFactory) {
+            function($, listController, itemControllerFactory) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;describe('Save item to grocery list', function() {
+      describe('Save item to grocery list', function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;it('should not save an empty item to the list') {
+        it('should not save an empty item to the list') {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(true).toEqual(false);
+          expect(true).toEqual(false);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
     }
 
@@ -79,55 +85,55 @@ _/test/jasmine/spec/feature/saveitem.spec.js_
     
     define(['jquery', 'script/controller/list-controller', 'script/controller/list-item-controller'],
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;function($, listController, itemControllerFactory) {
+            function($, listController, itemControllerFactory) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;describe('Save item to grocery list', function() {
+      describe('Save item to grocery list', function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var item,
+        var item,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemName = 'apples',
+            itemName = 'apples',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;invalidName = '',
+            invalidName = '',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemRenderer,
+            itemRenderer,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;async = new AsyncSpec(this);
+            async = new AsyncSpec(this);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;beforeEach( function() {
+        beforeEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;item = listController.createNewItem();
+          item = listController.createNewItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemRenderer = listController.getRendererFromItem(item);
+          itemRenderer = listController.getRendererFromItem(item);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;it('should not save an empty item to the list', function() {
+        it('should not save an empty item to the list', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(true).toEqual(false);
+          expect(true).toEqual(false);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;afterEach( function() {
+        afterEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;item = undefined;
+          item = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemRenderer = undefined;
+          itemRenderer = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
     });
 
@@ -139,15 +145,15 @@ _/test/jasmine/spec/feature/saveitem.spec.js_
     
     it('should not save an empty item to the list', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;var listLength = listController.getItemList().itemLength();
+      var listLength = listController.getItemList().itemLength();
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;item.name = invalidName;
+      item.name = invalidName;
     
-    &nbsp_place_holder;&nbsp_place_holder;// save item... ?
+      // save item... ?
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(listController.getItemList().itemLength()).toEqual(listLength);
+      expect(listController.getItemList().itemLength()).toEqual(listLength);
     
     });
 
@@ -157,23 +163,23 @@ _/test/jasmine/spec/feature/saveitem.spec.js_
     
     async.it('should not save an empty item to the list', function(done) {
     
-    &nbsp_place_holder;&nbsp_place_holder;var listLength = listController.getItemList().itemLength();
+      var listLength = listController.getItemList().itemLength();
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;$(itemRenderer).on('commit', function(event) {
+      $(itemRenderer).on('commit', function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.getItemList().itemLength()).toEqual(listLength-1);
+        expect(listController.getItemList().itemLength()).toEqual(listLength-1);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;done();
+        done();
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;item.name = invalidName;
+      item.name = invalidName;
     
-    &nbsp_place_holder;&nbsp_place_holder;itemRenderer.save();
+      itemRenderer.save();
     
     });
 
@@ -191,27 +197,27 @@ _/script/controller/list-item-controller.js_
     
     listItemController = {
     
-    &nbsp_place_holder;&nbsp_place_holder;$editableView: undefined,
+      $editableView: undefined,
     
-    &nbsp_place_holder;&nbsp_place_holder;$uneditableView: undefined,
+      $uneditableView: undefined,
     
-    &nbsp_place_holder;&nbsp_place_holder;init: function() {
+      init: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;...
+        ...
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return this;
+        return this;
     
-    &nbsp_place_holder;&nbsp_place_holder;},
+      },
     
-    &nbsp_place_holder;&nbsp_place_holder;save: function() {
+      save: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;},
+      },
     
-    &nbsp_place_holder;&nbsp_place_holder;dispose: function() {
+      dispose: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;...
+        ...
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
     };
 
@@ -225,11 +231,11 @@ _/script/controller/list-item-controller.js_
     
     function createSaveEvent(controller) {
     
-    &nbsp_place_holder;&nbsp_place_holder;var event = $.Event('commit');
+      var event = $.Event('commit');
     
-    &nbsp_place_holder;&nbsp_place_holder;event.controller = controller;
+      event.controller = controller;
     
-    &nbsp_place_holder;&nbsp_place_holder;return event;
+      return event;
     
     }
 
@@ -237,7 +243,7 @@ and…
     
     save: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;$(this).trigger(createSaveEvent(this));
+      $(this).trigger(createSaveEvent(this));
     
     },
 
@@ -253,75 +259,75 @@ _/script/controller/list-controller.js_
     
     $collection.on('collection-change', function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;var model, itemController, $itemView;
+      var model, itemController, $itemView;
     
-    &nbsp_place_holder;&nbsp_place_holder;switch( event.kind ) {
+      switch( event.kind ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;case EventKindEnum.ADD:
+        case EventKindEnum.ADD:
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemView = $('<li>');
+          $itemView = $('<li>');
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;model = event.items.shift();
+          model = event.items.shift();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemController = itemControllerFactory.create($itemView, model);
+          itemController = itemControllerFactory.create($itemView, model);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemView.appendTo(listController.$view);
+          $itemView.appendTo(listController.$view);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;rendererList.addItem(itemController);
+          rendererList.addItem(itemController);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemController.state = itemControllerFactory.state.EDITABLE;
+          itemController.state = itemControllerFactory.state.EDITABLE;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$(itemController).on('remove', function(event) {
+          $(itemController).on('remove', function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.removeItem(model);
+            listController.removeItem(model);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+          });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$(itemController).on('commit', function(event) {
+          $(itemController).on('commit', function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if(!isValidValue(model.name)) {
+            if(!isValidValue(model.name)) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.removeItem(model);
+              listController.removeItem(model);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+          });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;break;
+          break;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;case EventKindEnum.REMOVE:
+        case EventKindEnum.REMOVE:
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;model = event.items.shift();
+          model = event.items.shift();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemController = listController.getRendererFromItem(model);
+          itemController = listController.getRendererFromItem(model);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if(itemController) {
+          if(itemController) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemView = itemController.parentView;
+            $itemView = itemController.parentView;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemView.remove();
+            $itemView.remove();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemController.dispose();
+            itemController.dispose();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$(itemController).off('remove');
+            $(itemController).off('remove');
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$(itemController).off('commit');
+            $(itemController).off('commit');
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;rendererList.removeItem(itemController);
+            rendererList.removeItem(itemController);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;break;
+          break;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;case EventKindEnum.RESET:
+        case EventKindEnum.RESET:
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;break;
+          break;
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
     });
 
@@ -345,13 +351,13 @@ _/script/controller/list-item-controller.js_
     
     $('input', this.$editableView).on('blur', (function(controller) {
     
-    &nbsp_place_holder;&nbsp_place_holder;return function(event) {
+      return function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;controller.model.name = $(this).val();
+        controller.model.name = $(this).val();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;controller.state = stateEnum.UNEDITABLE;
+        controller.state = stateEnum.UNEDITABLE;
     
-    &nbsp_place_holder;&nbsp_place_holder;};
+      };
     
     }(this)));
 
@@ -368,23 +374,23 @@ _/test/jasmine/spec/feature/saveitem.spec.js_
     
     async.it('should not save an empty item upon change to non-edit mode', function(done) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var listLength = listController.getItemList().itemLength();
+       var listLength = listController.getItemList().itemLength();
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;$(itemRenderer).on('commit', function(event) {
+      $(itemRenderer).on('commit', function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.getItemList().itemLength()).toEqual(listLength - 1);
+        expect(listController.getItemList().itemLength()).toEqual(listLength - 1);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;done();
+        done();
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;item.name = invalidName;
+      item.name = invalidName;
     
-    &nbsp_place_holder;&nbsp_place_holder;itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
+      itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
     
     });
 
@@ -399,47 +405,47 @@ _/script/controller/list-item-controller.js_
     
     function handleStateChange(controller, event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;// remove state-based item.
+      // remove state-based item.
     
-    &nbsp_place_holder;&nbsp_place_holder;if( typeof event.oldState !== 'undefined') {
+      if( typeof event.oldState !== 'undefined') {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if(event.oldState === stateEnum.UNEDITABLE) {
+        if(event.oldState === stateEnum.UNEDITABLE) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;controller.$uneditableView.detach();
+          controller.$uneditableView.detach();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;else if(event.oldState === stateEnum.EDITABLE) {
+        else if(event.oldState === stateEnum.EDITABLE) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;controller.$editableView.detach();
+          controller.$editableView.detach();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;&nbsp_place_holder;// append state-based item.
+      // append state-based item.
     
-    &nbsp_place_holder;&nbsp_place_holder;if(event.newState === stateEnum.UNEDITABLE) {
+      if(event.newState === stateEnum.UNEDITABLE) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;controller.parentView.append(controller.$uneditableView);
+        controller.parentView.append(controller.$uneditableView);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;controller.save();
+        controller.save();
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;&nbsp_place_holder;else if(event.newState === stateEnum.EDITABLE) {
+      else if(event.newState === stateEnum.EDITABLE) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var inputTimeout = setTimeout( function()&nbsp_place_holder; {
+        var inputTimeout = setTimeout( function()  {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;clearTimeout(inputTimeout);
+          clearTimeout(inputTimeout);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$('input', controller.$editableView).focus();
+          $('input', controller.$editableView).focus();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}, 100);
+        }, 100);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;controller.parentView.append(controller.$editableView);
+        controller.parentView.append(controller.$editableView);
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
     }
 
@@ -460,23 +466,23 @@ _/test/jasmine/spec/feature/saveitem.spec.js_
     
     async.it('should not add an empty item to list view upon change to non-edit mode', function(done) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var listViewLength = $listView.children().length;
+       var listViewLength = $listView.children().length;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;$(itemRenderer).on('commit', function(event) {
+      $(itemRenderer).on('commit', function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect($listView.children().length).toEqual(listViewLength - 1);
+        expect($listView.children().length).toEqual(listViewLength - 1);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;done();
+        done();
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;item.name = invalidName;
+      item.name = invalidName;
     
-    &nbsp_place_holder;&nbsp_place_holder;itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
+      itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
     
     });
 
@@ -485,47 +491,47 @@ _/test/jasmine/spec/feature/saveitem.spec.js_
     
     async.it('should save a valid item upon change to non-edit mode', function(done) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var listLength = listController.getItemList().itemLength();
+       var listLength = listController.getItemList().itemLength();
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;$(itemRenderer).on('commit', function(event) {
+      $(itemRenderer).on('commit', function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.getItemList().itemLength()).toEqual(listLength);
+        expect(listController.getItemList().itemLength()).toEqual(listLength);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;done();
+        done();
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;item.name = itemName;
+      item.name = itemName;
     
-    &nbsp_place_holder;&nbsp_place_holder;itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
+      itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
     
     });
     
-    &nbsp_place_holder;
+     
     
     async.it('should add a valid item to list view upon change to non-edit mode', function(done) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var listViewLength = $listView.children.length;
+       var listViewLength = $listView.children.length;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;$(itemRenderer).on('commit', function(event) {
+      $(itemRenderer).on('commit', function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect($listView.children().length).toEqual(listViewLength);
+        expect($listView.children().length).toEqual(listViewLength);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;done();
+        done();
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;item.name = itemName;
+      item.name = itemName;
     
-    &nbsp_place_holder;&nbsp_place_holder;itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
+      itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
     
     });
 
@@ -576,6 +582,3 @@ Cheers for sticking around!
 [Part X – It Lives!](http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
 
 Posted in [AMD](http://custardbelly.com/blog/category/amd/), [JavaScript](http://custardbelly.com/blog/category/javascript/), [RequireJS](http://custardbelly.com/blog/category/requirejs/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/), [unit-testing](http://custardbelly.com/blog/category/unit-testing/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – January 22, 2013
-  *[January 22, 2013]: 2013-01-22T07:46

@@ -42,21 +42,32 @@ page.open(index, function() {
           items.each(function(index, element) {
             var $titleElement = $('.full-title a', element),
                 title = trimTitle($titleElement.attr('href')) + 'index.html',
-                removeAuthor = function(elem) {
-                  $('p.by-line', elem).remove();
-                },
                 removeComments = function(elem) {
                   $('p.comments-link', elem).remove();
+                },
+                convertJScriptSpaces = function($elems) {
+                  $elems.each(function(index, element) {
+                    var $elem = $(element),
+                        text = $elem.text(),
+                        nbsps = text.split('&nbsp;'),
+                        i = nbsps.length,
+                        spaces = '';
+                    while(--i > -1) {
+                      spaces += '  ';
+                    }
+                    $elem.text(spaces);
+                  });
                 },
                 convertSyntaxHiCode = function(elem) {
                   var syntaxHis = $('div.syntaxhighlighter', elem);
                   syntaxHis.each(function(index, elem) {
-                    var $codeContainer = $('td.code div.container', elem);
+                    var $codeContainer = $('td.code div.container', elem),
+                        $spaces = $('code.jscript.spaces', $codeContainer);
+                    // convertJScriptSpaces($spaces);
                     $codeContainer.remove();
                     $(this).replaceWith('<pre>' + $codeContainer.html() + '</pre>');
                   });
                 };
-            // removeAuthor(this);
             removeComments(this);
             convertSyntaxHiCode(this);
             list[title] = $(this).html();

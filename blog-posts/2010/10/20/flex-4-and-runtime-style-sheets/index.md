@@ -1,4 +1,10 @@
-# [Flex 4 and Runtime style sheets](http://custardbelly.com/blog/2010/10/20/flex-4-and-runtime-style-sheets/)
+---
+title: 'Flex 4 and Runtime style sheets'
+url: 'http://custardbelly.com/blog/2010/10/20/flex-4-and-runtime-style-sheets/'
+author:
+  name: 'todd anderson'
+date: '2010-10-20'
+---
 
 I just put up some files on [github](http://github.com/bustardcelly/) under the project name [**flex-runtime-css**](http://github.com/bustardcelly/flex-runtime-css). Perhaps it is a misnomer if people are coming to see how to load and parse CSS files (there’s already the [great **F*CSS** library](http://github.com/theflashbum/fcss) out there for that). The **flex-runtime-css** project is intended to address a problem i saw when generating a **Runtime CSS SWF** to be loaded in a **Flex Application**.
 
@@ -15,6 +21,3 @@ So, long story long, **[flex-runtime-css](http://github.com/bustardcelly/flex-ru
 [flex-runtime-css on github](http://github.com/bustardcelly/flex-runtime-css).
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [flex-runtime-css](http://custardbelly.com/blog/category/flex-runtime-css/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 20, 2010
-  *[October 20, 2010]: 2010-10-20T14:53

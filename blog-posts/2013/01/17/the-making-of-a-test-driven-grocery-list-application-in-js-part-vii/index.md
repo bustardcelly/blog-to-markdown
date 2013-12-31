@@ -1,4 +1,10 @@
-# [The Making of a Test-Driven Grocery List Application in JS: Part VII](http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)
+---
+title: 'The Making of a Test-Driven Grocery List Application in JS: Part VII'
+url: 'http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/'
+author:
+  name: 'todd anderson'
+date: '2013-01-17'
+---
 
 _This is the seventh installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
 —
@@ -35,47 +41,47 @@ _/test/jasmine/spec/feature/removeitem.spec.js_
     
     define(['jquery', 'script/controller/list-controller'], function($, listController) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;describe('Remove item', function() {
+      describe('Remove item', function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var $listView = $('<ul/>'),
+        var $listView = $('<ul/>'),
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;groceryItem;
+            groceryItem;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;beforeEach( function() {
+        beforeEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.setView($listView);
+          listController.setView($listView);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;groceryItem = listController.createNewItem();
+          groceryItem = listController.createNewItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;it('should remove existing item from the collection', function() {
+        it('should remove existing item from the collection', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(false).toEqual(true);
+          expect(false).toEqual(true);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;afterEach( function() {
+        afterEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;groceryItem = undefined;
+          groceryItem = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
     });
 
@@ -90,19 +96,19 @@ _/test/jasmine/spec/feature/removeitem.spec.js_
     
     it('should remove existing item from the collection', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;var collection = listController.getItemList(),
+      var collection = listController.getItemList(),
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;removedItem;
+          removedItem;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;removedItem = listController.removeItem(groceryItem);
+      removedItem = listController.removeItem(groceryItem);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(removedItem).toBe(groceryItem);
+      expect(removedItem).toBe(groceryItem);
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(collection.getItemIndex(groceryItem)).toBe(-1);
+      expect(collection.getItemIndex(groceryItem)).toBe(-1);
     
     });
 
@@ -111,19 +117,19 @@ _/test/jasmine/specrunner.html_
     
     require( ['spec/feature/additem.spec.js', 'spec/feature/markitem.spec.js', 'spec/feature/removeitem.spec.js',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;'spec/list-controller.spec.js', 'spec/list-item-controller.spec.js', 'spec/grocery-ls-item.spec.js',
+              'spec/list-controller.spec.js', 'spec/list-item-controller.spec.js', 'spec/grocery-ls-item.spec.js',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;'spec/collection.spec.js'], function() {
+              'spec/collection.spec.js'], function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;var jasmineEnv = jasmine.getEnv(),
+      var jasmineEnv = jasmine.getEnv(),
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;...
+          ...
     
-    &nbsp_place_holder;&nbsp_place_holder;jasmineEnv.execute();
+      jasmineEnv.execute();
     
-    &nbsp_place_holder;
+     
     
     });
 
@@ -137,53 +143,53 @@ _/script/controller/list-controller.js_
     
     listController = {
     
-    &nbsp_place_holder;&nbsp_place_holder;$view: undefined,
+      $view: undefined,
     
-    &nbsp_place_holder;&nbsp_place_holder;getItemList: function() {
+      getItemList: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return collection;
+        return collection;
     
-    &nbsp_place_holder;&nbsp_place_holder;},
+      },
     
-    &nbsp_place_holder;&nbsp_place_holder;getRendererFromItem: function(item) {
+      getRendererFromItem: function(item) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var i = rendererList.itemLength();
+        var i = rendererList.itemLength();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;while( --i > -1 ) {
+        while( --i > -1 ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if(rendererList.getItemAt(i).model === item) {
+          if(rendererList.getItemAt(i).model === item) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return rendererList.getItemAt(i);
+            return rendererList.getItemAt(i);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return undefined;
+          return undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    &nbsp_place_holder;&nbsp_place_holder;},
+      },
     
-    &nbsp_place_holder;&nbsp_place_holder;createNewItem: function() {
+      createNewItem: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var model = modelFactory.create();
+        var model = modelFactory.create();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;collection.addItem(model);
+        collection.addItem(model);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return model;
+        return model;
     
-    &nbsp_place_holder;&nbsp_place_holder;},
+      },
     
-    &nbsp_place_holder;&nbsp_place_holder;removeItem: function(item) {
+      removeItem: function(item) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return collection.removeItem(item);
+        return collection.removeItem(item);
     
-    &nbsp_place_holder;&nbsp_place_holder;},
+      },
     
-    &nbsp_place_holder;&nbsp_place_holder;setView: function(view) {
+      setView: function(view) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.$view = (view instanceof $) ? view : $(view);
+        this.$view = (view instanceof $) ? view : $(view);
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
     };
 
@@ -197,11 +203,11 @@ _/test/jasmine/spec/feature/removeitem.spec.js_
     
     it('should remove item renderer from view', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;listController.removeItem(groceryItem);
+      listController.removeItem(groceryItem);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;expect($listView.children().length).toEqual(0);
+      expect($listView.children().length).toEqual(0);
     
     });
 
@@ -217,53 +223,53 @@ _/script/controller/list-controller.js_
     
     $collection.on('collection-change', function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;var model, itemController, $itemView;
+      var model, itemController, $itemView;
     
-    &nbsp_place_holder;&nbsp_place_holder;switch( event.kind ) {
+      switch( event.kind ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;case EventKindEnum.ADD:
+        case EventKindEnum.ADD:
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemView = $('<li>');
+          $itemView = $('<li>');
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;model = event.items.shift();
+          model = event.items.shift();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemController = itemControllerFactory.create($itemView, model);
+          itemController = itemControllerFactory.create($itemView, model);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemView.appendTo(listController.$view);
+          $itemView.appendTo(listController.$view);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;rendererList.addItem(itemController);
+          rendererList.addItem(itemController);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemController.state = itemControllerFactory.state.EDITABLE;
+          itemController.state = itemControllerFactory.state.EDITABLE;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;break;
+          break;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;case EventKindEnum.REMOVE:
+        case EventKindEnum.REMOVE:
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;model = event.items.shift();
+          model = event.items.shift();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemController = listController.getRendererFromItem(model);
+          itemController = listController.getRendererFromItem(model);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if(itemController) {
+          if(itemController) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemView = itemController.parentView;
+            $itemView = itemController.parentView;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemView.remove();
+            $itemView.remove();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;rendererList.removeItem(itemController);
+            rendererList.removeItem(itemController);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;break;
+          break;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;case EventKindEnum.RESET:
+        case EventKindEnum.RESET:
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;break;
+          break;
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
     });
 
@@ -288,25 +294,25 @@ _/test/jasmine/spec/list-controller.spec.js_
     
     describe('list-item-controller remove event response', function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;it('should invoke list-controller:removeItem()', function() {
+      it('should invoke list-controller:removeItem()', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var newItem = listController.createNewItem(),
+        var newItem = listController.createNewItem(),
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemRenderer = listController.getRendererFromItem(newItem);
+            itemRenderer = listController.getRendererFromItem(newItem);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;spyOn(listController, 'removeItem');
+        spyOn(listController, 'removeItem');
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$(itemRenderer).trigger('remove');
+        $(itemRenderer).trigger('remove');
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;expect(listController.removeItem).toHaveBeenCalledWith(newItem);
+        expect(listController.removeItem).toHaveBeenCalledWith(newItem);
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
     });
 
@@ -320,63 +326,63 @@ Good. Let’s open up `list-controller` and implement a `remove` event response:
     
     $collection.on('collection-change', function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;var model, itemController, $itemView;
+      var model, itemController, $itemView;
     
-    &nbsp_place_holder;&nbsp_place_holder;switch( event.kind ) {
+      switch( event.kind ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;case EventKindEnum.ADD:
+        case EventKindEnum.ADD:
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemView = $('<li>');
+          $itemView = $('<li>');
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;model = event.items.shift();
+          model = event.items.shift();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemController = itemControllerFactory.create($itemView, model);
+          itemController = itemControllerFactory.create($itemView, model);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemView.appendTo(listController.$view);
+          $itemView.appendTo(listController.$view);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;rendererList.addItem(itemController);
+          rendererList.addItem(itemController);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemController.state = itemControllerFactory.state.EDITABLE;
+          itemController.state = itemControllerFactory.state.EDITABLE;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$(itemController).on('remove', function(event) {
+          $(itemController).on('remove', function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.removeItem(model);
+            listController.removeItem(model);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+          });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;break;
+          break;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;case EventKindEnum.REMOVE:
+        case EventKindEnum.REMOVE:
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;model = event.items.shift();
+          model = event.items.shift();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemController = listController.getRendererFromItem(model);
+          itemController = listController.getRendererFromItem(model);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if(itemController) {
+          if(itemController) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemView = itemController.parentView;
+            $itemView = itemController.parentView;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$itemView.remove();
+            $itemView.remove();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;itemController.dispose();
+            itemController.dispose();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$(itemController).off('remove');
+            $(itemController).off('remove');
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;rendererList.removeItem(itemController);
+            rendererList.removeItem(itemController);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;break;
+          break;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;case EventKindEnum.RESET:
+        case EventKindEnum.RESET:
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;break;
+          break;
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
     });
 
@@ -393,23 +399,23 @@ Again, we could go into a lengthy discussion of UX and code implementations, but
 
 _/script/controller/list-item-controller.js_
     
-    uneditableItemFragment&nbsp_place_holder; = '<p class="grocery-item">' +
+    uneditableItemFragment  = '<p class="grocery-item">' +
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;'<span class="grocery-item-label" />' +
+                                                 '<span class="grocery-item-label" />' +
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;'<button class="delete-item-button">delete</button>' +
+                                                 '<button class="delete-item-button">delete</button>' +
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;'</p>',
+                                               '</p>',
     
-    editableItemFragment&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; = '<p class="editable-grocery-item">' +
+    editableItemFragment    = '<p class="editable-grocery-item">' +
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;'<input name="editableItem" ' +
+                                                '<input name="editableItem" ' +
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;'class="editable-item" placeholder="Enter item name...">' +
+                                                  'class="editable-item" placeholder="Enter item name...">' +
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;'</input>' +
+                                                '</input>' +
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;'</p>'
+                                             '</p>'
 
 The `uneditableItemFragment` markup has changed slightly to support a label and a button. It was previously just a `p` element all by its lonesome, but with several references for modification and event `click` event handling. We’ll need to update those, as well as add another event handler for the `button` element:
 
@@ -417,37 +423,37 @@ _/script/controller/list-item-controller.js_
     
     init: function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;this.$editableView = $(editableItemFragment);
+      this.$editableView = $(editableItemFragment);
     
-    &nbsp_place_holder;&nbsp_place_holder;this.$uneditableView = $(uneditableItemFragment);
+      this.$uneditableView = $(uneditableItemFragment);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;// view handlers.
+      // view handlers.
     
-    &nbsp_place_holder;&nbsp_place_holder;$('span.grocery-item-label', this.$uneditableView).on('click', (function(controller) {
+      $('span.grocery-item-label', this.$uneditableView).on('click', (function(controller) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return function(event) {
+        return function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var toggled = $(this).css('text-decoration') === 'line-through';
+          var toggled = $(this).css('text-decoration') === 'line-through';
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;controller.model.marked = !toggled;
+          controller.model.marked = !toggled;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+        };
     
-    &nbsp_place_holder;&nbsp_place_holder;}(this)));
+      }(this)));
     
-    &nbsp_place_holder;&nbsp_place_holder;$('button.delete-item-button', this.$uneditableView).on('click', (function(controller) {
+      $('button.delete-item-button', this.$uneditableView).on('click', (function(controller) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return function(event) {
+        return function(event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$(controller).trigger(createRemoveEvent(controller));
+          $(controller).trigger(createRemoveEvent(controller));
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+        };
     
-    &nbsp_place_holder;&nbsp_place_holder;}(this)));
+      }(this)));
     
-    &nbsp_place_holder;&nbsp_place_holder;...
+      ...
     
     }
 
@@ -461,11 +467,11 @@ _/script/controller/list-item-controller.js_
     
     function createRemoveEvent(controller) {
     
-    &nbsp_place_holder;&nbsp_place_holder;var event = $.Event('remove');
+      var event = $.Event('remove');
     
-    &nbsp_place_holder;&nbsp_place_holder;event.controller = controller;
+      event.controller = controller;
     
-    &nbsp_place_holder;&nbsp_place_holder;return event;
+      return event;
     
     }
 
@@ -475,25 +481,25 @@ _/script/controller/list-item-controller.js_
     
     function handlePropertyChange(controller, event) {
     
-    &nbsp_place_holder;&nbsp_place_holder;if(event.property === "name") {
+      if(event.property === "name") {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// update view based on model change.
+        // update view based on model change.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$('input', controller.$editableView).val(controller.model.name);
+        $('input', controller.$editableView).val(controller.model.name);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$('span.grocery-item-label', controller.$uneditableView).text(event.newValue);
+        $('span.grocery-item-label', controller.$uneditableView).text(event.newValue);
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;&nbsp_place_holder;else if(event.property === "marked") {
+      else if(event.property === "marked") {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// update view based on model change.
+        // update view based on model change.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;$('span.grocery-item-label', controller.$uneditableView)
+        $('span.grocery-item-label', controller.$uneditableView)
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;.css('text-decoration', ( event.newValue ) ? 'line-through' : 'none');
+            .css('text-decoration', ( event.newValue ) ? 'line-through' : 'none');
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
     }
 
@@ -550,6 +556,3 @@ Cheers for sticking around!
 [Part X – It Lives!](http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
 
 Posted in [AMD](http://custardbelly.com/blog/category/amd/), [JavaScript](http://custardbelly.com/blog/category/javascript/), [RequireJS](http://custardbelly.com/blog/category/requirejs/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/), [unit-testing](http://custardbelly.com/blog/category/unit-testing/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – January 17, 2013
-  *[January 17, 2013]: 2013-01-17T07:58

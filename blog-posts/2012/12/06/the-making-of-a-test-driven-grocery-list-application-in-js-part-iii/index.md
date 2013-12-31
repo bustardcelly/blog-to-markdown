@@ -1,4 +1,10 @@
-# [The Making of a Test-Driven Grocery List Application in JS: Part III](http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/)
+---
+title: 'The Making of a Test-Driven Grocery List Application in JS: Part III'
+url: 'http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/'
+author:
+  name: 'todd anderson'
+date: '2012-12-06'
+---
 
 _This is the third installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
 —
@@ -69,67 +75,67 @@ _/test/jasmine/spec/markitem.spec.js_
     
     define(['script/controller/list-controller'], function(listController) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;describe('User Requests to mark-off existing item', function() {
+      describe('User Requests to mark-off existing item', function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var name = 'apples',
+        var name = 'apples',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;savedItem,
+            savedItem,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;markOffSpy,
+            markOffSpy,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;unmarkOffSpy;
+            unmarkOffSpy;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;beforeEach( function() {
+        beforeEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.createNewItem();
+          listController.createNewItem();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.editFocusedItem(name);
+          listController.editFocusedItem(name);
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.saveFocusedItem();
+          listController.saveFocusedItem();
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;savedItem = listController.itemList[listController.itemList.length-1];
+          savedItem = listController.itemList[listController.itemList.length-1];
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;markOffSpy = spyOn(listController, "markOffItem").andCallThrough();
+          markOffSpy = spyOn(listController, "markOffItem").andCallThrough();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;unmarkOffSpy = spyOn(listController, "unmarkOffItem").andCallThrough();
+          unmarkOffSpy = spyOn(listController, "unmarkOffItem").andCallThrough();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;...
+        ...
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;afterEach( function() {
+        afterEach( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;savedItem = undefined;
+          savedItem = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;markOffSpy.reset();
+          markOffSpy.reset();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;unmarkOffSpy.reset();
+          unmarkOffSpy.reset();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.itemList = [];
+          listController.itemList = [];
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;listController.editableItem = undefined;
+          listController.editableItem = undefined;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;});
+      });
     
-    &nbsp_place_holder;
+     
     
     });
 
@@ -141,37 +147,37 @@ _/test/jasmine/spec/markitem.spec.js_
     
     it('should denote item as being in possession', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;var previouslySavedItem = savedItem,
+      var previouslySavedItem = savedItem,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;savedItemID = savedItem.id,
+          savedItemID = savedItem.id,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;savedItemSpy = sinon.spy();
+          savedItemSpy = sinon.spy();
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;savedItemSpy(previouslySavedItem);
+      savedItemSpy(previouslySavedItem);
     
-    &nbsp_place_holder;&nbsp_place_holder;listController.markOffItem(savedItemID);
+      listController.markOffItem(savedItemID);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;// spy expectations.
+      // spy expectations.
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(markOffSpy).toHaveBeenCalled();
+      expect(markOffSpy).toHaveBeenCalled();
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(markOffSpy).toHaveBeenCalledWith(savedItemID);
+      expect(markOffSpy).toHaveBeenCalledWith(savedItemID);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;// model expectations.
+      // model expectations.
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(previouslySavedItem.hasOwnProperty('marked')).toBe(true);
+      expect(previouslySavedItem.hasOwnProperty('marked')).toBe(true);
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(previouslySavedItem.marked).toBe(true);
+      expect(previouslySavedItem.marked).toBe(true);
     
-    &nbsp_place_holder;&nbsp_place_holder;// OR >
+      // OR >
     
-    &nbsp_place_holder;&nbsp_place_holder;sinon.assert.calledWith(savedItemSpy, sinon.match.hasOwn('marked', true));
+      sinon.assert.calledWith(savedItemSpy, sinon.match.hasOwn('marked', true));
     
     });
 
@@ -191,7 +197,7 @@ If the test didn’t cough at that line, that we can relatively assume the expec
     
     var previouslySavedItem = savedItem,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;savedItemSpy = sinon.spy();
+          savedItemSpy = sinon.spy();
     
     savedItemSpy(previouslySavedItem);
     
@@ -207,39 +213,39 @@ _/test/jasmine/spec/markitem.spec.js_
     
     it('should retain the item in the grocery list', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;listController.markOffItem(savedItem.id);
+      listController.markOffItem(savedItem.id);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList.length).toBe(1);
+      expect(listController.itemList.length).toBe(1);
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(listController.itemList.indexOf(savedItem)).toBe(0);
+      expect(listController.itemList.indexOf(savedItem)).toBe(0);
     
     });
     
-    &nbsp_place_holder;
+     
     
     it('should have marked-off item available to unmark-off', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;var previouslySavedItem = savedItem,
+      var previouslySavedItem = savedItem,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;savedItemID = savedItem.id;
+          savedItemID = savedItem.id;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;listController.markOffItem(savedItem.id);
+      listController.markOffItem(savedItem.id);
     
-    &nbsp_place_holder;&nbsp_place_holder;listController.unmarkOffItem(savedItem.id);
+      listController.unmarkOffItem(savedItem.id);
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;// stubbed expectations.
+      // stubbed expectations.
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(unmarkOffSpy).toHaveBeenCalled();
+      expect(unmarkOffSpy).toHaveBeenCalled();
     
-    &nbsp_place_holder;&nbsp_place_holder;// model expectations.
+      // model expectations.
     
-    &nbsp_place_holder;&nbsp_place_holder;expect(previouslySavedItem.marked).not.toBe(true);
+      expect(previouslySavedItem.marked).not.toBe(true);
     
     });
 
@@ -258,11 +264,11 @@ _/test/jasmine/specrunner.html_
     
     require( ['spec/newitem.spec.js', 'spec/markitem.spec.js'], function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;var jasmineEnv = jasmine.getEnv(),
+      var jasmineEnv = jasmine.getEnv(),
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;...
+           ...
     
-    &nbsp_place_holder;&nbsp_place_holder;jasmineEnv.execute();
+      jasmineEnv.execute();
     
     });
 
@@ -283,25 +289,25 @@ _/script/controller/list-controller.js_
     
     markOffItem: function(itemID) {
     
-    &nbsp_place_holder;&nbsp_place_holder;var item = findItemByID(itemID, this.itemList),
+      var item = findItemByID(itemID, this.itemList),
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;renderer = findRendererByItem(item, $itemList.children());
+            renderer = findRendererByItem(item, $itemList.children());
     
-    &nbsp_place_holder;&nbsp_place_holder;item.marked = true;
+      item.marked = true;
     
-    &nbsp_place_holder;&nbsp_place_holder;$(renderer).css('text-decoration', 'line-through');
+      $(renderer).css('text-decoration', 'line-through');
     
     },
     
     unmarkOffItem: function(itemID) {
     
-    &nbsp_place_holder;&nbsp_place_holder;var item = findItemByID(itemID, this.itemList),
+      var item = findItemByID(itemID, this.itemList),
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;renderer = findRendererByItem(item, $itemList.children());
+            renderer = findRendererByItem(item, $itemList.children());
     
-    &nbsp_place_holder;&nbsp_place_holder;item.marked = false;
+      item.marked = false;
     
-    &nbsp_place_holder;&nbsp_place_holder;$(renderer).css('text-decoration', 'none');
+      $(renderer).css('text-decoration', 'none');
     
     }
 
@@ -313,41 +319,41 @@ _/script/model/grocery-ls-item.js_
     
     var properties = function(id) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return {
+        return {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"id": {
+          "id": {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;value: id,
+            value: id,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;writable: false,
+            writable: false,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;enumerable: true
+            enumerable: true
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"name": {
+          "name": {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;value: '',
+            value: '',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;writable: true,
+            writable: true,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;enumerable: true
+            enumerable: true
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+          },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"marked": {
+          "marked": {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;value: false,
+            value: false,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;writable: true,
+            writable: true,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;enumerable: true
+            enumerable: true
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+          }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+        };
     
-    &nbsp_place_holder;&nbsp_place_holder;};
+      };
 
 ![passing mark-off item spec](http://custardbelly.com/blog/images/tdd_js/part_iii_1.png)  
 ![grocery list app with mark off](http://custardbelly.com/blog/images/tdd_js/part_iii_app_1.png)
@@ -394,6 +400,3 @@ Testing spies for [Jasmine](https://github.com/pivotal/jasmine/wiki/Spies) and [
 the [infamous](http://www.flickr.com/photos/unitzeroone/4721521533/) [eye-roller](http://bit-101.com)
 
 Posted in [JavaScript](http://custardbelly.com/blog/category/javascript/), [RequireJS](http://custardbelly.com/blog/category/requirejs/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/), [unit-testing](http://custardbelly.com/blog/category/unit-testing/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – December 6, 2012
-  *[December 6, 2012]: 2012-12-06T14:19

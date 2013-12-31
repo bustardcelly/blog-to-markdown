@@ -1,4 +1,10 @@
-# [Beer list – Amsterdam new years.](http://custardbelly.com/blog/2007/01/15/beer-list-amsterdam-new-years/)
+---
+title: 'Beer list – Amsterdam new years.'
+url: 'http://custardbelly.com/blog/2007/01/15/beer-list-amsterdam-new-years/'
+author:
+  name: 'todd anderson'
+date: '2007-01-15'
+---
 
 I was sending around an email of the wife and i’s comprised beer tasting list while we were in [Amsterdam](http://www.flickr.com/photos/91582541@N00/sets/72157594462173687/), and thought i’d post it here, as well- for people who love beer or think we’ve made a mistake on our ruling.
 
@@ -47,6 +53,3 @@ Time between the Venloosch/Lindebloom incedent and Amstel Bock was @ two days, s
 If you get a chance, please see what you can do to get to Amsterdam.
 
 Posted in [Beer!](http://custardbelly.com/blog/category/beer/), [General](http://custardbelly.com/blog/category/general/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – January 15, 2007
-  *[January 15, 2007]: 2007-01-15T20:54

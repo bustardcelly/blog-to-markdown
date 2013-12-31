@@ -1,4 +1,10 @@
-# [Dependency Injection and IoC at BDP](http://custardbelly.com/blog/2009/01/20/dependency-injection-and-ioc-at-bdp/)
+---
+title: 'Dependency Injection and IoC at BDP'
+url: 'http://custardbelly.com/blog/2009/01/20/dependency-injection-and-ioc-at-bdp/'
+author:
+  name: 'todd anderson'
+date: '2009-01-20'
+---
 
 Last week I was fortunate enough to be asked by [Doug](http://www.forestandthetrees.com/) and [Sam](http://blog.pixelconsumption.com/) who run the BDP ([Boston Design Patterns](http://www.forestandthetrees.com/designPatterns/) meet-up… NOT [Boogie Down Productions](http://assets.mog.com/pictures/wikipedia/3817/Boogiedownproductions.jpg)) to present on Dependency Injection and Inversion of Control (DI and IoC for those who are down with street acronyms). 
 
@@ -253,6 +259,3 @@ _
 _
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Prana](http://custardbelly.com/blog/category/prana/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – January 20, 2009
-  *[January 20, 2009]: 2009-01-20T11:17

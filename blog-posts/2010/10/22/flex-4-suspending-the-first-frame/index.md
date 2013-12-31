@@ -1,4 +1,10 @@
-# [Flex 4: Suspending the first frame](http://custardbelly.com/blog/2010/10/22/flex-4-suspending-the-first-frame/)
+---
+title: 'Flex 4: Suspending the first frame'
+url: 'http://custardbelly.com/blog/2010/10/22/flex-4-suspending-the-first-frame/'
+author:
+  name: 'todd anderson'
+date: '2010-10-22'
+---
 
 Have you ever wanted to add some extra loading process to the first frame so you can utilize the same **download progress bar** for other things beside **RSL** loading and initialization? Take for instance the desire to append the loading of a [Spring ActionScript](http://www.springactionscript.org/) application context to the end of the initial loading process. Well, you can. Or rather, until someone tells me i am a fool, you can.
 
@@ -30,7 +36,7 @@ I created a subclass of **SystemManager** and overrode the **mx_internal** event
     	 * Constructor.
     	 */
     	public function CustomSystemManager() { super(); }
-    &nbsp_place_holder;
+     
     	/**
     	 * @inherit
     	 */
@@ -40,7 +46,7 @@ I created a subclass of **SystemManager** and overrode the **mx_internal** event
     		if( _resumable )
     			kickOff();
     	}
-    &nbsp_place_holder;
+     
     	/**
     	 * @inherit
     	 */
@@ -50,7 +56,7 @@ I created a subclass of **SystemManager** and overrode the **mx_internal** event
     		preloader.removeEventListener( Event.COMPLETE, preloader_completeHandler );
     		preloader.dispatchEvent( new CustomSystemManagerEvent( this ) );
     	}		
-    &nbsp_place_holder;
+     
     	/**
     	 * @inherit
     	 */
@@ -71,12 +77,12 @@ In any event, this stops the SWF from progress on to displaying the load of the 
     public class CustomPreloader extends SparkDownloadProgressBar
     {
     	protected var _customSystemManager:ICustomSystemManager;
-    &nbsp_place_holder;
+     
     	/**
     	 * Constructor.
     	 */
     	public function CustomPreloader() { super(); }
-    &nbsp_place_holder;
+     
     	/**
     	 * @inherit
     	 */
@@ -87,7 +93,7 @@ In any event, this stops the SWF from progress on to displaying the load of the 
                     // The ICustomSystemManager will dispatch this event through the preloader for stalling the 1st frame.
     		value.addEventListener( CustomSystemManagerEvent.FRAME_SUSPENDED, handleFrameSuspension );
     	}
-    &nbsp_place_holder;
+     
     	/**
     	 * @private 
     	 * 
@@ -99,7 +105,7 @@ In any event, this stops the SWF from progress on to displaying the load of the 
     		// abstract method.
     		// Override to perform any other initialization tasks on the first frame.
     	}
-    &nbsp_place_holder;
+     
     	/**
     	 * @private 
     	 * 
@@ -109,7 +115,7 @@ In any event, this stops the SWF from progress on to displaying the load of the 
     	{
     		_customSystemManager.resumeNextFrame();
     	}
-    &nbsp_place_holder;
+     
     	/**
     	 * @private
     	 * 
@@ -159,6 +165,3 @@ Also, if i am totally off-base on all this, please leave a comment and let me kn
 The files for all this, including the example, can be found on github: [http://github.com/bustardcelly/custom-system-manager](http://github.com/bustardcelly/custom-system-manager)
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4](http://custardbelly.com/blog/category/flex-4/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 22, 2010
-  *[October 22, 2010]: 2010-10-22T09:31

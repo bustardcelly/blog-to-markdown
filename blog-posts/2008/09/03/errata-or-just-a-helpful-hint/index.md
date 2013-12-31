@@ -1,4 +1,10 @@
-# [Errata or just a helpful hint?](http://custardbelly.com/blog/2008/09/03/errata-or-just-a-helpful-hint/)
+---
+title: 'Errata or just a helpful hint?'
+url: 'http://custardbelly.com/blog/2008/09/03/errata-or-just-a-helpful-hint/'
+author:
+  name: 'todd anderson'
+date: '2008-09-03'
+---
 
 For those of you who have a copy of the [Adobe Air Create-Modify-Reuse book](http://www.amazon.com/Adobe-AIR-Create-Modify-Programmer/dp/0470182075/ref=pd_bbs_sr_1?ie=UTF8&s=books&qid=1220490556&sr=8-1) that myself and [Marc Leuchner and Matt Wright (of NoBien fame)](http://blog.nobien.net/) authored, we hope you are enjoying it and i also may have a bit of errata for Chapter 1 if you are running Leopard. For those of you who don’t have a copy of the [book](http://www.amazon.com/Adobe-AIR-Create-Modify-Programmer/dp/0470182075/ref=pd_bbs_sr_1?ie=UTF8&s=books&qid=1220490556&sr=8-1) (go buy it) and/or are running Leopard and want to use the Flex SDK command line tools, this may be of interest…
 
@@ -28,6 +34,3 @@ I apologise if anyone had purchased [the book](http://www.amazon.com/Adobe-AIR-C
 For those of you have a copy of the book, i hope you are enjoying it. For those who are trying to get the tools up and running and just switched to Leopard i hope this is useful.
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [Books](http://custardbelly.com/blog/category/books/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 3, 2008
-  *[September 3, 2008]: 2008-09-03T21:14

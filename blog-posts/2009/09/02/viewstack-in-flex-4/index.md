@@ -1,4 +1,10 @@
-# [Viewstack in Flex 4?](http://custardbelly.com/blog/2009/09/02/viewstack-in-flex-4/)
+---
+title: 'Viewstack in Flex 4?'
+url: 'http://custardbelly.com/blog/2009/09/02/viewstack-in-flex-4/'
+author:
+  name: 'todd anderson'
+date: '2009-09-02'
+---
 
 **[UPDATE: April 26th, 2010]**  
 This post was originally written after playing around with a nightly build of the Flex SDK many months before it was officially released. Since that release, there has been more traffic to this post from people looking for a Spark Viewstack solution (assuming), however the SDK had changed since the initial example within this post. As such, i have only updated the source and inline code within the post. I am keeping the original wording of the post for prosperity sake.
@@ -32,7 +38,7 @@ Here is the implementation i came up with:
     // -----------------------------------------------------------
     // CBViewStack.as
     // -----------------------------------------------------------
-    &nbsp_place_holder;
+     
     /**
      * Copyright (c) 2009 Todd Anderson. All Right Reserved.
      * 
@@ -47,17 +53,17 @@ Here is the implementation i came up with:
     package com.custardbelly.container
     {
     	import mx.core.IVisualElement;
-    &nbsp_place_holder;
+     
     	import spark.components.BorderContainer;
     	import spark.components.SkinnableContainer;
     	import spark.core.IViewport;
     	import spark.events.IndexChangeEvent;
-    &nbsp_place_holder;
+     
     	/**
     	 * Dispatched on change to selectedIndex property value. 
     	 */
     	[Event(name="change", type="spark.events.IndexChangeEvent")]
-    &nbsp_place_holder;
+     
     	/**
     	 * Basic implementation of a ViewStack container targeting the Spark environment.
     	 * CBViewStack inherently supports deferred instantiation. All methods and properties
@@ -93,12 +99,12 @@ Here is the implementation i came up with:
     		 * Represents the current IVisualElement on the display list. 
     		 */
     		protected var _selectedChild:IVisualElement
-    &nbsp_place_holder;
+     
     		/**
     		 * Held value for selectedIndex.
     		 */
     		protected var _pendingSelectedIndex:int = -1;
-    &nbsp_place_holder;
+     
     		/**
     		 * @private 
     		 * 
@@ -116,7 +122,7 @@ Here is the implementation i came up with:
     				_pendingSelectedIndex = -1;
     			}
     		}
-    &nbsp_place_holder;
+     
     		/**
     		 * Updates the selectedIndex value and subsequent display. 
     		 * @param index int The value representing the selected child index within the content property.
@@ -127,19 +133,19 @@ Here is the implementation i came up with:
     			var oldIndex:int = _selectedIndex;
     			// set new.
     			_selectedIndex = index;
-    &nbsp_place_holder;
+     
     			// remove old element.
     			if( numElements > 0 ) 
     				removeElementAt( 0 );
-    &nbsp_place_holder;
+     
     			// add new element.
     			selectedChild = _content[_selectedIndex];
     			addElement( _selectedChild );
-    &nbsp_place_holder;
+     
     			// dispatch index change.
     			dispatchEvent( new IndexChangeEvent( IndexChangeEvent.CHANGE, false, false, oldIndex, _selectedIndex ) );
     		}
-    &nbsp_place_holder;
+     
     		/**
     		 * Returns the elemental index of the IVisualElement from the content array. 
     		 * @param element IVisualElement The IVisualElement instance to find in the content array.
@@ -149,7 +155,7 @@ Here is the implementation i came up with:
     		private function getElementIndexFromContent( element:IVisualElement ):int
     		{
     			if( _content == null ) return -1;
-    &nbsp_place_holder;
+     
     			var i:int = _content.length;
     			var contentElement:IVisualElement;
     			while( --i > -1 )
@@ -162,7 +168,7 @@ Here is the implementation i came up with:
     			}
     			return i;
     		}
-    &nbsp_place_holder;
+     
     		[Bindable]
     		/**
     		 * Sets the array of IVisualElement instances to display based on selectedIndex and selectedChild.
@@ -180,7 +186,7 @@ Here is the implementation i came up with:
     			// update selected index based on pending operations.
     			selectedIndex = _pendingSelectedIndex == -1 ? 0 : _pendingSelectedIndex;
     		}
-    &nbsp_place_holder;
+     
     		[Bindable]
     		/**
     		 * Sets the selectedIndex to be used to add an IVisualElement instance from the content property
@@ -194,11 +200,11 @@ Here is the implementation i came up with:
     		public function set selectedIndex( value:int ):void
     		{
     			if( _selectedIndex == value ) return;
-    &nbsp_place_holder;
+     
     			_pendingSelectedIndex = value;
     			invalidateProperties();
     		}
-    &nbsp_place_holder;
+     
     		[Bindable]
     		/**
     		 * Sets the selectedChild to be added to the display list form the content array.
@@ -213,7 +219,7 @@ Here is the implementation i came up with:
     		public function set selectedChild( value:IVisualElement ):void
     		{
     			if( _selectedChild == value ) return;
-    &nbsp_place_holder;
+     
     			// if not pending operation on selectedIndex, induce.
     			if( _pendingSelectedIndex == -1 )
     			{
@@ -234,11 +240,11 @@ and its usage:
     	xmlns:s="library://ns.adobe.com/flex/spark" 
     	xmlns:mx="library://ns.adobe.com/flex/mx" 
     	xmlns:container="com.custardbelly.container.*" viewSourceURL="srcview/index.html">
-    &nbsp_place_holder;
+     
     	<fx :Declarations>
     		</fx><fx :String id="lorem">Lorem ipsum dolor sit amet consectetur adipisicing elit.</fx>
-    &nbsp_place_holder;
-    &nbsp_place_holder;
+     
+     
     	<fx :Script>
     		< ![CDATA[
     			private function changeIndex():void
@@ -249,11 +255,11 @@ and its usage:
     			}
     		]]>
     	</fx>
-    &nbsp_place_holder;
+     
     	</s><s :layout>
     		<s :VerticalLayout />
     	</s>
-    &nbsp_place_holder;
+     
     	<container :CBViewStack id="viewstack" width="300" height="300" 
     						   skinClass="com.custardbelly.skin.CBScrollableSkin">
     		<s :Group id="child1" 
@@ -264,7 +270,7 @@ and its usage:
     			</s>
     			<s :Button label="top" />
     			<s :Button label="bottom" bottom="0" />
-    &nbsp_place_holder;
+     
     		<s :Panel id="child2" 
     				 width="100%" height="200" 
     				 title="Child 2">
@@ -275,9 +281,9 @@ and its usage:
     					</s>
     					<s :Button label="panel button 1" />
     					<s :Button label="panel button 2" />
-    &nbsp_place_holder;
-    &nbsp_place_holder;
-    &nbsp_place_holder;
+     
+     
+     
     		<s :DataGroup id="child3" 
     					 width="100%" height="100%"
     					 itemRenderer="spark.skins.spark.DefaultItemRenderer">
@@ -287,11 +293,11 @@ and its usage:
     			<s :dataProvider>
     				<s :ArrayCollection source="{lorem.split(' ')}" />
     			</s>
-    &nbsp_place_holder;
+     
     	</container>
-    &nbsp_place_holder;
+     
     	<s :Button label="switch index" click="changeIndex();" />
-    &nbsp_place_holder;
+     
     	<s :HGroup>
     		<s :Button label="select child 1"
     				  enabled="{viewstack.selectedChild != child1}"
@@ -312,6 +318,3 @@ So that is basically it. Allow for skinning of the Viewstack by extending Skinna
 *Note: Seems as though the generated ‘View Source’ files in the nightly build from September 1st (of which i mad the example) has some bugs. So feel free to click this link -> [view source](http://custardbelly.com/downloads/viewstack/srcview/index.html) < - but be aware that you won't actually be able to view the class files in the browser. You will need to download the zip file.
 
 Posted in [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4](http://custardbelly.com/blog/category/flex-4/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 2, 2009
-  *[September 2, 2009]: 2009-09-02T17:44

@@ -1,4 +1,10 @@
-# [as3flobile on the iPhone](http://custardbelly.com/blog/2010/09/13/as3flobile-on-the-iphone/)
+---
+title: 'as3flobile on the iPhone'
+url: 'http://custardbelly.com/blog/2010/09/13/as3flobile-on-the-iphone/'
+author:
+  name: 'todd anderson'
+date: '2010-09-13'
+---
 
 _**as3flobile** is a set of ActionScript 3 components targeting the Flash Player on Mobile Devices, whether it be embedded in the browser or in an Adobe AIR application. You find out more about the project at [http://github.com/bustardcelly/as3flobile](http://github.com/bustardcelly/as3flobile)._
 
@@ -11,6 +17,3 @@ If you are interested, the [**as3flobile** project is available on github](http:
 Here’s also a great [refresher post on the **PFI**](http://blogs.adobe.com/cantrell/archives/2010/09/packager-for-iphone-refresher.html) by [Christian Cantrell](http://blogs.adobe.com/cantrell/).
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [AS3](http://custardbelly.com/blog/category/as3/), [Android](http://custardbelly.com/blog/category/android/), [Flash](http://custardbelly.com/blog/category/flash/), [as3flobile](http://custardbelly.com/blog/category/as3flobile/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 13, 2010
-  *[September 13, 2010]: 2010-09-13T09:40

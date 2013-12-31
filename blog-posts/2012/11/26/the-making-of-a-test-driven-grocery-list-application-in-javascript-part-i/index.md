@@ -1,4 +1,10 @@
-# [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)
+---
+title: 'The Making of a Test-Driven Grocery List Application in JavaScript: Part I'
+url: 'http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/'
+author:
+  name: 'todd anderson'
+date: '2012-11-26'
+---
 
 # Preface
 
@@ -92,6 +98,3 @@ I had originally included working through the first story and suite of specifica
 [Part X – It Lives!](http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
 
 Posted in [JavaScript](http://custardbelly.com/blog/category/javascript/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/), [unit-testing](http://custardbelly.com/blog/category/unit-testing/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 26, 2012
-  *[November 26, 2012]: 2012-11-26T07:00

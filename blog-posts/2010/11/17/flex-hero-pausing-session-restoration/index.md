@@ -1,4 +1,10 @@
-# [Flex 4.5 (Hero) – Pausing Session Restoration](http://custardbelly.com/blog/2010/11/17/flex-hero-pausing-session-restoration/)
+---
+title: 'Flex 4.5 (Hero) – Pausing Session Restoration'
+url: 'http://custardbelly.com/blog/2010/11/17/flex-hero-pausing-session-restoration/'
+author:
+  name: 'todd anderson'
+date: '2010-11-17'
+---
 
 While[ Flex 4.5 (Hero)](http://labs.adobe.com/technologies/flashbuilder_burrito/) provides an API for persisting session data within **View** objects, as discussed in my [previous post](http://custardbelly.com/blog/?p=228), **MobileApplication** dispatches events at the initialization and deactivation of the application that allow for you to perform any subsequent custom handling of persistent data – such as re-logging a user back into a service on relaunch of the application.
 
@@ -46,7 +52,7 @@ Pretty familiar if you have worked with the **File** API. Nothing actually new i
     	{
     		public var username:String;
     		public var password:String;
-    &nbsp_place_holder;
+     
     		public function CustomUser() {}
     	}
     }
@@ -56,13 +62,13 @@ One thing to remember when serializing ActionScript objects, don’t have any no
 Back to the task at hand – logging a user back into the service on relaunch of the application (start of a new session). In order to do that, the “restoring” process of the application needs to be suspended so as to inspect the serialized “history stack” and determine if the user is being brought back to the “login” view or not. If not, the application should log the user back in and resume to the **View** persisted at the top of the stack from a previous session:
     
     // [Sublass of MobileApplication]
-    &nbsp_place_holder;
+     
     // Event handler for FlexEvent.APPLICATION_RESTORING on MobileApplication
     protected function handleApplicationRestoring( evt:Event ):void
     {
     	// Stop any subsequent work so we can determine if we need to log a user back in. 
     	evt.preventDefault();
-    &nbsp_place_holder;
+     
     	// Access the serialized navigator state, maintained between view navigation.
     	var savedState:Object = persistenceManager.getProperty("navigatorState");
     	// Check if the topview from the stack is the view we deliver as the login view.
@@ -94,12 +100,12 @@ Back to the task at hand – logging a user back into the service on relaunch of
     		restoreApplicationState();
     	}
     }
-    &nbsp_place_holder;
+     
     // Determines if the topView in our perstisted stack is not what we consider to be the log in view.
     protected function topViewIsNotLogIn( savedState:Object ):Boolean
     {
     	if( savedState == null ) return false;
-    &nbsp_place_holder;
+     
     	// The index within our view stack that we consider as the log in view.
     	const loginViewIndex:int = 0;
     	// The serialized stack.
@@ -129,6 +135,3 @@ Since Flex 4.5 is beta, you can’t have an example without seeing use namespace
 So there you have it. The best practice on notifying the user that you are logging them back into a service upon relaunch? I haven’t found the best solution that meets my needs yet, but I do not recommend pushing a **View** to the stack of the **ViewNavigator** during that restore suspension. It caused some weird UI glitches. Probably the best bet is to use the **PopUpManager** – but do not use the **ProgressBar** in that… bad things happen. Hopefully a new **ProgressBar** is on the horizon for Flex 4.5.
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [Burrito](http://custardbelly.com/blog/category/burrito/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4.5](http://custardbelly.com/blog/category/flex-4-5/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 17, 2010
-  *[November 17, 2010]: 2010-11-17T08:16

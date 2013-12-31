@@ -1,4 +1,10 @@
-# [Wrox AIR Instant Results book](http://custardbelly.com/blog/2007/08/03/wrox-air-instant-results-book/)
+---
+title: 'Wrox AIR Instant Results book'
+url: 'http://custardbelly.com/blog/2007/08/03/wrox-air-instant-results-book/'
+author:
+  name: 'todd anderson'
+date: '2007-08-03'
+---
 
 [The cat’s outta the bag](http://www.amazon.com/AIR-Instant-Results-Marc-Luchner/dp/0470182075/ref=sr_1_1/105-9609728-7107659?ie=UTF8&s=books&qid=1186022411&sr=8-1)… and threw up on the middle of the cover. If for some insane reason you have been wondering about the lack of posts, i have been saving my mastery of the english language to co-author a book on [AIR](http://labs.adobe.com/wiki/index.php/AIR). 
 
@@ -11,6 +17,3 @@ Also available from Wiley Wrox is [_Professional AIR_](http://www.amazon.com/Pro
 Wrox AIR Instant Results](http://www.amazon.com/AIR-Instant-Results-Marc-Luchner/dp/0470182075/ref=sr_1_1/105-9609728-7107659?ie=UTF8&s=books&qid=1186022411&sr=8-1)
 
 Posted in [Apollo](http://custardbelly.com/blog/category/apollo/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – August 3, 2007
-  *[August 3, 2007]: 2007-08-03T09:57

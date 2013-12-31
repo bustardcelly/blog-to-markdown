@@ -1,4 +1,10 @@
-# [Customizing the Apollo NativeWindow](http://custardbelly.com/blog/2007/04/06/customizing-the-apollo-nativewindow/)
+---
+title: 'Customizing the Apollo NativeWindow'
+url: 'http://custardbelly.com/blog/2007/04/06/customizing-the-apollo-nativewindow/'
+author:
+  name: 'todd anderson'
+date: '2007-04-06'
+---
 
 [Daniel Dura](http://www.danieldura.com/) wrote up a [great post](http://www.danieldura.com/archive/apollo-multi-window-support-using-flex) on adding Flex components to NativeWindows. If you are looking to add Flex components to your NativeWindow instance, you will need to follow what Daniel described. As Daniel has mentioned, this is an issue concerning the [alpha version of Apollo](http://www.adobe.com/go/apollo) and may be cleared up in the next release, but if you can’t wait and are looking to add custom ActionScript components that extend Flex components, there is another option. 
 
@@ -10,37 +16,37 @@ The CustomLabel (CustomLabel.as) component that will be added to our NativeWindo
     
             import flash.events.Event;
     	import flash.text.TextField;
-    &nbsp_place_holder;
+     
     	import mx.containers.Canvas;
-    &nbsp_place_holder;
+     
     	public class CustomLabel extends Canvas
     	{
     		private var _label:TextField;
-    &nbsp_place_holder;
+     
     		public function CustomLabel()
     		{
     			super();
     			addEventListener( Event.ADDED_TO_STAGE, init );
     		}
-    &nbsp_place_holder;
+     
     		private function init( evt:Event ):void
     		{
     			createChildren();
     		}
-    &nbsp_place_holder;
+     
     		override protected function createChildren():void
     		{
     			super.createChildren();
-    &nbsp_place_holder;
+     
     			_label = createField( "HelloWorld" );
     			stage.addChild( _label );
     		}
-    &nbsp_place_holder;
+     
     		override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void
     		{
     			super.updateDisplayList( unscaledWidth, unscaledHeight );
     		}
-    &nbsp_place_holder;
+     
     		private function createField( txt:String = "" ):TextField
     		{
     			var label:TextField = new TextField();
@@ -57,23 +63,23 @@ The CustomLabel (CustomLabel.as) component that will be added to our NativeWindo
     	height="100" 
     	layout="absolute"
     	applicationComplete="onAppInit();">
-    &nbsp_place_holder;
+     
     	</mx><mx :Script>
     		< ![CDATA[
-    &nbsp_place_holder;
+     
     			private var _launchWindow:NativeWindow;
     			private var _customWindow:NativeWindow;
-    &nbsp_place_holder;
+     
     			private function onAppInit():void
     			{
     				_launchWindow = this.stage.window;
     				_launchWindow.addEventListener( Event.CLOSE, onAppClose );
     			}
-    &nbsp_place_holder;
+     
     			private function openCustomWindow( evt:MouseEvent ):void
     			{
     				if( _customWindow != null ) return;
-    &nbsp_place_holder;
+     
     				var options:NativeWindowInitOptions = new NativeWindowInitOptions();
     				_customWindow = new NativeWindow( true, options );
     				_customWindow.stage.align = StageAlign.TOP_LEFT;
@@ -82,20 +88,20 @@ The CustomLabel (CustomLabel.as) component that will be added to our NativeWindo
     				_customWindow.stage.addChild( new CustomLabel() );
     				_customWindow.addEventListener( Event.CLOSE, onWindowClose );
     			}
-    &nbsp_place_holder;
+     
     			private function onWindowClose( evt:Event ):void
     			{
     				_customWindow = null;
     			}
-    &nbsp_place_holder;
+     
     			private function onAppClose( evt:Event ):void
     			{
     				if( _customWindow != null ) _customWindow.close();
     			}
-    &nbsp_place_holder;
+     
     		]]>
     	</mx>
-    &nbsp_place_holder;
+     
     	<mx :Button id="windowBtn" 
     		top="10" left="10" right="10" bottom="10"
     		label="open custom window"
@@ -118,6 +124,3 @@ To find out more about extending ActionScript components, visit[ this post](http
 PS. I’ve been a little lacking in the post area, and though i have the usual excuses- family, work, beer… – i could be more on top of it and you should be seeing more Flex and Apollo thoughts in the near future, but no promises because i love those excuses. I also am working on something that i hope to announce here a little later if all goes well…
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Apollo](http://custardbelly.com/blog/category/apollo/), [Flex](http://custardbelly.com/blog/category/flex/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – April 6, 2007
-  *[April 6, 2007]: 2007-04-06T07:50

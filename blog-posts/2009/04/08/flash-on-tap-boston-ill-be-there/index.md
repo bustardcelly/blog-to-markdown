@@ -1,4 +1,10 @@
-# [Flash On Tap, Boston… I’ll Be There](http://custardbelly.com/blog/2009/04/08/flash-on-tap-boston-ill-be-there/)
+---
+title: 'Flash On Tap, Boston… I’ll Be There'
+url: 'http://custardbelly.com/blog/2009/04/08/flash-on-tap-boston-ill-be-there/'
+author:
+  name: 'todd anderson'
+date: '2009-04-08'
+---
 
 ![todd anderson](http://www.custardbelly.com/blog/images/me_sad.jpg) … not that you’d actually be going to see this handsome fellow. That’s the look i give when they run out of Stone Ruination IPA.
 
@@ -14,6 +20,3 @@ See my sad face and full belly as i drink all the Ruination.
 [Follow](http://twitter.com/flashontap)
 
 Posted in [Beer!](http://custardbelly.com/blog/category/beer/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [flash on tap](http://custardbelly.com/blog/category/flash-on-tap/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – April 8, 2009
-  *[April 8, 2009]: 2009-04-08T20:29

@@ -1,4 +1,10 @@
-# [Flex 4.5 (Hero) – Persistant Data in MobileApplication](http://custardbelly.com/blog/2010/11/15/flex-hero-persistant-data-in-mobileapplication/)
+---
+title: 'Flex 4.5 (Hero) – Persistant Data in MobileApplication'
+url: 'http://custardbelly.com/blog/2010/11/15/flex-hero-persistant-data-in-mobileapplication/'
+author:
+  name: 'todd anderson'
+date: '2010-11-15'
+---
 
 I had the a great time at [**RIAUnleashed**](http://riaunleashed.com/) this year and had a chance to check out [Christophe Coenraet](http://coenraets.org/)’s session on [Flex 4 “Burrito” and Flex “Hero” SDK](http://labs.adobe.com/technologies/flashbuilder_burrito/). An excellent speaker and one I had been hoping to see for some time. His presentation was mainly focused on **Mobile Application** development with **Hero SDK** in _“Burrito”_.
 
@@ -77,6 +83,3 @@ I hope i explained this stuff coherently. I really enjoyed [Christophe](http://c
 On a side-note [RIAUnleashed](http://riaunleashed.com/) this year was excellent and was [Brian Rinaldi](http://www.remotesynthesis.com/)’s last at running the event. He put together an excellent conference and I don’t think I am alone in thanking him for bringing so much talent out this way.
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [Burrito](http://custardbelly.com/blog/category/burrito/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4.5](http://custardbelly.com/blog/category/flex-4-5/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 15, 2010
-  *[November 15, 2010]: 2010-11-15T06:21

@@ -1,4 +1,10 @@
-# [AS3 follow up](http://custardbelly.com/blog/2005/10/20/as3-follow-up/)
+---
+title: 'AS3 follow up'
+url: 'http://custardbelly.com/blog/2005/10/20/as3-follow-up/'
+author:
+  name: 'todd anderson'
+date: '2005-10-20'
+---
 
 After studying over some great AS3 examples by [Ralf Bokelberg](http://www.helpqlodhelp.com/blog/archives/000127.html) and [Kevin Luck ](http://kelvinluck.com/article/first-actionscript-3-example), and running through the [AS3 documentation](http://livedocs.macromedia.com/labs/1/flex/langref/index.html )
 
@@ -15,6 +21,3 @@ i’d also like to point out another great collection of AS3 resources made poss
 [http://www.franto.com/blog2/collected-links-to-actionscript-30-examples](http://www.franto.com/blog2/collected-links-to-actionscript-30-examples)
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 20, 2005
-  *[October 20, 2005]: 2005-10-20T22:00

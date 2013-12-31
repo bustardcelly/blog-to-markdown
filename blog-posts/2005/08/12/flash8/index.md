@@ -1,4 +1,10 @@
-# [flash8](http://custardbelly.com/blog/2005/08/12/flash8/)
+---
+title: 'flash8'
+url: 'http://custardbelly.com/blog/2005/08/12/flash8/'
+author:
+  name: 'todd anderson'
+date: '2005-08-12'
+---
 
 In what little spare time i have, i upset my girlfriend by drooling over my keyboard- feverishly trying to build Flash versions of a some of my favorite arcade classics. (emphasis on trying, there).
 
@@ -19,6 +25,3 @@ This new Bitmap API just sets my mind reeling… as i’ve confessed to many, my
 i can’t wait.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – August 12, 2005
-  *[August 12, 2005]: 2005-08-12T15:36

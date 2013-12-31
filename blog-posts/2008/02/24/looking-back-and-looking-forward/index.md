@@ -1,4 +1,10 @@
-# [Looking back and looking forward](http://custardbelly.com/blog/2008/02/24/looking-back-and-looking-forward/)
+---
+title: 'Looking back and looking forward'
+url: 'http://custardbelly.com/blog/2008/02/24/looking-back-and-looking-forward/'
+author:
+  name: 'todd anderson'
+date: '2008-02-24'
+---
 
 For those of you that still follow this blog, you may have noticed that i have not been too knee-deep in blogging. A measly 5 posts ago, [i rambled on](http://custardbelly.com/blog/?p=58) about what 2007 might bring. Needless to say it had kept me pretty busy – and for all good reason. I have had the opportunity to work alongside some unbelievably talented people and be a part of two amazing books focused on [Adobe AIR](http://labs.adobe.com/technologies/air/) and [Flex 3](http://labs.adobe.com/technologies/flex/) that will be hitting shelves soon. I also accepted a position at [Infrared5](http://www.infrared5.com) and am looking forward to working with some of the most insane and brilliant minds in the industry.
 
@@ -16,6 +22,3 @@ I also have had the opportunity to join the [Infrared5](http://www.infrared5.com
 All in all, 2007 was a great year and i am making out 2008 to be even better. Here’s to posting more!
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [AS3](http://custardbelly.com/blog/category/as3/), [Apollo](http://custardbelly.com/blog/category/apollo/), [Books](http://custardbelly.com/blog/category/books/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Infrared5](http://custardbelly.com/blog/category/infrared5/), [Red5](http://custardbelly.com/blog/category/red5/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – February 24, 2008
-  *[February 24, 2008]: 2008-02-24T11:22

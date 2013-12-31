@@ -1,4 +1,10 @@
-# [as3flobile update: now using as3-signals](http://custardbelly.com/blog/2010/10/25/as3flobile-update-now-using-as3-signals/)
+---
+title: 'as3flobile update: now using as3-signals'
+url: 'http://custardbelly.com/blog/2010/10/25/as3flobile-update-now-using-as3-signals/'
+author:
+  name: 'todd anderson'
+date: '2010-10-25'
+---
 
 If you have been following/using [as3flobile](http://github.com/bustardcelly/as3flobile), I just recently committed an update for [v0.3 to github](http://github.com/bustardcelly/as3flobile). The new version now utilizes [as3-signals](http://github.com/robertpenner/as3-signals) by **[Robert Penner](http://robertpenner.com/flashblog/)** for assigning delegate handling.
 
@@ -14,7 +20,7 @@ When a client wanted to subscribe as the delegate for a tap gesture on the **But
     var button:Button = new Button();
     button.delegate = this;
     addChild( button );
-    &nbsp_place_holder;
+     
     public function buttonTapped( button:Button )
     {
     trace( "button tapped: " + button );
@@ -43,6 +49,3 @@ So, a big change, i know. But I think a step in the right direction. If you are 
 [as3flobile on github](http://github.com/bustardcelly/as3flobile)
 
 Posted in [General](http://custardbelly.com/blog/category/general/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 25, 2010
-  *[October 25, 2010]: 2010-10-25T09:54

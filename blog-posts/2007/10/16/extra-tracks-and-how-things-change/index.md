@@ -1,4 +1,10 @@
-# [Extra tracks and how things change](http://custardbelly.com/blog/2007/10/16/extra-tracks-and-how-things-change/)
+---
+title: 'Extra tracks and how things change'
+url: 'http://custardbelly.com/blog/2007/10/16/extra-tracks-and-how-things-change/'
+author:
+  name: 'todd anderson'
+date: '2007-10-16'
+---
 
 To start off, recently i have been working remotely for my job… whole ‘nother discussion… and what was once the ‘office’ (read: extra room where we didn’t know where to put stuff and has my computers) i retired to during the nights and weekends has become my proper ‘office’ (read: i am in here all the time now). Essentially what this has boiled down to is having no boundaries of what music i can put on at any time – aside from the albums i had to leave behind at the store until i get another check and can free them. 
 
@@ -22,6 +28,3 @@ And, aside from obvious design and nomenclature, i am wondering if there was som
 I don’t know where i am going with this. Just rambling and looking at the crates of LP’s and stacks of CDs for something new to listen to…
 
 Posted in [General](http://custardbelly.com/blog/category/general/), [Music](http://custardbelly.com/blog/category/music/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 16, 2007
-  *[October 16, 2007]: 2007-10-16T20:24

@@ -1,4 +1,10 @@
-# [BitmapData saturday](http://custardbelly.com/blog/2005/09/17/bitmapdata-saturday/)
+---
+title: 'BitmapData saturday'
+url: 'http://custardbelly.com/blog/2005/09/17/bitmapdata-saturday/'
+author:
+  name: 'todd anderson'
+date: '2005-09-17'
+---
 
 Since i finally got a whole day to fool around, i decided to start learning about the new BitmapData class in flash8.  
 I’ve only just begun, and i’m not really sure if what i worked on today is of any benefit in the end, but i like it.  
@@ -13,6 +19,3 @@ Whether or not this is the best thing to do for a game, i’m not quite sure… 
 As a side note, the png this swf loads was created by using [Patrick Mineault’s pixel tools](http://www.5etdemi.com/blog/archives/2005/03/pixel-tools-v2-available/) (glad they still work in 8!) in the Flash IDE then exported.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 17, 2005
-  *[September 17, 2005]: 2005-09-17T19:15

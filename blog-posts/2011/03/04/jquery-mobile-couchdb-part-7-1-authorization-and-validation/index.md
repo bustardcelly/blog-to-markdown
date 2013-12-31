@@ -1,4 +1,10 @@
-# [jQuery Mobile + CouchDB: Part 7.1 – Authorization and Validation](http://custardbelly.com/blog/2011/03/04/jquery-mobile-couchdb-part-7-1-authorization-and-validation/)
+---
+title: 'jQuery Mobile + CouchDB: Part 7.1 – Authorization and Validation'
+url: 'http://custardbelly.com/blog/2011/03/04/jquery-mobile-couchdb-part-7-1-authorization-and-validation/'
+author:
+  name: 'todd anderson'
+date: '2011-03-04'
+---
 
 In my [previous article](http://custardbelly.com/blog/?p=344) I addressed deleting documents from the **albums** database within [CouchDB](http://couchdb.apache.org/) using the _jquery.couch_ plugin and hacked around [jQuery Mobile](http://jquerymobile.com/) a bit to get an external page to act as a dialog without updating the hash location. All great stuff, and we ended off having an application that provided the basics when working with documents – **C**reate **R**ead **U**pdate and **D**elete. After that post, I decided it was high time to throw a wrench into the mix and lock down the **admin party** we have been having. It’s been a good run…
 
@@ -112,79 +118,79 @@ _/validate_doc_update.js_
     
     function( newDoc, oldDoc, userCtx ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;// Load validation script.
+      // Load validation script.
     
-    &nbsp_place_holder;&nbsp_place_holder;var v = require("vendor/couchapp/lib/validate").init( newDoc, oldDoc, userCtx );
+      var v = require("vendor/couchapp/lib/validate").init( newDoc, oldDoc, userCtx );
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;// Create method to test if valid user.
+      // Create method to test if valid user.
     
-    &nbsp_place_holder;&nbsp_place_holder;v.isAlbumsUser = function() {
+      v.isAlbumsUser = function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return v.isAdmin() || userCtx.roles.indexOf("albums-user") != -1;
+        return v.isAdmin() || userCtx.roles.indexOf("albums-user") != -1;
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;// Ensure that a current session exists for editing.
+      // Ensure that a current session exists for editing.
     
-    &nbsp_place_holder;&nbsp_place_holder;if( !userCtx.name ) {
+      if( !userCtx.name ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;v.unauthorized( "You need to be logged in order to do that." );
+        v.unauthorized( "You need to be logged in order to do that." );
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;&nbsp_place_holder;else if( !v.isAlbumsUser() ) {
+      else if( !v.isAlbumsUser() ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;v.forbidden( "You do not have proper access to edit this document." );
+        v.forbidden( "You do not have proper access to edit this document." );
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;// Ensure that any updates need to match user.
+      // Ensure that any updates need to match user.
     
-    &nbsp_place_holder;&nbsp_place_holder;var isDeletingWithoutPermission = ( newDoc._deleted && ( oldDoc.user != userCtx.name ) );
+      var isDeletingWithoutPermission = ( newDoc._deleted && ( oldDoc.user != userCtx.name ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;var isUpdatingWithoutPermission = ( newDoc.user != userCtx.name ) || ( oldDoc && ( newDoc.user != oldDoc.user ) );
+      var isUpdatingWithoutPermission = ( newDoc.user != userCtx.name ) || ( oldDoc && ( newDoc.user != oldDoc.user ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;// If either non-permission criteria is met, checking delete first...
+      // If either non-permission criteria is met, checking delete first...
     
-    &nbsp_place_holder;&nbsp_place_holder;if( !v.isAdmin() && isDeletingWithoutPermission ) {
+      if( !v.isAdmin() && isDeletingWithoutPermission ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;v.forbidden( "Only the creator of this document has permission to delete." );
+        v.forbidden( "Only the creator of this document has permission to delete." );
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;&nbsp_place_holder;else if( !v.isAdmin && ( !newDoc._deleted && isUpdatingWithoutPermission ) ) {
+      else if( !v.isAdmin && ( !newDoc._deleted && isUpdatingWithoutPermission ) ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;v.forbidden( "Only the creator of this document has permission to update." );
+        v.forbidden( "Only the creator of this document has permission to update." );
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
-    &nbsp_place_holder;&nbsp_place_holder;else {
+      else {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// If it is being deleted, we are all set.
+        // If it is being deleted, we are all set.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( newDoc._deleted ) return true;
+        if( newDoc._deleted ) return true;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// Require a user field.
+        // Require a user field.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;v.require( "user" );
+        v.require( "user" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// Ensure the assigned user is not changed.
+        // Ensure the assigned user is not changed.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;v.unchanged( "user" );
+        v.unchanged( "user" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// Ensure that user does not have value of undefined.
+        // Ensure that user does not have value of undefined.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;v.assert( (newDoc.user != "undefined"), "New documents must have an associated user." );
+        v.assert( (newDoc.user != "undefined"), "New documents must have an associated user." );
     
-    &nbsp_place_holder;&nbsp_place_holder;}
+      }
     
     }
 
@@ -196,7 +202,7 @@ _/validate_doc_update.js_
     
     v.isAlbumsUser = function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;return v.isAdmin() || userCtx.roles.indexOf("albums-user") != -1;
+      return v.isAdmin() || userCtx.roles.indexOf("albums-user") != -1;
     
     }
 
@@ -212,13 +218,13 @@ _/validate_doc_update.js_
     
     if( !v.isAdmin() && isDeletingWithoutPermission ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;v.forbidden( "Only the creator of this document has permission to delete." );
+      v.forbidden( "Only the creator of this document has permission to delete." );
     
     }
     
     else if( !v.isAdmin && ( !newDoc._deleted && isUpdatingWithoutPermission ) ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;v.forbidden( "Only the creator of this document has permission to update." );
+      v.forbidden( "Only the creator of this document has permission to update." );
     
     }
 
@@ -228,23 +234,23 @@ If our validation passes through that, then all that is left is to make sure tha
     
     else {
     
-    &nbsp_place_holder;&nbsp_place_holder;// If it is being deleted, we are all set.
+      // If it is being deleted, we are all set.
     
-    &nbsp_place_holder;&nbsp_place_holder;if( newDoc._deleted ) return true;
+      if( newDoc._deleted ) return true;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;// Require a user field.
+      // Require a user field.
     
-    &nbsp_place_holder;&nbsp_place_holder;v.require( "user" );
+      v.require( "user" );
     
-    &nbsp_place_holder;&nbsp_place_holder;// Ensure the assigned user is not changed.
+      // Ensure the assigned user is not changed.
     
-    &nbsp_place_holder;&nbsp_place_holder;v.unchanged( "user" );
+      v.unchanged( "user" );
     
-    &nbsp_place_holder;&nbsp_place_holder;// Ensure that user does not have value of undefined.
+      // Ensure that user does not have value of undefined.
     
-    &nbsp_place_holder;&nbsp_place_holder;v.assert( (newDoc.user != "undefined"), "New documents must have an associated user." );
+      v.assert( (newDoc.user != "undefined"), "New documents must have an associated user." );
     
     }
 
@@ -321,6 +327,3 @@ _If you have found this post and any piece has moved forward, hopefully the exam
 [Full source for albums couchapp here.](http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
 
 Posted in [CouchDB](http://custardbelly.com/blog/category/couchdb/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – March 4, 2011
-  *[March 4, 2011]: 2011-03-04T11:23

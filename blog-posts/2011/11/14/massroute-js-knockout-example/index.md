@@ -1,4 +1,10 @@
-# [massroute-js: knockout example](http://custardbelly.com/blog/2011/11/14/massroute-js-knockout-example/)
+---
+title: 'massroute-js: knockout example'
+url: 'http://custardbelly.com/blog/2011/11/14/massroute-js-knockout-example/'
+author:
+  name: 'todd anderson'
+date: '2011-11-14'
+---
 
 _I have created a github repository at [http://github.com/bustardcelly/massroute-js](http://github.com/bustardcelly/massroute-js) to explore various JavaScript libraries and frameworks with a focus of delivering a web-based application for [real-time transportation data made available from MassDOT](http://www.eot.state.ma.us/developers/realtime/). This article intends to address my findings in an exploration of one of those libraries or frameworks that have caught my interest. If you have any suggestions for another **JavaScript** library/framework please leave a comment._
 
@@ -18,9 +24,9 @@ Using Knockout, you define _observables_ which dispatch notifications when chang
     
     var model = {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;title: ko.observable('Hello World'),
+        title: ko.observable('Hello World'),
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;items: ko.observableArray()
+        items: ko.observableArray()
     
     };
 
@@ -28,7 +34,7 @@ If your dependency is on value change to one object – whether it be a string, 
     
     model.greeting = ko.dependentObservable( function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return this.title + ', how are ya?';
+        return this.title + ', how are ya?';
     
     }, model );
 
@@ -40,31 +46,31 @@ On the HTML side, you use the datasets to define the binding definitions. [Knock
     
     <header>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<hgroup>
+        <hgroup>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<h1 data-bind="text: title"></h1>
+            <h1 data-bind="text: title"></h1>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<h2 data-bind="text: greeting"></h2>
+            <h2 data-bind="text: greeting"></h2>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</hgroup>
+        </hgroup>
     
     </header>
     
     <section>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<nav>
+        <nav>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<ul data-bind='foreach: items'>
+            <ul data-bind='foreach: items'>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<li class='list-item'>
+                <li class='list-item'>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<a data-bind="attr: {href:url}, text: label"></p>
+                    <a data-bind="attr: {href:url}, text: label"></p>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</li>
+                </li>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</ul>
+            </ul>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</nav>
+        </nav>
     
     </section>
 
@@ -76,9 +82,9 @@ Properties are updated by _invoking_ the observable. That may seem a little stra
     
     model.items( [
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;{label:'foo', url:'[http://foo.com](http://foo.com)'},
+        {label:'foo', url:'[http://foo.com](http://foo.com)'},
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;{label:'bar', url:'[http://bar.com](http://bar.com)'}
+        {label:'bar', url:'[http://bar.com](http://bar.com)'}
     
     ] );
 
@@ -90,7 +96,7 @@ You can also subscribe to changes explicitly in JavaScript, and if you are comin
     
     var itemSubscription = model.items.subscribe( function( collection ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// do something really cool that will win you friends and influence others.
+        // do something really cool that will win you friends and influence others.
     
     });
     
@@ -114,29 +120,29 @@ To give a quick example, here is the whole section in the [massroute-js/knockout
     
     <section id="routesection" data-bind="visible: routes.visible">
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<h1 data-bind="text: routes.title"></h1>
+        <h1 data-bind="text: routes.title"></h1>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<p data-bind="if: routes.list().length === 0">loading...</p>
+        <p data-bind="if: routes.list().length === 0">loading...</p>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<nav data-bind="if: routes.list().length > 0">
+        <nav data-bind="if: routes.list().length > 0">
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<ul data-bind='foreach: routes.list'>
+            <ul data-bind='foreach: routes.list'>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<li class='route-item list-item icon-list-item' style='cursor: pointer;'>
+                <li class='route-item list-item icon-list-item' style='cursor: pointer;'>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<figure>
+                    <figure>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<img src='style/image/bus_icon.png' />
+                        <img src='style/image/bus_icon.png' />
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<figcaption data-bind="text: title"></figcaption>
+                        <figcaption data-bind="text: title"></figcaption>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</figure>
+                    </figure>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</li>
+                </li>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</ul>
+            </ul>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</nav>
+        </nav>
     
     </section>
 
@@ -153,6 +159,3 @@ I encourage you to check out the Knockout home page at [http://knockoutjs.com/](
 You can checkout the rest of my massroute-js/knockout example on github here: [https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/knockout](https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/knockout). Questions, comments and constructive berating are welcome (though not so much the last one).
 
 Posted in [JavaScript](http://custardbelly.com/blog/category/javascript/), [jquery](http://custardbelly.com/blog/category/jquery/), [knockoutjs](http://custardbelly.com/blog/category/knockoutjs/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 14, 2011
-  *[November 14, 2011]: 2011-11-14T10:07

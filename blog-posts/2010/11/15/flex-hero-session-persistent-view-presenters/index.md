@@ -1,4 +1,10 @@
-# [Flex 4.5 (Hero) – Session-Persistent View Presenters](http://custardbelly.com/blog/2010/11/15/flex-hero-session-persistent-view-presenters/)
+---
+title: 'Flex 4.5 (Hero) – Session-Persistent View Presenters'
+url: 'http://custardbelly.com/blog/2010/11/15/flex-hero-session-persistent-view-presenters/'
+author:
+  name: 'todd anderson'
+date: '2010-11-15'
+---
 
 As I had hinted at in my [previous post](http://custardbelly.com/blog/?p=220), before i went down the rabbit-hole of state data with regards to the life-cycle of a **View** object, I had intended to write about persisting [Supervising Presenters](http://martinfowler.com/eaaDev/SupervisingPresenter.html) for **View**s within an application session. Before I go much farther, i do want to note that [Paul Williams](http://blogs.adobe.com/paulw/) has some excellent posts up on different presenter patterns within the context of a Flex application which can be found at [http://blogs.adobe.com/paulw/](http://blogs.adobe.com/paulw/). Specifically, I am taken by the [Supervising Presenter](http://blogs.adobe.com/paulw/archives/2007/10/presentation_pa_2.html), though i am not totally sold… which I hope to address in this post, but my main intent here is to show how I re-use a presenter for a View object to cut down on memory within an application session.
 
@@ -22,7 +28,7 @@ Here are some examples:
     
     import flash.events.IEventDispatcher;
     import spark.components.View;
-    &nbsp_place_holder;
+     
     public interface ISupervisingPresenter extends IEventDispatcher
     {
     	function supervise( view:View ):void;
@@ -36,49 +42,49 @@ Here are some examples:
     
     import com.custardbelly.example.event.LogInEvent;
     import com.custardbelly.example.views.HomeView;
-    &nbsp_place_holder;
+     
     import flash.events.Event;
     import flash.events.EventDispatcher;
     import flash.events.MouseEvent;
-    &nbsp_place_holder;
+     
     import spark.components.View;
-    &nbsp_place_holder;
+     
     [Event(name="success", type="com.custardbelly.example.event.LogInEvent")]
-    &nbsp_place_holder;
+     
     [RemoteClass(alias="com.custardbelly.example.presenter.HomePresenter")]
     public class HomePresenter extends EventDispatcher implements ISupervisingPresenter
     {
     	protected var _view:HomeView;
-    &nbsp_place_holder;
+     
     	public function HomePresenter() {}
-    &nbsp_place_holder;
+     
     	protected function addHandlers():void
     	{
     		_view.logInButton.addEventListener( MouseEvent.CLICK, handleLogIn, false, 0, true );
     	}
-    &nbsp_place_holder;
+     
     	protected function removeHandlers():void
     	{
     		_view.logInButton.removeEventListener( MouseEvent.CLICK, handleLogIn, false );
     	}
-    &nbsp_place_holder;
+     
     	protected function handleLogIn( evt:Event ):void
     	{
     		dispatchEvent( new LogInEvent() );
     	}
-    &nbsp_place_holder;
+     
     	public function supervise( view:View ):void
     	{
     		_view = ( view as HomeView );
     		addHandlers();
     	}
-    &nbsp_place_holder;
+     
     	public function unsupervise():void
     	{
     		removeHandlers();
     		_view = null;
     	}
-    &nbsp_place_holder;
+     
     	public function dispose():void
     	{
     		if( _view ) unsupervise();
@@ -95,24 +101,24 @@ When supervising a view, the **ISupervisingPresenter** implementation essentiall
     		xmlns:s="library://ns.adobe.com/flex/spark" 
     		title="home" 
     		creationComplete="handleCreationComplete();">
-    &nbsp_place_holder;
+     
     	<fx :Script>
     		< ![CDATA[
     			import com.custardbelly.example.event.LogInEvent;
     			import com.custardbelly.example.presenter.HomePresenter;
     			import com.custardbelly.example.presenter.ISupervisingPresenter;
-    &nbsp_place_holder;
+     
     			import mx.events.FlexEvent;
-    &nbsp_place_holder;
+     
     			protected var _data:Object;
     			protected var _presenter:ISupervisingPresenter;
-    &nbsp_place_holder;
+     
     			// Listen for deactivate in order to assemble session data accessed from View:data()
     			protected function handleCreationComplete():void
     			{
     				addEventListener( FlexEvent.VIEW_DEACTIVATE, handleDeactivate, false, 0, true );
     			}
-    &nbsp_place_holder;
+     
     			// Is called before navigator.destroy of this instance. Serialize the data property and clear out refs for GC.
     			protected function handleDeactivate( evt:FlexEvent ):void
     			{
@@ -120,7 +126,7 @@ When supervising a view, the **ISupervisingPresenter** implementation essentiall
     				serializeSessionData();
     				disassemblePresenter();
     			}
-    &nbsp_place_holder;
+     
     			// Create the supervising presenter.
     			protected function  establishPresenter( value:Object ):void
     			{
@@ -133,11 +139,11 @@ When supervising a view, the **ISupervisingPresenter** implementation essentiall
     					_presenter = new HomePresenter();
     					if( value ) value["presenter"] = _presenter;
     				}
-    &nbsp_place_holder;
+     
     				_presenter.supervise( this );
     				addPresenterHandlers( _presenter );
     			}
-    &nbsp_place_holder;
+     
     			// Clear refs for GC of this instance.
     			protected function disassemblePresenter():void
     			{
@@ -145,7 +151,7 @@ When supervising a view, the **ISupervisingPresenter** implementation essentiall
     				_presenter.unsupervise();
     				_presenter = null;
     			}
-    &nbsp_place_holder;
+     
     			protected function addPresenterHandlers( presenter:ISupervisingPresenter ):void
     			{
     				presenter.addEventListener( LogInEvent.SUCCESS, handleLogInSuccess, false, 0, true );
@@ -154,20 +160,20 @@ When supervising a view, the **ISupervisingPresenter** implementation essentiall
     			{
     				presenter.removeEventListener( LogInEvent.SUCCESS, handleLogInSuccess, false );
     			}
-    &nbsp_place_holder;
+     
     			// Modify session state data to hold reference to the supervising presenter for re-use.
     			protected function serializeSessionData():void
     			{
     				if( _data == null ) _data = {};
     				_data["presenter"] = _presenter;
     			}
-    &nbsp_place_holder;
+     
     			// Navigate to nother view.
     			protected function handleLogInSuccess( evt:LogInEvent ):void
     			{
     				navigator.pushView( WelcomeView );
     			}
-    &nbsp_place_holder;
+     
     			// Need to override in order to persist state data through session.
     			override public function get data():Object
     			{
@@ -179,16 +185,16 @@ When supervising a view, the **ISupervisingPresenter** implementation essentiall
     				_data = value;
     				establishPresenter( _data );
     			}
-    &nbsp_place_holder;
+     
     		]]>
     	</fx>
-    &nbsp_place_holder;
+     
     	<s :navigationContent />
-    &nbsp_place_holder;
+     
     	</s><s :layout>
     		<s :VerticalLayout paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10" />
     	</s>
-    &nbsp_place_holder;
+     
     	<s :TextInput id="usernameField" width="100%" />
     	<s :TextInput id="passwordField" width="100%" displayAsPassword="true" />
     	<s :Button id="logInButton" label="log in" />
@@ -202,6 +208,3 @@ The **Supervising Presenter** reference is persisted through the current session
 Now… i gotta think about getting that **Script** outta my MXML ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4.5](http://custardbelly.com/blog/category/flex-4-5/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 15, 2010
-  *[November 15, 2010]: 2010-11-15T11:54

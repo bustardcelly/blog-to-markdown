@@ -1,4 +1,10 @@
-# [AIR Native Extension Example: iBattery for iOS](http://custardbelly.com/blog/2011/09/21/air-native-extension-example-ibattery-for-ios/)
+---
+title: 'AIR Native Extension Example: iBattery for iOS'
+url: 'http://custardbelly.com/blog/2011/09/21/air-native-extension-example-ibattery-for-ios/'
+author:
+  name: 'todd anderson'
+date: '2011-09-21'
+---
 
 ## Introduction
 
@@ -53,41 +59,41 @@ When creating a native extension targeting the iOS platform, you’ll write some
     
     FREObject GetBatteryLife(FREContext ctx, void* funcData, uint32_t argc, FREObject argv[]) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;UIDevice *device = [UIDevice currentDevice];
+        UIDevice *device = [UIDevice currentDevice];
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;[device setBatteryMonitoringEnabled:YES];
+        [device setBatteryMonitoringEnabled:YES];
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;float life = [device batteryLevel];
+        float life = [device batteryLevel];
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;FREObject retVal;
+        FREObject retVal;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;FRENewObjectFromDouble( life, &retVal );
+        FRENewObjectFromDouble( life, &retVal );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return retVal;
+        return retVal;
     
     }
     
-    &nbsp_place_holder;
+     
     
     // Access info about battery
     
     FREObject GetBatteryInfo(FREContext ctx, void* funcData, uint32_t argc, FREObject argv[]) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;UIDevice *device = [UIDevice currentDevice];
+        UIDevice *device = [UIDevice currentDevice];
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;[device setBatteryMonitoringEnabled:YES];
+        [device setBatteryMonitoringEnabled:YES];
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;int info = [device batteryState];
+        int info = [device batteryState];
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;FREObject retVal;
+        FREObject retVal;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;FRENewObjectFromInt32( info, &retVal );
+        FRENewObjectFromInt32( info, &retVal );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return retVal;
+        return retVal;
     
     }
 
@@ -111,27 +117,27 @@ The [flash.external.ExtensionContext](http://help.adobe.com/en_US/FlashPlatform/
     
     <extension xmlns="[http://ns.adobe.com/air/extension/2.5](http://ns.adobe.com/air/extension/2.5)">
     
-    &nbsp_place_holder;&nbsp_place_holder;<id>com.custardbelly.ibattery</id>
+      <id>com.custardbelly.ibattery</id>
     
-    &nbsp_place_holder;&nbsp_place_holder;<versionNumber>1</versionNumber>
+      <versionNumber>1</versionNumber>
     
-    &nbsp_place_holder;&nbsp_place_holder;<platforms>
+      <platforms>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<platform name="iPhone-ARM">
+        <platform name="iPhone-ARM">
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<applicationDeployment>
+                <applicationDeployment>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<nativeLibrary>libAIRExtensionC.a</nativeLibrary>
+                    <nativeLibrary>libAIRExtensionC.a</nativeLibrary>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<initializer>ExtInitializer</initializer>
+                    <initializer>ExtInitializer</initializer>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<finalizer>ExtFinalizer</finalizer>
+                    <finalizer>ExtFinalizer</finalizer>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</applicationDeployment>
+                </applicationDeployment>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</platform>
+            </platform>
     
-    &nbsp_place_holder;&nbsp_place_holder;</platforms>
+      </platforms>
     
     </extension>
 
@@ -149,17 +155,17 @@ _com.cusardbelly.air.extensions.battery.ios.Battery_
     
     {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return _extensionContext.call( 'GetBatteryLife' ) as Number;
+        return _extensionContext.call( 'GetBatteryLife' ) as Number;
     
     }
     
-    &nbsp_place_holder;
+     
     
     public function getBatteryState():int
     
     {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return _extensionContext.call( 'GetBatteryInfo' ) as int;
+        return _extensionContext.call( 'GetBatteryInfo' ) as int;
     
     }
 
@@ -189,11 +195,11 @@ _iBatteryExample.mxml_
     
     <s:ViewNavigatorApplication xmlns:fx="[http://ns.adobe.com/mxml/2009](http://ns.adobe.com/mxml/2009)"
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;xmlns:s="[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"
+            xmlns:s="[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;firstView="BatteryTestView">
+            firstView="BatteryTestView">
     
-    &nbsp_place_holder;
+     
     
     </s:ViewNavigatorApplication>
 
@@ -205,97 +211,97 @@ _BatteryTestView.mxml_
     
     <s:View xmlns:fx="[http://ns.adobe.com/mxml/2009](http://ns.adobe.com/mxml/2009)"
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;xmlns:s="[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"
+            xmlns:s="[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;title="BatteryTestView" creationComplete="handleCreationComplete();">
+            title="BatteryTestView" creationComplete="handleCreationComplete();">
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<fx:Script>
+        <fx:Script>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<![CDATA[
+            <![CDATA[
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;import com.custardbelly.air.extensions.battery.ios.Battery;
+                import com.custardbelly.air.extensions.battery.ios.Battery;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;protected var _batteryExtension:Battery;
+                protected var _batteryExtension:Battery;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;protected function handleCreationComplete():void
+                protected function handleCreationComplete():void
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;{
+                {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;_batteryExtension = new Battery();
+                    _batteryExtension = new Battery();
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;lifeButton.addEventListener( MouseEvent.CLICK, handleLifeRequest, false, 0, true );
+                    lifeButton.addEventListener( MouseEvent.CLICK, handleLifeRequest, false, 0, true );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;infoButton.addEventListener( MouseEvent.CLICK, handleInfoRequest, false, 0, true );
+                    infoButton.addEventListener( MouseEvent.CLICK, handleInfoRequest, false, 0, true );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+                }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;protected function handleLifeRequest( evt:Event ):void
+                protected function handleLifeRequest( evt:Event ):void
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;{
+                {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;try {
+                    try {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;console.appendText( "Battery Life Percentage: " );
+                        console.appendText( "Battery Life Percentage: " );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;console.appendText( ( _batteryExtension.getBatteryLife() * 100 ).toString() + "%\n" );
+                        console.appendText( ( _batteryExtension.getBatteryLife() * 100 ).toString() + "%\n" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+                    }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;catch( e:Error )
+                    catch( e:Error )
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;{
+                    {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;console.appendText( "Error: " + e.message );
+                        console.appendText( "Error: " + e.message );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+                    }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+                }
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;protected function handleInfoRequest( evt:Event ):void
+                protected function handleInfoRequest( evt:Event ):void
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;{
+                {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;console.appendText( "Battery State: " + ( _batteryExtension.getBatteryState() ).toString() + "\n" );
+                    console.appendText( "Battery State: " + ( _batteryExtension.getBatteryState() ).toString() + "\n" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+                }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;]]>
+            ]]>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</fx:Script>
+        </fx:Script>
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<s:layout>
+        <s:layout>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<s:VerticalLayout paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10" />
+            <s:VerticalLayout paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10" />
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</s:layout>
+        </s:layout>
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<s:TextArea id="console" width="100%" height="100%" editable="false" text="Hello World!" />
+        <s:TextArea id="console" width="100%" height="100%" editable="false" text="Hello World!" />
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<s:HGroup width="100%" height="24" verticalAlign="middle">
+        <s:HGroup width="100%" height="24" verticalAlign="middle">
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<s:Button id="lifeButton" label="get life" />
+            <s:Button id="lifeButton" label="get life" />
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<s:Button id="infoButton" label="get info" />
+            <s:Button id="infoButton" label="get info" />
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</s:HGroup>
+        </s:HGroup>
     
-    &nbsp_place_holder;
+     
     
     </s:View>
 
@@ -319,15 +325,15 @@ _battery_app.config_
     
     <flex-config xmlns="[http://www.adobe.com/2006/flex-config](http://www.adobe.com/2006/flex-config)">
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<compiler>
+        <compiler>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<external-library-path append="true">
+            <external-library-path append="true">
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;<path-element>ext/ibatteryextension.ane</path-element>
+                <path-element>ext/ibatteryextension.ane</path-element>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</external-library-path>
+            </external-library-path>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;</compiler>
+        </compiler>
     
     </flex-config>
 
@@ -348,6 +354,3 @@ Hopefully this article provided some insight on how to quickly get up and runnin
 The source discussed in this article can be found on **github** at [http://github.com/bustardcelly/iBattery](https://github.com/bustardcelly/iBattery) and the [ibatteryextension.ane](http://www.custardbelly.com/downloads/air/ane/ibatteryextension.ane.zip) itself (if you’d like to use it in your application) can be downloaded from this link.
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [AS3](http://custardbelly.com/blog/category/as3/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4.5](http://custardbelly.com/blog/category/flex-4-5/), [Native Extension for Adobe AIR](http://custardbelly.com/blog/category/native-extension-for-adobe-air/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 21, 2011
-  *[September 21, 2011]: 2011-09-21T12:54

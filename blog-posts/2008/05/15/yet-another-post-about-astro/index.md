@@ -1,4 +1,10 @@
-# [Yet another post about Astro](http://custardbelly.com/blog/2008/05/15/yet-another-post-about-astro/)
+---
+title: 'Yet another post about Astro'
+url: 'http://custardbelly.com/blog/2008/05/15/yet-another-post-about-astro/'
+author:
+  name: 'todd anderson'
+date: '2008-05-15'
+---
 
 If you read MXNA, you probably have stopped checking quite some time ago because every post is about [Astro](http://labs.adobe.com/technologies/flashplayer10/)…  
 but if you are interested in another way to set up your projects in FlexBuilder to target FP10 without having to muck about with files in the frameworks folder of your _original_ Flex3 SDK installation this post may shed some light.
@@ -39,6 +45,3 @@ Keith Peters – [Astro Dynamic Sound!](http://www.bit-101.com/blog/?p=1264)
 Josh Tynjala – [Gratuitous Text Effects](http://www.zeuslabs.us/2008/05/15/gratuitous-text-effects-courtesy-of-flash-player-10/)
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Astro](http://custardbelly.com/blog/category/astro/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – May 15, 2008
-  *[May 15, 2008]: 2008-05-15T22:25

@@ -1,4 +1,10 @@
-# [Current Workflow: Developing, Linting, Testing and Distributing JavaScript](http://custardbelly.com/blog/2012/02/07/current-workflow-developing-linting-testing-and-distributing-javascript/)
+---
+title: 'Current Workflow: Developing, Linting, Testing and Distributing JavaScript'
+url: 'http://custardbelly.com/blog/2012/02/07/current-workflow-developing-linting-testing-and-distributing-javascript/'
+author:
+  name: 'todd anderson'
+date: '2012-02-07'
+---
 
 The title is a bit lofty, no? You’d expect a treatise to follow, but alas it will most likely be a rambling mess about the various tools and libraries I have a current fascination with and why – the reason, of which, is due to a recent desire to have a proper build system in place to comfortably develop **JavaScript**. 
 
@@ -38,21 +44,21 @@ _/script/com/custardbelly/js/RequestToken.js_
     
     define( function() {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var RequestToken = (function() {
+        var RequestToken = (function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.then = function( handler ) {
+            this.then = function( handler ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;...
+                ...
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return RequestToken;
+        return RequestToken;
     
-    &nbsp_place_holder;
+     
     
     })l
 
@@ -62,25 +68,25 @@ _/script/com/custardbelly/js/Request.js_
     
     define( ["com/custardbelly/js/RequestToken"], function( RequestToken ) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var Request = (function( url ) {
+        var Request = (function( url ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;this.send = function( variables ) {
+            this.send = function( variables ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var token = new RequestToken();
+                var token = new RequestToken();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;...
+                ...
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return token;
+                return token;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return Request;
+        return Request;
     
-    &nbsp_place_holder;
+     
     
     });
 
@@ -90,49 +96,49 @@ Another great benefit in using RequireJS is that it gets rid of you having to ma
     
     (function( window ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var massroute = getNamspace( 'com.custardbelly.massroute' );
+        var massroute = getNamspace( 'com.custardbelly.massroute' );
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;function getNamespace( value ) {
+        function getNamespace( value ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var parts = value.split( '.' ),
+            var parts = value.split( '.' ),
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;i = 0,
+                i = 0,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;length = parts.length,
+                length = parts.length,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;package, parent = window;
+                package, parent = window;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;for( i; i < length; i++ ) {
+            for( i; i < length; i++ ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;package = parts[i];
+                package = parts[i];
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;parent[package] = parent[package] || {};
+                parent[package] = parent[package] || {};
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;parent = package;
+                parent = package;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;return parent;
+            return parent;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+         };
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var Something = function() {
+        var Something = function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;....
+            ....
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;};
+        };
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;massroute.Something = Something;
+        massroute.Something = Something;
     
-    &nbsp_place_holder;
+     
     
     })( this );
 
@@ -148,41 +154,41 @@ _/app/main.js_
     
     (function( require ) {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;require.config({
+        require.config({
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;baseUrl: ".",
+            baseUrl: ".",
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;paths: {
+            paths: {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"com": "./script/com"
+                "com": "./script/com"
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;require( ['com/custardbelly/js/Request'], function( Request ) {
+        require( ['com/custardbelly/js/Request'], function( Request ) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var request = new Request( '[http://somewhere.fun/go](http://somewhere.fun/go)'),
+            var request = new Request( '[http://somewhere.fun/go](http://somewhere.fun/go)'),
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;token = request.send({person:'Todd'});
+                token = request.send({person:'Todd'});
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;token.then( relax );
+            token.then( relax );
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;function relax() {
+            function relax() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;console.log( 'ahhh' );
+                console.log( 'ahhh' );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
     })( requirejs );
 
@@ -245,29 +251,29 @@ _/test/index.html_
     
     <script>
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;QUnit.config.autostart = false;
+        QUnit.config.autostart = false;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;require.config({
+        require.config({
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;baseUrl: ".",
+            baseUrl: ".",
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;paths: {
+            paths: {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;"com": "../script/com"
+                "com": "../script/com"
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;requirejs(['script/RequestTest.js', 'script/RequestTokenTest.js', 'script/RouteStopTest.js'], function() {
+        requirejs(['script/RequestTest.js', 'script/RequestTokenTest.js', 'script/RouteStopTest.js'], function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;QUnit.start(); // Tests loaded, run tests
+            QUnit.start(); // Tests loaded, run tests
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
     </script>
 
@@ -277,27 +283,27 @@ _/test/script/RequestTest.js_
     
     require( ['com/custardbelly/js/RequestToken', 'com/custardbelly/js/Request'], function( RequestToken, Request ) {
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;module( "Request Test" );
+        module( "Request Test" );
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;test( 'send returns RequestToken', function() {
+        test( 'send returns RequestToken', function() {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var token,
+            var token,
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;xhr = new Request( '[http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=mbta](http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=mbta)' );
+                xhr = new Request( '[http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=mbta](http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=mbta)' );
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;token = xhr.send();
+            token = xhr.send();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;equals( ( token !== 'undefined' ), true, 'Request.send() returns RequestToken' );
+            equals( ( token !== 'undefined' ), true, 'Request.send() returns RequestToken' );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;});
+        });
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;...
+        ...
     
     });
 
@@ -354,17 +360,17 @@ When using **r.js**, you provide a build file that defines your desired configur
     
     ({
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;baseUrl: '../../script',
+        baseUrl: '../../script',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;name: 'com/custardbelly/js/Request',
+        name: 'com/custardbelly/js/Request',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;include: ['com/custardbelly/js/RequestToken'],
+        include: ['com/custardbelly/js/RequestToken'],
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;out: '../../dist/script/custardbelly.min.js',
+        out: '../../dist/script/custardbelly.min.js',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;optimize: "closure",
+        optimize: "closure",
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;wrap: true
+        wrap: true
     
     })
 
@@ -374,37 +380,37 @@ Now, for my “commons” library that is being developed for the [massroute-js 
     
     ({
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;baseUrl: '../../script',
+        baseUrl: '../../script',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;dir: '../../dist/script',
+        dir: '../../dist/script',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;modules: [
+        modules: [
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;{
+            {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;name: 'com/custardbelly/js/Request',
+                name: 'com/custardbelly/js/Request',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;include: ['com/custardbelly/js/RequestToken'],
+                include: ['com/custardbelly/js/RequestToken'],
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;out: 'custardbelly.min.js'
+                out: 'custardbelly.min.js'
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;},
+            },
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;{
+            {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;name: 'com/custardbelly/massroute/model/InflatableModel',
+                name: 'com/custardbelly/massroute/model/InflatableModel',
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;include: ['com/custardbelly/massroute/model/Route', 'com/custardbelly/massroute/model/RouteStop'],
+                include: ['com/custardbelly/massroute/model/Route', 'com/custardbelly/massroute/model/RouteStop'],
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;out: 'massroute.min.js'
+                out: 'massroute.min.js'
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;],
+        ],
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;optimize: "closure",
+        optimize: "closure",
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;wrap: true
+        wrap: true
     
     })
 
@@ -445,7 +451,7 @@ I settled on a simple [Makefile](http://www.gnu.org/software/make/manual/make.ht
     
     SRC_DIR = ./script
     
-    &nbsp_place_holder;
+     
     
     # Tests - PhantomJS
     
@@ -457,7 +463,7 @@ I settled on a simple [Makefile](http://www.gnu.org/software/make/manual/make.ht
     
     TEST_INDEX_URL = file://localhost/Users/todd/massroute_js/massroute-examples/common/test/index.html
     
-    &nbsp_place_holder;
+     
     
     # Min/Concat - r.js
     
@@ -465,43 +471,43 @@ I settled on a simple [Makefile](http://www.gnu.org/software/make/manual/make.ht
     
     R_DIR = ./build/require
     
-    &nbsp_place_holder;
+     
     
     all: lint phantom optimize
     
-    &nbsp_place_holder;
+     
     
     lint:
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;@echo '==> JSHint $<'
+        @echo '==> JSHint $<'
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;@@for file in `find ${SRC_DIR} -name "*.js"`; \
+        @@for file in `find ${SRC_DIR} -name "*.js"`; \
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;do echo ===Linting $$file...===; ${LINT} $$file; done;
+            do echo ===Linting $$file...===; ${LINT} $$file; done;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;@echo
+        @echo
     
-    &nbsp_place_holder;
+     
     
     phantom:
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;@echo '==> Phantom $<'
+        @echo '==> Phantom $<'
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;${PHANTOM} ${PHANTOM_QUNIT_RUNNER} ${TEST_INDEX_URL};
+        ${PHANTOM} ${PHANTOM_QUNIT_RUNNER} ${TEST_INDEX_URL};
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;@echo
+        @echo
     
-    &nbsp_place_holder;
+     
     
     optimize:
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;@echo '==> r.js $<'
+        @echo '==> r.js $<'
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;@@for file in `find ${R_DIR} -name "*.build.js"`; \
+        @@for file in `find ${R_DIR} -name "*.build.js"`; \
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;do echo ===r.js: $$file...===; ${R_JS} ${R_DIR}/r.js -o $$file; done;
+           do echo ===r.js: $$file...===; ${R_JS} ${R_DIR}/r.js -o $$file; done;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;@echo
+        @echo
 
 Certainly, this sort of [Makefile](http://www.gnu.org/software/make/manual/make.html) is intended for the lead developer or automated system to run at deployment, rather than being shared across multiple developers during development as the constants are pretty system specific. If this development/deployment workflow were to introduced into a company workflow, I would probably opt for [ANT](http://ant.apache.org/) or [Rake](http://rake.rubyforge.org/) – which I intend to add to the repository at some point. As well, this deployment is simply just for JavaScript. I may find down the line that a more complete system is required which can optimize HTML, CSS, images, etc. and actually deploy files to a server. The playing field then widens and sticking with **Make** is probably not going to be the optimal solution, and I may rethink requiring [node.js](http://nodejs.org/) or [ruby](http://www.ruby-lang.org/en/) environments for deployment.
 
@@ -520,6 +526,3 @@ A quick round-up from the original listing of what i wanted to achieve, marked w
 cheers!
 
 Posted in [AMD](http://custardbelly.com/blog/category/amd/), [JSHint](http://custardbelly.com/blog/category/jshint/), [JavaScript](http://custardbelly.com/blog/category/javascript/), [PhantomJS](http://custardbelly.com/blog/category/phantomjs/), [QUnit](http://custardbelly.com/blog/category/qunit/), [RequireJS](http://custardbelly.com/blog/category/requirejs/), [r.js](http://custardbelly.com/blog/category/r-js/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – February 7, 2012
-  *[February 7, 2012]: 2012-02-07T10:53

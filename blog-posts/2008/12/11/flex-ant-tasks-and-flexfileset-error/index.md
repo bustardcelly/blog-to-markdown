@@ -1,4 +1,10 @@
-# [Flex Ant Tasks and FlexFileSet error](http://custardbelly.com/blog/2008/12/11/flex-ant-tasks-and-flexfileset-error/)
+---
+title: 'Flex Ant Tasks and FlexFileSet error'
+url: 'http://custardbelly.com/blog/2008/12/11/flex-ant-tasks-and-flexfileset-error/'
+author:
+  name: 'todd anderson'
+date: '2008-12-11'
+---
 
 _*This is more of a post-reminder or a google-search aha than a soliloquy on the joys of FlexTasks and how to use them. If you want to know more about [flextasks, visit here](http://labs.adobe.com/wiki/index.php/Flex_Ant_Tasks), or [Ryan Taylor’s blog](http://www.boostworthy.com/blog/) for some good tips, or pick up [this wonderful book](http://www.amazon.com/Flex-Cookbook-Code-Recipes-Developers-Developer/dp/0596529856/ref=pd_bbs_sr_1?ie=UTF8&s=books&qid=1229047533&sr=8-1)… the holidays are coming._
 
@@ -38,6 +44,3 @@ Was I bone-head for 2 hours? Probably…. feel free to leave a comment.
 Thanks, Ryan!
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [FlexTasks](http://custardbelly.com/blog/category/flextasks/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – December 11, 2008
-  *[December 11, 2008]: 2008-12-11T22:14

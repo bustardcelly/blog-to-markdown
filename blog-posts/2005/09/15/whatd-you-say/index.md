@@ -1,4 +1,10 @@
-# [what’d you say?](http://custardbelly.com/blog/2005/09/15/whatd-you-say/)
+---
+title: 'what’d you say?'
+url: 'http://custardbelly.com/blog/2005/09/15/whatd-you-say/'
+author:
+  name: 'todd anderson'
+date: '2005-09-15'
+---
 
 just got back from [the Makers](http://themakersband.com/) show at great scott. holy smokes.  
 first off, the [great scott](http://greatscottboston.com/) is an excellent place. second off, the second opening band [Rock n’ Roll Soldiers](http://www.punknews.org/article.php?sid=13329&mode=nested&order=0) were pretty damn good.
@@ -17,6 +23,3 @@ if you are interested in learning more about the Makers, visit your local librar
 don’t stop there.
 
 Posted in [Music](http://custardbelly.com/blog/category/music/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 15, 2005
-  *[September 15, 2005]: 2005-09-15T01:43

@@ -1,4 +1,10 @@
-# [Game:: Hero example](http://custardbelly.com/blog/2005/06/27/game-hero-example/)
+---
+title: 'Game:: Hero example'
+url: 'http://custardbelly.com/blog/2005/06/27/game-hero-example/'
+author:
+  name: 'todd anderson'
+date: '2005-06-27'
+---
 
 i had a life story written of how i started out trying to make games in flash, but i was getting blah blah, so – in short – much credit to[ tonypa](http://www.tonypa.pri.ee/tbw/index.html), [out of society](http://oos.moxiecode.com/) and [Keith Peters](http://bit-101.com) for getting my feet wet. online there was very little resources for creating games based on OOP (though [steve](http://video-animation.com/mx2k_00.shtml) has some excellent tutorials) so i tried to marry my practices used at work with that of what was available on the internet *mostly in AS1.  
 plus my mind wonders pretty frequently, so to follow a whole tutorial is hard. i tend to get through about 1/5 of it, stop looking at it, (maybe throw on [Heaven Tonight](http://www.cheaptrick.com/ctalbum3.html) or [Trash&Burn](http://www.deadmoonusa.com/dm_mtr390.htm)), and start trying to incorporate what i learned with what i already know, and get frustrated that nothing is working the way i want (blah blah).  
@@ -20,6 +26,3 @@ and here is a short list of people and sites you should really check out:
 maybe i’ll make a bigger list of resources some day.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – June 27, 2005
-  *[June 27, 2005]: 2005-06-27T12:06

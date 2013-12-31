@@ -1,4 +1,10 @@
-# [as3flobile extension: as3flobile-android](http://custardbelly.com/blog/2010/10/20/as3flobile-extension-as3flobile-android/)
+---
+title: 'as3flobile extension: as3flobile-android'
+url: 'http://custardbelly.com/blog/2010/10/20/as3flobile-extension-as3flobile-android/'
+author:
+  name: 'todd anderson'
+date: '2010-10-20'
+---
 
 I just made an initial commit to [github](http://github.com/bustardcelly/) with an [**as3flobile** library](http://github.com/bustardcelly/as3flobile) extension named [**as3flobile-android**](http://github.com/bustardcelly/as3flobile-android). 
 
@@ -15,6 +21,3 @@ There are a few more custom controls targeting the Android platform that i have 
 Criticism and feedback is always welcome.
 
 Posted in [Android](http://custardbelly.com/blog/category/android/), [Flash](http://custardbelly.com/blog/category/flash/), [as3flobile](http://custardbelly.com/blog/category/as3flobile/), [as3flobile-android](http://custardbelly.com/blog/category/as3flobile-android/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 20, 2010
-  *[October 20, 2010]: 2010-10-20T11:04

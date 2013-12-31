@@ -1,4 +1,10 @@
-# [AS3 2d tilescroller source](http://custardbelly.com/blog/2006/06/09/as3-2d-tilescroller-source/)
+---
+title: 'AS3 2d tilescroller source'
+url: 'http://custardbelly.com/blog/2006/06/09/as3-2d-tilescroller-source/'
+author:
+  name: 'todd anderson'
+date: '2006-06-09'
+---
 
 [view swf and source here.](http://www.custardbelly.com/downloads/as3/TileScroller/index.html)
 
@@ -21,6 +27,3 @@ had forgotten all about these guys…
 i’m waiting for the box that had my old [etch-a-sketch animator gadget](http://en.wikipedia.org/wiki/Image:Etch-A-Sketch_Animator.jpg). man, i loved that thing.
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – June 9, 2006
-  *[June 9, 2006]: 2006-06-09T07:58

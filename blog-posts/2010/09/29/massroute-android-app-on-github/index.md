@@ -1,4 +1,10 @@
-# [MassRoute – Android app on github](http://custardbelly.com/blog/2010/09/29/massroute-android-app-on-github/)
+---
+title: 'MassRoute – Android app on github'
+url: 'http://custardbelly.com/blog/2010/09/29/massroute-android-app-on-github/'
+author:
+  name: 'todd anderson'
+date: '2010-09-29'
+---
 
 While delving into [Flash development targeting the mobile web](http://custardbelly.com/blog/?p=173), i have been using my Nexus One on a daily basis. Though i still go back and forth with switching my SIM card from the iPhone to N1 and back again (can’t give up the iPhone), i decided to also get my hands dirty with the **Android SDK** and build an application written in Java.
 
@@ -13,6 +19,3 @@ As such, i wanted to have this application that is being actively worked on up i
 [Check out **MassRoute** on github](http://github.com/bustardcelly/MassRoute)
 
 Posted in [Android](http://custardbelly.com/blog/category/android/), [MassRoute](http://custardbelly.com/blog/category/massroute/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 29, 2010
-  *[September 29, 2010]: 2010-09-29T05:59

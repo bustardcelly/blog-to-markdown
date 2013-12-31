@@ -1,4 +1,10 @@
-# [Flash And The City: jQuery Mobile](http://custardbelly.com/blog/2011/06/15/flash-and-the-city-jquery-mobile/)
+---
+title: 'Flash And The City: jQuery Mobile'
+url: 'http://custardbelly.com/blog/2011/06/15/flash-and-the-city-jquery-mobile/'
+author:
+  name: 'todd anderson'
+date: '2011-06-15'
+---
 
 Over the past weekend, I had the great pleasure to attend and present at [Flash And The City](http://fatc.co/) in NYC. I want to thank [Elad](https://twitter.com/#!/eladelrom) and [Jose](https://twitter.com/#!/joseeight) for putting on an excellent conference and giving me an opportunity to present. 
 
@@ -50,6 +56,3 @@ http://developer.apple.com/library/safari/#)
 [me on twitter](https://twitter.com/#!/bustardcelly)
 
 Posted in [Flash and the City](http://custardbelly.com/blog/category/flash-and-the-city/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – June 15, 2011
-  *[June 15, 2011]: 2011-06-15T09:12

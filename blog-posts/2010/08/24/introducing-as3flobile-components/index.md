@@ -1,4 +1,10 @@
-# [Introducing as3flobile components](http://custardbelly.com/blog/2010/08/24/introducing-as3flobile-components/)
+---
+title: 'Introducing as3flobile components'
+url: 'http://custardbelly.com/blog/2010/08/24/introducing-as3flobile-components/'
+author:
+  name: 'todd anderson'
+date: '2010-08-24'
+---
 
 _The library is available on github at [bustardcelly/as3flobile](http://github.com/bustardcelly/as3flobile). You can read more detailed information on [the wiki](http://wiki.github.com/bustardcelly/as3flobile/). You can also look at the [online docs](http://www.custardbelly.com/android/froyo/as3flobile/docs/). Continue reading if you enjoy rambling explanations._
 
@@ -23,6 +29,3 @@ However, if you look at the default skins within **as3flobile**, in **com.custar
 In any event, i hope you check out the **as3flobile** [project in github](http://wiki.github.com/bustardcelly/as3flobile/) and/or [get down to business as Gary always seems to do](http://30.media.tumblr.com/tumblr_l7foigmQIN1qzzw5do1_500.jpg). If you do check out the **as3flobile** project, suggestions, comments and questions are always appreciated. I am sure there are some bugs and some aspects of the controls that i just didn’t think of that may be needed.
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Android](http://custardbelly.com/blog/category/android/), [Flash](http://custardbelly.com/blog/category/flash/), [as3flobile](http://custardbelly.com/blog/category/as3flobile/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – August 24, 2010
-  *[August 24, 2010]: 2010-08-24T09:12

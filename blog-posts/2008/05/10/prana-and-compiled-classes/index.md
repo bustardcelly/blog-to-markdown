@@ -1,4 +1,10 @@
-# [Prana and compiled classes](http://custardbelly.com/blog/2008/05/10/prana-and-compiled-classes/)
+---
+title: 'Prana and compiled classes'
+url: 'http://custardbelly.com/blog/2008/05/10/prana-and-compiled-classes/'
+author:
+  name: 'todd anderson'
+date: '2008-05-10'
+---
 
 I have recently gotten into incorporating [Prana – the Inversion of Control framework of AS3](http://www.pranaframework.org/) created by [Christophe Herreman](http://www.herrodius.com/blog/)- into my projects. I gotta say, it’s beautiful piece of work and makes me rethink my approach to the architecture of applications again.
 
@@ -51,6 +57,3 @@ The best part is that [Prana is truthfully AS3 compliant](http://www.herrodius.c
 *Last i checked, the source under version control doesn’t seem to reflect the current changes [Christophe](http://www.herrodius.com/blog/) has made, but they are included in the downloads.
 
 Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Prana](http://custardbelly.com/blog/category/prana/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – May 10, 2008
-  *[May 10, 2008]: 2008-05-10T14:58

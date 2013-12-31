@@ -1,4 +1,10 @@
-# [it’s quite possible i don’t know what i’m doing](http://custardbelly.com/blog/2005/07/13/its-quite-possible-i-dont-know-what-im-doing/)
+---
+title: 'it’s quite possible i don’t know what i’m doing'
+url: 'http://custardbelly.com/blog/2005/07/13/its-quite-possible-i-dont-know-what-im-doing/'
+author:
+  name: 'todd anderson'
+date: '2005-07-13'
+---
 
 i have been testing out my old stuff with the [player 8 beta](http://www.macromedia.com/software/flashplayer/public_beta/). i thought i’d dig around for some poorly coded fractal trials i was heavily into back in the winter when i was addicted to [paul bourke’s](http://astronomy.swin.edu.au/~pbourke/fractals/) work.
 
@@ -21,6 +27,3 @@ with player 8, however, **onLoad **was never triggered.
 now, it could be the case that i never should have done that in the first place ( i certainly haven’t done something like that in a while ), but i wonder why it worked using player 7 and not using player 8.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – July 13, 2005
-  *[July 13, 2005]: 2005-07-13T10:40

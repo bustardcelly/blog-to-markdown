@@ -1,4 +1,10 @@
-# [AIR InvokeEvent and FileTypes](http://custardbelly.com/blog/2007/10/05/air-invokeevent-and-filetypes/)
+---
+title: 'AIR InvokeEvent and FileTypes'
+url: 'http://custardbelly.com/blog/2007/10/05/air-invokeevent-and-filetypes/'
+author:
+  name: 'todd anderson'
+date: '2007-10-05'
+---
 
 As some of you may know, [Matt Wright](http://www.designhonky.com/) and [Marc Leuchner](http://www.forwardatlantic.com/marc/2006/) (of [nobien](http://blog.nobien.net/) fame) and I are authoring an [Adobe AIR book](http://www.amazon.com/Adobe-AIR-Create-Modify-Reuse/dp/0470182075/ref=pd_bbs_sr_6/002-5985048-8156021?ie=UTF8&s=books&qid=1191543407&sr=8-6) to be published by [Wiley](http://www.wiley.com/WileyCDA/). We’ve been breaking fingernails typing away to deliver a jam-packed by-examples book in which you’ll build real world applications while learning about the AIR API. As we’re writing, we run across some amazing features in AIR and yammer amongst ourselves – or to anyone who listens – but rarely blog about our excitement and findings.
 
@@ -37,7 +43,7 @@ On Windows:_
         layout="vertical" 
         horizontalAlign="center" verticalAlign="middle"
         invoke="onAppInvoke(event);">
-    &nbsp_place_holder;
+     
         </mx><mx :Script>
             < ![CDATA[
                 private function onAppInvoke( evt:InvokeEvent ):void
@@ -72,16 +78,16 @@ All this filetypes and invoke events craziness is enough to warrent me to stop w
                 import mx.binding.utils.ChangeWatcher;
                 import mx.binding.utils.BindingUtils;
                 import mx.events.FlexEvent;
-    &nbsp_place_holder;
+     
                 private var _invokedFile:File;
                 private var _fileWindow:FileDisplayWindow;
                 private var _filesBinding:ChangeWatcher;
-    &nbsp_place_holder;
+     
                 private function onAppComplete():void
                 {
                     _filesBinding = BindingUtils.bindSetter( invalidateFiles, this, 'invokedFile', true );
                 }
-    &nbsp_place_holder;
+     
                 private function onAppInvoke( evt:InvokeEvent ):void
                 {
                     var items:Array = evt.arguments;
@@ -90,26 +96,26 @@ All this filetypes and invoke events craziness is enough to warrent me to stop w
                         invokedFile = new File( evt.arguments[0] );
                     }    
                 }
-    &nbsp_place_holder;
+     
                 private function openFileWindow():void
                 {
                     _fileWindow = new FileDisplayWindow();
                     _fileWindow.addEventListener( FlexEvent.CREATION_COMPLETE, applyFileToWindow );
                     _fileWindow.open();
                 }
-    &nbsp_place_holder;
+     
                 private function applyFileToWindow( evt:FlexEvent = null ):void
                 {
                     _fileWindow.file = _invokedFile;
                 }
-    &nbsp_place_holder;
+     
                 private function invalidateFiles( arg:* = null ):void
                 {
                     if( _invokedFile == null ) return;
                     if( _fileWindow == null || _fileWindow.closed ) openFileWindow();
                     else applyFileToWindow();
                 }
-    &nbsp_place_holder;
+     
                 [Bindable]
                 public function get invokedFile():File
                 {
@@ -119,7 +125,7 @@ All this filetypes and invoke events craziness is enough to warrent me to stop w
                 {
                     _invokedFile = arr;
                 }
-    &nbsp_place_holder;
+     
             ]]>
         <mx :Label text="Welcome" />
     </mx>
@@ -138,6 +144,3 @@ This just scratches the surface. There are icons you can associate with file typ
 If you made it this far and haven’t checked out [AIR](http://labs.adobe.com/technologies/air/), go [download the bits](http://labs.adobe.com/). And maybe consider buying [a book](http://www.amazon.com/Adobe-AIR-Create-Modify-Reuse/dp/0470182075/ref=pd_bbs_sr_6/002-5985048-8156021?ie=UTF8&s=books&qid=1191552882&sr=8-6) or [ two](http://amazon.com/s/ref=nb_ss_gw/102-6567738-0807350?initialSearch=1&url=search-alias%3Daps&field-keywords=Adobe+AIR&Go.x=0&Go.y=0&Go=Go)… ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [Apollo](http://custardbelly.com/blog/category/apollo/), [Books](http://custardbelly.com/blog/category/books/), [Flex](http://custardbelly.com/blog/category/flex/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 5, 2007
-  *[October 5, 2007]: 2007-10-05T09:24

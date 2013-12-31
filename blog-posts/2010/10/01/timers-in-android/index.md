@@ -1,4 +1,10 @@
-# [Timers in Android](http://custardbelly.com/blog/2010/10/01/timers-in-android/)
+---
+title: 'Timers in Android'
+url: 'http://custardbelly.com/blog/2010/10/01/timers-in-android/'
+author:
+  name: 'todd anderson'
+date: '2010-10-01'
+---
 
 Thought i’d make a quick post as part of a reminder for me or for those coming from ActionScript to **Android** and wondering how to create a **Timer**. It’s no secret but took me some searching to find (what i think is) the correct way to use timers in Android while i was working on some stuff for [**MassRoute**](http://custardbelly.com/blog/?p=191).
 
@@ -17,7 +23,7 @@ _To run the timer once:_
         };
         taskHandler.postAtTime( t, time );
     }
-    &nbsp_place_holder;
+     
     protected void runNextTask()
     {
         // run my task.
@@ -30,24 +36,24 @@ _To run the timer continuously at a given time:_
     // -- Class Members --
     protected Handler taskHandler = new Handler();
     protected Boolean isComplete = false;
-    &nbsp_place_holder;
+     
     // -- Set Timer --
     protected void setTimer( long time )
     {
         final long elapse = 1000;
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; Runnable t = new Runnable() {
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;  &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;public void run()
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;  &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;{
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;  &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;runNextTask();
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;  &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( !isComplete )
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;  &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;{
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;  &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;_taskHandler.postDelayed( this, elapse );
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;  &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;  &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; };
+        Runnable t = new Runnable() {
+            public void run()
+            {
+                runNextTask();
+                if( !isComplete )
+                {
+                    _taskHandler.postDelayed( this, elapse );
+                }
+            }
+        };
     	_taskHandler.postDelayed( t, elapse );
     }
-    &nbsp_place_holder;
+     
     protected void runNextTask()
     {
         // run my task.
@@ -55,6 +61,3 @@ _To run the timer continuously at a given time:_
     }
 
 Posted in [Android](http://custardbelly.com/blog/category/android/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – October 1, 2010
-  *[October 1, 2010]: 2010-10-01T09:19

@@ -1,4 +1,10 @@
-# [non-existant 8ball hopefuls… but i ain’t complaining!](http://custardbelly.com/blog/2005/09/16/non-existant-8ball-hopefuls-but-i-aint-complaining/)
+---
+title: 'non-existant 8ball hopefuls… but i ain’t complaining!'
+url: 'http://custardbelly.com/blog/2005/09/16/non-existant-8ball-hopefuls-but-i-aint-complaining/'
+author:
+  name: 'todd anderson'
+date: '2005-09-16'
+---
 
 first off, let me say that i am in no way unhappy with flash8. i’m posting this in the hopes that someone can give me more explanation as to why these are problematic, or – hopefully – supply a work around.
 
@@ -15,6 +21,3 @@ I really wish that presented a check list of library items that have conflicting
 that said, these perform the same as before… nothing new here… and there are a lot of new things that need to be explored with Flash8!
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – September 16, 2005
-  *[September 16, 2005]: 2005-09-16T00:14

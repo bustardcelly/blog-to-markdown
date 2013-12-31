@@ -1,4 +1,10 @@
-# [return class; = [type Function] ?](http://custardbelly.com/blog/2005/06/28/return-class-type-function/)
+---
+title: 'return class; = [type Function] ?'
+url: 'http://custardbelly.com/blog/2005/06/28/return-class-type-function/'
+author:
+  name: 'todd anderson'
+date: '2005-06-28'
+---
 
 [Edit: sorry about all the italics and bolds. i really need to get some sort of style sheet for actionscript code]  
 [Edit 2: and i got one. have to do some color changes. [IG: Syntax Hiliter](http://blog.igeek.info/index.php)]  
@@ -91,6 +97,3 @@ Now this makes sense to me, since when you create an instance of a class you use
 The answer is probably simple and can be summed up in one line, and here i write a novel out of a question.. but oh well.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – June 28, 2005
-  *[June 28, 2005]: 2005-06-28T14:19

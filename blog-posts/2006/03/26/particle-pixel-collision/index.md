@@ -1,4 +1,10 @@
-# [Particle Pixel Collision](http://custardbelly.com/blog/2006/03/26/particle-pixel-collision/)
+---
+title: 'Particle Pixel Collision'
+url: 'http://custardbelly.com/blog/2006/03/26/particle-pixel-collision/'
+author:
+  name: 'todd anderson'
+date: '2006-03-26'
+---
 
 [![click me](http://www.custardbelly.com/blog/images/ring.gif)](javascript:MM_openBrWindow('http://www.custardbelly.com/blog/insets/ppColl.html','strip','resizable=no,width=250,height=130');)
 
@@ -12,6 +18,3 @@ So i went back to my [PixelCollision class](http://custardbelly.com/blog/?p=28) 
 In the movie link above you can see what’s happening (well kind of, i made it too small i think). It’s actually a rotating-ring system in a layer above the sprite, and it’s applying alpha transparency to the stars based on collision – and/or also pixel replacement of sprite if you click on the stage (that’s my favorite part). It’s a shame it gets a little skippish in a browser, i’ll have to do a little cleaning and see what happens.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – March 26, 2006
-  *[March 26, 2006]: 2006-03-26T21:32

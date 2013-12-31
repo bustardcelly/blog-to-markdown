@@ -1,4 +1,10 @@
-# [Offloading rendering in a 3d engine](http://custardbelly.com/blog/2006/02/01/offloading-rendering-in-a-3d-engine/)
+---
+title: 'Offloading rendering in a 3d engine'
+url: 'http://custardbelly.com/blog/2006/02/01/offloading-rendering-in-a-3d-engine/'
+author:
+  name: 'todd anderson'
+date: '2006-02-01'
+---
 
 After reading Keith’s [Making Things Move](http://www.amazon.com/gp/product/1590595181/sr=1-1/qid=1138766400/ref=pd_bbs_1/103-6509034-0931065?%5Fencoding=UTF8), i went on a coding-binge and made a simple 3d engine. I was loving it. went nuts with some extended primitives – still need to get around to the infamous [Utah Teapot](http://www.sjbaker.org/teapot/)… we’ll see how that goes …
 
@@ -21,6 +27,3 @@ It’s in constant emmision, so when a particle expires, it regenerates itself a
 [![click me to view](http://www.custardbelly.com/blog/images/stars.png)](javascript:MM_openBrWindow('insets/psys.html','psystem','resizable=no,width=300,height=288');)
 
 Posted in [General](http://custardbelly.com/blog/category/general/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – February 1, 2006
-  *[February 1, 2006]: 2006-02-01T00:07

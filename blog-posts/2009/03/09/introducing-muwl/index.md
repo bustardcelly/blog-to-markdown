@@ -1,4 +1,10 @@
-# [Introducing MUWL](http://custardbelly.com/blog/2009/03/09/introducing-muwl/)
+---
+title: 'Introducing MUWL'
+url: 'http://custardbelly.com/blog/2009/03/09/introducing-muwl/'
+author:
+  name: 'todd anderson'
+date: '2009-03-09'
+---
 
 In between work, taming a new puppy and twilighting as an iPhone SDK newbie, i have been busy working on a personal project that has taken way too long to see the light of day. I began working on an [AIR](http://get.adobe.com/air/) application last summer to overcome an incongruency in the middle tier of how i go about finding and purchasing new music… out came a little desktop app i call **MUWL**.
 
@@ -274,6 +280,3 @@ Big ups go to [Ash](http://razorberry.com/blog) who did some testing and kept me
 [nude women having sex](http://www.healthcentral.com/adhd/c/160794/profile)
 
 Posted in [AIR](http://custardbelly.com/blog/category/air/), [MUWL](http://custardbelly.com/blog/category/muwl/), [Music](http://custardbelly.com/blog/category/music/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – March 9, 2009
-  *[March 9, 2009]: 2009-03-09T08:25

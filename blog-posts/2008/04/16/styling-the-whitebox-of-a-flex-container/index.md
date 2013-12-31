@@ -1,4 +1,10 @@
-# [Styling the whiteBox of a Flex Container](http://custardbelly.com/blog/2008/04/16/styling-the-whitebox-of-a-flex-container/)
+---
+title: 'Styling the whiteBox of a Flex Container'
+url: 'http://custardbelly.com/blog/2008/04/16/styling-the-whitebox-of-a-flex-container/'
+author:
+  name: 'todd anderson'
+date: '2008-04-16'
+---
 
 You can’t… That is to say, there is no style property to change the color of that little white box that appears in the lower right of a Container component when the vertical and horizontal scrollbars are present.
 
@@ -13,15 +19,15 @@ Here’s an example of how i resolved my issue:
     package
     {
         import mx.containers.Canvas;
-    &nbsp_place_holder;
+     
         public class NoWhiteBoxContainer extends Canvas
         {
             public function NoWhiteBoxContainer() {	super(); }
-    &nbsp_place_holder;
+     
             override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void
             {
                 super.updateDisplayList( unscaledWidth, unscaledHeight );
-    &nbsp_place_holder;
+     
                 if( whiteBox ) rawChildren.removeChild( whiteBox );
             }
         }
@@ -30,6 +36,3 @@ Here’s an example of how i resolved my issue:
 Nothing extremely complicated, but it would have been nice to just set a style property or for the fill color to inherit from the backgroundColor property. ah well… Hopefully someone may find this post if they are wondering what to do with that white box.
 
 Posted in [Flex](http://custardbelly.com/blog/category/flex/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – April 16, 2008
-  *[April 16, 2008]: 2008-04-16T18:01

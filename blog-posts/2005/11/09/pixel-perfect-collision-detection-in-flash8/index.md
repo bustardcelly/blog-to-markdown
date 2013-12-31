@@ -1,4 +1,10 @@
-# [Pixel Collision Detection in Flash8](http://custardbelly.com/blog/2005/11/09/pixel-perfect-collision-detection-in-flash8/)
+---
+title: 'Pixel Collision Detection in Flash8'
+url: 'http://custardbelly.com/blog/2005/11/09/pixel-perfect-collision-detection-in-flash8/'
+author:
+  name: 'todd anderson'
+date: '2005-11-09'
+---
 
 In my last post i talked about an ImagesLoader that holds a map of the bitmapdata copied from any images loaded into an offscreen buffer. Well, i thought that was well and good, but i started thinking about collision detection between two bitmaps. Take for instance the “load and chop” of a strip of sprite states. Since it does a check on the dimensions of the image loaded and just divides by the number of states (columns and rows) specified, each state has the same width and height.  
 That’s fine if you’re running a collision detection based on movieclip bounds, but the state of a sprite can have a fair amount of empty (tranparent) pixels within the bounding rectangle detected from the movieclip it’s attached to (using mc.getBounds()). What if you want to run a collision of something hitting any opaque pixels in the sprite and not use the bounding box of the mc?
@@ -50,6 +56,3 @@ If that shows up as 0, it’s transparent. I stink at techinical explanations, s
 I’d also like to point out Grant Skinner’s great example of [Shape-Based Collision Detection](http://www.gskinner.com/blog/archives/2005/10/source_code_sha.html), if you haven’t already seen it. 
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – November 9, 2005
-  *[November 9, 2005]: 2005-11-09T16:28

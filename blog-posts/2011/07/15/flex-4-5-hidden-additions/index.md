@@ -1,4 +1,10 @@
-# [Flex 4.5 Hidden Additions*](http://custardbelly.com/blog/2011/07/15/flex-4-5-hidden-additions/)
+---
+title: 'Flex 4.5 Hidden Additions*'
+url: 'http://custardbelly.com/blog/2011/07/15/flex-4-5-hidden-additions/'
+author:
+  name: 'todd anderson'
+date: '2011-07-15'
+---
 
 *Maybe not necessarily _hidden_ per se, but with the main focus on delivering **Flex** to mobile, there are a few things that have snuck into the [Flex 4.5 SDK](http://opensource.adobe.com/wiki/display/flexsdk/Download+Flex+4.5) release that don’t get much coverage. I am not talking about **Molehill**, native **JSON** support, **GC** advice, etc. disclosed in [this announcement](http://www.bytearray.org/?p=3216) – which are very exciting. I wanted to shed some light on some things I found kicking around in the new **SDK** that I have not heard very much about. Truthfully, they may have been a bi-product of getting the framework to be more performant on a mobile device – not sure – but they are things that I (and probably you) have created over and over for projects with varying degrees of functionality and **API** completeness as was deemed fit for the requirements at hand.
 
@@ -20,11 +26,11 @@ Fortunately it looks like some updates to **BitmapImage** have been added as wel
     
     <s:Image source="[http://upload.wikimedia.org/wikipedia/commons/archive/4/4e/20090913162821](http://upload.wikimedia.org/wikipedia/commons/archive/4/4e/20090913162821)!Pleiades_large.jpg"
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;width="800" height="600"
+                    width="800" height="600"
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;enableLoadingState="true"
+                    enableLoadingState="true"
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;/>
+                    />
 
 Remember how i mentioned _contentLoader_ as a new property for **BitmapImage** (and the decorating **s:Image**)? That is typed to an **IContentLoader** interface, of which **ContentCache** is an implementation.
 
@@ -46,73 +52,73 @@ The _content_ property on **ContentRequest** is typed as an Object and the docs 
     
     public var requests:Vector.<ContentRequest>;
     
-    &nbsp_place_holder;
+     
     
     protected function requestImages():void
     
     {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;cache = new ContentCache();
+        cache = new ContentCache();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;cache.prioritize( "walls" );
+        cache.prioritize( "walls" );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;cache.enableCaching = true;
+        cache.enableCaching = true;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;cache.enableQueueing = true;
+        cache.enableQueueing = true;
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;requests = new Vector.<ContentRequest>();
+        requests = new Vector.<ContentRequest>();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;requests.push( cache.load( "[http://30.media.tumblr.com/tumblr_loc6v1EmWE1qzpsuoo1_500.jpg](http://30.media.tumblr.com/tumblr_loc6v1EmWE1qzpsuoo1_500.jpg)", "superheros" ) );
+        requests.push( cache.load( "[http://30.media.tumblr.com/tumblr_loc6v1EmWE1qzpsuoo1_500.jpg](http://30.media.tumblr.com/tumblr_loc6v1EmWE1qzpsuoo1_500.jpg)", "superheros" ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;requests.push( cache.load( "[http://26.media.tumblr.com/tumblr_locs8oFznL1qzpsuoo1_400.jpg](http://26.media.tumblr.com/tumblr_locs8oFznL1qzpsuoo1_400.jpg)", "walls" ) );
+        requests.push( cache.load( "[http://26.media.tumblr.com/tumblr_locs8oFznL1qzpsuoo1_400.jpg](http://26.media.tumblr.com/tumblr_locs8oFznL1qzpsuoo1_400.jpg)", "walls" ) );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;requests.push( cache.load( "[http://25.media.tumblr.com/tumblr_loc2ysUcfw1qzpsuoo1_500.jpg](http://25.media.tumblr.com/tumblr_loc2ysUcfw1qzpsuoo1_500.jpg)", "superheros" ) )
+        requests.push( cache.load( "[http://25.media.tumblr.com/tumblr_loc2ysUcfw1qzpsuoo1_500.jpg](http://25.media.tumblr.com/tumblr_loc2ysUcfw1qzpsuoo1_500.jpg)", "superheros" ) )
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;requests.push( cache.load( "[http://24.media.tumblr.com/tumblr_loarags4Du1qzpsuoo1_500.jpg](http://24.media.tumblr.com/tumblr_loarags4Du1qzpsuoo1_500.jpg)", "walls" ) )
+        requests.push( cache.load( "[http://24.media.tumblr.com/tumblr_loarags4Du1qzpsuoo1_500.jpg](http://24.media.tumblr.com/tumblr_loarags4Du1qzpsuoo1_500.jpg)", "walls" ) )
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var request:ContentRequest;
+        var request:ContentRequest;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var i:int = requests.length;
+        var i:int = requests.length;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;while( --i > -1 )
+        while( --i > -1 )
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;{
+        {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;request = requests[i];
+            request = requests[i];
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;if( request.complete )
+            if( request.complete )
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;{
+            {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;requests.splice( i, 1 );
+                requests.splice( i, 1 );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;addImage( (request.content as LoaderInfo).content as Bitmap );
+                addImage( (request.content as LoaderInfo).content as Bitmap );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;else
+            else
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;{
+            {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;addRequestHandlers( request );
+                addRequestHandlers( request );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+            }
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;}
+        }
     
-    }&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 
+    }       
     
-    &nbsp_place_holder;
+     
     
     protected function addRequestHandlers( request:ContentRequest ):void
     
     {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;request.addEventListener( Event.COMPLETE, handleRequestComplete );
+        request.addEventListener( Event.COMPLETE, handleRequestComplete );
     
     }
     
@@ -120,49 +126,49 @@ The _content_ property on **ContentRequest** is typed as an Object and the docs 
     
     {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;request.removeEventListener( Event.COMPLETE, handleRequestComplete );
+        request.removeEventListener( Event.COMPLETE, handleRequestComplete );
     
     }
     
-    &nbsp_place_holder;
+     
     
     protected function handleRequestComplete( evt:Event ):void
     
     {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var request:ContentRequest = ( evt.target as ContentRequest );
+        var request:ContentRequest = ( evt.target as ContentRequest );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var index:int = requests.indexOf( request );
+        var index:int = requests.indexOf( request );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;requests.splice( index, 1 );
+        requests.splice( index, 1 );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;removeRequestHandlers( request );
+        removeRequestHandlers( request );
     
-    &nbsp_place_holder;
+     
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var info:LoaderInfo = request.content as LoaderInfo;
+        var info:LoaderInfo = request.content as LoaderInfo;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;addImage( info.content as Bitmap );
+        addImage( info.content as Bitmap );
     
     }
     
-    &nbsp_place_holder;
+     
     
     protected function addImage( source:Bitmap ):void
     
     {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;var img:BitmapImage = new BitmapImage();
+        var img:BitmapImage = new BitmapImage();
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;img.width = source.width;
+        img.width = source.width;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;img.height = source.height;
+        img.height = source.height;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;img.source = source;
+        img.source = source;
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;// imageHolder is just some container on the display list.
+        // imageHolder is just some container on the display list.
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;imageHolder.addElement( img );
+        imageHolder.addElement( img );
     
     }
 
@@ -202,7 +208,7 @@ I should say that it is a great exercise to create your own linked list and I re
     
     list.push( "baz" );
     
-    &nbsp_place_holder;
+     
     
     var node:LinkedListNode = list.head;
     
@@ -210,13 +216,13 @@ I should say that it is a great exercise to create your own linked list and I re
     
     {
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;trace( "Node value: " + node.value );
+        trace( "Node value: " + node.value );
     
-    &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;node = node.next;
+        node = node.next;
     
     }
     
-    &nbsp_place_holder;
+     
     
     // <<outputs>>
     
@@ -245,6 +251,3 @@ So in any event, I would say it is a great exercise to roll your own linked list
 Nothing really to conclude. I just found these while digging around and became intrigued as they were fairly common things that i implemented over and over with varying functionality on projects based on requirements and now they are available in the Flex 4.5 SDK. If you have found some that you really like, let me know.
 
 Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4.5](http://custardbelly.com/blog/category/flex-4-5/).
-
-By [todd anderson](http://custardbelly.com/blog/author/todd-anderson/) – July 15, 2011
-  *[July 15, 2011]: 2011-07-15T09:08

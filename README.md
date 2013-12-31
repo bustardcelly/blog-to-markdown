@@ -25,8 +25,13 @@ Requirements
 #### virtualenvwrapper
 Assume using [virutalenvwrapper](virtualenvwrapper.readthedocs.org) for python projects.
 
+#### NodeJS, NPM & Grunt
+Uses [grunt-markdown-blog](https://github.com/testdouble/grunt-markdown-blog) to generate HTML articles based on converted markdown.
+
 Articles to Markdown
 ---
+| using [html2text](https://github.com/aaronsw/html2text).
+
 1. Setup virtualenv and install requirements.  
 ```
 $ mkvirtualenv blog -r requirements.txt --system-site-packages
@@ -44,5 +49,12 @@ $ phantomjs post-parser.js
 
 4. Convert single posts to markdown using _html2text_  
 ```
-$ python blog-history.py
+$ python blog-to-markdown.py
 ```
+
+Markdown to Articles
+---
+| using [grunt-markdown-blog](https://github.com/testdouble/grunt-markdown-blog) task.
+
+**Notes**
+[grunt-markdown-blog](https://github.com/testdouble/grunt-markdown-blog) uses Underscore templates.

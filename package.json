@@ -1,0 +1,37 @@
+{
+  "name": "blog-to-markdown",
+  "description": "example of converting WP posts to markdown for static blog",
+  "version": "0.1.0",
+  "homepage": "https://bitbucket.org/toddanderson/blog-to-markdown",
+  "author": {
+    "name": "Todd Anderson",
+    "email": "bustardcelly@gmail.com",
+    "url": "http://custardbelly.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/toddanderson/blog-to-markdown"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://bitbucket.org/toddanderson/blog-to-markdown/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
+    "all": "grunt"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-markdown-blog": "~0.2.3"
+  },
+  "keywords": [
+    "toddanderson",
+    "wordpress",
+    "markdown"
+  ]
+}

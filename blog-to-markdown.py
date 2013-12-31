@@ -2,6 +2,7 @@ import re
 import os
 import sys
 import codecs
+# If using html2text localling instead of installed via pip/requirements:
 # sys.path.insert(0, os.path.join(os.getcwd(), 'html2text'))
 
 import html2text

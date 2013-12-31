@@ -1,3 +1,5 @@
+/*global $, phantom*/
+/*jshint unused:false*/
 var fs = require('fs'),
     system = require('system'),
     page = require('webpage').create(),
@@ -7,7 +9,7 @@ page.onError = function (msg, trace) {
   console.log(msg);
   trace.forEach(function(item) {
     console.log('  ', item.file, ':', item.line);
-  })
+  });
 };
 
 page.onConsoleMessage = function(msg) {
@@ -35,11 +37,11 @@ page.open(index, function() {
               list = {},
               trimTitle = function(str) {
                 str = str.split('http://custardbelly.com/blog/')[1];
-                return str.replace(/\/+$/,'');
+                return str.charAt(str.length-1) === '/' ? str : str + '/';
               };
           items.each(function(index, element) {
             var $titleElement = $('.full-title a', element),
-                title = trimTitle($titleElement.attr('href')) + '.html',
+                title = trimTitle($titleElement.attr('href')) + 'index.html',
                 removeAuthor = function(elem) {
                   $('p.by-line', elem).remove();
                 },
@@ -49,8 +51,7 @@ page.open(index, function() {
                 convertSyntaxHiCode = function(elem) {
                   var syntaxHis = $('div.syntaxhighlighter', elem);
                   syntaxHis.each(function(index, elem) {
-                    var $codeContainer = $('td.code div.container', elem),
-                        textContent = $codeContainer.text();
+                    var $codeContainer = $('td.code div.container', elem);
                     $codeContainer.remove();
                     $(this).replaceWith('<pre>' + $codeContainer.html() + '</pre>');
                   });

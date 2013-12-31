@@ -1,2 +1,5 @@
 *.sql
+*.sublime-*
+node_modules
+generated
 doc/notes.txt

@@ -2,4 +2,8 @@
 *.sublime-*
 node_modules
 generated
+app/lib/highlight/*
+!app/lib/highlight/highlight.pack.js
+!app/lib/highlight/LICENSE
+!app/lib/highlight/styles/github.css
 doc/notes.txt

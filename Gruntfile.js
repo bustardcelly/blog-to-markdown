@@ -19,19 +19,35 @@ module.exports = function(grunt) {
       }
     },
     copy: {
+      dev: {
+        files: [
+          {
+            expand: true,
+            cwd: 'app',
+            src: ['lib/highlight/highlight.pack.js', 'lib/highlight/styles/github.css'],
+            dest: '<%= markdown.dev.dest %>'
+          },
+          {
+            expand: true,
+            cwd: 'app',
+            src: ['style/**/*.css'],
+            dest: '<%= markdown.dev.dest %>'
+          }
+        ]
+      },
       dist: {
         files: [
           {
             expand: true,
-            cwd: '<%= markdown.dev.dest %>/blog-posts',
-            src: ['**/*'],
-            dest: 'dist/'
+            cwd: 'app',
+            src: ['lib/highlight/highlight.pack.js', 'lib/highlight/styles/github.css'],
+            dest: '<%= markdown.dist.dest %>'
           },
           {
             expand: true,
-            cwd: '<%= markdown.dev.dest %>',
-            src: ['archive.html', 'index.html', 'index.xml'],
-            dest: 'dist/'
+            cwd: 'app',
+            src: ['style/**/*.css'],
+            dest: '<%= markdown.dist.dest %>'
           }
         ]
       }
@@ -39,10 +55,10 @@ module.exports = function(grunt) {
     markdown: {
       options: {
         author: 'Todd Anderson',
-        title: 'it\'s a long story',
+        title: 'in which todd anderson rambles on about nonesuch.',
         description: 'ramblings about making things for web, mobile, desktop and land.',
         url: 'http://custardbelly.com/blog',
-        // disqus: 'xyz',
+        disqus: 'custardbelly',
         rssCount: 10,
         dateFormat: 'YYYY MMMM Do',
         layouts: {
@@ -62,10 +78,20 @@ module.exports = function(grunt) {
         }
       },
       dev: {
-        dest: 'generated'
+        dest: 'generated',
+        context: {
+          css: '/style/main.css',
+          highlightjs: '/lib/highlight/highlight.pack.js',
+          highlightcss: '/lib/highlight/styles/github.css'
+        }
       },
       dist: {
-        dest: 'dist'
+        dest: 'dist',
+        context: {
+          css: '/style/main.css',
+          highlightjs: '/lib/highlight/highlight.pack.js',
+          highlightcss: '/lib/highlight/styles/github.css'
+        }
       }
     }
     // markdown: {
@@ -90,8 +116,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-markdown-blog');
   // grunt.loadNpmTasks('grunt-markdown');
 
-  grunt.registerTask('dryrun', ['markdown:dev']);
-  // grunt.registerTask('deploy', ['markdown:dev', 'copy:dist', 'uglify']);
+  grunt.registerTask('dryrun', ['markdown:dev', 'copy:dev']);
+  // grunt.registerTask('deploy', ['markdown:dist', 'copy:dist', 'uglify']);
 
   // Default task.
   grunt.registerTask('default', ['jshint']);

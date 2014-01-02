@@ -32,6 +32,12 @@ module.exports = function(grunt) {
             cwd: 'app',
             src: ['style/**/*.css'],
             dest: '<%= markdown.dev.dest %>'
+          },
+          {
+            expand: true,
+            cwd: 'app',
+            src: ['asset/**/*.png'],
+            dest: '<%= markdown.dev.dest %>'
           }
         ]
       },
@@ -48,6 +54,12 @@ module.exports = function(grunt) {
             cwd: 'app',
             src: ['style/**/*.css'],
             dest: '<%= markdown.dist.dest %>'
+          },
+          {
+            expand: true,
+            cwd: 'app',
+            src: ['asset/**/*.png'],
+            dest: '<%= markdown.dist.dest %>'
           }
         ]
       }
@@ -55,7 +67,7 @@ module.exports = function(grunt) {
     markdown: {
       options: {
         author: 'Todd Anderson',
-        title: 'in which todd anderson rambles on about nonesuch.',
+        title: 'todd anderson',
         description: 'ramblings about making things for web, mobile, desktop and land.',
         url: 'http://custardbelly.com/blog',
         disqus: 'custardbelly',

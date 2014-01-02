@@ -5,14 +5,16 @@ footer, header, hgroup, menu, nav, section {
 }
 
 body {
-  font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
+  font-family: "Playfair Display", serif;
   font-size: 14px;
   height: 100%;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   color: #333;
   line-height: 1.5;
-  text-align: justify
+  text-align: justify;
+  max-width: 800px;
+  background-color: rgb(234, 234, 234);
 }
 
 header {
@@ -22,14 +24,23 @@ header {
 }
 
 header > h1 {
+  font-size: 4rem;
   margin: 0 0 1rem 0;
 }
 
-header nav a {
+nav {
+  color: rgb(255, 255, 255);
+  padding: 1rem;
+  background-color: #2D2D2D;
+}
+
+nav a {
+  font-size: 1.3rem;
   color: rgb(255, 255, 255);
 }
 
 article {
+  background-color: rgb(250, 250, 250);
   padding: 1rem;
 }
 
@@ -67,9 +78,8 @@ footer {
 
 #media-list {
   margin: 0;
-  padding: 0.3rem 1rem;
+  padding: 2rem 0 0 0;
   list-style: none;
-  background-color: #2D2D2D;
 }
 
 #media-list li {

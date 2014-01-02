@@ -5,16 +5,13 @@
     <link rel="stylesheet" type="text/css" href="<%= css %>" media="all" />
     <link rel="stylesheet" type="text/css" href="<%= highlightcss %>" media="all" />
     <link rel="alternate" type="application/rss+xml" title="<%= site.title %> - feed" href="/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title><%= site.title %><%= post ? ' - '+post.title() : '' %></title>
   </head>
   <body>
     <header>
       <h1><%= site.title %></h1>
-      <nav>
-        <a href="/">home</a> | <a href="/archive.html">archives</a> | <a href="/about.html">about</a>
-      </nav>
-    </header>
-    <section class="media">
+      <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li><a href="/index.xml"><img src="/asset/rss.png"></a></li>
         <li><a href="http://twitter.com/_toddanderson_"><img src="/asset/twitter.png"></a></li>
@@ -22,7 +19,10 @@
         <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="/asset/google.png"></a></li>
         <li><a href="http://lnkd.in/6GCvvR"><img src="/asset/linkedin.png"></a></li>
       </ul>
-    </section>
+    </header>
+    <nav>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/about.html">about</a>
+    </nav>
 
     <%= yield %>
 

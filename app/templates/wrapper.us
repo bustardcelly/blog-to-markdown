@@ -16,11 +16,11 @@
     </header>
     <section class="media">
       <ul id="media-list">
-        <li><img src="/asset/rss.png"></li>
-        <li><img src="/asset/twitter.png"></li>
-        <li><img src="/asset/github.png"></li>
-        <li><img src="/asset/google.png"></li>
-        <li><img src="/asset/linkedin.png"></li>
+        <li><a href="/index.xml"><img src="/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="/asset/linkedin.png"></a></li>
       </ul>
     </section>
 

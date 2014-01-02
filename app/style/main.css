@@ -76,3 +76,7 @@ footer {
   margin: 0.3rem;
   display: inline-block;
 }
+
+#media-list li:first-child {
+  margin: 0;
+}

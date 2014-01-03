@@ -2,9 +2,12 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <link rel="stylesheet" type="text/css" href="<%= css %>" media="all" />
-    <link rel="stylesheet" type="text/css" href="<%= highlightcss %>" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="<%= site.title %> - feed" href="/index.xml" />
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="<%= rootlocation %>/<%= css %>" media="all" />
+    <link rel="stylesheet" type="text/css" href="<%= rootlocation %>/<%= highlightcss %>" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="<%= site.title %> - feed" href="<%= rootlocation %>/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title><%= site.title %><%= post ? ' - '+post.title() : '' %></title>
   </head>
@@ -13,15 +16,15 @@
       <h1><%= site.title %></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
-        <li><a href="/index.xml"><img src="/asset/rss.png"></a></li>
-        <li><a href="http://twitter.com/_toddanderson_"><img src="/asset/twitter.png"></a></li>
-        <li><a href="https://github.com/bustardcelly"><img src="/asset/github.png"></a></li>
-        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="/asset/google.png"></a></li>
-        <li><a href="http://lnkd.in/6GCvvR"><img src="/asset/linkedin.png"></a></li>
+        <li><a href="<%= rootlocation %>/index.xml"><img src="<%= rootlocation %>/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="<%= rootlocation %>/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="<%= rootlocation %>/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="<%= rootlocation %>/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="<%= rootlocation %>/asset/linkedin.png"></a></li>
       </ul>
     </header>
     <nav>
-      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/about.html">about</a>
+      <a href="<%= rootlocation %>/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<%= rootlocation %>/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<%= rootlocation %>/about.html">about</a>
     </nav>
 
     <%= yield %>
@@ -29,6 +32,6 @@
     <footer>
       Copyright <%= site.author %>, <%= new Date().getFullYear() %>.
     </footer>
-    <script src="<%= highlightjs %>"></script>
+    <script src="<%= rootlocation %>/<%= highlightjs %>"></script>
   </body>
 </html>

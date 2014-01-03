@@ -2,7 +2,7 @@
 <ul>
 <% _(site.posts).chain().reverse().each(function(post){ %>
   <li>
-    <a href="/<%= post.htmlPath() %>"><%= post.title() %></a>
+    <a href="<%= rootlocation %>/<%= post.htmlPath() %>"><%= post.title() %></a>
   </li>
 <% }) %>
 </ul>

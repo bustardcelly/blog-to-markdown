@@ -1,6 +1,6 @@
 <article class="post">
   <div class="title">
-    <h1><a href="/<%= post.htmlPath() %>"><%= post.title() %></a></h1>
+    <h1><a href="<%= post.htmlPath() %>"><%= post.title() %></a></h1>
     <p>
       <%= post.date() %>
       <% if(post.get('author')) { %>
@@ -13,10 +13,10 @@
   </section>
   <section class="navigation">
       <% if(site.newerPost(post)) { %>
-        <span class="newer"><a href="/<%= site.newerPost(post).htmlPath() %>">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="<%= rootlocation %>/<%= site.newerPost(post).htmlPath() %>">&#8672;&nbsp;newer</a></span>
       <% } %>
       <% if(site.olderPost(post)) { %>
-        <span class="older"><a href="/<%= site.olderPost(post).htmlPath() %>">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="<%= rootlocation %>/<%= site.olderPost(post).htmlPath() %>">older&nbsp;&#8674;</a></span>
       <% } %>
     </section>
   <section class="comments">

@@ -38,6 +38,12 @@ module.exports = function(grunt) {
             cwd: 'app',
             src: ['asset/**/*.png'],
             dest: '<%= markdown.dev.dest %>'
+          },
+          {
+            expand: true,
+            cwd: './',
+            src: ['.htaccess'],
+            dest: '<%= markdown.dev.dest %>'
           }
         ]
       },
@@ -60,6 +66,12 @@ module.exports = function(grunt) {
             cwd: 'app',
             src: ['asset/**/*.png'],
             dest: '<%= markdown.dist.dest %>'
+          },
+          {
+            expand: true,
+            cwd: './',
+            src: ['.htaccess'],
+            dest: '<%= markdown.dist.dest %>'
           }
         ]
       }
@@ -67,7 +79,7 @@ module.exports = function(grunt) {
     markdown: {
       options: {
         author: 'Todd Anderson',
-        title: 'todd anderson',
+        title: 'Todd Anderson',
         description: 'ramblings about making things for web, mobile, desktop and land.',
         url: 'http://custardbelly.com/blog',
         disqus: 'custardbelly',
@@ -92,17 +104,19 @@ module.exports = function(grunt) {
       dev: {
         dest: 'generated',
         context: {
-          css: '/style/main.css',
-          highlightjs: '/lib/highlight/highlight.pack.js',
-          highlightcss: '/lib/highlight/styles/github.css'
+          rootlocation: '',
+          css: 'style/main.css',
+          highlightjs: 'lib/highlight/highlight.pack.js',
+          highlightcss: 'lib/highlight/styles/github.css'
         }
       },
       dist: {
         dest: 'dist',
         context: {
-          css: '/style/main.css',
-          highlightjs: '/lib/highlight/highlight.pack.js',
-          highlightcss: '/lib/highlight/styles/github.css'
+          rootlocation: 'http://custardbelly.com/blog',
+          css: 'style/main.css',
+          highlightjs: 'lib/highlight/highlight.pack.js',
+          highlightcss: 'lib/highlight/styles/github.css'
         }
       }
     }
@@ -129,7 +143,7 @@ module.exports = function(grunt) {
   // grunt.loadNpmTasks('grunt-markdown');
 
   grunt.registerTask('dryrun', ['markdown:dev', 'copy:dev']);
-  // grunt.registerTask('deploy', ['markdown:dist', 'copy:dist', 'uglify']);
+  grunt.registerTask('deploy', ['markdown:dist', 'copy:dist']);
 
   // Default task.
   grunt.registerTask('default', ['jshint']);

@@ -1,6 +1,6 @@
 *.sql
 *.sublime-*
-node_modules
+node_modules/*
 !node_modules/grunt-markdown-blog
 generated
 app/lib/highlight/*

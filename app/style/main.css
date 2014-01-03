@@ -66,6 +66,10 @@ footer {
   margin: 1rem;
 }
 
+a img {
+  border: none;
+}
+
 .title a {
   color: #2D2D2D;
   text-decoration: none;

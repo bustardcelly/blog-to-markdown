@@ -89,17 +89,20 @@ module.exports = function(grunt) {
           wrapper: 'app/templates/wrapper.us',
           index: 'app/templates/index.us',
           post: 'app/templates/post.us',
+          page: 'app/templates/page.us',
           archive: 'app/templates/archive.us'
         },
         paths: {
           posts: 'blog-posts/**/*.md',
+          pages: 'blog-pages/**/*md',
           index: 'index.html',
           archive: 'archive.html',
           rss: 'index.xml'
         },
         pathRoots: {
-          posts: '*'
-        }
+          posts: '*',
+          pages: '*'
+        },
       },
       dev: {
         dest: 'generated',

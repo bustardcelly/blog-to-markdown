@@ -24,7 +24,7 @@
       </ul>
     </header>
     <nav>
-      <a href="<%= rootlocation %>/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<%= rootlocation %>/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<%= rootlocation %>/about.html">about</a>
+      <a href="<%= rootlocation %>/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<%= rootlocation %>/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<%= rootlocation %>/blog-pages/about.html">about</a>
     </nav>
 
     <%= yield %>

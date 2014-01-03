@@ -1,6 +1,6 @@
 <article class="post">
   <div class="title">
-    <h1><a href="<%= post.htmlPath() %>"><%= post.title() %></a></h1>
+    <h1><a href="<%= rootlocation %>/<%= post.htmlPath() %>"><%= post.title() %></a></h1>
     <p>
       <%= post.date() %>
       <% if(post.get('author')) { %>

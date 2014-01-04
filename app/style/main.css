@@ -44,6 +44,10 @@ article {
   padding: 1rem;
 }
 
+h1 {
+  font-size: 2em;
+}
+
 h1, h2, h3 {
   line-height: 1.2;
   text-align: left;

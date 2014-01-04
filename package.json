@@ -2,7 +2,7 @@
   "name": "blog-to-markdown",
   "description": "example of converting WP posts to markdown for static blog",
   "version": "0.1.0",
-  "homepage": "https://bitbucket.org/toddanderson/blog-to-markdown",
+  "homepage": "https://github.com/bustardcelly/blog-to-markdown",
   "author": {
     "name": "Todd Anderson",
     "email": "bustardcelly@gmail.com",
@@ -10,12 +10,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/toddanderson/blog-to-markdown"
+    "url": "https://github.com/bustardcelly/blog-to-markdown"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://bitbucket.org/toddanderson/blog-to-markdown/LICENSE-MIT"
+      "url": "https://github.com/bustardcelly/blog-to-markdown/LICENSE-MIT"
     }
   ],
   "engines": {

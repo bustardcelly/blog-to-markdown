@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - Viewstack in Flex 4?</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2009/09/02/viewstack-in-flex-4/index.html">Viewstack in Flex 4?</a></h1>
+    <p>
+      2009 September 2nd
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p><strong>[UPDATE: April 26th, 2010]</strong><br>This post was originally written after playing around with a nightly build of the Flex SDK many months before it was officially released. Since that release, there has been more traffic to this post from people looking for a Spark Viewstack solution (assuming), however the SDK had changed since the initial example within this post. As such, i have only updated the source and inline code within the post. I am keeping the original wording of the post for prosperity sake.</p>
+<p>As well, <a href="http://www.tink.ws/blog/">Tink</a> has done some <a href="http://www.tink.ws/blog/spark-datanavigators/">amazing work on bring Spark equivalents (and additions) to containers</a>. If you have not done so, please check out some of his work.<br><strong>[/UPDATE]</strong></p>
+<p>I’ll start off by saying that i love what is happening with the Spark architecture in the Flex SDK. When the time comes that we at IR5 are given the green-light to use it in production for clients, i will be giddy. That said, I am aware that a lot of people have gripes about the lack of complete parity between the Halo and Spark sets, and particularly the lack of Spark equivalents for the Halo navigation containers such as Accordion and ViewStack. </p>
+<p>Truth be told, they probably have good reason to not hop on board, and without raising your voice you can’t raise concerns to the owners of the Platform to make informed decisions based on feedback. However, I feel the Platform developed because people started doing things it was never intended to do and (while at times complaining) developers just rolled up their sleeves and bent the code to their will. Now this is going into a whole ‘nother discussion that was the intent of the post, so we’ll just leave the discussion at that and ask, ‘Why not make what is not there?’ The answer is a whole ‘nother discussion and I am fully aware that the SDK is not <em>perfect</em> for this, but it is available to make something work somehow… that’s how we all got here.</p>
+<p>Enough jibber-jabber… I set apart a couple hours to make a ViewStack for Flex 4 just to see how easy it would be with the Spark architecture. Honestly, I never really use the Halo navigation containers much – maybe some quick prototypes here and there, but have always found that in a medium to large application they provide no benefits that go along with their overhead. But still, I thought i would choose one (and yes i know it is probably the easiest one <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ) just to see what all the fuss was about.</p>
+<p><del><br>My first step was getting excited about the mxmlContent and mxmlContentFactory properties available on Spark containers. ‘think of the possiblities,’ my mind said, ‘this probably contains all the declared children within the markup!’ Oh with that i can stop instantiation of them and deferred until requested. Case closed. Viewstack done. Until i realized that most everything that handles these values is private. bugger.</del></p>
+<p><strong>[Update 2009-09-03]</strong><br>Event though i did start down the path of mxmlContent and mxmlContentFactory and came up empty, thanks to the brain on <a href="http://www.razorberry.com/blog/">Ash Atkins</a> for pointing out that i coudl use the [DefaultProperty] metatag to still allow inline declaration of child elements for the ViewStack. The inline code has been updated. Thanks, <a href="http://www.razorberry.com/blog/">Ash</a>!<br><strong>[/Update]</strong></p>
+<p>Next step was extending SkinnableContainer and just exposing a property on which you can pass an array of IVisualElement instances, along with the standard selectedIndex and selectedChildren. With the new Flex 4 <em>Declarations</em> tag, this solution was made sweeter in that I could declare my children without instantiating them directly and could pass them along for the Flex 4 Viewstack to handle them as seen fit, allowing for deferred instantation. Making sure set selectedIndex and selectedChild work accordingly and dispatch an event on change of index, i called it a day. It took a couple hours and I called it a day… until Keith walked into my office and started yammering about me not working.</p>
+<p>Example. Made with Flex 4 SDK build 9864. You will need the latest player:</p>
+<p><a href="http://adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player"></a></p>
+<p><a href="http://custardbelly.com/downloads/viewstack/srcview/index.html">view source</a> . There seems to be bug in the view source code in the nightly builds, so i will post the code here as well if you don’t feel like Right Click&gt; View Source and downloading the zip…</p>
+<p>Here is the implementation i came up with:</p>
+<pre><code><span class="comment">// -----------------------------------------------------------</span>
+<span class="comment">// CBViewStack.as</span>
+<span class="comment">// -----------------------------------------------------------</span>
+
+<span class="javadoc">/**
+ * Copyright (c) 2009 Todd Anderson. All Right Reserved.
+ * 
+ * Code provided has not been tested in a production environment
+ * and should be used by another party at their own risk. I disclaim any
+ * and all responsibility for any loss or damage of property that may occur
+ * from using it.
+ * 
+ * ===================================
+ * custardbelly.com
+ */</span>
+<span class="keyword">package</span> com.custardbelly.container
+{
+    <span class="keyword">import</span> mx.core.IVisualElement;
+
+    <span class="keyword">import</span> spark.components.BorderContainer;
+    <span class="keyword">import</span> spark.components.SkinnableContainer;
+    <span class="keyword">import</span> spark.core.IViewport;
+    <span class="keyword">import</span> spark.events.IndexChangeEvent;
+
+    <span class="javadoc">/**
+     * Dispatched on change to selectedIndex property value. 
+     */</span>
+    [Event(name=<span class="string">"change"</span>, type=<span class="string">"spark.events.IndexChangeEvent"</span>)]
+
+    <span class="javadoc">/**
+     * Basic implementation of a ViewStack container targeting the Spark environment.
+     * CBViewStack inherently supports deferred instantiation. All methods and properties
+     * have been made protected in order to subclass and implement any desired creation 
+     * policy.
+     * 
+     * Child content cannot be added in markup due to the black-boxing of the mxmlContent and 
+     * mxmlContentFactory properties and corresponding methods. As such, supply content to the
+     * CBViewStack using the &lt;b&gt;content&lt;/b&gt; property. The &lt;b&gt;content&lt;/b&gt; property is an array
+     * of declared IVisibleElement instances.
+     * 
+     * To enable scrolling of content added to the display list of CBViewStack, it is recommended
+     * the either programatically control the viewport with an external scrollbar or wrap the 
+     * container in a &lt;s :Scroller&gt; instance.
+     * 
+     * The &lt;b&gt;content&lt;/b&gt; and &lt;b&gt;selectedIndex&lt;/b&gt; properties can be set in-line in MXML.
+     * The &lt;b&gt;selectedChild&lt;/b&gt; property can only be set within ActionScript.
+     */</span>
+    [Event(name=<span class="string">"change"</span>, type=<span class="string">"spark.events.IndexChangeEvent"</span>)]
+    [DefaultProperty(<span class="string">"content"</span>)]
+    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CBViewStack</span> <span class="keyword">extends</span> <span class="title">BorderContainer</span>
+    {</span>
+        <span class="javadoc">/**
+         * Represents the collection of IVisualElement instances to be displayed. 
+         */</span>
+        [ArrayElementType(<span class="string">"mx.core.IVisualElement"</span>)]
+        <span class="keyword">protected</span> var _content:Array;
+        <span class="javadoc">/**
+         * The index within the colleciton of IVisualElements to be added to the display list. 
+         */</span>
+        <span class="keyword">protected</span> var _selectedIndex:<span class="keyword">int</span> = -<span class="number">1</span>;
+        <span class="javadoc">/**
+         * Represents the current IVisualElement on the display list. 
+         */</span>
+        <span class="keyword">protected</span> var _selectedChild:IVisualElement
+
+        <span class="javadoc">/**
+         * Held value for selectedIndex.
+         */</span>
+        <span class="keyword">protected</span> var _pendingSelectedIndex:<span class="keyword">int</span> = -<span class="number">1</span>;
+
+        <span class="javadoc">/**
+         * <span class="javadoctag">@private</span> 
+         * 
+         * Override to update selectedIndex and subsequently content on the display list.
+         */</span>
+        override <span class="keyword">protected</span> function commitProperties() : <span class="keyword">void</span>
+        {
+            <span class="keyword">super</span>.commitProperties();
+            <span class="comment">// if pending change to selectedIndex property.</span>
+            <span class="keyword">if</span>( _pendingSelectedIndex != -<span class="number">1</span> )
+            {
+                <span class="comment">// commit the change.</span>
+                updateSelectedIndex( _pendingSelectedIndex );
+                <span class="comment">// set pending back to default.</span>
+                _pendingSelectedIndex = -<span class="number">1</span>;
+            }
+        }
+
+        <span class="javadoc">/**
+         * Updates the selectedIndex value and subsequent display. 
+         * <span class="javadoctag">@param</span> index int The value representing the selected child index within the content property.
+         */</span>
+        <span class="keyword">protected</span> function updateSelectedIndex( index:<span class="keyword">int</span> ):<span class="keyword">void</span>
+        {
+            <span class="comment">// store old for event.</span>
+            var oldIndex:<span class="keyword">int</span> = _selectedIndex;
+            <span class="comment">// set new.</span>
+            _selectedIndex = index;
+
+            <span class="comment">// remove old element.</span>
+            <span class="keyword">if</span>( numElements &gt; <span class="number">0</span> ) 
+                removeElementAt( <span class="number">0</span> );
+
+            <span class="comment">// add new element.</span>
+            selectedChild = _content[_selectedIndex];
+            addElement( _selectedChild );
+
+            <span class="comment">// dispatch index change.</span>
+            dispatchEvent( <span class="keyword">new</span> IndexChangeEvent( IndexChangeEvent.CHANGE, <span class="keyword">false</span>, <span class="keyword">false</span>, oldIndex, _selectedIndex ) );
+        }
+
+        <span class="javadoc">/**
+         * Returns the elemental index of the IVisualElement from the content array. 
+         * <span class="javadoctag">@param</span> element IVisualElement The IVisualElement instance to find in the content array.
+         * <span class="javadoctag">@return</span> int The elemental index in which the IVisualElement resides. If not available returns -1.
+         * 
+         */</span>
+        <span class="keyword">private</span> function getElementIndexFromContent( element:IVisualElement ):<span class="keyword">int</span>
+        {
+            <span class="keyword">if</span>( _content == <span class="keyword">null</span> ) <span class="keyword">return</span> -<span class="number">1</span>;
+
+            var i:<span class="keyword">int</span> = _content.length;
+            var contentElement:IVisualElement;
+            <span class="keyword">while</span>( --i &gt; -<span class="number">1</span> )
+            {
+                contentElement = _content[i] as IVisualElement;
+                <span class="keyword">if</span>( contentElement == element )
+                {
+                    <span class="keyword">break</span>;
+                }
+            }
+            <span class="keyword">return</span> i;
+        }
+
+        [Bindable]
+        <span class="javadoc">/**
+         * Sets the array of IVisualElement instances to display based on selectedIndex and selectedChild.
+         * CBViewStack inherently supports deferred instantiation, creating and adding only IVisualElements
+         * that are requested for display. 
+         * <span class="javadoctag">@return</span> Array
+         */</span>
+        <span class="keyword">public</span> function get content():Array <span class="comment">/*IVisualElement*/</span>
+        {
+            <span class="keyword">return</span> _content;
+        }
+        <span class="keyword">public</span> function set content( value:Array <span class="comment">/*IVisualElement*/</span> ):<span class="keyword">void</span>
+        {
+            _content = value;
+            <span class="comment">// update selected index based on pending operations.</span>
+            selectedIndex = _pendingSelectedIndex == -<span class="number">1</span> ? <span class="number">0</span> : _pendingSelectedIndex;
+        }
+
+        [Bindable]
+        <span class="javadoc">/**
+         * Sets the selectedIndex to be used to add an IVisualElement instance from the content property
+         * to the display list. 
+         * <span class="javadoctag">@return</span> int
+         */</span>
+        <span class="keyword">public</span> function get selectedIndex():<span class="keyword">int</span>
+        {
+            <span class="keyword">return</span> _pendingSelectedIndex != -<span class="number">1</span> ? _pendingSelectedIndex : _selectedIndex;
+        }
+        <span class="keyword">public</span> function set selectedIndex( value:<span class="keyword">int</span> ):<span class="keyword">void</span>
+        {
+            <span class="keyword">if</span>( _selectedIndex == value ) <span class="keyword">return</span>;
+
+            _pendingSelectedIndex = value;
+            invalidateProperties();
+        }
+
+        [Bindable]
+        <span class="javadoc">/**
+         * Sets the selectedChild to be added to the display list form the content array.
+         * SelectedChild can only be set in ActionScript and will not be properly updated
+         * if added inline in MXML declaration. 
+         * <span class="javadoctag">@return</span> IVisualElement
+         */</span>
+        <span class="keyword">public</span> function get selectedChild():IVisualElement
+        {
+            <span class="keyword">return</span> _selectedChild;
+        }
+        <span class="keyword">public</span> function set selectedChild( value:IVisualElement ):<span class="keyword">void</span>
+        {
+            <span class="keyword">if</span>( _selectedChild == value ) <span class="keyword">return</span>;
+
+            <span class="comment">// if not pending operation on selectedIndex, induce.</span>
+            <span class="keyword">if</span>( _pendingSelectedIndex == -<span class="number">1</span> )
+            {
+                var proposedIndex:<span class="keyword">int</span> = getElementIndexFromContent( value );
+                selectedIndex = proposedIndex;
+            }
+            <span class="comment">// else just hold a reference for binding update.</span>
+            <span class="keyword">else</span> _selectedChild = value;
+        }
+    }
+}
+&lt;/s&gt;</code></pre>
+<p>and its usage:</p>
+<pre><code><span class="tag">&lt;<span class="title">s</span> <span class="attribute">:Application</span> 
+    <span class="attribute">xmlns:fx</span>=<span class="value">"http://ns.adobe.com/mxml/2009"</span> 
+    <span class="attribute">xmlns:s</span>=<span class="value">"library://ns.adobe.com/flex/spark"</span> 
+    <span class="attribute">xmlns:mx</span>=<span class="value">"library://ns.adobe.com/flex/mx"</span> 
+    <span class="attribute">xmlns:container</span>=<span class="value">"com.custardbelly.container.*"</span> <span class="attribute">viewSourceURL</span>=<span class="value">"srcview/index.html"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">fx</span> <span class="attribute">:Declarations</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">fx</span>&gt;</span><span class="tag">&lt;<span class="title">fx</span> <span class="attribute">:String</span> <span class="attribute">id</span>=<span class="value">"lorem"</span>&gt;</span>Lorem ipsum dolor sit amet consectetur adipisicing elit.<span class="tag">&lt;/<span class="title">fx</span>&gt;</span>
+
+
+    <span class="tag">&lt;<span class="title">fx</span> <span class="attribute">:Script</span>&gt;</span>
+        <span class="tag">&lt; ![<span class="attribute">CDATA</span>[
+            <span class="attribute">private</span> <span class="attribute">function</span> <span class="attribute">changeIndex</span>()<span class="attribute">:void</span>
+            {
+                <span class="attribute">var</span> <span class="attribute">index:int</span> = <span class="attribute">viewstack.selectedIndex</span>;
+                <span class="attribute">index</span> = ( <span class="attribute">index</span> + <span class="attribute">1</span> &gt;</span> viewstack.content.length - 1 ) ? 0 : index + 1;
+                viewstack.selectedIndex = index;
+            }
+        ]]&gt;
+    <span class="tag">&lt;/<span class="title">fx</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">s</span>&gt;</span><span class="tag">&lt;<span class="title">s</span> <span class="attribute">:layout</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:VerticalLayout</span> /&gt;</span>
+    <span class="tag">&lt;/<span class="title">s</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">container</span> <span class="attribute">:CBViewStack</span> <span class="attribute">id</span>=<span class="value">"viewstack"</span> <span class="attribute">width</span>=<span class="value">"300"</span> <span class="attribute">height</span>=<span class="value">"300"</span> 
+                           <span class="attribute">skinClass</span>=<span class="value">"com.custardbelly.skin.CBScrollableSkin"</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:Group</span> <span class="attribute">id</span>=<span class="value">"child1"</span> 
+                 <span class="attribute">width</span>=<span class="value">"800"</span> <span class="attribute">height</span>=<span class="value">"100%"</span> 
+                 <span class="attribute">clipAndEnableScrolling</span>=<span class="value">"true"</span>&gt;</span>
+            <span class="tag">&lt;/<span class="title">s</span>&gt;</span><span class="tag">&lt;<span class="title">s</span> <span class="attribute">:layout</span>&gt;</span>
+                <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:VerticalLayout</span> <span class="attribute">horizontalAlign</span>=<span class="value">"justify"</span> /&gt;</span>
+            <span class="tag">&lt;/<span class="title">s</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:Button</span> <span class="attribute">label</span>=<span class="value">"top"</span> /&gt;</span>
+            <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:Button</span> <span class="attribute">label</span>=<span class="value">"bottom"</span> <span class="attribute">bottom</span>=<span class="value">"0"</span> /&gt;</span>
+
+        <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:Panel</span> <span class="attribute">id</span>=<span class="value">"child2"</span> 
+                 <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"200"</span> 
+                 <span class="attribute">title</span>=<span class="value">"Child 2"</span>&gt;</span>
+            <span class="tag">&lt;/<span class="title">s</span>&gt;</span><span class="tag">&lt;<span class="title">s</span> <span class="attribute">:Scroller</span>&gt;</span>
+                <span class="tag">&lt;/<span class="title">s</span>&gt;</span><span class="tag">&lt;<span class="title">s</span> <span class="attribute">:Group</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"100%"</span>&gt;</span>
+                    <span class="tag">&lt;/<span class="title">s</span>&gt;</span><span class="tag">&lt;<span class="title">s</span> <span class="attribute">:layout</span>&gt;</span>
+                        <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:VerticalLayout</span> <span class="attribute">horizontalAlign</span>=<span class="value">"center"</span> /&gt;</span>
+                    <span class="tag">&lt;/<span class="title">s</span>&gt;</span>
+                    <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:Button</span> <span class="attribute">label</span>=<span class="value">"panel button 1"</span> /&gt;</span>
+                    <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:Button</span> <span class="attribute">label</span>=<span class="value">"panel button 2"</span> /&gt;</span>
+
+
+
+        <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:DataGroup</span> <span class="attribute">id</span>=<span class="value">"child3"</span> 
+                     <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"100%"</span>
+                     <span class="attribute">itemRenderer</span>=<span class="value">"spark.skins.spark.DefaultItemRenderer"</span>&gt;</span>
+            <span class="tag">&lt;/<span class="title">s</span>&gt;</span><span class="tag">&lt;<span class="title">s</span> <span class="attribute">:layout</span>&gt;</span>
+                <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:VerticalLayout</span> /&gt;</span>
+            <span class="tag">&lt;/<span class="title">s</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:dataProvider</span>&gt;</span>
+                <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:ArrayCollection</span> <span class="attribute">source</span>=<span class="value">"{lorem.split(' ')}"</span> /&gt;</span>
+            <span class="tag">&lt;/<span class="title">s</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">container</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:Button</span> <span class="attribute">label</span>=<span class="value">"switch index"</span> <span class="attribute">click</span>=<span class="value">"changeIndex();"</span> /&gt;</span>
+
+    <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:HGroup</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:Button</span> <span class="attribute">label</span>=<span class="value">"select child 1"</span>
+                  <span class="attribute">enabled</span>=<span class="value">"{viewstack.selectedChild != child1}"</span>
+                  <span class="attribute">click</span>=<span class="value">"{viewstack.selectedChild = child1}"</span> 
+                  /&gt;</span>
+        <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:Button</span> <span class="attribute">label</span>=<span class="value">"select child 2"</span>
+                  <span class="attribute">enabled</span>=<span class="value">"{viewstack.selectedChild != child2}"</span>
+                  <span class="attribute">click</span>=<span class="value">"{viewstack.selectedChild = child2}"</span> 
+                  /&gt;</span>
+        <span class="tag">&lt;<span class="title">s</span> <span class="attribute">:Button</span> <span class="attribute">label</span>=<span class="value">"select child 3"</span>
+                  <span class="attribute">enabled</span>=<span class="value">"{viewstack.selectedChild != child3}"</span>
+                  <span class="attribute">click</span>=<span class="value">"{viewstack.selectedChild = child3}"</span> 
+                  /&gt;</span>
+    <span class="tag">&lt;/<span class="title">s</span>&gt;</span></code></pre>
+<p>So that is basically it. Allow for skinning of the Viewstack by extending SkinnableContainer. Expose content, selectedIndex and selectedChild properties. Dispatch and index change event. Optionally wrap CVBViewStack in a Scroller to enable child content that extends the viewport of the viewstack. I know it probably won’t serve every need, but in a few short hours I made Viewstakc in Flex 4 for the purposes i mainly use it for in prototypes. I haven’t put it through the ringer in testing, but feel free to. There’s no license, completely free. Modify, take, steal, have fun.</p>
+<p>*Note: Seems as though the generated ‘View Source’ files in the nightly build from September 1st (of which i mad the example) has some bugs. So feel free to click this link -&gt; <a href="http://custardbelly.com/downloads/viewstack/srcview/index.html">view source</a> &lt; - but be aware that you won&#39;t actually be able to view the class files in the browser. You will need to download the zip file.</p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/flex-4/">Flex 4</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2010/03/24/flex-4-cookbook-coming-soon/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2009/04/08/flash-on-tap-boston-ill-be-there/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2009/09/02/viewstack-in-flex-4/index.html";
+        window.disqus_title="Viewstack in Flex 4?";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

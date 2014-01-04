@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - The Making of a Test-Driven Grocery List Application: Part VIII</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/index.html">The Making of a Test-Driven Grocery List Application: Part VIII</a></h1>
+    <p>
+      2013 January 22nd
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p><em>This is the eighth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
+<h1 id="introduction">Introduction</h1>
+<p>In the past several articles we have sort of have been living in the spec runner. We fiddled about making it turn red and green, and – until <a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">the last article</a> – we never really ran the <strong>Grocery List</strong> application we were building to give it a proper <em>User Testing</em>. If you did play around with the actual application we have been busy writing tests for, you may have found a bug. An unexpected result from supplying no grocery item name before saving it to the list:</p>
+<p><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_1.png" alt="Image for bug ticket with empty item."></p>
+<p>As you can see from the screenshot, there is an empty item in the third entry of the list. While I do think the act of walking into a store and picking up nothing is an accomplishment at times, this <em>Empty Item</em> bug is not an intended feature. In this article, I want to squash that bug… but – in keep with the theme of this series – we are going to do it through tests! Calm down. It is hard to read when you jump up and down like that.</p>
+<h1 id="bug-ticket">Bug Ticket</h1>
+<p>Before we begin fixing the bug, let’s get it down in writing what we think the problem is and how we think the intended behavior should be. To start, we don’t want empty items added to the <strong>Grocery List</strong>. We are currently able to add them – and rather easily – so let’s list out the steps that allows us to do so:</p>
+<p><em>Empty Item Added to List</em><br>—<br><strong>Steps to Reproduce</strong></p>
+<ol>
+<li>Launch the Grocery List application</li>
+<li>Click ‘add item’ button</li>
+<li>In focused input field, type the name of a grocery item, ie. ‘apples’ (sans quotes)</li>
+<li>Click the Tab button to save to list</li>
+<li>Click ‘add item’ button</li>
+<li>Leave the focused input field blank</li>
+<li>Click the Tab button</li>
+</ol>
+<p><strong>Result</strong><br>Empty item is added to the list</p>
+<p><strong>Expected Result</strong><br>An item without any name value provided is not added to the list</p>
+<p><strong>Additional Notes</strong><br>It is not a requirement to first have a valid item added to the list in order to reproduce the issue. Steps 1-4 are intended to show expected behavior with a non-empty item.<br>—</p>
+<p>If you are out there reading this and file bug tickets, please, for the love of software, log a ticket with a structure similar to this. Most modern bug tracking systems have fields like this, but you’d be surprised (or maybe not) how tickets come in sometimes. My least favorite is explained bug in the title. I can only imagine that they are the same people who write the whole email in the Subject field.</p>
+<p>Alright, so now we know what we are dealing with. We have clear steps to reproduce the issue we think is a bug and have explained the difference between the actual result and the intended/expected result. Let’s tackle it.</p>
+<h1 id="tests">Tests</h1>
+<p>As the developer of the application, we probably know exactly where this is happening. Our initial response is to go write to the source and resolve this issue. But we’re not going to do that. Don’t give me that look. I know, I know. The less we have to be in bug-fixing-mode, the happier developer we be, but I think if we have a test that supports the validity of this claim then, when we do make changes to the application code and it still passes, we know we have not committed a regression. I think it is a confidence builder in relying on my code to work properly and takes away some stress when refactoring comes into play.</p>
+<p>Before we begin, let’s think about where we will add the tests. We could append another spec suite to the <em>Add Item</em> specs – after all, this bug occurs upon the completion of the <em>Add Item</em> feature. But in thinking about how to reproduce the issue, it seems like it may be another feature, or at least could be discovered in a feature we haven’t addressed – <em>Edit Item</em>. Essentially, when we get to the 3rd step – <em>In focused input field, type the name of a grocery item, ie. ‘apples’ (sans quotes)</em> – we have already added the item to the list. It has entered an edit mode, from which we need to ensure the validity of the value provided before saving it to the list. </p>
+<p>Now, a true <strong>TDD</strong>‘er probably would stop me right now and tell me I am thinking too much to get this resolved. And, in part, they would be correct in doing so. But it is not my intent to start dreaming up new features during bug fixing. I just want to properly think about where the tests make the most sense. I don’t think they belong as an addendum to the <em>Add Item</em> specs and should live in there own spec suite in a separate file:</p>
+<p><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
+<pre><code>define(['jquery', '<span class="keyword">script</span>/controller/<span class="type">list</span>-controller', '<span class="keyword">script</span>/controller/<span class="type">list</span>-<span class="property">item</span>-controller'],
+
+        function($, listController, itemControllerFactory) {
+
+
+
+  describe('Save <span class="property">item</span> <span class="keyword">to</span> grocery <span class="type">list</span>', function() {
+
+
+
+    <span class="keyword">it</span>('should <span class="keyword">not</span> save an empty <span class="property">item</span> <span class="keyword">to</span> <span class="keyword">the</span> <span class="type">list</span>') {
+
+      expect(<span class="constant">true</span>).toEqual(<span class="constant">false</span>);
+
+    }
+
+
+
+  }
+
+}</code></pre>
+<p>Given the steps provided in the bug ticket, we could easily translate that into the setup for the spec suite:</p>
+<p><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
+<pre><code>define(['jquery', '<span class="keyword">script</span>/controller/<span class="type">list</span>-controller', '<span class="keyword">script</span>/controller/<span class="type">list</span>-<span class="property">item</span>-controller'],
+
+        function($, listController, itemControllerFactory) {
+
+
+
+  describe('Save <span class="property">item</span> <span class="keyword">to</span> grocery <span class="type">list</span>', function() {
+
+
+
+    var <span class="property">item</span>,
+
+        itemName = 'apples',
+
+        invalidName = '',
+
+        itemRenderer,
+
+        async = new AsyncSpec(this);
+
+
+
+    beforeEach( function() {
+
+      <span class="property">item</span> = listController.createNewItem();
+
+      itemRenderer = listController.getRendererFromItem(<span class="property">item</span>);
+
+    });
+
+
+
+    <span class="keyword">it</span>('should <span class="keyword">not</span> save an empty <span class="property">item</span> <span class="keyword">to</span> <span class="keyword">the</span> <span class="type">list</span>', function() {
+
+      expect(<span class="constant">true</span>).toEqual(<span class="constant">false</span>);
+
+    });
+
+
+
+    afterEach( function() {
+
+      <span class="property">item</span> = undefined;
+
+      itemRenderer = undefined;
+
+    });
+
+  });
+
+
+
+});</code></pre>
+<p>In the <code>beforeEach()</code> setup, we have progressed the application – or at least a list item – to essentially the 3rd step in the <em>Steps to Reproduce</em>: we have added a new item to the list, and internally upon addition of an item in the <code>list-controller</code>, it has entered edit-mode for that item. In the variable declarations, we have also defined what we know of as being valid and invalid item entry names: <em>‘apples’</em> and <em>”</em>, respectively. </p>
+<p>We should be ready to go in our specs now to define the rest of the steps and expected results:</p>
+<p><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
+<pre><code><span class="keyword">it</span>('should <span class="keyword">not</span> save an empty <span class="property">item</span> <span class="keyword">to</span> <span class="keyword">the</span> <span class="type">list</span>', function() {
+
+  var listLength = listController.getItemList().itemLength();
+
+
+
+  <span class="property">item</span>.<span class="property">name</span> = invalidName;
+
+  // save <span class="property">item</span>... ?
+
+  expect(listController.getItemList().itemLength()).toEqual(listLength);
+
+});</code></pre>
+<p>Oh, boy. How do we actually save an item? There is no API on the <code>list-controller</code> that saves an item. There used to be, but we refactored that out when we handed over item management to the <code>list-item-controller</code>. Furthermore, an item is added and kept on the list since its request for creation – the actual reason for the bug, I suppose. I am fine with such functionality internally to the <code>list-controller</code> as it stands now and don’t intend to change the item creation. I think an additional event should be dispatched from a <code>list-item-controller</code> signifying a request to commit the item to the list after being edited. Let’s finish up this spec under such assumptions, then work our way through the failing test:</p>
+<p><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
+<pre><code>async.<span class="keyword">it</span>('should <span class="keyword">not</span> save an empty <span class="property">item</span> <span class="keyword">to</span> <span class="keyword">the</span> <span class="type">list</span>', function(done) {
+
+  var listLength = listController.getItemList().itemLength();
+
+
+
+  $(itemRenderer).<span class="keyword">on</span>('commit', function(event) {
+
+    expect(listController.getItemList().itemLength()).toEqual(listLength-<span class="number">1</span>);
+
+    done();
+
+  });
+
+
+
+  <span class="property">item</span>.<span class="property">name</span> = invalidName;
+
+  itemRenderer.save();
+
+});</code></pre>
+<p>We marked the spec as asynchronous to support events from the <code>list-item-controller</code> and placed the expectation within the <em>‘commit’</em> event handler.</p>
+<p>Run that, and we’ll be waiting for about 5 seconds until we are told that save() is not a method on the <code>list-item-controller</code> instance:</p>
+<p><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_2.png" alt="Failing save item test with timeout"></p>
+<p>I have temporarily commented out the other tests in order to remove any noise and focus solely on resolving this bug. This is for local testing and would not commit the spec runner in such a state when committing back to the repo and running latest on a CI server.</p>
+<p>To resolve that, let’s open up <code>list-item-controller</code> and add that method:</p>
+<p><em>/script/controller/list-item-controller.js</em></p>
+<pre><code>listItemController = {
+
+  $editableView: undefined,
+
+  $uneditableView: undefined,
+
+  init: <span class="keyword">function</span>() {
+
+    <span class="keyword">...</span>
+
+    <span class="keyword">return</span> this;
+
+  },
+
+  save: <span class="keyword">function</span>() {
+
+  },
+
+  dispose: <span class="keyword">function</span>() {
+
+    <span class="keyword">...</span>
+
+  }
+
+};</code></pre>
+<p>Run that again, and now we are down to just the timeout failure:</p>
+<p><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_3.png" alt="Timeout failure on list-item-controller save"></p>
+<p>To resolve that, we’ll first create a new event factory method and invoke it from <code>save()</code> to dispatch the <em>commit</em> event, of which we have assigned a handler for in the test:</p>
+<p><em>/script/controller/list-item-controller.js</em></p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">createSaveEvent</span><span class="params">(controller)</span> {</span>
+
+  <span class="keyword">var</span> event = $.Event(<span class="string">'commit'</span>);
+
+  event.controller = controller;
+
+  <span class="keyword">return</span> event;
+
+}</code></pre>
+<p>and…</p>
+<pre><code><span class="attribute">save</span>: <span class="string">function() {</span>
+
+<span class="objectivec">  $(<span class="keyword">this</span>)<span class="variable">.trigger</span>(createSaveEvent(<span class="keyword">this</span>));
+
+},</span></code></pre>
+<p>No more timeout!</p>
+<p><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_4.png" alt="Failing expectation on list-item-controller save."></p>
+<p>But still failing. Reason is that the item had not been removed from the collection. In previous tests we have verified its addition to the collection from the <code>createNewItem()</code> method on <code>list-controller</code>. Now that we are saving the <code>list-item-controller</code> with a modified model that has an invalid name, we are expecting such an action to remove the item from the collection – the crux of our <em>Empty Item</em> bug.</p>
+<p>Let’s modify the <code>list-controller</code> in order to handle the commit event from a <code>list-item-controller</code>:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code><span class="variable">$collection</span>.on(<span class="string">'collection-change'</span>, function(<span class="keyword">event</span>) {
+
+  var model, itemController, <span class="variable">$itemView</span>;
+
+  <span class="keyword">switch</span>( <span class="keyword">event</span>.kind ) {
+
+    <span class="keyword">case</span> EventKindEnum.ADD:
+
+      <span class="variable">$itemView</span> = <span class="variable">$(</span><span class="string">'&lt;li&gt;'</span>);
+
+      model = <span class="keyword">event</span>.items.shift();
+
+      itemController = itemControllerFactory.create(<span class="variable">$itemView</span>, model);
+
+
+
+      <span class="variable">$itemView</span>.appendTo(listController.<span class="variable">$view</span>);
+
+      rendererList.addItem(itemController);
+
+      itemController.state = itemControllerFactory.state.EDITABLE;
+
+      <span class="variable">$(</span>itemController).on(<span class="string">'remove'</span>, function(<span class="keyword">event</span>) {
+
+        listController.removeItem(model);
+
+      });
+
+      <span class="variable">$(</span>itemController).on(<span class="string">'commit'</span>, function(<span class="keyword">event</span>) {
+
+        <span class="keyword">if</span>(!isValidValue(model.name)) {
+
+          listController.removeItem(model);
+
+        }
+
+      });
+
+      <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> EventKindEnum.REMOVE:
+
+      model = <span class="keyword">event</span>.items.shift();
+
+      itemController = listController.getRendererFromItem(model);
+
+
+
+      <span class="keyword">if</span>(itemController) {
+
+        <span class="variable">$itemView</span> = itemController.parentView;
+
+        <span class="variable">$itemView</span>.remove();
+
+        itemController.dispose();
+
+        <span class="variable">$(</span>itemController).off(<span class="string">'remove'</span>);
+
+        <span class="variable">$(</span>itemController).off(<span class="string">'commit'</span>);
+
+        rendererList.removeItem(itemController);
+
+      }
+
+      <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> EventKindEnum.RESET:
+
+      <span class="keyword">break</span>;
+
+  }
+
+});</code></pre>
+<p>We’ve added another event listener to the <code>list-item-controller</code> when it is added to the collection to handle the <em>commit</em> event. Within the handler we check for its validity – which we have predetermined as not being an empty string – and if it does not pass, then we remove it.<br>Note: In shipped code I would hold a single reference to a wrapped non-jQuery object and not wrap it multiple times as is shown here when adding and removing event handlers. I left it in this example to not add extra noise to the task at hand.</p>
+<p>Run that, and we are back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_5.png" alt="Passing test on commit event form list-item-controller"></p>
+<h2 id="user-test">User Test</h2>
+<p>Let’s run the application and see if the issue is resolved:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_6.png" alt="Non-resolution of bug in live test"><br>I think that picture says it all…</p>
+<p>The bug is still there because <code>save()</code> is not being called on the <code>list-item-controller</code>. In our test, we explicitly called it after a change to the model, but in the application itself it is not being invoked upon change to the model. </p>
+<p>But before we start adding calls to <code>save()</code> in our code, let’s think about the steps to reproduce the bug… or at least the fourth step – <em>Click the Tab button to save to list</em>. The tab keystroke, internally to the <code>list-item-controller</code>, causes a blur to the input field. If we look at the code from <code>list-item-controller</code>, that <em>blur</em> event performs a change to state:</p>
+<p><em>/script/controller/list-item-controller.js</em></p>
+<pre><code>$(<span class="string">'input'</span>, <span class="keyword">this</span>.$editableView).<span class="literal">on</span>(<span class="string">'blur'</span>, (<span class="reserved">function</span>(controller) {
+
+  <span class="keyword">return</span> <span class="reserved">function</span>(event) {
+
+    controller.model.name = $(<span class="keyword">this</span>).val();
+
+    controller.state = stateEnum.UNEDITABLE;
+
+  };
+
+}(<span class="keyword">this</span>)));</code></pre>
+<p>This snippet is taken from the event handler assignment in the <code>init()</code> function. When in edit mode of the <code>list-item-controller</code>, once focus is lost from the input field – which happens upon tab – the model is updated and state changed to non-edit mode. My first inkling is to put it here. It is true that, in doing so, it will pass and get rid of the bug… but the real commit of changes to the <code>list-item-controller</code> and its underlying model I feel lie in its change from edit mode to non-edit mode. I would argue that <code>save()</code> should be called from that occurrence. But before we add that to the code, let’s write up an expectation of that behavior.</p>
+<h2 id="more-tests">More Tests</h2>
+<p><em>‘WHAT?!? The bug was in our sights. We know how to get rid of it, and you want to write more tests?!?’</em><br>That is the voice in my head most of the time when I decide to go back to tests. It has lessened, and the swearing really has decreased. And when I finally do get around to passing tests, it goes away and is replaced with: <em>‘Nice job! You deserve a raise.. or at least an egg sandwich!’</em></p>
+<p>Anyway, let’s get to <em>Egg Sandwich Status</em> and add another test to ensure that upon change to non-edit mode, if the model properties are not valid, that the item is not saved:</p>
+<p><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
+<pre><code>async.<span class="keyword">it</span>('should <span class="keyword">not</span> save an empty <span class="property">item</span> upon change <span class="keyword">to</span> non-edit mode', function(done) {
+
+   var listLength = listController.getItemList().itemLength();
+
+
+
+  $(itemRenderer).<span class="keyword">on</span>('commit', function(event) {
+
+    expect(listController.getItemList().itemLength()).toEqual(listLength - <span class="number">1</span>);
+
+    done();
+
+  });
+
+
+
+  <span class="property">item</span>.<span class="property">name</span> = invalidName;
+
+  itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
+
+});</code></pre>
+<p>We have already verified the expectation that a <code>list-item-controller</code> is entered into an <code>EDITABLE</code> state from our <em>additem.spec.js</em> tests, so we don’t need to test for that here – just know that setting the <code>list-item-controller</code> instance to an <code>UNEDITABLE</code> state will trigger it to go into non-edit mode.</p>
+<p>Run that, and we get the timeout failure from that test:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_7.png" alt="Timeout failure on non-edit mode commit"></p>
+<p>Good! Before you slap me… save that hand for modifying the <code>list-item-controller</code> to invoke the save() method from its state-change handler:</p>
+<p><em>/script/controller/list-item-controller.js</em></p>
+<pre><code>function handleStateChange(controller, <span class="keyword">event</span>) {
+
+  <span class="comment">// remove state-based item.</span>
+
+  <span class="keyword">if</span>( typeof <span class="keyword">event</span>.oldState !== <span class="string">'undefined'</span>) {
+
+    <span class="keyword">if</span>(<span class="keyword">event</span>.oldState === stateEnum.UNEDITABLE) {
+
+      controller.<span class="variable">$uneditableView</span>.detach();
+
+    }
+
+    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">event</span>.oldState === stateEnum.EDITABLE) {
+
+      controller.<span class="variable">$editableView</span>.detach();
+
+    }
+
+  }
+
+  <span class="comment">// append state-based item.</span>
+
+  <span class="keyword">if</span>(<span class="keyword">event</span>.newState === stateEnum.UNEDITABLE) {
+
+    controller.parentView.append(controller.<span class="variable">$uneditableView</span>);
+
+    controller.save();
+
+  }
+
+  <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">event</span>.newState === stateEnum.EDITABLE) {
+
+    var inputTimeout = setTimeout( function()  {
+
+      clearTimeout(inputTimeout);
+
+      <span class="variable">$(</span><span class="string">'input'</span>, controller.<span class="variable">$editableView</span>).focus();
+
+    }, <span class="number">100</span>);
+
+    controller.parentView.append(controller.<span class="variable">$editableView</span>);
+
+  }
+
+}</code></pre>
+<p>One little addition. Now run the tests:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_8.png" alt="Passing tests on change to non-edit mode and save."></p>
+<p><em>Hooray!</em> Now use that hand you were gonna slap me with and high-five yourself. Now look at yourself… you look silly. Run the application you crazy solo-high-fiver:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_9.png" alt="Application does not save empty item"></p>
+<p>That picture doesn’t say much, but – if all has gone well – it conveys that we are no longer able to save an item to the list when nothing has been provided in the input field and we can close the bug.</p>
+<h3 id="can-t-stop-won-t-stop">Can’t Stop. Won’t Stop</h3>
+<p>I would normally stop there, but I do like to sew things up nicely and verify all expectations. Such as:</p>
+<ol>
+<li><p>Item controller view is not retained in list view if not valid:<br><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
+<p> async.it(&#39;should not add an empty item to list view upon change to non-edit mode&#39;, function(done) {</p>
+<pre><code>var listViewLength = $listView<span class="preprocessor">.children</span>()<span class="preprocessor">.length</span><span class="comment">;</span></code></pre>
+</li>
+</ol>
+<pre><code>  $(itemRenderer).on(<span class="string">'commit'</span>, <span class="keyword">function</span>(event) <span class="cell">{
+
+    expect($listView.children().length).toEqual(listViewLength - <span class="number">1</span>);
+
+    done();
+
+  }</span>);
+
+
+
+  <span class="transposed_variable">item.</span>name = invalidName;
+
+  <span class="transposed_variable">itemRenderer.</span>state = <span class="transposed_variable">itemControllerFactory.</span><span class="transposed_variable">state.</span>UNEDITABLE;
+
+});</code></pre>
+<ol>
+<li><p>When going from edit to non-edit mode, valid items are retained:<br><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
+<p> async.it(&#39;should save a valid item upon change to non-edit mode&#39;, function(done) {</p>
+<pre><code>var listLength = listController<span class="preprocessor">.getItemList</span>()<span class="preprocessor">.itemLength</span>()<span class="comment">;</span></code></pre>
+</li>
+</ol>
+<pre><code>  $(itemRenderer).<span class="keyword">on</span>('commit', function(event) {
+
+    expect(listController.getItemList().itemLength()).toEqual(listLength);
+
+    done();
+
+  });
+
+
+
+  <span class="property">item</span>.<span class="property">name</span> = itemName;
+
+  itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
+
+});
+
+
+
+async.<span class="keyword">it</span>('should add a valid <span class="property">item</span> <span class="keyword">to</span> <span class="type">list</span> view upon change <span class="keyword">to</span> non-edit mode', function(done) {
+
+   var listViewLength = $listView.children.<span class="property">length</span>;
+
+
+
+  $(itemRenderer).<span class="keyword">on</span>('commit', function(event) {
+
+    expect($listView.children().<span class="property">length</span>).toEqual(listViewLength);
+
+    done();
+
+  });
+
+
+
+  <span class="property">item</span>.<span class="property">name</span> = itemName;
+
+  itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
+
+});</code></pre>
+<p>Those additional specs will pass with flying colors and without having to modify any more application code:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_10.png" alt="Finishing up all expectations for Save Item feature"></p>
+<p>Tagged <strong>0.1.12</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.12"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.12">https://github.com/bustardcelly/grocery-ls/tree/0.1.12</a></a></p>
+<h1 id="conclusion">Conclusion</h1>
+<p>In this article we tested our way to closing a bug.</p>
+<p>Just as we had done in the <a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">previous article</a>, we adhered more closely to the principles of <strong>TDD</strong> and trudge along making things turn red before green – even when we found the reason and knew the resolution for the <em>Empty Item</em> bug. In doing so, we sort of verified and documented in test a <em>Save Item</em> feature. Now we know where to add or modify tests if the usability in committing an item to the list is changed in our requirements.</p>
+<h2 id="todd-can-t-leave-well-enough-alone">Todd can’t leave well enough alone</h2>
+<p>The application is pretty much ready to use as is to boot! There is just one more thing that is nagging me – persistence. No pun intended. We can create a list of all the items we need at the grocery store just fine, but if we close the browser window… oh-noes. It’s lost. I gotta fix that… next.</p>
+<p>Cheers for sticking around!</p>
+<p>—-</p>
+<h1 id="link-dump">Link Dump</h1>
+<h2 id="reference">Reference</h2>
+<p><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://cumulative-hypotheses.org/2011/08/30/tdd-as-if-you-meant-it/">TDD as if you Meant it by Keith Braithwaite</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a></p>
+<h2 id="post-series">Post Series</h2>
+<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2013/02/04/madmin-for-ease-of-creating-and-documenting-restful-service-uris/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/index.html";
+        window.disqus_title="The Making of a Test-Driven Grocery List Application: Part VIII";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

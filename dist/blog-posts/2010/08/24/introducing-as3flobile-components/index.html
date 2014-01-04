@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - Introducing as3flobile components</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2010/08/24/introducing-as3flobile-components/index.html">Introducing as3flobile components</a></h1>
+    <p>
+      2010 August 24th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p><em>The library is available on github at <a href="http://github.com/bustardcelly/as3flobile">bustardcelly/as3flobile</a>. You can read more detailed information on <a href="http://wiki.github.com/bustardcelly/as3flobile/">the wiki</a>. You can also look at the <a href="http://www.custardbelly.com/android/froyo/as3flobile/docs/">online docs</a>. Continue reading if you enjoy rambling explanations.</em></p>
+<p>As per usual, i had started a personal project that focused on refining parts of an old application and ended up creating a new library. This time, that application was going to get a face lift as i tried to port some code over to <strong>AS3</strong>-only views with the goal of targeting <strong>Android</strong> devices. What seemed like a little side project turned into a fun, can’t-stop-thinking-about suite of custom <strong>ActionScript 3</strong> components.</p>
+<p>You can view the components here: <a href="http://www.custardbelly.com/android/froyo/as3flobile/"><a href="http://www.custardbelly.com/android/froyo/as3flobile/">http://www.custardbelly.com/android/froyo/as3flobile/</a></a>. If you have a Flash-enabled device, please check them out and let me know how they run. I have only really tested on my Nexus 1.</p>
+<p><a href="http://www.custardbelly.com/android/froyo/as3flobile/"><img src="http://www.custardbelly.com/blog/images/as3flobile.jpg" alt="as3flobile components"></a></p>
+<p>A full list of the current components is available on the <a href="http://wiki.github.com/bustardcelly/as3flobile/">project’s wiki</a> in <a href="http://github.com/bustardcelly/as3flobile">github</a>. The main intent of creating these controls was to start thinking about user gesture as recognition and navigation within a control. My first task was to forget about scrollbars. They have essentially become useless on touch-devices in the context of navigating through content of a defined area. Though <strong>as3flobile</strong> does provide scrollbars in a sense (they are called <strong>Sliders</strong>) they are meant for selecting a value within a range, not as a handrail to hold onto to traverse items in a list. As a visual clue, the scrollbar still makes sense. As a user-input model, it is slowly not.</p>
+<p>In any event, scrolling was the first gesture tackled. So I mainly started out making a <strong>ScrollViewport</strong> and then went crazy making all these other controls i know i would need <em><strong>if i ever got back to the original task at hand</strong></em> <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> I could talk more in depth on how i tackled scrolling and how i kept the API open for you to create your own scrolling contexts and plug them in in later posts if you’d like.</p>
+<p>There is some tap recognition, such as when selecting a list item or a <strong>RadioButton</strong>, but most of the focus is on swipe gesture for scrolling. I would like to start diving into other gestures (ie. zoom) which would probably make me rethink the architecture of a custom component for a touch-device, not only in its gesture recognition but also how you interact to access information. For instance, does a drop down really make any sense any more? (though there is a <strong>DropDown</strong> in <strong>as3flobile</strong>) I don’t know if i am the only one, but it really feels antiquated to me. I wonder if there will come a time when we are old and we look at old pictures of the online forms we used to fill out with there funny old clunky controls… how much time was wasted.</p>
+<p><em><strong>You keep talking, but can you skin them?</strong></em></p>
+<p>Yes, you can skin them. There really isn’t a skinning architecture in <strong>as3flobile</strong> per se. Any control that is a subclass of <strong>AS3FlobileComponent</strong> (which all the controls in the library currently are) can accept an <strong>ISkin</strong> and can maintain a state related to or rather accessible by an <strong>ISkin</strong>. Furthermore, the assignment, targeting and update to the skins is handled within <strong>AS3FlobileComponent</strong> with protected hook-ins you can override if seen fit. </p>
+<p>However, if you look at the default skins within <strong>as3flobile</strong>, in <strong>com.custardbelly.as3flobile.skins.*</strong>, you’ll see that the <strong>ISkin</strong> implementations actually reference their target controls directly to access the graphic displays needed for custom skinning. I figured there was no reason to add extra overhead by creating interfaces for a control strictly for skinning purposes. If you create a custom skin for a control, it is assumed you know what the control needs to look like; so access it directly. Though the <strong>target</strong> property of <strong>ISkin</strong> is <strong>ISkinnable</strong> (which <strong>AS3FlobileComponent</strong> implements), the target is most times cast to the specific control that is being skinned. If people are really interested in these components and curious as to how to skin them, i can definitely fire up some more posts on that.</p>
+<p>In any event, i hope you check out the <strong>as3flobile</strong> <a href="http://wiki.github.com/bustardcelly/as3flobile/">project in github</a> and/or <a href="http://30.media.tumblr.com/tumblr_l7foigmQIN1qzzw5do1_500.jpg">get down to business as Gary always seems to do</a>. If you do check out the <strong>as3flobile</strong> project, suggestions, comments and questions are always appreciated. I am sure there are some bugs and some aspects of the controls that i just didn’t think of that may be needed.</p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/android/">Android</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/as3flobile/">as3flobile</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2010/09/13/as3flobile-on-the-iphone/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2010/05/26/listen-ma-im-on-riaradio/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2010/08/24/introducing-as3flobile-components/index.html";
+        window.disqus_title="Introducing as3flobile components";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

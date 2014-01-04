@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - the New New BitmapData</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2005/10/18/the-new-new-bitmapdata/index.html">the New New BitmapData</a></h1>
+    <p>
+      2005 October 18th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p>In <a href="http://livedocs.macromedia.com/labs/1/flex/langref/migration.html">AS3</a>, the MovieClip method attachBitmap is removed. what does that mean for setPixel, getPixel and copyPixel?<br>The documentation roughly states that addChild is the equivalent of attachBitmap… but only display objects can be “attached” using addChild.<br>Running addChild(myBitmapData) within a MovieClip or Sprite class throws an error, because it appears that BitmapData is not considered a DisplayObject.</p>
+<p>With the previous experiments presentated on this blog, i used the BitmapData.copyPixel method to render states of a sprite. But that was only made possible by loading an image, using BitmapData.draw, (unloading the image), and then passing that BitmapData to a movieclip, attaching a new BitmapData object and copying pixels dependant on user interaction.</p>
+<p>There has to be a way to represent this in AS3… but for my first day of trying, i’ve come up empty.</p>
+<p>With all the flash 8 experiments out there, has anyone else come across this, and come up with a solution?</p>
+<p><em>As a side note:</em><br>I am a huge fan of the new Loader class. Here’s a small sample:  </p>
+<pre><code><span class="preprocessor"><span class="keyword">import</span> flash.net.URLRequest;</span>  
+
+<span class="preprocessor"><span class="keyword">import</span> flash.display.Loader;</span>  
+
+<span class="preprocessor"><span class="keyword">import</span> flash.util.trace;</span>  
+
+<span class="preprocessor"><span class="keyword">import</span> flash.events.*;</span>
+
+
+
+
+<span class="class"><span class="keyword">class</span> <span class="title">LoaderTest</span> <span class="keyword">extends</span> <span class="title">Sprite</span>  
+
+{</span>  
+
+    <span class="keyword">private</span> <span class="keyword">var</span> __loader:Loader;  
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">var</span> IMAGE_URL:String = “myimage.png”;
+
+
+
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">LoaderTest</span><span class="params">()</span>  
+
+    {</span>  
+
+        __loader = <span class="keyword">new</span> Loader();  
+
+        __loader.addEventListener(EventType.COMPLETE, onLoadComplete);  
+
+        <span class="keyword">var</span> request:URLRequest = <span class="keyword">new</span> URLRequest(IMAGE_URL);
+
+
+
+
+        __loader.load(request);  
+
+    }
+
+
+
+
+    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">onLoadComplete</span><span class="params">(evt:Event)</span>  
+
+    {</span>  
+
+        trace(”load that sucker ” + evt);  
+
+    }  
+
+}  </code></pre>
+<p>…. no more loadMovie / onEnterFrame, or MovieClipLoader (which for some reason seems to crash Flash8 for me).</p>
+<p>i guess i should get off the double-underscore train too… i don’t know … my head’s about to burst.</p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2005/10/20/as3-follow-up/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2005/09/26/no-direction-home/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2005/10/18/the-new-new-bitmapdata/index.html";
+        window.disqus_title="the New New BitmapData";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

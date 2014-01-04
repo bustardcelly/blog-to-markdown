@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - AIR Native Extension Example: iBattery for iOS</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2011/09/21/air-native-extension-example-ibattery-for-ios/index.html">AIR Native Extension Example: iBattery for iOS</a></h1>
+    <p>
+      2011 September 21st
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <h2 id="introduction">Introduction</h2>
+<p>The most exciting new feature <a href="http://blogs.adobe.com/flashplatform/2011/09/announcing-flash-player-11-and-air-3.html">coming to Adobe AIR</a> to me is the ability to compile against a library that can communicate with a device natively. Though some of the Stage<em> API opens a whole new world of rendering improvements, the inclusion of <a href="http://www.adobe.com/devnet/air/articles/extending-air.html">Native extensions for Adobe AIR</a> (NE) relieves the wishing and waiting of what will be exposed at the device level in future <strong>AIR SDK</strong> releases; we can now extend the <strong>Runtime</strong> ourselves. With the arrival of <strong>Native extensions</strong>, the possibilities of what can be achieved with a mobile <em>*AIR</em></em> application grow larger; and certainly with that, so does complexity in design and the requirement to develop with mobile performance in mind. </p>
+<p>Keeping the complexities and performance in check (and to calm myself down from excitement of the endless possibilities) I decided to give it a quick test-run by creating a <strong>Native Extension</strong> that I thought was sorely missing from the <strong>Adobe AIR SDK</strong> – battery information on iOS. In all seriousness, getting up and running and accessing the battery information of my iPhone from an application <strong>AIR</strong> application was rather painless and – dare i say it – easier than i expected. I intend to give a quick walk through of how I went about creating the <strong>iBattery Native Extension</strong> and how to use it in an AIR application.</p>
+<h3 id="disclaimer">Disclaimer</h3>
+<p>I am going to assume you are familiar with setting up an <strong>Apple Developer</strong> account and downloading the SDK and won’t even go into the headache of provisioning profiles and the deployment process for an <strong>iOS</strong> application. I am also going to assume that you are familiar with using the recent <strong>Flex 4.5 SDK</strong> to create mobile Flex applications. The application in this example is in no way complex, but I am not going to cover how the pieces of the application work – only how you can compile against and include an <strong>Native extension for Adobe AIR</strong>.</p>
+<h3 id="source">Source</h3>
+<p>If you are curious or just want to jump to code, I created a <a href="https://github.com/bustardcelly/iBattery">github repo</a> with all the source as well as deployment builds or if you just came here for the <strong>Native Extension</strong> and know your way around you can download <a href="http://www.custardbelly.com/downloads/air/ane/ibatteryextension.ane.zip">ibatteryextension.ane</a> directly.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li><a href="http://opensource.adobe.com/wiki/display/flexsdk/Download+Flex+4.5">Flex 4.5.1 SDK</a></li>
+<li><a href="http://labs.adobe.com/technologies/flashplatformruntimes/air3/">AIR 3 Runtime and SDK (Release Candidate)</a></li>
+<li><a href="http://developer.apple.com/devcenter/ios/index.action">iOS SDK</a></li>
+</ul>
+<p>Also, take a look at these excellent articles:</p>
+<ul>
+<li><a href="http://www.adobe.com/devnet/air/articles/extending-air.html">Extending Adobe AIR by Oliver Goldman</a></li>
+<li><a href="http://renaun.com/blog/2011/09/why-native-extensions-for-air/">Why Native Extensions for AIR</a></li>
+<li><a href="http://www.adobe.com/content/dam/Adobe/en/devnet/devices/pdfs/DevelopingActionScriptExtensionsForAdobeAIR.pdf">Developing ActionScript Extensions for Adobe AIR</a></li>
+<li><a href="http://www.adobe.com/devnet/air/native-extensions-for-air.html">Native Extensions for Adobe AIR</a> in the AIR Developer Center</li>
+</ul>
+<p><em>I am not going to cover how to get this going with any IDEs (eg. <strong>Flash Builder 4.5</strong>). I will show you how to do all this from the command line. There are some niceties with IDEs that will separate you from invoking the command line tools of the <strong>SDK</strong> directly, but sometimes it is nice to see what is going on behind the scenes.</em></p>
+<p>I went about downloading the <strong>Flex 4.5 SDK</strong> and unzipping it somewhere on my local disk, then downloaded the <strong>Adobe AIR SDK</strong> and overlaid it on the <strong>Flex SDK</strong> using the instructions here: <a href="http://kb2.adobe.com/cps/495/cpsid_49532.html">How To Overlay the AIR SDK</a>. For the purposes of the examples in this article let’s just say that <strong>SDK</strong> is located on my machine at: <strong>/Users/todd/SDKs/flex_4.5_air_3rc1</strong>.</p>
+<p>The whole iOS &amp; Xcode set up, you are on your own. Sorry, not to be mean. There is some great information already out there and i want to keep this article more focused on <strong>Native Extensions for Adobe AIR</strong> and not to prevent hair-loss developing for iOS.</p>
+<h2 id="moving-pieces">Moving Pieces</h2>
+<p>There are three major portions to create an AIR application utilizing the <strong>Native Extension for Adobe AIR</strong>:</p>
+<ol>
+<li>Native code compiled for target platform.</li>
+<li>Flex library project to deploy the Native Extension for Adobe AIR.</li>
+<li>Mobile AIR application.</li>
+</ol>
+<p>Depending on your target device/platform, the language and generated library on the native-side can vary and really is covered well in <a href="http://www.adobe.com/devnet/air/articles/extending-air.html#articlecontentAdobe_numberedheader_4">Oliver Goldman’s article</a>. For the purposes of this example, the native part involved me writing some C/Obj-C and creating a static library (.a file). The Flex library project is actually two-fold; I created a library that interfaced with the <a href="http://help.adobe.com/en_US/FlashPlatform/beta/reference/actionscript/3/flash/external/ExtensionContext.html">flash.external.ExtensionContext</a>, then generated an <strong>.ane</strong> file from the <strong>SWC</strong> and static library. The <strong>Mobile AIR</strong> application is then compiled against this <strong>Native Extension</strong> and the <strong>.ane</strong> library file is included in the generated <strong>.ipa</strong> file.</p>
+<h2 id="native">Native</h2>
+<p>I am not that much of an C/Objective-C developer. I have developed and deployed a handful of iOS applications in the past (some reaching the <strong>AppStore</strong>), but honestly have not touched it in quite some time. So I have some history, but cannot speak at length on how things work and why. Let’s just say, for the example in this article, that I knew enough to get in and get out and carry on on the <strong>ActionScript</strong> side of things.</p>
+<p>When creating a native extension targeting the iOS platform, you’ll write some C code (which can call Obj-C) and deploy a static library with a <strong>.a</strong> extension. What i did was create a new Library project in Xcode, imported the header file included with the <strong>AIR SDK</strong> (found at <strong>/include/FlashRuntimeExtensions.h</strong>) and added a <strong>.m</strong> (Obj-C implementation) file to the project that will serve as the implementation of the native context and expose the API for accessing the battery life and information of the iOS device:</p>
+<pre><code>// Access battery life.
+
+FREObject GetBatteryLife(FREContext ctx, void* funcData, uint32_t argc, FREObject argv[]) {
+
+    UIDevice *device = [UIDevice currentDevice]<span class="comment">;</span>
+
+    [device setBatteryMonitoringEnabled:YES]<span class="comment">;</span>
+
+    float life = [device batteryLevel]<span class="comment">;</span>
+
+
+
+    FREObject retVal<span class="comment">;</span>
+
+    FRENewObjectFromDouble( life, &amp;retVal )<span class="comment">;</span>
+
+    return retVal<span class="comment">;</span>
+
+}
+
+
+
+// Access info about battery
+
+FREObject GetBatteryInfo(FREContext ctx, void* funcData, uint32_t argc, FREObject argv[]) {
+
+    UIDevice *device = [UIDevice currentDevice]<span class="comment">;</span>
+
+    [device setBatteryMonitoringEnabled:YES]<span class="comment">;</span>
+
+    int info = [device batteryState]<span class="comment">;</span>
+
+
+
+    FREObject retVal<span class="comment">;</span>
+
+    FRENewObjectFromInt32( info, &amp;retVal )<span class="comment">;</span>
+
+    return retVal<span class="comment">;</span>
+
+}</code></pre>
+<p>Boiled down and abstracted in thinking on the <strong>ActionScript</strong> side of things, the API of this native library exposes two methods: <em>GetBatteryLife</em> and <em>GetBatteryInfo</em>. Each return a numerical value related to their context: a Number representing the percent of battery life left on the device and an Integer representing battery state, respectively. The relation of the Number value to percent is fairly straight-forward. The Integer returned from <em>[[UIDevice currentDevice] batteryState]</em> relates to the various “states” that the battery can be in, and they are:</p>
+<ul>
+<li>0 : Unknown</li>
+<li>1 : Unplugged</li>
+<li>2 : Charging</li>
+<li>3 : Full</li>
+</ul>
+<p>The <strong>FREObject</strong> is covered more properly by <a href="http://www.adobe.com/devnet/air/articles/extending-air.html#articlecontentAdobe_numberedheader_4">Oliver Goldman in his article</a>, and I just blindly assume that the <a href="http://help.adobe.com/en_US/FlashPlatform/beta/reference/actionscript/3/flash/external/ExtensionContext.html">ExtensionContext</a> of the <strong>AIR SDK</strong> knows how to interpret this value for me so I can cast as an <strong>ActionScript</strong> type and move on. We’ll see how that happens in the next section.</p>
+<h2 id="the-native-extension">The Native Extension</h2>
+<p>The previous section lightly covered the native side of things and generated a static library file that will be used to compile an <strong>Native Extension</strong> (NE) library that will be used by an AIR application to access battery information of an iOS device it is deployed to. Creating the <strong>Native Extension</strong> file (.ane) is actually a two step process:</p>
+<ol>
+<li>Create a Flash library project compiled against AIR libraries and expose an API that interfaces with the native library through <a href="http://help.adobe.com/en_US/FlashPlatform/beta/reference/actionscript/3/flash/external/ExtensionContext.html">ExtensionContext</a>.</li>
+<li>Use the ADT command line tool with to generate an .ane file compiled against the library SWC and the native library.</li>
+</ol>
+<p>The <a href="http://help.adobe.com/en_US/FlashPlatform/beta/reference/actionscript/3/flash/external/ExtensionContext.html">flash.external.ExtensionContext</a> from the <strong>AIR SDK</strong> is your main access point to the native library. Essentially, you create a new instance of an <strong>ExtensionContext</strong> using an ID defined in an extension descriptor file compiled into the <strong>Native Extension</strong>. For the <strong>iBattery Native Extension</strong>, this is what my extension descriptor file looks like:</p>
+<pre><code><span class="tag">&lt;<span class="title">extension</span> <span class="attribute">xmlns</span>=<span class="value">"[http://ns.adobe.com/air/extension/2.5](http://ns.adobe.com/air/extension/2.5)"</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">id</span>&gt;</span>com.custardbelly.ibattery<span class="tag">&lt;/<span class="title">id</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">versionNumber</span>&gt;</span>1<span class="tag">&lt;/<span class="title">versionNumber</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">platforms</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">platform</span> <span class="attribute">name</span>=<span class="value">"iPhone-ARM"</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">applicationDeployment</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">nativeLibrary</span>&gt;</span>libAIRExtensionC.a<span class="tag">&lt;/<span class="title">nativeLibrary</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">initializer</span>&gt;</span>ExtInitializer<span class="tag">&lt;/<span class="title">initializer</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">finalizer</span>&gt;</span>ExtFinalizer<span class="tag">&lt;/<span class="title">finalizer</span>&gt;</span>
+
+            <span class="tag">&lt;/<span class="title">applicationDeployment</span>&gt;</span>
+
+        <span class="tag">&lt;/<span class="title">platform</span>&gt;</span>
+
+  <span class="tag">&lt;/<span class="title">platforms</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">extension</span>&gt;</span></code></pre>
+<p>Highlighted in that snippet are some important bits. The <strong>id</strong> node value will be used to create a new <strong>ExtensionContext</strong> instance. The <strong>nativeLibrary</strong> node value is the native library created in the previous section. For this example, it is also of note that we have defined the <em>iPhone-ARM</em> platform as a target, as well. This extension descriptor file describes the association of id to native library that the <strong>ExtensionContext</strong> will look up upon instantiation. To create an <strong>ExtensionContext</strong>:</p>
+<p><em>com.cusardbelly.air.extensions.battery.ios.Battery</em></p>
+<pre><code><span class="setting">_extensionContext = <span class="value">ExtensionContext.createExtensionContext( <span class="string">"com.custardbelly.ibattery"</span>, <span class="string">"main"</span> );</span></span></code></pre>
+<p>… and then use the <strong>call</strong>() method to invoke the corresponding method exposed in the native library. For the purposes of the example in this article, and for the <strong>iBattery Native Extension</strong>, I basically exposed the same API that was on the native side:</p>
+<p><em>com.cusardbelly.air.extensions.battery.ios.Battery</em></p>
+<pre><code><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getBatteryLife</span><span class="params">()</span><span class="type">:Number</span>
+
+{</span>
+
+    <span class="keyword">return</span> _extensionContext.call( <span class="string">'GetBatteryLife'</span> ) <span class="keyword">as</span> Number;
+
+}
+
+
+
+<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getBatteryState</span><span class="params">()</span><span class="type">:int</span>
+
+{</span>
+
+    <span class="keyword">return</span> _extensionContext.call( <span class="string">'GetBatteryInfo'</span> ) <span class="keyword">as</span> int;
+
+}</code></pre>
+<p>With my API done, I compiled the library into a SWC:</p>
+<pre><code>&gt; <span class="comment">/Users/todd/SDKs/flex_4</span>.<span class="comment">5_air_3rc1/bin/compc</span> <span class="literal">-</span><span class="comment">output</span> <span class="comment">build/iBattery</span>.<span class="comment">swc</span> <span class="literal">-</span><span class="comment">load</span>-<span class="comment">config</span>+<span class="comment">=ibattery_lib</span>.<span class="comment">config</span> <span class="literal">+</span><span class="comment">configname=airmobile</code></pre>
+<p>If you are unfamiliar with using the command line tools of the SDK, I used the compc tool which is used to generate SWC files. The <strong>iBattery.swc</strong> file is generated and placed in a build directory and is compiled against an additional custom config (which just defines source location) and the <strong>+configname=airmobile</strong> directive. That’s actually a little fun tidbit. If you want to generate a SWC or SWF that uses the AIR mobile libraries, just add <strong>+configname=airmobile</strong> and they’ll be compiled against for you without defining them in an additional config file.</p>
+<p>I then took the iBattery.swc and unzipped it to get the <strong>library.swf</strong> file. This is necessary for generating a <strong>Native Extension</strong> file (.ane) using the <strong>ADT</strong> command line tool:</p>
+<pre><code>&gt; /Users/todd/SDKs/flex_4<span class="number">.5</span>_air_3rc1/bin/adt -<span class="package"><span class="keyword">package</span> -<span class="title">target</span> <span class="title">ane</span> ../<span class="title">release</span>/<span class="title">ibatteryextension</span>.<span class="title">ane</span> <span class="title">extension</span>.<span class="title">xml</span> -<span class="title">swc</span> <span class="title">iBattery</span>.<span class="title">swc</span> -<span class="title">platform</span> <span class="title">iPhone</span>-<span class="title">ARM</span> <span class="title">library</span>.<span class="title">swf</span> <span class="title">libAIRExtensionC</span>.<span class="title">a</span></code></pre>
+<p>That generates an <strong>ibatteryextension.ane</strong> in a release directory and defines the target SWC library and platform as well as compiling in the descriptor, SWF library and native library.</p>
+<p>That <strong>Native extension</strong> is then used as one would as SWC library in an AIR Mobile application to interface with the native library. You need to compile against the .ane and include it in an extension directory within the AIR application.</p>
+<h2 id="the-air-mobile-application">The AIR Mobile Application</h2>
+<p>The application I created to showcase the <strong>iBattery Native Extension</strong> is pretty dead simple. Again, I am assuming you have some knowledge of a mobile AIR application and its pieces. There are a ton of great articles out there that can help in developing an AIR application targeting mobile, so I won’t provide any more explanations in this article, I just wanted to show you quickly how the communication works and the requirements for compilation of the application.</p>
+<p>To being I just have a main <em>ViewNavigatorApplication</em> that defines a single view:</p>
+<p><em>iBatteryExample.mxml</em></p>
+<pre><code><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+
+<span class="tag">&lt;<span class="title">s:ViewNavigatorApplication</span> <span class="attribute">xmlns:fx</span>=<span class="value">"[http://ns.adobe.com/mxml/2009](http://ns.adobe.com/mxml/2009)"</span>
+
+        <span class="attribute">xmlns:s</span>=<span class="value">"[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"</span>
+
+        <span class="attribute">firstView</span>=<span class="value">"BatteryTestView"</span>&gt;</span>
+
+
+
+<span class="tag">&lt;/<span class="title">s:ViewNavigatorApplication</span>&gt;</span></code></pre>
+<p>… and the <em>BatteryTestView</em> provides a UI to request the battery information on the device and does all the communication through the <strong>ActionScript</strong> side of the <strong>Native Extension</strong> library generated previously:</p>
+<p><em>BatteryTestView.mxml</em></p>
+<pre><code><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+
+<span class="tag">&lt;<span class="title">s:View</span> <span class="attribute">xmlns:fx</span>=<span class="value">"[http://ns.adobe.com/mxml/2009](http://ns.adobe.com/mxml/2009)"</span>
+
+        <span class="attribute">xmlns:s</span>=<span class="value">"[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"</span>
+
+        <span class="attribute">title</span>=<span class="value">"BatteryTestView"</span> <span class="attribute">creationComplete</span>=<span class="value">"handleCreationComplete();"</span>&gt;</span>
+
+
+
+    <span class="tag">&lt;<span class="title">fx:Script</span>&gt;</span>
+
+        <span class="cdata">&lt;![CDATA[
+
+            import com.custardbelly.air.extensions.battery.ios.Battery;
+
+
+
+            protected var _batteryExtension:Battery;
+
+
+
+            protected function handleCreationComplete():void
+
+            {
+
+                _batteryExtension = new Battery();
+
+
+
+                lifeButton.addEventListener( MouseEvent.CLICK, handleLifeRequest, false, 0, true );
+
+                infoButton.addEventListener( MouseEvent.CLICK, handleInfoRequest, false, 0, true );
+
+            }
+
+
+
+            protected function handleLifeRequest( evt:Event ):void
+
+            {
+
+                try {
+
+                    console.appendText( "Battery Life Percentage: " );
+
+                    console.appendText( ( _batteryExtension.getBatteryLife() * 100 ).toString() + "%\n" );
+
+                }
+
+                catch( e:Error )
+
+                {
+
+                    console.appendText( "Error: " + e.message );
+
+                }
+
+            }
+
+
+
+            protected function handleInfoRequest( evt:Event ):void
+
+            {
+
+                console.appendText( "Battery State: " + ( _batteryExtension.getBatteryState() ).toString() + "\n" );
+
+            }
+
+        ]]&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">fx:Script</span>&gt;</span>
+
+
+
+    <span class="tag">&lt;<span class="title">s:layout</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">s:VerticalLayout</span> <span class="attribute">paddingLeft</span>=<span class="value">"10"</span> <span class="attribute">paddingRight</span>=<span class="value">"10"</span> <span class="attribute">paddingTop</span>=<span class="value">"10"</span> <span class="attribute">paddingBottom</span>=<span class="value">"10"</span> /&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">s:layout</span>&gt;</span>
+
+
+
+    <span class="tag">&lt;<span class="title">s:TextArea</span> <span class="attribute">id</span>=<span class="value">"console"</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"100%"</span> <span class="attribute">editable</span>=<span class="value">"false"</span> <span class="attribute">text</span>=<span class="value">"Hello World!"</span> /&gt;</span>
+
+    <span class="tag">&lt;<span class="title">s:HGroup</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"24"</span> <span class="attribute">verticalAlign</span>=<span class="value">"middle"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">s:Button</span> <span class="attribute">id</span>=<span class="value">"lifeButton"</span> <span class="attribute">label</span>=<span class="value">"get life"</span> /&gt;</span>
+
+        <span class="tag">&lt;<span class="title">s:Button</span> <span class="attribute">id</span>=<span class="value">"infoButton"</span> <span class="attribute">label</span>=<span class="value">"get info"</span> /&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">s:HGroup</span>&gt;</span>
+
+
+
+<span class="tag">&lt;/<span class="title">s:View</span>&gt;</span></code></pre>
+<p>Access to the <strong>ActionScript</strong> API from the <strong>Native Extension</strong> is available just as if you were developing against an external SWC library, and I created a new instance of a <em>Battery</em> to request life and information of the device which is then just printed out in a text area:</p>
+<p><em>BatteryTestView.mxml</em></p>
+<pre><code>_batteryExtension = new Battery()<span class="comment">;</span>
+
+console<span class="preprocessor">.appendText</span>( <span class="string">"Battery State: "</span> + ( _batteryExtension<span class="preprocessor">.getBatteryState</span>() )<span class="preprocessor">.toString</span>() + <span class="string">"\n"</span> )<span class="comment">;</span></code></pre>
+<p>To generate my AIR application for iOS, was a two step process. First, I generated the application SWF targeting AIR mobile:</p>
+<pre><code>&gt; <span class="comment">/Users/todd/SDKs/flex_4</span>.<span class="comment">5_air_3rc1/bin/mxmlc</span> <span class="literal">+</span><span class="comment">configname=airmobile</span> <span class="literal">-</span><span class="comment">output</span> <span class="comment">build/iBatteryExample</span>.<span class="comment">swf</span> <span class="comment">src/iBatteryExample</span>.<span class="comment">mxml</span> <span class="literal">-</span><span class="comment">load</span>-<span class="comment">config</span>+<span class="comment">=battery_app</span>.<span class="comment">config</code></pre>
+<p>Again i used the <strong>+configname=airmobile</strong> directive to include the mobile SWC from the Adobe AIR SDK without defining the dependencies in an additional config file. I did, however, have an additional config file that defined the <strong>Native Extension</strong> (.ane file) to compile against as an external library:</p>
+<p><em>battery_app.config</em></p>
+<pre><code><span class="pi">&lt;?xml version="1.0"?&gt;</span>
+
+<span class="tag">&lt;<span class="title">flex-config</span> <span class="attribute">xmlns</span>=<span class="value">"[http://www.adobe.com/2006/flex-config](http://www.adobe.com/2006/flex-config)"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">compiler</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">external-library-path</span> <span class="attribute">append</span>=<span class="value">"true"</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">path-element</span>&gt;</span>ext/ibatteryextension.ane<span class="tag">&lt;/<span class="title">path-element</span>&gt;</span>
+
+        <span class="tag">&lt;/<span class="title">external-library-path</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">compiler</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">flex-config</span>&gt;</span></code></pre>
+<p>That generated an <em>iBatteryExample.swf</em> which was then used alongside an application descriptor file to compile and generate the <strong>.ipa</strong> file (application installer file for iOS). We can create that using the <strong>ADT</strong> command line tool:</p>
+<pre><code>&gt; <span class="comment">/Users/todd/SDKs/flex_4</span>.<span class="comment">5_air_3rc1/bin/adt</span> <span class="literal">-</span><span class="comment">package</span> <span class="literal">-</span><span class="comment">target</span> <span class="comment">ipa</span>-<span class="comment">test</span>-<span class="comment">interpreter</span> <span class="literal">-</span><span class="comment">provisioning</span>-<span class="comment">profile</span> <span class="comment">{path</span>.<span class="comment">to}</span>.<span class="comment">mobileprovision</span> <span class="literal">-</span><span class="comment">storetype</span> <span class="comment">pkcs12</span> <span class="literal">-</span><span class="comment">keystore</span> <span class="comment">{path</span>.<span class="comment">to}</span>.<span class="comment">developer_identity</span>.<span class="comment">p12</span> <span class="literal">-</span><span class="comment">storepass</span> <span class="comment">{pass}</span> <span class="string">.</span><span class="string">.</span><span class="comment">/release/iBatteryExample</span>.<span class="comment">ipa</span> <span class="comment">iBatteryExample</span>-<span class="comment">app</span>.<span class="comment">xml</span> <span class="comment">iBatteryExample</span>.<span class="comment">swf</span> <span class="literal">-</span><span class="comment">extdir</span> <span class="string">.</span><span class="string">.</span><span class="comment">/ext/</code></pre>
+<p>There are two things in this command that you should note. First off, you will need to replace the <em>{path.to}</em> and <em>{pass}</em> tokens to point to your iOS developer files and password, respectively. Second is the <em>-extdir</em> option. This defines where the application can locate the <strong>Native Extension</strong> (.ane file).</p>
+<p>And that was pretty much it for the application. Pretty basic, but a rather quick way to get up and running to allow someone to find information about their battery on an iOS device.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The addition of <strong>Native Extensions for Adobe AIR</strong> to the AIR SDK opens a lot of doors not only for native device integration but also to the experience you can provide in a mobile AIR application – with the biggest takeaway (as a developer) being that we no longer have to wait and see what gets exposed to us at the device-level in future <strong>AIR SDK</strong> releases. We can just write our own native extension now.</p>
+<p>Hopefully this article provided some insight on how to quickly get up and running in creating your own Native Extensions and how to incorporate them into your mobile AIR application. And it should be noted that though this example was iOS specific, the native library for an <strong>Native Extension for Adobe AIR</strong> is in no way restricted to that platform and you should really check out <a href="http://www.adobe.com/devnet/air/articles/extending-air.html#articlecontentAdobe_numberedheader_4">Oliver Goldman’s excellent article, Extending Adobe AIR on the Adobe DevNet</a>.</p>
+<p>The source discussed in this article can be found on <strong>github</strong> at <a href="https://github.com/bustardcelly/iBattery"><a href="http://github.com/bustardcelly/iBattery">http://github.com/bustardcelly/iBattery</a></a> and the <a href="http://www.custardbelly.com/downloads/air/ane/ibatteryextension.ane.zip">ibatteryextension.ane</a> itself (if you’d like to use it in your application) can be downloaded from this link.</p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/air/">AIR</a>, <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/flex-4-5/">Flex 4.5</a>, <a href="http://custardbelly.com/blog/category/native-extension-for-adobe-air/">Native Extension for Adobe AIR</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2011/09/27/new-github-repo-massroute-js/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2011/07/15/flex-4-5-hidden-additions/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2011/09/21/air-native-extension-example-ibattery-for-ios/index.html";
+        window.disqus_title="AIR Native Extension Example: iBattery for iOS";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

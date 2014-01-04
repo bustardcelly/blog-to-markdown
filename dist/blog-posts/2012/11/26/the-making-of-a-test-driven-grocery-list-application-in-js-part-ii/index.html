@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - The Making of a Test-Driven Grocery List Application in JS: Part II</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/index.html">The Making of a Test-Driven Grocery List Application in JS: Part II</a></h1>
+    <p>
+      2012 November 26th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p><em>This is the second installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
+<h1 id="introduction">Introduction</h1>
+<p>In the <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">previous article</a>, I covered the intent of developing a Test-Driven <strong>Grocery List</strong> application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a>, the <a href="http://dannorth.net/introducing-bdd/">BDD</a> testing framework for JavaScript.</p>
+<p>In this article, I want to address a single <a href="http://en.wikipedia.org/wiki/User_story">User Story</a> with a couple scenarios, using language similar to that describe in <a href="http://dannorth.net/introducing-bdd/">Dan Worth’s <em>Introducing BDD</em> article</a>, that will describe the specifications and expectations of one piece of the <strong>Grocery List</strong> application: adding an item.</p>
+<h1 id="requirements">Requirements</h1>
+<p>Instead of starting with code and project setup, let’s take a bite off the requirements of the <strong>Grocery List</strong> application and discuss a single usability point to start with.</p>
+<p>The intended use of the <strong>Grocery List</strong> application is to be able to add, check-off and delete items from a list. We’ll address the difference of checking-off items vs. deleting items in later posts, so for now we’ll be concerned with only adding an item. Let’s start with a simple story:</p>
+<p><em>// story</em><br>—<br><strong>Story:</strong> Item is added to grocery list</p>
+<p><strong>In order to</strong> remember what to pick up at the grocery store<br><strong>As a</strong> grocery shopper<br><strong>I want to</strong> add an item to a grocery list accessible when at the store.<br>—</p>
+<p>With this story, we can define some specification for the application as far as User Requirements. Now, this is where I often have a struggle with my inner ‘<em>lets-get-to-it!</em>‘ developer attitude and I have to keep concrete implementations in check for a bit.</p>
+<p><em>// spec</em><br>—<br><strong>Scenario 1:</strong> Item added to list<br><strong>Given</strong> a user requests to add an item to the list<br><strong>And</strong> has provided a name for the item<br><strong>When</strong> she requests to save the item<br><strong>Then</strong> the list has grown by one item<br><strong>And</strong> the list contains the item appended at the end<br>—</p>
+<p>A pretty basic scenario. It is hard for me to not go overboard here and cover every single aspect and moving piece at this stage – ie, how does this all happen? What is involved upon the first request? What UI has changed? How is a name provided? Shouldn’t all these be defined as well? All good questions. In my head, this scenario can be broken out into a handful of other scenarios. But I have to stand back and say that this is the scenario that I consider to be the business requirement at hand. This can be read and agreed upon by a third-party who is unfamiliar with the technology that will fulfill this requirement. If I can prove that this expectation is met successfully, the implementation is a by-product and can have additional test if seen fit. We can also add another scenario to this:</p>
+<p><em>// spec</em><br>—<br><strong>Scenario 2:</strong> Item not added to list<br><strong>Given</strong> the list has a single item<br><strong>And</strong> a user requests to add an item to the list<br><strong>And</strong> has not provided a name for the item<br><strong>When</strong> she requests to save the item<br><strong>Then</strong> the list has the same items as stored previously<br><strong>And</strong> the list does not add an empty-named item<br>—</p>
+<p>Now we are covering the requirements involved in adding an item to the <strong>Grocery List</strong>… and I always like to fill in a scenario of what it <em>doesn’t</em> do, because sometimes what it <em>doesn’t do</em> tells you more about what the system is supposed to do. Again, we can get exhaustive with UI and device event tests, but we don’t want to meddle down the specs at this point with concrete implementations.</p>
+<p>What I do find interesting from just these basic scenarios is that it does reveal some aspects of the application that will need to be addressed while creating the tests – mainly, a starter on the grocery item model schema and the API in conversing with a view controller to add and edit an item. </p>
+<h4 id="design-note">design note</h4>
+<p>It should be noted that I do prefer the design concept of <a href="http://martinfowler.com/eaaDev/SupervisingPresenter.html">Supervising Presenter</a> and will employ it within the tests and application, so you are forewarned <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> If you are unfamiliar, a <strong>Supervising Presenter</strong> is knowledgable of the view and model and provides an API that allows for an outside party to affect each, but mostly in affecting the attributes on the model that are observed by the view. Consequently, it will also allow us to not worry to much about the view implementation and User-based events when resolving logical requirements. I don’t plan to incorporate any application framework that provides such a pattern, so a basic view controller (supervising presenter) will essentially be in charge of modifying the view and model in the <strong>Grocery List</strong> application that will be built. </p>
+<p>Architecture, design patterns and the pros and cons of frameworks are things I am more than willing to discuss over beers <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> I just wanted to give you a heads up.</p>
+<h2 id="test">Test</h2>
+<p>I suppose we should address some set-up as this is the first post. <a href="http://pivotal.github.com/jasmine/">Jasmine</a> tests are described in a JavaScript file related to a (typically, single) specification of the application requirements, and those <strong>specs</strong> are run in what is considered a <strong>spec-runner</strong>. The browser-based <a href="http://pivotal.github.com/jasmine/">Jasmine</a> library comes with support for reporting in an HTML document.</p>
+<p>Here is an example of the <strong>specrunner.html</strong> from <em>/test/jasmine</em> directory of the github repo for <a href="https://github.com/bustardcelly/grocery-ls">grocery-ls</a>:</p>
+<pre><code><span class="doctype">&lt;!DOCTYPE html"&gt;</span>
+
+<span class="tag">&lt;<span class="title">html</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>grocery-ls Spec Runner<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span> <span class="attribute">href</span>=<span class="value">"lib/jasmine-1.2.0/jasmine.css"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"../../lib/require-2.1.1.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"lib/jasmine-1.2.0/jasmine.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"lib/jasmine-1.2.0/jasmine-html.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"lib/jasmine.async.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"lib/sinon-1.5.0.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+
+
+    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+
+      (<span class="keyword">function</span>( window, require ) {
+
+
+
+        require.config({
+
+          baseUrl: <span class="string">"../.."</span>,
+
+          paths: {
+
+            <span class="string">"spec"</span>: <span class="string">"./test/jasmine/spec"</span>,
+
+            <span class="string">"script"</span>: <span class="string">"./script"</span>,
+
+            <span class="string">"jquery"</span>: <span class="string">"./lib/jquery-1.8.3.min.js"</span>
+
+          }
+
+        });
+
+
+
+        require( [<span class="string">'spec/newitem.spec.js'</span>], <span class="keyword">function</span>() {
+
+
+
+          <span class="keyword">var</span> jasmineEnv = jasmine.getEnv(),
+
+              htmlReporter = <span class="keyword">new</span> jasmine.HtmlReporter();
+
+
+
+          jasmineEnv.updateInterval = <span class="number">1000</span>;
+
+          jasmineEnv.addReporter(htmlReporter);
+
+          jasmineEnv.execute();
+
+
+
+        });  
+
+
+
+      }(window, requirejs));
+
+    </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+
+
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+
+<span class="tag">&lt;<span class="title">body</span>&gt;</span><span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
+<p>In the spec runner, we have included the library scripts described previously in the <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">previous post</a>. One thing to note, is the use of <a href="http://requirejs.org/">RequireJS</a>. In order to support <a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a>, we instruct <strong>RequireJS</strong> to load the <strong>Jasmine</strong> specs defined in JavaScript files prior to setting the environment and executing the specs. Normally, when not incorporating <strong>RequireJS</strong>, you would just add the specs as script tags in the head. An important part of using <strong>RequireJS</strong> is setting the proper paths in the configuration. This allows <strong>RequireJS</strong> to find the proper dependencies not only in the spec itself, but in any concrete implementations separate from the specs. In this example we have set the <em>baseURL</em> to the root of the project directory and define the keyword “<em>spec</em>” as pointing to the <strong>Jasmine</strong> spec directory we have set up. If you checkout the <a href="https://github.com/bustardcelly/grocery-ls">project from the repo</a>, the directory structure and the <strong>RequireJS</strong> configuration paths hopefully will make things clearer.</p>
+<p>That’s just a quick introduction to the spec runner. I may not discuss it further in later posts aside from appending specs to the <em>require()</em> invocation. Without additional headless tooling (which may be covered later), when I run the tests I will simply load the spec runner in a browser.</p>
+<h2 id="new-item-specifications">New-Item Specifications</h2>
+<p>Back to the task at hand… we have to verify the adding of an item to our <strong>Grocery List</strong>. The make up of a spec file should be addressed, especially when incorporating <a href="http://requirejs.org">RequireJS</a> in our application and tests. We need to start off with a <em>define()</em>, which is a <strong>RequireJS</strong> method to define an <strong>AMD</strong> module – what we are loading from the spec runner are <strong>Jasmine</strong> spec modules, essentially. Within the <strong>Jasmine</strong> spec file itself, we will be primarily concerned with 3 methods:</p>
+<ul>
+<li><strong>describe</strong> : encapsulates a suite of specifications</li>
+<li><strong>it</strong> : defines a specification</li>
+<li><strong>expect</strong> : executes a test against matchers that verify expectations</li>
+</ul>
+<p>That list is hierarchical – expectations are defined in a suite of specifications. I will start off using the basic matchers that come with <a href="http://pivotal.github.com/jasmine/">Jasmine</a>, but may cover creating custom ones if need be while I develop the <strong>Grocery List</strong> application. It is also important to note that suites can be nested and <strong>Jasmine</strong> is knowledgable enough to execute the tree of specifications appropriately.</p>
+<p>Along with those methods that involve expectations of a suite of specifications, there are also two helper methods that I will employ often: <em>beforeEach()</em> and <em>afterEach()</em>. If you are already familiar with unit testing, these are the <strong>setup</strong> and <strong>teardown</strong> methods and will be executed before and after each specification, respectively. They aide in performing common tasks across a suite of specifications that basically setup and teardown dependencies for expectations.</p>
+<p><em>Again all of this is a basic overview to actually get to the spec file itself. Definitely checkout the <a href="http://pivotal.github.com/jasmine/">Jasmine documentation</a> for finer detail.</em></p>
+<h2 id="failing">Failing</h2>
+<p>With this knowledge, we can create a basic skeleton of the spec file to cover the scenarios described before:<br>/test/jasmine/spec/newitem.spec.js</p>
+<pre><code>define( function() {
+
+
+
+  describe('User requests <span class="keyword">to</span> add new <span class="property">item</span>', function() {
+
+
+
+    <span class="keyword">it</span>('should save new <span class="property">item</span> when <span class="property">name</span> supplied', function() {
+
+        expect(<span class="constant">false</span>).toBe(<span class="constant">true</span>);
+
+    });
+
+
+
+    <span class="keyword">it</span>('should <span class="keyword">not</span> save new <span class="property">item</span> when <span class="property">name</span> <span class="keyword">not</span> supplied', function() {
+
+        expect(<span class="constant">false</span>).toBe(<span class="constant">true</span>);
+
+    });
+
+
+
+  });
+
+
+
+});</code></pre>
+<p>This spec encompasses the story and specifications we defined previously in this post, and has two failing expectations – typically, when setting up a suite of specifications and just defining specifications that I will return to in order to complete, I throw in a failing expectation. We are describing our ‘add item to grocery list’ story with the two specifications: <strong>1)</strong> allowing an item to be added that has a valid name and <strong>2)</strong> not allowing an item to be added without a valid name.</p>
+<p>Now, just working through the employment of a view controller/presenter and the API to expose in order to properly define the requirement of adding an item to the list in the specification, we can come to a handful of requirements in order to successfully fulfill these specs:</p>
+<ul>
+<li>A grocery item model that exposes a “name” property</li>
+<li>A list view controller/presenter that exposes an API to:</li>
+<li>add/create a new item</li>
+<li>modify a newly added/created item</li>
+<li>save an item to the list</li>
+</ul>
+<p>Additionally, we will want to run the request to add at least one item to the list in order to meet expectations in each specification defined. As such, and without any concrete implementations or stubs, we can modify the spec to include the setup and teardown of the controller that will get us to the expectations of the spec:</p>
+<p><em>/test/jasmine/spec/newitem.spec.js</em></p>
+<pre><code>describe('User requests <span class="keyword">to</span> add new <span class="property">item</span>', function() {
+
+
+
+    var listController = {
+
+              editableItem: undefined,
+
+              itemList: []
+
+          };
+
+
+
+    beforeEach( function() {
+
+      listController.createNewItem();
+
+      listController.editFocusedItem('apples');
+
+      listController.saveFocusedItem();
+
+    });
+
+
+
+    <span class="keyword">it</span>('should save new <span class="property">item</span> when <span class="property">name</span> supplied', function() {
+
+      expect(<span class="constant">false</span>).toBe(<span class="constant">true</span>);
+
+    });
+
+
+
+    <span class="keyword">it</span>('should <span class="keyword">not</span> save new <span class="property">item</span> when <span class="property">name</span> <span class="keyword">not</span> supplied', function() {
+
+      expect(<span class="constant">false</span>).toBe(<span class="constant">true</span>);
+
+    });
+
+
+
+    afterEach( function() {
+
+      listController.itemList = [];
+
+      listController.editableItem = undefined;
+
+    });
+
+
+
+  });</code></pre>
+<p>Before each spec is entered, the list controller is requested to create a new item, modify it and save it to the list. After each spec, reference to the newly created item is returned to an undefined value and the list is emptied. All this will fail if you run it – even before getting to the specifications; the <em>listController</em> variable only exposes the item and list properties and does not provide the API we have defined in the <em>beforeEach()</em> method. </p>
+<p>Now we could go about stubbing the <em>listController</em> out with an API, like such:</p>
+<pre><code>sinon<span class="preprocessor">.stub</span>(listController, <span class="string">"createNewItem"</span>, function() {
+
+    listController<span class="preprocessor">.editableItem</span> = {}<span class="comment">;</span>
+
+})<span class="comment">;</span></code></pre>
+<p>… but, in instances like such, I’d rather just modify the object directly and then move the implementation to its own <strong>AMD</strong> module. We will get into stubbing and mocking in later posts – as it is very useful – but for now, to keep things a little more simpler, I will define the makeup of the <em>listController</em> on itself directly:</p>
+<p><em>/test/jasmine/spec/newitem.spec.js</em></p>
+<pre><code><span class="keyword">var</span> itemProperties = <span class="keyword">function</span>(id) {
+
+      <span class="keyword">return</span> {
+
+        <span class="string">"id"</span>: {
+
+          value: id,
+
+          writable: <span class="literal">false</span>,
+
+          enumerable: <span class="literal">true</span>
+
+        },
+
+        <span class="string">"name"</span>: {
+
+          value: <span class="string">''</span>,
+
+          writable: <span class="literal">true</span>,
+
+          enumerable: <span class="literal">true</span>
+
+        }
+
+      };
+
+    },
+
+    listController = {
+
+      itemList: [],
+
+      editableItem: <span class="literal">undefined</span>,
+
+      createNewItem: <span class="keyword">function</span>() {
+
+        <span class="keyword">this</span>.editableItem = Object.create(Object.prototype, itemProperties(<span class="keyword">new</span> Date().getTime()));
+
+      },
+
+      editFocusedItem: <span class="keyword">function</span>(name) {
+
+        <span class="keyword">this</span>.editableItem.name = name;
+
+      },
+
+      saveFocusedItem: <span class="keyword">function</span>() {
+
+        <span class="keyword">if</span>( <span class="keyword">this</span>.editableItem.name.length !== <span class="number">0</span> ) {
+
+          <span class="keyword">this</span>.itemList.push(<span class="keyword">this</span>.editableItem);
+
+        }
+
+        <span class="keyword">this</span>.editableItem = <span class="literal">undefined</span>;
+
+      }
+
+    };</code></pre>
+<p>The <em>listController</em> now exposes the methods for creation, edit and save of an item and internally updates the property values of <em>itemList</em> and <em>editableItem</em>. As well, you will notice how a new item is generated using the <em>Object.create()</em> method and supplying a <em>defineProperties</em> object with an immutable “<em>id</em>” property and a mutable “<em>name</em>” property. With the <em>listController</em> fleshed out a bit more, we can return to the specs and defined some expectations. Remembering that we instruct the <em>listController</em> to create, modify and save an item to the list in the <em>beforeEach()</em> method fo the spec suite, we can modify the first spec that pertains to the successful add of an item:</p>
+<p><em>/test/jasmine/spec/newitem.spec.js</em></p>
+<pre><code><span class="keyword">it</span>('should save new <span class="property">item</span> when <span class="property">name</span> supplied', function() {
+
+  expect(listController.itemList.<span class="property">length</span>).toBe(<span class="number">1</span>);
+
+  expect(listController.itemList[<span class="number">0</span>]).<span class="keyword">not</span>.toBe(undefined);
+
+  expect(listController.itemList[<span class="number">0</span>].hasOwnProperty('<span class="property">name</span>')).toBe(<span class="constant">true</span>);
+
+  expect(listController.itemList[<span class="number">0</span>].<span class="property">name</span>).toBe('apples');
+
+});</code></pre>
+<p>It can be debated about the number of expectations per spec and whether each expectation should be split into their respective spec. I see pros and cons with both styles, but I mainly strive to keep “noise” to a minimum in my tests – meaning i will sacrifice listing a handful of expectations around a single specification in order for the progression and specification suite to be more “readable”. In this case, I am just verifying that an item has been added and retained by the list exposed on <em>listController</em>, and that the item that resides in the list matches that which was added.</p>
+<p>Likewise, to complete the other specification of not being able to add an item that does not have an name attributed to it:<br><em>/test/jasmine/spec/newitem.spec.js</em></p>
+<pre><code><span class="keyword">it</span>('should <span class="keyword">not</span> save new <span class="property">item</span> when <span class="property">name</span> <span class="keyword">not</span> supplied', function() {
+
+  listController.createNewItem();
+
+  listController.saveFocusedItem();
+
+  expect(listController.itemList.<span class="property">length</span>).toBe(<span class="number">1</span>);
+
+  expect(listController.itemList[<span class="number">0</span>].<span class="property">name</span>).toBe('apples');
+
+});</code></pre>
+<p>In this specification, we are requesting to create and save a new item through the <em>listController</em> API. Remembering that an item has already been added from the <em>beforeEach()</em> method, after the <em>saveFocusedItem()</em> request, the list should only contain the item added previously.</p>
+<h2 id="passing">Passing</h2>
+<p>If we ran the spec runner, we would see our specifications pass:<br><img src="http://custardbelly.com/blog/images/jasmine_1.png" alt="new item passing spec"></p>
+<p>Whoopee! The following is the whole spec file:</p>
+<p><em>/test/jasmine/spec/newitem.spec.js</em></p>
+<pre><code>define( <span class="reserved">function</span>() {
+
+
+
+  <span class="reserved">var</span> itemProperties = <span class="reserved">function</span>(id) {
+
+        <span class="keyword">return</span> {
+
+          <span class="string">"id"</span>: {
+
+            value: id,
+
+            writable: <span class="literal">false</span>,
+
+            enumerable: <span class="literal">true</span>
+
+          },
+
+          <span class="string">"name"</span>: {
+
+            value: <span class="string">''</span>,
+
+            writable: <span class="literal">true</span>,
+
+            enumerable: <span class="literal">true</span>
+
+          }
+
+        };
+
+      },
+
+      listController = {
+
+        itemList: [],
+
+        editableItem: <span class="literal">undefined</span>,
+
+        createNewItem: <span class="reserved">function</span>() {
+
+          <span class="keyword">this</span>.editableItem = Object.create(Object.prototype, itemProperties(<span class="keyword">new</span> Date().getTime()));
+
+        },
+
+        editFocusedItem: <span class="reserved">function</span>(name) {
+
+          <span class="keyword">this</span>.editableItem.name = name;
+
+        },
+
+        saveFocusedItem: <span class="reserved">function</span>() {
+
+          <span class="keyword">if</span>( <span class="keyword">this</span>.editableItem.name.length !== <span class="number">0</span> ) {
+
+            <span class="keyword">this</span>.itemList.push(<span class="keyword">this</span>.editableItem);
+
+          }
+
+          <span class="keyword">this</span>.editableItem = <span class="literal">undefined</span>;
+
+        }
+
+      },
+
+      itemName = <span class="string">'apples'</span>;
+
+
+
+  describe(<span class="string">'List Controller creates a new item'</span>, <span class="reserved">function</span>() {
+
+
+
+    beforeEach( <span class="reserved">function</span>() {
+
+      listController.createNewItem();
+
+    });
+
+
+
+    it(<span class="string">'should expose the editableItem upon creation'</span>, <span class="reserved">function</span>() {
+
+      <span class="reserved">var</span> createdItem = listController.editableItem;
+
+      expect(createdItem).<span class="keyword">not</span>.toBeUndefined();
+
+      expect(<span class="keyword">typeof</span> createdItem.name).toBe(<span class="string">'string'</span>);
+
+      expect(createdItem.name.length).toBe(<span class="number">0</span>);
+
+    });
+
+
+
+    afterEach( <span class="reserved">function</span>() {
+
+      listController.editableItem = <span class="literal">undefined</span>;
+
+    });
+
+
+
+  });
+
+
+
+  describe(<span class="string">'User requests to add new item'</span>, <span class="reserved">function</span>() {
+
+
+
+    beforeEach( <span class="reserved">function</span>() {
+
+      listController.createNewItem();
+
+      listController.editFocusedItem(itemName);
+
+      listController.saveFocusedItem();
+
+    });
+
+
+
+    it(<span class="string">'should save new item when name supplied'</span>, <span class="reserved">function</span>() {
+
+      expect(listController.itemList.length).toBe(<span class="number">1</span>);
+
+      expect(listController.itemList[<span class="number">0</span>]).<span class="keyword">not</span>.toBe(<span class="literal">undefined</span>);
+
+      expect(listController.itemList[<span class="number">0</span>].hasOwnProperty(<span class="string">'name'</span>)).toBe(<span class="literal">true</span>);
+
+      expect(listController.itemList[<span class="number">0</span>].name).toBe(itemName);
+
+    });
+
+
+
+    it(<span class="string">'should not save new item when name not supplied'</span>, <span class="reserved">function</span>() {
+
+      listController.createNewItem();
+
+      listController.saveFocusedItem();
+
+      expect(listController.itemList.length).toBe(<span class="number">1</span>);
+
+      expect(listController.itemList[<span class="number">0</span>].name).toBe(itemName);
+
+    });
+
+
+
+    afterEach( <span class="reserved">function</span>() {
+
+      listController.itemList = [];
+
+      listController.editableItem = <span class="literal">undefined</span>;
+
+    });
+
+
+
+  });
+
+
+
+});</code></pre>
+<p>You may notice that I snuck in another little specification revolved around the creation and exposure of a new item through the <em>listController</em> – that is because I am anal and additionally wanted to ensure that the <em>listController</em> responded properly as I saw fit upon creation of a new item.</p>
+<p>Of course, at this point the design of the controller can be debated – and it is a much welcome discussion. I setup <em>listController</em> as it is with the following requirements:</p>
+<ul>
+<li>View implementation is abstracted away. <em>In fact there is absolutely no communication with the DOM to make these specifications pass. It will be the controller’s responsibility on how the view is updated based on the exposed API.</em></li>
+<li>Only one item will be editable at any given time within the application session. <em>This may be later determined as an oversight, but that is the requirement I have set at the moment… and if we need multiple editable items, we’ll modify our tests and refactor!</em></li>
+<li>The list of items is accessible and mutable on the controller. <em>This is a requirement that will likely change as the addition and removal of items will have some impact on the supervised view, likely leading to the an API to modify the list replacing the direct access.</em></li>
+</ul>
+<p><strong>Tagged</strong> 0.1.0: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.0"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.0">https://github.com/bustardcelly/grocery-ls/tree/0.1.0</a></a></p>
+<h3 id="implementation">Implementation</h3>
+<p>Typically, after having passed specifications, I like to move the work to actual implementations of the application. It is similar to the concept of <a href="http://cumulative-hypotheses.org/2011/08/30/tdd-as-if-you-meant-it/"><em>TDD like you mean it</em></a>, but I don’t think I strictly adhere to that principle. In any event, we can move the implementation of the <em>listController</em> from the <strong>newitem.spec</strong> to its own <strong>AMD</strong> module define that as a dependency for our spec.</p>
+<p>Very simply, we could rip the object declarations from <strong>newitem.spec.js</strong> and drop them into a new <strong>AMD</strong> module and define the <em>listController</em> export for dependency reference in the spec:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code>define(<span class="keyword">function</span>() {
+
+  <span class="keyword">var</span> itemProperties = <span class="keyword">function</span>(id) {
+
+        <span class="keyword">return</span> {
+
+          <span class="string">"id"</span>: {
+
+            value: id,
+
+            writable: <span class="literal">false</span>,
+
+            enumerable: <span class="literal">true</span>
+
+          },
+
+          <span class="string">"name"</span>: {
+
+            value: <span class="string">''</span>,
+
+            writable: <span class="literal">true</span>,
+
+            enumerable: <span class="literal">true</span>
+
+          }
+
+        };
+
+      },
+
+      listController = {
+
+        itemList: [],
+
+        editableItem: <span class="literal">undefined</span>,
+
+        createNewItem: <span class="keyword">function</span>() {
+
+          <span class="keyword">this</span>.editableItem = Object.create(Object.prototype, itemProperties(<span class="keyword">new</span> Date().getTime()));
+
+        },
+
+        editFocusedItem: <span class="keyword">function</span>(name) {
+
+          <span class="keyword">this</span>.editableItem.name = name;
+
+        },
+
+        saveFocusedItem: <span class="keyword">function</span>() {
+
+          <span class="keyword">if</span>( <span class="keyword">this</span>.editableItem.name.length !== <span class="number">0</span> ) {
+
+            <span class="keyword">this</span>.itemList.push(<span class="keyword">this</span>.editableItem);
+
+          }
+
+          <span class="keyword">this</span>.editableItem = <span class="literal">undefined</span>;
+
+        }
+
+      };
+
+
+
+  <span class="keyword">return</span> listController;
+
+});</code></pre>
+<p><em>/test/jasmine/spec/newitem.spec.js</em></p>
+<pre><code><span class="function"><span class="title">define</span><span class="params">( ['script/controller/list-controller'], <span class="keyword">fun</span><span class="function_name">ction</span>(list<span class="variable">Controller</span>) <span class="tuple">{
+
+
+
+  var item<span class="variable">Name</span> = 'apples';
+
+
+
+  <span class="function_name">describe</span>('<span class="variable">List</span> <span class="variable">Controller</span> creates a new item', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+
+
+    <span class="function_name">beforeEach</span>( <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+      list<span class="variable">Controller</span>.<span class="function_name">createNewItem</span>();
+
+    }</span>);
+
+
+
+    <span class="function_name">it</span>('should expose the editable<span class="variable">Item</span> upon creation', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+      <span class="function_name">expect</span>(list<span class="variable">Controller</span>.editable<span class="variable">Item</span>).not.<span class="function_name">toBeUndefined</span>();
+
+    }</span>);
+
+
+
+    <span class="function_name">afterEach</span>( <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+      list<span class="variable">Controller</span>.editable<span class="variable">Item</span> = undefined;
+
+    }</span>);
+
+
+
+  });
+
+
+
+  <span class="function_name">describe</span>('<span class="variable">User</span> requests to add new item', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+
+
+    <span class="function_name">beforeEach</span>( <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+      list<span class="variable">Controller</span>.<span class="function_name">createNewItem</span>();
+
+      list<span class="variable">Controller</span>.<span class="function_name">editFocusedItem</span>(item<span class="variable">Name</span>);
+
+      list<span class="variable">Controller</span>.<span class="function_name">saveFocusedItem</span>();
+
+    }</span>);
+
+
+
+    <span class="function_name">it</span>('should save new item when name supplied', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+      <span class="function_name">expect</span>(list<span class="variable">Controller</span>.item<span class="variable">List</span>.length).<span class="function_name">toBe</span>(<span class="number">1</span>);
+
+      <span class="function_name">expect</span>(list<span class="variable">Controller</span>.item<span class="variable">List</span>[<span class="number">0</span>]).not.<span class="function_name">toBe</span>(undefined);
+
+      <span class="function_name">expect</span>(list<span class="variable">Controller</span>.item<span class="variable">List</span>[<span class="number">0</span>].<span class="function_name">hasOwnProperty</span>('name')).<span class="function_name">toBe</span>(true);
+
+      <span class="function_name">expect</span>(list<span class="variable">Controller</span>.item<span class="variable">List</span>[<span class="number">0</span>].name).<span class="function_name">toBe</span>(item<span class="variable">Name</span>);
+
+    }</span>);
+
+
+
+    <span class="function_name">it</span>('should not save new item when name not supplied', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+      list<span class="variable">Controller</span>.<span class="function_name">createNewItem</span>();
+
+      list<span class="variable">Controller</span>.<span class="function_name">saveFocusedItem</span>();
+
+      <span class="function_name">expect</span>(list<span class="variable">Controller</span>.item<span class="variable">List</span>.length).<span class="function_name">toBe</span>(<span class="number">1</span>);
+
+      <span class="function_name">expect</span>(list<span class="variable">Controller</span>.item<span class="variable">List</span>[<span class="number">0</span>].name).<span class="function_name">toBe</span>(item<span class="variable">Name</span>);
+
+    }</span>);
+
+
+
+    <span class="function_name">afterEach</span>( <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+      list<span class="variable">Controller</span>.item<span class="variable">List</span> = [];
+
+      list<span class="variable">Controller</span>.editable<span class="variable">Item</span> = undefined;
+
+    }</span>);
+
+
+
+  });
+
+
+
+});</code></pre>
+<p>In the modified <strong>newitem.spec.js</strong>, we have defined the dependency on the <em>list-controller</em> module which is then referenced using <em>listController</em>. Running that will result in the same successful expectations as before. You may notice that the dependency for the <em>listController</em> is defined as <em>’script/controller/list-controller’</em>. The <em>’script’</em> directory is defined in the <strong>RequireJS</strong> configuration in the spec runner file discussed previously in this post – it will know how to resolve its location and load the controller file.</p>
+<p>Now is where, typically, as modifications to <em>list-controller</em> are made in response to new requirements and specifications, stubbing comes into play within my specs more. If an addition or change to the API of <em>list-controller</em> is required for a new story, then in the specification test I would implement that API using stubs, then move the implementation to the <em>list-controller</em> module once they pass.</p>
+<p><strong>Tagged</strong>, 0.1.1: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.1"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.1">https://github.com/bustardcelly/grocery-ls/tree/0.1.1</a></a></p>
+<h3 id="usability">Usability</h3>
+<p>Because I can’t leave well-enough alone, I want to hook up this functionality to User response <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>Available in the repo at the current revision up to this point (tagged <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.1">0.1.1</a>), there is a main index file that I have not addressed in this post:</p>
+<p><em>/index.html</em></p>
+<pre><code><span class="doctype">&lt;!DOCTYPE html&gt;</span>
+
+<span class="tag">&lt;<span class="title">html</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>grocery-ls<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+
+  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">header</span>&gt;</span>
+
+      <span class="tag">&lt;<span class="title">h1</span>&gt;</span>grocery-ls<span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">header</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">section</span> <span class="attribute">class</span>=<span class="value">"groceries"</span>&gt;</span>
+
+      <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">class</span>=<span class="value">"grocery-list"</span>&gt;</span><span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+
+      <span class="tag">&lt;<span class="title">button</span> <span class="attribute">id</span>=<span class="value">"add-item-button"</span>&gt;</span>add item<span class="tag">&lt;/<span class="title">button</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">section</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"lib/require-2.1.1.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"script/grocery-ls.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
+<p>The page just defines an unordered list to display grocery items (editable &amp; uneditable) and a button to add an item to the list. As well, we have included the <a href="http://requirejs.org/">RequireJS</a> library and a main JS file for the <strong>Grocery List</strong> application:</p>
+<p><em>/script/grocery-ls.js</em></p>
+<pre><code><span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="title">window</span><span class="body">, require)</span></span> {
+
+
+
+  require.config<span class="list">(<span class="body">{
+
+    baseUrl: <span class="string">"."</span>,
+
+    paths: {
+
+      <span class="string">"lib"</span>: <span class="string">"./lib"</span>,
+
+      <span class="string">"script"</span>: <span class="string">"./script"</span>,
+
+      <span class="string">"jquery"</span>: <span class="string">"./lib/jquery-1.8.3.min"</span>
+
+    }
+
+  })</span></span><span class="comment">;</span>
+
+
+
+  require<span class="list">(<span class="body"> ['jquery', 'script/controller/list-controller'], function<span class="list">(<span class="body">$, listController)</span></span> {
+
+    listController.setView<span class="list">(<span class="body">$<span class="list">(<span class="body">'section.groceries')</span></span>)</span></span><span class="comment">;</span>
+
+  })</span></span><span class="comment">;</span>
+
+
+
+}<span class="list">(<span class="title">window</span><span class="body">, requirejs)</span></span>)</span></span><span class="comment">;</span></code></pre>
+<p>The configuration paths, you are familiar with when we set up the specrunner for our <a href="http://pivotal.github.com/jasmine/">Jasmine</a> tests. Additionally, we are asking <strong>RequireJS</strong> to load the ‘<em>jquery</em>‘ and ‘<em>list-controller</em>‘ dependencies, after which, the <em>list-controller</em> is given a reference to the DOM element it will supervise: the <strong>section</strong> element with the <strong>class</strong> attribute value of ‘<em>groceries</em>‘.</p>
+<p>The <em>list-controller</em> will now have more responsibility in updating the view based on invocations of the API we have previously defined for our specifications:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code><span class="xml">define(['jquery', 'script/model/grocery-ls-item'], function($, itemModel) {
+
+
+
+  var </span><span class="variable">$view</span><span class="xml">,
+
+      </span><span class="variable">$item</span><span class="xml">,
+
+      </span><span class="variable">$itemList</span><span class="xml">,
+
+      itemFragment              = '<span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"grocery-item"</span> /&gt;</span>',
+
+      editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"editable-grocery-item"</span>&gt;</span>' +
+
+                                '<span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"editableItem"</span> <span class="attribute">name</span>=<span class="value">"editableItem"</span> ' +
+
+                                  '<span class="attribute">class</span>=<span class="value">"editable-item"</span> <span class="attribute">placeholder</span>=<span class="value">"Enter item name..."</span>&gt;</span>' +
+
+                                '<span class="tag">&lt;/<span class="title">input</span>&gt;</span>' +
+
+                              '<span class="tag">&lt;/<span class="title">li</span>&gt;</span>',
+
+      findItemList = function() {
+
+        if( typeof </span><span class="variable">$itemList</span><span class="xml"> === 'undefined' ) {
+
+          </span><span class="variable">$itemList</span><span class="xml"> = $('.grocery-list', </span><span class="variable">$view</span><span class="xml">);
+
+        }
+
+        return </span><span class="variable">$itemList</span><span class="xml">;
+
+      },
+
+      listController = {
+
+        itemList: [],
+
+        editableItem: undefined,
+
+        setView: function(value) {
+
+          var controller = this;
+
+          </span><span class="variable">$view</span><span class="xml"> = $(value);
+
+          $('#add-item-button', this.</span><span class="variable">$view</span><span class="xml">).on( 'click', function(event) {
+
+            controller.createNewItem();
+
+          });
+
+        },
+
+        createNewItem: function() {
+
+          var </span><span class="variable">$list</span><span class="xml"> = findItemList(),
+
+              </span><span class="variable">$input</span><span class="xml">,
+
+              controller = this;
+
+
+
+          this.editableItem = itemModel.create();
+
+          </span><span class="variable">$item</span><span class="xml"> = $(editableItemFragment);
+
+          </span><span class="variable">$input</span><span class="xml"> = $('input', </span><span class="variable">$item</span><span class="xml">);
+
+          </span><span class="variable">$input.first</span><span class="xml">().bind( 'blur', function(event) {
+
+            var </span><span class="variable">$this</span><span class="xml"> = $(this);
+
+
+
+            </span><span class="variable">$this.unbind</span><span class="xml">('blur');
+
+            controller.editFocusedItem( </span><span class="variable">$this.val</span><span class="xml">() );
+
+            controller.saveFocusedItem();
+
+          });
+
+
+
+          </span><span class="variable">$item.data</span><span class="xml">('gls-item', this.editableItem);
+
+          </span><span class="variable">$list.append</span><span class="xml">(</span><span class="variable">$item</span><span class="xml">);
+
+          </span><span class="variable">$input.first</span><span class="xml">().focus();
+
+        },
+
+        editFocusedItem: function(name) {
+
+          this.editableItem.name = name;
+
+        },
+
+        saveFocusedItem: function() {
+
+          var </span><span class="variable">$list</span><span class="xml"> = findItemList();
+
+              </span><span class="variable">$itemFragment</span><span class="xml"> = $(itemFragment);
+
+
+
+          </span><span class="variable">$item.remove</span><span class="xml">();
+
+          if( this.editableItem.name.length &gt; </span><span class="number">0</span><span class="xml"> ) {
+
+            </span><span class="variable">$itemFragment.append</span><span class="xml">('p').text(this.editableItem.name);
+
+            </span><span class="variable">$itemFragment.data</span><span class="xml">('gls-item', this.editableItem);
+
+            </span><span class="variable">$list.append</span><span class="xml">(</span><span class="variable">$itemFragment</span><span class="xml">);
+
+            this.itemList.push(this.editableItem);
+
+          }
+
+          this.editableItem = undefined;
+
+        }
+
+      };
+
+
+
+  return listController;
+
+
+
+});</span></code></pre>
+<p><em>/script/model/grocery-ls-item.js</em></p>
+<pre><code>define(<span class="keyword">function</span>() {
+
+
+
+  <span class="keyword">var</span> properties = <span class="keyword">function</span>(id) {
+
+    <span class="keyword">return</span> {
+
+      <span class="string">"id"</span>: {
+
+        value: id,
+
+        writable: <span class="literal">false</span>,
+
+        enumerable: <span class="literal">true</span>
+
+      },
+
+      <span class="string">"name"</span>: {
+
+        value: <span class="string">''</span>,
+
+        writable: <span class="literal">true</span>,
+
+        enumerable: <span class="literal">true</span>
+
+      }
+
+    };
+
+  };
+
+
+
+  <span class="keyword">return</span> {
+
+    create: <span class="keyword">function</span>() {
+
+      <span class="keyword">return</span> Object.create(Object.prototype, properties(<span class="keyword">new</span> Date().getTime()));
+
+    }
+
+  };
+
+
+
+});</code></pre>
+<p>The modifications to the <em>list-controller</em> from it’s previous implementation mainly involve access and modification of the DOM in response to requests on its API. If we ran the <a href="http://pivotal.github.com/jasmine/">Jasmine</a> spec we previously created – <strong>newitem.spec.js</strong> – it would still pass. If the main <strong>index.html</strong> file is loaded in a browser, you will be able to add an item by clicking the button and as long as you provide a name in the input field, it will be added to the list.</p>
+<p><img src="http://custardbelly.com/blog/images/jasmine1_app.png" alt="grocery list app version 0.1.2"></p>
+<p>We could (and perhaps some readers would say that I <em>should</em> have) created more specs that defined the usability and expectations of DOM manipulation on response to API invocations on the <em>list-controller</em>. It is a valid point and I totally agree. At this point I don’t want to add noise with the user interface implementations in the specifications; the view implementation is subject to change and the API on the <em>list-controller</em> currently supports the modification of the grocery list. We can be assured at the current moment that the <em>list-controller</em> knows how to manage the list and we should not worry about what User impetus invokes the API.</p>
+<p>Perhaps in later posts I will see the error of my ways in letting this go…</p>
+<p><strong>Tagged</strong>, 0.1.2: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.2"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.2">https://github.com/bustardcelly/grocery-ls/tree/0.1.2</a></a></p>
+<h1 id="conclusion">Conclusion</h1>
+<p>We went through the first story, scenarios and specifications of the <strong>Grocery List</strong> application that will be built throughout this series. A tonne of information was covered and if you stayed with me, I appreciate it. In the end we have a passing spec suite for the creation and add of a grocery item through a list view controller. We moved the implementation of the controller and model from the spec to their respective <strong>AMD</strong> modules and allowed for user interaction with the application to perform the creation and add operations.</p>
+<p>Thanks for sticking around. I hope this series proves to be helpful in some way.</p>
+<p>—-</p>
+<h1 id="link-dump">Link Dump</h1>
+<h2 id="post-series">Post Series</h2>
+<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
+<h2 id="reference">Reference</h2>
+<p><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://cumulative-hypotheses.org/2011/08/30/tdd-as-if-you-meant-it/">TDD as if you Meant it by Keith Braithwaite</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a></p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/index.html";
+        window.disqus_title="The Making of a Test-Driven Grocery List Application in JS: Part II";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - Flex 4 and Runtime style sheets</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2010/10/20/flex-4-and-runtime-style-sheets/index.html">Flex 4 and Runtime style sheets</a></h1>
+    <p>
+      2010 October 20th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p>I just put up some files on <a href="http://github.com/bustardcelly/">github</a> under the project name <a href="http://github.com/bustardcelly/flex-runtime-css"><strong>flex-runtime-css</strong></a>. Perhaps it is a misnomer if people are coming to see how to load and parse CSS files (there’s already the <a href="http://github.com/theflashbum/fcss">great <strong>F*CSS</strong> library</a> out there for that). The <strong>flex-runtime-css</strong> project is intended to address a problem i saw when generating a <strong>Runtime CSS SWF</strong> to be loaded in a <strong>Flex Application</strong>.</p>
+<p>Sometimes a project calls for loading in CSS at runtime rather than compiling the style sheets in. Often enough this is due to a project requirement to have dynamic styling/skinning based on separate client vendors, <em>yadda-yadda</em>. To generate these <strong>Runtime CSS SWF</strong> files i use the <strong>Adobe MXMLC</strong> compiler tool from the <strong>Flex SDK</strong>. If you are unfamiliar about how to generate a <strong>CSS SWF</strong> or how to load in the <strong>SWF</strong> at runtime for style declarations, you can visit the the <strong>Adobe live docs</strong> on the subject at <a href="http://livedocs.adobe.com/flex/3/html/help.html?content=styles_10.html"><a href="http://livedocs.adobe.com/flex/3/html/help.html?content=styles_10.html">http://livedocs.adobe.com/flex/3/html/help.html?content=styles_10.html</a></a>.</p>
+<p>The problem i was running is that the default <strong>flex-config</strong> used by the <strong>MXMLC</strong> tool in <strong>Flex 4</strong> now links against several <strong>RSL</strong>s. I won’t go into a discussion of <strong>RSL</strong>s, but the reason for this is lower application size. That’s great for an application, but unnecessary when generating a <strong>CSS SWF</strong>. In fact, if you generated a <strong>CSS SWF</strong> using the default <strong>flex-config</strong> via the following command:</p>
+<pre><code><span class="blockquote">&gt; mxmlc MyStyle.css</span></code></pre>
+<p>… your generated <strong>CSS SWf</strong> file will request those <strong>RSL</strong>s when loaded into the application via the <strong>StyleManager</strong>. Unnecessary overhead as they those <strong>RSL</strong>s are already in the application domain and the request becomes moot.</p>
+<p>So, long story long, <strong><a href="http://github.com/bustardcelly/flex-runtime-css">flex-runtime-css</a></strong> intends to address this issue by providing a custom configuration that does away with the <strong>RSL</strong> linking and externally compiles against the framework libraries. A <strong>CSS SWF</strong> can be generated using the <strong>flex-runtime-css</strong> files and ANT. If you use the <strong><a href="http://github.com/bustardcelly/flex-runtime-css">flex-runtime-css</a></strong> you will need to update the build.properties file included in the project to point to the <strong>Flex SDK</strong> and file resources on your local disk.</p>
+<p><a href="http://github.com/bustardcelly/flex-runtime-css">flex-runtime-css on github</a>.</p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/flex-runtime-css/">flex-runtime-css</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2010/10/22/flex-4-suspending-the-first-frame/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2010/10/20/as3flobile-extension-as3flobile-android/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2010/10/20/flex-4-and-runtime-style-sheets/index.html";
+        window.disqus_title="Flex 4 and Runtime style sheets";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

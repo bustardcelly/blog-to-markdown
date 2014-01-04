@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - AS3 2D Tilescroller</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2006/05/31/as3-2d-tilescroller/index.html">AS3 2D Tilescroller</a></h1>
+    <p>
+      2006 May 31st
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p><a href="javascript:MM_openBrWindow(&#39;http://www.custardbelly.com/AS3/MapScroll/index.html&#39;,&#39;til_scroller&#39;,&#39;resizable=no,width=400,height=200&#39;"><img src="http://www.custardbelly.com/AS3/MapScroll/tilescroller.gif" alt="click me"></a>;)click me.</p>
+<p>During the port of my AS2 classes into AS3, i thought i might take a stab at a tile scrolling engine. I never got into making one before, and since I’ve been delving into the magic that is BitmapData, i decided to give it stab. I need to do a little house cleaning, but i plan to throw up the code here soon…</p>
+<p>In previous versions of Actionscript it was common to do variations of ‘move and replace’ based on movieclip positions and key strokes ( see <a href="http://www.tonypa.pri.ee/tbw/index.html">TonyPa</a>, <a href="http://www.strille.net/tutorials/part1_scrolling.php">Strille</a>, <a href="http://oos.moxiecode.com/tut_10/index.html">Outside of Society</a>, <a href="http://recycle.andre-michelle.com/">André Michelle</a>, etc ). There was some great implementations and they worked well, but i figured with BitmapData it could be boiled down to a smoother and less intensive process – kind of what <a href="http://www.bit-101.com/blog/">Keith</a> has been<a href="http://www.bit-101.com/lab/?p=18"> labbing with</a>.</p>
+<p>What’s going on-<br>The layers ( there are 3 in the example but you can add however many before your graphics card yells at you ) are just a grid of Bitmap objects – the amount based on the ‘visable’ area divided by the tile size of the graphics.<br>They don’t move at all – instead they are offscreen and are updated based on the characters ‘x’ and ‘y’ velocity divided by tile size, of which its remainders are parameters supplied to the scroll method of a BitmapData instance that is redawing the layers upon key press.</p>
+<p>In the coming days, i hope to strip out a little code and throw the source ( and maybe some drawings that will clear up my terrible explanation ) up here… just wanted to do a quick post for proof of concept.</p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2006/06/01/yahoo-maps-api-article/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2006/05/10/f9-updates/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2006/05/31/as3-2d-tilescroller/index.html";
+        window.disqus_title="AS3 2D Tilescroller";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

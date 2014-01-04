@@ -1,0 +1,96 @@
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  font-family: "Playfair Display", serif;
+  font-size: 14px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
+  color: #333;
+  line-height: 1.5;
+  text-align: justify;
+  max-width: 800px;
+  background-color: rgb(234, 234, 234);
+}
+
+header {
+  padding: 1.2rem;
+  background-color: rgb(70, 70, 70);
+  color: rgb(255, 255, 255);
+}
+
+header > h1 {
+  font-size: 4rem;
+  margin: 0 0 1rem 0;
+}
+
+nav {
+  color: rgb(255, 255, 255);
+  padding: 1rem;
+  background-color: #2D2D2D;
+}
+
+nav a {
+  font-size: 1.3rem;
+  color: rgb(255, 255, 255);
+}
+
+article {
+  background-color: rgb(250, 250, 250);
+  padding: 1rem;
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+  text-align: left;
+}
+
+p > code {
+  background-color: rgb(253, 229, 193);
+}
+
+pre {
+  font-size: 0.8rem;
+}
+
+a {
+  color: #4B7EB6;
+}
+
+footer {
+  font-size: 0.8rem;
+  margin: 1rem;
+}
+
+a img {
+  border: none;
+}
+
+.title a {
+  color: #2D2D2D;
+  text-decoration: none;
+}
+
+.title > p {
+  font-size: 0.8rem;
+  color: #A5A1A1;
+}
+
+#media-list {
+  margin: 0;
+  padding: 1rem 0 0 0;
+  list-style: none;
+}
+
+#media-list li {
+  margin: 0.3rem;
+  display: inline-block;
+}
+
+#media-list li:first-child {
+  margin: 0;
+}

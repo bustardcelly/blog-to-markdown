@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - Offloading rendering in a 3d engine</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2006/02/01/offloading-rendering-in-a-3d-engine/index.html">Offloading rendering in a 3d engine</a></h1>
+    <p>
+      2006 February 1st
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p>After reading Keith’s <a href="http://www.amazon.com/gp/product/1590595181/sr=1-1/qid=1138766400/ref=pd_bbs_1/103-6509034-0931065?%5Fencoding=UTF8">Making Things Move</a>, i went on a coding-binge and made a simple 3d engine. I was loving it. went nuts with some extended primitives – still need to get around to the infamous <a href="http://www.sjbaker.org/teapot/">Utah Teapot</a>… we’ll see how that goes …</p>
+<p>But i recently built a particle system engine that handles 3d objects, and after trying to plug it into the pipeline i already created, i started to question where i was passing off the rendering of objects.</p>
+<p>The way i have it set up is by registering objects in a World class, in which a new movieclip is created held in an array and, when updates are made to the scene, cleared and redrawn. So i basically offloaded all the drawing within the World class.</p>
+<p><a href="http://sandy.media-box.net/blog/">SANDY</a> has it set up to clearing all clips, creating new clips within the world, then sending those references off to each face of the object. So inside the Face class all drawing is handled.<br>There’s some ideas in that process that i really like (like the fact that the face knows what it’s supposed to look like so it knows internally what to do), but i don’t like that the drawing process is so deeply nested.<br>The way i have it, i’m grabbing the skin properties of the faces within the view update of the World class and then drawing accordingly. That’s probably not the greatest idea because i’m adding a couple more processes (”hey what do you look like so i can draw you right.” – as a opposed to – “hey you need to redraw yourself. whatever you look like, do that.”) – but for some reason i just think keeping it out of my Face class makes more sense. Maybe i think it’s a better way of seperating the model construction from the rendering process. i don’t know. </p>
+<p>Now, i’m contemplating where to offload this drawing process. The main reason being filter application when dealing with particles. With the particle system i have set up, i handle transformations and filters of the object in clip in Policy classes, then pass off a check of being active to managers that handle whether or not to render that object.</p>
+<p>It brings up an interesting topic for me. When dealing with OOP in Flash, where do you think the drawing process should really be placed? Inside the object that’s being drawn? In some manager that handles all objects being drawn? suggestions? are any of these options more optimal to proccessing?</p>
+<p>For fun, here’s a little example of what i’ve been playing around with. It was built in 8 based on the ideas of <a href="http://blog.je2050.de/">Joa Ebert</a> for his engine in AS3 (if you haven’t been to his blog, i highly recommend it), where Life and Action Policies are wrapped around a 3d object. There’s no Z-buffering or collision-detection yet (because of my aformentioned question), so don’t be too judgemental .</p>
+<p>It’s in constant emmision, so when a particle expires, it regenerates itself at the initialization point – optimizations still to be done.</p>
+<p><a href="javascript:MM_openBrWindow(&#39;insets/psys.html&#39;,&#39;psystem&#39;,&#39;resizable=no,width=300,height=288&#39;"><img src="http://www.custardbelly.com/blog/images/stars.png" alt="click me to view"></a>;)</p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/general/">General</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2006/02/24/that-one-dream-variable/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2006/01/11/how-do-you-manage-your-filters/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2006/02/01/offloading-rendering-in-a-3d-engine/index.html";
+        window.disqus_title="Offloading rendering in a 3d engine";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

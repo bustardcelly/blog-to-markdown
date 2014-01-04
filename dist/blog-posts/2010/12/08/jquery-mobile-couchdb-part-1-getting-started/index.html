@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - jquery Mobile + CouchDB: Part 1 – Getting Started</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2010/12/08/jquery-mobile-couchdb-part-1-getting-started/index.html">jquery Mobile + CouchDB: Part 1 – Getting Started</a></h1>
+    <p>
+      2010 December 8th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <h2 id="intro">Intro</h2>
+<p>I have been digging using <a href="http://couchdb.apache.org/">CouchDB</a> as my back-end choice for personal projects for a while now and truly do believe it is the best solution when choosing a non-relational database management system. While discovering my affinity for <strong>CouchDB</strong>, i started developing <a href="http://custardbelly.com/blog/?page_id=127">as3couchdb</a> – an open-source library written in <strong>ActionScript 3</strong> that allows <strong>Flash</strong> to communicate to a <strong>CouchDB</strong> instance which can be found on <a href="https://github.com/bustardcelly/as3couchdb">github</a>. I think <strong>as3couchdb</strong> is in a pretty stable place at the moment and have built a couple applications and have been happy with it. I am going to continue developing it, and if you do use it and find problems/suggestions please let me know.</p>
+<p>That said, i have never been one to focus on something for too long (without getting paid to, of course <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ), without getting distracted by wanting to learn something new. I knew <strong>CouchDB</strong> shipped with a <a href="http://jquery.com/">jQuery</a> <a href="https://github.com/apache/couchdb/blob/trunk/share/www/script/jquery.couch.js">plugin</a>, so i thought i would play around with making a <strong>DHTML</strong> client for some of my projects. Then i thought, why the hell not throw in the <a href="http://jquerymobile.com/">jquery Mobile</a> framework for the fun of it? If we are gonna do it, let’s do it. </p>
+<p>So that is what i have set out to do. I have finished some basics of an application and am looking to get more into the nitty gritty. I figured what better way to do this than to document it; not only purposed as a storage of how to do something, but <em>hopefully</em> a place for some people to chime in and tell me how to do it better <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>This happens to be the first in a series of posts that document building a “simple” <strong>DHTML</strong> application using the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework and a <a href="http://couchdb.apache.org/">CouchDB</a> back-end. <em>Here’s to hoping the intro for subsequent posts are not as long.</em></p>
+<h2 id="couchdb">CouchDB</h2>
+<p><a href="http://couchdb.apache.org/">CouchDB</a> is a schema-free document-oriented database HTTP server. If you have not heard the term <a href="http://en.wikipedia.org/wiki/NoSQL">NoSQL</a>, it is used to refer to a database management system (<strong>DBMS</strong>) that differs from the widely-used relational model; started out as meaning a <strong>DBMS</strong> that does not providing a <strong>SQL</strong> interface, but became a term to refer to any non-relational <strong>DBMS</strong>, of which <strong>CouchDB</strong> is often grouped with when talking about <strong>NoSQL</strong>. I won’t go into a lengthy discussion of <strong>CouchDB</strong> – so I will say, in basic terms, <strong>CouchDB</strong> is a document-based <strong>DBMS</strong>. This will make more sense once we start looking at the API for the <strong>CouchDB</strong> <strong>jQuery</strong> plugin.</p>
+<p>Before we get into building a front-end for our application, we need to set up a database to play around with. I am assuming here that you have installed <strong>CouchDB</strong> on your local machine and have it running and accessible at <a href="http://127.0.0.1:5984"><a href="http://127.0.0.1:5984">http://127.0.0.1:5984</a></a>. If you don’t and want to set it up, <a href="http://couchdb.apache.org/downloads.html">download CouchDB</a> and peruse the appendix on this link – <a href="http://guide.couchdb.org/draft"><a href="http://guide.couchdb.org/draft">http://guide.couchdb.org/draft</a></a> – or install from source from this link -<a href="http://guide.couchdb.org/draft/source.html"><a href="http://guide.couchdb.org/draft/source.html">http://guide.couchdb.org/draft/source.html</a></a></p>
+<h2 id="couchapp">CouchApp</h2>
+<p>Though it is not necessary in creating and modifying views and <strong>DHTML</strong> pages served up from <strong>CouchDB</strong>, i tend to use the <a href="http://couchapp.org/page/index">CouchApp</a> command line tool when working with and managing a <strong>CouchDB</strong> database. </p>
+<p>You can read more about <strong>CouchApp</strong> on their <a href="http://couchapp.org/page/index">main wiki</a> and checkout the project at <a href="https://github.com/couchapp/couchapp">/couchapp/couchapp on github</a>. <strong>CouchApp</strong> is basically a set of utilities that makes creating and modifying views of a <strong>CouchDB</strong> database instance easy (or i should say <em>easier</em>). Not to mention (the best part), you can create all your views, etc locally, make sure you got it right then push replication remotely and you are all set. Beauty.</p>
+<p>When pushing design documents to a <strong>CouchDB</strong> database in this and following example posts, I will be using the <strong>couchapp</strong> command line tool as it is quick and easy and a great little utility, but everything done with it can be easily done using <a href="http://curl.haxx.se/docs/manpage.html">curl</a> if you wish.</p>
+<h2 id="our-album-database">Our Album Database</h2>
+<p>First things first, let’s set up a database we can start working with. I use <a href="http://janl.github.com/couchdbx/">CouchDBX</a>, which i recommend if you are on a <strong>Mac</strong>. Don’t know if there is an equivalent for <strong>Windows</strong> or <strong>Linux</strong>, so if you do know, leave a comment please. Otherwise, just hitting up <a href="http://127.0.0.1:5984/_utils"><a href="http://127.0.0.1:5984/_utils">http://127.0.0.1:5984/_utils</a></a>, the <strong>Futon</strong> app, should work in getting started.</p>
+<p>Create a new database called <em>albums</em>… or whatever you want to call it. I will be building <em>album</em> views in these examples but you could easily make them something else. Once we have our <em>albums</em> database created, lets create a couple <em>album</em> documents since we are going to have a view that shows a list of albums. The make up of an <em>album</em> document is as such:</p>
+<pre><code>{
+
+    "<span class="attribute">artist</span>" : <span class="value">{
+
+        "<span class="attribute">type</span>" : <span class="value"><span class="string">"string"</span>
+
+    }</span>
+
+    <span class="string">"title"</span> : {
+
+        "<span class="attribute">type</span>" : <span class="value"><span class="string">"string"</span>
+
+    }</span>
+
+    <span class="string">"description"</span> : {
+
+        "<span class="attribute">type</span>" : <span class="value"><span class="string">"string"</span>
+
+    }</span>
+
+}</span></code></pre>
+<p>… pretty basic for our purposes. Using that schema, add a couple album documents to the databse. I just threw in the following document entries:</p>
+<pre><code>{"<span class="attribute">artist</span>":<span class="value"><span class="string">"Thin Lizzy"</span></span>, "<span class="attribute">title</span>":<span class="value"><span class="string">"Fighting"</span></span>, "<span class="attribute">description</span>":<span class="value"><span class="string">"Bona-fide rock classic."</span>}</span>
+
+{"<span class="attribute">artist</span>":<span class="value"><span class="string">"David Bowie"</span></span>, "<span class="attribute">title</span>":<span class="value"><span class="string">"Honky Dory"</span></span>, "<span class="attribute">description</span>":<span class="value"><span class="string">"Doesn't get much better than this."</span>}</span></code></pre>
+<p>… and now you know a little bit about my musical tastes <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Any way, we’ve got our database and a few documents residing in it. Lets create a client-side application using <a href="http://couchapp.org/page/index">CouchApp</a> and push it to the <em>albums</em> database. </p>
+<h2 id="our-albums-couchapp">Our Albums CouchApp</h2>
+<p>With <a href="https://github.com/couchapp/couchapp">CouchApp</a> properly installed, we’ll move over to using the command line tools to create our <strong>Albums</strong> application, create views and push the documents to our <strong>CouchDB</strong> database.</p>
+<h3 id="application">Application</h3>
+<p>With the terminal open, navigate to a directory that you deem worthy to create applications for <strong>CouchDB</strong> in. For example, on <strong>Mac</strong>, that for me is usually <em>/Documents/workspace/custardbelly/couchdb</em>. Enter in the following command to generate an <em>albums</em> application to which we will add some views and later push to the <em>albums</em> database:</p>
+<pre><code><span class="title">couchapp</span> generate app albums</code></pre>
+<p>If all goes well, a new folder named <em>albums</em> will be in the target directory and will contain files such as the following:</p>
+<p><img src="http://www.custardbelly.com/blog/images/couchapp_one.png" alt="couch app application diretory"></p>
+<p>I won’t cover all of what those files pertain to, but basically those files will be pushed to the <em>albums</em> database and stored based on the <strong>id_ file value – <strong>CouchApp</strong> defaults to </strong>design/${application}<em> and for this example will be __design/albums</em>.</p>
+<p>Now, if we were to push this application to our <strong>CouchDB</strong> database as it stands now and visited <a href="http://127.0.0.1:5984/albums/_all_docs"><a href="http://127.0.0.1:5984/albums/_all_docs">http://127.0.0.1:5984/albums/_all_docs</a></a> we would get returned a page that shows the <strong>JSON</strong> object of rows of available documents with the default key/values. Maybe useful to some, but not a good user experience for looking at documents in our database. To do this we can create a view using <strong>CouchApp</strong> that will help in presenting a page that lists the available documents in a nice readable manner.</p>
+<h3 id="view">View</h3>
+<p>In the terminal, enter the following command to generate a view for all albums in the database:</p>
+<pre><code><span class="title">couchapp</span> generate view albums albums</code></pre>
+<p>With that command, we have used <strong>CouchApp</strong> to create a view named <em>albums</em> (the last argument) in the database <em>albums</em> (argument after <strong>view</strong>). If you take a look at the views directory in the <em>albums application</em> folder, you will see that a new folder called <em>albums</em> has been created containing the <em>map.js</em> and <em>reduce.js</em> files. </p>
+<p><img src="http://www.custardbelly.com/blog/images/couchapp_two.png" alt="couch app application diretory"></p>
+<p>I won’t go over all that is involved in map/reduce in <strong>CouchDB</strong>, so this is some good information if you are interested: <a href="http://wiki.apache.org/couchdb/Introduction_to_CouchDB_views"><a href="http://wiki.apache.org/couchdb/Introduction_to_CouchDB_views">http://wiki.apache.org/couchdb/Introduction_to_CouchDB_views</a></a>. For now, we are just going to modify the<em> map.js</em> file and delete the <em>reduce.js</em> file so it returns a list of the album documents in the database.</p>
+<h3 id="map-js">map.js</h3>
+<p>Open up the <em>/albums/views/albums/map.js</em> file in you favorite text editor and add the following line within the <em>function()</em> statement:</p>
+<pre><code><span class="function"><span class="title">function</span><span class="params">( doc )</span> {
+
+    <span class="title">emit</span><span class="params">( doc.<span class="variable">_</span>id, doc )</span>;
+
+}</code></pre>
+<p>When you visit <a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums"><a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums">http://127.0.0.1:5984/albums/_design/albums/_view/albums</a></a> a <strong>JSON</strong> object will be returned with a key/value pairing for each document in the database with the key being the <em>_id</em> assigned to the document and the value being the full document object. In essence, when you create a view, you are creating a rule of how you want documents from the database returned to you. For this simple example, we are just going to return all the documents trusting that they will all be albums. You can create more views (and more applications) as you see fit. For now, we’ll just work with all the documents and wire up a page to view them.</p>
+<p>Let’s go ahead and push the <em>albums</em> application to our albums database:</p>
+<pre><code><span class="title">couchapp</span> push albums <span class="url">http://127.0.0.1:5984/albums</code></pre>
+<p>If successful, that should return:</p>
+<pre><code><span class="number">2010</span>-<span class="number">12</span>-<span class="number">06</span> <span class="number">17</span><span class="symbol">:</span><span class="number">37</span><span class="symbol">:</span><span class="number">24</span> [<span class="constant">INFO</span>] <span class="constant">Visit</span> your <span class="constant">CouchApp</span> <span class="symbol">here:</span>
+
+<span class="symbol">http:</span>/<span class="regexp">/127.0.0.1:5984/albums</span><span class="regexp">/_design/albums</span><span class="regexp">/index.html</code></pre>
+<p>If you go and visit <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>, you will notice that shows absolutely no relevance to our application or our database <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> If you go to <a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums"><a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums">http://127.0.0.1:5984/albums/_design/albums/_view/albums</a></a> you will now see our full <strong>JSON</strong> object that we will use when we modify that <em>index.html</em>. </p>
+<p>The index file that you were originally directed to is the <em>index.html</em> file in the <em>/albums/_attachments</em> directory. If you open that file up in a text editor, you will see that it is using the <strong>couch.app</strong> <strong>jQuery</strong> plugin to construct the elements on the default page. We can modify this <strong>HTML</strong> document now and use the <strong>jQuery Mobile</strong> plugin to present our list of albums beautifully (no guarantees on the beautiful part:)).</p>
+<h2 id="albums-application-user-interface">Albums Application User Interface</h2>
+<p><a href="http://couchdb.apache.org/">CouchDB</a> ships with a version of <a href="http://jquery.com/">jQuery</a> and a plugin to interact with a <strong>CouchDB</strong> instance. They (and other scripts for serialization and <strong>futon</strong>) can be found in your installation, which on my make is in the following location:</p>
+<pre><code>/opt/<span class="keyword">local</span>/share/couchdb/www/<span class="keyword">script</span></code></pre>
+<p>If we look at the default <em>index.html</em> page created for us when we used <strong>CouchApp</strong> to create our <em>albums</em> application, we see that it is using a loader to load in all those necessary scripts:</p>
+<pre><code><span class="tag">&lt;<span class="title">html</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>My New CouchApp<span class="tag">&lt; <span class="attribute">itle</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/main.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span>
+
+  <span class="tag">&lt;/<span class="title">link</span>&gt;</span><span class="tag">&lt;/<span class="title">title</span>&gt;</span><span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"account"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+
+
+    <span class="tag">&lt;<span class="title">h1</span>&gt;</span>Generated CouchApp<span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+
+
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"profile"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"items"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"sidebar"</span>&gt;</span>
+
+      <span class="tag">&lt;<span class="title">p</span>&gt;</span>Edit welcome message.<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+      <span class="tag">&lt;<span class="title">p</span>&gt;</span>Ideas: You could easily turn this into a photo sharing app, or a grocery list, or a chat room.<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span>&gt;</span><span class="javascript">
+
+    $.couch.app(<span class="keyword">function</span>(app) {
+
+      $(<span class="string">"#account"</span>).evently(<span class="string">"account"</span>, app);
+
+      $(<span class="string">"#profile"</span>).evently(<span class="string">"profile"</span>, app);
+
+      $.evently.connect(<span class="string">"#account"</span>,<span class="string">"#profile"</span>, [<span class="string">"loggedIn"</span>,<span class="string">"loggedOut"</span>]);
+
+      $(<span class="string">"#items"</span>).evently(<span class="string">"items"</span>, app);
+
+    });
+
+  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
+<p>That <em>loader.js</em> file can be found in the <em>/albums/vendor/couchapp/_attachments</em> directory and looks like the following:</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">couchapp_load</span><span class="params">(scripts)</span> {</span>
+
+  <span class="keyword">for</span> (var <span class="built_in">i</span>=<span class="number">0</span>; <span class="built_in">i</span> &lt; <span class="transposed_variable">scripts.</span><span class="built_in">length</span>; <span class="built_in">i</span>++) <span class="cell">{
+
+    document.write(<span class="string">'&lt;script src="'</span>+scripts[i]+<span class="string">'"&gt;&lt; \/script&gt;'</span>)
+
+  }</span>;
+
+};
+
+
+
+couchapp_load(<span class="matrix">[
+
+  "/_utils/script/sha1.js",
+
+  "/_utils/script/json2.js",
+
+  "/_utils/script/jquery.js",
+
+  "/_utils/script/jquery.couch.js",
+
+  "vendor/couchapp/jquery.couch.app.js",
+
+  "vendor/couchapp/jquery.couch.app.util.js",
+
+  "vendor/couchapp/jquery.mustache.js",
+
+  "vendor/couchapp/jquery.evently.js"
+
+]</span>);</code></pre>
+<p>As we intend to use <a href="http://jquerymobile.com/">jQuery Mobile</a> for our user interface, we will modify this <em>loader.js</em> file to include the latest <a href="http://jquery.com/">jQuery</a> libray and the <a href="http://jquerymodile.com/">jQuery Mobile</a> plugin.</p>
+<h3 id="modifying-loader-js">Modifying loader.js</h3>
+<p>If you have not already done so, download the latest releases of <a href="http://jquery.com/">jQuery</a> and <a href="http://jquerymobile.com/">jQuery Mobile</a>. As of this writing those are:</p>
+<ol>
+<li>jQuery-1.4.4.js </li>
+<li>jQuery.mobile-1.0a2.js </li>
+</ol>
+<p>Copy those files from wherever you downloaded them to into the <em>/albums/vendor/couchapp/_attachments/</em> directory.</p>
+<p>Open up <em>loader.js</em> from that same directory in you favorite text editor and make the following changes:</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">couchapp_load</span><span class="params">(scripts)</span> {</span>
+
+  <span class="keyword">for</span> (var <span class="built_in">i</span>=<span class="number">0</span>; <span class="built_in">i</span> &lt; <span class="transposed_variable">scripts.</span><span class="built_in">length</span>; <span class="built_in">i</span>++) <span class="cell">{
+
+    document.write(<span class="string">'&lt;script src="'</span>+scripts[i]+<span class="string">'"&gt;&lt; \/script&gt;'</span>)
+
+  }</span>;
+
+};
+
+
+
+couchapp_load(<span class="matrix">[
+
+  "/_utils/script/sha1.js",
+
+  "/_utils/script/json2.js",
+
+  "vendor/couchapp/jquery-<span class="number">1.4</span><span class="number">.4</span>.js",
+
+  "/_utils/script/jquery.couch.js",
+
+  "vendor/couchapp/jquery.couch.app.js",
+
+  "vendor/couchapp/jquery.couch.app.util.js",
+
+  "vendor/couchapp/jquery.mustache.js",
+
+  "vendor/couchapp/jquery.evently.js",
+
+  "vendor/couchapp/jquery.mobile-<span class="number">1.0</span>a2.js"
+
+]</span>);</code></pre>
+<p>Save the changes to <em>loader.js</em>. We could probably get rid of the <em>mustache.js</em> and <em>evently.js</em> includes, but we’ll forget about that for now.</p>
+<p>Now that we have our loader loading the proper scripts to display a <strong>jQuery Mobile</strong> interface, we need to modify the <em>index.html</em> file to display the list of <em>album</em> documents from our <strong>CouchDB</strong> database.</p>
+<h3 id="modifying-index-html">Modifying index.html</h3>
+<p>Firstly, we’ll need to add the necessary css and image files that came with the <strong>jQuery Mobile</strong> download so we get the default look-and-feel. </p>
+<p>Copy the <em>jquery.mobile-1.0.a2.css</em> file and the <em>images/</em> directory from your <strong>jQuery Mobile</strong> download into the <em>/albums/_attachments/style/</em> folder (residing along with the default <em>main.css</em> file generated using <strong>CouchApp</strong>).</p>
+<p>Open up the <em>index.html</em> file in the <em>/albums/_attachments</em> directory with your favorite text editor, and start off with a clean slate by removing the inline <strong>JavaScript</strong> and <em>div</em> tags in the body of the <strong>HTML</strong> document. Also declare the <em>jquery.mobile-1.0a2.css</em> file in your stylesheets. The <em>index.html</em> file should now look somewhat like the following:</p>
+<pre><code><span class="tag">&lt;<span class="title">html</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>My Albums<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/main.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/jquery.mobile-1.0a2.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>/&gt;</span>
+
+  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+
+
+
+  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span>&gt;</span><span class="javascript">
+
+
+
+  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
+<h3 id="jquery-mobile-page">JQuery Mobile Page</h3>
+<p>This post is already getting pretty long as it is, and i don’t want to discuss the finer parts of <a href="http://jquerymobile.com/">jQuery Mobile</a> so the following modifications might not have the fullest explanations as to why we are adding some elements, but i will try at times to explain. </p>
+<p>To begin, a <strong>jQuery Mobile</strong> application is comprised of <em>pages</em>. You can declare all your <em>pages</em> in a single <strong>HTML</strong> document or load other pages (saved as <strong>HTML</strong> documents) into <em>divs</em>. A page is denoted by a <strong>data-role</strong> attribute with the value of <em>“page”</em>. The <strong>jQuery Mobile</strong> framework handles this pagination and its browser history for you, so there isn’t much to worry about except for how you want you pages to look… well there is more to worry about, but we won’t for the time being <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>The landing page for our <em>albums</em> application will display the list of album documents. To do so, modify the <em>index.html</em> file by adding a page <em>div</em> to the <em>body</em> of the <strong>HTML</strong> document:</p>
+<pre><code><span class="tag">&lt;<span class="title">html</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>My Albums<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/main.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/jquery.mobile-1.0a2.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>/&gt;</span>
+
+  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"page"</span>&gt;</span>
+
+          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span>&gt;</span><span class="tag">&lt;<span class="title">h2</span>&gt;</span>Albums<span class="tag">&lt;/<span class="title">h2</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span>&gt;</span>
+
+              <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">id</span>=<span class="value">"albums"</span> <span class="attribute">data-role</span>=<span class="value">"listview"</span> <span class="attribute">data-theme</span>=<span class="value">"c"</span> <span class="attribute">data-dividertheme</span>=<span class="value">"b"</span> /&gt;</span>
+
+          <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span>&gt;</span>Footer<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+      <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span>&gt;</span><span class="javascript">
+
+
+
+  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
+<p>The make up of a <strong>jQuery Mobile</strong> page contains a <em>content</em> div and optional <em>header</em> and <em>footer</em> divs. In this example we have included the <em>header</em> and <em>footer</em> with some very basic information. What is of note is the <em>content</em> div (marked with the <strong>data-role</strong> of “<em>content</em>“). The content of our landing page is a list maked with a <strong>data-role</strong> of “<em>listview</em>” which will be populated with the document result form our <strong>CouchDB</strong> database query for all album documents.</p>
+<p>With our <strong>jQuery Mobile</strong> elements in place, we will add the <strong>JavaScript</strong> to communicate with our <strong>CouchDB</strong> instance and request the <em>album</em> documents from our <em>albums</em> database.</p>
+<h3 id="communication">Communication</h3>
+<p>As mentioned previously, <a href="http://couchdb.apache.org/">CouchDB</a> ships with a <a href="http://jquery.com/">jquery</a> plugin to ease the communication with a <strong>CouchDB</strong> instance. That script (<em>jquery.couch.js</em>) along with scripts for serialization are loaded within the <em>loader.js</em>.</p>
+<p>First things first, we need to assign a handler for when the document has become available and we declare our database reference as the <em>albums</em> database form the <strong>CouchDB</strong> instance:</p>
+<pre><code><span class="tag">&lt;<span class="title">html</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>My Albums<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/main.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/jquery.mobile-1.0a2.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>/&gt;</span>
+
+  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"page"</span>&gt;</span>
+
+          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span>&gt;</span><span class="tag">&lt;<span class="title">h2</span>&gt;</span>Albums<span class="tag">&lt;/<span class="title">h2</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span>&gt;</span>
+
+              <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">id</span>=<span class="value">"albums"</span> <span class="attribute">data-role</span>=<span class="value">"listview"</span> <span class="attribute">data-theme</span>=<span class="value">"c"</span> <span class="attribute">data-dividertheme</span>=<span class="value">"b"</span> /&gt;</span>
+
+          <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span>&gt;</span>Footer<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+      <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span>&gt;</span><span class="javascript">
+
+
+
+      $db = $.couch.db(<span class="string">"albums"</span>);
+
+
+
+      <span class="function"><span class="keyword">function</span> <span class="title">handleDocumentReady</span><span class="params">()</span>
+
+      {</span>
+
+          <span class="comment">// request album documents...</span>
+
+      }
+
+
+
+      $(document).ready( handleDocumentReady );
+
+
+
+  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
+<p>The <a href="http://docs.jquery.com/Tutorials:Introducing_$(document">$(document).ready()</a>.ready()) event hook is a standard part of <a href="http://jquery.com/">jQuery</a> to recognize when the <strong>DOM</strong> has been loaded and we can begin any operations/transactions. In this example, the <em>handleDocumentReady()</em> method is defined as the handler for that event. Within that handler we will add the communication with the <em>$db</em> instance to request our album documents and add them to the <em>listview</em> of the content.</p>
+<p>The following snippet is a full implementation of making a request for those documents and adding them to the <em>listview</em>:</p>
+<pre><code><span class="xml"><span class="tag">&lt;<span class="title">html</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>My Albums<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/main.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/jquery.mobile-</span><span class="number">1.0</span><span class="xml">a2.css" type="text/css"/&gt;
+
+  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"page"</span>&gt;</span>
+
+          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span>&gt;</span><span class="tag">&lt;<span class="title">h2</span>&gt;</span>Albums<span class="tag">&lt;/<span class="title">h2</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span>&gt;</span>
+
+              <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">id</span>=<span class="value">"albums"</span> <span class="attribute">data-role</span>=<span class="value">"listview"</span> <span class="attribute">data-theme</span>=<span class="value">"c"</span> <span class="attribute">data-dividertheme</span>=<span class="value">"b"</span> /&gt;</span>
+
+          <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span>&gt;</span>Footer<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+      <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">charset</span>=<span class="value">"utf-</span><span class="number">8</span><span class="xml">"&gt;
+
+
+
+      </span><span class="variable">$db</span><span class="xml"> = </span><span class="variable">$.couch.db</span><span class="xml">("albums");
+
+
+
+      function handleDocumentReady()
+
+      {
+
+          refreshAlbums();
+
+      }
+
+
+
+      function refreshAlbums()
+
+      {
+
+          $("#albums").empty();
+
+          </span><span class="variable">$db.view</span><span class="xml">("albums/albums",
+
+            { success: function( data ) {
+
+                    var i;
+
+                    var album;
+
+                    var artist;
+
+                    var title;
+
+                    var description;
+
+                    var listItem;
+
+                    for( i in data.rows )
+
+                    {
+
+                        album = data.rows[i].value;
+
+                        artist = album.artist;
+
+                        title = album.title;
+
+                        description = album.description;
+
+                        listItem = "<span class="tag">&lt;<span class="title">li</span>&gt;</span>" +
+
+                                    "<span class="tag">&lt;<span class="title">h2</span> <span class="attribute">class</span>=<span class="value">\"artist\"</span>&gt;</span>gt;" + artist + "<span class="tag">&lt;<span class="title">\</span>/<span class="attribute">h2</span>&gt;</span>" +
+
+                                    "<span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">\"title\"</span>&gt;</span>gt;" + title + "<span class="tag">&lt;<span class="title">\</span>/<span class="attribute">p</span>&gt;</span>" +
+
+                                    "<span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">\"description\"</span>&gt;</span>gt;" + description + "<span class="tag">&lt;<span class="title">\</span>/<span class="attribute">p</span>&gt;</span>";
+
+                        $("#albums").append( listItem );
+
+                    }
+
+                    $("#albums").listview( "refresh" );
+
+                }
+
+            });
+
+      }
+
+
+
+      $(document).ready( handleDocumentReady );
+
+
+
+  <span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span></span></code></pre>
+<p>To get a deeper view, lets look in detail at the method that handles loading the album documents in the script which is invoked from the <em>handleDocumentReady(</em>) handler:</p>
+<pre><code><span class="title">function</span> refreshAlbums()
+
+{
+
+    $(<span class="string">"#albums"</span>).empty();
+
+    $db.view(<span class="string">"albums/albums"</span>,
+
+    { success: function( <span class="typedef"><span class="keyword">data</span> ) <span class="container">{
+
+            <span class="title">var</span> <span class="title">i</span>;
+
+            <span class="title">var</span> <span class="title">album</span>;
+
+            <span class="title">var</span> <span class="title">artist</span>;
+
+            <span class="title">var</span> <span class="title">title</span>;
+
+            <span class="title">var</span> <span class="title">description</span>;
+
+            <span class="title">var</span> <span class="title">listItem</span>;
+
+            <span class="title">for</span>( <span class="title">i</span> <span class="title">in</span> <span class="title">data</span>.<span class="title">rows</span> )
+
+            {
+
+                <span class="title">album</span> = <span class="title">data</span>.<span class="title">rows</span>[<span class="title">i</span>].<span class="title">value</span>;
+
+                <span class="title">artist</span> = <span class="title">album</span>.<span class="title">artist</span>;
+
+                <span class="title">title</span> = <span class="title">album</span>.<span class="title">title</span>;
+
+                <span class="title">description</span> = <span class="title">album</span>.<span class="title">description</span>;
+
+                <span class="title">listItem</span> = "&lt;<span class="title">li</span>&gt;" +
+
+                            "&lt;<span class="title">h2</span> <span class="title">class</span>=\"<span class="title">artist</span>\"&gt;" + <span class="title">artist</span> + "&lt;\/<span class="title">h2</span>&gt;" +
+
+                            "&lt;<span class="title">p</span> <span class="title">class</span>=\"<span class="title">title</span>\"&gt;" + <span class="title">title</span> + "&lt;\/<span class="title">p</span>&gt;" +
+
+                            "&lt;<span class="title">p</span> <span class="title">class</span>=\"<span class="title">description</span>\"&gt;" + <span class="title">description</span> + "&lt;\/<span class="title">p</span>&gt;";
+
+                $("#<span class="title">albums</span>").<span class="title">append</span>( <span class="title">listItem</span> );
+
+            }</span></span>
+
+            $(<span class="string">"#albums"</span>).listview( <span class="string">"refresh"</span> );
+
+        }
+
+    });
+
+}</code></pre>
+<p>First and foremost, as we might use this method in later implementations of the application to refresh the list, we make a call to empty the content of the <em>listview</em>:</p>
+<pre><code>$(<span class="string">"#albums"</span>)<span class="preprocessor">.empty</span>()<span class="comment">;</span></code></pre>
+<p>Following that, we request the <em>albums</em> view from the database instance by calling <strong>$db.view()</strong> and pointing to the <em>albums</em> view that we created and pushed to the <strong>CouchDB</strong> database using <strong>CouchApp</strong>.</p>
+<pre><code><span class="variable">$db</span>.view(<span class="string">"albums/albums"</span></code></pre>
+<p>… and then resolve a successful result to a function that handles interpreting each <strong>JSON</strong> object related to to an album document so as to add them as list items to the <em>listview</em>:</p>
+<pre><code>{ success: function( <span class="typedef"><span class="keyword">data</span> ) <span class="container">{
+
+            <span class="title">var</span> <span class="title">i</span>;
+
+            <span class="title">var</span> <span class="title">album</span>;
+
+            <span class="title">var</span> <span class="title">artist</span>;
+
+            <span class="title">var</span> <span class="title">title</span>;
+
+            <span class="title">var</span> <span class="title">description</span>;
+
+            <span class="title">var</span> <span class="title">listItem</span>;
+
+            <span class="title">for</span>( <span class="title">i</span> <span class="title">in</span> <span class="title">data</span>.<span class="title">rows</span> )
+
+            {
+
+                <span class="title">album</span> = <span class="title">data</span>.<span class="title">rows</span>[<span class="title">i</span>].<span class="title">value</span>;
+
+                <span class="title">artist</span> = <span class="title">album</span>.<span class="title">artist</span>;
+
+                <span class="title">title</span> = <span class="title">album</span>.<span class="title">title</span>;
+
+                <span class="title">description</span> = <span class="title">album</span>.<span class="title">description</span>;
+
+                <span class="title">listItem</span> = "&lt;<span class="title">li</span>&gt;" +
+
+                            "&lt;<span class="title">h2</span> <span class="title">class</span>=\"<span class="title">artist</span>\"&gt;" + <span class="title">artist</span> + "&lt;\/<span class="title">h2</span>&gt;" +
+
+                            "&lt;<span class="title">p</span> <span class="title">class</span>=\"<span class="title">title</span>\"&gt;" + <span class="title">title</span> + "&lt;\/<span class="title">p</span>&gt;" +
+
+                            "&lt;<span class="title">p</span> <span class="title">class</span>=\"<span class="title">description</span>\"&gt;" + <span class="title">description</span> + "&lt;\/<span class="title">p</span>&gt;";
+
+                $("#<span class="title">albums</span>").<span class="title">append</span>( <span class="title">listItem</span> );
+
+            }</span></span>
+
+            $(<span class="string">"#albums"</span>).listview( <span class="string">"refresh"</span> );
+
+        }
+
+}</code></pre>
+<p>The <em>for..in</em> loop in this example goes reads each document object and appends a list item to the <em>listview</em>, after which we make a call to <strong>refresh</strong> the view.</p>
+<h3 id="deployment">Deployment</h3>
+<p>With the <em>index.html</em> file modified and ready to go live, we can use the couchapp utility to push an update to the <strong>CouchDB</strong> instance so we can view our new mobile-based application in a browser:</p>
+<pre><code><span class="title">couchapp</span> push albums <span class="url">http://127.0.0.1:5984/albums</code></pre>
+<p>.. if all goes well you should see the following printed out :</p>
+<pre><code><span class="number">2010</span>-<span class="number">12</span>-<span class="number">07</span> <span class="number">11</span><span class="symbol">:</span><span class="number">46</span><span class="symbol">:</span><span class="number">55</span> [<span class="constant">INFO</span>] <span class="constant">Visit</span> your <span class="constant">CouchApp</span> <span class="symbol">here:</span>
+
+<span class="symbol">http:</span>/<span class="regexp">/127.0.0.1:5984/albums</span><span class="regexp">/_design/albums</span><span class="regexp">/index.html</code></pre>
+<p>Now, if you do visit that link, it should redirect you to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a> and you should see something like the following:</p>
+<p><img src="http://www.custardbelly.com/blog/images/couchapp_three.png" alt="couch app mobile application"></p>
+<p>Pretty, no? No. But maybe in later posts we can modify that. For now its up and running. yay!</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Well, if you made it this far down, you have been a trooper. Hopefully this has been of some help in getting up and started using <a href="http://couchdb.apache.org/">CouchDB</a>, <a href="http://couchapp.org/page/index">CouchApp</a> and <a href="http://jquerymobile.com/">jQuery Mobile</a> to provide a mobile-based <em>User Interface</em> for documents in a <strong>CouchDB</strong> database. Since this is the first in a series of posts in working with <strong>jQuery Mobile</strong> and <strong>CouchDB</strong> it is pretty lengthy as it addresses set-up and the beginning of an application of which we can continue to work. Good news is, later posts on this topic will be shorter <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> and address more of the finer details of <strong>jQuery Mobile</strong> and <strong>CouchDB</strong> communication. At least that is the hope <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> .</p>
+<h2 id="future-topics">Future Topics</h2>
+<p>I am looking forward to adding more posts for this topic as i go about discovering how to create a mobile-based solution for working with documents from a <strong>CouchDB</strong> database. The tentative list is as follows:</p>
+<ol>
+<li><a href="http://custardbelly.com/blog/?p=244">Getting Started</a></li>
+<li><a href="http://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
+<li><a href="http://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
+<li><a href="http://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
+<li><a href="http://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
+<li><a href="http://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
+<li><a href="http://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
+<li><a href="http://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
+</ol>
+<p><a href="http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
+<p>As those post go live, this list will be updated with the related links.</p>
+<p><em>[Note] This post was written against the following software versions:</em><br><strong>CouchDB</strong> – 1.0.1<br><strong>CouchApp</strong> – 0.7.2<br><strong>jQuery</strong> – 1.4.4<br><strong>jQuery Mobile</strong> – 1.0a2<br><em>If you have found this post and any piece has moved forward, hopefully the examples are still viable/useful. I will not be updating the examples in this post in parellel with updates to any of the previously mentioned software, unless explicitly noted.</em></p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="http://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="http://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2010/12/13/jquery-mobile-couchdb-part-2-document-view/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2010/11/17/flex-hero-pausing-session-restoration/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2010/12/08/jquery-mobile-couchdb-part-1-getting-started/index.html";
+        window.disqus_title="jquery Mobile + CouchDB: Part 1 – Getting Started";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

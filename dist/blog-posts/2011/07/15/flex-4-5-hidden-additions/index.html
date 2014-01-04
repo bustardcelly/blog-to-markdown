@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - Flex 4.5 Hidden Additions*</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2011/07/15/flex-4-5-hidden-additions/index.html">Flex 4.5 Hidden Additions*</a></h1>
+    <p>
+      2011 July 15th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p><em>Maybe not necessarily <em>hidden</em> per se, but with the main focus on delivering <strong>Flex</strong> to mobile, there are a few things that have snuck into the <a href="http://opensource.adobe.com/wiki/display/flexsdk/Download+Flex+4.5">Flex 4.5 SDK</a> release that don’t get much coverage. I am not talking about <strong>Molehill</strong>, native <strong>JSON</strong> support, <strong>GC</strong> advice, etc. disclosed in <a href="http://www.bytearray.org/?p=3216">this announcement</a> – which are very exciting. I wanted to shed some light on some things I found kicking around in the new <strong>SDK</strong> that I have not heard very much about. Truthfully, they may have been a bi-product of getting the framework to be more performant on a mobile device – not sure – but they are things that I (and probably you) have created over and over for projects with varying degrees of functionality and <em>*API</em></em> completeness as was deemed fit for the requirements at hand.</p>
+<p>They are:</p>
+<ol>
+<li>s:Image</li>
+<li>ContentCache</li>
+<li>LinkedList</li>
+</ol>
+<p>read on to find out more about them…</p>
+<h2 id="1-s-image">1. s:Image</h2>
+<p>Finally, a <strong>Spark</strong> equivalent of <strong>mx:Image</strong>! And with it comes its own skin – <strong>ImageSkin</strong> – that allows the ability to show loading progress (with its own skin!). I can’t tell you how many times i have made these for client projects. Many – let’s keep it at that. However, the skin contract I would create for these custom “images-with-loading-indicator-components” (as I would call them) defined an <strong>mx:Image</strong> as the graphics container. The reason being a security issue with trying to manipulate bitmap data added to a <strong>BitmapImage</strong>.</p>
+<p>Fortunately it looks like some updates to <strong>BitmapImage</strong> have been added as well in <a href="http://opensource.adobe.com/wiki/display/flexsdk/Download+Flex+4.5">Flex 4.5</a>, of which i am assuming clears up the security issues seeing as the skin contract for <strong>s:Image</strong> defines a <strong>BitmapImage</strong> as its graphic layer. Maybe I will dig into it later and come up with more info (or if someone reading knows, please tell), but what immediately pops out are the new <strong>load events and properties</strong> such as <em>trustedSource</em>, <em>contentLoader</em> and <em>bitmapData</em> (which returns a clone).</p>
+<h3 id="usage">Usage</h3>
+<pre><code><span class="tag">&lt;<span class="title">s:Image</span> <span class="attribute">source</span>=<span class="value">"[http://upload.wikimedia.org/wikipedia/commons/archive/4/4e/20090913162821](http://upload.wikimedia.org/wikipedia/commons/archive/4/4e/20090913162821)!Pleiades_large.jpg"</span>
+
+                <span class="attribute">width</span>=<span class="value">"800"</span> <span class="attribute">height</span>=<span class="value">"600"</span>
+
+                <span class="attribute">enableLoadingState</span>=<span class="value">"true"</span>
+
+                /&gt;</span></code></pre>
+<p>Remember how i mentioned <em>contentLoader</em> as a new property for <strong>BitmapImage</strong> (and the decorating <strong>s:Image</strong>)? That is typed to an <strong>IContentLoader</strong> interface, of which <strong>ContentCache</strong> is an implementation.</p>
+<h2 id="2-contentcache">2. ContentCache</h2>
+<p>Many 3rd party libraries have been written for this. I’ve created some in <strong>AS2</strong>, some in <strong>AS3</strong>. Basically just a lookup on file access either remote or embedded so as not to load or generate new content – some with load queues, some with instant request. And that is what <strong>ContentCache</strong> provides – a queueable, cacheable loader for files on a remote resource. Another cool feature is being able to assign a grouping for queued requests and priority in loading – (another property on <strong>s:Image</strong> and <strong>BitmapImage</strong> not addressed previously).</p>
+<p>If we look at the <em>load</em>() signature on <strong>ContentCache</strong>:</p>
+<pre><code><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">load</span><span class="params">(source:Object, contentLoaderGrouping:String=null)</span><span class="type">:ContentRequest</span></code></pre>
+<p>we can see the grouping designation associated with the load request as the second argument. The first argument can be either a <strong>URLRequest</strong> object or a <strong>String</strong> (well <em>technically</em> you can supply anything there, but it will either be resolved to a <strong>URLRequest</strong> or <strong>String</strong> within the <em>load</em> function). We also see that <em>load</em>() returns an instance of <strong>ContentRequest</strong>. That can either be an active request in the queue or currently running or filled and considered <em>complete</em> from cache. </p>
+<p>The <em>content</em> property on <strong>ContentRequest</strong> is typed as an Object and the docs suggest it can be anything. In the instance of the one returned from <strong>ContentCache</strong> it looks as though it is always typed to <strong>LoaderInfo</strong> (the target loader of the request). Pretty cool. So basically, you request <strong>ContentCache</strong> to load your image file, check for <em>complete</em> on the returned <strong>ContentRequest</strong>, if false, assign event handlers for complete. When using <strong>ContentCache</strong>, the <em>content</em> value on the <strong>ContentRequest</strong> (from what i see) will always be <strong>LoaderInfo</strong>. Obviously it is flexible enough to create your own <strong>IContentLoader</strong> implementation to return content of a different type.</p>
+<h3 id="usage">Usage</h3>
+<pre><code><span class="keyword">public</span> <span class="keyword">var</span> cache:ContentCache;
+
+<span class="keyword">public</span> <span class="keyword">var</span> requests:Vector.&lt;ContentRequest&gt;;
+
+
+
+<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">requestImages</span><span class="params">()</span><span class="type">:void</span>
+
+{</span>
+
+    cache = <span class="keyword">new</span> ContentCache();
+
+    cache.prioritize( <span class="string">"walls"</span> );
+
+    cache.enableCaching = <span class="literal">true</span>;
+
+    cache.enableQueueing = <span class="literal">true</span>;
+
+
+
+    requests = <span class="keyword">new</span> Vector.&lt;ContentRequest&gt;();
+
+    requests.push( cache.load( <span class="string">"[http://30.media.tumblr.com/tumblr_loc6v1EmWE1qzpsuoo1_500.jpg](http://30.media.tumblr.com/tumblr_loc6v1EmWE1qzpsuoo1_500.jpg)"</span>, <span class="string">"superheros"</span> ) );
+
+    requests.push( cache.load( <span class="string">"[http://26.media.tumblr.com/tumblr_locs8oFznL1qzpsuoo1_400.jpg](http://26.media.tumblr.com/tumblr_locs8oFznL1qzpsuoo1_400.jpg)"</span>, <span class="string">"walls"</span> ) );
+
+    requests.push( cache.load( <span class="string">"[http://25.media.tumblr.com/tumblr_loc2ysUcfw1qzpsuoo1_500.jpg](http://25.media.tumblr.com/tumblr_loc2ysUcfw1qzpsuoo1_500.jpg)"</span>, <span class="string">"superheros"</span> ) )
+
+    requests.push( cache.load( <span class="string">"[http://24.media.tumblr.com/tumblr_loarags4Du1qzpsuoo1_500.jpg](http://24.media.tumblr.com/tumblr_loarags4Du1qzpsuoo1_500.jpg)"</span>, <span class="string">"walls"</span> ) )
+
+
+
+    <span class="keyword">var</span> request:ContentRequest;
+
+    <span class="keyword">var</span> i:int = requests.length;
+
+    <span class="keyword">while</span>( --i &gt; -<span class="number">1</span> )
+
+    {
+
+        request = requests[i];
+
+        <span class="keyword">if</span>( request.complete )
+
+        {
+
+            requests.splice( i, <span class="number">1</span> );
+
+            addImage( (request.content <span class="keyword">as</span> LoaderInfo).content <span class="keyword">as</span> Bitmap );
+
+        }
+
+        <span class="keyword">else</span>
+
+        {
+
+            addRequestHandlers( request );
+
+        }
+
+    }
+
+}       
+
+
+
+<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">addRequestHandlers</span><span class="params">( request:ContentRequest )</span><span class="type">:void</span>
+
+{</span>
+
+    request.addEventListener( Event.COMPLETE, handleRequestComplete );
+
+}
+
+<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">removeRequestHandlers</span><span class="params">( request:ContentRequest )</span><span class="type">:void</span>
+
+{</span>
+
+    request.removeEventListener( Event.COMPLETE, handleRequestComplete );
+
+}
+
+
+
+<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">handleRequestComplete</span><span class="params">( evt:Event )</span><span class="type">:void</span>
+
+{</span>
+
+    <span class="keyword">var</span> request:ContentRequest = ( evt.target <span class="keyword">as</span> ContentRequest );
+
+    <span class="keyword">var</span> index:int = requests.indexOf( request );
+
+    requests.splice( index, <span class="number">1</span> );
+
+    removeRequestHandlers( request );
+
+
+
+    <span class="keyword">var</span> info:LoaderInfo = request.content <span class="keyword">as</span> LoaderInfo;
+
+    addImage( info.content <span class="keyword">as</span> Bitmap );
+
+}
+
+
+
+<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">addImage</span><span class="params">( source:Bitmap )</span><span class="type">:void</span>
+
+{</span>
+
+    <span class="keyword">var</span> img:BitmapImage = <span class="keyword">new</span> BitmapImage();
+
+    img.width = source.width;
+
+    img.height = source.height;
+
+    img.source = source;
+
+    <span class="comment">// imageHolder is just some container on the display list.</span>
+
+    imageHolder.addElement( img );
+
+}</code></pre>
+<h3 id="the-good-">The Good?</h3>
+<p>Clean implementation. Remember that there is a <em>contentLoader</em> property on <strong>s:Image</strong> and <strong>BitmapImage</strong> now. You can use <strong>ContentLoader</strong> if it suits your needs, but you can also roll your own implementation of <strong>IContentLoader</strong>! I like.</p>
+<h3 id="the-bad-">The Bad?</h3>
+<p><em>Not necessarily bad implementations – we can certainly extend ContentLoader and make any modifications – these are more of things to consider when you are using it</em>:</p>
+<p>There is no <em>add</em>() and <em>run</em>() on the API, or at least an <strong>autostart</strong> argument to <em>load</em>(). Invoking <em>load</em>() immediately starts loading. I may want to build a queue then kick it off. Plus it kind of kills the prioritize, because say your first two calls are #1) without priority association #2) with priority association. The first one is already in the loading process, so #2 does not take priority.</p>
+<p>Even with prioritizing, do not rely on the order in which you call <em>load</em>() to be the order in which you will receive complete on the requests. This is mainly due to varying load times, priority, and cacheing. So if you are using <strong>ContentLoader</strong> as a queue loader, maintain the order outside of the <strong>ContentLoader</strong> and as requests come in as complete, fill that order accordingly. In essence, <strong>ContentLoader</strong> should be thought of – in my opinion – more of a cache of requests, rather than a queue loader per se. The <em>enableQueue</em> property does not pertain to “order in, order out” but rather “wait your turn”. The above example utilizes the priority API of <strong>ContentLoader</strong> to just show an example. If you run that a couple times, you will see what i mean about the order of the queue and priority being not what you would expect.</p>
+<p>…</p>
+<p>Now what caught my eye as I was checking out <strong>ContentCache</strong> is that is used linked lists, and more over that <strong>LinkedList</strong> was now available in the <strong>SDK</strong>! I’ll be it, in the <strong>mx.utils</strong> package (<em>why</em>?!) but still.</p>
+<h2 id="3-linkedlist">3. LinkedList</h2>
+<p>If you are unfamiliar with the concept of <a href="http://en.wikipedia.org/wiki/Linked_list">linked lists</a>, they are – in real simple terms – a great way to traverse a set of data using a node structure; unlike an array that stores data accessible from element index, a linked list really is more of an access point to nodes that have the knowledge of the next node and – depending on the type of linked list – at times, the previous node. </p>
+<p>In the case of the <strong>LinkedList</strong> from the <a href="http://opensource.adobe.com/wiki/display/flexsdk/Download+Flex+4.5">Flex SDK</a> – which is a doubly linked list – each item in the list points to the previous and next item if existant. So you can imagine, if you want to traverse the list from the first element to the last, you just point the next node from the current node. Not only does each node hold a reference to the next and previous node, but also the data which you are storing. So basically when you add data to a linked list, you are requesting the data be wrapped in a node and hold reference to the previous and next node depending on where you insert it.</p>
+<p>There have been some great implementations out there – such as ones found in <a href="http://lab.polygonal.de/as3ds/">polygonal’s data structures</a> – and i have built a couple in my day for clients with varying functionality based on requirements. </p>
+<p>I should say that it is a great exercise to create your own linked list and I recommend that you should do so. The one included in the <strong>SDK</strong> is good, but in my opinion very limited (or maybe i should say “lightweight”) and its implementation is a little different than how I would have handled. But, implementation aside, there is a <strong>LinkedList</strong> in the <strong>SDK</strong> now. It’s bare bones. No iterator, no traversal <strong>API</strong> on the list itself, and you traverse by accessing the nodes directly through the list.</p>
+<h3 id="usage-">Usage:</h3>
+<pre><code>var list:LinkedList = new LinkedList()<span class="comment">;</span>
+
+list<span class="preprocessor">.push</span>( <span class="string">"foo"</span> )<span class="comment">;</span>
+
+list<span class="preprocessor">.push</span>( <span class="string">"bar"</span> )<span class="comment">;</span>
+
+list<span class="preprocessor">.push</span>( <span class="string">"baz"</span> )<span class="comment">;</span>
+
+
+
+var node:LinkedListNode = list<span class="preprocessor">.head</span><span class="comment">;</span>
+
+while( node<span class="preprocessor">.next</span> )
+
+{
+
+    trace( <span class="string">"Node value: "</span> + node<span class="preprocessor">.value</span> )<span class="comment">;</span>
+
+    node = node<span class="preprocessor">.next</span><span class="comment">;</span>
+
+}
+
+
+
+// &lt;&lt;outputs&gt;&gt;
+
+// Node value: foo
+
+// Node value: bar
+
+// Node value: baz</code></pre>
+<h3 id="the-good-">The Good?</h3>
+<p>If i need a simple linked list, i dont have to create a new one again… yay!</p>
+<h3 id="the-bad-">The Bad?</h3>
+<p><em>Again, not necessarily bad in implementation but things i may have done differently:</em></p>
+<p>One thing i would prefer is that you don’t have access the <strong>LinkedListNode</strong> directly. I think that the node wrapper for your data should be hidden or only accessible from the linked list (or iterator). This means that access to the data is provided through another layer of <strong>API</strong> and when you call things like <em>head</em>(), <em>next</em>(), or <em>previous</em>() you would actually be returned the <strong>data</strong> you sent to store – not the <strong>node</strong>. And typically this would be resolved by exposing access to an <strong>iterator</strong> that provides an API to traverse the linked list. So, the linked list has an API on how to store the data (ie. <em>push</em>(), <em>insertAt</em>(), <em>remove</em>(), etc.) and the iterator has the traversal API (ie. <em>next</em>(), <em>previous</em>(), etc.). But that would just be my way of working with a linked list and I see nothing stopping me from adding that layer myself to this lightweight doubly linked list from the <strong>SDK</strong>.</p>
+<p>Is it fast? I’ll leave that to <a href="http://jacksondunstan.com/articles/548">Jackson Dunstan</a> to find out… I am guessing no – or rather not as fast as it could be if it were part of the player globals like <strong>Array</strong> and <strong>Vector</strong>. And why oh why is it stuck in the <strong>mx</strong> package?!? I don’t mean to complain, but it seems like there is no reason to have <strong>LinkedList</strong> stuck in the <strong>Flex</strong> framework. There’s no binding. Its not even in <strong>MX</strong> collections. Whatever. Maybe it was just a quick implementation to use in request of icon images for speed on <strong>Flex mobile</strong>.</p>
+<p>So in any event, I would say it is a great exercise to roll your own linked list so you have it for any <strong>ActionScript</strong>-only AND <strong>Flex</strong> projects. But you can also find some really useful implementations out there.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Nothing really to conclude. I just found these while digging around and became intrigued as they were fairly common things that i implemented over and over with varying functionality on projects based on requirements and now they are available in the Flex 4.5 SDK. If you have found some that you really like, let me know.</p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/flex-4-5/">Flex 4.5</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2011/09/21/air-native-extension-example-ibattery-for-ios/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2011/06/15/flash-and-the-city-jquery-mobile/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2011/07/15/flex-4-5-hidden-additions/index.html";
+        window.disqus_title="Flex 4.5 Hidden Additions*";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

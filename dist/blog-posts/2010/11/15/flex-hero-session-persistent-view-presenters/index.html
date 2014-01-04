@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - Flex 4.5 (Hero) – Session-Persistent View Presenters</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2010/11/15/flex-hero-session-persistent-view-presenters/index.html">Flex 4.5 (Hero) – Session-Persistent View Presenters</a></h1>
+    <p>
+      2010 November 15th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p>As I had hinted at in my <a href="http://custardbelly.com/blog/?p=220">previous post</a>, before i went down the rabbit-hole of state data with regards to the life-cycle of a <strong>View</strong> object, I had intended to write about persisting <a href="http://martinfowler.com/eaaDev/SupervisingPresenter.html">Supervising Presenters</a> for <strong>View</strong>s within an application session. Before I go much farther, i do want to note that <a href="http://blogs.adobe.com/paulw/">Paul Williams</a> has some excellent posts up on different presenter patterns within the context of a Flex application which can be found at <a href="http://blogs.adobe.com/paulw/"><a href="http://blogs.adobe.com/paulw/">http://blogs.adobe.com/paulw/</a></a>. Specifically, I am taken by the <a href="http://blogs.adobe.com/paulw/archives/2007/10/presentation_pa_2.html">Supervising Presenter</a>, though i am not totally sold… which I hope to address in this post, but my main intent here is to show how I re-use a presenter for a View object to cut down on memory within an application session.</p>
+<p>I may touch upon the life-cycle of a <strong>View</strong> and how state data is maintained in this post, but not to the extent in my <a href="http://custardbelly.com/blog/?p=220">previous article</a>. I want to talk more about moving away from “<em>code behind</em>” in Flex-based mobile applications and implementing session-persistent presenters for <strong>View</strong>s.</p>
+<p>If you want to skip the yammering, you can view the source of an example here: <a href="http://www.custardbelly.com/downloads/hero/supervisor/">Mobile (Hero) Supervising Presenter Example</a></p>
+<h3 id="new-view-instance-on-each-request">New View instance on each request</h3>
+<p>Due to the instantiation of a new <strong>View</strong> instance upon each request from the <strong>ViewNavigator</strong> within a <strong>MobileApplication</strong> as discussed in my <a href="http://custardbelly.com/blog/?p=220">previous post</a>, I started really considering my choice to always use what is loosely called <a href="http://ted.onflash.org/2007/02/code-behind-in-flex-2.php">“<em>code behind</em>” in Flex</a>. I’ve always had somewhat of a problem with the implementation but just kept at it because it worked – separated logic into AS file from view mark-up in MXML – and (not always a fast and hard rule) don’t utilize another micro-architecture framework in projects. I’m not going to get into an argument about frameworks, but let’s leave it that i don’t always agree on their necessity when weighed against project requirements, deadlines and multi-developer teams.</p>
+<p>So “<em>code behind</em>” always was a minor sore point, but it got the job done and got it done in an organized fashion. But I am really taking it into consideration when optimizing applications for the mobile paradigm, mainly inheritance chain. To extend <strong>View</strong> for logic and then extend that view-controller for display again just seems like the wrong choice, especially when <strong>View</strong> is an nth extension of <strong>UIComponent</strong> already and taking in the inheritance memory point described here: <a href="http://help.adobe.com/en_US/flash/cs/using/WSD7F8E1A9-680A-4000-9BA9-D7B01FDD7ECD.html"><a href="http://help.adobe.com/en_US/flash/cs/using/WSD7F8E1A9-680A-4000-9BA9-D7B01FDD7ECD.html">http://help.adobe.com/en_US/flash/cs/using/WSD7F8E1A9-680A-4000-9BA9-D7B01FDD7ECD.html</a></a></p>
+<p>I started shopping around for <strong>Presenter</strong> patterns that i felt were the least intrusive (as i mentioned before Paul Williams has some great posts up <a href="http://blogs.adobe.com/paulw/">here</a>) and settled on the <strong>Supervising Presenter</strong> at the moment.</p>
+<p>Yet, seeing as a <strong>View</strong> is instantiated upon each request from <strong>ViewNavigator</strong>, I wanted to keep the overhead low and ensure that only one <strong>Presenter</strong> was created and associated with a view. In other words, upon the first instantiation of a <strong>View</strong> object, a <strong>Presenter</strong> is created and associated with the view. Upon destruction of the view, the <strong>Presenter</strong> reference is notified to stop supervising and is stored in the state data for that <strong>View</strong> object. When another instance of the <strong>View</strong> is instantiated, that data is read in and the <strong>Presenter</strong> is notified to start supervising again. So now we not only have the logic (depends on <em>how</em> much logic you determine necessary) separated from the view, but are re-using the same <strong>Presenter</strong> without having to create a new instance each time a user navigates to that View.</p>
+<p>Here are some examples:</p>
+<h3 id="isupervisingpresenter">ISupervisingPresenter</h3>
+<pre><code><span class="preprocessor"><span class="keyword">import</span> flash.events.IEventDispatcher;</span>
+<span class="preprocessor"><span class="keyword">import</span> spark.components.View;</span>
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ISupervisingPresenter</span> <span class="keyword">extends</span> <span class="title">IEventDispatcher</span>
+{</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">supervise</span><span class="params">( view:View )</span><span class="type">:void</span>;</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">unsupervise</span><span class="params">()</span><span class="type">:void</span>;</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">dispose</span><span class="params">()</span><span class="type">:void</span>;</span>
+}</code></pre>
+<p><strong>ISupervisingPresenter</strong> supervises a single <strong>View</strong> and can be instructed to unsupervise as well as tear down any loose reference to offer itself up for garbage collection.</p>
+<h3 id="isupervisingpresenter-implementation">ISupervisingPresenter Implementation</h3>
+<pre><code><span class="preprocessor"><span class="keyword">import</span> com.custardbelly.example.event.LogInEvent;</span>
+<span class="preprocessor"><span class="keyword">import</span> com.custardbelly.example.views.HomeView;</span>
+
+<span class="preprocessor"><span class="keyword">import</span> flash.events.Event;</span>
+<span class="preprocessor"><span class="keyword">import</span> flash.events.EventDispatcher;</span>
+<span class="preprocessor"><span class="keyword">import</span> flash.events.MouseEvent;</span>
+
+<span class="preprocessor"><span class="keyword">import</span> spark.components.View;</span>
+
+[Event(name=<span class="string">"success"</span>, type=<span class="string">"com.custardbelly.example.event.LogInEvent"</span>)]
+
+[RemoteClass(alias=<span class="string">"com.custardbelly.example.presenter.HomePresenter"</span>)]
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HomePresenter</span> <span class="keyword">extends</span> <span class="title">EventDispatcher</span> <span class="keyword">implements</span> <span class="title">ISupervisingPresenter</span>
+{</span>
+    <span class="keyword">protected</span> <span class="keyword">var</span> _view:HomeView;
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">HomePresenter</span><span class="params">()</span> {</span>}
+
+    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">addHandlers</span><span class="params">()</span><span class="type">:void</span>
+    {</span>
+        _view.logInButton.addEventListener( MouseEvent.CLICK, handleLogIn, <span class="literal">false</span>, <span class="number">0</span>, <span class="literal">true</span> );
+    }
+
+    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">removeHandlers</span><span class="params">()</span><span class="type">:void</span>
+    {</span>
+        _view.logInButton.removeEventListener( MouseEvent.CLICK, handleLogIn, <span class="literal">false</span> );
+    }
+
+    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">handleLogIn</span><span class="params">( evt:Event )</span><span class="type">:void</span>
+    {</span>
+        dispatchEvent( <span class="keyword">new</span> LogInEvent() );
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">supervise</span><span class="params">( view:View )</span><span class="type">:void</span>
+    {</span>
+        _view = ( view <span class="keyword">as</span> HomeView );
+        addHandlers();
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">unsupervise</span><span class="params">()</span><span class="type">:void</span>
+    {</span>
+        removeHandlers();
+        _view = <span class="literal">null</span>;
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">dispose</span><span class="params">()</span><span class="type">:void</span>
+    {</span>
+        <span class="keyword">if</span>( _view ) unsupervise();
+        <span class="comment">// remove any other references to ensure GC of this instance...</span>
+    }
+}</code></pre>
+<p>When supervising a view, the <strong>ISupervisingPresenter</strong> implementation essentially assigns event handlers to child controls of that target <strong>View</strong>. Its up to you how much logic the ISupervisingPresenter holds. For instance i could forgo dispatching an event and just access the ViewNavigator from the target view and tell it to go to another screen.</p>
+<h3 id="supervised-view">Supervised View</h3>
+<pre><code>&lt; ?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;
+&lt;s :View xmlns:fx=<span class="string">"http://ns.adobe.com/mxml/2009"</span> 
+        xmlns:s=<span class="string">"library://ns.adobe.com/flex/spark"</span> 
+        title=<span class="string">"home"</span> 
+        creationComplete=<span class="string">"handleCreationComplete();"</span>&gt;
+
+    &lt;fx :Script&gt;
+        &lt; ![CDATA[
+            <span class="preprocessor"><span class="keyword">import</span> com.custardbelly.example.event.LogInEvent;</span>
+            <span class="preprocessor"><span class="keyword">import</span> com.custardbelly.example.presenter.HomePresenter;</span>
+            <span class="preprocessor"><span class="keyword">import</span> com.custardbelly.example.presenter.ISupervisingPresenter;</span>
+
+            <span class="preprocessor"><span class="keyword">import</span> mx.events.FlexEvent;</span>
+
+            <span class="keyword">protected</span> <span class="keyword">var</span> _data:Object;
+            <span class="keyword">protected</span> <span class="keyword">var</span> _presenter:ISupervisingPresenter;
+
+            <span class="comment">// Listen for deactivate in order to assemble session data accessed from View:data()</span>
+            <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">handleCreationComplete</span><span class="params">()</span><span class="type">:void</span>
+            {</span>
+                addEventListener( FlexEvent.VIEW_DEACTIVATE, handleDeactivate, <span class="literal">false</span>, <span class="number">0</span>, <span class="literal">true</span> );
+            }
+
+            <span class="comment">// Is called before navigator.destroy of this instance. Serialize the data property and clear out refs for GC.</span>
+            <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">handleDeactivate</span><span class="params">( evt:FlexEvent )</span><span class="type">:void</span>
+            {</span>
+                removeEventListener( FlexEvent.VIEW_DEACTIVATE, handleDeactivate, <span class="literal">false</span> );
+                serializeSessionData();
+                disassemblePresenter();
+            }
+
+            <span class="comment">// Create the supervising presenter.</span>
+            <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span>  <span class="title">establishPresenter</span><span class="params">( value:Object )</span><span class="type">:void</span>
+            {</span>
+                <span class="keyword">if</span>( value &amp;&amp; value.hasOwnProperty( <span class="string">"presenter"</span> ) )
+                {
+                    _presenter = ( value[<span class="string">"presenter"</span>] <span class="keyword">as</span> ISupervisingPresenter );
+                }
+                <span class="keyword">else</span>
+                {
+                    _presenter = <span class="keyword">new</span> HomePresenter();
+                    <span class="keyword">if</span>( value ) value[<span class="string">"presenter"</span>] = _presenter;
+                }
+
+                _presenter.supervise( <span class="keyword">this</span> );
+                addPresenterHandlers( _presenter );
+            }
+
+            <span class="comment">// Clear refs for GC of this instance.</span>
+            <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">disassemblePresenter</span><span class="params">()</span><span class="type">:void</span>
+            {</span>
+                removePresenterHandlers( _presenter );
+                _presenter.unsupervise();
+                _presenter = <span class="literal">null</span>;
+            }
+
+            <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">addPresenterHandlers</span><span class="params">( presenter:ISupervisingPresenter )</span><span class="type">:void</span>
+            {</span>
+                presenter.addEventListener( LogInEvent.SUCCESS, handleLogInSuccess, <span class="literal">false</span>, <span class="number">0</span>, <span class="literal">true</span> );
+            }
+            <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">removePresenterHandlers</span><span class="params">( presenter:ISupervisingPresenter )</span><span class="type">:void</span>
+            {</span>
+                presenter.removeEventListener( LogInEvent.SUCCESS, handleLogInSuccess, <span class="literal">false</span> );
+            }
+
+            <span class="comment">// Modify session state data to hold reference to the supervising presenter for re-use.</span>
+            <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">serializeSessionData</span><span class="params">()</span><span class="type">:void</span>
+            {</span>
+                <span class="keyword">if</span>( _data == <span class="literal">null</span> ) _data = {};
+                _data[<span class="string">"presenter"</span>] = _presenter;
+            }
+
+            <span class="comment">// Navigate to nother view.</span>
+            <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">handleLogInSuccess</span><span class="params">( evt:LogInEvent )</span><span class="type">:void</span>
+            {</span>
+                navigator.pushView( WelcomeView );
+            }
+
+            <span class="comment">// Need to override in order to persist state data through session.</span>
+            <span class="keyword">override</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span> <span class="title">data</span><span class="params">()</span><span class="type">:Object</span>
+            {</span>
+                <span class="keyword">return</span> _data;
+            }
+            <span class="comment">// Override to read in session state data.</span>
+            <span class="keyword">override</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">set</span> <span class="title">data</span><span class="params">( value:Object )</span><span class="type">:void</span>
+            {</span>
+                _data = value;
+                establishPresenter( _data );
+            }
+
+        ]]&gt;
+    &lt;/fx&gt;
+
+    &lt;s :navigationContent /&gt;
+
+    &lt;/s&gt;&lt;s :layout&gt;
+        &lt;s :VerticalLayout paddingLeft=<span class="string">"10"</span> paddingRight=<span class="string">"10"</span> paddingTop=<span class="string">"10"</span> paddingBottom=<span class="string">"10"</span> /&gt;
+    &lt;/s&gt;
+
+    &lt;s :TextInput id=<span class="string">"usernameField"</span> width=<span class="string">"100%"</span> /&gt;
+    &lt;s :TextInput id=<span class="string">"passwordField"</span> width=<span class="string">"100%"</span> displayAsPassword=<span class="string">"true"</span> /&gt;
+    &lt;s :Button id=<span class="string">"logInButton"</span> label=<span class="string">"log in"</span> /&gt;</code></pre>
+<p>In essence, upon first creation of this <strong>View</strong> instance, the <strong>Supervising Presenter</strong> is created and assigned through a call to the <em>data</em> property setter (invoked by the <strong>ViewNavigator</strong> upon creation of the view). When the view is deactivated (by the <strong>ViewNavigator</strong> before destruction) the view-local <em>_data</em> property is updated to hold a reference to the associated supervising presenter for this view. Upon creation of a new instance, it is read in though the <em>data</em> setter and instructed to begin supervising again.</p>
+<p>The <strong>Supervising Presenter</strong> reference is persisted through the current session of the application and re-used upon each new instance of the <strong>View</strong>. Though i do hate using <strong>Script</strong> in MXML, this code does address my concerns in re-use, inheritance and separation of logic while utilizing the session-persistent hook-ins now present in the <strong>View</strong> API in Flex Hero.</p>
+<p><a href="http://www.custardbelly.com/downloads/hero/supervisor/">Mobile (Hero) Supervising Presenter Example</a></p>
+<p>Now… i gotta think about getting that <strong>Script</strong> outta my MXML <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/air/">AIR</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/flex-4-5/">Flex 4.5</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2010/11/17/flex-hero-pausing-session-restoration/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2010/11/15/flex-hero-persistant-data-in-mobileapplication/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2010/11/15/flex-hero-session-persistent-view-presenters/index.html";
+        window.disqus_title="Flex 4.5 (Hero) – Session-Persistent View Presenters";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

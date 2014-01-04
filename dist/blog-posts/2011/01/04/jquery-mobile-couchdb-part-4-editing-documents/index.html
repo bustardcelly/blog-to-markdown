@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - jQuery Mobile + CouchDB: Part 4 – Editing Documents</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2011/01/04/jquery-mobile-couchdb-part-4-editing-documents/index.html">jQuery Mobile + CouchDB: Part 4 – Editing Documents</a></h1>
+    <p>
+      2011 January 4th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p>In the <a href="http://custardbelly.com/blog/?p=297">previous post</a>, I addressed using templates to generate the <a href="http://jquerymobile.com/">jQuery Mobile</a> external pages. Though it addressed a fundamental (imo) part of serving up <strong>HTML</strong> from the <a href="http://couchdb.apache.org/">CouchDB</a> instance and had a few nice tricks for <a href="http://jquerymobile.com/">jQuery Mobile</a>, it essentially was organization and cleanup so I could move forward in developing the application without it getting to cluttered for my development and workflow.</p>
+<p>In this article, I am going to take the templating structure established in the <a href="http://custardbelly.com/blog/?p=297">previous post</a> and add another external page to the<a href="http://jquerymobile.com/"> jQuery Mobile</a> application – one in which I will be able to edit the document served up from the <a href="http://couchdb.apache.org/">CouchDB</a> database. Along with this, I’ll discuss assigning event handlers to <strong>DOM</strong> elements using <a href="http://jquery.com/">jQuery</a>, adding buttons to footers and headers, and clearing external <a href="http://jquerymobile.com/">jQuery Mobile</a> pages from cache to ensure a user is looking at the most recent changes to a document.</p>
+<h2 id="edit-template">Edit Template</h2>
+<p>In the <a href="http://custardbelly.com/blog/?p=297">previous post</a>, we moved from returning <strong>HTML</strong> from <a href="http://couchdb.apache.org/">CouchDB</a> using a <strong>show function</strong> and string manipulation to moving mark-up over to a <strong>template</strong> and utilizing <a href="https://github.com/janl/mustache.js">Mustache</a> to render the served up <strong>jQuery Mobile</strong> external page. We are going to use the same technique to deliver another page that will allow a user to edit a target <strong>CouchDB</strong> document, with the option to either cancel or submit their changes.</p>
+<p>Open up your favorite text editor, add the following snippet and save the file as <em>albumedit.html</em> in the <em>/templates</em> directory of your <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> (eg. <em>/Documents/workspace/custardbelly/couchdb/albums/templates/albumedit.html</em>):</p>
+<p><em>/templates/albumedit.html</em></p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"page"</span> <span class="attribute">id</span>=<span class="value">"albumedit"</span> <span class="attribute">data-nobackbtn</span>=<span class="value">"true"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span> <span class="attribute">id</span>=<span class="value">"albumheader"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">a</span> <span class="attribute">id</span>=<span class="value">"cancelBackButton"</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">data-icon</span>=<span class="value">"delete"</span>&gt;</span>Close<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">h1</span> <span class="attribute">class</span>=<span class="value">"albumtitle"</span>&gt;</span><span class="variable">{{title}}</span><span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span> <span class="attribute">data-theme</span>=<span class="value">"c"</span> <span class="attribute">style</span>=<span class="value">"padding:0em;"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">form</span> <span class="attribute">id</span>=<span class="value">"albumform"</span> <span class="attribute">action</span>=<span class="value">"#"</span> <span class="attribute">method</span>=<span class="value">"get"</span> <span class="attribute">data-identity</span>=<span class="value">"<span class="variable">{{document}}</span>"</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"fieldcontain"</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">label</span> <span class="attribute">for</span>=<span class="value">"artist"</span>&gt;</span>Artist:<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"artistField"</span> <span class="attribute">name</span>=<span class="value">"artist"</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">value</span>=<span class="value">"<span class="variable">{{artist}}</span>"</span> /&gt;</span>
+
+            <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"fieldcontain"</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">label</span> <span class="attribute">for</span>=<span class="value">"title"</span>&gt;</span>Title:<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"titleField"</span> <span class="attribute">name</span>=<span class="value">"title"</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">value</span>=<span class="value">"<span class="variable">{{title}}</span>"</span> /&gt;</span>
+
+            <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"fieldcontain"</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">label</span> <span class="attribute">for</span>=<span class="value">"description"</span>&gt;</span>Description:<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">textarea</span> <span class="attribute">id</span>=<span class="value">"descriptionField"</span> <span class="attribute">name</span>=<span class="value">"description"</span> <span class="attribute">cols</span>=<span class="value">"40"</span> <span class="attribute">rows</span>=<span class="value">"8"</span>&gt;</span><span class="variable">{{description}}</span><span class="tag">&lt;/<span class="title">textarea</span>&gt;</span>
+
+            <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-body ui-body-b"</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">fieldset</span> <span class="attribute">class</span>=<span class="value">"ui-grid-a"</span>&gt;</span>
+
+                    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-block-a"</span>&gt;</span>
+
+                        <span class="tag">&lt;<span class="title">p</span> <span class="attribute">id</span>=<span class="value">"cancelButton"</span> <span class="attribute">data-role</span>=<span class="value">"button"</span> <span class="attribute">data-theme</span>=<span class="value">"d"</span>&gt;</span>Cancel<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+                    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+                    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-block-b"</span>&gt;</span>
+
+                        <span class="tag">&lt;<span class="title">p</span> <span class="attribute">id</span>=<span class="value">"submitButton"</span> <span class="attribute">data-role</span>=<span class="value">"button"</span> <span class="attribute">data-theme</span>=<span class="value">"a"</span>&gt;</span>Submit<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+                    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+                <span class="tag">&lt;/<span class="title">fieldset</span>&gt;</span>
+
+            <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+        <span class="tag">&lt;/<span class="title">form</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span> /&gt;</span>
+
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+<span class="variable">{{&gt;scripts}}</span></code></pre>
+<p>That is some pretty hefty mark-up in relation to the relatively small (element count-wise) pages we have previously created. What should be familiar are the <strong>{{mustache}}</strong> tokens which will be dynamically filled with content using <a href="https://github.com/janl/mustache.js">mustache.js</a> in our soon-to-be created <strong>show function</strong> for the <em>album edit</em> page; but there are a few <a href="http://jquerymobile.com/">jQuery Mobile</a> tidbits in here that we should take a little deeper of a look at.</p>
+<h3 id="page-header">Page &amp; Header</h3>
+<p><em>/templates/albumedit.html</em></p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"page"</span> <span class="attribute">id</span>=<span class="value">"albumedit"</span> <span class="attribute">data-nobackbtn</span>=<span class="value">"true"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span> <span class="attribute">id</span>=<span class="value">"albumheader"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">a</span> <span class="attribute">id</span>=<span class="value">"cancelBackButton"</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">data-icon</span>=<span class="value">"delete"</span>&gt;</span>Close<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">h1</span> <span class="attribute">class</span>=<span class="value">"albumtitle"</span>&gt;</span><span class="variable">{{title}}</span><span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span></code></pre>
+<p>A <strong>data-role</strong> of <em>page</em> is set as usual to declare a <a href="http://jquerymobile.com/">jQuery Mobile</a> page and an <strong>id</strong> attribute is assigned for a reason that will be discussed shortly. What is of note in the page <strong>div</strong> is the <strong>data-nobackbtn</strong> attribute. If set the a value of <em>true</em>, this declaration will remove the default <strong>Back</strong> button from the header and allow us to customize the options. For this case, we have replaced the <strong>Back</strong> button with a <strong>Close</strong> button:</p>
+<p><em>/templates/albumedit.html</em></p>
+<pre><code><span class="tag">&lt;<span class="title">a</span> <span class="attribute">id</span>=<span class="value">"cancelBackButton"</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">data-icon</span>=<span class="value">"delete"</span>&gt;</span>Close<span class="tag">&lt;/<span class="title">a</span>&gt;</span></code></pre>
+<p>Without specifying a style <strong>class</strong>, the <strong>Close</strong> button will be positioned to the left in the header. The <strong>href</strong> is set to an empty anchor. Essentially this is just a placeholder for an action defaulted to a link in the header. When we create the controller script for the <em>album edit</em> page later in this article, we will prevent the default behaviour and handle the close manually.</p>
+<h3 id="content-form">Content Form</h3>
+<p><a href="http://jquerymobile.com/">jQuery Mobile</a> has some great organization and styling when it comes to <strong>form</strong> elements. Positioning and aligning fields is all handled by the framework and, unless you want to get fancy, you basically just have to declare the desired element or assign the desired role/layout in order to achieve a fairly simple form. What we have done for our <em>album edit</em> page template is pretty basic:</p>
+<p><em>/templates/albumedit.html</em></p>
+<pre><code><span class="tag">&lt;<span class="title">form</span> <span class="attribute">id</span>=<span class="value">"albumform"</span> <span class="attribute">action</span>=<span class="value">"#"</span> <span class="attribute">method</span>=<span class="value">"get"</span> <span class="attribute">data-identity</span>=<span class="value">"<span class="variable">{{document}}</span>"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"fieldcontain"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">label</span> <span class="attribute">for</span>=<span class="value">"artist"</span>&gt;</span>Artist:<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"artistField"</span> <span class="attribute">name</span>=<span class="value">"artist"</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">value</span>=<span class="value">"<span class="variable">{{artist}}</span>"</span> /&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"fieldcontain"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">label</span> <span class="attribute">for</span>=<span class="value">"title"</span>&gt;</span>Title:<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"titleField"</span> <span class="attribute">name</span>=<span class="value">"title"</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">value</span>=<span class="value">"<span class="variable">{{title}}</span>"</span> /&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"fieldcontain"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">label</span> <span class="attribute">for</span>=<span class="value">"description"</span>&gt;</span>Description:<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">textarea</span> <span class="attribute">id</span>=<span class="value">"descriptionField"</span> <span class="attribute">name</span>=<span class="value">"description"</span> <span class="attribute">cols</span>=<span class="value">"40"</span> <span class="attribute">rows</span>=<span class="value">"8"</span>&gt;</span><span class="variable">{{description}}</span><span class="tag">&lt;/<span class="title">textarea</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-body ui-body-b"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">fieldset</span> <span class="attribute">class</span>=<span class="value">"ui-grid-a"</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-block-a"</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">p</span> <span class="attribute">id</span>=<span class="value">"cancelButton"</span> <span class="attribute">data-role</span>=<span class="value">"button"</span> <span class="attribute">data-theme</span>=<span class="value">"d"</span>&gt;</span>Cancel<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+            <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-block-b"</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">p</span> <span class="attribute">id</span>=<span class="value">"submitButton"</span> <span class="attribute">data-role</span>=<span class="value">"button"</span> <span class="attribute">data-theme</span>=<span class="value">"a"</span>&gt;</span>Submit<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+            <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+        <span class="tag">&lt;/<span class="title">fieldset</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">form</span>&gt;</span></code></pre>
+<p>The input fields are populated with the dynamic values from our <strong>show function</strong> (discussed later) and two buttons are presented to either <strong>Cancel</strong> or <strong>Submit</strong> any changes to those values. By marking each <strong>div</strong> with a <strong>data-role</strong> of <em>fieldcontain</em>, the label/input pair will be styled and aligned with each other <strong>div</strong> with a horizontal bar to delimit them vertically. The <strong>Cancel</strong> and <strong>Submit</strong> buttons are held in a <strong>fieldset</strong> with a grid layout assigned:</p>
+<p><em>/templates/albumedit.html</em></p>
+<pre><code><span class="tag">&lt;<span class="title">fieldset</span> <span class="attribute">class</span>=<span class="value">"ui-grid-a"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-block-a"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">p</span> <span class="attribute">id</span>=<span class="value">"cancelButton"</span> <span class="attribute">data-role</span>=<span class="value">"button"</span> <span class="attribute">data-theme</span>=<span class="value">"d"</span>&gt;</span>Cancel<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-block-b"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">p</span> <span class="attribute">id</span>=<span class="value">"submitButton"</span> <span class="attribute">data-role</span>=<span class="value">"button"</span> <span class="attribute">data-theme</span>=<span class="value">"a"</span>&gt;</span>Submit<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">fieldset</span>&gt;</span></code></pre>
+<p>By assigning a <em>ui-block</em> value to each <strong>div</strong> in the <strong>fieldset</strong>, they will essentially be sized at 50% within the grid and positioned accordingly – <strong>Cancel</strong> to the left of <strong>Submit</strong>. You may notice that the “buttons” are not a link elements nor button elements. The reason being that both of those within a context of a form element were somehow being overridden to always perform a submit action. We will want to trap the user interaction with these elements in order to either <strong>a)</strong> reset the field values or <strong>b)</strong> submit our changes to the <a href="http://couchdb.apache.org/">CouchDB</a> database. So, they have been declared as <strong>p</strong> elements with a <strong>data-role</strong> of button so as to have the proper styling, but not the default action role of submittal of form without being captured and prevented first. </p>
+<p>We will get into the submission of an edited document in a bit when we discuss the associated script with the <em>album edit</em> page, but until then take notice of the <strong>Partial</strong> inclusion in our <em>albumedit</em> template:</p>
+<p><em>/templates/albumedit.html</em></p>
+<pre><code><span class="variable">{{&gt;scripts}}</span></code></pre>
+<p>… and let’s dive into creating our <strong>show function</strong> for editable album pages.</p>
+<h2 id="edit-show-function">Edit Show Function</h2>
+<p>If you have been following along with the <a href="http://custardbelly.com/blog/?p=297">previous post</a>, you will remember that we removed the string-manipulated mark-up from the <strong>show function</strong> for the <em>album view</em> page and replaced it with <a href="https://github.com/janl/mustache.js">Mustache</a> templating. The <strong>show function</strong> we will create for the <em>album edit</em> page will largely look the same as the one created for the <em>album view</em> page. In fact, the only difference will be the target template and partial include.</p>
+<p>Open up your favorite text editor, create a new file, add the following snippet and save the file as <em>album-edit.js</em> in the <em>/shows</em> directory of your albums <a href="http://couchapp.org/page/index">couchapp</a> (eg. <em>/Documents/workspace/custardbelly/couchdb/albums/shows/album-edit.js</em>):</p>
+<p><em>/shows/album-edit.js</em></p>
+<pre><code>function(doc, req) {
+
+    var Mustache = require(<span class="string">"vendor/couchapp/lib/mustache"</span>);
+
+    var stash = {
+
+            artist: doc<span class="variable">.artist</span>,
+
+            title : doc<span class="variable">.title</span>,
+
+            description: doc<span class="variable">.description</span>,
+
+            document: doc<span class="variable">._id</span>
+
+    };
+
+    <span class="keyword">return</span> Mustache<span class="variable">.to_html</span>(<span class="keyword">this</span><span class="variable">.templates</span><span class="variable">.albumedit</span>, stash, <span class="keyword">this</span><span class="variable">.templates</span><span class="variable">.partials</span><span class="variable">.albumedit</span>);
+
+}</code></pre>
+<p>Again, if you have been following along with previous posts, this would look relatively familiar. Essentially, we are using the <a href="https://github.com/janl/mustache.js">mustache.js</a> template plugin to deliver <strong>HTML</strong> mark-up of the previously created <em>albumedit.html</em> <a href="http://jquerymobile.com/">jQuery Mobile</a> page. The associated document is retrieved from the <a href="http://couchdb.apache.org/">CouchDB</a> database by passing the <strong>_id</strong> of the document in the request (eg. <a href="http://127.0.0.1:5984/albums/_design/albums/_show/album-edit/db04eb7e5c845ee0aa791ae1ed001e4d"><a href="http://127.0.0.1:5984/albums/_design/albums/_show/">http://127.0.0.1:5984/albums/_design/albums/_show/</a><br>album-edit/db04eb7e5c845ee0aa791ae1ed001e4d</a>). </p>
+<p>The previously created <em>/templates/albumedit.html</em> will be used as the template and is supplied as the first argument in <strong>Mustache</strong>.<em>to_html()</em>. The <strong>stash</strong> object (second argument) is used to dynamically filled the values of the fields upon load and the specified properties of the <strong>album document</strong> are available for editing: <strong>artist name</strong>, <strong>album title</strong> and <strong>personal description</strong>. The third argument is the <strong>Partial</strong> includes directory that will be substituted in the <strong>{{&gt;}}</strong> declarations of the <em>/templates/albumedit.html</em> document. There is only one <strong>Partial</strong> defined in <em>albumedit.html</em> – <strong>{{&gt;scripts}}</strong> – which will essentially declare a <strong>JavaScript</strong> file with actions associated with the <em>album edit</em> page.</p>
+<h2 id="scripts-partial">Scripts Partial</h2>
+<p>Open up your favorite text editor and save the following snippet as <em>scripts.html</em> in <em>/templates/partials/albumedit</em>:</p>
+<p><em>/templates/partials/albumedit/scripts.html</em></p>
+<pre><code><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"../../script/album-edit-page.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></code></pre>
+<p>If you have followed along with create the <strong>show function</strong>, template and partial for the <em>album view</em> page, this again will look similar. We are essentially loading an associated <strong>JavaScript</strong> file for the <em>album edit</em> page. As explained in the <a href="http://custardbelly.com/blog/?p=297">previous post</a>, the script could be included here and not redirected to a <strong>js</strong> file, but for my own organizational habits I create a separate <strong>JavaScript</strong> file and have it residing in the <em>/_attachments/script/</em> directory of my <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> (eg. <em>/Documents/workspace/custardbelly/couchdb/albums/<br>_attachments/script/album-edit-page.js</em>).</p>
+<h2 id="album-edit-page-js">album-edit-page.js</h2>
+<p>If we think about the role of our <em>album edit</em> page in the scheme of the application, we want to present the user with the ability to edit the album document from the <a href="http://couchdb.apache.org/">CouchDB</a> <strong>albums</strong> database. The form will initially be filled with the latest editable values and the user has the ability to either submit changes or cancel any pending changes. A <strong>Cancel</strong> action will return the fields back to the original values and return the user to the <em>album view</em> page. To ensure that the user is presented with the latest changes to the document from the database, we will also need to clear the page from the page cache just as we have done with the <em>album view</em> page. With these requirements in mind, let’s start creating the associated script for the album edit <a href="http://jquerymobile.com/">jQuery Mobile</a> page served up from the <em>album-edit</em> <strong>show function</strong>.</p>
+<h3 id="albumeditpagecontroller">AlbumEditPageController</h3>
+<p>We’ll start by creating a quasi-view-controller for the <em>album edit</em> page in the similar fashion as the one used for the <em>album view</em> page (created in the <a href="http://custardbelly.com/blog/?p=297">previous post</a>). Initially, it will handle recognizing once the <a href="http://jquerymobile.com/">jQuery Mobile</a> page <strong>div</strong> is shown and remove it from the page cache once it is hidden (by navigating away from the page).</p>
+<p>Open your favorite text editor and save the following snippet as <em>album-edit-page.js</em> in the <em>/_attachments/script/</em> directory:</p>
+<p><em>/_attachments/script/album-edit-page.js</em></p>
+<pre><code>var AlbumEditPageController = function() {
+
+
+
+    function handleEditPageViewHide()
+
+    {
+
+        var docId = $(<span class="string">"#albumform"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        var pageCache =  $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album-edit/"</span> + docId))<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.unbind</span>( <span class="string">"pagehide"</span>, handleEditPageViewHide )<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.empty</span>()<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.remove</span>()<span class="comment">;</span>
+
+    }
+
+
+
+    function handleEditView()
+
+    {
+
+        // Watch for bound hide of page to clear from cache.
+
+        var docId = $(<span class="string">"#albumform"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        var albumPage = $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album-edit/"</span> + docId))<span class="comment">;</span>
+
+        albumPage<span class="preprocessor">.bind</span>( <span class="string">"pagehide"</span>, handleEditPageViewHide )<span class="comment">;</span>
+
+    }
+
+
+
+    return {
+
+        initialize: function() {
+
+            $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.live</span>( <span class="string">"pageshow"</span>, function() {
+
+                $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.die</span>( <span class="string">"pageshow"</span> )<span class="comment">;</span>
+
+                handleEditView()<span class="comment">;</span>
+
+            })<span class="comment">;</span>
+
+        }
+
+    }<span class="comment">;</span>
+
+}()<span class="comment">;</span>
+
+
+
+function handleEditPageReady()
+
+{
+
+    AlbumEditPageController<span class="preprocessor">.initialize</span>()<span class="comment">;</span>
+
+}
+
+$()<span class="preprocessor">.ready</span>( handleEditPageReady )</code></pre>
+<p>Once the page is loaded, the <strong>AlbumEditPageController</strong> is initialized an a <em>pageshow</em> event handler is assigned to recognize when the <em>albumedit</em> <a href="http://jquerymobile.com/">jQuery Mobile</a> page is shown. We access the page in the <strong>DOM</strong> using the standard <strong>data-role</strong> attribute value for a <strong>jQuery Mobile</strong> page. I stumbled upon this solution from these two forum posts – <a href="http://forum.jquery.com/topic/force-page-update"><a href="http://forum.jquery.com/topic/force-page-update">http://forum.jquery.com/topic/force-page-update</a></a> and <a href="http://forum.jquery.com/topic/binding-events-to-buttons-in-a-dialog"><a href="http://forum.jquery.com/topic/binding-events-to-buttons-in-a-dialog">http://forum.jquery.com/topic/binding-events-to-buttons-in-a-dialog</a></a> – and seem to be the current agreed upon solution for accessing a loading <strong>jQuery Mobile</strong> page. In the <em>handleEditView()</em> handler, the page in the <strong>DOM</strong> is accessed using <strong>document</strong>.<em>getElementById()</em> and assigned an event handler for <em>pagehide</em> to clear it from the page (ie. <strong>DOM</strong>) cache. Aside from the external page <strong>id</strong> used to access the element, this is pretty much identical to the solution from the previous post.</p>
+<p>One of the requirements for the <em>album edit</em> page is the ability to cancel and clear any edited fields by the user. In order to do so, we will stored a local object with the provided name/value pairs so the fields can be easily reverted.</p>
+<p>With <em>album-edit-page.js</em> open in your favorite text editor, make the following modifications and save the file:</p>
+<p><em>/_attachments/script/album-edit-page.js</em></p>
+<pre><code>var AlbumEditPageController = function() {
+
+
+
+    var editableAlbum<span class="comment">;</span>
+
+
+
+    function handleEditPageViewHide()
+
+    {
+
+        editableAlbum = null<span class="comment">;</span>
+
+
+
+        var docId = $(<span class="string">"#albumform"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        var pageCache =  $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album-edit/"</span> + docId))<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.unbind</span>( <span class="string">"pagehide"</span>, handleEditPageViewHide )<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.empty</span>()<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.remove</span>()<span class="comment">;</span>
+
+    }
+
+
+
+    function handleEditView()
+
+    {
+
+        // Watch for bound hide of page to clear from cache.
+
+        var docId = $(<span class="string">"#albumform"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        var albumPage = $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album-edit/"</span> + docId))<span class="comment">;</span>
+
+        albumPage<span class="preprocessor">.bind</span>( <span class="string">"pagehide"</span>, handleEditPageViewHide )<span class="comment">;</span>
+
+
+
+        storeUneditedDocument()<span class="comment">;</span>
+
+    }
+
+
+
+    function storeUneditedDocument()
+
+    {
+
+        var artist = $(<span class="string">"input#artistField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+        var album = $(<span class="string">"input#titleField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+        var description = $(<span class="string">"textarea#descriptionField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+        editableAlbum = {artist:artist, album:album, description:description}<span class="comment">;</span>
+
+    }
+
+
+
+    return {
+
+        initialize: function() {
+
+           $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.live</span>( <span class="string">"pageshow"</span>, function() {
+
+                $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.die</span>( <span class="string">"pageshow"</span> )<span class="comment">;</span>
+
+                handleEditView()<span class="comment">;</span>
+
+            })<span class="comment">;</span>
+
+        }
+
+    }<span class="comment">;</span>
+
+}()<span class="comment">;</span>
+
+
+
+function handleEditPageReady()
+
+{
+
+    AlbumEditPageController<span class="preprocessor">.initialize</span>()<span class="comment">;</span>
+
+}
+
+$()<span class="preprocessor">.ready</span>( handleEditPageReady )</code></pre>
+<p>An <strong>editableAlbum</strong> member is declared and updated upon <em>pageshow</em> in the <em>storeUneditedDocument()</em> method. With the original values stored in this externally-immutable we can ensure that whenever a user decides to cancel the editing of the <strong>album document</strong> we can revert the field values to the original document values. Let’s hook up the <strong>cancelBackButton</strong> and <strong>cancelButton</strong> elements declared in the <em>albumedit.html</em> template with <em>click</em> event handlers in order to handle the revert action back to the original values.</p>
+<p>Save the following modifications to <em>album-edit-page.js</em>:</p>
+<p><em>/_attachments/script/album-edit-page.js</em></p>
+<pre><code>var AlbumEditPageController = function() {
+
+
+
+    var editableAlbum<span class="comment">;</span>
+
+
+
+    function handleEditPageViewHide()
+
+    {
+
+        $(<span class="string">"#cancelButton"</span>)<span class="preprocessor">.die</span>( <span class="string">"click"</span>, handleCancelEdit )<span class="comment">;</span>
+
+        $(<span class="string">"#cancelBackButton"</span>)<span class="preprocessor">.die</span>( <span class="string">"click"</span> )<span class="comment">;</span>
+
+        editableAlbum = null<span class="comment">;</span>
+
+
+
+        var docId = $(<span class="string">"#albumform"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        var pageCache =  $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album-edit/"</span> + docId))<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.unbind</span>( <span class="string">"pagehide"</span>, handleEditPageViewHide )<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.empty</span>()<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.remove</span>()<span class="comment">;</span>
+
+    }
+
+
+
+    function handleEditView()
+
+    {
+
+        // Watch for bound hide of page to clear from cache.
+
+        var docId = $(<span class="string">"#albumform"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        var albumPage = $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album-edit/"</span> + docId))<span class="comment">;</span>
+
+        albumPage<span class="preprocessor">.bind</span>( <span class="string">"pagehide"</span>, handleEditPageViewHide )<span class="comment">;</span>
+
+
+
+        storeUneditedDocument()<span class="comment">;</span>
+
+    }
+
+
+
+    function storeUneditedDocument()
+
+    {
+
+        var artist = $(<span class="string">"input#artistField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+        var album = $(<span class="string">"input#titleField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+        var description = $(<span class="string">"textarea#descriptionField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+        editableAlbum = {artist:artist, album:album, description:description}<span class="comment">;</span>
+
+    }
+
+
+
+    function revertEdits()
+
+    {
+
+        $(<span class="string">"input#artistField"</span>)<span class="preprocessor">.val</span>( editableAlbum<span class="preprocessor">.artist</span> )<span class="comment">;</span>
+
+        $(<span class="string">"input#titleField"</span>)<span class="preprocessor">.val</span>( editableAlbum<span class="preprocessor">.album</span> )<span class="comment">;</span>
+
+        $(<span class="string">"textarea#descriptionField"</span>)<span class="preprocessor">.val</span>( editableAlbum<span class="preprocessor">.description</span> )<span class="comment">;</span>
+
+    }
+
+
+
+    function handleCancelEdit()
+
+    {
+
+        revertEdits()<span class="comment">;</span>
+
+    }
+
+
+
+    return {
+
+        initialize: function() {
+
+            $(<span class="string">"#cancelButton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, handleCancelEdit )<span class="comment">;</span>
+
+            $(<span class="string">"#cancelBackButton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, function( event ) {
+
+                event<span class="preprocessor">.preventDefault</span>()<span class="comment">;</span>
+
+                handleCancelEdit()<span class="comment">;</span>
+
+                return false<span class="comment">;</span>
+
+            })<span class="comment">;</span>
+
+            $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.live</span>( <span class="string">"pageshow"</span>, function() {
+
+                $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.die</span>( <span class="string">"pageshow"</span> )<span class="comment">;</span>
+
+                handleEditView()<span class="comment">;</span>
+
+            })<span class="comment">;</span>
+
+        }
+
+    }<span class="comment">;</span>
+
+}()<span class="comment">;</span>
+
+
+
+function handleEditPageReady()
+
+{
+
+    AlbumEditPageController<span class="preprocessor">.initialize</span>()<span class="comment">;</span>
+
+}
+
+$()<span class="preprocessor">.ready</span>( handleEditPageReady )</code></pre>
+<p>In this snippet, we have wired the two cancelable button elements up to invoke the <em>handleCancelEdit()</em> method upon a click event. All <em>revertEdits()</em> does is reset the field values based on the stored values in <strong>editableAlbum</strong>. We also take care to kill those event listeners when the page is hidden. Now that we have one requirement fulfilled (cancel-ability) for the <em>album edit</em> page, let’s move on to original intent of the page – submitting document changes.</p>
+<h3 id="submit">Submit</h3>
+<p>To submit changes to the target album document form the album edit page we will use the database API provided in the<em> jquery.couchdb</em> library plugin. That library is automatically loaded from the <strong>loader</strong> script created by <a href="http://couchapp.org/page/index">couchapp</a> if remember back to the first post where we accessed the list of available <strong>album documents</strong> from the <strong>albums</strong> database in our <a href="http://couchdb.apache.org/">CouchDB</a> instance. We resolved the <strong>$db</strong> member in the <em>index.html</em> to the <strong>albums</strong> database when the page is loaded. When submitting from the <em>album edit</em> page, we will just use that instance to load, modify and save the target document back to the database.</p>
+<p>Make the following modifications to <em>album-edit-page.js</em> and save:</p>
+<p><em>/_attachments/script/album-edit-page.js</em></p>
+<pre><code>var AlbumEditPageController = function() {
+
+
+
+    var editableAlbum<span class="comment">;</span>
+
+
+
+    function handleEditPageViewHide()
+
+    {
+
+        $(<span class="string">"#cancelButton"</span>)<span class="preprocessor">.die</span>( <span class="string">"click"</span>, handleCancelEdit )<span class="comment">;</span>
+
+        $(<span class="string">"#cancelBackButton"</span>)<span class="preprocessor">.die</span>( <span class="string">"click"</span> )<span class="comment">;</span>
+
+        $(<span class="string">"#submitButton"</span>)<span class="preprocessor">.die</span>( <span class="string">"click"</span> )<span class="comment">;</span>
+
+        editableAlbum = null<span class="comment">;</span>
+
+
+
+        var docId = $(<span class="string">"#albumform"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        var pageCache =  $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album-edit/"</span> + docId))<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.unbind</span>( <span class="string">"pagehide"</span>, handleEditPageViewHide )<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.empty</span>()<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.remove</span>()<span class="comment">;</span>
+
+    }
+
+
+
+    function handleEditView()
+
+    {
+
+        // Watch for bound hide of page to clear from cache.
+
+        var docId = $(<span class="string">"#albumform"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        var albumPage = $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album-edit/"</span> + docId))<span class="comment">;</span>
+
+        albumPage<span class="preprocessor">.bind</span>( <span class="string">"pagehide"</span>, handleEditPageViewHide )<span class="comment">;</span>
+
+
+
+        storeUneditedDocument()<span class="comment">;</span>
+
+    }
+
+
+
+    function storeUneditedDocument()
+
+    {
+
+        var artist = $(<span class="string">"input#artistField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+        var album = $(<span class="string">"input#titleField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+        var description = $(<span class="string">"textarea#descriptionField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+        editableAlbum = {artist:artist, album:album, description:description}<span class="comment">;</span>
+
+    }
+
+
+
+    function saveDocument( document )
+
+    {
+
+        $db<span class="preprocessor">.saveDoc</span>( document, {
+
+            success: function( response )  {
+
+                updateEditableAlbum( document )<span class="comment">;</span>
+
+            },
+
+            error: function() {
+
+                alert( <span class="string">"Cannot save document: "</span> + document._id )<span class="comment">;</span>
+
+            }
+
+        })<span class="comment">;</span>
+
+    }
+
+
+
+    function updateEditableAlbum( document )
+
+    {
+
+        editableAlbum<span class="preprocessor">.artist</span> = document<span class="preprocessor">.artist</span><span class="comment">;</span>
+
+        editableAlbum<span class="preprocessor">.album</span> = document<span class="preprocessor">.album</span><span class="comment">;</span>
+
+        editableAlbum<span class="preprocessor">.description</span> = document<span class="preprocessor">.description</span><span class="comment">;</span>
+
+    }
+
+
+
+    function revertEdits()
+
+    {
+
+        $(<span class="string">"input#artistField"</span>)<span class="preprocessor">.val</span>( editableAlbum<span class="preprocessor">.artist</span> )<span class="comment">;</span>
+
+        $(<span class="string">"input#titleField"</span>)<span class="preprocessor">.val</span>( editableAlbum<span class="preprocessor">.album</span> )<span class="comment">;</span>
+
+        $(<span class="string">"textarea#descriptionField"</span>)<span class="preprocessor">.val</span>( editableAlbum<span class="preprocessor">.description</span> )<span class="comment">;</span>
+
+    }
+
+
+
+    function handleCancelEdit()
+
+    {
+
+        revertEdits()<span class="comment">;</span>
+
+    }
+
+
+
+    return {
+
+        initialize: function() {
+
+            $(<span class="string">"#cancelButton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, handleCancelEdit )<span class="comment">;</span>
+
+            $(<span class="string">"#cancelBackButton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, function( event ) {
+
+                event<span class="preprocessor">.preventDefault</span>()<span class="comment">;</span>
+
+                handleCancelEdit()<span class="comment">;</span>
+
+                return false<span class="comment">;</span>
+
+            })<span class="comment">;</span>
+
+            $(<span class="string">"#submitButton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, function( event ) {
+
+                var docId = $(<span class="string">"#albumform"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+                $db<span class="preprocessor">.openDoc</span>( docId, {
+
+                    success: function( document ) {
+
+                        document<span class="preprocessor">.artist</span> = $(<span class="string">"input#artistField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+                        document<span class="preprocessor">.album</span> = $(<span class="string">"input#titleField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+                        document<span class="preprocessor">.description</span> = $(<span class="string">"textarea#descriptionField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+                        saveDocument( document )<span class="comment">;</span>
+
+                    },
+
+                    error: function() {
+
+                        alert( <span class="string">"Cannot open document: "</span> + docId )<span class="comment">;</span>
+
+                    }
+
+                })<span class="comment">;</span>
+
+            })<span class="comment">;</span>
+
+            $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.live</span>( <span class="string">"pageshow"</span>, function() {
+
+                $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.die</span>( <span class="string">"pageshow"</span> )<span class="comment">;</span>
+
+                handleEditView()<span class="comment">;</span>
+
+            })<span class="comment">;</span>
+
+        }
+
+    }<span class="comment">;</span>
+
+}()<span class="comment">;</span>
+
+
+
+function handleEditPageReady()
+
+{
+
+    AlbumEditPageController<span class="preprocessor">.initialize</span>()<span class="comment">;</span>
+
+}
+
+$()<span class="preprocessor">.ready</span>( handleEditPageReady )</code></pre>
+<p>A click event handler is assigned to the <strong>submitButton</strong> element, from which the document is loaded and assigned the associated field values. Upon update to the new values, <strong>$db</strong>.<em>saveDoc()</em> is invoked with a <strong>success</strong> handler that updates the privately held <strong>editableAlbum</strong> object. This ensures that the values are properly restored back to any saved changes if the user decides to cancel at any time after the successful save.<br>Almost there. We will just finish off our controller by navigating the user to the <em>album view</em> page upon <strong>Cancel</strong> or <strong>Submit</strong>.</p>
+<p>The following is the full <em>album-edit-page.js</em> file with the last modifications highlighted. Save the following changes to <em>album-edit-page.js</em>:</p>
+<p><em>/_attachments/script/album-edit-page.js</em></p>
+<pre><code>var AlbumEditPageController = function() {
+
+
+
+    var editableAlbum<span class="comment">;</span>
+
+
+
+    function handleEditPageViewHide()
+
+    {
+
+        $(<span class="string">"#cancelButton"</span>)<span class="preprocessor">.die</span>( <span class="string">"click"</span>, handleCancelEdit )<span class="comment">;</span>
+
+        $(<span class="string">"#cancelBackButton"</span>)<span class="preprocessor">.die</span>( <span class="string">"click"</span> )<span class="comment">;</span>
+
+        $(<span class="string">"#submitButton"</span>)<span class="preprocessor">.die</span>( <span class="string">"click"</span> )<span class="comment">;</span>
+
+        editableAlbum = null<span class="comment">;</span>
+
+
+
+        var docId = $(<span class="string">"#albumform"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        var pageCache =  $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album-edit/"</span> + docId))<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.unbind</span>( <span class="string">"pagehide"</span>, handleEditPageViewHide )<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.empty</span>()<span class="comment">;</span>
+
+        pageCache<span class="preprocessor">.remove</span>()<span class="comment">;</span>
+
+    }
+
+
+
+    function handleEditView()
+
+    {
+
+        // Watch for bound hide of page to clear from cache.
+
+        var docId = $(<span class="string">"#albumform"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        var albumPage = $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album-edit/"</span> + docId))<span class="comment">;</span>
+
+        albumPage<span class="preprocessor">.bind</span>( <span class="string">"pagehide"</span>, handleEditPageViewHide )<span class="comment">;</span>
+
+
+
+        storeUneditedDocument()<span class="comment">;</span>
+
+    }
+
+
+
+    function navigateToAlbumPage( docId )
+
+    {
+
+        $<span class="preprocessor">.mobile</span><span class="preprocessor">.changePage</span>( <span class="string">"_show/album/"</span> + docId, <span class="string">"slide"</span>, true, true )<span class="comment">;</span>
+
+    }
+
+
+
+    function storeUneditedDocument()
+
+    {
+
+        var artist = $(<span class="string">"input#artistField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+        var album = $(<span class="string">"input#titleField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+        var description = $(<span class="string">"textarea#descriptionField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+        editableAlbum = {artist:artist, album:album, description:description}<span class="comment">;</span>
+
+    }
+
+
+
+    function saveDocument( document )
+
+    {
+
+        $db<span class="preprocessor">.saveDoc</span>( document, {
+
+            success: function( response )  {
+
+                updateEditableAlbum( document )<span class="comment">;</span>
+
+                navigateToAlbumPage( document._id )<span class="comment">;</span>
+
+            },
+
+            error: function() {
+
+                alert( <span class="string">"Cannot save document: "</span> + document._id )<span class="comment">;</span>
+
+            }
+
+        })<span class="comment">;</span>
+
+    }
+
+
+
+    function updateEditableAlbum( document )
+
+    {
+
+        editableAlbum<span class="preprocessor">.artist</span> = document<span class="preprocessor">.artist</span><span class="comment">;</span>
+
+        editableAlbum<span class="preprocessor">.album</span> = document<span class="preprocessor">.album</span><span class="comment">;</span>
+
+        editableAlbum<span class="preprocessor">.description</span> = document<span class="preprocessor">.description</span><span class="comment">;</span>
+
+    }
+
+
+
+    function revertEdits()
+
+    {
+
+        $(<span class="string">"input#artistField"</span>)<span class="preprocessor">.val</span>( editableAlbum<span class="preprocessor">.artist</span> )<span class="comment">;</span>
+
+        $(<span class="string">"input#titleField"</span>)<span class="preprocessor">.val</span>( editableAlbum<span class="preprocessor">.album</span> )<span class="comment">;</span>
+
+        $(<span class="string">"textarea#descriptionField"</span>)<span class="preprocessor">.val</span>( editableAlbum<span class="preprocessor">.description</span> )<span class="comment">;</span>
+
+    }
+
+
+
+    function handleCancelEdit()
+
+    {
+
+        revertEdits()<span class="comment">;</span>
+
+        var docId = $(<span class="string">"#albumform"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        navigateToAlbumPage( docId )<span class="comment">;</span>
+
+    }
+
+
+
+    return {
+
+        initialize: function() {
+
+            $(<span class="string">"#cancelButton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, handleCancelEdit )<span class="comment">;</span>
+
+            $(<span class="string">"#cancelBackButton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, function( event ) {
+
+                event<span class="preprocessor">.preventDefault</span>()<span class="comment">;</span>
+
+                handleCancelEdit()<span class="comment">;</span>
+
+                return false<span class="comment">;</span>
+
+            })<span class="comment">;</span>
+
+            $(<span class="string">"#submitButton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, function( event ) {
+
+                var docId = $(<span class="string">"#albumform"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+                $db<span class="preprocessor">.openDoc</span>( docId, {
+
+                    success: function( document ) {
+
+                        document<span class="preprocessor">.artist</span> = $(<span class="string">"input#artistField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+                        document<span class="preprocessor">.album</span> = $(<span class="string">"input#titleField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+                        document<span class="preprocessor">.description</span> = $(<span class="string">"textarea#descriptionField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+
+                        saveDocument( document )<span class="comment">;</span>
+
+                    },
+
+                    error: function() {
+
+                        alert( <span class="string">"Cannot open document: "</span> + docId )<span class="comment">;</span>
+
+                    }
+
+                })<span class="comment">;</span>
+
+            })<span class="comment">;</span>
+
+            $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.live</span>( <span class="string">"pageshow"</span>, function() {
+
+                $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.die</span>( <span class="string">"pageshow"</span> )<span class="comment">;</span>
+
+                handleEditView()<span class="comment">;</span>
+
+            })<span class="comment">;</span>
+
+        }
+
+    }<span class="comment">;</span>
+
+}()<span class="comment">;</span>
+
+
+
+function handleEditPageReady()
+
+{
+
+    AlbumEditPageController<span class="preprocessor">.initialize</span>()<span class="comment">;</span>
+
+}
+
+$()<span class="preprocessor">.ready</span>( handleEditPageReady )</code></pre>
+<p>In <em>navigateToAlbumPage()</em> we use <strong>$.mobile</strong>.<em>changePage()</em> to navigate the user to the external <em>album view</em> page using the <strong>show function</strong> of our <a href="http://couchdb.apache.org/">CouchDB</a> application based on the <strong>_id</strong> of the target document that is loaded in the <em>album edit</em> page.</p>
+<p>That should be it… aside from one thing. Although (once we push our changes) we can access the page using the <strong>#_show/album-edit/${id}</strong> location, as the application currently stands, there is no way to access the <em>album edit</em> page from any other page in the application. To remedy that, we will make some modifications to the <em>album.html</em> template and the <em>album-page.js</em> script to navigate the user to the <em>album edit</em> page.</p>
+<h2 id="accessing-the-album-edit-page">Accessing the Album Edit Page</h2>
+<p>I am going to assume that you have been following along with <a href="http://custardbelly.com/blog/?p=297">previous posts</a> here and that you already have the <em>/templates/album.html</em> and <em>/_attachments/script/album-page.js</em> files. We are going to make modifications to them to include an <strong>edit button</strong> in the <em>album view</em> page and assign a <em>click</em> handler to navigate to the <em>album edit</em> page.</p>
+<h3 id="album-html">album.html</h3>
+<p>Open up the <em>/templates/album.html</em> file in your favorite text editor and save the following modifications:</p>
+<p><em>/templates/album.html</em></p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"page"</span> <span class="attribute">id</span>=<span class="value">"albumview"</span> <span class="attribute">data-position</span>=<span class="value">"inline"</span> <span class="attribute">data-back</span>=<span class="value">"true"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span> <span class="attribute">id</span>=<span class="value">"albumheader"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">h1</span> <span class="attribute">class</span>=<span class="value">"albumtitle"</span>&gt;</span><span class="variable">{{title}}</span><span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#home"</span> <span class="attribute">data-icon</span>=<span class="value">"grid"</span> <span class="attribute">class</span>=<span class="value">"ui-btn-right"</span>&gt;</span>Home<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span> <span class="attribute">id</span>=<span class="value">"albumcontent"</span> <span class="attribute">data-identity</span>=<span class="value">"<span class="variable">{{document}}</span>"</span>&gt;</span>
+
+      <span class="tag">&lt;<span class="title">h2</span> <span class="attribute">class</span>=<span class="value">"artist"</span>&gt;</span><span class="variable">{{artist}}</span><span class="tag">&lt;/<span class="title">h2</span>&gt;</span>
+
+      <span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"title"</span>&gt;</span><span class="variable">{{title}}</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+      <span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"description"</span>&gt;</span><span class="variable">{{description}}</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+      <span class="tag">&lt;<span class="title">p</span> <span class="attribute">id</span>=<span class="value">"editbutton"</span> <span class="attribute">data-role</span>=<span class="value">"button"</span> <span class="attribute">data-theme</span>=<span class="value">"a"</span>&gt;</span>Edit<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span> /&gt;</span>
+
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+<span class="variable">{{&gt;scripts}}</span></code></pre>
+<p>The only modification to the <em>album.html</em> template e have made is the inclusion of an <strong>Edit</strong> button which is a <strong>p</strong> element attributed with the <strong>data-role</strong> of <em>button</em>. The <a href="http://jquerymobile.com/">jQuery Mobile</a> framework will handle styling the <strong>Edit</strong> button to have consistency in look-and-feel with the other buttons throughout the application. Now let’s hook up a <em>click</em> event listener for that button element to take the user to the <em>album edit</em> page.</p>
+<h3 id="album-page-js">album-page.js</h3>
+<p>Open up <em>/_attachments/script/album-page.js</em> in your favorite text editor and save the following modifications:</p>
+<p><em>/_attachments/script/album-page.js</em></p>
+<pre><code>var AlbumPageController = function() {
+
+
+
+    function handleView()
+
+    {
+
+        $(<span class="string">"#editbutton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, handleEdit )<span class="comment">;</span>
+
+
+
+        // Watch for bound hide of page to clear from cache.
+
+        var docId = $(<span class="string">"#albumcontent"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        var albumPage = $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album/"</span> + docId))<span class="comment">;</span>
+
+        albumPage<span class="preprocessor">.bind</span>( <span class="string">"pagehide"</span>, handlePageViewHide )<span class="comment">;</span>
+
+    }
+
+
+
+    function handleEdit( event )
+
+    {
+
+        // Prevent default link event.
+
+        event<span class="preprocessor">.preventDefault</span>()<span class="comment">;</span>
+
+        // Access document id from data-identity.
+
+        var docId = $(<span class="string">"#albumcontent"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        // Change page.
+
+        $<span class="preprocessor">.mobile</span><span class="preprocessor">.changePage</span>( <span class="string">"_show/album-edit/"</span> + docId, <span class="string">"slide"</span>, false, true )<span class="comment">;</span>
+
+        return false<span class="comment">;</span>
+
+    }
+
+
+
+    function handlePageViewHide()
+
+    {
+
+        $(<span class="string">"#editbutton"</span>)<span class="preprocessor">.die</span>( <span class="string">"click"</span>, handleEdit )<span class="comment">;</span>
+
+
+
+        var docId = $(<span class="string">"#albumcontent"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        var albumPageCache =  $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album/"</span> + docId))<span class="comment">;</span>
+
+        albumPageCache<span class="preprocessor">.unbind</span>( <span class="string">"pagehide"</span>, handlePageViewHide )<span class="comment">;</span>
+
+        albumPageCache<span class="preprocessor">.empty</span>()<span class="comment">;</span>
+
+        albumPageCache<span class="preprocessor">.remove</span>()<span class="comment">;</span>
+
+    }
+
+
+
+    return {
+
+        initialize : function() {
+
+            $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.live</span>( <span class="string">"pageshow"</span>, function() {
+
+                $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.die</span>( <span class="string">"pageshow"</span> )<span class="comment">;</span>
+
+                handleView()<span class="comment">;</span>
+
+            })<span class="comment">;</span>
+
+        }
+
+    }<span class="comment">;</span>
+
+}()<span class="comment">;</span>
+
+
+
+function handlePageViewReady()
+
+{
+
+    AlbumPageController<span class="preprocessor">.initialize</span>()<span class="comment">;</span>
+
+}
+
+$()<span class="preprocessor">.ready</span>( handlePageViewReady )<span class="comment">;</span></code></pre>
+<p>The <em>handleEdit()</em> handler navigates to the album edit page using the <strong>$.mobile</strong>.<em>changePage()</em> method pointing to the page created by the <strong>show function</strong> using the target document <strong>id</strong> that is used to show the <em>album view</em> page.</p>
+<p>Now that we have implemented a way to navigate to the album edit page from the application through the album view page, we can deploy our changes to the <a href="http://couchdb.apache.org/">CouchDB</a> instance for our <strong>albums</strong> application.</p>
+<h2 id="deployment">Deployment</h2>
+<p>Our <strong>Albums</strong> application has been modified to allow a user to modify properties of an <strong>album document</strong> from an <em>album edit</em> page. That page can be accessed by clicking an <strong>Edit</strong> button from the <em>album view</em> page accessible from a selection of an album from the list presented on the landing <em>index.html</em>. With these modifications saved, we can now push to the <a href="http://couchdb.apache.org/">CouchDB</a> database using the <a href="http://couchapp.org/page/index">couchapp</a> utility. Open a terminal and navigate to the directory where you create your <strong>CouchApp</strong> applications (for me that is <em>/Documents/workspace/custardbelly/couchdb</em> and in there i have a folder named <em>albums</em> which is the <strong>CouchApp</strong> application directory for these examples). Enter the following command to push the changes to the <strong>CouchDB</strong> instance:</p>
+<pre><code><span class="title">couchapp</span> push albums <span class="url">http://127.0.0.1:5984/albums</code></pre>
+<p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>, click on an album from the list and select to edit that document. From the <em>album edit</em> page you are able to either cancel any edits or submit the changes to the target <strong>album document</strong>. What a thing of beauty <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Let’s take a look at the current state of the application:</p>
+<p><em>index.html (aka #home)</em>:<br><img src="http://www.custardbelly.com/blog/images/couchapp_six.png" alt="index.html"></p>
+<p><em>album view page</em>:<br><img src="http://www.custardbelly.com/blog/images/couchapp_seven.png" alt="album view page"></p>
+<p><em>album edit page</em>:<br><img src="http://www.custardbelly.com/blog/images/couchapp_eight.png" alt="album edit page"></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>This post got a lot longer than I had anticipated… which just goes to show what a wind-bag i am <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> All joking aside, I think we covered some good ground, especially about saving modifications to a document back to the <a href="http://couchdb.apache.org/">CouchDB</a> database. We also covered, again, how to monitor pages so as to remove them from cache and ensure that the user is always presented with the latest document information. We also delved into assigning event listeners to button elements. All good fun… well, hopefully, it was to you.</p>
+<p><em>[Note] This post was written against the following software versions:</em><br><strong>CouchDB </strong>– 1.0.1<br><strong>CouchApp</strong> – 0.7.2<br><strong>jQuery</strong> – 1.4.4<br><strong>jQuery Mobile</strong> – 1.0a2<br><em>If you have found this post and any piece has moved forward, hopefully the examples are still viable/useful. I will not be updating the examples in this post in parellel with updates to any of the previously mentioned software, unless explicitly noted.</em></p>
+<p><strong>Articles in this series:</strong></p>
+<ol>
+<li><a href="http://custardbelly.com/blog/?p=244">Getting Started</a></li>
+<li><a href="http://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
+<li><a href="http://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
+<li><a href="http://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
+<li><a href="http://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
+<li><a href="http://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
+<li><a href="http://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
+<li><a href="http://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
+</ol>
+<p><a href="http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="http://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="http://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2011/01/12/jquery-mobile-couchdb-part-5-adding-documents/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2010/12/28/jquery-mobile-couchdb-part-3-templates-and-mustache-js/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2011/01/04/jquery-mobile-couchdb-part-4-editing-documents/index.html";
+        window.disqus_title="jQuery Mobile + CouchDB: Part 4 – Editing Documents";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

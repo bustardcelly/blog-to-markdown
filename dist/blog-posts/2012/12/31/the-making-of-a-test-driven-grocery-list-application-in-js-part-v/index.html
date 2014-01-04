@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - The Making of a Test-Driven Grocery List Application in JS: Part V</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/index.html">The Making of a Test-Driven Grocery List Application in JS: Part V</a></h1>
+    <p>
+      2012 December 31st
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p><em>This is the fifth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
+<h2 id="introduction">Introduction</h2>
+<p>The <a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">previous article</a> was prefaced to be a refactoring effort to remove responsibilities of item management from the <em>list-controller</em> to instances of a <em>list-item-controller</em>. We designed the list-item-controller through specs, moved the factory to its own AMD and modified not only the <em>grocery-ls-item</em> model, but how the <em>list-item-controller</em> responded to changes of it.</p>
+<p>All important and – in my view – much needed changes. However, we fell short on our goal. Sure, the tests still passed, but we modified nothing within the <em>list-controller</em> to reflect this transfer of responsibility. Part of the reason for this is my attempt at not overloading each article in this series with information. The other part is that I wanted a little time to stew over how I actually saw the revision of <em>list-controller</em>.</p>
+<p>We still want to keep our feature specs of <em>Add Item</em> and <em>Mark Item</em> (and we have a few more features still to address), but I begin to question if it is really necessary to expose that functionality on the API of the <em>list-controller</em>. I am starting to see that those features are really part of a collection of <em>grocery-ls-item</em> models, and the controllers are just responders to changes on the collection and models themselves – the basis of MVC design.</p>
+<p>Just as we implemented <em>list-item-controller</em> in the previous article with a design to respond to changes on a provided <em>grocery-ls-item</em> model and update its state accordingly, I propose so should we refactor the <em>list-controller</em> to respond to changes on a collection of <em>grocery-ls-item</em> models.</p>
+<h2 id="collection">Collection</h2>
+<p>A generic collection is basically an object that provides a higher-level API to interact with an array of items. The API can provide a more readable way of adding and removing items on an underlying <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array">Array</a> instance instead of using methods like <em>push</em> or <em>splice</em> – which are base level and don’t use a nomenclature that is best suited for the action taken – but more importantly, the API provides a facade to operations on an array of items from which it can internally have stricter rules over such actions. </p>
+<p>There are various libraries and frameworks out there that support collections, and even different type of collections – ie, sets, linked lists, etc. As has been mentioned in previous posts, I am trying not to introduce new libraries into this series as it may add unnecessary noise to the task at hand. This also allows for us to keep the <em>Collection</em> implementation lean and customizable for the <strong>Grocery List</strong> application; we’re also going to support event notification from the collection, which is not inherent in the JavaScript <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array">Array</a> object.</p>
+<h3 id="tests">Tests</h3>
+<p>We will create the design of a <em>Collection</em> object piecemeal as we write the specs for it. To start, we know that it is to be a wrapper around an Array source:</p>
+<p><em>/test/jasmine/spec/collection.spec.js</em></p>
+<pre><code>define( [<span class="string">'jquery'</span>], <span class="reserved">function</span>($) {
+
+
+
+  <span class="reserved">var</span> collectionImpl = {
+
+        itemLength: <span class="reserved">function</span>() {
+
+          <span class="keyword">return</span> <span class="keyword">this</span>.list.length;
+
+        }
+
+      },
+
+      collectionFactory = {
+
+        create: <span class="reserved">function</span>(source) {
+
+          <span class="reserved">var</span> instance = Object.create(collectionImpl, {
+
+              <span class="string">"list"</span>: {
+
+                  value: Array.isArray(source) ? source : [],
+
+                  writable: <span class="literal">true</span>,
+
+                  enumerable: <span class="literal">true</span>
+
+          });
+
+          <span class="keyword">return</span> instance;
+
+        }
+
+      };
+
+
+
+  describe(<span class="string">'Collection'</span>, <span class="reserved">function</span>() {
+
+
+
+    describe(<span class="string">'collection factory instance creation'</span>, <span class="reserved">function</span>() {
+
+
+
+      it(<span class="string">'should create unique instances of collection from create()'</span>, <span class="reserved">function</span>() {
+
+        <span class="reserved">var</span> collectionOne = collectionFactory.create(),
+
+            collectionTwo = collectionFactory.create();
+
+        expect(collectionOne).<span class="keyword">not</span>.toBe(collectionTwo);
+
+      });
+
+
+
+      it(<span class="string">'should create an empty collection without source array provided'</span>, <span class="reserved">function</span>() {
+
+        <span class="reserved">var</span> collection = collectionFactory.create();
+
+        expect(collection).<span class="keyword">not</span>.toBeUndefined();
+
+        expect(collection.itemLength()).toBe(<span class="number">0</span>);
+
+      });
+
+
+
+      it(<span class="string">'should create a collection from source array provided'</span>, <span class="reserved">function</span>() {
+
+        <span class="reserved">var</span> items = [<span class="string">'apples'</span>, <span class="string">'oranges'</span>],
+
+            collection = collectionFactory.create(items);
+
+        expect(collection.itemLength()).toBe(<span class="number">2</span>);
+
+      });
+
+
+
+    });
+
+
+
+  });
+
+
+
+});</code></pre>
+<p>We have defined two specs that involve testing the wrapped Array source for a collection. Upon creation, the array should be empty if no source array supplied or filled with items if source provided. Pretty straight forward.<br>Again, we are only concerned with the latest-and-greatest browsers, so you may notice the use of <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/isArray">Array.isArray</a> when the <em>list</em> property is defined within the check the <em>source</em> argument on the <em>collectionFactory.create()</em> call.</p>
+<h4 id="aside">aside</h4>
+<p>We could get into a lengthy discussion about the design of <em>collectionImpl</em>, and in particular that the <em>list</em> property is publicly accessible – i mean, after all, are we not defeating the point of providing an API to manipulate the list if some developer could just come along and access it directly? A valid point, and one I struggle with often. We could – and I would recommend, at times – using the functional inheritance pattern to ‘privately’ hold the underlying list within the collection. For example:</p>
+<pre><code><span class="keyword">var</span> collectionImpl = (<span class="keyword">function</span>(source) {
+
+  <span class="keyword">var</span> list = source;
+
+  <span class="keyword">return</span> {
+
+    itemLength: <span class="keyword">function</span>() {
+
+      <span class="keyword">return</span> list.length;
+
+    }
+
+  };
+
+});
+
+<span class="keyword">var</span> instance = collectionImpl([]);</code></pre>
+<p>That would ‘<em>conveniently</em>‘ make the underlying array ‘private’, but there are an arguable list of pros and cons to this approach – the biggest con is the creation of a new object with new functions and new properties each call, rather then a shared inheritance. In essence, each new instance of collection created using this pattern could then modify, add and/or remove methods so that the API is not the same across all ‘instances’ of the collection – that’s a big con for me.</p>
+<p>For our implementation, let’s just take it with a grain of salt that we don’t expect anyone to maliciously access the source array of the collection and use the API we are defining in our tests <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<h4 id="end-aside">end aside</h4>
+<p>Even though in the last spec, we aren’t concerned with the underlying list being strictly equal to the provided source, we should probably check that the list has the correct items and is in the correct order:</p>
+<p><em>/test/jasmine/spec/collection.spec.js</em></p>
+<pre><code><span class="keyword">var</span> collectionImpl = {
+
+  itemLength: <span class="keyword">function</span>() {
+
+    <span class="keyword">return</span> <span class="keyword">this</span>.list.length;
+
+  },
+
+  getItemAt: <span class="keyword">function</span>( index ) {
+
+    <span class="keyword">if</span>( index &lt; <span class="number">0</span> || (index &gt; <span class="keyword">this</span>.itemLength() - <span class="number">1</span>) ) {
+
+      <span class="keyword">return</span> <span class="literal">undefined</span>;
+
+    }
+
+    <span class="keyword">return</span> <span class="keyword">this</span>.list[index];
+
+  }
+
+}</code></pre>
+<p>The <em>getItemAt()</em> method first verifies that the supplied index within the range of the wrapped array and returns undefined if not or the item held in the array at the supplied index. We can ensure that method works properly by adding a couple tests to the spec we already have for verifying the source provided on creation:</p>
+<p><em>/test/jasmine/spec/collection.spec.js</em></p>
+<pre><code><span class="function"><span class="title">it</span><span class="params">('should create a collection from source array', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+  var item<span class="variable">One</span> = 'apples',
+
+      item<span class="variable">Two</span> = 'oranges',
+
+      collection = collection<span class="variable">Factory</span>.<span class="function_name">create</span>([item<span class="variable">One</span>, item<span class="variable">Two</span>]);
+
+  <span class="function_name">expect</span>(collection.<span class="function_name">itemLength</span>()).<span class="function_name">toBe</span>(<span class="number">2</span>);
+
+  <span class="function_name">expect</span>(collection.<span class="function_name">getItemAt</span>(<span class="number">0</span>)).<span class="function_name">toEqual</span>(item<span class="variable">One</span>);
+
+  <span class="function_name">expect</span>(collection.<span class="function_name">getItemAt</span>(<span class="number">1</span>)).<span class="function_name">toEqual</span>(item<span class="variable">Two</span>);
+
+}</span>);</code></pre>
+<p>Let’s go ahead and add some useful methods that will aid in adding and removing items to and from the collection:</p>
+<p><em>/test/jasmine/spec/collection.spec.js</em></p>
+<pre><code>var collectionImpl = {
+
+  itemLength: function() {
+
+    <span class="keyword">return</span> <span class="keyword">this</span><span class="variable">.list</span><span class="variable">.length</span>;
+
+  },
+
+  addItem: function(item) {
+
+    <span class="keyword">this</span><span class="variable">.list</span><span class="variable">.push</span>(item);
+
+    <span class="keyword">return</span> item;
+
+  },
+
+  removeItem: function(item) {
+
+    var index = <span class="keyword">this</span><span class="variable">.list</span><span class="variable">.indexOf</span>(item);
+
+    <span class="keyword">if</span>( index &gt; -<span class="number">1</span> ) {
+
+      <span class="keyword">this</span><span class="variable">.list</span><span class="variable">.splice</span>(index, <span class="number">1</span>);
+
+      <span class="keyword">return</span> item;
+
+    }
+
+    <span class="keyword">return</span> undefined;
+
+  },
+
+  removeAll: function() {
+
+    <span class="keyword">this</span><span class="variable">.list</span><span class="variable">.length</span> = [];
+
+  },
+
+  getItemAt: function( index ) {
+
+    <span class="keyword">if</span>( index &lt; <span class="number">0</span> || (index &gt; <span class="keyword">this</span><span class="variable">.itemLength</span>() - <span class="number">1</span>) ) {
+
+      <span class="keyword">return</span> undefined;
+
+    }
+
+    <span class="keyword">return</span> <span class="keyword">this</span><span class="variable">.list</span>[index];
+
+  }
+
+}</code></pre>
+<p>We could add some specs for <em>addItem()</em> to ensure that the list does grow with each item appended to the end:</p>
+<p><em>/test/jasmine/spec/collection.spec.js</em></p>
+<pre><code><span class="function"><span class="title">describe</span><span class="params">('collection item addition', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+
+
+  var collection;
+
+
+
+  <span class="function_name">beforeEach</span>( <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+    collection = collection<span class="variable">Factory</span>.<span class="function_name">create</span>();
+
+  }</span>);
+
+
+
+  <span class="function_name">it</span>('should append item to list from <span class="function_name">addItem</span>()', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+    var item = 'grapes';
+
+    collection.<span class="function_name">addItem</span>(item);
+
+    <span class="function_name">expect</span>(collection.<span class="function_name">itemLength</span>()).<span class="function_name">toBe</span>(<span class="number">1</span>);
+
+    <span class="function_name">expect</span>(collection.<span class="function_name">getItemAt</span>(<span class="number">0</span>)).<span class="function_name">toEqual</span>(item);
+
+  }</span>);
+
+
+
+  <span class="function_name">it</span>('should maintain order during multiple additions', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+    var item<span class="variable">One</span> = 'grapes',
+
+        item<span class="variable">Two</span> = 'grapefruit';
+
+    collection.<span class="function_name">addItem</span>(item<span class="variable">One</span>);
+
+    collection.<span class="function_name">addItem</span>(item<span class="variable">Two</span>);
+
+    <span class="function_name">expect</span>(collection.<span class="function_name">itemLength</span>()).<span class="function_name">toBe</span>(<span class="number">2</span>);
+
+    <span class="function_name">expect</span>(collection.<span class="function_name">getItemAt</span>(<span class="number">1</span>)).<span class="function_name">toEqual</span>(item<span class="variable">Two</span>);
+
+  }</span>);
+
+
+
+  <span class="function_name">afterEach</span>( <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+    collection = undefined;
+
+  }</span>);
+
+
+
+});</code></pre>
+<p>… and throw in a spec suite for testing the removal API on the <em>Collection</em>:</p>
+<p><em>/test/jasmine/spec/collection.spec.js</em></p>
+<pre><code>describe('collection <span class="property">item</span> removal', function() {
+
+
+
+  var collection,
+
+      itemOne = 'pineapple',
+
+      itemTwo = 'pear';
+
+
+
+  beforeEach( function() {
+
+    collection = collectionFactory.create();
+
+    collection.addItem(itemOne);
+
+  });
+
+
+
+  <span class="keyword">it</span>('should remove only specified <span class="property">item</span> <span class="keyword">and</span> report <span class="property">length</span> <span class="keyword">of</span> <span class="number">0</span> <span class="keyword">from</span> removeItem()', function() {
+
+    collection.removeItem(itemOne);
+
+    expect(collection.itemLength()).toBe(<span class="number">0</span>);
+
+  });
+
+
+
+  <span class="keyword">it</span>('should remove specified <span class="property">item</span> <span class="keyword">from</span> proper index', function() {
+
+    collection.addItem(itemTwo);
+
+    collection.removeItem(itemOne);
+
+    expect(collection.itemLength()).toBe(<span class="number">1</span>);
+
+    expect(collection.getItemAt(<span class="number">0</span>)).toEqual(itemTwo);
+
+  });
+
+
+
+  <span class="keyword">it</span>('should retain items <span class="keyword">in</span> collection <span class="keyword">if</span> <span class="property">item</span> provided <span class="keyword">to</span> removeItem() <span class="keyword">is</span> <span class="keyword">not</span> found', function() {
+
+    collection.addItem(itemTwo);
+
+    collection.removeItem('watermelon');
+
+    expect(collection.itemLength()).toBe(<span class="number">2</span>);
+
+  });
+
+
+
+  <span class="keyword">it</span>('should empty <span class="keyword">the</span> <span class="type">list</span> <span class="function_start"><span class="keyword">on</span> <span class="title">removeAll</span><span class="params">()</span></span>', function() {
+
+    collection.addItem(itemTwo);
+
+    collection.removeAll();
+
+    expect(collection.itemLength()).toBe(<span class="number">0</span>);
+
+  });
+
+
+
+  afterEach( function() {
+
+    collection = undefined;
+
+  });
+
+
+
+});</code></pre>
+<p>With that, we have roughly designed and verified the API for our custom <em>Collection</em> object. Let’s add it to our list of specs to run:</p>
+<p><em>/test/jasmine/specrunner.html</em></p>
+<pre><code><span class="keyword">require</span>( [<span class="string">'spec/newitem.spec.js'</span>, <span class="string">'spec/markitem.spec.js'</span>,
+
+          <span class="string">'spec/item-controller.spec.js'</span>, <span class="string">'spec/grocery-ls-item.spec.js'</span>,
+
+          <span class="string">'spec/collection.spec.js'</span>], <span class="keyword">function</span>() {
+
+
+
+  var jasmineEnv = jasmine.getEnv(),
+
+     <span class="keyword">...</span>
+
+  jasmineEnv.execute();
+
+
+
+});</code></pre>
+<p>Run it and all is green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_v_1.png" alt="Passing collection suite"></p>
+<p>Whoa. Settle down… we’re not done yet <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<h4 id="collection-events">Collection Events</h4>
+<p>If we think back to why we even started down this path of creating a Collection object, we’ll remember that its role in the <strong>Grocery List</strong> application is to serve as the model for the <em>list-controller</em>. It is the intention to eventually modify the <em>list-controller</em> to not only offload the responsibility of managing the relationship and interaction between individual <em>grocery-ls-item</em> models to their views, but also to respond to changes on the collection of <em>grocery-ls-item_s accordingly. As such, we will incorporate event notification into our _Collection</em> object, from which the <em>list-controller</em> can assign response delegates to changes on the collection.</p>
+<p>Using <a href="http://api.jquery.com/category/Events/?rdfrom=http%3A%2F%2Fdocs.jquery.com%2Fmw%2Findex.php%3Ftitle%3DAPI%2F1.3%2FEvents%26redirect%3Dno">jQuery Event</a> as we have previously in the development of this application throughout this series, we’ll create a factory method that returns an event object based provided arguments. If you are familiar with collections from the <a href="http://www.adobe.com/devnet/flex/flex-sdk-download.html">Flex SDK</a>, you might notice something similar <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> :</p>
+<p><em>/test/jasmine/spec/collection.spec.js</em></p>
+<pre><code>function createEvent(kind, items) {
+
+  <span class="keyword">var</span> <span class="keyword">event</span> = <span class="keyword">new</span> $.Event(<span class="string">'collection-change'</span>);
+
+  <span class="keyword">event</span>.kind = kind;
+
+  <span class="keyword">event</span>.items = items;
+
+  <span class="keyword">return</span> <span class="keyword">event</span>;
+
+}</code></pre>
+<p>Basically, any event dispatched from the collection object will be of the same type, and its operation can be differentiated from the <em>kind</em> property. The items affected upon the associated operation (<em>kind</em>) are provided in an array as some operations may involve multiple items.</p>
+<p>With the API we have defined for the collection, there are three operations that can modify the the list of items:</p>
+<ul>
+<li>add</li>
+<li>remove</li>
+<li>reset</li>
+</ul>
+<p>The methods associated with add and remove are pretty self-explanatory and we will consider <em>removeAll()</em> as a reset on the collection. With this in mind, let’s append a couple tests to our spec suites for these event notifications:</p>
+<p><em>/test/jasmine/spec/collection.spec.js</em></p>
+<pre><code>describe(<span class="string">'collection item addition'</span>, <span class="keyword">function</span>() {
+
+<span class="keyword">...</span>
+
+    async.it(<span class="string">'should notify on addition of item'</span>, <span class="keyword">function</span>(done) {
+
+      var item = <span class="string">'grapes'</span>;
+
+      $(collection).on(<span class="string">'collection-change'</span>, <span class="keyword">function</span>(event) {
+
+        expect(event.kind).toBe(<span class="string">'add'</span>);
+
+        expect(event.items.length).toBe(<span class="number">1</span>);
+
+        expect(event.items[<span class="number">0</span>]).toEqual(item);
+
+        $(collection).off(<span class="string">'collection-change'</span>);
+
+        done();
+
+      });
+
+      collection.addItem(item);
+
+    });
+
+<span class="keyword">...</span>
+
+});
+
+<span class="keyword">...</span>
+
+describe(<span class="string">'collection item removal'</span>, <span class="keyword">function</span>() {
+
+<span class="keyword">...</span>
+
+  async.it(<span class="string">'should notify on removal of item'</span>, <span class="keyword">function</span>(done) {
+
+    collection.addItem(itemTwo);
+
+    $(collection).on(<span class="string">'collection-change'</span>, <span class="keyword">function</span>(event) {
+
+      expect(event.kind).toBe(<span class="string">'remove'</span>);
+
+      expect(event.items.length).toBe(<span class="number">1</span>);
+
+      expect(event.items[<span class="number">0</span>]).toEqual(itemOne);
+
+      $(collection).off(<span class="string">'collection-change'</span>);
+
+      done();
+
+    });
+
+    collection.removeItem(itemOne);
+
+  });
+
+
+
+  async.it(<span class="string">'should notify on reset of collection'</span>, <span class="keyword">function</span>(done) {
+
+    $(collection).on(<span class="string">'collection-change'</span>, <span class="keyword">function</span>(event) {
+
+      expect(event.kind).toBe(<span class="string">'reset'</span>);
+
+      expect(event.items.length).toBe(<span class="number">0</span>);
+
+      $(collection).off(<span class="string">'collection-change'</span>);
+
+      done();
+
+    });
+
+    collection.removeAll();
+
+  });
+
+
+
+  afterEach( <span class="keyword">function</span>() {
+
+    collection = undefined;
+
+  });
+
+<span class="keyword">...</span>
+
+});</code></pre>
+<p>If you were to run the tests now, you would see a couple execute then hang intermittently as it waits for the async tests to timeout… because we haven’t implemented the dispatching of events from the collection yet <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p><em>/test/jasmine/spec/collection.spec.js</em></p>
+<pre><code><span class="keyword">var</span> collectionImpl = {
+
+  itemLength: <span class="keyword">function</span>() {
+
+    <span class="keyword">return</span> <span class="keyword">this</span>.list.length;
+
+  },
+
+  addItem: <span class="keyword">function</span>(item) {
+
+    <span class="keyword">this</span>.list.push(item);
+
+    $(<span class="keyword">this</span>).trigger(createEvent(<span class="string">'add'</span>, [item]));
+
+    <span class="keyword">return</span> item;
+
+  },
+
+  removeItem: <span class="keyword">function</span>(item) {
+
+    <span class="keyword">var</span> index = <span class="keyword">this</span>.list.indexOf(item);
+
+    <span class="keyword">if</span>( index &gt; -<span class="number">1</span> ) {
+
+      <span class="keyword">this</span>.list.splice(index, <span class="number">1</span>);
+
+      $(<span class="keyword">this</span>).trigger(createEvent(<span class="string">'remove'</span>, [item]));
+
+      <span class="keyword">return</span> item;
+
+    }
+
+    <span class="keyword">return</span> <span class="literal">undefined</span>;
+
+  },
+
+  removeAll: <span class="keyword">function</span>() {
+
+    <span class="keyword">this</span>.list.length = [];
+
+    $(<span class="keyword">this</span>).trigger(createEvent(<span class="string">'reset'</span>, <span class="keyword">this</span>.list));
+
+  },
+
+  getItemAt: <span class="keyword">function</span>( index ) {
+
+    <span class="keyword">if</span>( index &lt; <span class="number">0</span> || (index &gt; <span class="keyword">this</span>.itemLength() - <span class="number">1</span>) ) {
+
+      <span class="keyword">return</span> <span class="literal">undefined</span>;
+
+    }
+
+    <span class="keyword">return</span> <span class="keyword">this</span>.list[index];
+
+  }
+
+}</code></pre>
+<p>Now, if you were to run the tests, all should be happy.</p>
+<h3 id="collection-module-implementation">Collection Module Implementation</h3>
+<p>Just as we have done with the <em>list-item-controller</em> from the <a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv/">previous article</a>, we are going to take the work we had done in implementing the collection object within our tests and move it to an AMD module. This way, if we <em>ever</em> get around to refactoring the <em>list-controller</em>, we’ll be able to utilize the collection module:</p>
+<p><em>/script/collection/collection.js</em></p>
+<pre><code>define([<span class="string">'jquery'</span>], <span class="keyword">function</span>($) {
+
+
+
+  <span class="function"><span class="keyword">function</span> <span class="title">createEvent</span><span class="params">(kind, items)</span> {</span>
+
+    <span class="keyword">var</span> event = $.Event(<span class="string">'collection-change'</span>);
+
+    event.kind = kind;
+
+    event.items = items;
+
+    <span class="keyword">return</span> event;
+
+  }
+
+
+
+  <span class="keyword">var</span> _collectionEventKind = {
+
+        ADD: <span class="string">'add'</span>,
+
+        REMOVE: <span class="string">'remove'</span>,
+
+        RESET: <span class="string">'reset'</span>
+
+      },
+
+      collection = {
+
+        itemLength: <span class="keyword">function</span>() {
+
+          <span class="keyword">return</span> <span class="keyword">this</span>.list.length;
+
+        },
+
+        addItem: <span class="keyword">function</span>(item) {
+
+          <span class="keyword">this</span>.list.push(item);
+
+          $(<span class="keyword">this</span>).trigger(createEvent(_collectionEventKind.ADD, [item]));
+
+          <span class="keyword">return</span> item;
+
+        },
+
+        removeItem: <span class="keyword">function</span>(item) {
+
+          <span class="keyword">var</span> index = <span class="keyword">this</span>.getItemIndex(item);
+
+          <span class="keyword">if</span>( index &gt; -<span class="number">1</span> ) {
+
+            <span class="keyword">this</span>.list.splice(index, <span class="number">1</span>);
+
+            $(<span class="keyword">this</span>).trigger(createEvent(_collectionEventKind.REMOVE, [item]));
+
+            <span class="keyword">return</span> item;
+
+          }
+
+          <span class="keyword">return</span> <span class="literal">undefined</span>;
+
+        },
+
+        removeAll: <span class="keyword">function</span>() {
+
+          <span class="keyword">this</span>.list.length = <span class="number">0</span>;
+
+          $(<span class="keyword">this</span>).trigger(createEvent(_collectionEventKind.RESET, <span class="keyword">this</span>.list));
+
+        },
+
+        getItemAt: <span class="keyword">function</span>(index) {
+
+          <span class="keyword">if</span>( index &lt; <span class="number">0</span> || (index &gt; <span class="keyword">this</span>.itemLength() - <span class="number">1</span>) ) {
+
+            <span class="keyword">return</span> <span class="literal">undefined</span>;
+
+          }
+
+          <span class="keyword">return</span> <span class="keyword">this</span>.list[index];
+
+        },
+
+        getItemIndex: <span class="keyword">function</span>(item) {
+
+          <span class="keyword">return</span> <span class="keyword">this</span>.list.indexOf(item);
+
+        },
+
+        contains: <span class="keyword">function</span>(item) {
+
+          <span class="keyword">return</span> <span class="keyword">this</span>.getItemIndex(item) != -<span class="number">1</span>;
+
+        }
+
+      };
+
+
+
+  <span class="keyword">return</span> {
+
+    collectionEventKind: _collectionEventKind,
+
+    create: <span class="keyword">function</span>(source) {
+
+      <span class="keyword">var</span> instance = Object.create(collection);
+
+      Object.defineProperty(instance, <span class="string">"list"</span>, {
+
+          value: Array.isArray(source) ? source : [],
+
+          writable: <span class="literal">true</span>,
+
+          enumerable: <span class="literal">true</span>
+
+      });
+
+      <span class="keyword">return</span> instance;
+
+    }
+
+  };
+
+
+
+});</code></pre>
+<p>We have basically ripped the collection and factory out from our test implementation and dropped it into its own file, returning the event kind enumeration object and the <em>create()</em> factory method to generate new collections for this AMD module.</p>
+<p>To verify that our <em>Collection</em> module works correctly, let’s replace the implementation in the test with this module reference and run our tests again:</p>
+<p><em>/test/jasmine/spec/collection.spec.js</em></p>
+<pre><code>define( [<span class="string">'jquery'</span>, <span class="string">'script/collection/collection'</span>], <span class="keyword">function</span>($, collectionFactory) {
+
+
+
+  describe(<span class="string">'Collection'</span>, <span class="keyword">function</span>() {
+
+     <span class="keyword">...</span>
+
+  });
+
+
+
+});</code></pre>
+<p><img src="http://custardbelly.com/blog/images/tdd_js/part_v_2.png" alt="Passing collection tests on AMD module"></p>
+<p>Tagged: <strong>0.1.6</strong> <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.6"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.6">https://github.com/bustardcelly/grocery-ls/tree/0.1.6</a></a></p>
+<h2 id="list-controller-refactoring">list-controller Refactoring</h2>
+<p>Passing tests are great! But currently, they are lying to us. Well… not <em>really</em>, but we have gone about all these new additions to our application and have yet still to refactor <em>list-controller</em> to utilize them. However, before we just start chopping out and inserting code from <em>list-controller</em>, I want to go over the API and specs currently defined and see if they still hold water – meaning we might be able to cut some tests out. We might not. We might even add more. Let’s see…</p>
+<h3 id="newitem-spec">newitem.spec</h3>
+<p>As we designed the <a href="https://github.com/bustardcelly/grocery-ls/blob/0.1.3/script/controller/list-controller.js"><em>list-controller</em></a> from a <a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">previous article</a>, it oversaw the state of list items, list item views, and sort of supported a quasi-state of <em>‘editability’</em>. While this provided an API to create a new item, it was forced into exposing an <em>editableItem</em> that was then mutable based on other parts of its API – ie, <em>editFocusedItem()</em> and <em>saveFocusedItem()</em>. All well and good to support the feature requirements at the time, but we have now moved the item and item view management – as well as the editable state – to the latest <em>list-item-controller</em> as can be seen in the repo <a href="https://github.com/bustardcelly/grocery-ls/blob/0.1.5/script/controller/list-item-controller.js">tagged at 0.1.5</a>. As such, I feel not only the <em>list-controller</em>, itself, should change to reflect these modifications, but also its API.</p>
+<p>We are going to stick with our feature request to be able to add a new item to the <strong>Grocery List</strong> application through the <em>list-controller</em>, but will revisit how that is done in accordance to the new functionality of both the <em>list-item-controller</em> and <em>list-controller</em>; mainly we want to keep in mind that both should be driven by their respective model: <em>grocery-ls-item</em> and <em>collection</em>.</p>
+<p>Let’s first revisit the specs we defined for new item feature from <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/">the second post</a> in this series:</p>
+<p><em>// spec</em><br>—<br><strong>Scenario 1:</strong> Item added to list<br><strong>Given</strong> a user requests to add an item to the list<br><strong>And</strong> has provided a name for the item<br><strong>When</strong> she requests to save the item<br><strong>Then</strong> the list has grown by one item<br><strong>And</strong> the list contains the item appended at the end<br>—</p>
+<p><em>// spec</em><br>—<br><strong>Scenario 2:</strong> Item not added to list<br><strong>Given</strong> the list has a single item<br><strong>And</strong> a user requests to add an item to the list<br><strong>And</strong> has not provided a name for the item<br><strong>When</strong> she requests to save the item<br><strong>Then</strong> the list has the same items as stored previously<br><strong>And</strong> the list does not add an empty-named item<br>—</p>
+<p>In looking at them now, I feel that the actual <em>Add Item</em> feature is hidden in the <strong>Given</strong>s. A slight oversight now that we have progressed – perhaps one at the time as well, but we were delivering to features using TDD, so I have no qualms with features and implementations revisited and revised as the functionality of the application is fleshed out. In any event, I feel like these feature specs are more for a <em>Save Item</em> story, especially seeing as a User can edit an existing item. We’ll tackle the <em>Save Item</em> specifications for a later post, for now I want to revise the specifications for the <em>Add Item</em> feature.</p>
+<h4 id="tests">Tests</h4>
+<p>The original story does not change, but we want to ensure that a <em>grocery-ls-item</em> model is returned on the API to create a new item from <em>list-controller </em>. With such a drastic refactor to the functionality of <em>list-controller</em>, I tend to do my thinking and designing within the tests and move to implementation – just as I have done previously with other components. Let’s take a look at the change to <em>newitem.spec.js</em> as a whole and then discuss the specs singularly:</p>
+<p><em>/test/jasmine/spec/feature.newitem.spec.js</em></p>
+<pre><code>define(['jquery', '<span class="keyword">script</span>/controller/<span class="type">list</span>-controller', '<span class="keyword">script</span>/controller/<span class="type">list</span>-<span class="property">item</span>-controller',
+
+        '<span class="keyword">script</span>/collection/collection', '<span class="keyword">script</span>/model/grocery-ls-<span class="property">item</span>'],
+
+        function($, listController, itemControllerFactory, collectionFactory, modelFactory) {
+
+
+
+  describe('New <span class="property">item</span> creation <span class="keyword">from</span> listController.createNewItem()', function() {
+
+
+
+    var newModel,
+
+        newItemController,
+
+        listControllerStub,
+
+        $listView = $('&lt;ul/&gt;'),
+
+        itemCollection = collectionFactory.create();
+
+
+
+    beforeEach( function() {
+
+      var $itemView = $('&lt;li&gt;');
+
+
+
+      newModel = modelFactory.create();
+
+      newItemController = itemControllerFactory.create($itemView, newModel);
+
+
+
+      listControllerStub = sinon.stub(listController, 'createNewItem', function() {
+
+        listController.getItemList().addItem(newModel);
+
+        $itemView.appendTo($listView);
+<span class="command">
+        return</span> newModel;
+
+      });
+
+      listController.getItemList = sinon.stub().returns(itemCollection);
+
+      listController.setView($listView);
+
+    });
+
+
+
+    <span class="keyword">it</span>('should <span class="constant">return</span> newly created model', function() {
+
+      var newItem = listController.createNewItem();
+
+      // loosely (duck-ly) verifying grocery-ls-<span class="property">item</span> type.
+
+      expect(newItem).toEqual(jasmine.any(Object));
+
+      expect(newItem.hasOwnProperty('<span class="property">name</span>')).toBe(<span class="constant">true</span>);
+
+      expect(newItem.hasOwnProperty('<span class="property">id</span>')).toBe(<span class="constant">true</span>);
+
+      expect(newItem.<span class="property">id</span>).<span class="keyword">not</span>.toBeUndefined();
+
+    });
+
+
+
+    <span class="keyword">it</span>('should add newly created <span class="property">item</span> <span class="keyword">to</span> collection', function() {
+
+      var newItem = listController.createNewItem(),
+
+          itemList = listController.getItemList();
+
+      expect(itemList.itemLength()).<span class="keyword">not</span>.toBe(<span class="number">0</span>);
+
+      expect(itemList.getItemAt(itemList.itemLength()-<span class="number">1</span>)).toEqual(newItem);
+
+    });
+
+
+
+    <span class="keyword">it</span>('should add new <span class="property">item</span> controller <span class="keyword">to</span> view', function() {
+
+      listController.createNewItem();
+
+      expect($listView.children().<span class="property">length</span>).toBe(<span class="number">1</span>);
+
+    });
+
+
+
+    afterEach( function() {
+
+      $listView.empty();
+
+      newModel = undefined;
+
+      newItemController = undefined;
+
+      itemCollection.removeAll();
+
+      listController.createNewItem.restore();
+
+    });
+
+
+
+  });
+
+
+
+});</code></pre>
+<p>First off, you may notice that we are pulling in, as dependencies, every component we have basically created up to this point. Then, within the <em>beforeEach()</em> of the spec suite, using <a href="http://sinonjs.org/">SinonJS</a> we stub out the redesign and addition(s) to the API of <em>list-controller</em>; we are redefining the functionality of <em>createNewItem()</em> (which currently exists on <em>list-controller</em>) to return a <em>grocery-ls-item</em> instance and stubbing the <em>getItemList(</em>) method which will return the underlying collection model.</p>
+<p>You may notice that i am using sinon.stub in two different ways:</p>
+<pre><code>listControllerStub = <span class="transposed_variable">sinon.</span>stub(listController, <span class="string">'createNewItem'</span>, <span class="keyword">function</span>() <span class="cell">{
+
+listController.getItemList = sinon.stub().returns(itemCollection);</code></pre>
+<p>The former allows for you to redefine the function invoked upon the public method – in this case ‘<em>createNewItem</em>‘. In order to properly define a stub in such a manner without being shown errors in executing the tests, the method must already be available on the object you are stubbing. The latter allows you to stub a method that is not currently on the object. As you may notice, the instantiation of the two different stubs are different in their assignment on the object being stubbed. The operations within these stubs shouldn’t be taken as set in stone – they may change once we get to implementation in <em>list-controller</em> – but they setup our expectations that will be verified in the specifications. The first of which ensures the return of a <em>grocery-ls-item</em> through property assertions:</p>
+<p><em>/test/jasmine/spec/feature/newitem.spec.js</em></p>
+<pre><code><span class="keyword">it</span>('should <span class="constant">return</span> newly created model', function() {
+
+  var newItem = listController.createNewItem();
+
+  // loosely (duck-ly) verifying grocery-ls-<span class="property">item</span> type.
+
+  expect(newItem).toEqual(jasmine.any(Object));
+
+  expect(newItem.hasOwnProperty('<span class="property">name</span>')).toBe(<span class="constant">true</span>);
+
+  expect(newItem.hasOwnProperty('<span class="property">id</span>')).toBe(<span class="constant">true</span>);
+
+  expect(newItem.<span class="property">id</span>).<span class="keyword">not</span>.toBeUndefined();
+
+});</code></pre>
+<p>The second spec tests that the newly created item is added to the collection exposed on list-controller:<br><em>/test/jasmine/spec/feature/newitem.spec.js</em></p>
+<pre><code><span class="function"><span class="title">it</span><span class="params">('should add newly created item to collection', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+  var new<span class="variable">Item</span> = list<span class="variable">Controller</span>.<span class="function_name">createNewItem</span>(),
+
+      item<span class="variable">List</span> = list<span class="variable">Controller</span>.<span class="function_name">getItemList</span>();
+
+  <span class="function_name">expect</span>(item<span class="variable">List</span>.<span class="function_name">itemLength</span>()).not.<span class="function_name">toBe</span>(<span class="number">0</span>);
+
+  <span class="function_name">expect</span>(item<span class="variable">List</span>.<span class="function_name">getItemAt</span>(item<span class="variable">List</span>.<span class="function_name">itemLength</span>()-<span class="number">1</span>)).<span class="function_name">toEqual</span>(new<span class="variable">Item</span>);
+
+}</span>);</code></pre>
+<p>And the third spec… well, it starts to address some of the expectations a User may have when using the <strong>Grocery List</strong> application, something we really haven’t tested for as of yet – you have to start somewhere, though, right? We are testing that in addition to a new model added to the collection, there is an associated view in the UI (or at least presumably):<br><em>/test/jasmine/spec/feature/newitem.spec.js</em></p>
+<pre><code><span class="function"><span class="title">it</span><span class="params">('should add new item controller to view', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+  list<span class="variable">Controller</span>.<span class="function_name">createNewItem</span>();
+
+  <span class="function_name">expect</span>($list<span class="variable">View</span>.<span class="function_name">children</span>().length).<span class="function_name">toBe</span>(<span class="number">1</span>);
+
+}</span>);</code></pre>
+<p>I think we will start to see more of these type of tests as we start fleshing out the features more. </p>
+<p>Actually, I have started taking steps in moving the separation of <em>integration tests</em> from <em>feature tests</em>, if you haven’t already noticed the update to the location of <em>newitem.spec.js</em>. In my mind, the difference is between what I consider tests of how a component behaves itself (and with others) and test which describe the actual use of the application, respectively.</p>
+<p>Run the tests just as you have before with the updates to the feature spec locations:<br><em>/test/jasmine/specrunner.html</em></p>
+<pre><code><span class="keyword">require</span>( [<span class="string">'spec/feature/additem.spec.js'</span>, <span class="string">'spec/feature/markitem.spec.js'</span>,
+
+          <span class="string">'spec/item-controller.spec.js'</span>, <span class="string">'spec/grocery-ls-item.spec.js'</span>,
+
+          <span class="string">'spec/collection.spec.js'</span>], <span class="keyword">function</span>() {
+
+
+
+  var jasmineEnv = jasmine.getEnv(),
+
+       <span class="keyword">...</span>
+
+  jasmineEnv.execute();
+
+
+
+});</code></pre>
+<p>And all is green! <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>Tagged <strong>0.1.7</strong> – <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.7"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.7">https://github.com/bustardcelly/grocery-ls/tree/0.1.7</a></a></p>
+<h3 id="list-controller-revisted">list-controller Revisted</h3>
+<p>It’s great that the tests still pass, but we have yet to <strong>still</strong> modify <em>list-controller</em>. I can’t put it off any longer. If you have put up with the last couple posts and promises to get somewhere, you are very kind. The wait is over! … but it is also just the tip of the iceberg. sorry to be a downer <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>In looking at the API on <em>list-controller</em> we stubbed out from the <em>beforeEach()</em> of the <em>newitem.spec</em> and the expectations of its functionality verified in the specs, we are basically boiling down the responsibilities of the <em>list-controller</em> to:</p>
+<ul>
+<li>Create a new item</li>
+<li>Add item views to a provided element</li>
+<li>Manage and respond to changes on a collection of <em>grocery-ls-item</em></li>
+</ul>
+<p>As a start, we can include the new dependencies and refactor the <em>list-controller</em> component to support these requirements:<br><em>/script/controller/list-controller.js</em></p>
+<pre><code>define([<span class="string">'jquery'</span>, <span class="string">'script/controller/list-item-controller'</span>, <span class="string">'script/collection/collection'</span>, <span class="string">'script/model/grocery-ls-item'</span>],
+
+        <span class="keyword">function</span>($, itemControllerFactory, collectionFactory, modelFactory) {
+
+
+
+  <span class="keyword">var</span> collection = collectionFactory.create(),
+
+      listController = {
+
+        $view: <span class="literal">undefined</span>,
+
+        getItemList: <span class="keyword">function</span>() {
+
+          <span class="keyword">return</span> collection;
+
+        },
+
+        createNewItem: <span class="keyword">function</span>() {
+
+          <span class="keyword">var</span> model = modelFactory.create();
+
+          collection.addItem(model);
+
+          <span class="keyword">return</span> model;
+
+        },
+
+        setView: <span class="keyword">function</span>(view) {
+
+          <span class="keyword">this</span>.$view = (view <span class="keyword">instanceof</span> $) ? view : $(view);
+
+        }
+
+      };
+
+
+
+  <span class="keyword">return</span> listController;
+
+
+
+});</code></pre>
+<p>Differing from the stub created for <em>createNewItem()</em> in the <em>newitem.spec</em>, the <em>list-controller</em> is only concerned with updating the collection model here. This is because the change to the collection will drive updates to the UI and we don’t want to have the UI operations within the <em>createNewItem()</em> method – that will basically create a doubling-up of efforts. It will be the responsibility of this module to observe changes to the collection and update state. That is done by adding an event handler to <em>collection-change</em> and operating accordingly based on event <em>kind</em>:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code>define([<span class="string">'jquery'</span>, <span class="string">'script/controller/list-item-controller'</span>, <span class="string">'script/collection/collection'</span>, <span class="string">'script/model/grocery-ls-item'</span>],
+
+        function($, itemControllerFactory, collectionFactory, modelFactory) {
+
+
+
+  <span class="keyword">var</span> collection = collectionFactory.create(),
+
+      listController = {
+
+        <span class="variable">$view</span>: undefined,
+
+        getItemList: function() {
+
+          <span class="keyword">return</span> collection;
+
+        },
+
+        createNewItem: function() {
+
+          <span class="keyword">var</span> model = modelFactory.create();
+
+          collection.addItem(model);
+
+          <span class="keyword">return</span> model;
+
+        },
+
+        setView: function(view) {
+
+          <span class="keyword">this</span>.<span class="variable">$view</span> = (view <span class="keyword">instanceof</span> $) ? view : $(view);
+
+        }
+
+      };
+
+
+
+  (<span class="function"><span class="keyword">function</span> <span class="title">assignCollectionHandlers</span><span class="params">(<span class="variable">$collection</span>)</span> {</span>
+
+
+
+    <span class="keyword">var</span> EventKindEnum = collectionFactory.collectionEventKind;
+
+
+
+    <span class="variable">$collection</span>.on(<span class="string">'collection-change'</span>, function(event) {
+
+      <span class="keyword">switch</span>( event.kind ) {
+
+        <span class="keyword">case</span> EventKindEnum.ADD:
+
+          <span class="keyword">var</span> model = event.items.shift(),
+
+              <span class="variable">$itemView</span> = $(<span class="string">'&lt;li&gt;'</span>),
+
+              itemController = itemControllerFactory.create(<span class="variable">$itemView</span>, model);
+
+
+
+          <span class="variable">$itemView</span>.appendTo(listController.<span class="variable">$view</span>);
+
+          itemController.state = itemControllerFactory.state.EDITABLE;
+
+          <span class="keyword">break</span>;
+
+        <span class="keyword">case</span> EventKindEnum.REMOVE:
+
+          <span class="keyword">break</span>;
+
+        <span class="keyword">case</span> EventKindEnum.RESET:
+
+          <span class="keyword">break</span>;
+
+      }
+
+    });
+
+
+
+  }($(collection)));
+
+
+
+  <span class="keyword">return</span> listController;
+
+
+
+});</code></pre>
+<p>We are calling an <strong><a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a></strong> with the <a href="http://jquery.org">jQuery</a> wrapped collection object and assigning an event handler to <em>collection-change</em> on the collection. Depending on the kind of <em>collection-change</em> event that has occurred, defined clauses with specified operations are entered – for the purposes of the current task and tests at hand, that is only the <em>ADD</em> event.</p>
+<p>In the <em>EventKindEnum.ADD</em> switch..case you will see the UI modification, with the addition of the list item view and the editability state of its associated <em>list-item-controller</em> set to allow the User to edit the new item.</p>
+<p>Now, with the implementation of the <em>Add Item</em> feature moved to <em>list-controller</em>, we can clean up our <em>newitem.spec.js</em>:<br><em>/test/jasmine/spec/feature/newitem.spec.js</em></p>
+<pre><code>define(['jquery', '<span class="keyword">script</span>/controller/<span class="type">list</span>-controller'],
+
+        function($, listController) {
+
+
+
+  describe('New <span class="property">item</span> creation <span class="keyword">from</span> listController.createNewItem()', function() {
+
+
+
+    var $listView = $('&lt;ul/&gt;');
+
+
+
+    beforeEach( function() {
+
+      listController.setView($listView);
+
+    });
+
+
+
+    <span class="keyword">it</span>('should <span class="constant">return</span> newly created model', function() {
+
+      var newItem = listController.createNewItem();
+
+      // loosely (duck-ly) verifying grocery-ls-<span class="property">item</span> type.
+
+      expect(newItem).toEqual(jasmine.any(Object));
+
+      expect(newItem.hasOwnProperty('<span class="property">name</span>')).toBe(<span class="constant">true</span>);
+
+      expect(newItem.hasOwnProperty('<span class="property">id</span>')).toBe(<span class="constant">true</span>);
+
+      expect(newItem.<span class="property">id</span>).<span class="keyword">not</span>.toBeUndefined();
+
+    });
+
+
+
+    <span class="keyword">it</span>('should add newly created <span class="property">item</span> <span class="keyword">to</span> collection', function() {
+
+      var newItem = listController.createNewItem(),
+
+          itemList = listController.getItemList();
+
+      expect(itemList.itemLength()).<span class="keyword">not</span>.toBe(<span class="number">0</span>);
+
+      expect(itemList.getItemAt(itemList.itemLength()-<span class="number">1</span>)).toEqual(newItem);
+
+    });
+
+
+
+    <span class="keyword">it</span>('should add new <span class="property">item</span> controller <span class="keyword">to</span> view', function() {
+
+      listController.createNewItem();
+
+      expect($listView.children().<span class="property">length</span>).toBe(<span class="number">1</span>);
+
+    });
+
+
+
+    afterEach( function() {
+
+      $listView.empty();
+
+    });
+
+
+
+  });
+
+
+
+});</code></pre>
+<p>And we’ll modify the main application module to reflect the change to the <em>list-controller</em> now only governing over a list DOM element and not to manage events from the add button on the DOM:</p>
+<p><em>/script/grocery-ls.js</em></p>
+<pre><code><span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="title">window</span><span class="body">, require)</span></span> {
+
+
+
+  require.config<span class="list">(<span class="body">{
+
+    baseUrl: <span class="string">"."</span>,
+
+    paths: {
+
+      <span class="string">"lib"</span>: <span class="string">"./lib"</span>,
+
+      <span class="string">"script"</span>: <span class="string">"./script"</span>,
+
+      <span class="string">"jquery"</span>: <span class="string">"./lib/jquery-1.8.3.min"</span>
+
+    }
+
+  })</span></span><span class="comment">;</span>
+
+
+
+  require<span class="list">(<span class="body"> ['jquery', 'script/controller/list-controller', 'script/collection/collection'],
+
+            function<span class="list">(<span class="body">$, listController, collectionFactory)</span></span> {
+
+
+
+    listController.setView<span class="list">(<span class="body">$<span class="list">(<span class="body">'section.groceries ul')</span></span>)</span></span><span class="comment">;</span>
+
+    $<span class="list">(<span class="body">'section.groceries #add-item-button')</span></span>.on<span class="list">(<span class="body">'click', function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
+
+      listController.createNewItem<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+
+    })</span></span><span class="comment">;</span>
+
+
+
+  })</span></span><span class="comment">;</span>
+
+
+
+}<span class="list">(<span class="title">window</span><span class="body">, requirejs)</span></span>)</span></span><span class="comment">;</span></code></pre>
+<p>Run the tests… and it will fail! Yay!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_v_3.png" alt="Failing tests on list-controller refactor"></p>
+<p><em>wait, what?!</em></p>
+<p>Actually, most will pass – including the <em>newitem.spec</em> tests. It is the <em>markitem.spec</em> tests that will fail. We have modified the <em>list-controller</em> to accomodate the changes to the <em>Add Item</em> feature, but have not addressed the <em>Mark Off Item</em> feature in our refactoring.</p>
+<p><img src="http://custardbelly.com/blog/images/tdd_js/part_v_4.png" alt="Mark-Off Item failure on list-controller refactor"></p>
+<p>However, run the application and it will be just as usable as it was before – no change will be perceived by the end-user. The only thing that will change is now I have a nagging feeling knowing my tests are failing. Some naysayers may interject here and half-heartedly tell me to get rid of the tests, then. To them I say, ‘<em>pfffft</em>‘ <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>I hate to see the tests in such a state, but this post is rather long as it is. Also, I like to joke that sometimes having failing tests to look at first thing in the morning is the best way to pick up from where you left off. I promise we’ll get these to go green in the next article of this series, and invite you to get them to pass if you are for it.</p>
+<p>Tagged <strong>0.1.8</strong> – <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.8"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.8">https://github.com/bustardcelly/grocery-ls/tree/0.1.8</a></a></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We finally got around to refactoring the <em>list-controller</em> to relieve it of item model management and state. In the course of doing so, we created a <em>Collection</em> object that will serve as the model for the <em>list-controller</em>. </p>
+<p>This post was a lengthy one, and I appreciate you sticking through my yackity-yack. I think we are in fine shape now to approach previously defined and new features, get our tests passing again, and finalize the <strong>Grocery List</strong> application… in as far as first iteration deliverables go <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>‘Til next time…</p>
+<p>—</p>
+<h1 id="link-dump">Link Dump</h1>
+<h2 id="reference">Reference</h2>
+<p><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a></p>
+<h2 id="post-series">Post Series</h2>
+<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/index.html";
+        window.disqus_title="The Making of a Test-Driven Grocery List Application in JS: Part V";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

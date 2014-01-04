@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - Deferred content for Flex 4 Group using [DefaultProperty]</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2011/11/11/deferred-content-for-flex-4-group-using-defaultproperty/index.html">Deferred content for Flex 4 Group using [DefaultProperty]</a></h1>
+    <p>
+      2011 November 11th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p>Thought i would <a href="https://gist.github.com/1340472">share a little gist</a> with you about a solution i whipped up with regards to deferred content in a Flex 4 <strong>Group</strong> container. </p>
+<p>If there are numerous children within a container and their style definitions are rather complex, there may be some lag within the rendering cycle. Though it may not cause the <strong>Flash Player</strong> to time-out or even invoke the beachball/hourglass of the user’s system, any perceived lag in rendering that is a considerable amount (to be discussed at a later date) could send the user packing if not in the very least curious as to the reliability of the application; needless to say, most UI heavy applications are those in which a user interacts heavily with the application in order to get something accomplished.</p>
+<p>Setting UX/design decisions aside and trusting that optimizations – such as absolute positioning – are being used where appropriate, there still may come a time where the task at hand calls for a lengthly child list within a container, or even a rather small list with a heavy render cycle due to customization. In such a situation, having the ability to defer rendering is a great improvement to the perceived “snappiness” of your application.</p>
+<p>Back in the Flex 3 days – well, i shouldn’t say “back” as the <strong>MX</strong> containers are still available in the SDK and i am sure there are still people working on Flex 3 whether grudgingly or not – the <strong>MX</strong> containers had a property called <a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/mx/core/Container.html#creationPolicy"><em>creationPolicy</em></a>. This allowed a developer to define the how the container was to render its children – basically, whether it should build its display tree upon creation of the container or defer. If you deferred it by setting the property to <em>ContainerCreationPolicy.NONE</em>, you could at anytime within the life of the application call <em>createComponentsFromDescriptors()</em> on that container to have its children be created.</p>
+<p>Now it should be noted that this functionality is at parity in Flex 4.x, yet only available to <strong>SkinnableContainers</strong> – and more accurately those that implement <a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/mx/core/IDeferredContentOwner.html#propertySummary"><strong>IDeferredContentOwner</strong></a>. Those containers within the Flex 4 SDK which are considered lighter-weight, such as <strong>Group</strong> and <strong>DataGroup</strong>, do not play host to skins or define style properties for graphical backgrounds but they also do not support deferred content inherently either.</p>
+<p>I should stop here and say that even though <strong>Group</strong> and <strong>DataGroup</strong> are in the same boat as not being privy to a <em>creationPolicy</em>, the example code should really only be translated to a <strong>Group</strong> container. Deferred content for a <strong>DataGroup</strong> should be left to its defined layout and its properties. That said, there is a way to defer the child element creation of a <strong>Group</strong> rather simply; that is by utilizing the <strong>[DefaultProperty]</strong> metadata.</p>
+<p>You can see the full <a href="https://gist.github.com/1340472">gist of the moving pieces on my github</a>, but just to give a quick example and rundown:</p>
+<pre><code><span class="package"><span class="keyword">package</span>
+
+{</span>
+
+    <span class="preprocessor"><span class="keyword">import</span> flash.events.Event;</span>
+
+
+
+    <span class="preprocessor"><span class="keyword">import</span> mx.events.FlexEvent;</span>
+
+
+
+    <span class="preprocessor"><span class="keyword">import</span> spark.components.Group;</span>
+
+
+
+    <span class="comment">/**
+
+     * Use the deferredElements property as the modifier that is handed the list of IVisualElements defined in MXML.
+
+     */</span>
+
+    [DefaultProperty(<span class="string">"deferredElements"</span>)]
+
+
+
+    <span class="comment">/**
+
+     * Group container extension in order to do deferred child element attachment.
+
+     */</span>
+
+    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeferredGroup</span> <span class="keyword">extends</span> <span class="title">Group</span>
+
+    {</span>
+
+        <span class="keyword">protected</span> <span class="keyword">var</span> _elementAddQuota:int = <span class="number">10</span>;
+
+
+
+        <span class="comment">/* IVisualElement[] */</span>
+
+        <span class="keyword">protected</span> <span class="keyword">var</span> _deferredElements:Array;
+
+        <span class="keyword">protected</span> <span class="keyword">var</span> _deferredElementsChanged:Boolean;
+
+
+
+        <span class="keyword">protected</span> <span class="keyword">var</span> _deferredElementAttacher:IDeferredElementAttacher;
+
+
+
+        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">DeferredGroup</span><span class="params">()</span>
+
+        {</span>
+
+            <span class="keyword">super</span>();
+
+        }
+
+
+
+        <span class="comment">/**
+
+         * @inheritDoc
+
+         */</span>
+
+        <span class="keyword">override</span> <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">commitProperties</span><span class="params">()</span><span class="type">:void</span>
+
+        {</span>
+
+            <span class="keyword">super</span>.commitProperties();
+
+            <span class="keyword">if</span>( _deferredElementsChanged )
+
+            {
+
+                queueDeferredElements();
+
+                _deferredElementsChanged = <span class="literal">false</span>;
+
+            }
+
+        }
+
+
+
+        <span class="comment">/**
+
+         * Defines and executes the IDeferredElementAttacher implementation used in queue-ing up "packs"
+
+         * of IVisualElement instances declared in MXML and assigned as deferredElements.
+
+         */</span>
+
+        <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">queueDeferredElements</span><span class="params">()</span><span class="type">:void</span>
+
+        {</span>
+
+            <span class="comment">// Define IDeferredElementAttacher and listen for completion on attach of all elements within deferredElements.</span>
+
+            _deferredElementAttacher = <span class="keyword">new</span> FrameDeferredElementAttacher( <span class="keyword">this</span> );
+
+            _deferredElementAttacher.addEventListener( Event.COMPLETE, handleDeferredAttachmentComplete, <span class="literal">false</span>, <span class="number">0</span>, <span class="literal">true</span> );
+
+
+
+            <span class="comment">// "Chunk" up lists of IVisualElements based on limit quota.</span>
+
+            <span class="keyword">var</span> i:int;
+
+            <span class="keyword">var</span> startIndex:int;
+
+            <span class="keyword">var</span> endIndex:int;
+
+            <span class="keyword">var</span> length:int = _deferredElements.length;
+
+            <span class="keyword">var</span> count:int = Math.ceil(length / _elementAddQuota);
+
+            <span class="keyword">for</span>( i = <span class="number">0</span>; i &lt; count; i++ )
+
+            {
+
+                startIndex = i * _elementAddQuota;
+
+                endIndex = startIndex + _elementAddQuota;
+
+                endIndex = ( endIndex &gt; length ) ? length : endIndex;
+
+                _deferredElementAttacher.addElementPack( _deferredElements.slice( startIndex, endIndex ) );
+
+            }
+
+            _deferredElementAttacher.start();
+
+        }
+
+
+
+        <span class="comment">/**
+
+         * Event handler for completion from the IDeferredElementAttacher instance.
+
+         * @param evt Event
+
+         */</span>
+
+        <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">handleDeferredAttachmentComplete</span><span class="params">( evt:Event )</span><span class="type">:void</span>
+
+        {</span>
+
+            <span class="comment">// Kill reference.</span>
+
+            _deferredElementAttacher.removeEventListener( Event.COMPLETE, handleDeferredAttachmentComplete, <span class="literal">false</span> );
+
+            _deferredElementAttacher.dispose();
+
+            _deferredElementAttacher = <span class="literal">null</span>;
+
+
+
+            <span class="comment">// -&gt; Do whatever you normally would do in a handler for CREATION_COMPLETE.</span>
+
+        }
+
+
+
+        <span class="comment">/**
+
+         * The amount of IVisualElements to "chunk" into packets for deferred queue.
+
+         * @return int
+
+         */</span>
+
+        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span> <span class="title">elementAddQuota</span><span class="params">()</span><span class="type">:int</span>
+
+        {</span>
+
+            <span class="keyword">return</span> _elementAddQuota;
+
+        }
+
+        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">set</span> <span class="title">elementAddQuota</span><span class="params">( value:int )</span><span class="type">:void</span>
+
+        {</span>
+
+            _elementAddQuota = value;
+
+        }
+
+
+
+        <span class="comment">/**
+
+         * The DefaultProperty array of IVisualElements declared in MXML markup.
+
+         * @return Array Required to be IVisualElement[]
+
+         */</span>
+
+        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span> <span class="title">deferredElements</span><span class="params">()</span><span class="type">:Array</span>
+
+        {</span>
+
+            <span class="keyword">return</span> _deferredElements;
+
+        }
+
+        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">set</span> <span class="title">deferredElements</span><span class="params">( value:Array )</span><span class="type">:void</span>
+
+        {</span>
+
+            <span class="keyword">if</span>( _deferredElements == value ) <span class="keyword">return</span>;
+
+
+
+            _deferredElements = value;
+
+            _deferredElementsChanged = <span class="literal">true</span>;
+
+            invalidateProperties();
+
+        }
+
+    }
+
+}</code></pre>
+<p>Essentially, I have defined the <strong>[DefaultProperty]</strong> to be the <em>deferredElements</em> property. By default, any Flex container’s <strong>[DefaultProperty]</strong> is the <em>mxmlContent</em> property. If left to default, anything declared in MXML within the container declaration is handed to the <em>mxmlContent</em> property which in turn is used to add the children to the container using ActionScript at a later time within its instantiation cycle. Just as an example, the <strong>Label</strong> and <strong>Button</strong> of the <strong>Group</strong> container defined in this MXML can be considered the array of <strong>IVisualElements</strong> known to the parent <strong>Group</strong> as <em>mxmlContent</em>.</p>
+<pre><code><span class="tag">&lt;<span class="title">s:Group</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">s:Label</span> <span class="attribute">text</span>=<span class="value">"Hello, World"</span> /&gt;</span>
+
+    <span class="tag">&lt;<span class="title">s:Button</span> <span class="attribute">label</span>=<span class="value">"foo"</span> /&gt;</span>
+
+<span class="tag">&lt;/<span class="title">s:Group</span>&gt;</span></code></pre>
+<p>… and same goes for Flex 3 containers. Not much has changed, aside form non-parity in <em>creationPolicy</em> on Flex 4 containers that don’t implement <strong>IDeferredContentOwner</strong>. However, in the example provided above and in the <a href="https://gist.github.com/1340472">gist</a>, the declared children in MXML aren’t handed to the <em>mxmlChildren</em>, but rather the <em>deferredChildren</em>. Because of this, we can then check if we have deferred content upon a pass to <em>invalidationProperties()</em> and act accordingly – as is done by invoking <em>queueDeferredElements</em>() in the example:</p>
+<pre><code><span class="comment">/**
+
+ * Defines and executes the IDeferredElementAttacher implementation used in queue-ing up "packs" of IVisualElement instances declared in MXML and assigned as deferredElements.
+
+ */</span>
+
+<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">queueDeferredElements</span><span class="params">()</span><span class="type">:void</span>
+
+{</span>
+
+    <span class="comment">// Define IDeferredElementAttacher and listen for completion on attach of all elements within deferredElements.</span>
+
+    _deferredElementAttacher = <span class="keyword">new</span> FrameDeferredElementAttacher( <span class="keyword">this</span> );
+
+    _deferredElementAttacher.addEventListener( Event.COMPLETE, handleDeferredAttachmentComplete, <span class="literal">false</span>, <span class="number">0</span>, <span class="literal">true</span> );
+
+
+
+    <span class="comment">// "Chunk" up lists of IVisualElements based on limit quota.</span>
+
+    <span class="keyword">var</span> i:int;
+
+    <span class="keyword">var</span> startIndex:int;
+
+    <span class="keyword">var</span> endIndex:int;
+
+    <span class="keyword">var</span> length:int = _deferredElements.length;
+
+    <span class="keyword">var</span> count:int = Math.ceil(length / _elementAddQuota);
+
+    <span class="keyword">for</span>( i = <span class="number">0</span>; i &lt; count; i++ )
+
+    {
+
+        startIndex = i * _elementAddQuota;
+
+        endIndex = startIndex + _elementAddQuota;
+
+        endIndex = ( endIndex &gt; length ) ? length : endIndex;
+
+        _deferredElementAttacher.addElementPack( _deferredElements.slice( startIndex, endIndex ) );
+
+     }
+
+     _deferredElementAttacher.start();
+
+}</code></pre>
+<p>And in that method, an <strong>IDeferredElementAttacher</strong> (non-SDK, part of the <a href="https://gist.github.com/1340472">gist</a>) implementation is used to queue up smaller arrays of child elements and dequeued to start adding children to the target container. In this example that implementation is a <strong>FrameDeferredElementAttacher</strong> instance which waits a frame to move along in its queue. Included in the <a href="https://gist.github.com/1340472">gist</a> is also one for timer-based element addition.</p>
+<p>This post got rather long as far as just wanting to show off how to defer child content of a <strong>Group</strong> container in Flex 4, but I just wanted to bring light my solution as there is no parity of <em>creationPolicy</em> on non-<strong>IDeferredContentOwner</strong> containers in the SDK.</p>
+<p>See the whole gist here: <a href="https://gist.github.com/1340472"><a href="https://gist.github.com/1340472">https://gist.github.com/1340472</a></a>.</p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/air/">AIR</a>, <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/flex-4/">Flex 4</a>, <a href="http://custardbelly.com/blog/category/flex-4-5/">Flex 4.5</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2011/11/14/massroute-js-knockout-example/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2011/10/04/massroute-js-dojo-example/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2011/11/11/deferred-content-for-flex-4-group-using-defaultproperty/index.html";
+        window.disqus_title="Deferred content for Flex 4 Group using [DefaultProperty]";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

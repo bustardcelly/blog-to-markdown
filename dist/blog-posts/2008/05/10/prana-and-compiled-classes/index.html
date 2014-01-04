@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - Prana and compiled classes</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2008/05/10/prana-and-compiled-classes/index.html">Prana and compiled classes</a></h1>
+    <p>
+      2008 May 10th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p>I have recently gotten into incorporating <a href="http://www.pranaframework.org/">Prana – the Inversion of Control framework of AS3</a> created by <a href="http://www.herrodius.com/blog/">Christophe Herreman</a>- into my projects. I gotta say, it’s beautiful piece of work and makes me rethink my approach to the architecture of applications again.</p>
+<p>I don’t want to go into IoC and dependency injection and how your applications can truly benefit by using the <a href="http://www.pranaframework.org/">Prana</a> framework, as this post may get pretty long and these references are much better reading than my rambling:</p>
+<p>Christophe’s blog: <a href="http://www.herrodius.com/blog/"><a href="http://www.herrodius.com/blog/">http://www.herrodius.com/blog/</a></a><br>Martin Fowler’s <a href="http://martinfowler.com/articles/injection.html">Inversion of Control Containers and the Dependency injection pattern</a><br><a href="http://en.wikipedia.org/wiki/Hollywood_Principle">the hollywood principle</a></p>
+<p>What i did want to bring up is that i had a small problem with the workflow and how i develop. Which is my problem, of course <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> but nonetheless…</p>
+<p>One important thing to remember is that the context file is an external file that is loaded by the application at runtime. This means you will need to have all the possible classes your application <em>may</em> use already compiled into the SWF in order for the objects to be instantiated and your application to work. If you are typing to interfaces, this could prove to be a bit of a problem. You could create a reference for each class that may be needed in another class that is known to be compiled into the SWF – as Christophe explains <a href="http://www.herrodius.com/blog/65">in this post</a> – but that always seemed dirty to me. </p>
+<p>As is mentioned in the comments to that <a href="http://www.herrodius.com/blog/65">post</a>, you can also go about adding each class using the -includes compiler option. Adding all possible classes using the -includes option makes for an excellent case on when to use additional compiler configurations, and presents the option to really just change the application context file and the additional configuration file as the project sees fit, without having to open up the source and tack on or remove dummy references to classes.</p>
+<p>As an example, take for instance this application context file:</p>
+<pre><code><span class="tag">&lt; ?<span class="attribute">xml</span> <span class="attribute">version</span>=<span class="value">"1.0"</span> <span class="attribute">encoding</span>=<span class="value">"utf-8"</span>?&gt;</span>
+<span class="tag">&lt;<span class="title">objects</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">property</span> <span class="attribute">file</span>=<span class="value">"app.properties"</span> /&gt;</span>
+    <span class="comment">&lt;!-- Handles direct invocation on client --&gt;</span>
+    <span class="tag">&lt;<span class="title">object</span> <span class="attribute">id</span>=<span class="value">"callbackHandler"</span> <span class="attribute">class</span>=<span class="value">"com.example.responder.CallbackResponderImpl"</span> /&gt;</span>
+    <span class="comment">&lt;!-- Handles connection to Red5 application --&gt;</span>
+    <span class="tag">&lt;<span class="title">object</span> <span class="attribute">id</span>=<span class="value">"connectionDelegate"</span> <span class="attribute">class</span>=<span class="value">"com.example.business.ConnectionDelegateImpl"</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"rtmpURI"</span> <span class="attribute">value</span>=<span class="value">"${app.rtmpURI}"</span> /&gt;</span>
+        <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"client"</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">ref</span>&gt;</span>callbackHandler<span class="tag">&lt;/<span class="title">ref</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">property</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">object</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">objects</span>&gt;</span></code></pre>
+<p>.. for each possible implementation of <strong>ConnectionDelegate</strong> and <strong>CallbackResponder</strong> that i may decide to swap in and out as the project seems fit, i would either need to hold a reference to each implementation in some class sure or be compiled into the SWF, or i could store them in an additional config file that can be added using the -load-config option with an additional value:</p>
+<p>The <strong>prana.config</strong> file:</p>
+<pre><code><span class="tag">&lt;<span class="title">flex</span> <span class="attribute">-config</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">includes</span> <span class="attribute">append</span>=<span class="value">"true"</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">symbol</span>&gt;</span>com.example.reponder.CallbackResponderImpl<span class="tag">&lt;/<span class="title">symbol</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">symbol</span>&gt;</span>com.example.business.ConnectionDelegateImpl<span class="tag">&lt;/<span class="title">symbol</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">includes</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">flex</span>&gt;</span></code></pre>
+<p>… drop that in my source folder and add the compiler option:</p>
+<pre><code>-<span class="operator"><span class="keyword">load</span>-config+=prana.config</code></pre>
+<p>From there, i could change the context as i see fit, update the prana.config file to reflect my preferences and just recompile the application without having to go into the source and muck about. It’s a little more clean for me and allows me to happily go about using the <a href="http://www.pranaframework.org/">Prana</a> framework.</p>
+<p>The best part is that <a href="http://www.herrodius.com/blog/64">Prana is truthfully AS3 compliant</a>! Meaning you can use it in your Flex <em>AND</em> AS3 projects, which cannot be said for some frameworks that claim to be AS3 and actually use class from the mx package… (looking at you <a href="http://code.google.com/p/as3lib/">as3lib</a>). <em>A huge pet-peeve of mine.</em><br>*Last i checked, the source under version control doesn’t seem to reflect the current changes <a href="http://www.herrodius.com/blog/">Christophe</a> has made, but they are included in the downloads.</p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/prana/">Prana</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2008/05/15/yet-another-post-about-astro/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2008/04/16/styling-the-whitebox-of-a-flex-container/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2008/05/10/prana-and-compiled-classes/index.html";
+        window.disqus_title="Prana and compiled classes";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

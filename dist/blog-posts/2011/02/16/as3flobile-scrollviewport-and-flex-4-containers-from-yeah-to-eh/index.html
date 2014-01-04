@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - as3flobile ScrollViewport and Flex 4 containers? from yeah to eh.</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2011/02/16/as3flobile-scrollviewport-and-flex-4-containers-from-yeah-to-eh/index.html">as3flobile ScrollViewport and Flex 4 containers? from yeah to eh.</a></h1>
+    <p>
+      2011 February 16th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p>The other day i got an email from <a href="http://twitter.com/tomkordys">Tom Kordys</a> for a little clarification on the <a href="https://github.com/bustardcelly/as3flobile">as3flobile</a> project and if the <a href="https://github.com/bustardcelly/as3flobile/tree/master/src/com/custardbelly/as3flobile/controls/viewport">ScrollViewport</a> could be used to provide touch scrolling to a <strong>DataGroup</strong>. My first thought was <em>“no”</em>, then my second thought was <em>“why not?”</em>. The third thought i forget. But then the fourth thought was fire up <strong>Flash Builder</strong> and take a break.</p>
+<p>When i originally started out creating the <a href="https://github.com/bustardcelly/as3flobile">as3flobile</a> library, the intent was to provide a suite of controls for an <strong>AS3</strong> project targeting the <strong>Flash Player</strong> on a mobile browser. I intentionally pushed <strong>Flex</strong> to the side for a number of reasons:</p>
+<ol>
+<li><strong>Adobe</strong> is currently <a href="http://labs.adobe.com/technologies/flex/mobile/">working on and improving <strong>Hero</strong></a> (nee <strong>Slider</strong>).</li>
+<li>It runs like crap on mobile (hence the first line item).</li>
+<li>I wanted to dive into a solely <strong>AS3</strong> personal project again (selfish).</li>
+</ol>
+<p>Before i got that email, truthfully, the thought never crossed my mind to intermingle parts from the as3flobile library into <strong>Flex</strong>; <strong>Adobe</strong> will deliver their solution in due time and i will then make a decision whether to use <strong>Flex</strong> or <strong>AS3</strong> for my next mobile-web based project. Until then, if need be, i’ll just use <strong>AS3</strong>. That is still my impression, but after i got that email i was just dying to know if i could enable touch scrolling on <strong>Flex 4</strong> containers. </p>
+<p>So you’ve read all the way down to here and i still haven’t given an answer…</p>
+<p>[view source enabled]<br><a href="http://www.custardbelly.com/downloads/as3flobile/containerviewport/"><img src="http://www.custardbelly.com/blog/images/as3flobile_vp_container.png" alt="as3flobile viewport container"></a><br><em>ScrollViewport with Group containers.</em></p>
+<p>[view source enabled]<br><a href="http://www.custardbelly.com/downloads/as3flobile/flexviewport/"><img src="http://www.custardbelly.com/blog/images/as3flobile_vp_datagroup.png" alt="as3flobile viewport datagroup"></a><br><em>ScrollViewport with virtualized DataGroup container.</em></p>
+<p>Yes, it is possibile! Would i recommend it? Sure, have fun! Would i put it into production? No. No, i would not. </p>
+<p>From my tests, <strong>Flex</strong> containers in the <a href="https://github.com/bustardcelly/as3flobile/">as3flobile</a> <strong>ScrollViewport</strong> run pretty smoothly on a desktop browser. If that is your target platform and you are looking for touch-scroll on containers, I say try it out. In <strong>Flash Player</strong> on mobile browser, the scrolling and touch interaction is not smooth enough for my liking, but it may pass your user experience tests… who knows. I believe it is the length of invalidation cycle for <strong>Flex</strong> that is causing the render hiccups, but i am sure there is some optimization that could be done in <a href="https://github.com/bustardcelly/as3flobile/">as3flobile</a> that may help a little. That said, <a href="https://github.com/bustardcelly/as3flobile/">as3flobile</a> touch-scroll runs pretty smoothly on an <strong>AS3</strong> project, so i don’t know how much optimization could be done for me to be comfortable with the rendering performance of Flex containers in an <a href="https://github.com/bustardcelly/as3flobile/">as3flobile</a> <strong>ScrollViewport</strong>. All said, I will explain how you can target a <strong>Flex 4</strong> container as the content for <a href="https://github.com/bustardcelly/as3flobile/">as3flobile</a> <strong>ScrollViewport</strong>.</p>
+<h2 id="as3flobile-scrollviewport">as3flobile ScrollViewport</h2>
+<p>The <strong>ScrollViewport</strong> control from <a href="https://github.com/bustardcelly/as3flobile/">as3flobile</a> essentially uses its dimensions as a visible area for child content. Its target child content is typed to an <strong>InteractiveObject</strong>, which is the base display class from which touch/mouse events are received on. <strong>Flex</strong> containers subclass (through a larger inheritance chain) <strong>InteractiveObject</strong> so there was no extra effort or cajoling of the as3flobile library to make <strong>ScrollViewport</strong> work with <strong>Flex</strong> containers.</p>
+<p>With its content set to <strong>IntractiveObject</strong>, <strong>ScrollViewport</strong> employs the <a href="http://en.wikipedia.org/wiki/Strategy_pattern">Strategy Pattern</a> to recognize interactive events on the content and perform scrolling. You can assign custom scroll contexts and strategies to <strong>ScrollViewport</strong>, but the default context reacts to <strong>Mouse</strong> events invoking the default scroll strategy. The scroll behaviour is based on the <strong>width</strong> and <strong>height</strong> dimensions of the target content for the <strong>ScrollViewport</strong>. If the <strong>height</strong> of the content is less than or equal to the <strong>height</strong> property of <strong>ScrollViewport</strong>, then vertical scrolling is turned off. Likewise for the <strong>width</strong> property values and horizontal scrolling.</p>
+<p>To set up a viewport for <strong>AS3</strong>, you would do something of the following:</p>
+<pre><code>var container:Sprite = new Sprite()<span class="comment">;</span>
+
+var bitmap:Bitmap = new Bitmap( new BitmapData( <span class="number">200</span>, <span class="number">200</span>, false, <span class="number">0x000000</span> ) )<span class="comment">;</span>
+
+container<span class="preprocessor">.addChild</span>( bitmap )<span class="comment">;</span>
+
+
+
+// Direct dimension values
+
+var viewport:ScrollViewport = new ScrollViewport()<span class="comment">;</span>
+
+viewport<span class="preprocessor">.width</span> = <span class="number">100</span><span class="comment">;</span>
+
+viewport<span class="preprocessor">.height</span> = <span class="number">100</span><span class="comment">;</span>
+
+viewport<span class="preprocessor">.content</span> = container<span class="comment">;</span>
+
+addChild( viewport )<span class="comment">;</span>
+
+
+
+// <span class="keyword">OR</span> - Utility convenience instantiation
+
+var viewport:ScrollViewport = ScrollViewport<span class="preprocessor">.initWithScrollRect</span>( new Rectangle( <span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">100</span> ) )<span class="comment">;</span>
+
+viewport<span class="preprocessor">.content</span> = container<span class="comment">;</span>
+
+addChild( viewport )<span class="comment">;</span></code></pre>
+<p>In this example, the <strong>InteractiveObject</strong> target is the <strong>Sprite</strong> that has a <strong>Bitmap</strong> child. The size of the <strong>Bitmap</strong> (and consequently the parenting size of the <strong>Sprite</strong>) is larger than the designated size for the viewport. In reality this is a terrible example because you won’t really see the scrolling affect due to a single colored bitmap. <em>An example with a loaded bitmap can be seen at <a href="http://www.custardbelly.com/android/froyo/as3flobile"><a href="http://www.custardbelly.com/android/froyo/as3flobile">http://www.custardbelly.com/android/froyo/as3flobile</a></a>.</em></p>
+<h2 id="targeting-flex-4-containers">Targeting Flex 4 containers</h2>
+<p>The approach to apply the content of the <strong>ScrollViewport</strong> to a <strong>Flex</strong> container is relatively the same as in the <strong>AS3</strong> example. The only caveat is that you need to listen for a change in the <strong>contentWidth</strong> and <strong>contentHeight</strong> properties of the <strong>Flex</strong> container and refresh the <strong>ScrollViewport</strong> instance. As well, the <strong>ScrollViewport</strong> needs to be added as a child of <strong>SpriteVisualElement</strong>, and the target container re-parented to the <strong>ScrollViewport</strong>. Here is a quick example:</p>
+<pre><code><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+
+<span class="tag">&lt;<span class="title">s:Group</span> <span class="attribute">xmlns:fx</span>=<span class="value">"[http://ns.adobe.com/mxml/2009](http://ns.adobe.com/mxml/2009)"</span>
+
+         <span class="attribute">xmlns:s</span>=<span class="value">"[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"</span>
+
+         <span class="attribute">xmlns:mx</span>=<span class="value">"[library://ns.adobe.com/flex/mx](library://ns.adobe.com/flex/mx)"</span>
+
+         <span class="attribute">creationComplete</span>=<span class="value">"handleCreationComplete();"</span>&gt;</span>
+
+
+
+    <span class="tag">&lt;<span class="title">fx:Script</span>&gt;</span>
+
+        <span class="cdata">&lt;![CDATA[
+
+            import com.custardbelly.as3flobile.controls.viewport.ScrollViewport;
+
+
+
+            import mx.events.PropertyChangeEvent;
+
+
+
+            protected var viewport:ScrollViewport;
+
+
+
+            protected function handleCreationComplete():void
+
+            {
+
+                container.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, handleContentPropertyChange, false, 0, true );
+
+
+
+                viewport = new ScrollViewport();
+
+                viewport.width = 100;
+
+                viewport.height = 100;
+
+                viewport.content = container;
+
+                viewportHolder.addChild( viewport );
+
+            }
+
+
+
+            protected function handleContentPropertyChange( evt:PropertyChangeEvent ):void
+
+            {
+
+                if( evt.property == "contentWidth" || evt.property == "contentHeight" )
+
+                {
+
+                    viewport.refresh();
+
+                }
+
+            }
+
+        ]]&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">fx:Script</span>&gt;</span>
+
+
+
+    <span class="tag">&lt;<span class="title">s:SpriteVisualElement</span> <span class="attribute">id</span>=<span class="value">"viewportHolder"</span> /&gt;</span>
+
+
+
+    <span class="tag">&lt;<span class="title">s:Group</span> <span class="attribute">id</span>=<span class="value">"container"</span> <span class="attribute">width</span>=<span class="value">"200"</span> <span class="attribute">height</span>=<span class="value">"200"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">s:Rect</span> <span class="attribute">width</span>=<span class="value">"200"</span> <span class="attribute">height</span>=<span class="value">"200"</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">s:fill</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">s:LinearGradient</span>&gt;</span>
+
+                    <span class="tag">&lt;<span class="title">s:entries</span>&gt;</span>
+
+                        <span class="tag">&lt;<span class="title">s:GradientEntry</span> <span class="attribute">color</span>=<span class="value">"0x000000"</span> <span class="attribute">ratio</span>=<span class="value">"0"</span> /&gt;</span>
+
+                        <span class="tag">&lt;<span class="title">s:GradientEntry</span> <span class="attribute">color</span>=<span class="value">"0xFFFFFF"</span> <span class="attribute">ratio</span>=<span class="value">".66"</span> /&gt;</span>
+
+                    <span class="tag">&lt;/<span class="title">s:entries</span>&gt;</span>
+
+                <span class="tag">&lt;/<span class="title">s:LinearGradient</span>&gt;</span>
+
+            <span class="tag">&lt;/<span class="title">s:fill</span>&gt;</span>
+
+        <span class="tag">&lt;/<span class="title">s:Rect</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">s:Group</span>&gt;</span>
+
+
+
+<span class="tag">&lt;/<span class="title">s:Group</span>&gt;</span></code></pre>
+<p>The target content – in this example, a <strong>Group</strong> container with the id of “container” – needs to go through the invalidation cycle within <strong>Flex</strong>. So it is declared in mark-up as a child of the parent <strong>Group</strong>. This is important to note, because the target content container cannot be added from a <strong>Declarations</strong> tag in <strong>Flex</strong>. It needs to have gone through its invalidation in order to be rendered and re-parented to the <strong>ScrollViewport</strong>. Once the container is set as the content for the <strong>ScrollViewport</strong> it is now on the display list of the <strong>ScrollViewport</strong>.</p>
+<p>As mentioned early, in this example, i have assigned a <strong>PropertyChangeEvent</strong> listener to pick up the change to <strong>contentWidth</strong> and <strong>contentHeight</strong> of the container. Once caught, the viewport is refreshed. This is needed in order to properly based its scroll bounds in the strategy. Once that is set, you are already to go.</p>
+<p>Here is an example of using this approach which shows vertical and horizontal scroll viewports for <strong>Group</strong> containers:</p>
+<p>[view source enabled]<br><a href="http://www.custardbelly.com/downloads/as3flobile/containerviewport/"><img src="http://www.custardbelly.com/blog/images/as3flobile_vp_container.png" alt="as3flobile viewport container"></a><br><em>ScrollViewport with Group containers.</em></p>
+<h2 id="scrollviewport-and-virtualized-datagroup-renderers">ScrollViewport and virtualized DataGroup renderers</h2>
+<p>After drumming up a working example with <strong>Group</strong> container as content target for <strong>ScrollViewport</strong>, my mind immediately changed focus to <strong>DataGroups</strong>. And not just <strong>DataGroup</strong>s, but the need for item renderer recycling using virtualization. I<em>f you are unfamiliar with virualization and <strong>DataGroup</strong>s, <strong>Adobe</strong> has some useful information <a href="http://help.adobe.com/en_US/flex/using/WS64909091-7042-4fb8-A243-8FD4E2990264.html">here</a>.</em></p>
+<p>That gets a little trickier, but not too much. Fortunately the <strong>contentWidth</strong> and <strong>contentHeight</strong> property values are updated on a <strong>DataGroup</strong> based on the <strong>dataProvider</strong> and the item renderer using <em>virtualization</em>, even though every data renderer for an item in the <strong>dataProvider</strong> is not present in the layout display stack since they are recycled. In broad terms, this means our scroll strategy will still be a viable solution, but we will need to update the <strong>verticalScrollPosition</strong> and <strong>y</strong> position of the <strong>DataGroup</strong> during the scroll behaviour.</p>
+<p>Here is an example of using <strong>DataGroup</strong> with a virtualized layout:</p>
+<pre><code><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+
+<span class="tag">&lt;<span class="title">s:Group</span> <span class="attribute">xmlns:fx</span>=<span class="value">"[http://ns.adobe.com/mxml/2009](http://ns.adobe.com/mxml/2009)"</span>
+
+         <span class="attribute">xmlns:s</span>=<span class="value">"[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"</span>
+
+         <span class="attribute">xmlns:mx</span>=<span class="value">"[library://ns.adobe.com/flex/mx](library://ns.adobe.com/flex/mx)"</span>
+
+         <span class="attribute">creationComplete</span>=<span class="value">"handleCreationComplete();"</span>&gt;</span>
+
+
+
+    <span class="tag">&lt;<span class="title">fx:Declarations</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">s:ArrayList</span> <span class="attribute">id</span>=<span class="value">"dp"</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">fx:String</span>&gt;</span>hello<span class="tag">&lt;/<span class="title">fx:String</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">fx:String</span>&gt;</span>world<span class="tag">&lt;/<span class="title">fx:String</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">fx:String</span>&gt;</span>foo<span class="tag">&lt;/<span class="title">fx:String</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">fx:String</span>&gt;</span>bar<span class="tag">&lt;/<span class="title">fx:String</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">fx:String</span>&gt;</span>baz<span class="tag">&lt;/<span class="title">fx:String</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">fx:String</span>&gt;</span>jello<span class="tag">&lt;/<span class="title">fx:String</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">fx:String</span>&gt;</span>biafra<span class="tag">&lt;/<span class="title">fx:String</span>&gt;</span>
+
+        <span class="tag">&lt;/<span class="title">s:ArrayList</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">fx:Declarations</span>&gt;</span>
+
+
+
+    <span class="tag">&lt;<span class="title">fx:Script</span>&gt;</span>
+
+        <span class="cdata">&lt;![CDATA[
+
+            import com.custardbelly.as3flobile.controls.viewport.ScrollViewport;
+
+
+
+            import mx.events.PropertyChangeEvent;
+
+
+
+            protected var viewport:ScrollViewport;
+
+
+
+            protected function handleCreationComplete():void
+
+            {
+
+                dataGroup.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, handleContentPropertyChange, false, 0, true );
+
+                dataGroup.dataProvider = dp;
+
+
+
+                viewport = new ScrollViewport();
+
+                viewport.width = 100;
+
+                viewport.height = 100;
+
+                viewport.content = container;
+
+                viewport.scrollChange.add( handleScrollChange );
+
+                viewportHolder.addChild( viewport );
+
+            }
+
+
+
+            protected function handleContentPropertyChange( evt:PropertyChangeEvent ):void
+
+            {
+
+                if( evt.property == "contentHeight" )
+
+                {
+
+                    container.height = dataGroup.contentHeight;
+
+                    contentBackground.height = dataGroup.contentHeight;
+
+                    viewport.refresh();
+
+                }
+
+            }
+
+
+
+            protected function handleScrollChange( value:Point ):void
+
+            {
+
+                dataGroup.verticalScrollPosition = value.y * -1;
+
+                dataGroup.y = dataGroup.verticalScrollPosition;
+
+            }
+
+        ]]&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">fx:Script</span>&gt;</span>
+
+
+
+    <span class="tag">&lt;<span class="title">s:SpriteVisualElement</span> <span class="attribute">id</span>=<span class="value">"viewportHolder"</span> /&gt;</span>
+
+
+
+    <span class="tag">&lt;<span class="title">s:Group</span> <span class="attribute">id</span>=<span class="value">"container"</span> <span class="attribute">width</span>=<span class="value">"100"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">s:Rect</span> <span class="attribute">id</span>=<span class="value">"contentBackground"</span> <span class="attribute">width</span>=<span class="value">"100"</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">s:fill</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">s:SolidColor</span> <span class="attribute">color</span>=<span class="value">"#DDDDDD"</span> /&gt;</span>
+
+            <span class="tag">&lt;/<span class="title">s:fill</span>&gt;</span>
+
+        <span class="tag">&lt;/<span class="title">s:Rect</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">s:DataGroup</span> <span class="attribute">id</span>=<span class="value">"dataGroup"</span>
+
+                     <span class="attribute">width</span>=<span class="value">"100"</span> <span class="attribute">height</span>=<span class="value">"200"</span>
+
+                     <span class="attribute">clipAndEnableScrolling</span>=<span class="value">"true"</span>
+
+                     <span class="attribute">itemRenderer</span>=<span class="value">"spark.skins.spark.DefaultItemRenderer"</span>&gt;</span>
+
+            <span class="tag">&lt;<span class="title">s:layout</span>&gt;</span>
+
+                <span class="tag">&lt;<span class="title">s:VerticalLayout</span> <span class="attribute">useVirtualLayout</span>=<span class="value">"true"</span> <span class="attribute">gap</span>=<span class="value">"2"</span> /&gt;</span>
+
+            <span class="tag">&lt;/<span class="title">s:layout</span>&gt;</span>
+
+        <span class="tag">&lt;/<span class="title">s:DataGroup</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">s:Group</span>&gt;</span>
+
+
+
+<span class="tag">&lt;/<span class="title">s:Group</span>&gt;</span></code></pre>
+<p>In this example, we are basing our target content container dimensions on change to the contentHeight property of the <strong>DataGroup</strong> child. The <strong>dataProvider</strong> and the item renderer are the basis of the <strong>contentHeight</strong> property, and once we handle that change, we apply the height properties to the container and contentBackground, then refresh the viewport. The <strong>contentBackground</strong> is there to act as a grabbable area within the container so we can scroll without having to touched down on an item renderer in the <strong>DataGroup</strong> directly.</p>
+<p>The handler for the <strong>scrollChange</strong> <a href="https://github.com/robertpenner/as3-signals">Signal</a> then updates the <strong>verticalScrollPosition</strong> of the <strong>DataGroup</strong> and the <strong>y</strong> position within the container. This gives the perceived scrolling display incorporated with item renderer recycling (notice the <strong>useVirtualLayout</strong> property value on the <strong>VerticalLayout</strong> assigned to the <strong>DataGroup</strong>).</p>
+<p>Here is an example of this working with the status API of <strong>Twitter</strong> as the data content for a <strong>DataGroup</strong>:</p>
+<p>[view source enabled]<br><a href="http://www.custardbelly.com/downloads/as3flobile/flexviewport/"><img src="http://www.custardbelly.com/blog/images/as3flobile_vp_datagroup.png" alt="as3flobile viewport datagroup"></a><br><em>ScrollViewport with virtualized DataGroup container.</em></p>
+<p>You’ll see some lag when each new item renderer is requested to render, but once it has finished and cached the image requests it will get smoother.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Cheers to <a href="http://twitter.com/tomkordys">Tom Kordys</a> for looking in to <a href="https://github.com/bustardcelly/as3flobile">as3flobile</a> and sparking the discussion. In short, yeah is it possible to use ScrollViewport and Flex 4 containers. But if you have looked at the examples on a mobile device that supports <strong>Flash Player</strong>, you may agree with me that it is not production-ready. Maybe there is some optimization i could do one my side, but i feel the lag really is on the <strong>Flex</strong> invalidation cycle. As well, these examples are pretty basic and there might be some other fine-tuning, not to mention maybe swapping out the container with a <strong>Bitmap</strong> snapshot of itself while scrolling… something to think about.</p>
+<h2 id="attribution">Attribution</h2>
+<p>The examples use the <a href="https://github.com/mrdoob/Hi-ReS-Stats">Hi-ReS-Stats component</a> created by <a href="http://mrdoob.com/">Mr.doob</a>.</p>
+<p>as3flobile uses the <a href="https://github.com/robertpenner/as3-signals">as3-signals</a> library created by <a href="http://flashblog.robertpenner.com/">Robert Penner</a>.</p>
+<p><em><a href="https://github.com/bustardcelly/as3flobile">as3flobile</a> is a set of ActionScript 3 components targeting the Flash Player on mobile devices. <a href="http://custardbelly.com/blog/?page_id=180">You can read more about the project here</a>. To see working examples, visit <a href="http://www.custardbelly.com/android/froyo/as3flobile/"><a href="http://www.custardbelly.com/android/froyo/as3flobile/">http://www.custardbelly.com/android/froyo/as3flobile/</a></a></em></p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/flex-4/">Flex 4</a>, <a href="http://custardbelly.com/blog/category/as3flobile/">as3flobile</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-1-authorization-and-validation/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2011/01/21/jquery-mobile-couchdb-part-6-deleting-documents/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2011/02/16/as3flobile-scrollviewport-and-flex-4-containers-from-yeah-to-eh/index.html";
+        window.disqus_title="as3flobile ScrollViewport and Flex 4 containers? from yeah to eh.";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

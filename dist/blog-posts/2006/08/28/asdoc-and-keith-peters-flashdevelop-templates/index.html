@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - ASDoc and Keith Peters’ FlashDevelop templates</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2006/08/28/asdoc-and-keith-peters-flashdevelop-templates/index.html">ASDoc and Keith Peters’ FlashDevelop templates</a></h1>
+    <p>
+      2006 August 28th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p>… via <a href="http://blog.je2050.de/?p=80">Joa Eberts fairwell to AS3Doc</a> …</p>
+<p><a href="http://www.adobe.com/">Adobe</a> had release their <a href="http://labs.adobe.com/wiki/index.php/ASDoc">ASDoc command line tool</a> around the 11th- i was otherwise <a href="http://custardbelly.com/blog/?p=54">occupied</a>, but am happy to find a way to figure documentation into <a href="http://www.bit-101.com/blog/?p=849">Keith Peters’ FlashDevelop templates for Flex2 and As3 projects</a> now that i am back at my computer.</p>
+<p>( If you haven’t already, follow that l<a href="http://www.bit-101.com/blog/?p=849">ink to Keith’s tutorial</a> on adding project templates if you are interested in creating an excellent dev environment in FD and are curious about what i added to target auto-documentation in the ANT process ). </p>
+<p>To sum it up, all i added was a couple properties to the build.properties file and a conditional target to the build.xml. The modified files are here:</p>
+<p><a href="http://custardbelly.com/downloads/fd/build.properties">build.properties</a><br><a href="http://custardbelly.com/downloads/fd/build.xml">build.xml</a></p>
+<p>… be aware that these are modified files downloaded from keith’s post, so if you have changed some values in the properties file on your own machine you shouldn’t explicitly replace these with your own.</p>
+<p>[Note: it&#39;s not really actionscript code below, i&#39;m just being lazy]</p>
+<p><strong>The additions to <em>build.properties</em></strong>:</p>
+<p><em>1 – under the project properties header…</em>  </p>
+<pre><code><span class="preprocessor">#document titles  </span>
+
+docbuild=<span class="literal">false</span>  
+
+doc<span class="variable">.maintitle</span>=templatetest  
+
+doc<span class="variable">.windowtitle</span>=’template test’</code></pre>
+<p><em><br>… the docbuild property is a string boolean evaluated in a conditional in the build.xml. The others are command params <a href="http://labs.adobe.com/wiki/index.php/ASDoc:Using_ASDoc">found here</a>. Remember that anything with spaces needs quotes around it, as is the value for doc.windowtitle.</em></p>
+<p><em>2 – under the tools header…</em>  </p>
+<pre><code><span class="comment"># where you installed your documenter:  </span>
+
+asdoc.dir=<span class="constant">C</span><span class="symbol">:/Flex_2_sdk</span>  
+
+…  
+
+<span class="comment"># most of this shouldn’t need to change  </span>
+
+…  
+
+documenter=bin/asdoc.exe  
+
+…  </code></pre>
+<p><em>… where asdoc.dir and documenter are relative to where you unzipped the ASDoc – in this case i threw it into the directory of the sdk.</em></p>
+<p><strong>the additions to <em>build.xml:</em></strong></p>
+<p><em>1- conditional added to the compile target:</em>  </p>
+<p><em>2 – the document target</em>  </p>
+<p><em>3 – antcall added to build target:</em>  </p>
+<p>… Changing the doc.build value in build.properties to any string other than ‘true’ will cause this to not rebuild the documentation, which can be handy if you are just doing quick tests or bug finding – otherwise, if set to ‘true’ it will document any AS files recursively found in ${source.dir}.</p>
+<p>I had a similar build made up for AS2 projects and <a href="http://www.blinex.com/index.cfm?view=bldoc&amp;nav_view=products">BlDoc</a> in FlashDevelop using ANT earlier and thought i’d have a go with it using <a href="http://labs.adobe.com/wiki/index.php/ASDoc">ASDoc</a>, maybe someone else will find this useful…</p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2006/09/08/new-job-come-monday/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2006/08/27/back-from-a-pennsy-wedding-and-alaskan-honeymoon/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2006/08/28/asdoc-and-keith-peters-flashdevelop-templates/index.html";
+        window.disqus_title="ASDoc and Keith Peters’ FlashDevelop templates";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - An ImagesLoader in Flash8</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2005/11/07/an-imagesloader-in-flash8/index.html">An ImagesLoader in Flash8</a></h1>
+    <p>
+      2005 November 7th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p>find the files <a href="http://www.custardbelly.com/downloads/ImagesLoader.zip">here</a>.</p>
+<p>Since Flash8 came out, i’ve moved away from the old multi-keyframed movieclip used for sprites in my games. I’ve been playing around with loading images into a movieclip, copying the pixels into a BitmapData instance, then discarding the mc and passing that data onto whoever wants it. After trying a couple different ways on how to manage this process, i was thumbing through <a href="http://www.oreilly.com/catalog/killergame/">Killer Game Programming</a> by Andrew Davison and thought his ImagesLoader class (written in java) was pretty damn cool and decided i wanted a Flash adaptation of it.</p>
+<p>Seeing as Flash doesn’t have a BufferedImage, I drummed up a little implementation of buffering images offscreen and here it is.<br>The prominant class file that the different buffers (Single, Strip, Multi) use is the ImageLoader – which does pretty much what i said in the first sentence.<br>The different buffers know what to do with the bitmapdata passed from ImageLoader, but perhaps more importantly they have a queue system set up so that you can hit these Singletons with numerous filepaths to images and the loading of one won’t get overwritten by the loading of another.</p>
+<p>The ImageLoader and buffers can be used seperately from the ImagesLoader, but the ImagesLoader class is there if you want a sort of buffered image manager. It holds basically an image map from which another class can grab the bitmap data of anything loaded. As well, taking a cue from <a href="http://fivedots.coe.psu.ac.th/~ad/">Andrew Davison’s</a> ImageLoader.java, ImagesLoader can read a text file that lists all the images you want loaded and buffered in your app, choosing buffers dependant on a preceding signifier (single, strip, group, number).<br>I find it helpful and it probably could use some optimization, but hopefully you can get something out of it… And please don’t forget to call ImagesLoader.dispose() when you’re done with it.</p>
+<p>In the <a href="http://www.custardbelly.com/downloads/ImagesLoader.zip">zip</a> are the files, a sample FLA, some images and an image.txt file. I realized that some of the images don’t really illustrate the point because they’re simple and you’d probably use the drawing API instead, but you get the idea of how the ImagesLoader works.</p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2005/11/09/pixel-perfect-collision-detection-in-flash8/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2005/11/06/keith-peters-actionscript-animation/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2005/11/07/an-imagesloader-in-flash8/index.html";
+        window.disqus_title="An ImagesLoader in Flash8";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

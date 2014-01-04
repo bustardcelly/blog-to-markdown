@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - The Making of a Test-Driven Grocery List Application in JavaScript: Part I</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/index.html">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></h1>
+    <p>
+      2012 November 26th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <h1 id="preface">Preface</h1>
+<p>Over the past year, after having read <a href="http://tddjs.com/">Test-Driven JavaScript Development</a> by <a href="https://twitter.com/cjno">Christian Johansen</a>, I have become a strong proponent for unit testing. Prior to becoming a total convert, I would start a project with good intentions in writing tests which would end, <em>at best</em>, in having a handful of unit tests in which each was focused on a single method and intended only to validate an expected return value or change of state; <em>at worst</em> (and much more commonly), no tests at all. </p>
+<p>That was before the <em>a-HA</em> moment in which I began to realize that unit tests could more importantly verify the design of the application and the requirement of its components. What brings an even larger smile on my face is being able to squash bugs simply by providing different data or changing the impetus of an action in my tests; I can verify the bug and eliminate it, all without having to go through launching the application and going through n-number of User Actions just to see if what I changed fixed the issue at hand. Of course, yes, as a developer you still need to – nay, <em>must</em> – do your own QA before passing to QA, but I can offload the time required to go through all those User steps <em>after</em> I have verified that my modification is a logical fix and all other tests are still passing. Armed with this knowledge, I can now cause colleagues to have involuntary eye-rolls with a response to development issues as either: “What does the test say?” or “Modify the tests to the requirement and work from there.”</p>
+<p>In any event, I still consider myself an early convert and haven’t figured everything out and am still tentative in spots and question the validity of writing a test for perhaps an implementation that is not really a requirement. But, it has brought a new level of fun and excitement to my development cycle and that is never a bad thing – especially as I see that it adds value.</p>
+<h1 id="introduction">Introduction</h1>
+<p>If you sat through that jabbering about why i think unit testing brings value to application development, you are very kind, but now I want to address the real intent of this post: I thought it would be interesting to lay it out on the line and build a test-driven application over a series of posts. Writing something that is publicly accessible always drives me to question my knowledge (<a href="http://www.amazon.com/Todd-Anderson/e/B0037FMULM">ps. buy my books</a>!), but I would also like this series to invite criticism from readers so I can (selfishly) better myself. As well, perhaps I can impart some tidbit of wisdom to anyone following along – no guarantees <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif" alt=";)"></p>
+<h1 id="grocery-list-application">Grocery List Application</h1>
+<p>I decided to dedicate this series to building a test-driven application that would allow me to create a <strong>Grocery List</strong>. I figured it will be a small enough application to not get muddled down in large, complex requirements and several moving parts but still provide a real-life example of a <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>-based application. </p>
+<p>A <strong>Grocery List</strong> application is also something I have wanted to make for some time. We still, as a household, create a grocery list with pen and paper and take it in hand to the store. Nothing wrong with that, aside from the general user error of <strong>a)</strong> forgetting the list at home, and the user experience oversight of <strong>b)</strong> not being able to split up and cover parts of the list as a group. So, I thought it may be handy to have a web-based application that my family could add to, remove from and have available on the one thing we never leave the house without: attitudes. No. smartphones.</p>
+<h2 id="client-side-requirements">Client-side Requirements</h2>
+<p>Since we are talking web-based, and specifically mobile-web, the current natural choice (barring snarky comments) is to build the application using HTML/JS/CSS. As well, I will assume we are developing against the latest available browsers and APIs; the application won’t (with my current mindset) be doing anything cutting edge, so will not require a specific distribution or OS.</p>
+<p>Throughout this series, the presentation layer may take more of a back seat as the implementation of tests will largely revolve around the JavaScript language and associated publicly-available libraries. While I do intend to demonstrate how to use the JS libraries, I hope to also provide a healthy discussion around the practice of test-driven development. That said, I do have a preferred set of libraries and tools I use for web development. If you are unfamiliar with them, hopefully I can provide some insight or interest. As well, if you feel I may be off track – either with the libraries/tools being used, or in the practice of test-driven development – please speak up.</p>
+<h3 id="libraries-used">Libraries Used</h3>
+<p>The following is a list of libraries that will be used in developing the Grocery List application:</p>
+<h4 id="requirejs">RequireJS</h4>
+<p>I am a huge proponent of <a href="http://wiki.commonjs.org/wiki/Modules/AsynchronousDefinition">AMD</a> as part of application structure, with <a href="http://requirejs.org/">RequireJS</a> as my library of choice. I have discussed it in more length in <a href="http://custardbelly.com/blog/2012/03/06/facaded-micro-libraries-and-dependency-management-using-requirejs/">previous</a> <a href="http://custardbelly.com/blog/2012/02/07/current-workflow-developing-linting-testing-and-distributing-javascript/">posts</a>. I will not really cover the usage of <a href="http://requirejs.org/">RequireJS</a> or concept of <a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a> much (if at all) in this series, so if you are unfamiliar I implore you to check them out; I will state that it provides a very convenient mechanism to separate responsibilities and dependencies (ie, modular development).</p>
+<h4 id="jasmine">Jasmine</h4>
+<p>I chose <a href="http://pivotal.github.com/jasmine/">Jasmine</a> as my unit-test framework. In previous posts, I have supported the use of <a href="http://qunitjs.com/">QUnit</a>. I still love <a href="http://qunitjs.com/">QUnit</a> and admire its ease of use and set-up. However, over the past half-year, I had fallen in love with<a href="http://pivotal.github.com/jasmine/"> Jasmine</a> and its <a href="http://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>-style syntax. It provides (to me) more of means of defining behaviors of a system over testing attributes of an application’s components and lends to a nicer workflow of defining requirements and designing the application architecture. As well, just like <a href="http://qunitjs.com/">QUnit</a>, it is easy to integrate with <a href="http://requirejs.org/">RequireJS</a> which is a requirement.</p>
+<h4 id="sinon">Sinon</h4>
+<p><a href="http://pivotal.github.com/jasmine/">Jasmine</a> does come with spies, but every now and then I find I need more when stubbing and mocking objects. I got familiar with <a href="http://sinonjs.org/">Sinon</a> when writing unit-tests in <a href="http://qunitjs.com/">QUnit</a>. I still continue to use it as it provides no conflicts with <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and is familiar to me. There is a library out there called<a href="https://github.com/froots/jasmine-sinon"> jasmine-sinon</a> that provides <strong>Jasmine</strong> matchers for <strong>Sinon</strong> if you are interested; looks good – just trying to keep requirements low for the development of the <strong>Grocery List</strong> application.</p>
+<p>If you are unfamiliar with stubs and mocks for testing, have a look at the <a href="http://sinonjs.org/docs/">Sinon docs</a>.</p>
+<h4 id="jasmin-async">Jasmin.Async</h4>
+<p><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a> provides a means of which to do asynchronous testing with Jasmine with ease. I have used it on a couple client-side projects and it really is worth it. Modelled after <a href="http://visionmedia.github.com/mocha/">Mocha</a>’s async test support, it is miles above the default async testing model available in <a href="http://pivotal.github.com/jasmine/">Jasmine</a> which basically suspends the test from progression until a flag is flipped in a <em>watch()</em> block.</p>
+<p>So those are the libraries you will see being used when developing tests. From that list, <a href="http://requirejs.org/">RequireJS</a> is the only library that will also be used in developing the actual <strong>Grocery List</strong> client-side application, which will most likely incorporate <a href="http://jquery.com">jQuery</a> for ease in DOM traversal and AJAX, as well – it’s ubiquitous enough that I will not have to add noise to this series of posts by introducing another suite of libraries.</p>
+<h2 id="github-repo">Github Repo</h2>
+<p>I have started a GitHub repo to track the progress of the application in this series: <a href="https://github.com/bustardcelly/grocery-ls">grocery-ls</a>. Each blog post will have an associated tag, or tags, that will represent a snapshot of the repo at that point in time and which are accessible from the GitHub UI. The master branch will represent the current state of the application throughout the whole series.</p>
+<h2 id="initial-development">Initial Development</h2>
+<p>I will be using a pre-defined set of terms and language to define a story and specification for a requirement when developing a test. These are mostly gleaned from the excellent article <a href="http://dannorth.net/introducing-bdd/">Introducing BDD</a> by <strong>Dan North</strong>. I won’t be doing true BDD with the proper tooling, but rather more of a TDD with BDD characteristic and syntax as is provided from <a href="http://pivotal.github.com/jasmine/">Jasmine</a>, and will most likely complete the associated implementation from the specifications addressed in a single post so as to show test-to-implementation, instead of assembling all stories and specifications prior to implementation.</p>
+<p>Alright, now that we have the pleasantries of intent and libraries used out of the way, let’s kick this off…</p>
+<p><strong>[edit] </strong><br>I had originally included working through the first story and suite of specifications for the <strong>Grocery List</strong> application in this post, but it got rather lengthy and though it started taking away some of the value (if any) the previous sections in this post provided. As such, I moved it out to the second installment of this series:</p>
+<p><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/">The Making of a Test-Driven Grocery List Application in JavaScript: Part II</a></p>
+<p>—-</p>
+<h1 id="link-dump">Link Dump</h1>
+<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://cumulative-hypotheses.org/2011/08/30/tdd-as-if-you-meant-it/">TDD as if you Meant it by Keith Braithwaite</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a></p>
+<h2 id="post-series">Post Series</h2>
+<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2012/03/06/facaded-micro-libraries-and-dependency-management-using-requirejs/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/index.html";
+        window.disqus_title="The Making of a Test-Driven Grocery List Application in JavaScript: Part I";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

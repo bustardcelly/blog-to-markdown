@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - Pixel Collision Detection in Flash8</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2005/11/09/pixel-perfect-collision-detection-in-flash8/index.html">Pixel Collision Detection in Flash8</a></h1>
+    <p>
+      2005 November 9th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p>In my last post i talked about an ImagesLoader that holds a map of the bitmapdata copied from any images loaded into an offscreen buffer. Well, i thought that was well and good, but i started thinking about collision detection between two bitmaps. Take for instance the “load and chop” of a strip of sprite states. Since it does a check on the dimensions of the image loaded and just divides by the number of states (columns and rows) specified, each state has the same width and height.<br>That’s fine if you’re running a collision detection based on movieclip bounds, but the state of a sprite can have a fair amount of empty (tranparent) pixels within the bounding rectangle detected from the movieclip it’s attached to (using mc.getBounds()). What if you want to run a collision of something hitting any opaque pixels in the sprite and not use the bounding box of the mc?</p>
+<p>Well, i whipped up a quick little class that will do that.<a href="javascript:MM_openBrWindow(&#39;http://www.custardbelly.com/flash8/CollisionTest.html&#39;,&#39;coll_trial&#39;,&#39;resizable=no,width=170,height=150&#39;"><br>You can view it here</a>;)<br>(just click and drag the little colbys).<br>Sorry i couldn’t put it on the page, there seems to be a problem with loading images into a flashObject embedded in this page.</p>
+<p>This is a pretty “lite” example since it’s only checking three objects during onMouseMove, but you can see how it works, and in theory you wouldn’t run this detection process unless sprites were in a certain area of each other.</p>
+<p>After i clean up my code and make a better example i’ll throw the source up here, but i’ll show you some things it’s doing.</p>
+<p>Before it goes into the process of checking pixel transparencies between two sprites, it runs the age old  </p>
+<pre><code><span class="function"><span class="title">if</span><span class="params">(    ay2 &lt; by1 ||  
+
+    ay1 &gt; by2 ||  
+
+    ax2 &lt; bx1 ||  
+
+    ax1 &gt; bx2)</span>  
+
+{  
+
+    <span class="title">return</span> <span class="title">false</span>;  
+
+}  </code></pre>
+<p>operation (where ay1 is mc1._y, ay2 is mc1._height, and the b’s are the same but with other movieclip). If that returns, the two sprites being checked don’t overlap, so we don’t even bother going on to check if it’s only transparent pixels that are overlapping.</p>
+<p>If that doesn’t return, it goes on to determine the rectangle of intersection, from which it derives what pixels to check in each bitmapdata instance.<br>It runs the alpha check with this operation:  </p>
+<pre><code>var aVal:Number = ((bmpData<span class="preprocessor">.getPixel</span>32(<span class="built_in">x</span>, <span class="built_in">y</span>) &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xFF</span>)<span class="comment">;  </span></code></pre>
+<p>If that shows up as 0, it’s transparent. I stink at techinical explanations, so if you want to learn about this visit this article by Grant Skinner – <a href="http://www.macromedia.com/devnet/flash/articles/bitwise_operators.html">Using Bitwise Operators to Manipulate Bits and Colors</a>, but it’s basically checking for any similar bits between the alpha channel of the pixel and 0xFF.</p>
+<p>I’d also like to point out Grant Skinner’s great example of <a href="http://www.gskinner.com/blog/archives/2005/10/source_code_sha.html">Shape-Based Collision Detection</a>, if you haven’t already seen it. </p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2005/11/11/as3-pixel-collision-detection/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2005/11/07/an-imagesloader-in-flash8/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2005/11/09/pixel-perfect-collision-detection-in-flash8/index.html";
+        window.disqus_title="Pixel Collision Detection in Flash8";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

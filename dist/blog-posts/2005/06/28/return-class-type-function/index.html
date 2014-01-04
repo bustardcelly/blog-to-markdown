@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - return class; = [type Function] ?</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2005/06/28/return-class-type-function/index.html">return class; = [type Function] ?</a></h1>
+    <p>
+      2005 June 28th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p>[Edit: sorry about all the italics and bolds. i really need to get some sort of style sheet for actionscript code]<br>[Edit 2: and i got one. have to do some color changes. <a href="http://blog.igeek.info/index.php">IG: Syntax Hiliter</a>]<br>i found something i don’t quite understand today (not that much of a shock) when trying to make a <em>CharacterManager</em> class to control the registration and reference of classes extending a <em>Character</em> class. In short, when i make a new character that a user can use, i just want to create a new class that extends the <em>Character</em> class, go into my main class register it and drop the new character movieclip into the library, brush off my hands give a little grunt and call it a day.<br>Now i found this odd, but technically i know very little, so i was hoping someone out there might be able to explain it to me.<br>The way i want this to work is when i register a new character, i say something like this:</p>
+<p>__characterManager.registerCharacterClass(MyNewCharacterClass, “class name”);</p>
+<ul>
+<li>where <strong>__characterManager</strong> is the singleton</li>
+</ul>
+<p>….(in <em>Character Manager</em>)  </p>
+<pre><code>    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">registerCharacterClass</span><span class="params">(classToAdd, classNameStr)</span>  
+
+    {</span>  
+
+        __classList[ classNameStr ] = classToAdd;  
+
+    }  </code></pre>
+<ul>
+<li>and then when i want to retrive that class when i create a new character i say:</li>
+</ul>
+<p>(1)  </p>
+<pre><code>     Application<span class="variable">.addCharacter</span>(”<span class="class"><span class="keyword">class</span> <span class="id">name</span>”, “<span class="id">symbol</span> <span class="id">linkage</span> <span class="id">id</span>”, “<span class="id">instance</span> <span class="id">name</span>”);  </span></code></pre>
+<p>(2)  </p>
+<pre><code>     <span class="function"><span class="keyword">function</span> <span class="title">addCharacter</span><span class="params">(classNameStr, clipID, name)</span>  
+
+      {</span>
+
+
+
+
+          <span class="keyword">var</span> characterClass:Character =  
+
+
+
+
+                                  characterManager.getCharacterClassByName(classNameStr);
+
+
+
+
+          <span class="keyword">var</span> character:Character = characterClass.create(clipID, name);  
+
+      }  </code></pre>
+<ul>
+<li>what i had in the <em>CharacterManager</em> class before i found the reason why i’m asking this question is this:  </li>
+</ul>
+<pre><code>    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getCharacterClassByName</span><span class="params">(classNameStr)</span><span class="type">:Character</span>  
+
+    {</span>  
+
+        <span class="keyword">return</span> __classList[ classNameStr ];  
+
+    }  </code></pre>
+<ul>
+<li>but that always returned the [type Function]- never a reference to the class i was trying to get.<br>So i peeked into the <em>CommandTemplate</em> class within <a href="http://ariaware.com/products/arp/">the ariaware package</a>, and noticed how they did it.<br>Using this: </li>
+</ul>
+<p><strong>return new __classList<a href=""> classNameStr</a>;</strong></p>
+<p>Now this makes sense to me, since when you create an instance of a class you use new most of the time. But i guess i’m wondering why it would return [type Function] before, and not even [object Object], or something else. and if this is always true, can i not create a Singleton from here, or should i make a <em>CharacterSingletonManager</em> class and <strong>return __classList[ classNameStr].getInstance();</strong> ?<br>The answer is probably simple and can be summed up in one line, and here i write a novel out of a question.. but oh well.</p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/flash/">Flash</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2005/07/13/its-quite-possible-i-dont-know-what-im-doing/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2005/06/28/6/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2005/06/28/return-class-type-function/index.html";
+        window.disqus_title="return class; = [type Function] ?";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

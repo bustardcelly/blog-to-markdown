@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - jQuery Mobile + CouchDB: Part 6 – Deleting Documents</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2011/01/21/jquery-mobile-couchdb-part-6-deleting-documents/index.html">jQuery Mobile + CouchDB: Part 6 – Deleting Documents</a></h1>
+    <p>
+      2011 January 21st
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p>In my <a href="http://custardbelly.com/blog/?p=332">previous article</a>, I addressed adding documents to a <a href="http://couchdb.apache.org/">CouchDB</a> database using the <em>jquery.couch</em> plugin along with a form within the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework. If you have been following along (and have been using with the application that is being built) that database might be filling up with album documents by now… but with no way to remove them!</p>
+<p><em>“Why, late on Friday night, did I ever think I needed to catalog Starship’s ‘Knee Deep in the Hoopla’ as ‘my saving grace’?!”</em></p>
+<p>… is one thing that you may say to yourself because there is currently no way to delete a document from the application we have built within this series. However, we have come to the final piece in basic document operations: the <strong>D</strong> in <strong>CRUD</strong>. Sit back down. I know it is exciting, but I have a lot of long-winded explanations to write so get ready.</p>
+<p>In this article I am going to address adding the ability to delete a document from a <a href="http://couchdb.apache.org/">CouchDB</a> database. While doing so, I will lightly cover the role that dialogs play in <a href="http://jquerymobile.com/">jQuery Mobile</a> and, in the end, hack it to present a <strong>dialog</strong> (our delete confirmation dialog) as an <strong>external page</strong> styled as a <a href="http://jquerymobile.com/">jQuery Mobile</a> dialog.</p>
+<p><strong>In the following examples, I will assume that you have been following along from previous posts and will present updates to existing code.</strong></p>
+<h2 id="deleting-documents">Deleting Documents</h2>
+<p>Before we just dive into adding a <strong>Delete</strong> button somewhere, let’s first think about its context within the application itself. If you have been following along with the previous posts, we have essentially 4 pages in our application:</p>
+<ul>
+<li>Home – Displays the full list of album documents.</li>
+<li>Add Album – Provides form to an album document.</li>
+<li>View Album – Displays information from the album document.</li>
+<li>Edit Album – Provides form to edit the information on an album document.</li>
+</ul>
+<p>From this set of pages we can remove <strong>Home</strong> and <strong>Add Album</strong> as candidates to present a <strong>Delete</strong> button associated with a single document, as they have multiple and no album targets, respectively. So, that leaves us with <strong>View Album</strong> and <strong>Edit Album</strong>. A case can definitely be made that a <strong>Delete</strong> button should be available from the <strong>Edit Album</strong> page, but I think it would start to get crowded on that page with <strong>Save</strong>, <strong>Cancel</strong> and <strong>Delete</strong>… furthermore, it might be confusing to the User what <strong>Cancel</strong> actually referred to; cancel delete? cancel edit? I think the <strong>Delete</strong> button is much more suited to live alongside the <strong>Edit</strong> button in the <strong>View Album</strong> page.</p>
+<p>So we know where the <strong>Delete</strong> button is going to reside. The role of the <strong>Delete</strong> button is to open a confirmation <strong>Dialog</strong> so the user can confirm their intent on deleting an album document, or deny it; they may have accidentally hit that button. Now an architectural decision needs to be addressed as to how to present this <strong>Delete</strong> dialog… should we have it as an internal page within the <em>album view</em> page that is served up from our <strong>show function</strong> in <a href="http://couchdb.apache.org/">CouchDB</a>, or should it be an external page completely self manageable?</p>
+<p>We can make a case for internal with obvious reasons being that a <em>delete dialog</em> is associated with a single document with which you want to perform an operation and our <em>album view</em> page represents a single album document. We also don’t necessarily need the <em>dialog page</em> to be accessed outside of the flow of the application. Meaning, it is not a requirement that the <em>delete dialog</em> is exposed to any user without having to open the application and select an album from the list. </p>
+<p>So an <strong>internal</strong> dialog page might be a good fit, and in most cases I might push for it. Unfortunately, the current state of <a href="http://jquerymobile.com/">jQuery Mobile</a> makes the case for an external dialog page an easy one. If we were to add a dialog page to the <em>album view</em> <strong>template</strong> served up from our <strong>show function</strong> for an album, the elements would be all screwed up. I do not know if by design that is expected or if it is just a by-product of the templating and dynamic <strong>DOM</strong> that external pages provides. Either way, things get screwy adding a dialog page along side another page in an external <a href="http://jquerymobile.com/">jQuery Mobile</a> page. So external dialog page, ahoy!</p>
+<p>Wow, if you read that whole ramble, I am flattered and I hope it made sense. If you didn’t, i dont blame you; more code less talk.</p>
+<h2 id="delete-dialog">Delete Dialog</h2>
+<p>We are going to create an <strong>external dialog page</strong> to present the user the ability to cancel out of the action or confim that they would like to delete the album document from the database. Now, typically when working with the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework, a dialog is assigned for a page anchor link with the <strong>data-rel</strong> attribute value set to “<em>dialog</em>“. For example:</p>
+<pre><code><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"_show/album-delete/12345"</span> <span class="attribute">data-icon</span>=<span class="value">"minus"</span> <span class="attribute">data-rel</span>=<span class="value">"dialog"</span>&gt;</span>Delete<span class="tag">&lt;/<span class="title">a</span>&gt;</span></code></pre>
+<p>In essence, this attribute not only is responsible for the look-and-feel of the page, but also is an indicator that the <strong>url location</strong> should not be updated when the dialog page is loaded in the <strong>DOM</strong>. Makes sense – you shouldn’t have to hit back to get out of a dialog (though <strong>Android</strong> throws that use-case out the window with its context menus, which i think is still intuitive… but whatever).</p>
+<p>But… we can’t do that. We need to use the <strong>$.mobile</strong>.<em>changePage</em>() method to present the delete dialog page from the album view page. The main reason being relative page locations in relation to <strong>show function</strong> requests. Basically we would have to invoke the <strong>show function</strong> to allow for the <em>delete dialog</em> to be presented using a relative path out of the current <em>album view</em> page. An updated example for our application would look like:</p>
+<pre><code><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"../../_show/album-delete/12345"</span> <span class="attribute">data-icon</span>=<span class="value">"minus"</span> <span class="attribute">data-rel</span>=<span class="value">"dialog"</span>&gt;</span>Delete<span class="tag">&lt;/<span class="title">a</span>&gt;</span></code></pre>
+<p>To me, very ugly and not the correct way to enable this functionality. Furthermore, if we think back to how we implemented the <em>album view</em> page, we decided to clear the page from the <strong>DOM</strong> after navigating away from it. Essentially, within this context, showing the dialog would wipe the <strong>DOM</strong> of the <em>album view</em> page and when we choose to either confirm or deny or cancel deletion of the document, we would be returned to a blank page due to the inherent behaviour assigned to the role of a dialog in <a href="http://jquerymobile.com/">jQuery Mobile</a> (ie. the previous page is not loaded again using <strong>$.mobile</strong>.<em>changePage</em>()). Not ideal.</p>
+<p>So we’ll just create an external <em>delete dialog</em> maintaining the look and feel by applying styles manually (instead of having the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework parse the <strong>DOM</strong> and apply them intrinsically). That way we can also encapsulate the logic used in deleting a document from the <a href="http://couchdb.apache.org/">CouchDB</a> database using a <em>view-controller</em> associated with the dialog page.</p>
+<h3 id="delete-dialog-show-function">Delete Dialog show function</h3>
+<p>With our minds made up on externalizing the <strong>Delete Dialog</strong> page, we’ll continue on with how we have made all our pages in this series. First up the <strong>show function</strong>. With your favorite text editor open, create a new document called <em>album-delete.js</em> in the /shows directory of your couchapp application folder (for me that is <em>/Documents/workspace/custardbelly/couchdb/albums</em>). Add the following script and save:</p>
+<p><em>/shows/album-delete.js</em></p>
+<pre><code>function(doc, req) {
+
+    var Mustache = require(<span class="string">"vendor/couchapp/lib/mustache"</span>);
+
+       var stash = {
+
+            artist: doc<span class="variable">.artist</span>,
+
+            title : doc<span class="variable">.title</span>,
+
+            document: doc<span class="variable">._id</span>
+
+    };
+
+    <span class="keyword">return</span> Mustache<span class="variable">.to_html</span>(<span class="keyword">this</span><span class="variable">.templates</span><span class="variable">.albumdelete</span>, stash, <span class="keyword">this</span><span class="variable">.templates</span><span class="variable">.partials</span><span class="variable">.albumdelete</span>);
+
+}</code></pre>
+<p>Very similar to our other <strong>show function</strong>s for the view and edit pages, with just a little less information about the document in the <strong>stash</strong>. We’ve also got our template and partials declared in the <a href="https://github.com/janl/mustache.js/">Mustache</a> <em>to_html</em>() call, so let’s go ahead and create those.</p>
+<h3 id="delete-dialog-template">Delete Dialog template</h3>
+<p>As I mentioned earlier, since our dialog is external and will be presented using <strong>$.mobile</strong>.<em>changePage</em>( ) we loose some niceties of styling pages as dialogs within the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework. As such, we are going to roll-up our sleeves and apply some classes and styles directly inline to fake the appearance of the delete album page as a dialog.</p>
+<p>With you favorite text editor open, create and save the following mark-up as <em>albumdelete.html</em> in the <em>/templates</em> directory:</p>
+<p><em>/templates/albumdelete.html</em></p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"page"</span> <span class="attribute">id</span>=<span class="value">"albumdelete"</span> <span class="attribute">data-backbtn</span>=<span class="value">"false"</span> <span class="attribute">class</span>=<span class="value">"ui-dialog ui-body-a"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-header ui-bar-a ui-corner-top ui-overlay-shadow"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">h1</span> <span class="attribute">class</span>=<span class="value">"ui-title"</span>&gt;</span>Delete Album?<span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">a</span> <span class="attribute">id</span>=<span class="value">"dialogCloseButton"</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">data-icon</span>=<span class="value">"delete"</span> <span class="attribute">data-iconpos</span>=<span class="value">"notext"</span> <span class="attribute">style</span>=<span class="value">"left: 15px; top: .4em; position: absolute;"</span>&gt;</span>Close<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span> <span class="attribute">id</span>=<span class="value">"dialogContent"</span> <span class="attribute">data-identity</span>=<span class="value">"<span class="variable">{{document}}</span>"</span> <span class="attribute">class</span>=<span class="value">"ui-body-c ui-corner-bottom ui-overlay-shadow"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">p</span>&gt;</span>Are you sure you want to delete <span class="variable">{{artist}}</span>, <span class="variable">{{title}}</span>?<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">a</span> <span class="attribute">id</span>=<span class="value">"dialogCancelButton"</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">data-role</span>=<span class="value">"button"</span> <span class="attribute">data-theme</span>=<span class="value">"a"</span>&gt;</span>no<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">a</span> <span class="attribute">id</span>=<span class="value">"dialogConfirmButton"</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">data-role</span>=<span class="value">"button"</span> <span class="attribute">data-theme</span>=<span class="value">"c"</span>&gt;</span>yes<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span> /&gt;</span>
+
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+<span class="variable">{{&gt;scripts}}</span></code></pre>
+<p>When you request to load an external page into the <strong>DOM</strong>, that page – or rather, i should say, the root <strong>div</strong> with the <strong>data-role</strong> value of <em>page</em> – is actually wrapped in another parent <strong>div</strong> with the <strong>data-role</strong> removed and transfered to the wrapping <strong>div</strong>. So keep that in the back of your mind as we will need to a little more pixel pushing in the <em>view-controller</em>. For now, understand that this mark-up is going to be wrapped by a <strong>div</strong>, and the page role of this page will be removed. </p>
+<p>Now, in order to style the content of our page as a <strong>dialog</strong>, we explicitly set the root <strong>div</strong> <strong>class</strong> to <em>ui-dialog</em> which just throws in some margins to present more of a self contained box (like a dialog), and <em>ui-body-a</em> essentially being a base style for color and font treatments. </p>
+<p>You may also notice the <strong>data-backbtn</strong> attribute thrown in there. I have rarely gotten it to work for an <strong>external page</strong> in the current stable release of <a href="http://jquerymobile.com/">jQuery Mobile</a> (1.0a2), but i threw it in there and crossed my fingers. In any event, we’ll handle the no back button issue manually, as we only want to display a close button just like all other default dialogs do in <a href="http://jquerymobile.com/">jQuery Mobile</a>. </p>
+<p>First step in that process: get rid of the <strong>header</strong>. You may notice that the first <strong>div</strong> in the children is not assigned a <strong>data-role</strong> of <em>header</em> or any other value. Instead, i peaked inside the <strong>JS</strong> and <strong>CSS</strong> of the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework and assigned in-line the <strong>class</strong> declarations given to a header in the context of a dialog. These classes are responsible for the colorization, size and corner-roundedness (not getting any spell-checking squigglies on that word!) of the <strong>div</strong>, which houses a custom <strong>Close</strong> button. Just as I went through and found the classes assigned to a <strong>header</strong> in a dialog, I went and found the specific styles given to the <strong>Close</strong> button that is added to the <strong>DOM</strong> inherently in <a href="http://jquerymobile.com/">jQuery Mobile</a> when a dialog is present. I have also done the same for the content, finishing the look-and-feel off with a different background color and bottom rounded corners.</p>
+<p>This will look relatively just like any other dialog that is created/modified within the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework (at the current release, at least!). However, the background will not grow with its parent size (will be wrapped in a <strong>div</strong>), so the background treatment assigned to this page will not flow to the size of the page in the browser. To do that we’ll do some <a href="http://jquery.com/">jQuery</a> wizardry in the <em>view-controller</em> for this <em>delete dialog page</em>. In order to get there, let’s create our <strong>partial</strong> for this <strong>template</strong>.</p>
+<p>With you favorite text editor open, create a file named <em>scripts.html</em>, add the following mark-up, and save it in <em>/templates/partials/albumdelete</em>:</p>
+<p><em>/templates/partials/albumdelete/script.html</em></p>
+<pre><code><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"../../script/album-delete-dialog.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></code></pre>
+<p>If you haven’t been following along in the series, this partial is just an organizational thing for me. I may be a little anal about where my code resides, and adding the <strong>JavaScript</strong> within the <strong>script</strong> declaration is totally acceptable; i just like having my scripts all in one place in a project.</p>
+<p>OK. With that set, let’s get on to creating the <em>view-controller</em> for the <em>delete dialog page</em>.</p>
+<h3 id="delete-dialog-view-controller">Delete Dialog View-Controller</h3>
+<p>Before we jump in and create the script, let’s just make sure we are on the same page for the functionality of our <em>delete dialog page</em>. Like most dialogs, it presents the ability to confirm an action or cancel out of that action. So those are two pieces of functionality we need to implement in our <em>view-controller</em> for the page, with the confirmation being a <a href="http://couchdb.apache.org/">CouchDB</a> transaction. Actually… i think that is about it. Aside from some custom styling we will do in order for the page to be in full, it should be some smooth sailing. I am going to assume that you have been following along in the series and won’t go into the breadth of how the <em>view-controller</em> behaves, but rather the methods which we will implement on it.</p>
+<p>With your favorite text editor open, create a new file called <em>album-delete-dialog.js</em>, add the following <strong>JavaScript</strong> and save in <em>/_attachments/script</em>:</p>
+<p><em>/_attachments/script/album-delete-dialog.js</em></p>
+<pre><code>var AlbumDeleteDialogController = function() {
+
+
+
+    function handleDialogViewHide()
+
+    {
+
+        $(<span class="string">"#dialogCloseButton"</span>)<span class="preprocessor">.die</span>( <span class="string">"click"</span>, handleClose )<span class="comment">;</span>
+
+        $(<span class="string">"#dialogCancelButton"</span>)<span class="preprocessor">.die</span>( <span class="string">"click"</span>, handleClose )<span class="comment">;</span>
+
+        $(<span class="string">"#dialogConfirmButton"</span>)<span class="preprocessor">.die</span>( <span class="string">"click"</span>, handleDelete )<span class="comment">;</span>
+
+
+
+        var docId = $(<span class="string">"#dialogContent"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        var dialogCache =  $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album-delete/"</span> + docId))<span class="comment">;</span>
+
+        dialogCache<span class="preprocessor">.unbind</span>( <span class="string">"pagehide"</span>, handleDialogViewHide )<span class="comment">;</span>
+
+        dialogCache<span class="preprocessor">.empty</span>()<span class="comment">;</span>
+
+        dialogCache<span class="preprocessor">.remove</span>()<span class="comment">;</span>
+
+    }
+
+
+
+    function handleDialogView()
+
+    {
+
+        // Watch for bound hide of page to clear from cache.
+
+        var docId = $(<span class="string">"#dialogContent"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        var dialogPage = $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album-delete/"</span> + docId))<span class="comment">;</span>
+
+        dialogPage<span class="preprocessor">.bind</span>( <span class="string">"pagehide"</span>, handleDialogViewHide )<span class="comment">;</span>
+
+    }
+
+
+
+    function handleClose( event )
+
+    {
+
+        event<span class="preprocessor">.preventDefault</span>()<span class="comment">;</span>
+
+        var docId = $(<span class="string">"#dialogContent"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        $<span class="preprocessor">.mobile</span><span class="preprocessor">.changePage</span>( <span class="string">"_show/album/"</span> + docId, <span class="string">"slide"</span>, true, true )<span class="comment">;</span>
+
+        return false<span class="comment">;</span>
+
+    }
+
+
+
+    function handleDelete( event )
+
+    {
+
+        event<span class="preprocessor">.preventDefault</span>()<span class="comment">;</span>
+
+        var docId = $(<span class="string">"#dialogContent"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+        // First open doc based on ID <span class="keyword">in</span> order to get full document.
+
+        $db<span class="preprocessor">.openDoc</span>( docId, {
+
+            success: function( document ) {
+
+                // Then use the opened doc as reference to remove.
+
+                $db<span class="preprocessor">.removeDoc</span>( document, {
+
+                    success: function() {
+
+                        $<span class="preprocessor">.mobile</span><span class="preprocessor">.changePage</span>( <span class="string">"#home"</span>, <span class="string">"slide"</span>, true, true )<span class="comment">;</span>
+
+                    },
+
+                    error: function() {
+
+                        alert( <span class="string">"Could not remove document with id: "</span> + docId )<span class="comment">;</span>
+
+                    }
+
+                })<span class="comment">;</span>
+
+            },
+
+            error: function() {
+
+                alert( <span class="string">"Could not find document with id: "</span> + docId )<span class="comment">;</span>
+
+            }
+
+        })<span class="comment">;</span>
+
+        return false<span class="comment">;</span>
+
+    }
+
+
+
+    return {
+
+        initialize: function() {
+
+            $(<span class="string">"#dialogCloseButton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, handleClose )<span class="comment">;</span>
+
+            $(<span class="string">"#dialogCancelButton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, handleClose )<span class="comment">;</span>
+
+            $(<span class="string">"#dialogConfirmButton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, handleDelete)<span class="comment">;</span>
+
+            // Do pagebefore so when it is shown, it is filled correctly.
+
+            $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.live</span>( <span class="string">"pagebeforeshow"</span>, function() {
+
+                $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.die</span>( <span class="string">"pagebeforeshow"</span> )<span class="comment">;</span>
+
+                var docId = $(<span class="string">"#dialogContent"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+                var dialogPage = $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album-delete/"</span> + docId))<span class="comment">;</span>
+
+                var dialog = $(<span class="string">"#albumdelete"</span>)<span class="comment">;</span>
+
+                var h = parseFloat(dialogPage<span class="preprocessor">.innerHeight</span>())<span class="comment">;</span>
+
+                h -= ( parseFloat(dialog<span class="preprocessor">.css</span>(<span class="string">"border-top-width"</span>)) + parseFloat(dialog<span class="preprocessor">.css</span>(<span class="string">"border-bottom-width"</span>)) )<span class="comment">;</span>
+
+                // define the height based on innerHeight of wrapping parent page <span class="keyword">and</span> the border styles applied to a dialog.
+
+                dialog<span class="preprocessor">.css</span>( <span class="string">"height"</span>, h + <span class="string">"px"</span> )<span class="comment">;</span>
+
+            })<span class="comment">;</span>
+
+            $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.live</span>( <span class="string">"pageshow"</span>, function() {
+
+                $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.die</span>( <span class="string">"pageshow"</span> )<span class="comment">;</span>
+
+                handleDialogView()<span class="comment">;</span>
+
+            })<span class="comment">;</span>
+
+        }
+
+    }<span class="comment">;</span>
+
+}()<span class="comment">;</span>
+
+
+
+function handleDialogReady()
+
+{
+
+    AlbumDeleteDialogController<span class="preprocessor">.initialize</span>()<span class="comment">;</span>
+
+}
+
+$()<span class="preprocessor">.ready</span>( handleDialogReady )</code></pre>
+<p>That might be a lot to digest all at once, but it has the same functionality as the other <em>view-controllers</em> we have created in this series. Essentially, It manages the removal of the page from the <strong>DOM</strong> on navigation away. A user will be navigated to the previous – <em>album view</em> – page on cancel/close or be taken to the <strong>#home</strong> page with the updated list of albums after confirmation of delete and success of the transaction from the <a href="http://couchdb.apache.org/">CouchDB</a> instance. Let’s take a closer look on how that is done:</p>
+<p><em>/_attachments/script/album-delete-dialog.js</em></p>
+<pre><code>function handleDelete( event )
+
+{
+
+    event.preventDefault();
+
+    var docId = $(<span class="string">"#dialogContent"</span>).data(<span class="string">"identity"</span>);
+
+    // First open doc based <span class="function_start"><span class="keyword">on</span> <span class="title">ID</span></span> <span class="keyword">in</span> order <span class="keyword">to</span> <span class="keyword">get</span> full document.
+
+    $db.openDoc( docId, {
+
+        success: function( document ) {
+
+            // Then use <span class="keyword">the</span> opened doc <span class="keyword">as</span> <span class="keyword">reference</span> <span class="keyword">to</span> remove.
+
+            $db.removeDoc( document, {
+
+                success: function() {
+
+                    $.mobile.changePage( <span class="string">"#home"</span>, <span class="string">"slide"</span>, <span class="constant">true</span>, <span class="constant">true</span> );
+
+                },
+
+                <span class="keyword">error</span>: function() {
+
+                    alert( <span class="string">"Could not remove document with id: "</span> + docId );
+
+                }
+
+           });
+
+        },
+
+        <span class="keyword">error</span>: function() {
+
+            alert( <span class="string">"Could not find document with id: "</span> + docId );
+
+        }
+
+    });
+<span class="command">
+    return</span> <span class="constant">false</span>;
+
+}</code></pre>
+<p>We first grab the document id assigned to the <strong>data-identity</strong> attribute of the content <strong>div</strong> and use that to open the document from the <a href="http://couchdb.apache.org/">CouchDB</a> database using the declared <strong>$db</strong> instance on the <em>index.html</em> (of which this page is loaded into). On success of opening the document, we make a request to remove it from the database using the <em>removeDoc</em>() method from the <em>jquery.couch</em> plugin. Upon success of removal from the <a href="http://couchdb.apache.org/">CouchDB</a> database, we then navigate back to the <strong>#home</strong> page where the list is updated accordingly to reflect the removal of the album document.</p>
+<p>Now the fun part! In order to have the original <strong>div</strong> (assigned the <strong>data-role</strong> of <em>page</em> in our <strong>template</strong>) fill its background to its wrapping parent (assigned by <a href="http://jquerymobile.com/">jQuery Mobile</a> upon load of external page) we need to do some <a href="http://jquery.com/">jQuery</a> to grab the dimensions of the wrapping page <strong>div</strong> and the assigned styles on the dialog to reset the dimensions of the dialog to fill its background to the page.</p>
+<p><em>/_attachments/script/album-delete-dialog.js</em></p>
+<pre><code>// Do pagebefore so when it is shown, it is filled correctly.
+
+$(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.live</span>( <span class="string">"pagebeforeshow"</span>, function() {
+
+    $(<span class="string">"div[data-role='page']"</span>)<span class="preprocessor">.die</span>( <span class="string">"pagebeforeshow"</span> )<span class="comment">;</span>
+
+    var docId = $(<span class="string">"#dialogContent"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+
+    var dialogPage = $(document<span class="preprocessor">.getElementById</span>(<span class="string">"_show/album-delete/"</span> + docId))<span class="comment">;</span>
+
+    var dialog = $(<span class="string">"#albumdelete"</span>)<span class="comment">;</span>
+
+    var h = parseFloat(dialogPage<span class="preprocessor">.innerHeight</span>())<span class="comment">;</span>
+
+    h -= ( parseFloat(dialog<span class="preprocessor">.css</span>(<span class="string">"border-top-width"</span>)) + parseFloat(dialog<span class="preprocessor">.css</span>(<span class="string">"border-bottom-width"</span>)) )<span class="comment">;</span>
+
+    // define the height based on innerHeight of wrapping parent page <span class="keyword">and</span> the border styles applied to a dialog.
+
+    dialog<span class="preprocessor">.css</span>( <span class="string">"height"</span>, h + <span class="string">"px"</span> )<span class="comment">;</span>
+
+})<span class="comment">;</span></code></pre>
+<p>The <strong>dialogPage</strong> is the parent <strong>div</strong> for the external <em>delete dialog page</em> (the <strong>template</strong> previously created in this article). As mentioned before that is created and wrapped around the external page inherently within the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework when the page is loaded into the <strong>DOM</strong>. </p>
+<p>That wrapping parent is assigned the <strong>id</strong> of the url location shown in the <strong>hash</strong>, and is accessed using <em>getElementById</em>(). There might be some other tricks to access that div using <strong>class*=’ui-page’</strong>. It is also assigned a <strong>class</strong> of <em>ui-page-active</em>, but that is only after it has been shown. Since we assign a handler for <em>pagebeforeshow</em>, that class has yet to be assigned so we can’t access it that way using <a href="http://jquery.com/">jQuery</a>. Listening and assigning these property during the <em>pagebeforeshow</em> event also has the added benefit of sizing the dialog background correctly before the user sees it.</p>
+<p>Alright. So we have faked our external page to be presented as a dialog normally shown through the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework by assigning the <strong>data-rel</strong> on a page link. Now we have to go about modifying the code so we can show it…</p>
+<h2 id="modifying-album-view-page">Modifying Album View Page</h2>
+<p>Way back in the beginning of this article before i started yammering on about this and that, we resolved that the <strong>Delete</strong> button should be an additional UI piece to the album view page. If you have been following along in this series, we added the <strong>Edit</strong> button a couple articles back to the <em>album view</em> page. It was represented by a <strong>p</strong> element with the <strong>data-role</strong> of <em>button</em> and positioned vertically below the document information fields. Quite ugly, but reasonable for the time.</p>
+<p>To get into more of a consistant look and feel, we are going to add a navigation bar to the <em>album view</em> page, just as we have done for the <strong>#home</strong> page in the last article. The <strong>navbar</strong> for the <em>album view</em> page will consists of two buttons – <strong>Edit</strong> and <strong>Delete</strong> – and we’ll also throw in some styling to give them unique enough color treatments.</p>
+<p>In your favorite text editor, open the <em>/templates/album.html</em> document and make the following modifications:</p>
+<p><em>/templates/album.html</em></p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"page"</span> <span class="attribute">id</span>=<span class="value">"albumview"</span> <span class="attribute">data-position</span>=<span class="value">"inline"</span> <span class="attribute">data-back</span>=<span class="value">"true"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span> <span class="attribute">id</span>=<span class="value">"albumheader"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">h1</span> <span class="attribute">class</span>=<span class="value">"albumtitle"</span>&gt;</span><span class="variable">{{title}}</span><span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#home"</span> <span class="attribute">data-icon</span>=<span class="value">"grid"</span> <span class="attribute">class</span>=<span class="value">"ui-btn-right"</span>&gt;</span>Home<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span> <span class="attribute">id</span>=<span class="value">"albumcontent"</span> <span class="attribute">data-identity</span>=<span class="value">"<span class="variable">{{document}}</span>"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">h2</span> <span class="attribute">class</span>=<span class="value">"artist"</span>&gt;</span><span class="variable">{{artist}}</span><span class="tag">&lt;/<span class="title">h2</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"title"</span>&gt;</span><span class="variable">{{title}}</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"description"</span>&gt;</span><span class="variable">{{description}}</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"falseFooter"</span> <span class="attribute">class</span>=<span class="value">"ui-bar-a ui-footer ui-footer-fixed ui-fixed-inline fade"</span> <span class="attribute">role</span>=<span class="value">"content"</span> <span class="attribute">data-position</span>=<span class="value">"fixed"</span>&gt;</span>
+
+        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"navbar"</span>&gt;</span>
+
+          <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">class</span>=<span class="value">"ui-grid-a"</span>&gt;</span>
+
+              <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">id</span>=<span class="value">"deleteButton"</span> <span class="attribute">data-icon</span>=<span class="value">"minus"</span>&gt;</span>Delete<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+
+              <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">id</span>=<span class="value">"editButton"</span> <span class="attribute">data-icon</span>=<span class="value">"gear"</span> <span class="attribute">data-theme</span>=<span class="value">"b"</span>&gt;</span>Edit<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+
+          <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+
+        <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span> <span class="attribute">data-position</span>=<span class="value">"fixed"</span> /&gt;</span>
+
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+
+<span class="variable">{{&gt;scripts}}</span></code></pre>
+<p>We got rid of the previous <strong>Edit</strong> button element and added it to a list of buttons in a <strong>navbar</strong>. Alongside the <strong>Edit</strong> button, we have added the <strong>Delete</strong> button. We also added some icons and applied a theme to the <strong>Edit</strong> button to give it a blue color so as to be immediately distinguishable from an action to delete the album document.</p>
+<p>You may notice that we actually did not add the <strong>navbar</strong> to the <strong>footer</strong> as we did for the home page. The reason being that there is a bug in the current stable release for <a href="http://jquerymobile.com/">jQuery Mobile</a> that screwed up the layout if we did that. <em>Even though I have mentioned bugs in the jQuery Mobile framework, the beauty is we can easily work around most of them by either faking the HTML mark-up or using jQuery to modify properties; that is always a win in my book.</em> So we created a false footer and assigned it the classes that would normally be assigned to a footer from the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework, and with a <strong>data-position</strong> of <em>fixed</em>, it should always appear at the bottom of the page (it won’t really, but we will modify the <em>view-controller</em> to put it there). </p>
+<p>Now, we needed to leave the <strong>footer</strong> tag in this template because, you guessed it, a bug in <a href="http://jquerymobile.com/">jQuery Mobile</a>. If we omitted that <strong>footer</strong> on an external document, the <em>ready</em> event is never fired – bad news. So we threw it in with a <strong>data-position</strong> of <em>fixed</em> so it is always at the bottom. Woohoo! Our page has been updated. Let’s wired up some operations so we can show our <em>delete album dialog</em>.</p>
+<h3 id="modifying-album-view-controller">Modifying Album View-Controller</h3>
+<p>Before we get into this, i must profess that we are going to do something gross. I don’t particularly like it, but it is a fast and cheap way to get the result we want. Let’s get into it and see if i can dig myself out…</p>
+<p>In your favorite text editor, open the <em>/_attachments/script/album-page.js</em> document and make the following modifications:</p>
+<p><em>/_attachments/script/album-page.js</em></p>
+<pre><code><span class="keyword">var</span> AlbumPageController = function() {
+
+
+
+    <span class="comment">/* RIPPED FROM jquerymobile-1.0a2.js */</span>
+
+    <span class="function"><span class="keyword">function</span> <span class="title">getOffsetTop</span><span class="params">(ele)</span>
+
+    {</span>
+
+        <span class="keyword">var</span> top = <span class="number">0</span>;
+
+        <span class="keyword">if</span> (ele)
+
+        {
+
+            <span class="keyword">var</span> op = ele.offsetParent, body = document.body;
+
+            top = ele.offsetTop;
+
+            <span class="keyword">while</span> (ele &amp;&amp; ele != body)
+
+            {
+
+                top += ele.scrollTop || <span class="number">0</span>;
+
+                <span class="keyword">if</span> (ele == op)
+
+                {
+
+                    top += op.offsetTop;
+
+                    op = ele.offsetParent;
+
+                }
+
+                ele = ele.parentNode;
+
+            }
+
+        }
+
+        <span class="keyword">return</span> top;
+
+    }
+
+
+
+    <span class="function"><span class="keyword">function</span> <span class="title">setTop</span><span class="params">(el)</span>{</span>
+
+        <span class="keyword">var</span> fromTop = $(window).scrollTop(),
+
+            thisTop = getOffsetTop(el[<span class="number">0</span>]), <span class="comment">// el.offset().top returns the wrong value on iPad iOS 3.2.1, call our workaround instead.</span>
+
+            thisCSStop = el.css(<span class="string">'top'</span>) == <span class="string">'auto'</span> ? <span class="number">0</span> : parseFloat(el.css(<span class="string">'top'</span>)),
+
+            screenHeight = window.innerHeight,
+
+            thisHeight = el.outerHeight(),
+
+            useRelative = el.parents(<span class="string">'.ui-page:not(.ui-page-fullscreen)'</span>).length,
+
+            relval;
+
+        <span class="keyword">if</span>( el.is(<span class="string">'.ui-header-fixed'</span>) ){
+
+            relval = fromTop - thisTop + thisCSStop;
+
+            <span class="keyword">if</span>( relval &lt; thisTop){ relval = <span class="number">0</span>; }
+
+            <span class="keyword">return</span> el.css(<span class="string">'top'</span>, ( useRelative ) ? relval : fromTop);
+
+        }
+
+        <span class="keyword">else</span>{
+
+            <span class="comment">//relval = -1 * (thisTop - (fromTop + screenHeight) + thisCSStop + thisHeight);</span>
+
+            <span class="comment">//if( relval &gt; thisTop ){ relval = 0; }</span>
+
+            relval = fromTop + screenHeight - thisHeight - (thisTop - thisCSStop);
+
+            <span class="keyword">return</span> el.css(<span class="string">'top'</span>, ( useRelative ) ? relval : fromTop + screenHeight - thisHeight );
+
+        }
+
+    }
+
+    <span class="comment">/* END RIPPED FROM jquerymobile-1.0a2.js */</span>
+
+
+
+    <span class="function"><span class="keyword">function</span> <span class="title">handleView</span><span class="params">()</span>
+
+    {</span>
+
+        setTop( $(<span class="string">"#falseFooter"</span>) );
+
+        $(<span class="string">"#editButton"</span>).live( <span class="string">"click"</span>, handleEdit );
+
+        $(<span class="string">"#deleteButton"</span>).live( <span class="string">"click"</span>, handleDelete );
+
+        <span class="comment">// Watch for bound hide of page to clear from cache.</span>
+
+        <span class="keyword">var</span> docId = $(<span class="string">"#albumcontent"</span>).data(<span class="string">"identity"</span>);
+
+        <span class="keyword">var</span> albumPage = $(document.getElementById(<span class="string">"_show/album/"</span> + docId));
+
+        albumPage.bind( <span class="string">"pagehide"</span>, handlePageViewHide );
+
+    }
+
+
+
+    <span class="function"><span class="keyword">function</span> <span class="title">handleEdit</span><span class="params">( event )</span>
+
+    {</span>
+
+        <span class="comment">// Prevent default link event.</span>
+
+        event.preventDefault();
+
+        <span class="comment">// Access document id from data-identity.</span>
+
+        <span class="keyword">var</span> docId = $(<span class="string">"#albumcontent"</span>).data(<span class="string">"identity"</span>);
+
+        <span class="comment">// Change page.</span>
+
+        $.mobile.changePage( <span class="string">"_show/album-edit/"</span> + docId, <span class="string">"flip"</span>, <span class="keyword">false</span>, <span class="keyword">true</span> );
+
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+
+    }
+
+
+
+    <span class="function"><span class="keyword">function</span> <span class="title">handleDelete</span><span class="params">( event )</span>
+
+    {</span>
+
+        <span class="comment">// Prevent default link event.</span>
+
+        event.preventDefault();
+
+        <span class="comment">// Access document id from data-identity.</span>
+
+        <span class="keyword">var</span> docId = $(<span class="string">"#albumcontent"</span>).data(<span class="string">"identity"</span>);
+
+        <span class="comment">// Change page.</span>
+
+        $.mobile.changePage( <span class="string">"_show/album-delete/"</span> + docId, <span class="string">"slideup"</span>, <span class="keyword">false</span>, <span class="keyword">false</span> );
+
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+
+    }
+
+
+
+    <span class="function"><span class="keyword">function</span> <span class="title">handlePageViewHide</span><span class="params">()</span>
+
+    {</span>
+
+        $(<span class="string">"#editButton"</span>).<span class="keyword">die</span>( <span class="string">"click"</span>, handleEdit );
+
+        $(<span class="string">"#deleteButton"</span>).<span class="keyword">die</span>( <span class="string">"click"</span>, handleDelete );
+
+
+
+        <span class="keyword">var</span> docId = $(<span class="string">"#albumcontent"</span>).data(<span class="string">"identity"</span>);
+
+        <span class="keyword">var</span> albumPageCache =  $(document.getElementById(<span class="string">"_show/album/"</span> + docId));
+
+        albumPageCache.unbind( <span class="string">"pagehide"</span>, handlePageViewHide );
+
+        albumPageCache.<span class="keyword">empty</span>();
+
+        albumPageCache.remove();
+
+    }
+
+
+
+    <span class="keyword">return</span> {
+
+        initialize : function() {
+
+            $(<span class="string">"div[data-role='page']"</span>).live( <span class="string">"pageshow"</span>, function() {
+
+                $(<span class="string">"div[data-role='page']"</span>).<span class="keyword">die</span>( <span class="string">"pageshow"</span> );
+
+                handleView();
+
+            });
+
+        }
+
+    };
+
+}();
+
+
+
+<span class="function"><span class="keyword">function</span> <span class="title">handlePageViewReady</span><span class="params">()</span>
+
+{</span>
+
+    AlbumPageController.initialize();
+
+}
+
+$().ready( handlePageViewReady );</code></pre>
+<p>You notice those first two methods? Yeah, i just copied and pasted them from the <a href="http://jquerymobile.com/">jQuery Mobile</a> script. They are private methods of the “<em>fixedHeaderFooter</em>” plugin of the framework. We needed them to position our false footer <strong>navbar</strong>, so i ripped ‘em. Wait! Don’t leave. I am not happy about it either. Hopefully they will be exposed utilities in a later release of the framework, or we could go about creating our own so they are accessible outside of this page, but for now you gotta do what you gotta do.</p>
+<p>Upon show of the page we use those methods to position the false footer <strong>navbar</strong> at the bottom. Sure, in the real world a client – our rather your team since you know about it! – would log a bug, but we’re just having fun right? I hope so.</p>
+<p>The other modification was to wire up the <strong>Delete</strong> button to show the <em>delete album dialog</em> page we previously created. We employed the same operations we have done throughout this series to navigating to a page: access the document <strong>id</strong> and call <strong>$.mobile</strong>.<em>changePage</em>() to serve up the filled template form <a href="http://couchdb.apache.org/">CouchDB</a>. Done and done. Let’s get all <strong>Salt-N-Pepa</strong> up in here and Push It.</p>
+<h3 id="deployment">Deployment</h3>
+<p>We modified our application to have the ability to delete an album document from the database by adding a new <em>delete dialog</em> page and updating the UI of the album view page. With these changes saved, we can now push to the <a href="http://couchdb.apache.org/">CouchDB</a> database using the <a href="http://couchapp.org/page/index">couchapp</a> utility. Open a terminal and navigate to the directory where you create your <strong>CouchApp</strong> applications (for me that is <em>/Documents/workspace/custardbelly/couchdb</em> and in there i have a folder named <em>albums</em> which is the <strong>CouchApp</strong> application directory for these examples). Enter the following command to push the changes to the <strong>CouchDB</strong> instance:</p>
+<pre><code><span class="title">couchapp</span> push albums <span class="url">http://127.0.0.1:5984/albums</code></pre>
+<p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>. Select an album from the the list on the landing page, and click the <strong>Delete</strong> button from the <em>album view</em> page. Choose to delete, cancel or close and you should be navigated to the correct page: <strong>#home</strong> if delete, album view if cancel/close. These updated and new pages should look somewhat like the following:</p>
+<p><em>updated album view</em><br><img src="http://www.custardbelly.com/blog/images/couchapp_album_view2.png" alt=""></p>
+<p><em>delete album dialog</em><br><img src="http://www.custardbelly.com/blog/images/couchapp_delete_dialog.png" alt=""></p>
+<h3 id="conclusion">Conclusion</h3>
+<p>In this article, we finished off having the basic operations for handling documents in our application. We can now create, read, update and delete documents from the <a href="http://couchdb.apache.org/">CouchDB</a> database. Along the way, we covered a few ways to hack things together for an application utilizing the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework; some were work-arounds due to bugs, some were just design decisions. In any event, I hope it was informative if not fun.</p>
+<p>Next up: I am wavering between authentication or attachments… you’ll have to wait and see!</p>
+<p><em>[Note] This post was written against the following software versions:</em><br><strong>CouchDB </strong>– 1.0.1<br><strong>CouchApp</strong> – 0.7.2<br><strong>jQuery</strong> – 1.4.4<br><strong>jQuery Mobile</strong> – 1.0a2<br><em>If you have found this post and any piece has moved forward, hopefully the examples are still viable/useful. I will not be updating the examples in this post in parellel with updates to any of the previously mentioned software, unless explicitly noted.</em></p>
+<p><strong>Articles in this series:</strong></p>
+<ol>
+<li><a href="http://custardbelly.com/blog/?p=244">Getting Started</a></li>
+<li><a href="http://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
+<li><a href="http://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
+<li><a href="http://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
+<li><a href="http://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
+<li><a href="http://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
+<li><a href="http://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
+<li><a href="http://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
+</ol>
+<p><a href="http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="http://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="http://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2011/02/16/as3flobile-scrollviewport-and-flex-4-containers-from-yeah-to-eh/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2011/01/12/jquery-mobile-couchdb-part-5-adding-documents/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2011/01/21/jquery-mobile-couchdb-part-6-deleting-documents/index.html";
+        window.disqus_title="jQuery Mobile + CouchDB: Part 6 – Deleting Documents";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

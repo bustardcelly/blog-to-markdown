@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - massroute-js: dojo example</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2011/10/04/massroute-js-dojo-example/index.html">massroute-js: dojo example</a></h1>
+    <p>
+      2011 October 4th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p><em>I have created a github repository at <a href="http://github.com/bustardcelly/massroute-js"><a href="http://github.com/bustardcelly/massroute-js">http://github.com/bustardcelly/massroute-js</a></a> to explore various JavaScript libraries and frameworks with a focus of delivering a web-based application for <a href="http://www.eot.state.ma.us/developers/realtime/">real-time transportation data made available from MassDOT</a>. This article intends to address my findings in an exploration of one of those libraries or frameworks that have caught my interest. If you have any suggestions for another <strong>JavaScript</strong> library/framework please leave a comment.</em></p>
+<p><em>It should also be noted that some explanations may be heavily influenced by my experience in developing for the <strong>Flash Platform</strong> and particularly their relation to the <strong>ActionScript</strong> and the <strong>Flex</strong> mark-up language.</em></p>
+<p>As far as <strong>JavaScript</strong> libraries that go beyond providing an abstraction layer/decorator to the <strong>DOM</strong> and a facade for <strong>AJAX</strong> requests – such as one would find with <a href="http://jquery.com">jQuery</a> – I have been interested in digging into <a href="http://dojotoolkit.org/">Dojo</a> for some time. I should state that I am in no way knocking <strong>jQuery</strong>. It works extremely well at what it purports to do. I do, however, have an interest in how to “maintain” an application written in <strong>JavaScript</strong> in as much as not only adhering to architectural patterns but code organization and dependency management. That is not to say you could not work with another library that incorporates or works laterally with <strong>jQuery</strong> for such support; I am also interested in those libraries that provide more of a unified application structure alongside <strong>AJAX</strong> and <strong>DOM</strong> access. Enough defending <strong>jQuery</strong>…</p>
+<p>For many reasons <a href="http://dojotoolkit.org/">Dojo</a> caught my eye because not only does it provide <strong>DOM</strong> access/manipulation through abstraction (as well as using <a href="http://sizzlejs.com/">Sizzle</a> as the selector engine, as <strong>jQuery</strong> does) but dependency management through a modular package system, as well. What that really means is that I can organize my scripts in a directory tree structure, and define classes and their dependencies using the provide/declare/require API of <a href="http://dojotoolkit.org/">Dojo</a>. This allows for a common “package structure” and resolves to namespaced objects at runtime (or <em>build time</em>- maybe more on that later), providing a modular-approach to building a <strong>JavaScript</strong> application.</p>
+<p><em>The example was built against <strong>Dojo 1.6.1</strong>, so any further explanations in this post are dependent on my knowledge working with the Dojo library at that version.</em></p>
+<h2 id="modules">Modules</h2>
+<p>Now, truth be told, I utilized the <strong>Dojo</strong> module dependency system as I would with declaring and importing classes. This is mainly because of my experience with languages that are class-based (or provide a class “structure”) and that <strong>Dojo</strong> provides an elegant and easy way for class declaration and inheritance on top of the prototypical nature of <strong>JavaScript</strong>. So my modules really became more like classes or groupings of common classes – which is perfectly acceptable to me and how I would prefer to work – but it should be noted (if you were to look at <a href="htts://github.com/bustardcelly/massroute-js">the example in the github repo</a>) that modules are not restricted to only declaring classes.</p>
+<p>Just to provide a quick example of what i mean by treating modules as independent classes or a grouping of common classes, let’s look at an abbreviated version of the main context module (script file) for the application:</p>
+<pre><code>dojo<span class="preprocessor">.provide</span>( <span class="string">"context.massroute"</span> )<span class="comment">;</span>
+
+dojo<span class="preprocessor">.require</span>( <span class="string">"model.session"</span> )<span class="comment">;</span>
+
+
+
+dojo<span class="preprocessor">.declare</span>( <span class="string">"context.massroute.MassRouteContext"</span>, null, {
+
+    constructor: function() {
+
+        this<span class="preprocessor">.session</span> = new model<span class="preprocessor">.session</span><span class="preprocessor">.Session</span>()<span class="comment">;</span>
+
+    }
+
+}</code></pre>
+<p>The value within a <em>dojo.provide()</em> invocation creates (if not previously existant) a namespaced object on global (window) scope and caches the reference within <em>dojo._loadedModules</em> with the property value of the string argument (”context.massroute” in this example). Essentially this sets up a “package” structure for your declarations with access to classes once a module has been requested and loaded. </p>
+<p>Modules are loaded using<em> dojo.require()</em>. The <em>dojo.require()</em> states a dependency on another module. For this example, <strong>Dojo</strong> is requested to load the “model.session” module. More on the association between files and package declarations in a bit, but for now know that if “model.session” is not found on the <em>dojo._loadedModules</em> cache, a request for <strong>/model/session.js</strong> will be made. Once loaded, it would go through much of what is currently being covered in this example: defining namespace, loaded dependencies and declaring classes. If we were to open the <strong>/model/session.js</strong> file found the application script source, we would find a <em>dojo.declare()</em> for the <strong>model.session.Session</strong> class.</p>
+<p>With each <em>dojo.declare()</em> within the provided namespace, the objects on the direct global scope and within <em>dojo._loadedModules</em> are updated to hold reference to the class, which essentially allows you to create a new instance of a class as one normally would:</p>
+<pre><code>var context = new context<span class="preprocessor">.massroute</span><span class="preprocessor">.MassRouteContext</span>()<span class="comment">;</span></code></pre>
+<p>// declare explanation<br>The <em>dojo.declare()</em> takes three arguments:</p>
+<ul>
+<li>className: defines the associated name for the class within the package/namespace.</li>
+<li>inheritance: defines the classes to “mixin” to your class. This can be null, a single class reference or an array of class references. The class reference(s) can be thought of as base or multiple inheritance if defined.</li>
+<li>properties: defines the object that encapsulates all the logic particular to the class</li>
+</ul>
+<p><em>The inheritance I found of particular note as dojo provides an easy way to call super methods. Essentially, within the scope of the override method of a subclass you can call this.inherited(arguments).</em></p>
+<p>To get a better understanding of how this all works and what is modified as modules are loaded and classes declared, if we suppose that this module is requested to be loaded in the current domain, the global object will be modified to reflect the following:</p>
+<pre><code>[window] {
+
+    dojo: {
+
+        _loadedModules: {
+
+            <span class="string">"context.massroute"</span>: {
+
+                <span class="string">"MassRouteContext"</span>: <span class="keyword">function</span>() { <span class="keyword">...</span> };
+
+            }
+
+            <span class="string">"model.session"</span>: {
+
+                <span class="string">"Session"</span>: <span class="keyword">function</span>() { <span class="keyword">...</span> };
+
+            }
+
+        }
+
+    }
+
+    context: {
+
+        massroute: {
+
+            MassRouteContext: <span class="keyword">function</span>() { <span class="keyword">...</span> };
+
+        }
+
+    }
+
+    model: {
+
+        session: {
+
+            Session: <span class="keyword">function</span>() { <span class="keyword">...</span> };
+
+        }
+
+    }
+
+}</code></pre>
+<p>That gives a little insight into <strong>Dojo</strong>’s nested namespace pattern and how access to classes is provided, as well as how <strong>Dojo</strong> manages caching of previously requested dependencies.</p>
+<p>Just for kicks, if we translated this example over to ActionScript it would be read as this:</p>
+<pre><code><span class="package"><span class="keyword">package</span> <span class="title">context</span>.<span class="title">massroute</span> {</span>
+
+    <span class="preprocessor"><span class="keyword">import</span> model.session.Session;</span>
+
+
+
+    <span class="class"><span class="keyword">class</span> <span class="title">MassRouteContext</span> {</span>
+
+        <span class="keyword">public</span> <span class="keyword">var</span> session:Session;
+
+
+
+        <span class="function"><span class="keyword">function</span> <span class="title">MassRouteContext</span><span class="params">()</span> {</span>
+
+            session = <span class="keyword">new</span> Session();
+
+        }
+
+    }
+
+}</code></pre>
+<p>I touched on it briefly before, but you may be wondering how dojo knows how to associated these namespaces with modules to load within its package system. By default, <strong>Dojo</strong> will assume that a file with the name of the ending namespace resides in a relative location of its request – meaning, if my main <strong>index.html</strong> file resides at the root of the directory, when I <em>dojo.require(”context.massroute”)</em>, <strong>dojo</strong> will make a request for <strong>./context/massroute.js</strong> if the path to that module is not defined. If you have taken a look at the example in my github repo, you may notice that <strong>/content/massroute.js</strong> is not located at the root but in a parenting directory describing the scripts for my application.</p>
+<p>You can define the path to your modules by declaring a global <em>dojoConfig</em> object prior to load of the <strong>Dojo</strong> library. An abbreviated version of what that would be for the example above:</p>
+<pre><code><span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+
+    dojoConfig = {
+
+      baseUrl: <span class="string">'./'</span>,
+
+      modulePaths : {
+
+            app : <span class="string">"js/app"</span>,
+
+            context: <span class="string">"js/app/context"</span>,
+
+            model: <span class="string">"js/app/model"</span>
+
+        }
+
+    };
+
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"[http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js](http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js)"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></code></pre>
+<p>This defines the base URL for the directories defined in <strong>modulePaths</strong>. Now when you <em>dojo.require( “context.massroute” )</em>, <strong>dojo</strong> will look up the associated directory for the context namespace and request to load <strong>massroute.js</strong>. Once loaded, it is important to note that the file isn’t inserted into a script tag which is a common practice for script loaders. It is actually run through <em>dojo.eval()</em> which creates namespaced objects on <strong>global</strong> and <strong>dojo</strong> scopes as described above.</p>
+<h3 id="some-caveats">Some Caveats</h3>
+<p>There are some things that I didn’t immediately realize or think of off-hand that may be of interest to those of you whether or not you come from a class-based language:</p>
+<ul>
+<li>Anything you think is defined privately to the “class” in the constructor using <em>dojo.declare()</em> is actually set at global scope.</li>
+<li>No such things as private members to the class. Prepending members with “<strong>_</strong>” is the convention to “convey” to developers that a member is private.</li>
+</ul>
+<p>There is a way around this whole private member business, however. If you are in dire need to keep something private, you can use an <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">Immediately Invoked Function Expression</a> (<strong>IIFE</strong>) to define your private members as well as the class, such as:</p>
+<pre><code>dojo<span class="preprocessor">.provide</span>( <span class="string">"context.massroute"</span> )<span class="comment">;</span>
+
+dojo<span class="preprocessor">.require</span>( <span class="string">"model.session"</span> )<span class="comment">;</span>
+
+
+
+(function() {
+
+    var _session = new model<span class="preprocessor">.session</span><span class="preprocessor">.Session</span>()<span class="comment">;</span>
+
+    dojo<span class="preprocessor">.declare</span>( <span class="string">"context.massroute.MassRouteContext"</span>, null, {
+
+        constructor: function() {
+
+            console<span class="preprocessor">.info</span>( _session )<span class="comment">;</span>
+
+        }
+
+    }
+
+}
+
+)()<span class="comment">;</span></code></pre>
+<p>It should also be noted that you don’t have to use <em>dojo.declare()</em> at all to get the same structure. Essentially – from what I gather – under the hood, the library does the following (in as far as constructing the namespace) which you are perfectly welcome to do as well in a module and can help with your private requirements using a mix of <strong>IIFE</strong> and the <a href="http://javascript.crockford.com/private.html">Constructor Pattern</a>:</p>
+<pre><code>dojo<span class="variable">.require</span>( <span class="string">"model.session"</span>);
+
+
+
+(function() {
+
+    <span class="keyword">if</span>( !dojo<span class="variable">._hasResource</span>[<span class="string">"context"</span>] ) {
+
+        dojo<span class="variable">._hasResource</span>[<span class="string">"context"</span>] = <span class="literal">true</span>;
+
+        dojo<span class="variable">.context</span> = {};
+
+    }
+
+    <span class="keyword">if</span>( !dojo<span class="variable">._hasResource</span>[<span class="string">"context.massroute"</span>] ) {
+
+        dojo<span class="variable">._hasResource</span>[<span class="string">"context.massroute"</span>] = <span class="literal">true</span>;
+
+        dojo<span class="variable">.provide</span>( <span class="string">"context.massroute"</span> );
+
+
+
+        context<span class="variable">.massroute</span><span class="variable">.MassRouteContext</span> = function() {
+
+            var _session = new model<span class="variable">.session</span><span class="variable">.Session</span>();
+
+            <span class="keyword">return</span> {
+
+                getSession: function() {
+
+                    <span class="keyword">return</span> _session;
+
+                }
+
+            }
+
+        }
+
+    }
+
+})();</code></pre>
+<p>Obviously, going that route, you will miss the niceties that <strong>Dojo</strong> provides in class inheritance but just throwing it out there.</p>
+<h2 id="events">Events</h2>
+<p><strong>Dojo</strong>’s event system was another part of the framework i enjoyed. Using <em>dojo.connect()</em> and <em>dojo.disconnect()</em> you could easily assign and remove event handling (delegate functions) to <strong>DOM</strong> events on a target scope, respectively. And, because <em>dojo.connect()</em> returned a connect object, it conveniently made it possible to disconnect all connection I may have set up in a view controller that was going to be trashed:</p>
+<pre><code>var connections = [];
+
+connections.push( dojo.connect( dojo.byId(<span class="string">'submitButton'</span>), <span class="string">'onclick'</span>, handleSubmitRequest ) );
+
+connections.push( dojo.connect( dojo.byId(<span class="string">'cancelButton'</span>), <span class="string">'onclick'</span>, handleCancelRequest ) );
+
+<span class="keyword">...</span>
+
+dojo.forEach( connections, dojo.disconnect );</code></pre>
+<p>It should be noted that when using <em>dojo.connect()</em> you are not limited to just <strong>DOM</strong> events. You can connect to “custom” events on non-<strong>DOM</strong> objects. To do so, the second argument is actually the function on the target object that you wish to “listen” for invocation of. As a quick example:</p>
+<pre><code>var test = function() {
+
+    return {
+
+        run: function() {
+
+            setTimeout( this<span class="preprocessor">.onTimeout</span>, <span class="number">1000</span> )<span class="comment">;</span>
+
+        },
+
+        onTimeout: function() {
+
+            console<span class="preprocessor">.info</span>( <span class="string">"test.onTimeout"</span> )<span class="comment">;</span>
+
+        }
+
+    }
+
+}<span class="comment">;</span>
+
+
+
+var myTest = new tester()<span class="comment">;</span>
+
+dojo<span class="preprocessor">.connect</span>( myTest, <span class="string">"onTimeout"</span>, function() {
+
+    console<span class="preprocessor">.info</span>( <span class="string">"dojo.connect() &gt; onTimeout"</span> )<span class="comment">;</span>
+
+})<span class="comment">;</span>
+
+myTest<span class="preprocessor">.run</span>()<span class="comment">;</span></code></pre>
+<p>Along with <em>dojo.connect()</em> and <em>dojo.disconnect()</em>, using <em>dojo.publish()</em> and <em>dojo.subscribe()</em>/<em>dojo.unsubscribe()</em> you can make use of the global event bus to broadcast and subscribe to custom events – similar to, say, the <em>NSNotificationCenter</em> from <strong>Objective-C</strong>. I used this heavily in reporting what i deemed application-level state related events from the view controllers in the <strong>Dojo</strong> example in the <a href="http://github.com/bustardcelly/massroute-js">massroute-js github repo</a>, and thought it was a pleasure to work with.</p>
+<h2 id="other">Other</h2>
+<p>Just quick notes on some other things that i found interesting from the <strong>Dojo</strong> framework that I either used or want to use in the future using <strong>Dojo</strong>:</p>
+<h3 id="dojo-hitch">dojo.hitch</h3>
+<p>Keeping scope was a pleasure with <em>dojo.hitch()</em>. Due to developer requirements from <strong>MassDOT</strong> in using their <strong>API</strong> for real-time transportation data, you cannot make <strong>API</strong> calls more frequently than every 10 seconds. This meant that I had to implement a request queue in which I had to route the calls: immediate invoke if timer not running, else your next in line when timer runs out. Keeping scope of what was to be called when inside this queue manager was necessary as the queue manager itself was not supposed to have any logic about the service, only knowledge of state between orders coming and going. So it was important that when it was time to process the order, the scope was tied to the one who placed the order.<br><a href="http://dojotoolkit.org/reference-guide/dojo/hitch.html">dojo reference: dojo.hitch()</a></p>
+<h3 id="dojo-behavior">dojo.behavior</h3>
+<p>Though I went with my own custom view controllers and their logic encapsulated in respective classes, Dojo provides the ability to assign “behaviors” which i really want to look into further as it looks to be a nice design in separation of logic from view using mediation that can be swapped out quite easily at runtime.<br><a href="http://dojotoolkit.org/documentation/tutorials/1.6/using_behavior/">dojo toolkit: Using dojo.behaviour</a></p>
+<h2 id="wish-i-coulda">Wish I Coulda</h2>
+<p>The following are a couple things I struggled with when working with the <strong>Dojo</strong> toolkit.</p>
+<h3 id="development-debugging">Development/Debugging</h3>
+<p>I love <strong>breakpoints</strong>. Being able to set a breakpoint and traverse a call stack and inspect properties is the pleasurable way for me to debug any problems. However, due to the design of <strong>Dojo</strong>’s modular architecture I found myself relying more on console for debugging purposes as modules are essentially read from a URL and evaluated as an expression. This means i couldn’t locate the file resource in development tools and set a breakpoint in any of my modules. </p>
+<p>I am sure there is some trick or project set-up that would provide a more debugging-friendly environment when developing an application with <strong>Dojo</strong>, but I couldn’t find it. If you know of one, please leave a comment. </p>
+<h3 id="build">Build</h3>
+<p>From the looks of it, <strong>Dojo</strong> has a pretty powerful <a href="http://dojotoolkit.org/reference-guide/build/">Build System</a>. Intended to produce minified and concatenated scripts, using the build system allows you to package only what your app required from the <strong>Dojo</strong> framework. I frustratingly tried to get it to work a couple times, but it always ended up with the full dojo and my scripts were never minified or concatenated and it created this weird directory structure that made no sense. I am probably doing it wrong, but there is little out there in documentation if anything goes wrong. </p>
+<p>There is also the <a href="http://build.dojotoolkit.org/">online Build Tool</a>, but i didn’t know the whole breath of source I needed for my build; I am assuming from the docs that there is where the power of the Build System and profiles comes into play.. Something I would definitely like to check out further because, next to the modular design, this <em>in theory</em> makes <strong>Dojo</strong> a real winner.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>All in all, I was pretty impressed by <strong>Dojo</strong> and would recommend trying it out and may bring it up as a framework of choice for any larger projects in the future (especially if i could get Build to work for me). There was a slight learning curve mainly in the class declaration and inheritance design, but nothing over-daunting and actually quite revealing. The curve probably would have been higher if I was not already familiar with popular <strong>JavaScript</strong> patterns.</p>
+<p><a href="http://dojotoolkit.org/">Dojo Toolkit</a><br><a href="https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/dojo">massroute-js/dojo</a></p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/dojo/">dojo</a>, <a href="http://custardbelly.com/blog/category/massroute-js/">massroute-js</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2011/11/11/deferred-content-for-flex-4-group-using-defaultproperty/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2011/09/27/new-github-repo-massroute-js/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2011/10/04/massroute-js-dojo-example/index.html";
+        window.disqus_title="massroute-js: dojo example";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

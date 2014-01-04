@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - Micro-Library Facades and Dependency Management using RequireJS</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2012/03/06/facaded-micro-libraries-and-dependency-management-using-requirejs/index.html">Micro-Library Facades and Dependency Management using RequireJS</a></h1>
+    <p>
+      2012 March 6th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p>I recently have been evaluating some JavaScript micro-libraries mainly to see what the community has put out there, read through some code and see what might be appropriate for any upcoming projects, but also to break a dependency on loading libraries that include code that largely goes unused in an application. </p>
+<p>As of late, I have been a pretty strong proponent of <a href="https://github.com/amdjs/amdjs-api">AMD</a> (with a favor toward <a href="http://requirejs.org/">RequireJS</a>) largely with the intent of modularized development but also with an ideal of downloading only what is required by the application. Introducing a dependence (and unnecessary download time) on a library that is only fractionally used seems contradictory in the goal of deploying a compact and stream-lined application. That is not to say that such libraries aren’t useful or have a place; and more often than not, such libraries have a great history, a number of brilliant engineers behind it and proven track record with production-level applications. There is definitely a give and take, and options do need to be weighed on a per-application basis, yet I feel there can be a great benefit in using a collection of libraries that each serve a single purpose.</p>
+<p>So with that determination, I have been investigating some JavaScript micro-libraries that are out there in the wild – from DOM accessors, to routers, to observers. I haven’t settled on anything to definitively give the OK on using one library over another; just having a bit of fun discovering what the community has to offer – and hopefully one day can contribute and give back to.</p>
+<h2 id="the-problem">The Problem</h2>
+<p>While test-driving some micro-libraries it quickly became apparent how inefficient my process was. I would start creating a new project to test out a library and copy over numerous files or <em>worse</em> just fill up a directory with files targeting and named after the library I was including. This grew out of control and weakened a proper evaluation of a library with all the clutter; <em>which one was it? where did i use it? why am i so hungry?</em></p>
+<p>Out of a desire to mitigate this confusion, I settled on an approach to provide a consistent API for development of an application through facades that affords the ability to test-drive different micro-libraries with similar responsibilities. The basic premise is to define a common API that I can develop against contextually, and define and swap out abstracted adaptations of different micro-libraries. As such, I can amass a directory of modules that define this API and declare the library I am currently working within a require statement using <a href="http://requirejs.org/">RequireJS</a>. I believe it is more of a poor-man’s, less-robust and perhaps not production ready approach that <a href="http://addyosmani.com/blog/">Addy Osmani</a> is working on with <a href="https://github.com/addyosmani/backbone-aura">Aura</a> – a library I am very excited to checkout.</p>
+<p>I have some basic examples of the solution I am using at <a href="http://github.com/bustardcelly/requirejs-microlib-facade"><a href="http://github.com/bustardcelly/requirejs-microlib-facade">http://github.com/bustardcelly/requirejs-microlib-facade</a></a>.</p>
+<h2 id="facades">Facades</h2>
+<p>As mentioned previously, the largest part of this solution is to provide a common API to develop against. I want to have my scripts that interact with an API to pass tests regardless of the dependency passed in – with the dependence being the facade module that is adapted to the target micro-library. This area is possibly the crux of the whole argument. Which API do you adapt to? Or rather, which implementation of a micro-library should you favor in exposing an API for multiple micro-libraries? A lot of them have similar methods, but the delegate response signatures can vary. It’s all at the whim of the developer of the micro-library and their vision of the cleanest solution. I don’t have an answer to this, by the way <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Just bringing it up. I lean towards providing an API that is similar to the most widely-used solution.</p>
+<p>Recently I have been evaluating client-side routing libraries that fit perfectly into this modularized facading concept. Particularly, the first library I wanted to test was <a href="https://github.com/mtrpcic/pathjs">PathJS</a> which provided support for <a href="http://diveintohtml5.info/history.html">HTML5 history</a> as well as fall-back to hash tags (plus niceties like parameterized routes, roots, and others). However, as it provided these capabilities, it also provided two different APIs for them. We could go into a discussion of whether this is good practice and whether it should be abstracted away from the front-end developer, but that isn’t my biggest concern at the moment – especially as we can mitigate that concern by abstracting each approach into facades that share a common API. The following are examples of the implementations that adapt to the hash tag implementation and the History implementation respectively:</p>
+<p><em>/script/router/PathHashTagFacade.js</em></p>
+<pre><code>define( [<span class="string">'../../lib/path.min.js'</span>], <span class="keyword">function</span>() {
+
+
+
+    <span class="keyword">return</span> {
+
+        map: <span class="keyword">function</span>( fragment, delegate ) {
+
+            Path.map( <span class="string">'#'</span>+fragment ).to( <span class="keyword">function</span>() {
+
+                <span class="keyword">var</span> paramProperty,
+
+                    paramArray = [];
+
+                <span class="keyword">for</span>( paramProperty <span class="keyword">in</span> <span class="keyword">this</span>.params ) {
+
+                    paramArray[paramArray.length] = <span class="keyword">this</span>.params[paramProperty];
+
+                }
+
+                delegate.apply( <span class="keyword">this</span>, paramArray )
+
+            });
+
+        },
+
+        root: <span class="keyword">function</span>( fragment ) {
+
+            Path.root( <span class="string">'#'</span>+fragment );
+
+        },
+
+        init: <span class="keyword">function</span>( useHistory ) {
+
+            Path.listen();
+
+        }
+
+    };
+
+
+
+});</code></pre>
+<p><em>/script/router/PathHistoryFacade.js</em></p>
+<pre><code>define( [<span class="string">'../selector/SimpleSelectorFacade'</span>, <span class="string">'../../lib/path.min.js'</span>], function( $ ) {
+
+
+
+    <span class="keyword">var</span> links = $(<span class="string">'a'</span>),
+
+        i = <span class="number">0</span>, length = links.length;
+
+
+
+    <span class="keyword">for</span>( i; i &lt; length; i++ ) {
+
+        links[i].onclick = function( <span class="keyword">event</span> ){
+
+            <span class="keyword">event</span>.preventDefault();
+
+
+
+            <span class="keyword">var</span> location = <span class="keyword">this</span>.attributes[<span class="string">'href'</span>].<span class="keyword">value</span>;
+
+            location = location.split( <span class="string">'#'</span> ).<span class="keyword">join</span>( <span class="string">''</span> );
+
+            Path.history.pushState( {}, <span class="string">''</span>, location );
+
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+
+        };
+
+    }
+
+
+
+    <span class="keyword">return</span> {
+
+        map: function( fragment, <span class="keyword">delegate</span> ) {
+
+            Path.map( fragment ).to( function() {
+
+                <span class="keyword">var</span> paramProperty,
+
+                    paramArray = [];
+
+                <span class="keyword">for</span>( paramProperty <span class="keyword">in</span> <span class="keyword">this</span>.<span class="keyword">params</span> ) {
+
+                    paramArray[paramArray.length] = <span class="keyword">this</span>.<span class="keyword">params</span>[paramProperty];
+
+                }
+
+                <span class="keyword">delegate</span>.apply( <span class="keyword">this</span>, paramArray )
+
+            });
+
+        },
+
+        root: function( fragment ) {
+
+            Path.history.pushState( {}, <span class="string">''</span>, fragment );
+
+        },
+
+        init: function( useHistory ) {
+
+            Path.history.listen( <span class="keyword">true</span> );
+
+        }
+
+    };
+
+});</code></pre>
+<p>Within the definition of each module, a dependency on the <a href="https://github.com/mtrpcic/pathjs">PathJS</a> library is declared and loaded prior to entering the load delegate. <a href="https://github.com/mtrpcic/pathjs">PathJS</a> is not provided as an AMD module, so it is accessed using <em>Path</em> globally in both examples. The two differ, however, in their implementation of the their common API: <em>map</em>, <em>root</em>, and <em>init</em>. Let’s set aside the irony of the fact that I am now loading two files (<em>path.js</em> and either facade file) with the end goal being to minimize load times – this will be made clearer in the next example; I just wanted to show the possibility this solution provides in also testing implementation with the same library.</p>
+<p>The implementations are very similar in the two examples. The former mostly takes input and prepends values with a hash (#). The latter uses the History API on <em>Path</em>, and intercepts click events on links to properly handle then in the context of <em>Path.history</em>.</p>
+<p>Just as a quick example of how I would then employ this:</p>
+<pre><code><span class="function"><span class="title">require</span><span class="params">( ['script/router/<span class="variable">PathHashTagFacade</span>'], handle<span class="variable">RouterDependency</span> )</span>;
+
+
+
+<span class="title">function</span> <span class="title">handleRouteDependency</span><span class="params">( router )</span> {
+
+    <span class="title">require</span><span class="params">( ['script/<span class="variable">RouterDependentClient</span>'], <span class="keyword">fun</span><span class="function_name">ction</span>( client ) <span class="tuple">{
+
+        client.<span class="function_name">setRouter</span>( router );
+
+    }</span>);
+
+};</code></pre>
+<p>If HTML5 History API was okay’d for the project and we wanted to utilize the History API on <a href="https://github.com/mtrpcic/pathjs">PathJS</a>, then we just change the loaded dependency in the first <em>require</em>() statement.</p>
+<p>If we look back at the two facade examples for the <em>Path</em> library, both <em>map</em> implementations change the way in which a mapped delegate is handed state with regards to how <em>Path</em> is designed to forward along parameterized values. Usually the parameter key/value pairs are filled on a <em>params</em> Object which is then inspected within the delegate method for the mapped URL. In those examples, I have changed the invocation on the delegate to actually provide the parameterized values as arguments. The reason is because another library I am evaluating does such, and I much prefer it.</p>
+<p>Another popular routing library is <a href="https://github.com/flatiron/director">Director</a>. We can now provide a facade for that library that adheres to the same API as the other examples and not have to modify any scripts that interact with the routing dependency (aside from the original <em>require</em>() call):</p>
+<p><em>/script/router/DirectorFacade.js</em></p>
+<pre><code><span class="function"><span class="title">define</span><span class="params">( ['../../lib/director-<span class="number">1.0</span>.<span class="number">7</span>.min.js'],<span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+
+
+    var router, root,
+
+        routes = <span class="tuple">{}</span>,
+
+        adapter = <span class="tuple">{
+
+            map: <span class="keyword">fun</span><span class="function_name">ction</span>( fragment, delegate ) <span class="tuple">{
+
+                routes[fragment] = delegate;
+
+            }</span>,
+
+            root: <span class="keyword">fun</span><span class="function_name">ction</span>( fragment ) <span class="tuple">{
+
+                if( router === undefined ) <span class="tuple">{
+
+                    root = fragment;
+
+                }</span>
+
+                else <span class="tuple">{
+
+                    router.<span class="function_name">setRoute</span>( fragment );
+
+                }</span>
+
+            },
+
+            init: <span class="keyword">fun</span><span class="function_name">ction</span>( use<span class="variable">History</span> ) <span class="tuple">{
+
+                router = new <span class="variable">Router</span>( routes );
+
+                router.<span class="function_name">init</span>();
+
+                if( root !== undefined ) <span class="tuple">{
+
+                    router.<span class="function_name">setRoute</span>( root );
+
+                }</span>
+
+            }
+
+        };
+
+
+
+    return adapter;
+
+
+
+});</code></pre>
+<p>Now I can swap out the preferred facade at any time during the development cycle of my project and not have to change any application code that depends on the one chosen.</p>
+<p>You can checkout the code and an example at <a href="https://github.com/bustardcelly/requirejs-microlib-facade"><a href="https://github.com/bustardcelly/requirejs-microlib-facade">https://github.com/bustardcelly/requirejs-microlib-facade</a></a>.</p>
+<h2 id="evaluation">Evaluation</h2>
+<p>This isn’t going to be an evaluation of the micro-libraries I am currently testing. Perhaps I will do that in another post, but usually I reserve stating my preference on libraries through <a href="http://twitter.com/_toddanderson_">annoying tweets</a>. Rather, I wanted to provide my running list of Pro’s and Con’s with regards to this approach of developing an application against a common API that is defined in AMD modules that provide access similarly to underlying micro-libraries that implement the same contextual task differently. I like starting with Con’s.</p>
+<p><strong>Cons:</strong></p>
+<ul>
+<li><p>Adapting to each libraries implementation.</p>
+<ul>
+<li>With the glut of micro-libraries out there, it can be a daunting task to simply say that I can fit each one into a similar interface – much less provide the same outgoing signature on any delegate responders. </li>
+</ul>
+</li>
+<li><p>Facading to a single task.</p>
+<ul>
+<li>There are many libraries that are well-suited for a task, but provide implementations for multiple tasks.</li>
+<li>Typically, I think of a facade as providing one API for multiple composited pieces that may or may not interact with each other. I can get over the nomenclature, but what if a the same library provides a well-suited implementation for multiple tasks and is not provided as an AMD? I have not addressed cutting down multiple requests for the same library that may be used across multiple facade modules.</li>
+</ul>
+</li>
+<li><p>JavaScript itself.</p>
+<ul>
+<li>In JavaScript we can not define an Object as being an implementation of a specific Interface nor, consequently, run any tools to ensure that it adheres to one. I am sure there are libraries and ‘tools’ out there that can provide a way that makes it appear that an Object needs to or is adhering to an Interface, I am speaking more out-of-the-box: JavaScript doesn’t have interfaces. <em>Not arguing whether that is right or wrong</em>.</li>
+<li>The main advantage of this approach to facade modules is to develop against a consistent API. As such, it is far too easy – because of the dynamicism of JavaScript – to lose that across multiple modules, even just in simple spelling mistakes. This calls for more unit testing, which you should be doing anyway (<strong>yes, I am glaring at myself right now</strong>).</li>
+</ul>
+</li>
+</ul>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Developing an application against a dependency whose API will not change based on the required underlying micro-library.</li>
+<li>Ability to inject, at runtime, a different dependency if required (say, for instance, after having checked browser capabilities).</li>
+<li>The use of high-falootin’ buzzwords when describing your approach to colleagues.</li>
+</ul>
+<p>Does one outweigh the other? In as far as development, I am leaning toward the <em>Pro’s</em>, but I do worry that some the <em>Con’s</em> may deter me from really evaluating a library that may be best-suited, simply because it is too difficult at the time to fit into the defined API.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Will I recommend this approach for production-level application deployment? </p>
+<p>That is yet to be determined. I still subscribe to the practice that you should compile in (concatenate and minify) all the sources required by an application. So, having the ability to switch the target facade at runtime or on the server by just modifying a line in some script file doesn’t seem to be the right approach in delivering a web-based application at the moment for me. I would evaluate a handful of libraries, determine the best suited one for the application and include that one (along with the accompanying facade) in my <a href="https://github.com/jrburke/r.js/">r.js build</a>. But I reserve the right to be proven wrong and/or change my mind <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/micro-library/">micro-library</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/index.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2012/02/07/current-workflow-developing-linting-testing-and-distributing-javascript/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2012/03/06/facaded-micro-libraries-and-dependency-management-using-requirejs/index.html";
+        window.disqus_title="Micro-Library Facades and Dependency Management using RequireJS";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

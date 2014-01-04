@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
+    <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>Todd Anderson - The Making of a Test-Driven Grocery List Application in JS: Part X</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todd Anderson</h1>
+      <h2>I make things for the web, mobile, desktop and land.</h2>
+      <ul id="media-list">
+        <li><a href="http://custardbelly.com/blog/index.xml"><img src="http://custardbelly.com/blog/asset/rss.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="http://custardbelly.com/blog/asset/twitter.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="http://custardbelly.com/blog/asset/github.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="http://custardbelly.com/blog/asset/google.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="http://custardbelly.com/blog/asset/linkedin.png"></a></li>
+      </ul>
+    </header>
+    <nav>
+      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+    </nav>
+
+    <article class="post">
+  <div class="title">
+    <h1><a href="http://custardbelly.com/blog/blog-posts/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/index.html">The Making of a Test-Driven Grocery List Application in JS: Part X</a></h1>
+    <p>
+      2013 March 6th
+      
+        by todd anderson
+      
+    </p>
+  </div>
+  <section>
+    <p><em>This is the tenth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
+<h2 id="introduction">Introduction</h2>
+<p>When we last left, we properly modified <code>list-controller</code> to support event notification upon change to its collection as well as created a <code>storage-service</code> communication layer with <code>localStorage</code>. That gave us some great passing tests, but nothing to show off as the service was not integrated into the <strong>Grocery List</strong> application. In this article, we’ll do just that, but…</p>
+<h2 id="before-we-hook-up-list-controller-events-to-storage-service-operations-">Before we hook up list-controller events to storage-service operations…</h2>
+<p>We need a way to supply the <code>list-controller</code> with the stored items. The <code>list-controller</code> has a <code>createNewItem()</code> method, but no methods to provide a previously created item. Since we are not burdening the <code>list-controller</code> in communicating with the <code>storage-service</code> directly, we’ll need to open up the API to allow items to be added – at least at the onset.</p>
+<h3 id="tests">Tests</h3>
+<p>First we’ll include all our tests in our <em>specrunner</em> again as changes to <code>list-controller</code> may impact tests across multiple specs. And while we are poking around, let’s add a spec suite for <code>setItems()</code> on the <code>list-controller</code> and watch it fail:</p>
+<p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
+<pre><code><span class="function"><span class="title">describe</span><span class="params">(<span class="function_name">'setItems</span>()', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+
+
+  var item<span class="variable">One</span> = model<span class="variable">Factory</span>.<span class="function_name">create</span>(),
+
+      item<span class="variable">Two</span> = model<span class="variable">Factory</span>.<span class="function_name">create</span>();
+
+
+
+  <span class="function_name">beforeEach</span>( <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+    item<span class="variable">One</span>.name = 'apples';
+
+    item<span class="variable">Two</span>.name = 'oranges';
+
+    list<span class="variable">Controller</span>.<span class="function_name">setItems</span>([item<span class="variable">One</span>, item<span class="variable">Two</span>]);
+
+  }</span>);
+
+
+
+  <span class="function_name">afterEach</span>( <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+    list<span class="variable">Controller</span>.<span class="function_name">getItemList</span>().<span class="function_name">removeAll</span>();
+
+  }</span>);
+
+
+
+  <span class="function_name">it</span>('should fill list with provided items', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+
+    var items = list<span class="variable">Controller</span>.<span class="function_name">getItemList</span>();
+
+    <span class="function_name">expect</span>(items.<span class="function_name">itemLength</span>()).<span class="function_name">toEqual</span>(<span class="number">2</span>);
+
+    <span class="function_name">expect</span>(items.<span class="function_name">getItemAt</span>(<span class="number">0</span>)).<span class="function_name">toBe</span>(item<span class="variable">One</span>);
+
+    <span class="function_name">expect</span>(items.<span class="function_name">getItemAt</span>(<span class="number">1</span>)).<span class="function_name">toBe</span>(item<span class="variable">Two</span>);
+
+  }</span>);
+
+
+
+});</code></pre>
+<p>This simple first spec tells us that an array of items can be provided to the <code>list-controller</code> using <code>setItems()</code> and should be accessible by its collection. And we fail with no surprises:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_17.png" alt="Failing on setItems of list-controller"></p>
+<h3 id="list-controller-modification">list-controller modification</h3>
+<p>Throughout this series I have employed a quasi-<a href="http://coderetreat.org/facilitating/activities/tdd-as-if-you-meant-it"><em>“TDD as if you mean it”</em></a> approach when creating new components and modifying the API on existing ones. With this modification to the <code>list-controller</code>, I am going to stick to getting the tests to pass by modifying the <code>list-controller</code> directly as I feel it is going to get a little more involved and will require some refactoring that would be better suited by focusing on true implementation.</p>
+<p>With that said, let’s modify <code>list-controller</code> to get that new spec passing:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code>listController = {
+
+  $view: <span class="literal">undefined</span>,
+
+  getItemList: <span class="keyword">function</span>() {
+
+    <span class="keyword">return</span> collection;
+
+  },
+
+  getRendererFromItem: <span class="keyword">function</span>(item) {
+
+    <span class="keyword">var</span> i = rendererList.itemLength(),
+
+        renderer;
+
+    <span class="keyword">while</span>( --i &gt; -<span class="number">1</span> ) {
+
+      renderer = rendererList.getItemAt(i);
+
+      <span class="keyword">if</span>(renderer.model === item) {
+
+        <span class="keyword">return</span> renderer;
+
+      }
+
+    }
+
+    <span class="keyword">return</span> <span class="literal">undefined</span>;
+
+  },
+
+  createNewItem: <span class="keyword">function</span>() {
+
+    <span class="keyword">var</span> model = modelFactory.create();
+
+    collection.addItem(model);
+
+    <span class="keyword">return</span> model;
+
+  },
+
+  removeItem: <span class="keyword">function</span>(item) {
+
+    <span class="keyword">return</span> collection.removeItem(item);
+
+  },
+
+  setView: <span class="keyword">function</span>(view) {
+
+    <span class="keyword">this</span>.$view = (view <span class="keyword">instanceof</span> $) ? view : $(view);
+
+  },
+
+  setItems: <span class="keyword">function</span>(items) {
+
+    collection = collectionFactory.create(items);
+
+  }
+
+};</code></pre>
+<p>Well, that was easy enough!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_18.png" alt="Passing on setItems() of list-controller"></p>
+<h3 id="tests">Tests</h3>
+<p>Not so fast… I think our single spec may be deceiving our expectations. Let’s add a few more and make sure we are on the right path. To start, we expect changes to these new models to propagate events when it is modified – such as in the work we have done previously.</p>
+<p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
+<pre><code>async.<span class="keyword">it</span>('should dispatch events <span class="keyword">of</span> <span class="keyword">property</span>-change <span class="keyword">from</span> provided items', function(done) {
+
+  var items = listController.getItemList(),
+
+      itemOne = items.getItemAt(<span class="number">0</span>);
+
+  $(listController).<span class="keyword">on</span>('save-<span class="property">item</span>', function(event) {
+
+    $(listController).off('save-<span class="property">item</span>');
+
+    expect(event.<span class="property">item</span>).toBe(itemOne);
+
+    done();
+
+  });
+
+  itemOne.marked = <span class="constant">true</span>;
+
+});</code></pre>
+<p>This spec tells us that changes to an item should be notified through the <code>list-controller</code> – basically the work we had done previously in getting the <code>list-controller</code> to dispatch events related to its underlying collection so as to be captured by observing parties.<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_19.png" alt="Failing on async timeout of event from item"></p>
+<p>This test actually reveals some refactoring that is required within the <code>list-controller</code>. In essence, creating a new collection from the provided items in <code>setItems()</code> is not enough to have the application work as expected – each individual item needs to be managed by a <code>list-item-controller</code> which responds and notifies of changes accordingly. We had previously paired an item with a item controller within the <code>collection-change</code> event handler of the collection in <code>list-controller</code>:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code><span class="list">(<span class="title">function</span><span class="body"> assignCollectionHandlers<span class="list">(<span class="body">$collection)</span></span> {
+
+
+
+  var EventKindEnum = collectionFactory.collectionEventKind,
+
+      isValidValue = function<span class="list">(<span class="title">value</span><span class="body">)</span></span> {
+
+        return value <span class="keyword">&amp;&amp;</span> <span class="list">(<span class="title">value</span><span class="body">.hasOwnProperty<span class="list">(<span class="body">'length')</span></span> <span class="keyword">&amp;&amp;</span> value.length &gt; <span class="number">0</span>)</span></span><span class="comment">;</span>
+
+      }<span class="comment">;</span>
+
+
+
+  $collection.on<span class="list">(<span class="body">'collection-change', function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
+
+    var model,
+
+        itemController,
+
+        $itemController,
+
+        $itemView<span class="comment">;</span>
+
+    switch<span class="list">(<span class="body"> event.kind )</span></span> {
+
+      case EventKindEnum.ADD:
+
+        $itemView = $<span class="list">(<span class="body">'&lt;li&gt;')</span></span><span class="comment">;</span>
+
+        model = event.items.shift<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+
+        itemController = itemControllerFactory.create<span class="list">(<span class="body">$itemView, model)</span></span><span class="comment">;</span>
+
+        $itemController = $<span class="list">(<span class="title">itemController</span><span class="body">)</span></span><span class="comment">;</span>
+
+
+
+        $itemView.appendTo<span class="list">(<span class="title">listController</span><span class="body">.$view)</span></span><span class="comment">;</span>
+
+        rendererList.addItem<span class="list">(<span class="title">itemController</span><span class="body">)</span></span><span class="comment">;</span>
+
+        $<span class="list">(<span class="title">listController</span><span class="body">)</span></span>.trigger<span class="list">(<span class="title">createSaveEvent</span><span class="body"><span class="list">(<span class="title">model</span><span class="body">)</span></span>)</span></span><span class="comment">;</span>
+
+        itemController.state = itemControllerFactory.state.EDITABLE<span class="comment">;</span>
+
+
+
+        $itemController.on<span class="list">(<span class="body">'remove', function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
+
+          listController.removeItem<span class="list">(<span class="title">model</span><span class="body">)</span></span><span class="comment">;</span>
+
+        })</span></span><span class="comment">;</span>
+
+        $itemController.on<span class="list">(<span class="body">'commit', function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
+
+          if<span class="list">(<span class="body">!isValidValue<span class="list">(<span class="title">model</span><span class="body">.name)</span></span>)</span></span> {
+
+            listController.removeItem<span class="list">(<span class="title">model</span><span class="body">)</span></span><span class="comment">;</span>
+
+          }
+
+          else {
+
+            $<span class="list">(<span class="title">listController</span><span class="body">)</span></span>.trigger<span class="list">(<span class="title">createSaveEvent</span><span class="body"><span class="list">(<span class="title">model</span><span class="body">)</span></span>)</span></span><span class="comment">;</span>
+
+          }
+
+        })</span></span><span class="comment">;</span>
+
+        break<span class="comment">;</span>
+
+      case EventKindEnum.REMOVE:
+
+        model = event.items.shift<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+
+        itemController = listController.getRendererFromItem<span class="list">(<span class="title">model</span><span class="body">)</span></span>,
+
+        $itemController = $<span class="list">(<span class="title">itemController</span><span class="body">)</span></span><span class="comment">;</span>
+
+
+
+        if<span class="list">(<span class="title">itemController</span><span class="body">)</span></span> {
+
+          $itemView = itemController.parentView<span class="comment">;</span>
+
+          $itemView.remove<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+
+          itemController.dispose<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+
+          $itemController.off<span class="list">(<span class="body">'remove')</span></span><span class="comment">;</span>
+
+          $itemController.off<span class="list">(<span class="body">'commit')</span></span><span class="comment">;</span>
+
+          rendererList.removeItem<span class="list">(<span class="title">itemController</span><span class="body">)</span></span><span class="comment">;</span>
+
+          $<span class="list">(<span class="title">listController</span><span class="body">)</span></span>.trigger<span class="list">(<span class="title">createRemoveEvent</span><span class="body"><span class="list">(<span class="title">model</span><span class="body">)</span></span>)</span></span><span class="comment">;</span>
+
+        }
+
+        break<span class="comment">;</span>
+
+      case EventKindEnum.RESET:
+
+        break<span class="comment">;</span>
+
+    }
+
+  })</span></span><span class="comment">;</span>
+
+
+
+}<span class="list">(<span class="body">$<span class="list">(<span class="title">collection</span><span class="body">)</span></span>)</span></span>)</span></span><span class="comment">;</span></code></pre>
+<p>That <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a> was run in the module prior to returning the <code>list-controller</code> instance. Now, we could just copy that code from the <code>EventKindEnum.ADD</code> case and shove it into <code>setItems()</code>, applying it to each item in a loop, but that wouldn’t be very efficient, not to mention a cry-inducing solution for anyone (including yourself) which need to revisit your code.</p>
+<h3 id="list-controller-refactor">list-controller refactor</h3>
+<p>I think we are going to have to get rid of this <strong>IIFE</strong>, but let’s do that modification in piecemeal; first, let’s strip out the item management when added to a collection:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code>var collection = collectionFactory.create(),
+
+    rendererList = collectionFactory.create(),
+
+    manageItemInList = <span class="keyword">function</span>(item, listController) {
+
+      var $itemView = $(<span class="string">'&lt;li&gt;'</span>),
+
+          itemController = itemControllerFactory.create($itemView, item),
+
+          $itemController = $(itemController),
+
+          isValidValue = <span class="keyword">function</span>(value) {
+
+            <span class="keyword">return</span> value &amp;&amp; (value.hasOwnProperty(<span class="string">'length'</span>) &amp;&amp; value.length &gt; <span class="number">0</span>);
+
+          };
+
+
+
+      $itemView.appendTo(listController.$view);
+
+      rendererList.addItem(itemController);
+
+
+
+      $itemController.on(<span class="string">'remove'</span>, <span class="keyword">function</span>(event) {
+
+        listController.removeItem(item);
+
+      });
+
+      $itemController.on(<span class="string">'commit'</span>, <span class="keyword">function</span>(event) {
+
+        <span class="keyword">if</span>(!isValidValue(item.name)) {
+
+          listController.removeItem(item);
+
+        }
+
+        <span class="keyword">else</span> {
+
+          $(listController).trigger(createSaveEvent(item));
+
+        }
+
+      });
+
+      <span class="keyword">return</span> itemController;
+
+    },
+
+    listController = {
+
+      $view: undefined,
+
+      <span class="keyword">...</span>
+
+    };</code></pre>
+<p>Most of what was held in the <code>EventKindEnum.ADD</code> case of the <code>collection-change</code> handler has been moved to its own function expression – <code>manageItemInList()</code>. If we look at how this case is modified we see that we have left state initialization and event dispatching:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code>case EventKindEnum<span class="preprocessor">.ADD</span>:
+
+  model = event<span class="preprocessor">.items</span><span class="preprocessor">.shift</span>()<span class="comment">;</span>
+
+  itemController = manageItemInList(model, listController)<span class="comment">;</span>
+
+  itemController<span class="preprocessor">.state</span> = itemControllerFactory<span class="preprocessor">.state</span><span class="preprocessor">.EDITABLE</span><span class="comment">;</span>
+
+  $(listController)<span class="preprocessor">.trigger</span>(createSaveEvent(model))<span class="comment">;</span>
+
+  <span class="keyword">break</span><span class="comment">;</span></code></pre>
+<p>When an item is added to the collection and the list-controller is notified, it creates a new <code>list-item-controller</code> using <code>manageItemInList()</code>, sets the controller’s state to <code>EDITABLE</code> and notifies of its addition. The last two operations are of note, as they only pertain to <em>new</em> additions to the collection – we don’t want such things for existing items being added to the list from <code>setItems()</code>.</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code><span class="attribute">setItems</span>: <span class="string">function(items) {</span>
+
+<span class="matlab">  var <span class="built_in">i</span>, <span class="built_in">length</span> = <span class="transposed_variable">items.</span><span class="built_in">length</span>;
+
+  collection = <span class="transposed_variable">collectionFactory.</span>create();
+
+  <span class="keyword">for</span>( <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; <span class="built_in">length</span>; <span class="built_in">i</span>++ ) <span class="cell">{
+
+    manageItemInList(items[i], this);
+
+    collection.addItem(items[i]);
+
+  }</span>
+
+}</span></code></pre>
+<p>Now if we run the tests again:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_20.png" alt="Passing on modifications to item management in list-controller"></p>
+<p>Passing! </p>
+<h3 id="tests">Tests</h3>
+<p>I don’t think we are out of the woods yet, however… Let’s continue to add more expectations about setting the collection through <code>setItems()</code>on <code>list-controller</code>:</p>
+<p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
+<pre><code>async.<span class="keyword">it</span>('should dispatch event <span class="keyword">of</span> remove-<span class="property">item</span> <span class="keyword">from</span> collection', function(done) {
+
+  $(listController).<span class="keyword">on</span>('remove-<span class="property">item</span>', function(event) {
+
+    $(listController).off('remove-<span class="property">item</span>');
+
+    expect(event.<span class="property">item</span>).toBe(itemOne);
+
+    done();
+
+  });
+
+  listController.removeItem(itemOne);
+
+});</code></pre>
+<p>This test ensures that the <code>list-controller</code> should still be responding to and notifying of changes to the new collection created through <code>setItems()</code> just as it should if the <code>list-controller</code> was only being instructed to modify the collection through calls to <code>createNewItem()</code>.</p>
+<h3 id="list-controller-refactoring">list-controller refactoring</h3>
+<p>To save you some time in downloading more images, believe me when I tell you I just put us back in red <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> The reason being that dang <code>assignCollectionHandlers</code> <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a>. The collection that is created in <code>setItems()</code> is not being observed. The <strong>IIFE</strong> to assign events handlers is only run upon load of the module and only targets the collection instantiated in its declaration. In other words, any new collections will not be observed.</p>
+<p>I say we move that <strong>IIFE</strong> out into its own expression:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code>var collection = collectionFactory.create(),
+
+    rendererList = collectionFactory.create(),
+
+    assignCollectionHandlers = function(<span class="variable">$collection</span>) {
+
+      var EventKindEnum = collectionFactory.collectionEventKind;
+
+      <span class="variable">$collection</span>.on(<span class="string">'collection-change'</span>, function(<span class="keyword">event</span>) {
+
+        var model,
+
+            itemController,
+
+            <span class="variable">$itemController</span>,
+
+            <span class="variable">$itemView</span>;
+
+        <span class="keyword">switch</span>( <span class="keyword">event</span>.kind ) {
+
+          <span class="keyword">case</span> EventKindEnum.ADD:
+
+            model = <span class="keyword">event</span>.items.shift();
+
+            itemController = manageItemInList(model, listController);
+
+            itemController.state = itemControllerFactory.state.EDITABLE;
+
+            <span class="variable">$(</span>listController).trigger(createSaveEvent(model));
+
+            <span class="keyword">break</span>;
+
+          <span class="keyword">case</span> EventKindEnum.REMOVE:
+
+            model = <span class="keyword">event</span>.items.shift();
+
+            itemController = listController.getRendererFromItem(model),
+
+            <span class="variable">$itemController</span> = <span class="variable">$(</span>itemController);
+
+
+
+            <span class="keyword">if</span>(itemController) {
+
+              <span class="variable">$itemView</span> = itemController.parentView;
+
+              <span class="variable">$itemView</span>.remove();
+
+              itemController.dispose();
+
+              <span class="variable">$itemController</span>.off(<span class="string">'remove'</span>);
+
+              <span class="variable">$itemController</span>.off(<span class="string">'commit'</span>);
+
+              rendererList.removeItem(itemController);
+
+              <span class="variable">$(</span>listController).trigger(createRemoveEvent(model));
+
+            }
+
+            <span class="keyword">break</span>;
+
+          <span class="keyword">case</span> EventKindEnum.RESET:
+
+            <span class="keyword">break</span>;
+
+        }
+
+      });
+
+    },
+
+    manageItemInList = function(item, listController) {
+
+      <span class="comment">// implementation removed to reduce noise</span>
+
+    },
+
+    listController = {
+
+      <span class="comment">// implementation removed to reduce noise</span>
+
+    }</code></pre>
+<p>We basically took what was the named <code>assignCollectionHandlers</code> <strong>IIFE</strong> and added it to the variable declarations within the <code>list-controller</code> module. That changes the code between those declarations and the return of the <code>listController</code> instance to:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code>var collection = <span class="transposed_variable">collectionFactory.</span>create(),
+
+    rendererList = <span class="transposed_variable">collectionFactory.</span>create(),
+
+    assignCollectionHandlers = <span class="keyword">function</span>($collection) <span class="cell">{
+
+      // implementation removed to reduce noise
+
+    }</span>,
+
+    manageItemInList = <span class="keyword">function</span>(item, listController) <span class="cell">{
+
+      // implementation removed to reduce noise
+
+    }</span>,
+
+    listController = <span class="cell">{
+
+      // implementation removed to reduce noise
+
+    }</span>;
+
+
+
+assignCollectionHandlers($(collection));
+
+
+
+<span class="keyword">return</span> listController;</code></pre>
+<p>With those changes we are still failing on the last spec we created, but more importantly we have not caused any other tests to fail!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_21.png" alt="Still failing, but failing well!"></p>
+<p>Let’s get that last spec to pass:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code><span class="attribute">setItems</span>: <span class="string">function(items) {</span>
+
+<span class="matlab">  var <span class="built_in">i</span>, <span class="built_in">length</span> = <span class="transposed_variable">items.</span><span class="built_in">length</span>;
+
+  collection = <span class="transposed_variable">collectionFactory.</span>create();
+
+  <span class="keyword">for</span>( <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; <span class="built_in">length</span>; <span class="built_in">i</span>++ ) <span class="cell">{
+
+    manageItemInList(items[i], this);
+
+    collection.addItem(items[i]);
+
+  }</span>
+
+  assignCollectionHandlers($(collection));
+
+}</span></code></pre>
+<p>Hurrah!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_22.png" alt="Passing again!"></p>
+<p>Tagged <strong>0.1.13</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.13"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.13">https://github.com/bustardcelly/grocery-ls/tree/0.1.13</a></a></p>
+<h2 id="hooking-it-all-together">Hooking it all together</h2>
+<p>We have created our <code>storage-service</code> to communicate with <code>localStorage</code>, modified <code>list-controller</code> to dispatch events and accept initial items for its collection and all our tests are still passing! It’s a wonderous feeling. Now let’s get to actually hooking them up so that the <code>storage-service</code> is told how to handle changes to the list by responding to <code>list-controller</code> events.</p>
+<p>Normally, in such situations I would create another component to the application that would serve as an mediator for such integration, receiving events from <code>list-controller</code> and invoking the <code>storage-service</code>. Naturally, that would also call for more tests in assuring that the mediator did its job correctly. I am not going to do that here. This is a small application meant for our own personal use and this series has gotten quite long; I don’t want to scare you away by adding more dependencies, but I would encourage you to do so on your own if you feel so…. just don’t forget the tests!</p>
+<p>I think modifying the main JavaScript file (<em>/script/grocery-ls.js</em>) that defines the module dependencies and initializes the <strong>Grocery List</strong> application is fine enough for the task at hand:</p>
+<p><em>/script/grocery-ls.js</em></p>
+<pre><code><span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="title">window</span><span class="body">, require)</span></span> {
+
+
+
+  require.config<span class="list">(<span class="body">{
+
+    baseUrl: <span class="string">"."</span>,
+
+    paths: {
+
+      <span class="string">"lib"</span>: <span class="string">"./lib"</span>,
+
+      <span class="string">"script"</span>: <span class="string">"./script"</span>,
+
+      <span class="string">"jquery"</span>: <span class="string">"./lib/jquery-1.8.3.min"</span>
+
+    }
+
+  })</span></span><span class="comment">;</span>
+
+
+
+  require<span class="list">(<span class="body"> ['jquery', 'script/controller/list-controller', 'script/service/storage-service'],
+
+            function<span class="list">(<span class="body">$, listController, storageService)</span></span> {
+
+
+
+    var $listController = $<span class="list">(<span class="title">listController</span><span class="body">)</span></span><span class="comment">;</span>
+
+    listController.setView<span class="list">(<span class="body">$<span class="list">(<span class="body">'section.groceries ul')</span></span>)</span></span><span class="comment">;</span>
+
+
+
+    storageService.getItems<span class="list">(<span class="body">)</span></span>.then<span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="title">items</span><span class="body">)</span></span> {
+
+      listController.setItems<span class="list">(<span class="title">items</span><span class="body">)</span></span><span class="comment">;</span>
+
+    })</span></span><span class="comment">;</span>
+
+    $listController.on<span class="list">(<span class="body">'save-item', function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
+
+      storageService.saveItem<span class="list">(<span class="title">event</span><span class="body">.item)</span></span>.then<span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="title">item</span><span class="body">)</span></span> {
+
+        console.log<span class="list">(<span class="body">'Item saved! ' + item.name)</span></span><span class="comment">;</span>
+
+      }, function<span class="list">(<span class="title">error</span><span class="body">)</span></span> {
+
+        console.log<span class="list">(<span class="body">'Item not saved: ' + error)</span></span>
+
+      })</span></span><span class="comment">;</span>
+
+    })</span></span><span class="comment">;</span>
+
+    $listController.on<span class="list">(<span class="body">'remove-item', function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
+
+      storageService.removeItem<span class="list">(<span class="title">event</span><span class="body">.item)</span></span>.then<span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="title">item</span><span class="body">)</span></span> {
+
+        console.log<span class="list">(<span class="body">'Item removed! ' + item.name)</span></span><span class="comment">;</span>
+
+      }, function<span class="list">(<span class="title">error</span><span class="body">)</span></span> {
+
+        console.log<span class="list">(<span class="body">'Item not removed: ' + error)</span></span><span class="comment">;</span>
+
+      })</span></span><span class="comment">;</span>
+
+    })</span></span><span class="comment">;</span>
+
+    $<span class="list">(<span class="body">'#add-item-button')</span></span>.on<span class="list">(<span class="body">'click', function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
+
+      listController.createNewItem<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+
+    })</span></span><span class="comment">;</span>
+
+
+
+  })</span></span><span class="comment">;</span>
+
+
+
+}<span class="list">(<span class="title">window</span><span class="body">, requirejs)</span></span>)</span></span><span class="comment">;</span></code></pre>
+<p>Just a slight modification to the main file. We added <code>storage-service</code> as an initial dependency, request and supply stored items to the list-controller and respond to <code>save-item</code> and <code>remove-item</code> events, forwarding actions along to the <code>storage-service</code> appropriately.</p>
+<p>If we run the application now, we can add, mark-off, remove items from the list. Same as before, but now, if we refresh the page, items and their state a persisted!</p>
+<p><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_27.png" alt="Grocery list application"></p>
+<p>It may look a little different than your if you have been following along in the code. I added some nice styling and committed it to the repo.</p>
+<p>Tagged <strong>0.2.0</strong> : <a href="https://github.com/bustardcelly/grocery-ls/tree/0.2.0"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.2.0">https://github.com/bustardcelly/grocery-ls/tree/0.2.0</a></a></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We have completed our <strong>Grocery List</strong> application and have it fully tested (well, hopefully <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ). We now have a grocery list that we can curate and is persisted in the browser. It should be noted that it is not persistent across browser<strong>s</strong>, plural – so make sure to open it in the same browser on your mobile device when creating the list and shopping. I am most likely going to whip up a little server to persist the list remotely, but am not going to document that in this series. It may end up in the <a href="https://github.com/bustardcelly/grocery-ls">github repo</a> eventually, however, so keep an eye out.</p>
+<p>Thanks for sticking around in this long series (<em>ten parts!</em>) of building an application by trying to adhere to <strong>TDD</strong>. I may have gone off course here and there, but I hope it was informative in any way.</p>
+<p>Cheers!</p>
+<p>—-</p>
+<h1 id="link-dump">Link Dump</h1>
+<h2 id="reference">Reference</h2>
+<p><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://cumulative-hypotheses.org/2011/08/30/tdd-as-if-you-meant-it/">TDD as if you Meant it by Keith Braithwaite</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a></p>
+<h2 id="post-series">Post Series</h2>
+<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
+<p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>.</p>
+
+  </section>
+  <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2014/so-long-wordpress.html">&#8672;&nbsp;newer</a></span>
+      
+      
+        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/index.html">older&nbsp;&#8674;</a></span>
+      
+    </section>
+  <section class="comments">
+    
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        window.disqus_identifier="";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/index.html";
+        window.disqus_title="The Making of a Test-Driven Grocery List Application in JS: Part X";
+      </script>
+        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
+    
+  </section>
+</article>
+
+    <footer>
+      Copyright Todd Anderson, 2014.
+    </footer>
+    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29061897-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+http://custardbelly.com/blog
+http://custardbelly.com/blog/blog-posts/2014/so-long-wordpress.html
+http://custardbelly.com/blog/archive.html
+http://custardbelly.com/blog/blog-pages/about.html
+http://custardbelly.com/blog/blog-posts/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/index.html
+http://custardbelly.com/blog/

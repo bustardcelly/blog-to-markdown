@@ -1,3 +1,4 @@
+.ftppass
 *.sql
 *.sublime-*
 node_modules/*

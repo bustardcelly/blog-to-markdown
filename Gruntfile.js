@@ -1,8 +1,15 @@
 /*global module:false*/
+var path = require('path');
+
 module.exports = function(grunt) {
+
+  var configuration = grunt.file.readJSON('grunt-settings.json');
 
   // Project configuration.
   grunt.initConfig({
+    pkg: grunt.file.readJSON( 'package.json' ),
+    config: configuration,
+
     // Task configuration.
     jshint: {
       options: {
@@ -105,37 +112,32 @@ module.exports = function(grunt) {
         },
       },
       dev: {
-        dest: 'generated',
+        dest: '<%= config.dev %>',
         context: {
-          rootlocation: '',
+          rootlocation: '<%= config.site.dev %>',
           css: 'style/main.css',
           highlightjs: 'lib/highlight/highlight.pack.js',
           highlightcss: 'lib/highlight/styles/github.css'
         }
       },
       dist: {
-        dest: 'dist',
+        dest: '<%= config.dist %>',
         context: {
-          rootlocation: 'http://custardbelly.com/blog',
+          rootlocation: '<%= config.site.dist %>',
           css: 'style/main.css',
           highlightjs: 'lib/highlight/highlight.pack.js',
           highlightcss: 'lib/highlight/styles/github.css'
         }
       }
+    },
+    exec: {
+        yslow: {
+            cmd: 'phantomjs yslow.js --info basic --format plain <%= config.site.dist %>'
+        },
+        sitespeed: {
+            cmd: '<%= config.sitespeed %> -u <%= config.site.dist %> -r ' + __dirname + '/doc/metrics'
+        }
     }
-    // markdown: {
-    //   all: {
-    //     files: [
-    //       {
-    //         expand: true,
-    //         cwd: 'blog-posts',
-    //         src: ['**/*.md'],
-    //         dest: 'dist/',
-    //         ext: '.html'
-    //       }
-    //     ]
-    //   }
-    // }
   });
 
   // These plugins provide necessary tasks.
@@ -143,10 +145,21 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-markdown-blog');
-  // grunt.loadNpmTasks('grunt-markdown');
+  grunt.loadNpmTasks('grunt-exec');
 
+  /**
+   * Runs metrics on deployed site at http://qa.infrared5.com
+   */
+  grunt.registerTask('metrics', 'Running site speed metrics on http://custardbelly.com/blog', ['exec']);
+
+  /**
+   * Generate files to test locally.
+   */
   grunt.registerTask('dryrun', ['markdown:dev', 'copy:dev']);
-  grunt.registerTask('deploy', ['markdown:dist', 'copy:dist']);
+  /**
+   * Generate files to run on http://custardbelly.com/blog
+   */
+  grunt.registerTask('build', ['markdown:dist', 'copy:dist']);
 
   // Default task.
   grunt.registerTask('default', ['jshint']);

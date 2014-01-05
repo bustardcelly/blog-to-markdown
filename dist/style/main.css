@@ -74,6 +74,11 @@ a img {
   border: none;
 }
 
+.header-link {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+
 .title a {
   color: #2D2D2D;
   text-decoration: none;
@@ -93,8 +98,27 @@ a img {
 #media-list li {
   margin: 0.3rem;
   display: inline-block;
+  text-align: center;
 }
 
 #media-list li:first-child {
-  margin: 0;
+  margin-left: 0;
+}
+
+#media-list li a {
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  text-align: center;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  border-radius: 30px; /* future proofing */
+  -khtml-border-radius: 30px; /* for old Konqueror browsers */
+  background-color: rgb(255, 255, 255);
+}
+
+#media-list li img {
+  margin-top: 6px;
+  width: 32px;
+  height: 32px; 
 }

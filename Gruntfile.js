@@ -36,7 +36,7 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: 'app',
-            src: ['asset/**/*.png'],
+            src: ['asset/**/*.png', 'asset/**/*.svg'],
             dest: '<%= markdown.dev.dest %>'
           },
           {
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: 'app',
-            src: ['asset/**/*.png'],
+            src: ['asset/**/*.png', 'asset/**/*.svg'],
             dest: '<%= markdown.dist.dest %>'
           },
           {

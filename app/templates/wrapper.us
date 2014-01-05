@@ -13,14 +13,14 @@
   </head>
   <body>
     <header>
-      <h1><%= site.title %></h1>
+      <h1><a class="header-link" href="<%= rootlocation %>/"><%= site.title %></a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
-        <li><a href="<%= rootlocation %>/index.xml"><img src="<%= rootlocation %>/asset/rss.png"></a></li>
-        <li><a href="http://twitter.com/_toddanderson_"><img src="<%= rootlocation %>/asset/twitter.png"></a></li>
-        <li><a href="https://github.com/bustardcelly"><img src="<%= rootlocation %>/asset/github.png"></a></li>
-        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="<%= rootlocation %>/asset/google.png"></a></li>
-        <li><a href="http://lnkd.in/6GCvvR"><img src="<%= rootlocation %>/asset/linkedin.png"></a></li>
+        <li><a href="<%= rootlocation %>/index.xml"><img src="<%= rootlocation %>/asset/social70.svg" onerror="this.src=<%= rootlocation %>/asset/social70.png"></a></li>
+        <li><a href="http://twitter.com/_toddanderson_"><img src="<%= rootlocation %>/asset/twitter12.svg" onerror="this.src=<%= rootlocation %>/asset/twitter12.png"></a></li>
+        <li><a href="https://github.com/bustardcelly"><img src="<%= rootlocation %>/asset/github7.svg" onerror="this.src=<%= rootlocation %>/asset/github7.png"></a></li>
+        <li><a href="https://plus.google.com/113716114429928674625/posts"><img src="<%= rootlocation %>/asset/google21.svg" onerror="this.src=<%= rootlocation %>/asset/google21.png"></a></li>
+        <li><a href="http://lnkd.in/6GCvvR"><img src="<%= rootlocation %>/asset/linkedin2.svg" onerror="this.src=<%= rootlocation %>/asset/linkedin2.png"></a></li>
       </ul>
     </header>
     <nav>
@@ -31,6 +31,8 @@
 
     <footer>
       Copyright <%= site.author %>, <%= new Date().getFullYear() %>.
+      <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
+      <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
     <script src="<%= rootlocation %>/<%= highlightjs %>"></script>
     <script type="text/javascript">

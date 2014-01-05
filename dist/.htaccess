@@ -6,3 +6,7 @@ Options +FollowSymLinks
 RewriteEngine On
 RewriteRule ^(\d{4})/(.+)$ /blog/blog-posts/$1/$2 [L,R=301]
 RewriteRule ^category/(.+)/$ /blog/blog-pages/category/$1.html [L,R=301]
+RewriteRule ^feed/$ /blog/index.xml [L,R=301]
+
+RewriteCond %{QUERY_STRING} (.*(?:^|&))feed=rss((?:&|$).*)
+RewriteRule ^/(.+)$ /blog/index.xml [L,R=301]

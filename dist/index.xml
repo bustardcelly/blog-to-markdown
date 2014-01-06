@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>NodeJS RSS Module</generator><lastBuildDate>Sun, 05 Jan 2014 13:38:16 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><item><title><![CDATA[So long WordPress]]></title><description><![CDATA[<p>Originally a resolution for 2012, then 2013, I am making good early this year on getting rid of my reliance on <a href="http://wordpress.org/">WordPress</a> as my blog engine - in fact, getting rid of <em>any</em> engine to manage and serve blog posts; I converted all my old posts to static files and will be writing posts in markdown from now on.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>NodeJS RSS Module</generator><lastBuildDate>Mon, 06 Jan 2014 21:38:32 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><item><title><![CDATA[So long WordPress]]></title><description><![CDATA[<p>Originally a resolution for 2012, then 2013, I am making good early this year on getting rid of my reliance on <a href="http://wordpress.org/">WordPress</a> as my blog engine - in fact, getting rid of <em>any</em> engine to manage and serve blog posts; I converted all my old posts to static files and will be writing posts in markdown from now on.</p>
 <h2 id="out-with-the-old">Out with the old</h2>
 <p>Within the past couple years it just felt laborious to maintain my blog - not so much in actually writing content, but rather in dealing with spam, upgrading WordPress to ward off attacks until the next upgrade, finding syntax highlight replacements and other plugins as interests changed/grew. As a consequence, I think it did affect me actually wanting to log into the admin console to write posts.</p>
 <p>Along with maintenance of the my self-host WordPress being a bothersome heft, the WYSIWYG editor and all the extra bells and whistles in the admin console it provided just seemed to be a lot of useless noise. I have grown quite comfortable writing documentation in <a href="http://daringfireball.net/projects/markdown/">markdown</a> (due, in most part, to the rise of <a href="https://github.com/">GitHub</a>) and felt the experience of writing in such a context much more liberating and free-flowing. </p>
@@ -36,7 +36,64 @@
 <p>I am free of WordPress :)</p>
 <p>I do want to state that WordPress is not bad or evil - far from it. It had just become a burden for me; I much prefer just writing thoughts out in markdown and then issuing a command to generate and deploy new, static content.</p>
 <p>If you are interested in all the details, you can checkout the Github repo I have set up to store my tools and blog content:<br><a href="https://github.com/bustardcelly/blog-to-markdown"><a href="https://github.com/bustardcelly/blog-to-markdown">https://github.com/bustardcelly/blog-to-markdown</a></a></p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2014/so-long-wordpress.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/so-long-wordpress.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Fri, 03 Jan 2014 00:00:00 GMT</pubDate></item><item><title><![CDATA[The Making of a Test-Driven Grocery List Application in JS: Part X]]></title><description><![CDATA[<p><em>This is the tenth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
+]]></description><link>http://custardbelly.com/blog/blog-posts/2014/so-long-wordpress.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/so-long-wordpress.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Fri, 03 Jan 2014 00:00:00 GMT</pubDate></item><item><title><![CDATA[A slight obsession over page speed]]></title><description><![CDATA[<p>Lately, several projects (both personal and work-related) have ignited an increasing obsession over page load speed and performance. I wanted to highlight a few tools and resources I find useful in analyzing performance and delivering web pages in production with optimal load time.</p>
+<h2 id="where-d-this-hat-come-from-">Where&#39;d this hat come from?</h2>
+<p>Over the past decade I primarily have been a client-side application developer. Sometimes my business card changes or personal introductions are made that get &#39;engineer&#39; and &#39;architect&#39; thrown in there, but truthfully I spend my days coding applications, regardless of language. I enjoy writing and shipping code under certain practices and methodologies and ocassionally pause to assess my current workflow and modify where bottlenecks are prevelant.</p>
+<p>Up until recent years I was primarily concerned with code performance; rendering pipelines and element lifecycles, user-perceived performance cases for remote or off-loaded operations, optimizing algorithms for sorting, mapping, analyzing data, etc. I still am, but I also have become increasingly focused on delivery and load perfomance - especially in today&#39;s climate of people viewing web content on handheld devices without WiFi available. </p>
+<p>Perhaps it is due the increasing work of web-based clients over desktop or native applications, but - if I am being honest - I never really paid attention to load time for older web-based application projects for several reasons:</p>
+<ul>
+<li>Flash plugin (preload, skip intro, )</li>
+<li>Desktop browser targets</li>
+<li>Blind naivete</li>
+</ul>
+<p>However, as an end-user myself (don&#39;t like the term much, either) trying to access web content on my phone while on my bus ride home, my world is consumed with <code>waiting...</code>. As such, I wised up rather quick when I started to think about how someone would be absolutely frustrated and move on after 1/4 second without seeing any visible load response from a web application I lovingly crafted to in some way (hopefully) make their life easier.</p>
+<p>That&#39;s when I started incorporating page load analysis to my deployment workflow.</p>
+<h2 id="best-practices">Best Practices</h2>
+<p>There is excellent documentation out there regarding best practices in delivering web pages with optimal performance. Some of the best known ones are below:</p>
+<p>Yahoo: <a href="http://developer.yahoo.com/performance/rules.html">Best Practices for Speeding Up Your Web Site</a><br>Google: <a href="https://developers.google.com/speed/docs/best-practices/rules_intro">Web Perfomance Best Practices; Google</a><br>Steve Souders: <a href="http://stevesouders.com/hpws/rules.php">14 Rules for Faster-Loading Web Sites</a></p>
+<p>I won&#39;t rehash the tidbits those articles provide, so please visit those links for a wealth of information and follow the following blogs to keep abreast of the latest in research and development of web performance:</p>
+<ul>
+<li><a href="http://stevesouders.com/">Steve Souders</a></li>
+<li><a href="http://calendar.perfplanet.com/">Perfomance Calendar</a>  </li>
+</ul>
+<p>One aspect I find interesting is that a handful of the preferred optimizations described in those articles - such as concatenation, data-uris and script and styles placement on pages - have actually become part of the build phase of my development workflow, especially with the rise of tools such as <a href="http://gruntjs.com">Grunt</a> and the developer community creating post-process tasks. </p>
+<p>It is not taken for granted that I can select tools and code under certain architectural principles I perceive as providing a comfortable development environment and have these tools at my disposal to deliver the end product in an optimal fashion. <em>Another resolution for this year is to contribute more to the libraries and tools I use often - whether through code or monetary donations.</em></p>
+<h2 id="manual-performance-analysis">Manual Performance Analysis</h2>
+<p>There are a few sites and tools I visit that will perform analysis on a site while in development:</p>
+<ul>
+<li><a href="http://www.webpagetest.org/">WebPageTest</a></li>
+<li><a href="http://gtmetrix.com/">GTmetrix</a></li>
+<li><a href="http://tools.pingdom.com/">pingdom</a></li>
+<li><a href="https://developers.google.com/speed/docs/insights/using_chrome">PageSpeed Chrome Developer Tool</a></li>
+</ul>
+<p>Additonally, <a href="http://www.feedthebot.com/tools/">feedthebot</a> has a handful of neat little tools to test some things - specifically if gzip is working on your site.</p>
+<p>They all - along with various other metrics - provide a scoring based on some criteria which, as far as I can tell, are defined either by <strong>Yahoo!</strong> (via <a href="http://developer.yahoo.com/yslow/">yslow</a>) or <strong>Google</strong> (via <a href="https://developers.google.com/speed/pagespeed/?csw=1">PageSpeed</a>).</p>
+<p>Typically I stick to opening and running <a href="https://developers.google.com/speed/pagespeed/?csw=1">PageSpeed</a> when developing in Chrome to get a overall recommndation of optimizations and then visit <a href="http://www.webpagetest.org/">WebPageTest</a> when I want some serious analysis and am busy updating my <strong>.htaccess</strong> file with rewrites and expiries.</p>
+<h2 id="integrating-performance-reporting-in-workflow">Integrating Performance Reporting in Workflow</h2>
+<p>Running analysis using tools desribed above is a great way to see some metrics and determine what solutions to take to better the load performance of you site/application, but I like to automate all the things when I can as well as provide reporting to Continuous Integration servers so that we can document progress or failures. To provide such value, I am a strong proponent of using <a href="http://www.sitespeed.io/">sitespeed.io</a>.</p>
+<p>I have nothing bad to say about <a href="http://www.sitespeed.io/">sitespeed.io</a>. It&#39;s built on top of <a href="https://github.com/ariya/phantomjs">PhantomJS</a>, <a href="https://github.com/marcelduran/yslow/">yslow</a>, <a href="https://github.com/tobli/browsertime">browsertime</a> and <a href="https://github.com/twbs/bootstrap/">bootstrap</a>. You can alternatively use the <a href="http://yslow.org/phantomjs/">yslow script for PhantomJS</a> if you want something more stripped down, but <a href="http://www.sitespeed.io/documentation/#junit">sitespeed.io](<a href="http://www.sitespeed.io/">http://www.sitespeed.io/</a>) generates a nice set of web documents that provide performance summaries along with being able to produce a __-JUnit</a>__ report for CI.</p>
+<p>The documentation for <strong>sitespeed.io</strong> is thorough and easy to follow along and the <a href="http://www.sitespeed.io/documentation/#configuration">configuration options</a> are insanely helpful in finding possible pages on your site that may be of issue.</p>
+<h3 id="grunt-integration">Grunt integration</h3>
+<p>I am sure there is some <a href="http://gruntjs.com">Grunt</a> task out there in the wild that hooks into running <strong>sitespeed.io</strong> (or I should probably just stop being lazy and make one), but I have yet to find or search for one. I personally just use <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> to run the command during a build and deploy. With the proper <a href="http://www.sitespeed.io/documentation/#installation">installation of sitespeed.io</a>, I have the following subtask under <code>exec</code> task:</p>
+<pre><code>grunt.initConfig({
+  <span class="keyword">...</span>
+  exec: {
+    sitespeed: {
+      cmd: <span class="string">'sitspeed.io -u http://staging.mysite.com -r ./doc/metrics'</span>
+    }
+  }
+}
+});
+
+grunt.loadNpmTasks(<span class="string">'grunt-exec'</span>);
+grunt.registerTask(<span class="string">'dryrun'</span>, <span class="string">'Build, deploy and analyze.'</span>,\ 
+  [<span class="string">'build'</span>, <span class="string">'deploy:staging'</span>, <span class="string">'exec:sitespeed'</span>]);</code></pre>
+<p>That generates the JUnit report and summary documentation artifacts that can be consumed and presented by your CI server of choice. I also have a tendency to use the <a href="https://github.com/marcelduran/yslow/">yslow</a> script for <a href="https://github.com/ariya/phantomjs">PhantomJS</a> in tandem on the <code>exec</code> task as that will print out my perfomance grade in the console after issuing my <strong>grunt</strong> deployment.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Sometimes, especially when working with 3rd party libraries, web fonts, etc, it is unrealistic to hit 100 for your performance grading - who am I kidding, it is damn near impossible. I try to stay above 90 and feel satisfied. </p>
+<p>As well, it should be stated that the final test is actually physically visiting the sites on handheld devices over a data plan. As I mentioned previously, I usually do some perceived perfomance testing while on the bus ride home, ensuring that I don&#39;t get frustrated with the load time on my own work (and I hope I am more critical of my own stuff than others are ;)).</p>
+<p>This is just the tip of the iceberg when it comes to analyzing load performance and with developments coming out of Google, such as <a href="http://www.chromium.org/spdy/spdy-whitepaper">SPDY</a> and <a href="https://code.google.com/p/modpagespeed/">mod_pagespeed</a>, an exciting space to keep an eye on in order to deliver your content faster and keep end-users happily enjoying your sites and applications.</p>
+]]></description><link>http://custardbelly.com/blog/blog-posts/2014/obsession-over-page-speed.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/obsession-over-page-speed.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Mon, 06 Jan 2014 00:00:00 GMT</pubDate></item><item><title><![CDATA[The Making of a Test-Driven Grocery List Application in JS: Part X]]></title><description><![CDATA[<p><em>This is the tenth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
 <h2 id="introduction">Introduction</h2>
 <p>When we last left, we properly modified <code>list-controller</code> to support event notification upon change to its collection as well as created a <code>storage-service</code> communication layer with <code>localStorage</code>. That gave us some great passing tests, but nothing to show off as the service was not integrated into the <strong>Grocery List</strong> application. In this article, we’ll do just that, but…</p>
 <h2 id="before-we-hook-up-list-controller-events-to-storage-service-operations-">Before we hook up list-controller events to storage-service operations…</h2>
@@ -5656,298 +5713,4 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 <h2 id="post-series">Post Series</h2>
 <p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Mon, 17 Dec 2012 00:00:00 GMT</pubDate></item><item><title><![CDATA[The Making of a Test-Driven Grocery List Application in JS: Part III]]></title><description><![CDATA[<p><em>This is the third installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
-<h1 id="introduction">Introduction</h1>
-<p>In the <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/">previous article</a>, I addressed adding the first feature to the <strong>Grocery List</strong> application: <em>Add Item</em>. Trying my best to adhere to the TDD/BDD philosophy, a story and a couple scenarios were drummed up prior to implementation development using language similar to that described in <a href="http://dannorth.net/introducing-bdd/">Dan Worth’s Introducing BDD article</a>. Once passing, the code written within the test was moved to its own file(s) with dependencies updated in the specs and tests run again to confirm passing against the implementations.</p>
-<p>I will take the same approach in adding a new feature in this article: <em>Mark-Off Item</em>. </p>
-<p>I suspect, however, that I may actually end up creating stories for more of what can be considered <em>integration</em>. Since the last post, I stumbled upon a <a href="http://chrismdp.com">great blog from Chris Parsons</a> that covers BDD (with a bend toward Cucumber), and in particular the article <a href="http://chrismdp.com/2012/11/the-integration-testing-trap/">Cucumber: the integration test trap</a> provided some great insight into the difference between acceptance and integration testing. In the previous article, I suppose more of what was done could be considered acceptance testing. Some implementation details are testing against in the <em>Add-Item</em> feature (for instance, the item API on the list-controller), but I sort of threw in extra code and UX/UI implementation details at the end just so I could make sure the code was actually usable in a real-life scenario. At the time, I felt that writing specs for the integration of features – what i consider more fine-grained in testing that an element is added to the DOM upon an API call – would muddle down the intent of this series. I might take back that assumption. That may lead to longer posts… you have been forewarned <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
-<h1 id="mark-off-feature">Mark-Off Feature</h1>
-<p>There are basically 3 states to an item in the grocery store: </p>
-<ol>
-<li>unpossessed</li>
-<li>unpurchased</li>
-<li>owned</li>
-</ol>
-<p>Once owned… well it either gets eaten or is freed into the wild – through those seemingly impenetrable automatic doors of unpurchased state, into the world of natural lighting. As well, prior to own-ed-ship, the item is in limbo as to whether or not it can reach that state – it might be placed back on the shelf to be forever unpossessed again. (You don’t want me to go over the possessed state.) Not unlike the life a a loaf of bread in a store, so too are the states of the grocery list items of the <strong>Grocery List</strong> application.</p>
-<p>By adding an item – the feature completed in the <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">previous article</a> – a User has essentially identified an item not in possession, with the end goal of being owned. As a User of the application, we want to be able to denote the item as being in possession, but not purchased. The unpurchased state will notify other Users of the list that it no longer needs to be obtained. However, it will still be allowed to be unmarked and back to unpossessed – say if someone got <strong>Miracle Whip</strong> mayo instead of <strong>Helmann’s</strong> (whole ‘nother argument).</p>
-<p>So we have essentially defined the feature for this post in the series: being able to mark and unmark an item added to the grocery list.</p>
-<p><em>// story</em><br>—<br><strong>Story:</strong> Item is marked off on grocery list</p>
-<p><strong>In order to</strong> remember what items have already made it to the cart<br><strong>As a</strong> grocery shopper<br><strong>I want to</strong> mark an item as being attained on the grocery list.<br>—</p>
-<p>Similarly, since the item will still be available from the <strong>Grocer List</strong> application and only considered marked off, we could write up another story of being able to unmark an item from the list. For brevity’s sake, I should probably do that and if we were actually incorporating DSLs and tools that would facilitate in BDD testing, I probably would. But for the sake of this article, we’ll leave that as an added scenario to this feature.</p>
-<p><em>// spec</em><br>—<br><strong>Scenario 1:</strong> Item is marked off on grocery list<br><strong>Given</strong> a user has saved an item to the list<br><strong>When</strong> she requests to mark off the item<br><strong>Then</strong> the item is presented differently to the user, denoting in possession<br><strong>And</strong> the item is not removed from the list<br>—</p>
-<p>Okay. I’ll admit. The desired outcome from that scenario is a little vague. But the scenarios I am writing – as discussed before, after having read <a href="http://chrismdp.com/2012/11/the-integration-testing-trap/">this article from Chris Parsons</a> – are more loosely acceptance criteria. As a developer, it makes me squirm a little because I know there is much more that can be described in this scenario, especially as it pertains to UI and UX. Aspects such as those can be considered more as integration points and I may circle back for more scenarios involving more of what we, as developers, are affirming in our tests (ie, design and functionality).</p>
-<p>Anyway, undoing as well:</p>
-<p><em>// spec</em><br>—<br><strong>Scenario 2:</strong> Item is un-marked off on grocery list<br><strong>Given</strong> a user has saved an item to the list<br><strong>And</strong> she has marked off an item<br><strong>When</strong> she requests to un-mark off the item<br><strong>Then</strong> the item is presented to the user as not being in possession<br><strong>And</strong> the item is not removed from the list<br>—</p>
-<p>Basically, we are defining an item of the <strong>Grocery List</strong> application as a toggle control. Now, I can sum that up in a tiny single sentence and wave my hand, but I think we will find that there is a lot more to that statement as we start writing our tests and ultimately will change the design of the application – fo the better, I hope!</p>
-<h2 id="test">Test</h2>
-<p>To start, the story in question and described above adds to the API of the <em>list-controller</em> we defined and created in the <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">previous article</a>. The <em>list-controller</em> will need to expose a way to mark off an item that is saved to the list, and a way to unmark an item that was previously marked. As I see it, that’s two new methods – let’s call them <em>markOffItem</em> and <em>unmarkOffItem</em>. Let’s flesh them out and their signatures in a new spec for this feature:</p>
-<p><em>/test/jasmine/spec/markitem.spec.js</em></p>
-<pre><code>define([<span class="string">'script/controller/list-controller'</span>], <span class="keyword">function</span>(listController) {
-
-
-
-  describe(<span class="string">'User Requests to mark-off existing item'</span>, <span class="keyword">function</span>() {
-
-
-
-    var name = <span class="string">'apples'</span>,
-
-        savedItem,
-
-        markOffSpy,
-
-        unmarkOffSpy;
-
-
-
-    beforeEach( <span class="keyword">function</span>() {
-
-      listController.createNewItem();
-
-      listController.editFocusedItem(name);
-
-      listController.saveFocusedItem();
-
-
-
-      savedItem = listController.itemList[listController.itemList.length-<span class="number">1</span>];
-
-
-
-      markOffSpy = spyOn(listController, <span class="string">"markOffItem"</span>).andCallThrough();
-
-      unmarkOffSpy = spyOn(listController, <span class="string">"unmarkOffItem"</span>).andCallThrough();
-
-    });
-
-
-
-    <span class="keyword">...</span>
-
-
-
-    afterEach( <span class="keyword">function</span>() {
-
-      savedItem = undefined;
-
-      markOffSpy.reset();
-
-      unmarkOffSpy.reset();
-
-      listController.itemList = [];
-
-      listController.editableItem = undefined;
-
-    });
-
-
-
-  });
-
-
-
-});</code></pre>
-<p>I wanted to start off this test example with just showing to setup and teardown for the feature as it introduces the concept of spies. The <em>beforeEach()</em> of the above specification suite starts off similarly to the other spec we created for the <em>Add Item</em> feature – create, edit and save an item on the <em>list-controller</em>. Following that, and specifically on line 17 and 18, we create spies for the API modifications we are making on the <em>list-controller</em> in order to add the <em>Mark Off Item</em> feature – <em>markOffItem()</em> and <em>unmarkOffItem()</em>. Spies, in as far as they are used in this instance, are essentially wrappers on a function that can record invocation calls and provide another API to facilitate in affirming expectations of how a method should be used. If you are unfamiliar with spies, both <a href="https://github.com/pivotal/jasmine/wiki/Spies">Jasmine</a> and <a href="http://sinonjs.org/docs/#spies">Sinon</a> have some great documentation.</p>
-<p>The spies are defined to “call through” to the function implementation on the <em>list-controller</em>, as well. This will allow for the benefit of recording invocation and defining expectations of the actual implementation. Before we get into the real implementation, let’s take a look at the first spec for this test – marking off an item:</p>
-<p><em>/test/jasmine/spec/markitem.spec.js</em></p>
-<pre><code>it(<span class="string">'should denote item as being in possession'</span>, <span class="keyword">function</span>() {
-
-  <span class="keyword">var</span> previouslySavedItem = savedItem,
-
-      savedItemID = savedItem.id,
-
-      savedItemSpy = sinon.spy();
-
-
-
-  savedItemSpy(previouslySavedItem);
-
-  listController.markOffItem(savedItemID);
-
-
-
-  <span class="comment">// spy expectations.</span>
-
-  expect(markOffSpy).toHaveBeenCalled();
-
-  expect(markOffSpy).toHaveBeenCalledWith(savedItemID);
-
-
-
-  <span class="comment">// model expectations.</span>
-
-  expect(previouslySavedItem.hasOwnProperty(<span class="string">'marked'</span>)).toBe(<span class="literal">true</span>);
-
-  expect(previouslySavedItem.marked).toBe(<span class="literal">true</span>);
-
-  <span class="comment">// OR &gt;</span>
-
-  sinon.assert.calledWith(savedItemSpy, sinon.match.hasOwn(<span class="string">'marked'</span>, <span class="literal">true</span>));
-
-});</code></pre>
-<p>With this spec, we are affirming the signature of <em>markOffItem()</em> method on the <em>list-controller</em>, as well as revealing the need for modifications to the attributes on the model of a grocery list item. I wanted to highlight how the <em>markOffSpy()</em> is being used in expectations, and – though not technically needed – also maybe provide some intrigue (hopefully not confusion) in using spies from <a href="http://sinonjs.org">SinonJS</a> as well.</p>
-<p>The following expectations, taken from the above spec, facilitate more in describing how <em>listController.markOffItem()</em> is to be used in the application, particularly that the method should be called with only one argument and that being an ID of an item from the list :</p>
-<pre><code><span class="function"><span class="title">expect</span><span class="params">(mark<span class="variable">OffSpy</span>)</span>.<span class="title">toHaveBeenCalled</span><span class="params">()</span>;
-
-<span class="title">expect</span><span class="params">(mark<span class="variable">OffSpy</span>)</span>.<span class="title">toHaveBeenCalledWith</span><span class="params">(saved<span class="variable">ItemID</span>)</span>;</code></pre>
-<p>Some may say that such expectations are superfluous, and in some ways I do agree. Essentially, this line already defines its usage:</p>
-<pre><code>listController<span class="preprocessor">.markOffItem</span>(savedItemID)<span class="comment">;</span></code></pre>
-<p>If the test didn’t cough at that line, that we can relatively assume the expectations called into question. To each his own, however. In fact, part of me thinks I should go <em>even more</em> overboard – ensuring only one argument was called, that it was of the same type as the id attribute on the model, etc. Anyway, after the expectations on the spy, we verify an update to the model on an attribute we have yet to define as well. From this test, we have defined it as being a boolean value and accessible on the <em>marked</em> property. I included a spy created using <a href="http://sinonjs.org">SinonJS</a> as well, just to show off it’s capabilities and compare and contrast testing on the new attribute of the model:</p>
-<pre><code>var previouslySavedItem = savedItem,
-
-      savedItemSpy = sinon.spy();
-
-savedItemSpy(previouslySavedItem);
-
-<span class="keyword">...</span>
-
-sinon.assert.calledWith(savedItemSpy, sinon.match.hasOwn(<span class="string">'marked'</span>, true));</code></pre>
-<p>A spy is created on the model object, and after marking it off through the <em>list-controller</em> API, it is verified as being of type boolean and value of true using a sinon assert. Neat stuff. In this case, I probably would have just stuck with the <strong>Jasmine</strong> expectations, but I wanted to show you the power of <strong>SinonJS</strong> as it can provide a more robust testing API.</p>
-<p>Rambling on. There’s still two other specifications we need to cover in this suite:</p>
-<p><em>/test/jasmine/spec/markitem.spec.js</em></p>
-<pre><code><span class="keyword">it</span>('should retain <span class="keyword">the</span> <span class="property">item</span> <span class="keyword">in</span> <span class="keyword">the</span> grocery <span class="type">list</span>', function() {
-
-  listController.markOffItem(savedItem.<span class="property">id</span>);
-
-
-
-  expect(listController.itemList.<span class="property">length</span>).toBe(<span class="number">1</span>);
-
-  expect(listController.itemList.indexOf(savedItem)).toBe(<span class="number">0</span>);
-
-});
-
-
-
-<span class="keyword">it</span>('should have marked-off <span class="property">item</span> available <span class="keyword">to</span> unmark-off', function() {
-
-  var previouslySavedItem = savedItem,
-
-      savedItemID = savedItem.<span class="property">id</span>;
-
-
-
-  listController.markOffItem(savedItem.<span class="property">id</span>);
-
-  listController.unmarkOffItem(savedItem.<span class="property">id</span>);
-
-
-
-  // stubbed expectations.
-
-  expect(unmarkOffSpy).toHaveBeenCalled();
-
-  // model expectations.
-
-  expect(previouslySavedItem.marked).<span class="keyword">not</span>.toBe(<span class="constant">true</span>);
-
-});</code></pre>
-<p>These specs define the expectations of the list remaining unmodified when marking off an item, and that the model is updated appropriately when unmarking off an item through the <em>list-controller</em> API, respectively. </p>
-<p>[note]<br><em>I am using Array.prototype.indexOf in the first spec from the previous example. That didn’t make <a href="https://developer.mozilla.org/en-US/docs/JavaScript/New_in_JavaScript/1.6">an appearance until JavaScript 1.6</a> and as such is not implemented in some older browsers (i have no &lt;3 for IE&lt;9). As I mentioned in the first article of this series, I am taking for granted that the application will be viewed on modern browsers, and in particular modern mobile browsers.</em>  </p>
-<h3 id="failing">Failing</h3>
-<p>If you added this spec to the spec runner like so:</p>
-<p><em>/test/jasmine/specrunner.html</em></p>
-<pre><code><span class="keyword">require</span>( [<span class="string">'spec/newitem.spec.js'</span>, <span class="string">'spec/markitem.spec.js'</span>], <span class="keyword">function</span>() {
-
-  var jasmineEnv = jasmine.getEnv(),
-
-       <span class="keyword">...</span>
-
-  jasmineEnv.execute();
-
-});</code></pre>
-<blockquote>
-<p>it will fail. miserably. But that’s okay! That’s expected. Spies require an actual implementation on the object you are spying, and if you recall from the first spec described, we actually request a call through on the implementation in order to verify expected functionality. </p>
-</blockquote>
-<p>Let’s get to the <em>list-controller</em> and <em>grocery-ls-item</em> model, as those are the two items addressed in the latest spec suite as needing modifications to pass.</p>
-<h2 id="implementation">Implementation</h2>
-<p>In our Mark Off Item spec suite, we identified two additions to the API of the list-controller. Those methods are:</p>
-<ul>
-<li><ul>
-<li>markOffItem( itemID )</li>
-</ul>
-</li>
-<li><ul>
-<li>unmarkOffItem( itemID )</li>
-</ul>
-</li>
-</ul>
-<p>The first instinct is to just add these to the <em>list-controller</em> object and add an internal method that traverses the held <em>itemList</em> array to locate models that have the passed <em>itemID</em> value. Not a bad instinct, and something of the following would get the tests passing:</p>
-<p><em>/script/controller/list-controller.js</em></p>
-<pre><code><span class="attribute">markOffItem</span>: <span class="string">function(itemID) {</span>
-
-<span class="applescript">  var <span class="property">item</span> = findItemByID(itemID, this.itemList),
-
-        renderer = findRendererByItem(<span class="property">item</span>, $itemList.children());
-
-  <span class="property">item</span>.marked = <span class="constant">true</span>;
-
-  $(renderer).css('<span class="type">text</span>-decoration', 'line-<span class="keyword">through</span>');
-
-},
-
-unmarkOffItem: function(itemID) {
-
-  var <span class="property">item</span> = findItemByID(itemID, this.itemList),
-
-        renderer = findRendererByItem(<span class="property">item</span>, $itemList.children());
-
-  <span class="property">item</span>.marked = <span class="constant">false</span>;
-
-  $(renderer).css('<span class="type">text</span>-decoration', 'none');
-
-}</span></code></pre>
-<p><em>&gt; where findByItemID() locates the model associated with the itemID within the itemList array and findRendererByItem() locates the DOM element associated with the model.</em></p>
-<p>If you were to run that, the tests would pass. Well, technically, if you left that bit in there where a <a href="http://sinonjs.org">SinonJS</a> spy was asserting on the model, it would not pass. But if you took that out, all green. Even without modifying the <em>grocery-ls-item</em> model… such is the dynamic nature of JavaScript. For brevities sake, let’s add the marked property to the Object.defineProperties object upon creation of a new model:</p>
-<p><em>/script/model/grocery-ls-item.js</em></p>
-<pre><code>var properties = function(id) {
-
-    return {
-
-      <span class="comment">"id"</span>: {
-
-        <span class="method">value:</span> id,
-
-        <span class="method">writable:</span> <span class="keyword">false</span>,
-
-        <span class="method">enumerable:</span> <span class="keyword">true</span>
-
-      },
-
-      <span class="comment">"name"</span>: {
-
-        <span class="method">value:</span> <span class="string">''</span>,
-
-        <span class="method">writable:</span> <span class="keyword">true</span>,
-
-        <span class="method">enumerable:</span> <span class="keyword">true</span>
-
-      },
-
-      <span class="comment">"marked"</span>: {
-
-        <span class="method">value:</span> <span class="keyword">false</span>,
-
-        <span class="method">writable:</span> <span class="keyword">true</span>,
-
-        <span class="method">enumerable:</span> <span class="keyword">true</span>
-
-      }
-
-    };
-
-  };</code></pre>
-<p><img src="http://custardbelly.com/blog/images/tdd_js/part_iii_1.png" alt="passing mark-off item spec"><br><img src="http://custardbelly.com/blog/images/tdd_js/part_iii_app_1.png" alt="grocery list app with mark off"></p>
-<p><strong>Tagged</strong>: 0.1.3 <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.3"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.3">https://github.com/bustardcelly/grocery-ls/tree/0.1.3</a></a></p>
-<h2 id="before-you-leave-">Before you leave!</h2>
-<p>I am not satisfied with the current state of the <em>list-controller</em>; it has far too much responsibility in managing list item renderers and models and lacks the finer details to properly keep the 1:1 relationship that renderers have to their models. We could just throw more code in there, more tests and let it grow into this gross beast, but I really think it is up for a good refactor.</p>
-<p>So, that is what I have planned for the next article. We’ll refactor the <em>list-controller</em> to have less responsibility in managing each <em>grocery-ls-item</em> model and pass that off to a new <em>list-item-controller</em>. In fact, I already have started upon such a refactor and had included most of it in this article, but I felt it was getting too long (as usual) and taking away from the <em>Mark Off Item</em> feature presented here.</p>
-<p>Until then, you have passing tests and a functioning <strong>Grocery List</strong> application to play with if you <a href="https://github.com/bustardcelly/grocery-ls">check it out of the repo</a>.</p>
-<p>—</p>
-<h1 id="link-dump">Link Dump</h1>
-<h2 id="post-series">Post Series</h2>
-<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
-<h2 id="reference">Reference</h2>
-<p><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://chrismdp.com/2012/11/the-integration-testing-trap/">Cucumber: the integration test trap by Crhis Parsons</a><br>Testing spies for <a href="https://github.com/pivotal/jasmine/wiki/Spies">Jasmine</a> and <a href="http://sinonjs.org/docs/#spies">Sinon</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a><br>the <a href="http://www.flickr.com/photos/unitzeroone/4721521533/">infamous</a> <a href="http://bit-101.com">eye-roller</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Thu, 06 Dec 2012 00:00:00 GMT</pubDate></item></channel></rss>
+]]></description><link>http://custardbelly.com/blog/blog-posts/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Mon, 17 Dec 2012 00:00:00 GMT</pubDate></item></channel></rss>

@@ -13,7 +13,7 @@ Up until recent years I was primarily concerned with code performance; rendering
 
 Perhaps it is due the increasing work of web-based clients over desktop or native applications, but - if I am being honest - I never really paid attention to load time for older web-based application projects for several reasons:
 
-* Flash plugin (preload, skip intro, )
+* Flash plugin (preload, skip intro)
 * Desktop browser targets
 * Blind naivete
 
@@ -54,7 +54,7 @@ Typically I stick to opening and running [PageSpeed](https://developers.google.c
 ## Integrating Performance Reporting in Workflow
 Running analysis using tools desribed above is a great way to see some metrics and determine what solutions to take to better the load performance of you site/application, but I like to automate all the things when I can as well as provide reporting to Continuous Integration servers so that we can document progress or failures. To provide such value, I am a strong proponent of using [sitespeed.io](http://www.sitespeed.io/).
 
-I have nothing bad to say about [sitespeed.io](http://www.sitespeed.io/). It's built on top of [PhantomJS](https://github.com/ariya/phantomjs), [yslow](https://github.com/marcelduran/yslow/), [browsertime](https://github.com/tobli/browsertime) and [bootstrap](https://github.com/twbs/bootstrap/). You can alternatively use the [yslow script for PhantomJS](http://yslow.org/phantomjs/) if you want something more stripped down, but [sitespeed.io](http://www.sitespeed.io/) generates a nice set of web documents that provide performance summaries along with being able to produce a __-JUnit](http://www.sitespeed.io/documentation/#junit)__ report for CI.
+I have nothing bad to say about [sitespeed.io](http://www.sitespeed.io/). It's built on top of [PhantomJS](https://github.com/ariya/phantomjs), [yslow](https://github.com/marcelduran/yslow/), [browsertime](https://github.com/tobli/browsertime) and [bootstrap](https://github.com/twbs/bootstrap/). You can alternatively use the [yslow script for PhantomJS](http://yslow.org/phantomjs/) if you want something more stripped down, but [sitespeed.io](http://www.sitespeed.io/) generates a nice set of web documents that provide performance summaries along with being able to produce a __[JUnit](http://www.sitespeed.io/documentation/#junit)__ report for CI.
 
 The documentation for __sitespeed.io__ is thorough and easy to follow along and the [configuration options](http://www.sitespeed.io/documentation/#configuration) are insanely helpful in finding possible pages on your site that may be of issue.
 

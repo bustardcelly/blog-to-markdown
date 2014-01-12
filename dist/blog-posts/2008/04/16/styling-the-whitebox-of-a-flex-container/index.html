@@ -63,23 +63,23 @@
 <p>Fine by me… the problem i have is that the color of whiteBox is hard-coded ( to #FFFFFF ). Super! I guess if you name something with a prefix that is a color, you have to hard-code the actual color it will be using to draw… </p>
 <p>There is an easy work-around by just creating a subclass of Canvas and overriding the updateDisplayList() method to remove whiteBox, but it seems kind of hackish, especially if it is going to be added each time the vert and horiz scrollbars are added to the display and then i have to remove it again.</p>
 <p>Here’s an example of how i resolved my issue:</p>
-<pre><code><span class="package"><span class="keyword">package</span>
+<pre><code><span class="hljs-package"><span class="hljs-keyword">package</span>
 {</span>
-    <span class="preprocessor"><span class="keyword">import</span> mx.containers.Canvas;</span>
+    <span class="hljs-preprocessor"><span class="hljs-keyword">import</span> mx.containers.Canvas;</span>
 
-    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NoWhiteBoxContainer</span> <span class="keyword">extends</span> <span class="title">Canvas</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NoWhiteBoxContainer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Canvas</span>
     {</span>
-        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">NoWhiteBoxContainer</span><span class="params">()</span> {</span>    <span class="keyword">super</span>(); }
+        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">NoWhiteBoxContainer</span><span class="hljs-params">()</span> {</span>    <span class="hljs-keyword">super</span>(); }
 
-        <span class="keyword">override</span> <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">updateDisplayList</span><span class="params">( unscaledWidth:Number, unscaledHeight:Number )</span><span class="type">:void</span>
+        <span class="hljs-keyword">override</span> <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">updateDisplayList</span><span class="hljs-params">( unscaledWidth:Number, unscaledHeight:Number )</span><span class="hljs-type">:void</span>
         {</span>
-            <span class="keyword">super</span>.updateDisplayList( unscaledWidth, unscaledHeight );
+            <span class="hljs-keyword">super</span>.updateDisplayList( unscaledWidth, unscaledHeight );
 
-            <span class="keyword">if</span>( whiteBox ) rawChildren.removeChild( whiteBox );
+            <span class="hljs-keyword">if</span>( whiteBox ) rawChildren.removeChild( whiteBox );
         }
     }
-}</code></pre>
-<p>Nothing extremely complicated, but it would have been nice to just set a style property or for the fill color to inherit from the backgroundColor property. ah well… Hopefully someone may find this post if they are wondering what to do with that white box.</p>
+}
+</code></pre><p>Nothing extremely complicated, but it would have been nice to just set a style property or for the fill color to inherit from the backgroundColor property. ah well… Hopefully someone may find this post if they are wondering what to do with that white box.</p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/flex/">Flex</a>.</p>
 
   </section>

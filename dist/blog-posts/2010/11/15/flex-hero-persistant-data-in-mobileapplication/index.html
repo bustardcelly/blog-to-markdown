@@ -71,19 +71,19 @@
 <p><del><strong>PC</strong>: I don’t know.</del></p>
 <p><strong>PC</strong>: (Window 7): C:\Users{user}\AppData\Roaming{project.name}/<br>LocalStore/#SharedObjects/{project.name}.swf/FXAppCache.sol <em>[ED: Thanks, <a href="http://www.gread.net/devdesign/">Dennis</a>!]</em></p>
 <p>Seeing as we are storing data out of the application, when employing the <strong>PersistanceManager</strong> we intend to serialize some state information to be used throughout the life of the application (from installation to un-installation). In order to enable a <strong>MobileApplication</strong> to use persistant data in such a way, you need to set <em>sessionCachingEnabled</em> to <em>true</em>:</p>
-<pre><code><span class="tag">&lt;<span class="title">s</span> <span class="attribute">:MobileApplication</span> <span class="attribute">xmlns:fx</span>=<span class="value">"http://ns.adobe.com/mxml/2009"</span> 
-                     <span class="attribute">xmlns:s</span>=<span class="value">"library://ns.adobe.com/flex/spark"</span> 
-                     <span class="attribute">firstView</span>=<span class="value">"MyHome"</span> 
-                     <span class="attribute">sessionCachingEnabled</span>=<span class="value">"true"</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">s</span>&gt;</span></code></pre>
-<p>In brief, that will enable the application to invoke serialization and deserialization of state data when exiting and entering new <strong>View</strong> instances, respectively; those methods mentioned previously when explaining <strong>View</strong>. Enabling session caching in your <strong>MobileApplication</strong> also allows for event handling of the following events when the application is initializing and deactivated:</p>
-<pre><code><span class="comment">/* dispatched in MobileApplication +initialize() */</span>
-FlexEvent<span class="variable">.APPLICATION_RESTORING</span>
-FlexEvent<span class="variable">.APPLICATION_RESTORE</span>
-<span class="comment">/* dispatched in MobileApplication -applicationDeactivateHandler() */</span>
-FlexEvent<span class="variable">.APPLICATION_PERSISTING</span>
-FlexEvent<span class="variable">.APPLICATION_PERSIST</span></code></pre>
-<p>Those events are fired on startup and close of the application. Do with them what you will, but the real magic happens when creating and destroying <strong>View</strong> objects within the <strong>ViewNavigator</strong> of an application session.</p>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">s</span> <span class="hljs-attribute">:MobileApplication</span> <span class="hljs-attribute">xmlns:fx</span>=<span class="hljs-value">"http://ns.adobe.com/mxml/2009"</span> 
+                     <span class="hljs-attribute">xmlns:s</span>=<span class="hljs-value">"library://ns.adobe.com/flex/spark"</span> 
+                     <span class="hljs-attribute">firstView</span>=<span class="hljs-value">"MyHome"</span> 
+                     <span class="hljs-attribute">sessionCachingEnabled</span>=<span class="hljs-value">"true"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">s</span>&gt;</span>
+</code></pre><p>In brief, that will enable the application to invoke serialization and deserialization of state data when exiting and entering new <strong>View</strong> instances, respectively; those methods mentioned previously when explaining <strong>View</strong>. Enabling session caching in your <strong>MobileApplication</strong> also allows for event handling of the following events when the application is initializing and deactivated:</p>
+<pre><code><span class="hljs-comment">/* dispatched in MobileApplication +initialize() */</span>
+FlexEvent<span class="hljs-preprocessor">.APPLICATION</span>_RESTORING
+FlexEvent<span class="hljs-preprocessor">.APPLICATION</span>_RESTORE
+<span class="hljs-comment">/* dispatched in MobileApplication -applicationDeactivateHandler() */</span>
+FlexEvent<span class="hljs-preprocessor">.APPLICATION</span>_PERSISTING
+FlexEvent<span class="hljs-preprocessor">.APPLICATION</span>_PERSIST
+</code></pre><p>Those events are fired on startup and close of the application. Do with them what you will, but the real magic happens when creating and destroying <strong>View</strong> objects within the <strong>ViewNavigator</strong> of an application session.</p>
 <h3 id="viewnavigator">ViewNavigator</h3>
 <p>The <strong>ViewNavigator</strong> member of <strong>MobileApplication</strong> is actually a skin part and is instantiated in <em>MobileApplicationSkin.as</em>. It is an ActionScript file in the SDK (as opposed to MXML which most <strong>Spark</strong> skins are) i suppose in the hopes that if you do create a custom skin for <strong>MobileApplication</strong>, you extend <strong>MobileApplicationSkin</strong>. That’s a whole ‘nother topic… back to the role of <strong>ViewNavigator</strong>. The <strong>ViewNavigator</strong>, while providing some visual elements in relation to action bar content, serves as a manager for a collection of <strong>View</strong> objects. The top-most <strong>View</strong> is visible and active, while any other View objects are represented by a data object. Meaning, each time a <strong>View</strong> is added to the display list (via <em>pushView</em>()), an instance of it its class is instantiated. Each time a <strong>View</strong> is removed from the display list (via <em>popView</em>() or <em>pushView</em>()) its instance is destroyed, but its data model is stored in memory.</p>
 <p>It should be noted that once the <em>first</em> new instance of a <strong>View</strong> class is instantiated, it is first notified to handle any persistent data (previously serialized) through <strong>View</strong>:<em>deserializePersistedData</em>(). If there is persistent data available, that data is handed along to the new <strong>View</strong> instance through the <em>data</em> property. Any subesequent instantiations of the same <strong>View</strong> class within the same application session will not be requested to deserialize persistent data and will just be given its data model through the <em>data</em> property. The reason being that the the <strong>View</strong> has already been re-activated previously with any persisted data and data currently relates to the session. Now any new state must be updated on the <em>data</em> property for the rest of the application session and if required for restart of the application at a later date.</p>

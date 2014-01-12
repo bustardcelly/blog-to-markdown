@@ -66,158 +66,158 @@
 <h3 id="tests">Tests</h3>
 <p>First we’ll include all our tests in our <em>specrunner</em> again as changes to <code>list-controller</code> may impact tests across multiple specs. And while we are poking around, let’s add a spec suite for <code>setItems()</code> on the <code>list-controller</code> and watch it fail:</p>
 <p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
-<pre><code><span class="function"><span class="title">describe</span><span class="params">(<span class="function_name">'setItems</span>()', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+<pre><code><span class="hljs-function">describe(<span class="hljs-string">'setItems()'</span>, <span class="hljs-function">function()</span> {
 
 
 
-  var item<span class="variable">One</span> = model<span class="variable">Factory</span>.<span class="function_name">create</span>(),
+  var itemOne = modelFactory.<span class="hljs-function">create()</span>,
 
-      item<span class="variable">Two</span> = model<span class="variable">Factory</span>.<span class="function_name">create</span>();
-
-
-
-  <span class="function_name">beforeEach</span>( <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
-
-    item<span class="variable">One</span>.name = 'apples';
-
-    item<span class="variable">Two</span>.name = 'oranges';
-
-    list<span class="variable">Controller</span>.<span class="function_name">setItems</span>([item<span class="variable">One</span>, item<span class="variable">Two</span>]);
-
-  }</span>);
+      itemTwo = modelFactory.<span class="hljs-function">create()</span>;
 
 
 
-  <span class="function_name">afterEach</span>( <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+  <span class="hljs-function">beforeEach( <span class="hljs-function">function()</span> {
 
-    list<span class="variable">Controller</span>.<span class="function_name">getItemList</span>().<span class="function_name">removeAll</span>();
+    itemOne.name = <span class="hljs-string">'apples'</span>;
 
-  }</span>);
+    itemTwo.name = <span class="hljs-string">'oranges'</span>;
 
+    listController.<span class="hljs-function">setItems([itemOne, itemTwo])</span>;
 
-
-  <span class="function_name">it</span>('should fill list with provided items', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
-
-    var items = list<span class="variable">Controller</span>.<span class="function_name">getItemList</span>();
-
-    <span class="function_name">expect</span>(items.<span class="function_name">itemLength</span>()).<span class="function_name">toEqual</span>(<span class="number">2</span>);
-
-    <span class="function_name">expect</span>(items.<span class="function_name">getItemAt</span>(<span class="number">0</span>)).<span class="function_name">toBe</span>(item<span class="variable">One</span>);
-
-    <span class="function_name">expect</span>(items.<span class="function_name">getItemAt</span>(<span class="number">1</span>)).<span class="function_name">toBe</span>(item<span class="variable">Two</span>);
-
-  }</span>);
+  })</span>;
 
 
 
-});</code></pre>
-<p>This simple first spec tells us that an array of items can be provided to the <code>list-controller</code> using <code>setItems()</code> and should be accessible by its collection. And we fail with no surprises:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_17.png" alt="Failing on setItems of list-controller"></p>
+  <span class="hljs-function">afterEach( <span class="hljs-function">function()</span> {
+
+    listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">removeAll()</span>;
+
+  })</span>;
+
+
+
+  <span class="hljs-function">it(<span class="hljs-string">'should fill list with provided items'</span>, <span class="hljs-function">function()</span> {
+
+    var items = listController.<span class="hljs-function">getItemList()</span>;
+
+    <span class="hljs-function">expect(items.<span class="hljs-function">itemLength()</span>)</span>.<span class="hljs-function">toEqual(<span class="hljs-number">2</span>)</span>;
+
+    <span class="hljs-function">expect(items.<span class="hljs-function">getItemAt(<span class="hljs-number">0</span>)</span>)</span>.<span class="hljs-function">toBe(itemOne)</span>;
+
+    <span class="hljs-function">expect(items.<span class="hljs-function">getItemAt(<span class="hljs-number">1</span>)</span>)</span>.<span class="hljs-function">toBe(itemTwo)</span>;
+
+  })</span>;
+
+
+
+})</span>;
+</code></pre><p>This simple first spec tells us that an array of items can be provided to the <code>list-controller</code> using <code>setItems()</code> and should be accessible by its collection. And we fail with no surprises:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_17.png" alt="Failing on setItems of list-controller"></p>
 <h3 id="list-controller-modification">list-controller modification</h3>
 <p>Throughout this series I have employed a quasi-<a href="http://coderetreat.org/facilitating/activities/tdd-as-if-you-meant-it"><em>“TDD as if you mean it”</em></a> approach when creating new components and modifying the API on existing ones. With this modification to the <code>list-controller</code>, I am going to stick to getting the tests to pass by modifying the <code>list-controller</code> directly as I feel it is going to get a little more involved and will require some refactoring that would be better suited by focusing on true implementation.</p>
 <p>With that said, let’s modify <code>list-controller</code> to get that new spec passing:</p>
 <p><em>/script/controller/list-controller.js</em></p>
 <pre><code>listController = {
 
-  $view: <span class="literal">undefined</span>,
+  $view: <span class="hljs-literal">undefined</span>,
 
-  getItemList: <span class="keyword">function</span>() {
+  getItemList: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-    <span class="keyword">return</span> collection;
+    <span class="hljs-keyword">return</span> collection;
 
   },
 
-  getRendererFromItem: <span class="keyword">function</span>(item) {
+  getRendererFromItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
 
-    <span class="keyword">var</span> i = rendererList.itemLength(),
+    <span class="hljs-keyword">var</span> i = rendererList.itemLength(),
 
         renderer;
 
-    <span class="keyword">while</span>( --i &gt; -<span class="number">1</span> ) {
+    <span class="hljs-keyword">while</span>( --i &gt; -<span class="hljs-number">1</span> ) {
 
       renderer = rendererList.getItemAt(i);
 
-      <span class="keyword">if</span>(renderer.model === item) {
+      <span class="hljs-keyword">if</span>(renderer.model === item) {
 
-        <span class="keyword">return</span> renderer;
+        <span class="hljs-keyword">return</span> renderer;
 
       }
 
     }
 
-    <span class="keyword">return</span> <span class="literal">undefined</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
 
   },
 
-  createNewItem: <span class="keyword">function</span>() {
+  createNewItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-    <span class="keyword">var</span> model = modelFactory.create();
+    <span class="hljs-keyword">var</span> model = modelFactory.create();
 
     collection.addItem(model);
 
-    <span class="keyword">return</span> model;
+    <span class="hljs-keyword">return</span> model;
 
   },
 
-  removeItem: <span class="keyword">function</span>(item) {
+  removeItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
 
-    <span class="keyword">return</span> collection.removeItem(item);
-
-  },
-
-  setView: <span class="keyword">function</span>(view) {
-
-    <span class="keyword">this</span>.$view = (view <span class="keyword">instanceof</span> $) ? view : $(view);
+    <span class="hljs-keyword">return</span> collection.removeItem(item);
 
   },
 
-  setItems: <span class="keyword">function</span>(items) {
+  setView: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(view)</span> {</span>
+
+    <span class="hljs-keyword">this</span>.$view = (view <span class="hljs-keyword">instanceof</span> $) ? view : $(view);
+
+  },
+
+  setItems: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(items)</span> {</span>
 
     collection = collectionFactory.create(items);
 
   }
 
-};</code></pre>
-<p>Well, that was easy enough!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_18.png" alt="Passing on setItems() of list-controller"></p>
+};
+</code></pre><p>Well, that was easy enough!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_18.png" alt="Passing on setItems() of list-controller"></p>
 <h3 id="tests">Tests</h3>
 <p>Not so fast… I think our single spec may be deceiving our expectations. Let’s add a few more and make sure we are on the right path. To start, we expect changes to these new models to propagate events when it is modified – such as in the work we have done previously.</p>
 <p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
-<pre><code>async.<span class="keyword">it</span>('should dispatch events <span class="keyword">of</span> <span class="keyword">property</span>-change <span class="keyword">from</span> provided items', function(done) {
+<pre><code>async.it(<span class="hljs-string">'should dispatch events of property-change from provided items'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
 
-  var items = listController.getItemList(),
+  <span class="hljs-keyword">var</span> items = listController.getItemList(),
 
-      itemOne = items.getItemAt(<span class="number">0</span>);
+      itemOne = items.getItemAt(<span class="hljs-number">0</span>);
 
-  $(listController).<span class="keyword">on</span>('save-<span class="property">item</span>', function(event) {
+  $(listController).on(<span class="hljs-string">'save-item'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-    $(listController).off('save-<span class="property">item</span>');
+    $(listController).off(<span class="hljs-string">'save-item'</span>);
 
-    expect(event.<span class="property">item</span>).toBe(itemOne);
+    expect(event.item).toBe(itemOne);
 
     done();
 
   });
 
-  itemOne.marked = <span class="constant">true</span>;
+  itemOne.marked = <span class="hljs-literal">true</span>;
 
-});</code></pre>
-<p>This spec tells us that changes to an item should be notified through the <code>list-controller</code> – basically the work we had done previously in getting the <code>list-controller</code> to dispatch events related to its underlying collection so as to be captured by observing parties.<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_19.png" alt="Failing on async timeout of event from item"></p>
+});
+</code></pre><p>This spec tells us that changes to an item should be notified through the <code>list-controller</code> – basically the work we had done previously in getting the <code>list-controller</code> to dispatch events related to its underlying collection so as to be captured by observing parties.<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_19.png" alt="Failing on async timeout of event from item"></p>
 <p>This test actually reveals some refactoring that is required within the <code>list-controller</code>. In essence, creating a new collection from the provided items in <code>setItems()</code> is not enough to have the application work as expected – each individual item needs to be managed by a <code>list-item-controller</code> which responds and notifies of changes accordingly. We had previously paired an item with a item controller within the <code>collection-change</code> event handler of the collection in <code>list-controller</code>:</p>
 <p><em>/script/controller/list-controller.js</em></p>
-<pre><code><span class="list">(<span class="title">function</span><span class="body"> assignCollectionHandlers<span class="list">(<span class="body">$collection)</span></span> {
+<pre><code><span class="hljs-list">(<span class="hljs-title">function</span> assignCollectionHandlers<span class="hljs-list">($collection)</span> {
 
 
 
   var EventKindEnum = collectionFactory.collectionEventKind,
 
-      isValidValue = function<span class="list">(<span class="title">value</span><span class="body">)</span></span> {
+      isValidValue = function<span class="hljs-list">(<span class="hljs-title">value</span>)</span> {
 
-        return value <span class="keyword">&amp;&amp;</span> <span class="list">(<span class="title">value</span><span class="body">.hasOwnProperty<span class="list">(<span class="body">'length')</span></span> <span class="keyword">&amp;&amp;</span> value.length &gt; <span class="number">0</span>)</span></span><span class="comment">;</span>
+        return value <span class="hljs-keyword">&amp;&amp;</span> <span class="hljs-list">(<span class="hljs-title">value</span>.hasOwnProperty<span class="hljs-list">('length')</span> <span class="hljs-keyword">&amp;&amp;</span> value.length &gt; <span class="hljs-number">0</span>)</span><span class="hljs-comment">;</span>
 
-      }<span class="comment">;</span>
+      }<span class="hljs-comment">;</span>
 
 
 
-  $collection.on<span class="list">(<span class="body">'collection-change', function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
+  $collection.on<span class="hljs-list">('collection-change', function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> {
 
     var model,
 
@@ -225,142 +225,142 @@
 
         $itemController,
 
-        $itemView<span class="comment">;</span>
+        $itemView<span class="hljs-comment">;</span>
 
-    switch<span class="list">(<span class="body"> event.kind )</span></span> {
+    switch<span class="hljs-list">( event.kind )</span> {
 
       case EventKindEnum.ADD:
 
-        $itemView = $<span class="list">(<span class="body">'&lt;li&gt;')</span></span><span class="comment">;</span>
+        $itemView = $<span class="hljs-list">('&lt;li&gt;')</span><span class="hljs-comment">;</span>
 
-        model = event.items.shift<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+        model = event.items.shift<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-        itemController = itemControllerFactory.create<span class="list">(<span class="body">$itemView, model)</span></span><span class="comment">;</span>
+        itemController = itemControllerFactory.create<span class="hljs-list">($itemView, model)</span><span class="hljs-comment">;</span>
 
-        $itemController = $<span class="list">(<span class="title">itemController</span><span class="body">)</span></span><span class="comment">;</span>
-
-
-
-        $itemView.appendTo<span class="list">(<span class="title">listController</span><span class="body">.$view)</span></span><span class="comment">;</span>
-
-        rendererList.addItem<span class="list">(<span class="title">itemController</span><span class="body">)</span></span><span class="comment">;</span>
-
-        $<span class="list">(<span class="title">listController</span><span class="body">)</span></span>.trigger<span class="list">(<span class="title">createSaveEvent</span><span class="body"><span class="list">(<span class="title">model</span><span class="body">)</span></span>)</span></span><span class="comment">;</span>
-
-        itemController.state = itemControllerFactory.state.EDITABLE<span class="comment">;</span>
+        $itemController = $<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span><span class="hljs-comment">;</span>
 
 
 
-        $itemController.on<span class="list">(<span class="body">'remove', function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
+        $itemView.appendTo<span class="hljs-list">(<span class="hljs-title">listController</span>.$view)</span><span class="hljs-comment">;</span>
 
-          listController.removeItem<span class="list">(<span class="title">model</span><span class="body">)</span></span><span class="comment">;</span>
+        rendererList.addItem<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span><span class="hljs-comment">;</span>
 
-        })</span></span><span class="comment">;</span>
+        $<span class="hljs-list">(<span class="hljs-title">listController</span>)</span>.trigger<span class="hljs-list">(<span class="hljs-title">createSaveEvent</span><span class="hljs-list">(<span class="hljs-title">model</span>)</span>)</span><span class="hljs-comment">;</span>
 
-        $itemController.on<span class="list">(<span class="body">'commit', function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
+        itemController.state = itemControllerFactory.state.EDITABLE<span class="hljs-comment">;</span>
 
-          if<span class="list">(<span class="body">!isValidValue<span class="list">(<span class="title">model</span><span class="body">.name)</span></span>)</span></span> {
 
-            listController.removeItem<span class="list">(<span class="title">model</span><span class="body">)</span></span><span class="comment">;</span>
+
+        $itemController.on<span class="hljs-list">('remove', function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> {
+
+          listController.removeItem<span class="hljs-list">(<span class="hljs-title">model</span>)</span><span class="hljs-comment">;</span>
+
+        })</span><span class="hljs-comment">;</span>
+
+        $itemController.on<span class="hljs-list">('commit', function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> {
+
+          if<span class="hljs-list">(!isValidValue<span class="hljs-list">(<span class="hljs-title">model</span>.name)</span>)</span> {
+
+            listController.removeItem<span class="hljs-list">(<span class="hljs-title">model</span>)</span><span class="hljs-comment">;</span>
 
           }
 
           else {
 
-            $<span class="list">(<span class="title">listController</span><span class="body">)</span></span>.trigger<span class="list">(<span class="title">createSaveEvent</span><span class="body"><span class="list">(<span class="title">model</span><span class="body">)</span></span>)</span></span><span class="comment">;</span>
+            $<span class="hljs-list">(<span class="hljs-title">listController</span>)</span>.trigger<span class="hljs-list">(<span class="hljs-title">createSaveEvent</span><span class="hljs-list">(<span class="hljs-title">model</span>)</span>)</span><span class="hljs-comment">;</span>
 
           }
 
-        })</span></span><span class="comment">;</span>
+        })</span><span class="hljs-comment">;</span>
 
-        break<span class="comment">;</span>
+        break<span class="hljs-comment">;</span>
 
       case EventKindEnum.REMOVE:
 
-        model = event.items.shift<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+        model = event.items.shift<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-        itemController = listController.getRendererFromItem<span class="list">(<span class="title">model</span><span class="body">)</span></span>,
+        itemController = listController.getRendererFromItem<span class="hljs-list">(<span class="hljs-title">model</span>)</span>,
 
-        $itemController = $<span class="list">(<span class="title">itemController</span><span class="body">)</span></span><span class="comment">;</span>
+        $itemController = $<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span><span class="hljs-comment">;</span>
 
 
 
-        if<span class="list">(<span class="title">itemController</span><span class="body">)</span></span> {
+        if<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span> {
 
-          $itemView = itemController.parentView<span class="comment">;</span>
+          $itemView = itemController.parentView<span class="hljs-comment">;</span>
 
-          $itemView.remove<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+          $itemView.remove<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-          itemController.dispose<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+          itemController.dispose<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-          $itemController.off<span class="list">(<span class="body">'remove')</span></span><span class="comment">;</span>
+          $itemController.off<span class="hljs-list">('remove')</span><span class="hljs-comment">;</span>
 
-          $itemController.off<span class="list">(<span class="body">'commit')</span></span><span class="comment">;</span>
+          $itemController.off<span class="hljs-list">('commit')</span><span class="hljs-comment">;</span>
 
-          rendererList.removeItem<span class="list">(<span class="title">itemController</span><span class="body">)</span></span><span class="comment">;</span>
+          rendererList.removeItem<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span><span class="hljs-comment">;</span>
 
-          $<span class="list">(<span class="title">listController</span><span class="body">)</span></span>.trigger<span class="list">(<span class="title">createRemoveEvent</span><span class="body"><span class="list">(<span class="title">model</span><span class="body">)</span></span>)</span></span><span class="comment">;</span>
+          $<span class="hljs-list">(<span class="hljs-title">listController</span>)</span>.trigger<span class="hljs-list">(<span class="hljs-title">createRemoveEvent</span><span class="hljs-list">(<span class="hljs-title">model</span>)</span>)</span><span class="hljs-comment">;</span>
 
         }
 
-        break<span class="comment">;</span>
+        break<span class="hljs-comment">;</span>
 
       case EventKindEnum.RESET:
 
-        break<span class="comment">;</span>
+        break<span class="hljs-comment">;</span>
 
     }
 
-  })</span></span><span class="comment">;</span>
+  })</span><span class="hljs-comment">;</span>
 
 
 
-}<span class="list">(<span class="body">$<span class="list">(<span class="title">collection</span><span class="body">)</span></span>)</span></span>)</span></span><span class="comment">;</span></code></pre>
-<p>That <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a> was run in the module prior to returning the <code>list-controller</code> instance. Now, we could just copy that code from the <code>EventKindEnum.ADD</code> case and shove it into <code>setItems()</code>, applying it to each item in a loop, but that wouldn’t be very efficient, not to mention a cry-inducing solution for anyone (including yourself) which need to revisit your code.</p>
+}<span class="hljs-list">($<span class="hljs-list">(<span class="hljs-title">collection</span>)</span>)</span>)</span><span class="hljs-comment">;</span>
+</code></pre><p>That <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a> was run in the module prior to returning the <code>list-controller</code> instance. Now, we could just copy that code from the <code>EventKindEnum.ADD</code> case and shove it into <code>setItems()</code>, applying it to each item in a loop, but that wouldn’t be very efficient, not to mention a cry-inducing solution for anyone (including yourself) which need to revisit your code.</p>
 <h3 id="list-controller-refactor">list-controller refactor</h3>
 <p>I think we are going to have to get rid of this <strong>IIFE</strong>, but let’s do that modification in piecemeal; first, let’s strip out the item management when added to a collection:</p>
 <p><em>/script/controller/list-controller.js</em></p>
-<pre><code>var collection = collectionFactory.create(),
+<pre><code><span class="hljs-keyword">var</span> collection = collectionFactory.create(),
 
     rendererList = collectionFactory.create(),
 
-    manageItemInList = <span class="keyword">function</span>(item, listController) {
+    manageItemInList = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item, listController)</span> {</span>
 
-      var $itemView = $(<span class="string">'&lt;li&gt;'</span>),
+      <span class="hljs-keyword">var</span> <span class="hljs-variable">$itemView</span> = $(<span class="hljs-string">'&lt;li&gt;'</span>),
 
-          itemController = itemControllerFactory.create($itemView, item),
+          itemController = itemControllerFactory.create(<span class="hljs-variable">$itemView</span>, item),
 
-          $itemController = $(itemController),
+          <span class="hljs-variable">$itemController</span> = $(itemController),
 
-          isValidValue = <span class="keyword">function</span>(value) {
+          isValidValue = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value)</span> {</span>
 
-            <span class="keyword">return</span> value &amp;&amp; (value.hasOwnProperty(<span class="string">'length'</span>) &amp;&amp; value.length &gt; <span class="number">0</span>);
+            <span class="hljs-keyword">return</span> value &amp;&amp; (value.hasOwnProperty(<span class="hljs-string">'length'</span>) &amp;&amp; value.length &gt; <span class="hljs-number">0</span>);
 
           };
 
 
 
-      $itemView.appendTo(listController.$view);
+      <span class="hljs-variable">$itemView</span>.appendTo(listController.<span class="hljs-variable">$view</span>);
 
       rendererList.addItem(itemController);
 
 
 
-      $itemController.on(<span class="string">'remove'</span>, <span class="keyword">function</span>(event) {
+      <span class="hljs-variable">$itemController</span>.on(<span class="hljs-string">'remove'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
         listController.removeItem(item);
 
       });
 
-      $itemController.on(<span class="string">'commit'</span>, <span class="keyword">function</span>(event) {
+      <span class="hljs-variable">$itemController</span>.on(<span class="hljs-string">'commit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-        <span class="keyword">if</span>(!isValidValue(item.name)) {
+        <span class="hljs-keyword">if</span>(!isValidValue(item.name)) {
 
           listController.removeItem(item);
 
         }
 
-        <span class="keyword">else</span> {
+        <span class="hljs-keyword">else</span> {
 
           $(listController).trigger(createSaveEvent(item));
 
@@ -368,39 +368,39 @@
 
       });
 
-      <span class="keyword">return</span> itemController;
+      <span class="hljs-keyword">return</span> itemController;
 
     },
 
     listController = {
 
-      $view: undefined,
+      <span class="hljs-variable">$view</span>: undefined,
 
-      <span class="keyword">...</span>
+      ...
 
-    };</code></pre>
-<p>Most of what was held in the <code>EventKindEnum.ADD</code> case of the <code>collection-change</code> handler has been moved to its own function expression – <code>manageItemInList()</code>. If we look at how this case is modified we see that we have left state initialization and event dispatching:</p>
+    };
+</code></pre><p>Most of what was held in the <code>EventKindEnum.ADD</code> case of the <code>collection-change</code> handler has been moved to its own function expression – <code>manageItemInList()</code>. If we look at how this case is modified we see that we have left state initialization and event dispatching:</p>
 <p><em>/script/controller/list-controller.js</em></p>
-<pre><code>case EventKindEnum<span class="preprocessor">.ADD</span>:
+<pre><code>case EventKindEnum<span class="hljs-preprocessor">.ADD</span>:
 
-  model = event<span class="preprocessor">.items</span><span class="preprocessor">.shift</span>()<span class="comment">;</span>
+  model = event<span class="hljs-preprocessor">.items</span><span class="hljs-preprocessor">.shift</span>()<span class="hljs-comment">;</span>
 
-  itemController = manageItemInList(model, listController)<span class="comment">;</span>
+  itemController = manageItemInList(model, listController)<span class="hljs-comment">;</span>
 
-  itemController<span class="preprocessor">.state</span> = itemControllerFactory<span class="preprocessor">.state</span><span class="preprocessor">.EDITABLE</span><span class="comment">;</span>
+  itemController<span class="hljs-preprocessor">.state</span> = itemControllerFactory<span class="hljs-preprocessor">.state</span><span class="hljs-preprocessor">.EDITABLE</span><span class="hljs-comment">;</span>
 
-  $(listController)<span class="preprocessor">.trigger</span>(createSaveEvent(model))<span class="comment">;</span>
+  $(listController)<span class="hljs-preprocessor">.trigger</span>(createSaveEvent(model))<span class="hljs-comment">;</span>
 
-  <span class="keyword">break</span><span class="comment">;</span></code></pre>
-<p>When an item is added to the collection and the list-controller is notified, it creates a new <code>list-item-controller</code> using <code>manageItemInList()</code>, sets the controller’s state to <code>EDITABLE</code> and notifies of its addition. The last two operations are of note, as they only pertain to <em>new</em> additions to the collection – we don’t want such things for existing items being added to the list from <code>setItems()</code>.</p>
+  <span class="hljs-keyword">break</span><span class="hljs-comment">;</span>
+</code></pre><p>When an item is added to the collection and the list-controller is notified, it creates a new <code>list-item-controller</code> using <code>manageItemInList()</code>, sets the controller’s state to <code>EDITABLE</code> and notifies of its addition. The last two operations are of note, as they only pertain to <em>new</em> additions to the collection – we don’t want such things for existing items being added to the list from <code>setItems()</code>.</p>
 <p><em>/script/controller/list-controller.js</em></p>
-<pre><code><span class="attribute">setItems</span>: <span class="string">function(items) {</span>
+<pre><code><span class="hljs-attribute">setItems</span>: <span class="hljs-string">function(items) {</span>
 
-<span class="matlab">  var <span class="built_in">i</span>, <span class="built_in">length</span> = <span class="transposed_variable">items.</span><span class="built_in">length</span>;
+<span class="matlab">  var <span class="hljs-built_in">i</span>, <span class="hljs-built_in">length</span> = <span class="hljs-transposed_variable">items.</span><span class="hljs-built_in">length</span>;
 
-  collection = <span class="transposed_variable">collectionFactory.</span>create();
+  collection = <span class="hljs-transposed_variable">collectionFactory.</span>create();
 
-  <span class="keyword">for</span>( <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; <span class="built_in">length</span>; <span class="built_in">i</span>++ ) <span class="cell">{
+  <span class="hljs-keyword">for</span>( <span class="hljs-built_in">i</span> = <span class="hljs-number">0</span>; <span class="hljs-built_in">i</span> &lt; <span class="hljs-built_in">length</span>; <span class="hljs-built_in">i</span>++ ) <span class="hljs-cell">{
 
     manageItemInList(items[i], this);
 
@@ -408,19 +408,19 @@
 
   }</span>
 
-}</span></code></pre>
-<p>Now if we run the tests again:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_20.png" alt="Passing on modifications to item management in list-controller"></p>
+}</span>
+</code></pre><p>Now if we run the tests again:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_20.png" alt="Passing on modifications to item management in list-controller"></p>
 <p>Passing! </p>
 <h3 id="tests">Tests</h3>
 <p>I don’t think we are out of the woods yet, however… Let’s continue to add more expectations about setting the collection through <code>setItems()</code>on <code>list-controller</code>:</p>
 <p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
-<pre><code>async.<span class="keyword">it</span>('should dispatch event <span class="keyword">of</span> remove-<span class="property">item</span> <span class="keyword">from</span> collection', function(done) {
+<pre><code>async.it(<span class="hljs-string">'should dispatch event of remove-item from collection'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
 
-  $(listController).<span class="keyword">on</span>('remove-<span class="property">item</span>', function(event) {
+  $(listController).on(<span class="hljs-string">'remove-item'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-    $(listController).off('remove-<span class="property">item</span>');
+    $(listController).off(<span class="hljs-string">'remove-item'</span>);
 
-    expect(event.<span class="property">item</span>).toBe(itemOne);
+    expect(event.item).toBe(itemOne);
 
     done();
 
@@ -428,77 +428,77 @@
 
   listController.removeItem(itemOne);
 
-});</code></pre>
-<p>This test ensures that the <code>list-controller</code> should still be responding to and notifying of changes to the new collection created through <code>setItems()</code> just as it should if the <code>list-controller</code> was only being instructed to modify the collection through calls to <code>createNewItem()</code>.</p>
+});
+</code></pre><p>This test ensures that the <code>list-controller</code> should still be responding to and notifying of changes to the new collection created through <code>setItems()</code> just as it should if the <code>list-controller</code> was only being instructed to modify the collection through calls to <code>createNewItem()</code>.</p>
 <h3 id="list-controller-refactoring">list-controller refactoring</h3>
 <p>To save you some time in downloading more images, believe me when I tell you I just put us back in red <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> The reason being that dang <code>assignCollectionHandlers</code> <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a>. The collection that is created in <code>setItems()</code> is not being observed. The <strong>IIFE</strong> to assign events handlers is only run upon load of the module and only targets the collection instantiated in its declaration. In other words, any new collections will not be observed.</p>
 <p>I say we move that <strong>IIFE</strong> out into its own expression:</p>
 <p><em>/script/controller/list-controller.js</em></p>
-<pre><code>var collection = collectionFactory.create(),
+<pre><code><span class="hljs-keyword">var</span> collection = collectionFactory.create(),
 
     rendererList = collectionFactory.create(),
 
-    assignCollectionHandlers = function(<span class="variable">$collection</span>) {
+    assignCollectionHandlers = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(<span class="hljs-variable">$collection</span>)</span> {</span>
 
-      var EventKindEnum = collectionFactory.collectionEventKind;
+      <span class="hljs-keyword">var</span> EventKindEnum = collectionFactory.collectionEventKind;
 
-      <span class="variable">$collection</span>.on(<span class="string">'collection-change'</span>, function(<span class="keyword">event</span>) {
+      <span class="hljs-variable">$collection</span>.on(<span class="hljs-string">'collection-change'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-        var model,
+        <span class="hljs-keyword">var</span> model,
 
             itemController,
 
-            <span class="variable">$itemController</span>,
+            <span class="hljs-variable">$itemController</span>,
 
-            <span class="variable">$itemView</span>;
+            <span class="hljs-variable">$itemView</span>;
 
-        <span class="keyword">switch</span>( <span class="keyword">event</span>.kind ) {
+        <span class="hljs-keyword">switch</span>( event.kind ) {
 
-          <span class="keyword">case</span> EventKindEnum.ADD:
+          <span class="hljs-keyword">case</span> EventKindEnum.ADD:
 
-            model = <span class="keyword">event</span>.items.shift();
+            model = event.items.shift();
 
             itemController = manageItemInList(model, listController);
 
             itemController.state = itemControllerFactory.state.EDITABLE;
 
-            <span class="variable">$(</span>listController).trigger(createSaveEvent(model));
+            $(listController).trigger(createSaveEvent(model));
 
-            <span class="keyword">break</span>;
+            <span class="hljs-keyword">break</span>;
 
-          <span class="keyword">case</span> EventKindEnum.REMOVE:
+          <span class="hljs-keyword">case</span> EventKindEnum.REMOVE:
 
-            model = <span class="keyword">event</span>.items.shift();
+            model = event.items.shift();
 
             itemController = listController.getRendererFromItem(model),
 
-            <span class="variable">$itemController</span> = <span class="variable">$(</span>itemController);
+            <span class="hljs-variable">$itemController</span> = $(itemController);
 
 
 
-            <span class="keyword">if</span>(itemController) {
+            <span class="hljs-keyword">if</span>(itemController) {
 
-              <span class="variable">$itemView</span> = itemController.parentView;
+              <span class="hljs-variable">$itemView</span> = itemController.parentView;
 
-              <span class="variable">$itemView</span>.remove();
+              <span class="hljs-variable">$itemView</span>.remove();
 
               itemController.dispose();
 
-              <span class="variable">$itemController</span>.off(<span class="string">'remove'</span>);
+              <span class="hljs-variable">$itemController</span>.off(<span class="hljs-string">'remove'</span>);
 
-              <span class="variable">$itemController</span>.off(<span class="string">'commit'</span>);
+              <span class="hljs-variable">$itemController</span>.off(<span class="hljs-string">'commit'</span>);
 
               rendererList.removeItem(itemController);
 
-              <span class="variable">$(</span>listController).trigger(createRemoveEvent(model));
+              $(listController).trigger(createRemoveEvent(model));
 
             }
 
-            <span class="keyword">break</span>;
+            <span class="hljs-keyword">break</span>;
 
-          <span class="keyword">case</span> EventKindEnum.RESET:
+          <span class="hljs-keyword">case</span> EventKindEnum.RESET:
 
-            <span class="keyword">break</span>;
+            <span class="hljs-keyword">break</span>;
 
         }
 
@@ -506,40 +506,40 @@
 
     },
 
-    manageItemInList = function(item, listController) {
+    manageItemInList = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item, listController)</span> {</span>
 
-      <span class="comment">// implementation removed to reduce noise</span>
+      <span class="hljs-comment">// implementation removed to reduce noise</span>
 
     },
 
     listController = {
 
-      <span class="comment">// implementation removed to reduce noise</span>
+      <span class="hljs-comment">// implementation removed to reduce noise</span>
 
-    }</code></pre>
-<p>We basically took what was the named <code>assignCollectionHandlers</code> <strong>IIFE</strong> and added it to the variable declarations within the <code>list-controller</code> module. That changes the code between those declarations and the return of the <code>listController</code> instance to:</p>
+    }
+</code></pre><p>We basically took what was the named <code>assignCollectionHandlers</code> <strong>IIFE</strong> and added it to the variable declarations within the <code>list-controller</code> module. That changes the code between those declarations and the return of the <code>listController</code> instance to:</p>
 <p><em>/script/controller/list-controller.js</em></p>
-<pre><code>var collection = <span class="transposed_variable">collectionFactory.</span>create(),
+<pre><code><span class="hljs-keyword">var</span> collection = collectionFactory.create(),
 
-    rendererList = <span class="transposed_variable">collectionFactory.</span>create(),
+    rendererList = collectionFactory.create(),
 
-    assignCollectionHandlers = <span class="keyword">function</span>($collection) <span class="cell">{
+    assignCollectionHandlers = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($collection)</span> {</span>
 
-      // implementation removed to reduce noise
+      <span class="hljs-comment">// implementation removed to reduce noise</span>
 
-    }</span>,
+    },
 
-    manageItemInList = <span class="keyword">function</span>(item, listController) <span class="cell">{
+    manageItemInList = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item, listController)</span> {</span>
 
-      // implementation removed to reduce noise
+      <span class="hljs-comment">// implementation removed to reduce noise</span>
 
-    }</span>,
+    },
 
-    listController = <span class="cell">{
+    listController = {
 
-      // implementation removed to reduce noise
+      <span class="hljs-comment">// implementation removed to reduce noise</span>
 
-    }</span>;
+    };
 
 
 
@@ -547,17 +547,17 @@ assignCollectionHandlers($(collection));
 
 
 
-<span class="keyword">return</span> listController;</code></pre>
-<p>With those changes we are still failing on the last spec we created, but more importantly we have not caused any other tests to fail!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_21.png" alt="Still failing, but failing well!"></p>
+<span class="hljs-keyword">return</span> listController;
+</code></pre><p>With those changes we are still failing on the last spec we created, but more importantly we have not caused any other tests to fail!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_21.png" alt="Still failing, but failing well!"></p>
 <p>Let’s get that last spec to pass:</p>
 <p><em>/script/controller/list-controller.js</em></p>
-<pre><code><span class="attribute">setItems</span>: <span class="string">function(items) {</span>
+<pre><code><span class="hljs-attribute">setItems</span>: <span class="hljs-string">function(items) {</span>
 
-<span class="matlab">  var <span class="built_in">i</span>, <span class="built_in">length</span> = <span class="transposed_variable">items.</span><span class="built_in">length</span>;
+<span class="matlab">  var <span class="hljs-built_in">i</span>, <span class="hljs-built_in">length</span> = <span class="hljs-transposed_variable">items.</span><span class="hljs-built_in">length</span>;
 
-  collection = <span class="transposed_variable">collectionFactory.</span>create();
+  collection = <span class="hljs-transposed_variable">collectionFactory.</span>create();
 
-  <span class="keyword">for</span>( <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; <span class="built_in">length</span>; <span class="built_in">i</span>++ ) <span class="cell">{
+  <span class="hljs-keyword">for</span>( <span class="hljs-built_in">i</span> = <span class="hljs-number">0</span>; <span class="hljs-built_in">i</span> &lt; <span class="hljs-built_in">length</span>; <span class="hljs-built_in">i</span>++ ) <span class="hljs-cell">{
 
     manageItemInList(items[i], this);
 
@@ -567,96 +567,96 @@ assignCollectionHandlers($(collection));
 
   assignCollectionHandlers($(collection));
 
-}</span></code></pre>
-<p>Hurrah!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_22.png" alt="Passing again!"></p>
+}</span>
+</code></pre><p>Hurrah!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_22.png" alt="Passing again!"></p>
 <p>Tagged <strong>0.1.13</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.13"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.13">https://github.com/bustardcelly/grocery-ls/tree/0.1.13</a></a></p>
 <h2 id="hooking-it-all-together">Hooking it all together</h2>
 <p>We have created our <code>storage-service</code> to communicate with <code>localStorage</code>, modified <code>list-controller</code> to dispatch events and accept initial items for its collection and all our tests are still passing! It’s a wonderous feeling. Now let’s get to actually hooking them up so that the <code>storage-service</code> is told how to handle changes to the list by responding to <code>list-controller</code> events.</p>
 <p>Normally, in such situations I would create another component to the application that would serve as an mediator for such integration, receiving events from <code>list-controller</code> and invoking the <code>storage-service</code>. Naturally, that would also call for more tests in assuring that the mediator did its job correctly. I am not going to do that here. This is a small application meant for our own personal use and this series has gotten quite long; I don’t want to scare you away by adding more dependencies, but I would encourage you to do so on your own if you feel so…. just don’t forget the tests!</p>
 <p>I think modifying the main JavaScript file (<em>/script/grocery-ls.js</em>) that defines the module dependencies and initializes the <strong>Grocery List</strong> application is fine enough for the task at hand:</p>
 <p><em>/script/grocery-ls.js</em></p>
-<pre><code><span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="title">window</span><span class="body">, require)</span></span> {
+<pre><code><span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">window</span>, require)</span> <span class="hljs-collection">{
 
 
 
-  require.config<span class="list">(<span class="body">{
+  require.config<span class="hljs-list">(<span class="hljs-collection">{
 
-    baseUrl: <span class="string">"."</span>,
+    baseUrl: <span class="hljs-string">"."</span>,
 
-    paths: {
+    paths: <span class="hljs-collection">{
 
-      <span class="string">"lib"</span>: <span class="string">"./lib"</span>,
+      <span class="hljs-string">"lib"</span>: <span class="hljs-string">"./lib"</span>,
 
-      <span class="string">"script"</span>: <span class="string">"./script"</span>,
+      <span class="hljs-string">"script"</span>: <span class="hljs-string">"./script"</span>,
 
-      <span class="string">"jquery"</span>: <span class="string">"./lib/jquery-1.8.3.min"</span>
+      <span class="hljs-string">"jquery"</span>: <span class="hljs-string">"./lib/jquery-1.8.3.min"</span>
 
-    }
+    }</span>
 
-  })</span></span><span class="comment">;</span>
-
-
-
-  require<span class="list">(<span class="body"> ['jquery', 'script/controller/list-controller', 'script/service/storage-service'],
-
-            function<span class="list">(<span class="body">$, listController, storageService)</span></span> {
+  }</span>)</span><span class="hljs-comment">;</span>
 
 
 
-    var $listController = $<span class="list">(<span class="title">listController</span><span class="body">)</span></span><span class="comment">;</span>
+  require<span class="hljs-list">( <span class="hljs-collection">['jquery', 'script/controller/list-controller', 'script/service/storage-service']</span>,
 
-    listController.setView<span class="list">(<span class="body">$<span class="list">(<span class="body">'section.groceries ul')</span></span>)</span></span><span class="comment">;</span>
-
-
-
-    storageService.getItems<span class="list">(<span class="body">)</span></span>.then<span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="title">items</span><span class="body">)</span></span> {
-
-      listController.setItems<span class="list">(<span class="title">items</span><span class="body">)</span></span><span class="comment">;</span>
-
-    })</span></span><span class="comment">;</span>
-
-    $listController.on<span class="list">(<span class="body">'save-item', function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
-
-      storageService.saveItem<span class="list">(<span class="title">event</span><span class="body">.item)</span></span>.then<span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="title">item</span><span class="body">)</span></span> {
-
-        console.log<span class="list">(<span class="body">'Item saved! ' + item.name)</span></span><span class="comment">;</span>
-
-      }, function<span class="list">(<span class="title">error</span><span class="body">)</span></span> {
-
-        console.log<span class="list">(<span class="body">'Item not saved: ' + error)</span></span>
-
-      })</span></span><span class="comment">;</span>
-
-    })</span></span><span class="comment">;</span>
-
-    $listController.on<span class="list">(<span class="body">'remove-item', function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
-
-      storageService.removeItem<span class="list">(<span class="title">event</span><span class="body">.item)</span></span>.then<span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="title">item</span><span class="body">)</span></span> {
-
-        console.log<span class="list">(<span class="body">'Item removed! ' + item.name)</span></span><span class="comment">;</span>
-
-      }, function<span class="list">(<span class="title">error</span><span class="body">)</span></span> {
-
-        console.log<span class="list">(<span class="body">'Item not removed: ' + error)</span></span><span class="comment">;</span>
-
-      })</span></span><span class="comment">;</span>
-
-    })</span></span><span class="comment">;</span>
-
-    $<span class="list">(<span class="body">'#add-item-button')</span></span>.on<span class="list">(<span class="body">'click', function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
-
-      listController.createNewItem<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
-
-    })</span></span><span class="comment">;</span>
+            function<span class="hljs-list">(<span class="hljs-title">$</span>, listController, storageService)</span> <span class="hljs-collection">{
 
 
 
-  })</span></span><span class="comment">;</span>
+    var $listController = $<span class="hljs-list">(<span class="hljs-title">listController</span>)</span><span class="hljs-comment">;</span>
+
+    listController.setView<span class="hljs-list">(<span class="hljs-title">$</span><span class="hljs-list">(<span class="hljs-title">'section.groceries</span> ul')</span>)</span><span class="hljs-comment">;</span>
 
 
 
-}<span class="list">(<span class="title">window</span><span class="body">, requirejs)</span></span>)</span></span><span class="comment">;</span></code></pre>
-<p>Just a slight modification to the main file. We added <code>storage-service</code> as an initial dependency, request and supply stored items to the list-controller and respond to <code>save-item</code> and <code>remove-item</code> events, forwarding actions along to the <code>storage-service</code> appropriately.</p>
+    storageService.getItems<span class="hljs-list">()</span>.then<span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">items</span>)</span> <span class="hljs-collection">{
+
+      listController.setItems<span class="hljs-list">(<span class="hljs-title">items</span>)</span><span class="hljs-comment">;</span>
+
+    }</span>)</span><span class="hljs-comment">;</span>
+
+    $listController.on<span class="hljs-list">(<span class="hljs-title">'save-item'</span>, function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> <span class="hljs-collection">{
+
+      storageService.saveItem<span class="hljs-list">(<span class="hljs-title">event.item</span>)</span>.then<span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">item</span>)</span> <span class="hljs-collection">{
+
+        console.log<span class="hljs-list">(<span class="hljs-title">'Item</span> saved! ' + item.name)</span><span class="hljs-comment">;</span>
+
+      }</span>, function<span class="hljs-list">(<span class="hljs-title">error</span>)</span> <span class="hljs-collection">{
+
+        console.log<span class="hljs-list">(<span class="hljs-title">'Item</span> not saved: ' + error)</span>
+
+      }</span>)</span><span class="hljs-comment">;</span>
+
+    }</span>)</span><span class="hljs-comment">;</span>
+
+    $listController.on<span class="hljs-list">(<span class="hljs-title">'remove-item'</span>, function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> <span class="hljs-collection">{
+
+      storageService.removeItem<span class="hljs-list">(<span class="hljs-title">event.item</span>)</span>.then<span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">item</span>)</span> <span class="hljs-collection">{
+
+        console.log<span class="hljs-list">(<span class="hljs-title">'Item</span> removed! ' + item.name)</span><span class="hljs-comment">;</span>
+
+      }</span>, function<span class="hljs-list">(<span class="hljs-title">error</span>)</span> <span class="hljs-collection">{
+
+        console.log<span class="hljs-list">(<span class="hljs-title">'Item</span> not removed: ' + error)</span><span class="hljs-comment">;</span>
+
+      }</span>)</span><span class="hljs-comment">;</span>
+
+    }</span>)</span><span class="hljs-comment">;</span>
+
+    $<span class="hljs-list">(<span class="hljs-title">'#add-item-button'</span>)</span>.on<span class="hljs-list">(<span class="hljs-title">'click'</span>, function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> <span class="hljs-collection">{
+
+      listController.createNewItem<span class="hljs-list">()</span><span class="hljs-comment">;</span>
+
+    }</span>)</span><span class="hljs-comment">;</span>
+
+
+
+  }</span>)</span><span class="hljs-comment">;</span>
+
+
+
+}</span><span class="hljs-list">(<span class="hljs-title">window</span>, requirejs)</span>)</span><span class="hljs-comment">;</span>
+</code></pre><p>Just a slight modification to the main file. We added <code>storage-service</code> as an initial dependency, request and supply stored items to the list-controller and respond to <code>save-item</code> and <code>remove-item</code> events, forwarding actions along to the <code>storage-service</code> appropriately.</p>
 <p>If we run the application now, we can add, mark-off, remove items from the list. Same as before, but now, if we refresh the page, items and their state a persisted!</p>
 <p><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_27.png" alt="Grocery list application"></p>
 <p>It may look a little different than your if you have been following along in the code. I added some nice styling and committed it to the repo.</p>

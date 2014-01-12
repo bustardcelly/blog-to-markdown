@@ -66,110 +66,110 @@
 <p>At the heart of <a href="http://knockoutjs.com/">Knockout</a>’s MVVM implementation is <em>data binding</em>. If you stumbled upon here and are coming from the Flex world, the concept of data binding is probably all too familiar. In basic terms, data binding is a process in which one party, bound to a change on another party, is automatically updated to reflect that change when it occurs. Most notably, data binding is utilized in updating UI that is bound to a model representing state. </p>
 <p>In broader terms, data binding utilizes the <strong>Observer Pattern</strong>. If you are familiar with subscribing to events and assigning handlers that respond to change in UI, then you are already aware of using an <strong>Observer</strong>. Within the implementation of the data binding concept, the subscription and publishing mechanisms are hidden away and as a change to the <em>subject</em> (the one subscribed to) occurs, they change is published to a <em>dependent</em> (the subscriber). What i mean by “hidden away” is that you as a developer do not directly establish this relationship by setting up event listeners and implementing the logic in response to a change in state. Libraries that allow for data binding provide a way in which you can establish this relationship which is then wired behind the scenes. Again, if you are coming from the Flex world, this is familiar in the use of curly brackets ({}) in-line in your MXML or (my preference) the methods of the <em>BindingUtils</em> class.</p>
 <p>Using Knockout, you define <em>observables</em> which dispatch notifications when changes to a value occur. Properties on a ViewModel are defined with observables to which an element can be bound, creating a dependency that is reflected in the rendering of the UI. Let’s get away from wordy word-words and see an implementation of a ViewModel and how it relates to declarations of elements on the DOM. At the core you will have your model object that defines – among other things – the <strong>observables</strong>:</p>
-<pre><code>var model = {
+<pre><code><span class="hljs-keyword">var</span> model = {
 
-    <span class="method">title:</span> ko.observable(<span class="string">'Hello World'</span>),
+    title: ko.observable(<span class="hljs-string">'Hello World'</span>),
 
-    <span class="method">items:</span> ko.observableArray()
+    items: ko.observableArray()
 
-};</code></pre>
-<p>If your dependency is on value change to one object – whether it be a string, number, boolean, object, etc. – you use <em>ko.observable</em> as defined in this example for the <em>title</em> property on the <strong>model</strong> object. If you want to detect and notify of changes to a collection of objects, you use <em>ko.observableArray</em>. You can also define <strong>dependent observables</strong> which are properties that are updated based on the value of other observables. Just a quick example of dependent observables:</p>
-<pre><code><span class="transposed_variable">model.</span>greeting = <span class="transposed_variable">ko.</span>dependentObservable( <span class="keyword">function</span>() <span class="cell">{
+};
+</code></pre><p>If your dependency is on value change to one object – whether it be a string, number, boolean, object, etc. – you use <em>ko.observable</em> as defined in this example for the <em>title</em> property on the <strong>model</strong> object. If you want to detect and notify of changes to a collection of objects, you use <em>ko.observableArray</em>. You can also define <strong>dependent observables</strong> which are properties that are updated based on the value of other observables. Just a quick example of dependent observables:</p>
+<pre><code>model.greeting = ko.dependentObservable( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-    return this.title + <span class="string">', how are ya?'</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.title + <span class="hljs-string">', how are ya?'</span>;
 
-}</span>, model );</code></pre>
-<p>These observables and their notifications are then managed once you register the model:</p>
-<pre><code>ko<span class="preprocessor">.applyBindings</span>( model )<span class="comment">;</span></code></pre>
-<p>On the HTML side, you use the datasets to define the binding definitions. <a href="http://knockoutjs.com/">Knockout</a> recognizes the <strong>data-bind</strong> attribute on elements of the DOM and – in broad, general terms – evaluates the attribute value as a binding expression. As a quick example of how this would look in using the model from the previous examples, the mark-up would look something like the following:</p>
-<pre><code><span class="tag">&lt;<span class="title">header</span>&gt;</span>
+}, model );
+</code></pre><p>These observables and their notifications are then managed once you register the model:</p>
+<pre><code>ko<span class="hljs-preprocessor">.applyBindings</span>( model )<span class="hljs-comment">;</span>
+</code></pre><p>On the HTML side, you use the datasets to define the binding definitions. <a href="http://knockoutjs.com/">Knockout</a> recognizes the <strong>data-bind</strong> attribute on elements of the DOM and – in broad, general terms – evaluates the attribute value as a binding expression. As a quick example of how this would look in using the model from the previous examples, the mark-up would look something like the following:</p>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">header</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">hgroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">hgroup</span>&gt;</span>
 
-        <span class="tag">&lt;<span class="title">h1</span> <span class="attribute">data-bind</span>=<span class="value">"text: title"</span>&gt;</span><span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">h1</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: title"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
 
-        <span class="tag">&lt;<span class="title">h2</span> <span class="attribute">data-bind</span>=<span class="value">"text: greeting"</span>&gt;</span><span class="tag">&lt;/<span class="title">h2</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">h2</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: greeting"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
 
-    <span class="tag">&lt;/<span class="title">hgroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">hgroup</span>&gt;</span>
 
-<span class="tag">&lt;/<span class="title">header</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">header</span>&gt;</span>
 
-<span class="tag">&lt;<span class="title">section</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">section</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">nav</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">nav</span>&gt;</span>
 
-        <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">data-bind</span>=<span class="value">'foreach: items'</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'foreach: items'</span>&gt;</span>
 
-            <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">'list-item'</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">'list-item'</span>&gt;</span>
 
-                <span class="tag">&lt;<span class="title">a</span> <span class="attribute">data-bind</span>=<span class="value">"attr: {href:url}, text: label"</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"attr: {href:url}, text: label"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
 
-            <span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
 
-        <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
 
-    <span class="tag">&lt;/<span class="title">nav</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">nav</span>&gt;</span>
 
-<span class="tag">&lt;/<span class="title">section</span>&gt;</span></code></pre>
-<p>As changes to the <em>title</em> property on the model occur, both items in the header group will be updated on the DOM (<em>greeting</em> because of its dependency on <em>title</em>), and as the <em>item</em> collection changes so will the un-order list, with the declared list item serving as the item renderer to be used in adding child elements to the list (more on that in the next section).</p>
+<span class="hljs-tag">&lt;/<span class="hljs-title">section</span>&gt;</span>
+</code></pre><p>As changes to the <em>title</em> property on the model occur, both items in the header group will be updated on the DOM (<em>greeting</em> because of its dependency on <em>title</em>), and as the <em>item</em> collection changes so will the un-order list, with the declared list item serving as the item renderer to be used in adding child elements to the list (more on that in the next section).</p>
 <p>Properties are updated by <em>invoking</em> the observable. That may seem a little strange at first, as you are probably more familiar with updating object properties using the = expression. But the properties, once declared as <em>ko.observables</em>, are actually not the primitive objects they represent and are functions themselves. So if we were to update the properties on the model in the previous examples, that would be done as in the following:</p>
-<pre><code>model.title( <span class="string">'Hello Again'</span> );
+<pre><code>model.title( <span class="hljs-string">'Hello Again'</span> );
 
 model.items( [
 
-    {<span class="method">label:</span><span class="string">'foo'</span>, <span class="method">url:</span><span class="string">'[http://foo.com](http://foo.com)'</span>},
+    {label:<span class="hljs-string">'foo'</span>, url:<span class="hljs-string">'[http://foo.com](http://foo.com)'</span>},
 
-    {<span class="method">label:</span><span class="string">'bar'</span>, <span class="method">url:</span><span class="string">'[http://bar.com](http://bar.com)'</span>}
+    {label:<span class="hljs-string">'bar'</span>, url:<span class="hljs-string">'[http://bar.com](http://bar.com)'</span>}
 
-] );</code></pre>
-<p>And that is important to remember, as the same goes for accessing the property value. Accessing <strong>model.title</strong> will actually return the observable function, not the string value. To get the underlying value, you use <em>ko.utils.unwrapObservable</em>, as in the following example:</p>
-<pre><code>var titleValue = ko<span class="preprocessor">.utils</span><span class="preprocessor">.unwrapObservable</span>( model<span class="preprocessor">.title</span>() )<span class="comment">;</span></code></pre>
-<p>You can also subscribe to changes explicitly in JavaScript, and if you are coming from the Flex world, this is pretty much like the BindingUtils:</p>
-<pre><code>var itemSubscription = model.items.subscribe( <span class="keyword">function</span>( collection ) {
+] );
+</code></pre><p>And that is important to remember, as the same goes for accessing the property value. Accessing <strong>model.title</strong> will actually return the observable function, not the string value. To get the underlying value, you use <em>ko.utils.unwrapObservable</em>, as in the following example:</p>
+<pre><code>var titleValue = ko<span class="hljs-preprocessor">.utils</span><span class="hljs-preprocessor">.unwrapObservable</span>( model<span class="hljs-preprocessor">.title</span>() )<span class="hljs-comment">;</span>
+</code></pre><p>You can also subscribe to changes explicitly in JavaScript, and if you are coming from the Flex world, this is pretty much like the BindingUtils:</p>
+<pre><code>var itemSubscription = model.items.subscribe( <span class="hljs-keyword">function</span>( collection ) {
 
     // do something really cool that will win you friends and influence others.
 
 });
 
-<span class="keyword">...</span>
+<span class="hljs-keyword">...</span>
 
 // No longer need to win friends and influence others.
 
-itemSubscription.dispose()</code></pre>
-<p>That is just a birds-eye-view quick run-down of how the view model plays a part in knockout, and i really encourage you to check out the document on their site to see all of what is capable: <a href="http://knockoutjs.com/documentation/introduction.html"><a href="http://knockoutjs.com/documentation/introduction.html">http://knockoutjs.com/documentation/introduction.html</a></a>.</p>
+itemSubscription.dispose()
+</code></pre><p>That is just a birds-eye-view quick run-down of how the view model plays a part in knockout, and i really encourage you to check out the document on their site to see all of what is capable: <a href="http://knockoutjs.com/documentation/introduction.html"><a href="http://knockoutjs.com/documentation/introduction.html">http://knockoutjs.com/documentation/introduction.html</a></a>.</p>
 <h3 id="control-flow">Control Flow</h3>
 <p>If you’ve looked at those examples or are familiar with <a href="https://github.com/SteveSanderson/knockout">Knockout</a> and have checked out the <a href="https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/knockout">massroute-js/knockout example I put on github</a>, you might see that things are set up a bit different. Indeed they are; I had begun my example using knockout-1.2.1.js, but had found this post toward the end of my finishing the example: <a href="http://blog.stevensanderson.com/2011/08/31/knockout-1-3-0-beta-available/"><a href="http://blog.stevensanderson.com/2011/08/31/knockout-1-3-0-beta-available/">http://blog.stevensanderson.com/2011/08/31/knockout-1-3-0-beta-available/</a></a>. I was so taken with the changes to <em>Control Flow Bindings</em>, that I moved my example to that. If this is all new to you and that last sentence was complete gibberish, I’ll explain; I just wanted to give a heads up if any of you were curious enough to check out their current examples and look at <a href="https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/knockout">my project on github</a>.</p>
 <p>What I take away from the concept of <em>Control Flow Binding</em>, is that you can define (and Knockout with manage) the existence of DOM elements based on a ViewModel condition. If you are coming from the Flex world, you can think of it somewhat in terms of the State API and state-based declarations for elements, such as <em>includeIn</em> and <em>excludeFrom</em>. But it goes a little farther in that, in so much as it is also allows for and is used in rendering whole graphs of DOM elements based on a condition and model data. A common example is lists, and the UI elements you define are the item renderers – depending on the existence of a collection, graphs of defined HTML elements are rendered, added to the DOM and handed data.</p>
 <p>Prior to the current work on <a href="http://knockoutjs.com/">Knockout</a> that is in beta and <a href="https://github.com/SteveSanderson/knockout">available from the projects github</a>, there was a dependency on an external templating engine – for example, <a href="http://api.jquery.com/category/plugins/templates/">jquery-tmpl</a> which was commonly the go-to engine since there is already a dependency on <a href="http://jquery.com/">jQuery</a> -that would allow you to define UI elements to use in deferred rendering within the Control Flow and state of the target ViewModel. In the <a href="https://github.com/SteveSanderson/knockout/tree/master/build/output">latest beta for Knockout</a>, you can now declare those elements inline within the document and the library will handle the existence and rendering based on the defined condition.</p>
 <p>To give a quick example, here is the whole section in the <a href="https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/knockout">massroute-js/knockout</a> project that displays the list of routes available from the real-time MBTA feed:</p>
-<pre><code><span class="tag">&lt;<span class="title">section</span> <span class="attribute">id</span>=<span class="value">"routesection"</span> <span class="attribute">data-bind</span>=<span class="value">"visible: routes.visible"</span>&gt;</span>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">section</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"routesection"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"visible: routes.visible"</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">h1</span> <span class="attribute">data-bind</span>=<span class="value">"text: routes.title"</span>&gt;</span><span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">h1</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: routes.title"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">p</span> <span class="attribute">data-bind</span>=<span class="value">"if: routes.list().length === 0"</span>&gt;</span>loading...<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"if: routes.list().length === 0"</span>&gt;</span>loading...<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">nav</span> <span class="attribute">data-bind</span>=<span class="value">"if: routes.list().length &gt; 0"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">nav</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"if: routes.list().length &gt; 0"</span>&gt;</span>
 
-        <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">data-bind</span>=<span class="value">'foreach: routes.list'</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'foreach: routes.list'</span>&gt;</span>
 
-            <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">'route-item list-item icon-list-item'</span> <span class="attribute">style</span>=<span class="value">'cursor: pointer;'</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">'route-item list-item icon-list-item'</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">'cursor: pointer;'</span>&gt;</span>
 
-                <span class="tag">&lt;<span class="title">figure</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">figure</span>&gt;</span>
 
-                    <span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">'style/image/bus_icon.png'</span> /&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">'style/image/bus_icon.png'</span> /&gt;</span>
 
-                    <span class="tag">&lt;<span class="title">figcaption</span> <span class="attribute">data-bind</span>=<span class="value">"text: title"</span>&gt;</span><span class="tag">&lt;/<span class="title">figcaption</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-title">figcaption</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: title"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">figcaption</span>&gt;</span>
 
-                <span class="tag">&lt;/<span class="title">figure</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-title">figure</span>&gt;</span>
 
-            <span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
 
-        <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
 
-    <span class="tag">&lt;/<span class="title">nav</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">nav</span>&gt;</span>
 
-<span class="tag">&lt;/<span class="title">section</span>&gt;</span></code></pre>
-<p>If this is example you are seeing that utilizes the <a href="http://knockoutjs.com/">Knockout</a> library, i will just quickly mention that Knockout recognizes the <em>data-bind</em> attribute and interprets the value as an expression allowing you to associated DOM elements with a ViewModel declaratively. It is too much of a discussion to go into the dataset attribute and their usage, but wanted to give a brief explanation of how it is relevant to this snippet and will now defer you to this documentation: <a href="http://dev.w3.org/html5/spec/Overview.html#embedding-custom-non-visible-data"><a href="http://dev.w3.org/html5/spec/Overview.html#embedding-custom-non-visible-data">http://dev.w3.org/html5/spec/Overview.html#embedding-custom-non-visible-data</a></a></p>
+<span class="hljs-tag">&lt;/<span class="hljs-title">section</span>&gt;</span>
+</code></pre><p>If this is example you are seeing that utilizes the <a href="http://knockoutjs.com/">Knockout</a> library, i will just quickly mention that Knockout recognizes the <em>data-bind</em> attribute and interprets the value as an expression allowing you to associated DOM elements with a ViewModel declaratively. It is too much of a discussion to go into the dataset attribute and their usage, but wanted to give a brief explanation of how it is relevant to this snippet and will now defer you to this documentation: <a href="http://dev.w3.org/html5/spec/Overview.html#embedding-custom-non-visible-data"><a href="http://dev.w3.org/html5/spec/Overview.html#embedding-custom-non-visible-data">http://dev.w3.org/html5/spec/Overview.html#embedding-custom-non-visible-data</a></a></p>
 <p>To get a clearer picture of <em>Control Flow</em> and element templating, take a look at the <ul> and <li> fragments of this example. A <em>foreach</em> is declared on the binding for the <strong>ul</strong> element, which in turn will render a new instance of the list item declared within the ul for this example. In simpler terms, this allows us to define the item renderer for the list declaratively inline within the control flow definition. A pretty cool addition to the library, and one in which, even though i am just test-driving Knockout, warranted me using <a href="https://github.com/SteveSanderson/knockout/tree/master/build/output">Knockout 1.3.0 beta</a> to do away with using another dependency on a template engine.</p>
 <p>There are also some other additions to the library which I am excited to try out, most notably Binding Providers and Throttling. Check out this post from <a href="http://blog.stevensanderson.com/">Steven Sanders</a> about <a href="https://github.com/SteveSanderson/knockout/tree/master/build/output">Knockout 1.3.0 Beta</a>: <a href="http://blog.stevensanderson.com/2011/08/31/knockout-1-3-0-beta-available/"><a href="http://blog.stevensanderson.com/2011/08/31/knockout-1-3-0-beta-available/">http://blog.stevensanderson.com/2011/08/31/knockout-1-3-0-beta-available/</a></a>.</p>
 <h3 id="links">Links</h3>

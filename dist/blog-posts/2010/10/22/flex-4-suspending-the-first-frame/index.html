@@ -69,117 +69,117 @@
 <p>But fear not, there is a way to suspend that frame. The code to do it is up on github at <a href="http://github.com/bustardcelly/custom-system-manager"><a href="http://github.com/bustardcelly/custom-system-manager">http://github.com/bustardcelly/custom-system-manager</a></a>. </p>
 <p><strong>The basics?</strong></p>
 <p>I created a subclass of <strong>SystemManager</strong> and overrode the <strong>mx_internal</strong> event handler <em>preloader_completeHandler()</em>. This method is generally called after all the <strong>RSL</strong>s and framework code is loaded in to the SWF. Within <strong>SystemManager</strong>, this would move on towards initializing all the other goodies available from <strong>SystemManager</strong> (including all the <strong>[Mixin] init()</strong> calls if you defined them in you application) by invoking <em>kickOff()</em>. By extending <strong>SystemManager</strong> and overriding <em>preloader_completeHandler()</em> we can suspend that call to <em>kickOff()</em> and notify our custom downloader that the frame is now suspended and we can do some custom loading:</p>
-<pre><code>[Event(name=<span class="string">"frameSuspended"</span>, type=<span class="string">"com.custardbelly.application.event.CustomSystemManagerEvent"</span>)]
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomSystemManager</span> <span class="keyword">extends</span> <span class="title">SystemManager</span> <span class="keyword">implements</span> <span class="title">ICustomSystemManager</span>
+<pre><code>[Event(name=<span class="hljs-string">"frameSuspended"</span>, type=<span class="hljs-string">"com.custardbelly.application.event.CustomSystemManagerEvent"</span>)]
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CustomSystemManager</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SystemManager</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ICustomSystemManager</span>
 {</span>
-    <span class="keyword">protected</span> var _resumable:Boolean;        
-    <span class="javadoc">/**
+    <span class="hljs-keyword">protected</span> var _resumable:Boolean;        
+    <span class="hljs-javadoc">/**
      * Constructor.
      */</span>
-    <span class="keyword">public</span> function CustomSystemManager() { <span class="keyword">super</span>(); }
+    <span class="hljs-keyword">public</span> function <span class="hljs-title">CustomSystemManager</span>() { <span class="hljs-keyword">super</span>(); }
 
-    <span class="javadoc">/**
-     * <span class="javadoctag">@inherit</span>
+    <span class="hljs-javadoc">/**
+     *<span class="hljs-javadoctag"> @inherit</span>
      */</span>
-    override mx_internal function docFrameHandler( event:Event = <span class="keyword">null</span> ):<span class="keyword">void</span>
+    override mx_internal function docFrameHandler( event:Event = <span class="hljs-keyword">null</span> ):<span class="hljs-keyword">void</span>
     {    
-        <span class="comment">// Override to protected flag to recognize to continue kickoff.</span>
-        <span class="keyword">if</span>( _resumable )
+        <span class="hljs-comment">// Override to protected flag to recognize to continue kickoff.</span>
+        <span class="hljs-keyword">if</span>( _resumable )
             kickOff();
     }
 
-    <span class="javadoc">/**
-     * <span class="javadoctag">@inherit</span>
+    <span class="hljs-javadoc">/**
+     *<span class="hljs-javadoctag"> @inherit</span>
      */</span>
-    override mx_internal function preloader_completeHandler( event:Event ):<span class="keyword">void</span>
+    override mx_internal function preloader_completeHandler( event:Event ):<span class="hljs-keyword">void</span>
     {
-        <span class="comment">// Override to stop super operation and dispatch a frame suspension event for any handling clients.</span>
+        <span class="hljs-comment">// Override to stop super operation and dispatch a frame suspension event for any handling clients.</span>
         preloader.removeEventListener( Event.COMPLETE, preloader_completeHandler );
-        preloader.dispatchEvent( <span class="keyword">new</span> CustomSystemManagerEvent( <span class="keyword">this</span> ) );
+        preloader.dispatchEvent( <span class="hljs-keyword">new</span> CustomSystemManagerEvent( <span class="hljs-keyword">this</span> ) );
     }        
 
-    <span class="javadoc">/**
-     * <span class="javadoctag">@inherit</span>
+    <span class="hljs-javadoc">/**
+     *<span class="hljs-javadoctag"> @inherit</span>
      */</span>
-    <span class="keyword">public</span> function resumeNextFrame():<span class="keyword">void</span>
+    <span class="hljs-keyword">public</span> function <span class="hljs-title">resumeNextFrame</span>():<span class="hljs-keyword">void</span>
     {
-        <span class="keyword">if</span>( currentFrame &gt;= <span class="number">2</span> )
+        <span class="hljs-keyword">if</span>( currentFrame &gt;= <span class="hljs-number">2</span> )
         {
-            _resumable = <span class="keyword">true</span>;
+            _resumable = <span class="hljs-keyword">true</span>;
             kickOff();
         }
     }
-}</code></pre>
-<p>Now, it should be noted that it’s not always the best idea to override <strong>mx_internal</strong> methods from the SDK. From my understanding, properties and methods marked as <strong>mx_internal</strong> basically mean they are in limbo of either being removed or declared with their proper access specifier at a later version in the SDK. So be wary. This all works now, but it may no longer work when building against future version of the <strong>Flex SDK</strong>… <em>unless they open these methods up as protected!</em></p>
+}
+</code></pre><p>Now, it should be noted that it’s not always the best idea to override <strong>mx_internal</strong> methods from the SDK. From my understanding, properties and methods marked as <strong>mx_internal</strong> basically mean they are in limbo of either being removed or declared with their proper access specifier at a later version in the SDK. So be wary. This all works now, but it may no longer work when building against future version of the <strong>Flex SDK</strong>… <em>unless they open these methods up as protected!</em></p>
 <p>In any event, this stops the SWF from progress on to displaying the load of the application code and allows any client (most often your custom <strong>DownloadProgressBar</strong>) listening for the event of suspension to do whatever it needs to:</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomPreloader</span> <span class="keyword">extends</span> <span class="title">SparkDownloadProgressBar</span>
+<pre><code><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CustomPreloader</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SparkDownloadProgressBar</span>
 {</span>
-    <span class="keyword">protected</span> <span class="keyword">var</span> _customSystemManager:ICustomSystemManager;
+    <span class="hljs-keyword">protected</span> var _customSystemManager:ICustomSystemManager;
 
-    <span class="comment">/**
+    <span class="hljs-javadoc">/**
      * Constructor.
      */</span>
-    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">CustomPreloader</span><span class="params">()</span> {</span> <span class="keyword">super</span>(); }
+    <span class="hljs-keyword">public</span> function <span class="hljs-title">CustomPreloader</span>() { <span class="hljs-keyword">super</span>(); }
 
-    <span class="comment">/**
-     * @inherit
+    <span class="hljs-javadoc">/**
+     *<span class="hljs-javadoctag"> @inherit</span>
      */</span>
-    <span class="keyword">override</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">set</span> <span class="title">preloader</span><span class="params">( value:Sprite )</span><span class="type">:void</span>
-    {</span>
-        <span class="keyword">super</span>.preloader = value;
-        <span class="comment">// Add listener for frame suspension from preloader. </span>
-                <span class="comment">// The ICustomSystemManager will dispatch this event through the preloader for stalling the 1st frame.</span>
+    override <span class="hljs-keyword">public</span> function set <span class="hljs-title">preloader</span>( value:Sprite ):<span class="hljs-keyword">void</span>
+    {
+        <span class="hljs-keyword">super</span>.preloader = value;
+        <span class="hljs-comment">// Add listener for frame suspension from preloader. </span>
+                <span class="hljs-comment">// The ICustomSystemManager will dispatch this event through the preloader for stalling the 1st frame.</span>
         value.addEventListener( CustomSystemManagerEvent.FRAME_SUSPENDED, handleFrameSuspension );
     }
 
-    <span class="comment">/**
-     * @private 
+    <span class="hljs-javadoc">/**
+     *<span class="hljs-javadoctag"> @private</span> 
      * 
      * Abstract method to be override by subclass in order to perform any operations during the suspension of the 1st frame.
      * In order to resume movement to the 2nd frame, the subclass must call resumeInitialization().
      */</span>
-    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">onFrameSuspension</span><span class="params">()</span><span class="type">:void</span>
-    {</span>
-        <span class="comment">// abstract method.</span>
-        <span class="comment">// Override to perform any other initialization tasks on the first frame.</span>
+    <span class="hljs-keyword">protected</span> function <span class="hljs-title">onFrameSuspension</span>():<span class="hljs-keyword">void</span>
+    {
+        <span class="hljs-comment">// abstract method.</span>
+        <span class="hljs-comment">// Override to perform any other initialization tasks on the first frame.</span>
     }
 
-    <span class="comment">/**
-     * @private 
+    <span class="hljs-javadoc">/**
+     *<span class="hljs-javadoctag"> @private</span> 
      * 
      * Invokes the ICustomSystemManager to resume its loading and movement to the 2nd frame.
      */</span>
-    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">resumeInitialization</span><span class="params">()</span><span class="type">:void</span>
-    {</span>
+    <span class="hljs-keyword">protected</span> function <span class="hljs-title">resumeInitialization</span>():<span class="hljs-keyword">void</span>
+    {
         _customSystemManager.resumeNextFrame();
     }
 
-    <span class="comment">/**
-     * @private
+    <span class="hljs-javadoc">/**
+     *<span class="hljs-javadoctag"> @private</span>
      * 
      * Event handler for frame suspension from the ICustomSystemManager. 
-     * @param evt CustomSystemManagerEvent
+     *<span class="hljs-javadoctag"> @param</span> evt CustomSystemManagerEvent
      */</span>
-    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">handleFrameSuspension</span><span class="params">( evt:CustomSystemManagerEvent )</span><span class="type">:void</span>
-    {</span>
-        ( evt.target <span class="keyword">as</span> IEventDispatcher ).removeEventListener( CustomSystemManagerEvent.FRAME_SUSPENDED, handleFrameSuspension );
+    <span class="hljs-keyword">protected</span> function <span class="hljs-title">handleFrameSuspension</span>( evt:CustomSystemManagerEvent ):<span class="hljs-keyword">void</span>
+    {
+        ( evt.target as IEventDispatcher ).removeEventListener( CustomSystemManagerEvent.FRAME_SUSPENDED, handleFrameSuspension );
         _customSystemManager = evt.manager;
         onFrameSuspension();
     }
-}</code></pre>
-<p>Now, all this is only possible if we specify the <strong>CustomSystemManager</strong> as the stand-in for the default <strong>SystemManager</strong>… But this is all before the loading of the application code, so we can just define a new <strong>SystemManager</strong> in our application. Well, not directly in a method anyway.</p>
+}
+</code></pre><p>Now, all this is only possible if we specify the <strong>CustomSystemManager</strong> as the stand-in for the default <strong>SystemManager</strong>… But this is all before the loading of the application code, so we can just define a new <strong>SystemManager</strong> in our application. Well, not directly in a method anyway.</p>
 <p><strong>The [Frame] Metdata</strong></p>
 <p>In general terms the <strong>[Frame]</strong> metdata defines the factory instance used in initialization of your SWF file. By default, this points to the <strong>SystemManager</strong> of the SDK and you can see that declaration if you opened up the <strong>Spark Application</strong> class in any IDE. I won’t go more into detail about <strong>[Frame]</strong> as there are many great articles out there, and in particular, these posts by <a href="http://blogs.adobe.com/rgonzalez/2006/06/modular_applications_part_2.html">Roger Gonzalez</a> and the always lovable <a href="http://www.bit-101.com/blog/?p=946">Keith Peters</a>. I will however talk about how you need to declare <strong>[Frame]</strong> in your Flex application.</p>
 <p><strong>YOU CAN’T DO IT IN THE MXML.</strong></p>
 <p>Meaning that you can’t define <strong>[Frame]</strong> in the <em><Metadata/></em> declaration. You can only define the <strong>[Frame]</strong> in ActionScript else it won’t work. YET, you can only define your preloader in the MXML, else that won’t work. Confusing yet? Any way, that’s the case. Make sure you main application class is in ActionScript and declare the metadata in that file:</p>
-<pre><code>[Frame(factoryClass=<span class="string">"com.custardbelly.application.CustomSystemManager"</span>)]</code></pre>
-<p>… and then extend that main AS file in your main MXML view and define the preloader instance:</p>
-<pre><code>&amp;lt;<span class="class">Main</span> xmlns=<span class="comment">"*"</span>
-    <span class="method">xmlns:</span>fx=<span class="comment">"http://ns.adobe.com/mxml/2009"</span> 
-    <span class="method">xmlns:</span>s=<span class="comment">"library://ns.adobe.com/flex/spark"</span> 
-    <span class="method">xmlns:</span>mx=<span class="comment">"library://ns.adobe.com/flex/mx"</span>
-    preloader=<span class="comment">"com.custardbelly.manager.example.CustomContextPreloader"</span>&amp;gt;</code></pre>
-<p>There you go, you are all set. <strong>CustomSystemManager</strong> is now your stand-in for the initialization process and suspends the first frame, notifying the <em>concrete</em> <strong>CustomPreloader</strong> to perform some extra tasks, which in turn tells the <strong>CustomSystemManager</strong> that is okay to continue onto the next frame once it has finished its task(s).</p>
+<pre><code>[Frame(factoryClass=<span class="hljs-string">"com.custardbelly.application.CustomSystemManager"</span>)]
+</code></pre><p>… and then extend that main AS file in your main MXML view and define the preloader instance:</p>
+<pre><code><span class="hljs-subst">&amp;</span><span class="hljs-literal">lt</span>;Main xmlns<span class="hljs-subst">=</span><span class="hljs-string">"*"</span>
+    xmlns:fx<span class="hljs-subst">=</span><span class="hljs-string">"http://ns.adobe.com/mxml/2009"</span> 
+    xmlns:s<span class="hljs-subst">=</span><span class="hljs-string">"library://ns.adobe.com/flex/spark"</span> 
+    xmlns:mx<span class="hljs-subst">=</span><span class="hljs-string">"library://ns.adobe.com/flex/mx"</span>
+    preloader<span class="hljs-subst">=</span><span class="hljs-string">"com.custardbelly.manager.example.CustomContextPreloader"</span><span class="hljs-subst">&amp;</span><span class="hljs-literal">gt</span>;
+</code></pre><p>There you go, you are all set. <strong>CustomSystemManager</strong> is now your stand-in for the initialization process and suspends the first frame, notifying the <em>concrete</em> <strong>CustomPreloader</strong> to perform some extra tasks, which in turn tells the <strong>CustomSystemManager</strong> that is okay to continue onto the next frame once it has finished its task(s).</p>
 <p>I would have posted an example SWF here, but it would have been a moot point as it would have loaded already by the time you arrived all the way down here <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> So one is available here: <a href="http://www.custardbelly.com/examples/csm/index.html"><a href="http://www.custardbelly.com/examples/csm/index.html">http://www.custardbelly.com/examples/csm/index.html</a></a> with source view here: <a href="http://www.custardbelly.com/examples/csm/srcview/"><a href="http://www.custardbelly.com/examples/csm/srcview/">http://www.custardbelly.com/examples/csm/srcview/</a></a>.</p>
 <p>It’s not terribly exciting, but in that example i am basically loading a <a href="http://www.springactionscript.org/">Spring ActionScript</a> application context file. I wanted to hook into the initial load progress as the<strong> IoC container</strong> was an essential part of my application. And, as i said before, i hate seeing the initial progress bar and then another progress bar after application create. I just want one.</p>
 <p>Once the application code is loaded and the <strong>Flex Application</strong> receives a <em>CREATION_COMPLETE</em> event, a custom style manager defined in the application context is accessed from the <strong>IoC container</strong> and a <a href="http://github.com/bustardcelly/flex-runtime-css">Runtime CSS SWF</a> is loaded, after which the font-size is updated on the <strong>Label</strong> field. Incredible, no? Not really, but you can see where this example can go, hopefully.</p>

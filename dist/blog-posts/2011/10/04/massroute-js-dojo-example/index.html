@@ -66,26 +66,26 @@
 <h2 id="modules">Modules</h2>
 <p>Now, truth be told, I utilized the <strong>Dojo</strong> module dependency system as I would with declaring and importing classes. This is mainly because of my experience with languages that are class-based (or provide a class “structure”) and that <strong>Dojo</strong> provides an elegant and easy way for class declaration and inheritance on top of the prototypical nature of <strong>JavaScript</strong>. So my modules really became more like classes or groupings of common classes – which is perfectly acceptable to me and how I would prefer to work – but it should be noted (if you were to look at <a href="htts://github.com/bustardcelly/massroute-js">the example in the github repo</a>) that modules are not restricted to only declaring classes.</p>
 <p>Just to provide a quick example of what i mean by treating modules as independent classes or a grouping of common classes, let’s look at an abbreviated version of the main context module (script file) for the application:</p>
-<pre><code>dojo<span class="preprocessor">.provide</span>( <span class="string">"context.massroute"</span> )<span class="comment">;</span>
+<pre><code>dojo.provide( <span class="hljs-string">"context.massroute"</span> );
 
-dojo<span class="preprocessor">.require</span>( <span class="string">"model.session"</span> )<span class="comment">;</span>
+dojo.<span class="hljs-keyword">require</span>( <span class="hljs-string">"model.session"</span> );
 
 
 
-dojo<span class="preprocessor">.declare</span>( <span class="string">"context.massroute.MassRouteContext"</span>, null, {
+dojo.<span class="hljs-keyword">declare</span>( <span class="hljs-string">"context.massroute.MassRouteContext"</span>, <span class="hljs-keyword">null</span>, {
 
-    constructor: function() {
+    constructor: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-        this<span class="preprocessor">.session</span> = new model<span class="preprocessor">.session</span><span class="preprocessor">.Session</span>()<span class="comment">;</span>
+        this.session = <span class="hljs-keyword">new</span> model.session.Session();
 
     }
 
-}</code></pre>
-<p>The value within a <em>dojo.provide()</em> invocation creates (if not previously existant) a namespaced object on global (window) scope and caches the reference within <em>dojo._loadedModules</em> with the property value of the string argument (”context.massroute” in this example). Essentially this sets up a “package” structure for your declarations with access to classes once a module has been requested and loaded. </p>
+}
+</code></pre><p>The value within a <em>dojo.provide()</em> invocation creates (if not previously existant) a namespaced object on global (window) scope and caches the reference within <em>dojo._loadedModules</em> with the property value of the string argument (”context.massroute” in this example). Essentially this sets up a “package” structure for your declarations with access to classes once a module has been requested and loaded. </p>
 <p>Modules are loaded using<em> dojo.require()</em>. The <em>dojo.require()</em> states a dependency on another module. For this example, <strong>Dojo</strong> is requested to load the “model.session” module. More on the association between files and package declarations in a bit, but for now know that if “model.session” is not found on the <em>dojo._loadedModules</em> cache, a request for <strong>/model/session.js</strong> will be made. Once loaded, it would go through much of what is currently being covered in this example: defining namespace, loaded dependencies and declaring classes. If we were to open the <strong>/model/session.js</strong> file found the application script source, we would find a <em>dojo.declare()</em> for the <strong>model.session.Session</strong> class.</p>
 <p>With each <em>dojo.declare()</em> within the provided namespace, the objects on the direct global scope and within <em>dojo._loadedModules</em> are updated to hold reference to the class, which essentially allows you to create a new instance of a class as one normally would:</p>
-<pre><code>var context = new context<span class="preprocessor">.massroute</span><span class="preprocessor">.MassRouteContext</span>()<span class="comment">;</span></code></pre>
-<p>// declare explanation<br>The <em>dojo.declare()</em> takes three arguments:</p>
+<pre><code>var <span class="hljs-keyword">context</span> = <span class="hljs-keyword">new</span> <span class="hljs-keyword">context</span>.massroute.MassRouteContext();
+</code></pre><p>// declare explanation<br>The <em>dojo.declare()</em> takes three arguments:</p>
 <ul>
 <li>className: defines the associated name for the class within the package/namespace.</li>
 <li>inheritance: defines the classes to “mixin” to your class. This can be null, a single class reference or an array of class references. The class reference(s) can be thought of as base or multiple inheritance if defined.</li>
@@ -99,15 +99,15 @@ dojo<span class="preprocessor">.declare</span>( <span class="string">"context.ma
 
         _loadedModules: {
 
-            <span class="string">"context.massroute"</span>: {
+            <span class="hljs-string">"context.massroute"</span>: {
 
-                <span class="string">"MassRouteContext"</span>: <span class="keyword">function</span>() { <span class="keyword">...</span> };
+                <span class="hljs-string">"MassRouteContext"</span>: <span class="hljs-keyword">function</span>() { <span class="hljs-keyword">...</span> };
 
             }
 
-            <span class="string">"model.session"</span>: {
+            <span class="hljs-string">"model.session"</span>: {
 
-                <span class="string">"Session"</span>: <span class="keyword">function</span>() { <span class="keyword">...</span> };
+                <span class="hljs-string">"Session"</span>: <span class="hljs-keyword">function</span>() { <span class="hljs-keyword">...</span> };
 
             }
 
@@ -119,7 +119,7 @@ dojo<span class="preprocessor">.declare</span>( <span class="string">"context.ma
 
         massroute: {
 
-            MassRouteContext: <span class="keyword">function</span>() { <span class="keyword">...</span> };
+            MassRouteContext: <span class="hljs-keyword">function</span>() { <span class="hljs-keyword">...</span> };
 
         }
 
@@ -129,60 +129,60 @@ dojo<span class="preprocessor">.declare</span>( <span class="string">"context.ma
 
         session: {
 
-            Session: <span class="keyword">function</span>() { <span class="keyword">...</span> };
+            Session: <span class="hljs-keyword">function</span>() { <span class="hljs-keyword">...</span> };
 
         }
 
     }
 
-}</code></pre>
-<p>That gives a little insight into <strong>Dojo</strong>’s nested namespace pattern and how access to classes is provided, as well as how <strong>Dojo</strong> manages caching of previously requested dependencies.</p>
+}
+</code></pre><p>That gives a little insight into <strong>Dojo</strong>’s nested namespace pattern and how access to classes is provided, as well as how <strong>Dojo</strong> manages caching of previously requested dependencies.</p>
 <p>Just for kicks, if we translated this example over to ActionScript it would be read as this:</p>
-<pre><code><span class="package"><span class="keyword">package</span> <span class="title">context</span>.<span class="title">massroute</span> {</span>
+<pre><code><span class="hljs-package"><span class="hljs-keyword">package</span> <span class="hljs-title">context</span>.<span class="hljs-title">massroute</span> {</span>
 
-    <span class="preprocessor"><span class="keyword">import</span> model.session.Session;</span>
-
-
-
-    <span class="class"><span class="keyword">class</span> <span class="title">MassRouteContext</span> {</span>
-
-        <span class="keyword">public</span> <span class="keyword">var</span> session:Session;
+    <span class="hljs-preprocessor"><span class="hljs-keyword">import</span> model.session.Session;</span>
 
 
 
-        <span class="function"><span class="keyword">function</span> <span class="title">MassRouteContext</span><span class="params">()</span> {</span>
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MassRouteContext</span> {</span>
 
-            session = <span class="keyword">new</span> Session();
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> session:Session;
+
+
+
+        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MassRouteContext</span><span class="hljs-params">()</span> {</span>
+
+            session = <span class="hljs-keyword">new</span> Session();
 
         }
 
     }
 
-}</code></pre>
-<p>I touched on it briefly before, but you may be wondering how dojo knows how to associated these namespaces with modules to load within its package system. By default, <strong>Dojo</strong> will assume that a file with the name of the ending namespace resides in a relative location of its request – meaning, if my main <strong>index.html</strong> file resides at the root of the directory, when I <em>dojo.require(”context.massroute”)</em>, <strong>dojo</strong> will make a request for <strong>./context/massroute.js</strong> if the path to that module is not defined. If you have taken a look at the example in my github repo, you may notice that <strong>/content/massroute.js</strong> is not located at the root but in a parenting directory describing the scripts for my application.</p>
+}
+</code></pre><p>I touched on it briefly before, but you may be wondering how dojo knows how to associated these namespaces with modules to load within its package system. By default, <strong>Dojo</strong> will assume that a file with the name of the ending namespace resides in a relative location of its request – meaning, if my main <strong>index.html</strong> file resides at the root of the directory, when I <em>dojo.require(”context.massroute”)</em>, <strong>dojo</strong> will make a request for <strong>./context/massroute.js</strong> if the path to that module is not defined. If you have taken a look at the example in my github repo, you may notice that <strong>/content/massroute.js</strong> is not located at the root but in a parenting directory describing the scripts for my application.</p>
 <p>You can define the path to your modules by declaring a global <em>dojoConfig</em> object prior to load of the <strong>Dojo</strong> library. An abbreviated version of what that would be for the example above:</p>
-<pre><code><span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="javascript">
 
     dojoConfig = {
 
-      baseUrl: <span class="string">'./'</span>,
+      baseUrl: <span class="hljs-string">'./'</span>,
 
       modulePaths : {
 
-            app : <span class="string">"js/app"</span>,
+            app : <span class="hljs-string">"js/app"</span>,
 
-            context: <span class="string">"js/app/context"</span>,
+            context: <span class="hljs-string">"js/app/context"</span>,
 
-            model: <span class="string">"js/app/model"</span>
+            model: <span class="hljs-string">"js/app/model"</span>
 
         }
 
     };
 
-</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-<span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"[http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js](http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js)"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></code></pre>
-<p>This defines the base URL for the directories defined in <strong>modulePaths</strong>. Now when you <em>dojo.require( “context.massroute” )</em>, <strong>dojo</strong> will look up the associated directory for the context namespace and request to load <strong>massroute.js</strong>. Once loaded, it is important to note that the file isn’t inserted into a script tag which is a common practice for script loaders. It is actually run through <em>dojo.eval()</em> which creates namespaced objects on <strong>global</strong> and <strong>dojo</strong> scopes as described above.</p>
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"[http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js](http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js)"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+</code></pre><p>This defines the base URL for the directories defined in <strong>modulePaths</strong>. Now when you <em>dojo.require( “context.massroute” )</em>, <strong>dojo</strong> will look up the associated directory for the context namespace and request to load <strong>massroute.js</strong>. Once loaded, it is important to note that the file isn’t inserted into a script tag which is a common practice for script loaders. It is actually run through <em>dojo.eval()</em> which creates namespaced objects on <strong>global</strong> and <strong>dojo</strong> scopes as described above.</p>
 <h3 id="some-caveats">Some Caveats</h3>
 <p>There are some things that I didn’t immediately realize or think of off-hand that may be of interest to those of you whether or not you come from a class-based language:</p>
 <ul>
@@ -190,21 +190,21 @@ dojo<span class="preprocessor">.declare</span>( <span class="string">"context.ma
 <li>No such things as private members to the class. Prepending members with “<strong>_</strong>” is the convention to “convey” to developers that a member is private.</li>
 </ul>
 <p>There is a way around this whole private member business, however. If you are in dire need to keep something private, you can use an <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">Immediately Invoked Function Expression</a> (<strong>IIFE</strong>) to define your private members as well as the class, such as:</p>
-<pre><code>dojo<span class="preprocessor">.provide</span>( <span class="string">"context.massroute"</span> )<span class="comment">;</span>
+<pre><code>dojo.provide( <span class="hljs-string">"context.massroute"</span> );
 
-dojo<span class="preprocessor">.require</span>( <span class="string">"model.session"</span> )<span class="comment">;</span>
+dojo.<span class="hljs-keyword">require</span>( <span class="hljs-string">"model.session"</span> );
 
 
 
-(function() {
+(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-    var _session = new model<span class="preprocessor">.session</span><span class="preprocessor">.Session</span>()<span class="comment">;</span>
+    <span class="hljs-keyword">var</span> _session = <span class="hljs-keyword">new</span> model.session.Session();
 
-    dojo<span class="preprocessor">.declare</span>( <span class="string">"context.massroute.MassRouteContext"</span>, null, {
+    dojo.<span class="hljs-keyword">declare</span>( <span class="hljs-string">"context.massroute.MassRouteContext"</span>, <span class="hljs-keyword">null</span>, {
 
-        constructor: function() {
+        constructor: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-            console<span class="preprocessor">.info</span>( _session )<span class="comment">;</span>
+            console.info( _session );
 
         }
 
@@ -212,39 +212,39 @@ dojo<span class="preprocessor">.require</span>( <span class="string">"model.sess
 
 }
 
-)()<span class="comment">;</span></code></pre>
-<p>It should also be noted that you don’t have to use <em>dojo.declare()</em> at all to get the same structure. Essentially – from what I gather – under the hood, the library does the following (in as far as constructing the namespace) which you are perfectly welcome to do as well in a module and can help with your private requirements using a mix of <strong>IIFE</strong> and the <a href="http://javascript.crockford.com/private.html">Constructor Pattern</a>:</p>
-<pre><code>dojo<span class="variable">.require</span>( <span class="string">"model.session"</span>);
+)();
+</code></pre><p>It should also be noted that you don’t have to use <em>dojo.declare()</em> at all to get the same structure. Essentially – from what I gather – under the hood, the library does the following (in as far as constructing the namespace) which you are perfectly welcome to do as well in a module and can help with your private requirements using a mix of <strong>IIFE</strong> and the <a href="http://javascript.crockford.com/private.html">Constructor Pattern</a>:</p>
+<pre><code>dojo.<span class="hljs-keyword">require</span>( <span class="hljs-string">"model.session"</span>);
 
 
 
-(function() {
+(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-    <span class="keyword">if</span>( !dojo<span class="variable">._hasResource</span>[<span class="string">"context"</span>] ) {
+    <span class="hljs-keyword">if</span>( !dojo._hasResource[<span class="hljs-string">"context"</span>] ) {
 
-        dojo<span class="variable">._hasResource</span>[<span class="string">"context"</span>] = <span class="literal">true</span>;
+        dojo._hasResource[<span class="hljs-string">"context"</span>] = <span class="hljs-keyword">true</span>;
 
-        dojo<span class="variable">.context</span> = {};
+        dojo.context = {};
 
     }
 
-    <span class="keyword">if</span>( !dojo<span class="variable">._hasResource</span>[<span class="string">"context.massroute"</span>] ) {
+    <span class="hljs-keyword">if</span>( !dojo._hasResource[<span class="hljs-string">"context.massroute"</span>] ) {
 
-        dojo<span class="variable">._hasResource</span>[<span class="string">"context.massroute"</span>] = <span class="literal">true</span>;
+        dojo._hasResource[<span class="hljs-string">"context.massroute"</span>] = <span class="hljs-keyword">true</span>;
 
-        dojo<span class="variable">.provide</span>( <span class="string">"context.massroute"</span> );
+        dojo.provide( <span class="hljs-string">"context.massroute"</span> );
 
 
 
-        context<span class="variable">.massroute</span><span class="variable">.MassRouteContext</span> = function() {
+        context.massroute.MassRouteContext = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-            var _session = new model<span class="variable">.session</span><span class="variable">.Session</span>();
+            <span class="hljs-keyword">var</span> _session = <span class="hljs-keyword">new</span> model.session.Session();
 
-            <span class="keyword">return</span> {
+            <span class="hljs-keyword">return</span> {
 
-                getSession: function() {
+                getSession: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-                    <span class="keyword">return</span> _session;
+                    <span class="hljs-keyword">return</span> _session;
 
                 }
 
@@ -254,52 +254,52 @@ dojo<span class="preprocessor">.require</span>( <span class="string">"model.sess
 
     }
 
-})();</code></pre>
-<p>Obviously, going that route, you will miss the niceties that <strong>Dojo</strong> provides in class inheritance but just throwing it out there.</p>
+})();
+</code></pre><p>Obviously, going that route, you will miss the niceties that <strong>Dojo</strong> provides in class inheritance but just throwing it out there.</p>
 <h2 id="events">Events</h2>
 <p><strong>Dojo</strong>’s event system was another part of the framework i enjoyed. Using <em>dojo.connect()</em> and <em>dojo.disconnect()</em> you could easily assign and remove event handling (delegate functions) to <strong>DOM</strong> events on a target scope, respectively. And, because <em>dojo.connect()</em> returned a connect object, it conveniently made it possible to disconnect all connection I may have set up in a view controller that was going to be trashed:</p>
 <pre><code>var connections = [];
 
-connections.push( dojo.connect( dojo.byId(<span class="string">'submitButton'</span>), <span class="string">'onclick'</span>, handleSubmitRequest ) );
+connections.push( dojo.connect( dojo.byId(<span class="hljs-string">'submitButton'</span>), <span class="hljs-string">'onclick'</span>, handleSubmitRequest ) );
 
-connections.push( dojo.connect( dojo.byId(<span class="string">'cancelButton'</span>), <span class="string">'onclick'</span>, handleCancelRequest ) );
+connections.push( dojo.connect( dojo.byId(<span class="hljs-string">'cancelButton'</span>), <span class="hljs-string">'onclick'</span>, handleCancelRequest ) );
 
-<span class="keyword">...</span>
+<span class="hljs-keyword">...</span>
 
-dojo.forEach( connections, dojo.disconnect );</code></pre>
-<p>It should be noted that when using <em>dojo.connect()</em> you are not limited to just <strong>DOM</strong> events. You can connect to “custom” events on non-<strong>DOM</strong> objects. To do so, the second argument is actually the function on the target object that you wish to “listen” for invocation of. As a quick example:</p>
-<pre><code>var test = function() {
+dojo.forEach( connections, dojo.disconnect );
+</code></pre><p>It should be noted that when using <em>dojo.connect()</em> you are not limited to just <strong>DOM</strong> events. You can connect to “custom” events on non-<strong>DOM</strong> objects. To do so, the second argument is actually the function on the target object that you wish to “listen” for invocation of. As a quick example:</p>
+<pre><code><span class="hljs-keyword">var</span> test = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-    return {
+    <span class="hljs-keyword">return</span> {
 
-        run: function() {
+        run: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-            setTimeout( this<span class="preprocessor">.onTimeout</span>, <span class="number">1000</span> )<span class="comment">;</span>
+            setTimeout( <span class="hljs-keyword">this</span>.onTimeout, <span class="hljs-number">1000</span> );
 
         },
 
-        onTimeout: function() {
+        onTimeout: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-            console<span class="preprocessor">.info</span>( <span class="string">"test.onTimeout"</span> )<span class="comment">;</span>
+            console.info( <span class="hljs-string">"test.onTimeout"</span> );
 
         }
 
     }
 
-}<span class="comment">;</span>
+};
 
 
 
-var myTest = new tester()<span class="comment">;</span>
+<span class="hljs-keyword">var</span> myTest = <span class="hljs-keyword">new</span> tester();
 
-dojo<span class="preprocessor">.connect</span>( myTest, <span class="string">"onTimeout"</span>, function() {
+dojo.connect( myTest, <span class="hljs-string">"onTimeout"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-    console<span class="preprocessor">.info</span>( <span class="string">"dojo.connect() &gt; onTimeout"</span> )<span class="comment">;</span>
+    console.info( <span class="hljs-string">"dojo.connect() &gt; onTimeout"</span> );
 
-})<span class="comment">;</span>
+});
 
-myTest<span class="preprocessor">.run</span>()<span class="comment">;</span></code></pre>
-<p>Along with <em>dojo.connect()</em> and <em>dojo.disconnect()</em>, using <em>dojo.publish()</em> and <em>dojo.subscribe()</em>/<em>dojo.unsubscribe()</em> you can make use of the global event bus to broadcast and subscribe to custom events – similar to, say, the <em>NSNotificationCenter</em> from <strong>Objective-C</strong>. I used this heavily in reporting what i deemed application-level state related events from the view controllers in the <strong>Dojo</strong> example in the <a href="http://github.com/bustardcelly/massroute-js">massroute-js github repo</a>, and thought it was a pleasure to work with.</p>
+myTest.run();
+</code></pre><p>Along with <em>dojo.connect()</em> and <em>dojo.disconnect()</em>, using <em>dojo.publish()</em> and <em>dojo.subscribe()</em>/<em>dojo.unsubscribe()</em> you can make use of the global event bus to broadcast and subscribe to custom events – similar to, say, the <em>NSNotificationCenter</em> from <strong>Objective-C</strong>. I used this heavily in reporting what i deemed application-level state related events from the view controllers in the <strong>Dojo</strong> example in the <a href="http://github.com/bustardcelly/massroute-js">massroute-js github repo</a>, and thought it was a pleasure to work with.</p>
 <h2 id="other">Other</h2>
 <p>Just quick notes on some other things that i found interesting from the <strong>Dojo</strong> framework that I either used or want to use in the future using <strong>Dojo</strong>:</p>
 <h3 id="dojo-hitch">dojo.hitch</h3>

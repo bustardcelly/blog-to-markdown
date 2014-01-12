@@ -60,19 +60,19 @@
   <section>
     <p>I use a little function called writeln in all my classes to keep track of where my traces are coming from. i started doing it to keep myself from going crazy when seeing random text come up in the output panel and not knowing where or how it got there- not to mention running through an app and then have that panel open up out of nowhere to tell me something that i have no idea what it means.<br>Recently i have been loving this new debugger <a href="http://www.bit-101.com/blog/archives/000170.html">Keith Peters’ unleashed</a>, and coupling my writeln with it has put a smile on my face.<br>i have extended the arguments in my writeln and now i can trace (recusively no less, thanks keith) with a specified level of importance and color coding!</p>
 <p>Basically, what once was this:</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">writeln</span><span class="params">(str)</span><span class="type">:Void</span>  
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeln</span><span class="hljs-params">(str)</span><span class="hljs-type">:Void</span>  
 
 {</span>  
 
     trace(”#com.site.MyClass#\n     – ” + str);  
 
-}</code></pre>
-<p>..has become this:</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">writeln</span><span class="params">(str, line:Number, type:String, clear:Boolean, levels:Number)</span><span class="type">:Void</span>  
+}
+</code></pre><p>..has become this:</p>
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeln</span><span class="hljs-params">(str, line:Number, type:String, clear:Boolean, levels:Number)</span><span class="hljs-type">:Void</span>  
 
 {</span>  
 
-    <span class="keyword">if</span>(clear)  
+    <span class="hljs-keyword">if</span>(clear)  
 
     {  
 
@@ -83,35 +83,35 @@
 
 
 
-    type = (type == <span class="literal">undefined</span>) ? “DEBUG” : type;
+    type = (type == <span class="hljs-literal">undefined</span>) ? “DEBUG” : type;
 
 
 
 
-    <span class="keyword">if</span>(arguments.length &lt; <span class="number">5</span>)  
+    <span class="hljs-keyword">if</span>(arguments.length &lt; <span class="hljs-number">5</span>)  
 
     {  
 
-        Debug.trace(<span class="string">"\n#com.site.MyClass#\n     "</span> +  line + <span class="string">"- "</span> + str, Debug[type]);  
+        Debug.trace(<span class="hljs-string">"\n#com.site.MyClass#\n     "</span> +  line + <span class="hljs-string">"- "</span> + str, Debug[type]);  
 
     }  
 
-    <span class="keyword">else</span>  
+    <span class="hljs-keyword">else</span>  
 
     {  
 
-        Debug.trace(<span class="string">"\n#com.siteMyClass#\n     "</span> +  line + <span class="string">"- "</span> + str);  
+        Debug.trace(<span class="hljs-string">"\n#com.siteMyClass#\n     "</span> +  line + <span class="hljs-string">"- "</span> + str);  
 
         Debug.traceObject(str, levels, Debug[type]);  
 
     };  
 
-} </code></pre>
-<p>..with this somewhere in the class file:</p>
-<pre><code><span class="function"><span class="title">writeln</span><span class="params">(<span class="string">"i'm debugging!"</span>, <span class="number">20</span>)</span>;  </code></pre>
-<p>or</p>
-<pre><code><span class="function"><span class="title">writeln</span><span class="params">(some<span class="variable">Object</span>, <span class="number">20</span>, <span class="string">"INFO"</span>, false, <span class="number">1</span>)</span>;  </code></pre>
-<p>and with the FlashDedugPanel open i gets all i needs.</p>
+} 
+</code></pre><p>..with this somewhere in the class file:</p>
+<pre><code><span class="hljs-function">writeln(<span class="hljs-string">"i'm debugging!"</span>, <span class="hljs-number">20</span>)</span>;  
+</code></pre><p>or</p>
+<pre><code>writeln(someObject, <span class="hljs-number">20</span>, <span class="hljs-string">"INFO"</span>, <span class="hljs-literal">false</span>, <span class="hljs-number">1</span>);  
+</code></pre><p>and with the FlashDedugPanel open i gets all i needs.</p>
 <p>i&#39;d like to do something with that if(clear), i just don&#39;t like it... but for now i&#39;m very happy.</p>
 <p>thanks again <a href="http://bit-101.com">Keith and </a><a href="http://www.timwalling.com/">Tim</a></p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/flash/">Flash</a>.</p>

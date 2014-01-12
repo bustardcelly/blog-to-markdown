@@ -63,24 +63,24 @@
 <p>One thing i found that may be helpful to others… i spent about 10 minutes trying to figure out why i couldn’t “press” on the sprite. Turns out i could have all along, but since i didn’t see the hand cursor on rollover, i just figured my code was wrong…</p>
 <p>I guess i have some new visual learning to go along with the new code.</p>
 <p>Here’s a little snippet of how you do startDrag/stopDrag in AS3. It can be found in the online docs… if i had bothered to read them <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> .<br>If you want to see the hand cursor, you have to set buttonMode to true (as far as i know)- which will turn on useHandCursor with the default value of true.</p>
-<pre><code><span class="preprocessor"><span class="keyword">import</span> flash.display.Sprite;</span>  
+<pre><code><span class="hljs-preprocessor"><span class="hljs-keyword">import</span> flash.display.Sprite;</span>  
 
-<span class="preprocessor"><span class="keyword">import</span> flash.events.Event;</span>  
+<span class="hljs-preprocessor"><span class="hljs-keyword">import</span> flash.events.Event;</span>  
 
-<span class="preprocessor"><span class="keyword">import</span> flash.events.MouseEventType;</span>
-
-
+<span class="hljs-preprocessor"><span class="hljs-keyword">import</span> flash.events.MouseEventType;</span>
 
 
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpriteExample</span> <span class="keyword">extends</span> <span class="title">Sprite</span>  
+
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpriteExample</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Sprite</span>  
 
 {</span>  
 
-    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">SpriteExample</span><span class="params">()</span>  
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SpriteExample</span><span class="hljs-params">()</span>  
 
     {</span>  
 
-        buttonMode = <span class="literal">true</span>;  
+        buttonMode = <span class="hljs-literal">true</span>;  
 
         addEventListener(MouseEventType.MOUSE_DOWN, onMouseDown);  
 
@@ -91,27 +91,27 @@
 
 
 
-    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">onMouseDown</span><span class="params">(evt:Event)</span><span class="type">:Void</span>  
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onMouseDown</span><span class="hljs-params">(evt:Event)</span><span class="hljs-type">:Void</span>  
 
     {</span>  
 
-        <span class="keyword">this</span>.startDrag();  
+        <span class="hljs-keyword">this</span>.startDrag();  
 
     }
 
 
 
 
-    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">onMouseUp</span><span class="params">(evt:Event)</span><span class="type">:Void</span>  
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onMouseUp</span><span class="hljs-params">(evt:Event)</span><span class="hljs-type">:Void</span>  
 
     {</span>  
 
-        <span class="keyword">this</span>.stopDrag();  
+        <span class="hljs-keyword">this</span>.stopDrag();  
 
     }  
 
-}  </code></pre>
-<p>i’m looking to put up the code for the Pixel Collision Detection for both Flash8 and AS3, still running some test and cleaning up.</p>
+}  
+</code></pre><p>i’m looking to put up the code for the Pixel Collision Detection for both Flash8 and AS3, still running some test and cleaning up.</p>
 <p><a href="javascript:MM_openBrWindow(&#39;http://www.custardbelly.com/flash8/PixelHit.html&#39;,&#39;coll_trial&#39;,&#39;resizable=no,width=415,height=415&#39;">Here’s a “30-Colby at 30FPS” trial</a>;) in flash8, but it seems to take a huge hit on a Mac for all browsers… don’t know what’s up with that. Does drop about 10 frames on a PC even with a proximity detector, but as i said in the previous post, i probably wouldn’t use this detection for large amounts of objects.</p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>.</p>
 

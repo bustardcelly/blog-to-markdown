@@ -85,19 +85,19 @@
 <p>Before we begin, let’s think about where we will add the tests. We could append another spec suite to the <em>Add Item</em> specs – after all, this bug occurs upon the completion of the <em>Add Item</em> feature. But in thinking about how to reproduce the issue, it seems like it may be another feature, or at least could be discovered in a feature we haven’t addressed – <em>Edit Item</em>. Essentially, when we get to the 3rd step – <em>In focused input field, type the name of a grocery item, ie. ‘apples’ (sans quotes)</em> – we have already added the item to the list. It has entered an edit mode, from which we need to ensure the validity of the value provided before saving it to the list. </p>
 <p>Now, a true <strong>TDD</strong>‘er probably would stop me right now and tell me I am thinking too much to get this resolved. And, in part, they would be correct in doing so. But it is not my intent to start dreaming up new features during bug fixing. I just want to properly think about where the tests make the most sense. I don’t think they belong as an addendum to the <em>Add Item</em> specs and should live in there own spec suite in a separate file:</p>
 <p><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
-<pre><code>define(['jquery', '<span class="keyword">script</span>/controller/<span class="type">list</span>-controller', '<span class="keyword">script</span>/controller/<span class="type">list</span>-<span class="property">item</span>-controller'],
+<pre><code>define(['jquery', '<span class="hljs-keyword">script</span>/controller/<span class="hljs-type">list</span>-controller', '<span class="hljs-keyword">script</span>/controller/<span class="hljs-type">list</span>-<span class="hljs-property">item</span>-controller'],
 
         function($, listController, itemControllerFactory) {
 
 
 
-  describe('Save <span class="property">item</span> <span class="keyword">to</span> grocery <span class="type">list</span>', function() {
+  describe('Save <span class="hljs-property">item</span> <span class="hljs-keyword">to</span> grocery <span class="hljs-type">list</span>', function() {
 
 
 
-    <span class="keyword">it</span>('should <span class="keyword">not</span> save an empty <span class="property">item</span> <span class="keyword">to</span> <span class="keyword">the</span> <span class="type">list</span>') {
+    <span class="hljs-keyword">it</span>('should <span class="hljs-keyword">not</span> save an empty <span class="hljs-property">item</span> <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> <span class="hljs-type">list</span>') {
 
-      expect(<span class="constant">true</span>).toEqual(<span class="constant">false</span>);
+      expect(<span class="hljs-constant">true</span>).toEqual(<span class="hljs-constant">false</span>);
 
     }
 
@@ -105,54 +105,54 @@
 
   }
 
-}</code></pre>
-<p>Given the steps provided in the bug ticket, we could easily translate that into the setup for the spec suite:</p>
+}
+</code></pre><p>Given the steps provided in the bug ticket, we could easily translate that into the setup for the spec suite:</p>
 <p><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
-<pre><code>define(['jquery', '<span class="keyword">script</span>/controller/<span class="type">list</span>-controller', '<span class="keyword">script</span>/controller/<span class="type">list</span>-<span class="property">item</span>-controller'],
+<pre><code>define([<span class="hljs-string">'jquery'</span>, <span class="hljs-string">'script/controller/list-controller'</span>, <span class="hljs-string">'script/controller/list-item-controller'</span>],
 
-        function($, listController, itemControllerFactory) {
-
-
-
-  describe('Save <span class="property">item</span> <span class="keyword">to</span> grocery <span class="type">list</span>', function() {
+        <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($, listController, itemControllerFactory)</span> {</span>
 
 
 
-    var <span class="property">item</span>,
+  describe(<span class="hljs-string">'Save item to grocery list'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-        itemName = 'apples',
 
-        invalidName = '',
+
+    <span class="hljs-keyword">var</span> item,
+
+        itemName = <span class="hljs-string">'apples'</span>,
+
+        invalidName = <span class="hljs-string">''</span>,
 
         itemRenderer,
 
-        async = new AsyncSpec(this);
+        async = <span class="hljs-keyword">new</span> AsyncSpec(<span class="hljs-keyword">this</span>);
 
 
 
-    beforeEach( function() {
+    beforeEach( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-      <span class="property">item</span> = listController.createNewItem();
+      item = listController.createNewItem();
 
-      itemRenderer = listController.getRendererFromItem(<span class="property">item</span>);
-
-    });
-
-
-
-    <span class="keyword">it</span>('should <span class="keyword">not</span> save an empty <span class="property">item</span> <span class="keyword">to</span> <span class="keyword">the</span> <span class="type">list</span>', function() {
-
-      expect(<span class="constant">true</span>).toEqual(<span class="constant">false</span>);
+      itemRenderer = listController.getRendererFromItem(item);
 
     });
 
 
 
-    afterEach( function() {
+    it(<span class="hljs-string">'should not save an empty item to the list'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-      <span class="property">item</span> = undefined;
+      expect(<span class="hljs-literal">true</span>).toEqual(<span class="hljs-literal">false</span>);
 
-      itemRenderer = undefined;
+    });
+
+
+
+    afterEach( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+
+      item = <span class="hljs-literal">undefined</span>;
+
+      itemRenderer = <span class="hljs-literal">undefined</span>;
 
     });
 
@@ -160,34 +160,34 @@
 
 
 
-});</code></pre>
-<p>In the <code>beforeEach()</code> setup, we have progressed the application – or at least a list item – to essentially the 3rd step in the <em>Steps to Reproduce</em>: we have added a new item to the list, and internally upon addition of an item in the <code>list-controller</code>, it has entered edit-mode for that item. In the variable declarations, we have also defined what we know of as being valid and invalid item entry names: <em>‘apples’</em> and <em>”</em>, respectively. </p>
+});
+</code></pre><p>In the <code>beforeEach()</code> setup, we have progressed the application – or at least a list item – to essentially the 3rd step in the <em>Steps to Reproduce</em>: we have added a new item to the list, and internally upon addition of an item in the <code>list-controller</code>, it has entered edit-mode for that item. In the variable declarations, we have also defined what we know of as being valid and invalid item entry names: <em>‘apples’</em> and <em>”</em>, respectively. </p>
 <p>We should be ready to go in our specs now to define the rest of the steps and expected results:</p>
 <p><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
-<pre><code><span class="keyword">it</span>('should <span class="keyword">not</span> save an empty <span class="property">item</span> <span class="keyword">to</span> <span class="keyword">the</span> <span class="type">list</span>', function() {
+<pre><code><span class="hljs-function">it(<span class="hljs-string">'should not save an empty item to the list'</span>, <span class="hljs-function">function()</span> {
 
-  var listLength = listController.getItemList().itemLength();
+  var listLength = listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">itemLength()</span>;
 
 
 
-  <span class="property">item</span>.<span class="property">name</span> = invalidName;
+  item.name = invalidName;
 
-  // save <span class="property">item</span>... ?
+  // save item... ?
 
-  expect(listController.getItemList().itemLength()).toEqual(listLength);
+  <span class="hljs-function">expect(listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">itemLength()</span>)</span>.<span class="hljs-function">toEqual(listLength)</span>;
 
-});</code></pre>
-<p>Oh, boy. How do we actually save an item? There is no API on the <code>list-controller</code> that saves an item. There used to be, but we refactored that out when we handed over item management to the <code>list-item-controller</code>. Furthermore, an item is added and kept on the list since its request for creation – the actual reason for the bug, I suppose. I am fine with such functionality internally to the <code>list-controller</code> as it stands now and don’t intend to change the item creation. I think an additional event should be dispatched from a <code>list-item-controller</code> signifying a request to commit the item to the list after being edited. Let’s finish up this spec under such assumptions, then work our way through the failing test:</p>
+})</span>;
+</code></pre><p>Oh, boy. How do we actually save an item? There is no API on the <code>list-controller</code> that saves an item. There used to be, but we refactored that out when we handed over item management to the <code>list-item-controller</code>. Furthermore, an item is added and kept on the list since its request for creation – the actual reason for the bug, I suppose. I am fine with such functionality internally to the <code>list-controller</code> as it stands now and don’t intend to change the item creation. I think an additional event should be dispatched from a <code>list-item-controller</code> signifying a request to commit the item to the list after being edited. Let’s finish up this spec under such assumptions, then work our way through the failing test:</p>
 <p><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
-<pre><code>async.<span class="keyword">it</span>('should <span class="keyword">not</span> save an empty <span class="property">item</span> <span class="keyword">to</span> <span class="keyword">the</span> <span class="type">list</span>', function(done) {
+<pre><code>async.it(<span class="hljs-string">'should not save an empty item to the list'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
 
-  var listLength = listController.getItemList().itemLength();
+  <span class="hljs-keyword">var</span> listLength = listController.getItemList().itemLength();
 
 
 
-  $(itemRenderer).<span class="keyword">on</span>('commit', function(event) {
+  $(itemRenderer).on(<span class="hljs-string">'commit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-    expect(listController.getItemList().itemLength()).toEqual(listLength-<span class="number">1</span>);
+    expect(listController.getItemList().itemLength()).toEqual(listLength-<span class="hljs-number">1</span>);
 
     done();
 
@@ -195,12 +195,12 @@
 
 
 
-  <span class="property">item</span>.<span class="property">name</span> = invalidName;
+  item.name = invalidName;
 
   itemRenderer.save();
 
-});</code></pre>
-<p>We marked the spec as asynchronous to support events from the <code>list-item-controller</code> and placed the expectation within the <em>‘commit’</em> event handler.</p>
+});
+</code></pre><p>We marked the spec as asynchronous to support events from the <code>list-item-controller</code> and placed the expectation within the <em>‘commit’</em> event handler.</p>
 <p>Run that, and we’ll be waiting for about 5 seconds until we are told that save() is not a method on the <code>list-item-controller</code> instance:</p>
 <p><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_2.png" alt="Failing save item test with timeout"></p>
 <p>I have temporarily commented out the other tests in order to remove any noise and focus solely on resolving this bug. This is for local testing and would not commit the spec runner in such a state when committing back to the repo and running latest on a CI server.</p>
@@ -212,80 +212,80 @@
 
   $uneditableView: undefined,
 
-  init: <span class="keyword">function</span>() {
+  init: <span class="hljs-keyword">function</span>() {
 
-    <span class="keyword">...</span>
+    <span class="hljs-keyword">...</span>
 
-    <span class="keyword">return</span> this;
-
-  },
-
-  save: <span class="keyword">function</span>() {
+    <span class="hljs-keyword">return</span> this;
 
   },
 
-  dispose: <span class="keyword">function</span>() {
+  save: <span class="hljs-keyword">function</span>() {
 
-    <span class="keyword">...</span>
+  },
+
+  dispose: <span class="hljs-keyword">function</span>() {
+
+    <span class="hljs-keyword">...</span>
 
   }
 
-};</code></pre>
-<p>Run that again, and now we are down to just the timeout failure:</p>
+};
+</code></pre><p>Run that again, and now we are down to just the timeout failure:</p>
 <p><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_3.png" alt="Timeout failure on list-item-controller save"></p>
 <p>To resolve that, we’ll first create a new event factory method and invoke it from <code>save()</code> to dispatch the <em>commit</em> event, of which we have assigned a handler for in the test:</p>
 <p><em>/script/controller/list-item-controller.js</em></p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">createSaveEvent</span><span class="params">(controller)</span> {</span>
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createSaveEvent</span><span class="hljs-params">(controller)</span> {</span>
 
-  <span class="keyword">var</span> event = $.Event(<span class="string">'commit'</span>);
+  <span class="hljs-keyword">var</span> event = $.Event(<span class="hljs-string">'commit'</span>);
 
   event.controller = controller;
 
-  <span class="keyword">return</span> event;
+  <span class="hljs-keyword">return</span> event;
 
-}</code></pre>
-<p>and…</p>
-<pre><code><span class="attribute">save</span>: <span class="string">function() {</span>
+}
+</code></pre><p>and…</p>
+<pre><code>save: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-<span class="objectivec">  $(<span class="keyword">this</span>)<span class="variable">.trigger</span>(createSaveEvent(<span class="keyword">this</span>));
+  $(<span class="hljs-keyword">this</span>).trigger(createSaveEvent(<span class="hljs-keyword">this</span>));
 
-},</span></code></pre>
-<p>No more timeout!</p>
+},
+</code></pre><p>No more timeout!</p>
 <p><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_4.png" alt="Failing expectation on list-item-controller save."></p>
 <p>But still failing. Reason is that the item had not been removed from the collection. In previous tests we have verified its addition to the collection from the <code>createNewItem()</code> method on <code>list-controller</code>. Now that we are saving the <code>list-item-controller</code> with a modified model that has an invalid name, we are expecting such an action to remove the item from the collection – the crux of our <em>Empty Item</em> bug.</p>
 <p>Let’s modify the <code>list-controller</code> in order to handle the commit event from a <code>list-item-controller</code>:</p>
 <p><em>/script/controller/list-controller.js</em></p>
-<pre><code><span class="variable">$collection</span>.on(<span class="string">'collection-change'</span>, function(<span class="keyword">event</span>) {
+<pre><code><span class="hljs-variable">$collection</span>.on(<span class="hljs-string">'collection-change'</span>, function(<span class="hljs-keyword">event</span>) {
 
-  var model, itemController, <span class="variable">$itemView</span>;
+  var model, itemController, <span class="hljs-variable">$itemView</span>;
 
-  <span class="keyword">switch</span>( <span class="keyword">event</span>.kind ) {
+  <span class="hljs-keyword">switch</span>( <span class="hljs-keyword">event</span>.kind ) {
 
-    <span class="keyword">case</span> EventKindEnum.ADD:
+    <span class="hljs-keyword">case</span> EventKindEnum.ADD:
 
-      <span class="variable">$itemView</span> = <span class="variable">$(</span><span class="string">'&lt;li&gt;'</span>);
+      <span class="hljs-variable">$itemView</span> = <span class="hljs-variable">$(</span><span class="hljs-string">'&lt;li&gt;'</span>);
 
-      model = <span class="keyword">event</span>.items.shift();
+      model = <span class="hljs-keyword">event</span>.items.shift();
 
-      itemController = itemControllerFactory.create(<span class="variable">$itemView</span>, model);
+      itemController = itemControllerFactory.create(<span class="hljs-variable">$itemView</span>, model);
 
 
 
-      <span class="variable">$itemView</span>.appendTo(listController.<span class="variable">$view</span>);
+      <span class="hljs-variable">$itemView</span>.appendTo(listController.<span class="hljs-variable">$view</span>);
 
       rendererList.addItem(itemController);
 
       itemController.state = itemControllerFactory.state.EDITABLE;
 
-      <span class="variable">$(</span>itemController).on(<span class="string">'remove'</span>, function(<span class="keyword">event</span>) {
+      <span class="hljs-variable">$(</span>itemController).on(<span class="hljs-string">'remove'</span>, function(<span class="hljs-keyword">event</span>) {
 
         listController.removeItem(model);
 
       });
 
-      <span class="variable">$(</span>itemController).on(<span class="string">'commit'</span>, function(<span class="keyword">event</span>) {
+      <span class="hljs-variable">$(</span>itemController).on(<span class="hljs-string">'commit'</span>, function(<span class="hljs-keyword">event</span>) {
 
-        <span class="keyword">if</span>(!isValidValue(model.name)) {
+        <span class="hljs-keyword">if</span>(!isValidValue(model.name)) {
 
           listController.removeItem(model);
 
@@ -293,73 +293,73 @@
 
       });
 
-      <span class="keyword">break</span>;
+      <span class="hljs-keyword">break</span>;
 
-    <span class="keyword">case</span> EventKindEnum.REMOVE:
+    <span class="hljs-keyword">case</span> EventKindEnum.REMOVE:
 
-      model = <span class="keyword">event</span>.items.shift();
+      model = <span class="hljs-keyword">event</span>.items.shift();
 
       itemController = listController.getRendererFromItem(model);
 
 
 
-      <span class="keyword">if</span>(itemController) {
+      <span class="hljs-keyword">if</span>(itemController) {
 
-        <span class="variable">$itemView</span> = itemController.parentView;
+        <span class="hljs-variable">$itemView</span> = itemController.parentView;
 
-        <span class="variable">$itemView</span>.remove();
+        <span class="hljs-variable">$itemView</span>.remove();
 
         itemController.dispose();
 
-        <span class="variable">$(</span>itemController).off(<span class="string">'remove'</span>);
+        <span class="hljs-variable">$(</span>itemController).off(<span class="hljs-string">'remove'</span>);
 
-        <span class="variable">$(</span>itemController).off(<span class="string">'commit'</span>);
+        <span class="hljs-variable">$(</span>itemController).off(<span class="hljs-string">'commit'</span>);
 
         rendererList.removeItem(itemController);
 
       }
 
-      <span class="keyword">break</span>;
+      <span class="hljs-keyword">break</span>;
 
-    <span class="keyword">case</span> EventKindEnum.RESET:
+    <span class="hljs-keyword">case</span> EventKindEnum.RESET:
 
-      <span class="keyword">break</span>;
+      <span class="hljs-keyword">break</span>;
 
   }
 
-});</code></pre>
-<p>We’ve added another event listener to the <code>list-item-controller</code> when it is added to the collection to handle the <em>commit</em> event. Within the handler we check for its validity – which we have predetermined as not being an empty string – and if it does not pass, then we remove it.<br>Note: In shipped code I would hold a single reference to a wrapped non-jQuery object and not wrap it multiple times as is shown here when adding and removing event handlers. I left it in this example to not add extra noise to the task at hand.</p>
+});
+</code></pre><p>We’ve added another event listener to the <code>list-item-controller</code> when it is added to the collection to handle the <em>commit</em> event. Within the handler we check for its validity – which we have predetermined as not being an empty string – and if it does not pass, then we remove it.<br>Note: In shipped code I would hold a single reference to a wrapped non-jQuery object and not wrap it multiple times as is shown here when adding and removing event handlers. I left it in this example to not add extra noise to the task at hand.</p>
 <p>Run that, and we are back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_5.png" alt="Passing test on commit event form list-item-controller"></p>
 <h2 id="user-test">User Test</h2>
 <p>Let’s run the application and see if the issue is resolved:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_6.png" alt="Non-resolution of bug in live test"><br>I think that picture says it all…</p>
 <p>The bug is still there because <code>save()</code> is not being called on the <code>list-item-controller</code>. In our test, we explicitly called it after a change to the model, but in the application itself it is not being invoked upon change to the model. </p>
 <p>But before we start adding calls to <code>save()</code> in our code, let’s think about the steps to reproduce the bug… or at least the fourth step – <em>Click the Tab button to save to list</em>. The tab keystroke, internally to the <code>list-item-controller</code>, causes a blur to the input field. If we look at the code from <code>list-item-controller</code>, that <em>blur</em> event performs a change to state:</p>
 <p><em>/script/controller/list-item-controller.js</em></p>
-<pre><code>$(<span class="string">'input'</span>, <span class="keyword">this</span>.$editableView).<span class="literal">on</span>(<span class="string">'blur'</span>, (<span class="reserved">function</span>(controller) {
+<pre><code>$(<span class="hljs-string">'input'</span>, <span class="hljs-keyword">this</span>.$editableView).on(<span class="hljs-string">'blur'</span>, (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(controller)</span> {</span>
 
-  <span class="keyword">return</span> <span class="reserved">function</span>(event) {
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-    controller.model.name = $(<span class="keyword">this</span>).val();
+    controller.model.name = $(<span class="hljs-keyword">this</span>).val();
 
     controller.state = stateEnum.UNEDITABLE;
 
   };
 
-}(<span class="keyword">this</span>)));</code></pre>
-<p>This snippet is taken from the event handler assignment in the <code>init()</code> function. When in edit mode of the <code>list-item-controller</code>, once focus is lost from the input field – which happens upon tab – the model is updated and state changed to non-edit mode. My first inkling is to put it here. It is true that, in doing so, it will pass and get rid of the bug… but the real commit of changes to the <code>list-item-controller</code> and its underlying model I feel lie in its change from edit mode to non-edit mode. I would argue that <code>save()</code> should be called from that occurrence. But before we add that to the code, let’s write up an expectation of that behavior.</p>
+}(<span class="hljs-keyword">this</span>)));
+</code></pre><p>This snippet is taken from the event handler assignment in the <code>init()</code> function. When in edit mode of the <code>list-item-controller</code>, once focus is lost from the input field – which happens upon tab – the model is updated and state changed to non-edit mode. My first inkling is to put it here. It is true that, in doing so, it will pass and get rid of the bug… but the real commit of changes to the <code>list-item-controller</code> and its underlying model I feel lie in its change from edit mode to non-edit mode. I would argue that <code>save()</code> should be called from that occurrence. But before we add that to the code, let’s write up an expectation of that behavior.</p>
 <h2 id="more-tests">More Tests</h2>
 <p><em>‘WHAT?!? The bug was in our sights. We know how to get rid of it, and you want to write more tests?!?’</em><br>That is the voice in my head most of the time when I decide to go back to tests. It has lessened, and the swearing really has decreased. And when I finally do get around to passing tests, it goes away and is replaced with: <em>‘Nice job! You deserve a raise.. or at least an egg sandwich!’</em></p>
 <p>Anyway, let’s get to <em>Egg Sandwich Status</em> and add another test to ensure that upon change to non-edit mode, if the model properties are not valid, that the item is not saved:</p>
 <p><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
-<pre><code>async.<span class="keyword">it</span>('should <span class="keyword">not</span> save an empty <span class="property">item</span> upon change <span class="keyword">to</span> non-edit mode', function(done) {
+<pre><code>async.it(<span class="hljs-string">'should not save an empty item upon change to non-edit mode'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
 
-   var listLength = listController.getItemList().itemLength();
+   <span class="hljs-keyword">var</span> listLength = listController.getItemList().itemLength();
 
 
 
-  $(itemRenderer).<span class="keyword">on</span>('commit', function(event) {
+  $(itemRenderer).on(<span class="hljs-string">'commit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-    expect(listController.getItemList().itemLength()).toEqual(listLength - <span class="number">1</span>);
+    expect(listController.getItemList().itemLength()).toEqual(listLength - <span class="hljs-number">1</span>);
 
     done();
 
@@ -367,61 +367,61 @@
 
 
 
-  <span class="property">item</span>.<span class="property">name</span> = invalidName;
+  item.name = invalidName;
 
   itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
 
-});</code></pre>
-<p>We have already verified the expectation that a <code>list-item-controller</code> is entered into an <code>EDITABLE</code> state from our <em>additem.spec.js</em> tests, so we don’t need to test for that here – just know that setting the <code>list-item-controller</code> instance to an <code>UNEDITABLE</code> state will trigger it to go into non-edit mode.</p>
+});
+</code></pre><p>We have already verified the expectation that a <code>list-item-controller</code> is entered into an <code>EDITABLE</code> state from our <em>additem.spec.js</em> tests, so we don’t need to test for that here – just know that setting the <code>list-item-controller</code> instance to an <code>UNEDITABLE</code> state will trigger it to go into non-edit mode.</p>
 <p>Run that, and we get the timeout failure from that test:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_7.png" alt="Timeout failure on non-edit mode commit"></p>
 <p>Good! Before you slap me… save that hand for modifying the <code>list-item-controller</code> to invoke the save() method from its state-change handler:</p>
 <p><em>/script/controller/list-item-controller.js</em></p>
-<pre><code>function handleStateChange(controller, <span class="keyword">event</span>) {
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleStateChange</span><span class="hljs-params">(controller, event)</span> {</span>
 
-  <span class="comment">// remove state-based item.</span>
+  <span class="hljs-comment">// remove state-based item.</span>
 
-  <span class="keyword">if</span>( typeof <span class="keyword">event</span>.oldState !== <span class="string">'undefined'</span>) {
+  <span class="hljs-keyword">if</span>( typeof event.oldState !== <span class="hljs-string">'undefined'</span>) {
 
-    <span class="keyword">if</span>(<span class="keyword">event</span>.oldState === stateEnum.UNEDITABLE) {
+    <span class="hljs-keyword">if</span>(event.oldState === stateEnum.UNEDITABLE) {
 
-      controller.<span class="variable">$uneditableView</span>.detach();
+      controller.<span class="hljs-variable">$uneditableView</span>.detach();
 
     }
 
-    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">event</span>.oldState === stateEnum.EDITABLE) {
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(event.oldState === stateEnum.EDITABLE) {
 
-      controller.<span class="variable">$editableView</span>.detach();
+      controller.<span class="hljs-variable">$editableView</span>.detach();
 
     }
 
   }
 
-  <span class="comment">// append state-based item.</span>
+  <span class="hljs-comment">// append state-based item.</span>
 
-  <span class="keyword">if</span>(<span class="keyword">event</span>.newState === stateEnum.UNEDITABLE) {
+  <span class="hljs-keyword">if</span>(event.newState === stateEnum.UNEDITABLE) {
 
-    controller.parentView.append(controller.<span class="variable">$uneditableView</span>);
+    controller.parentView.append(controller.<span class="hljs-variable">$uneditableView</span>);
 
     controller.save();
 
   }
 
-  <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">event</span>.newState === stateEnum.EDITABLE) {
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(event.newState === stateEnum.EDITABLE) {
 
-    var inputTimeout = setTimeout( function()  {
+    <span class="hljs-keyword">var</span> inputTimeout = setTimeout( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>  {</span>
 
       clearTimeout(inputTimeout);
 
-      <span class="variable">$(</span><span class="string">'input'</span>, controller.<span class="variable">$editableView</span>).focus();
+      $(<span class="hljs-string">'input'</span>, controller.<span class="hljs-variable">$editableView</span>).focus();
 
-    }, <span class="number">100</span>);
+    }, <span class="hljs-number">100</span>);
 
-    controller.parentView.append(controller.<span class="variable">$editableView</span>);
+    controller.parentView.append(controller.<span class="hljs-variable">$editableView</span>);
 
   }
 
-}</code></pre>
-<p>One little addition. Now run the tests:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_8.png" alt="Passing tests on change to non-edit mode and save."></p>
+}
+</code></pre><p>One little addition. Now run the tests:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_8.png" alt="Passing tests on change to non-edit mode and save."></p>
 <p><em>Hooray!</em> Now use that hand you were gonna slap me with and high-five yourself. Now look at yourself… you look silly. Run the application you crazy solo-high-fiver:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_9.png" alt="Application does not save empty item"></p>
 <p>That picture doesn’t say much, but – if all has gone well – it conveys that we are no longer able to save an item to the list when nothing has been provided in the input field and we can close the bug.</p>
 <h3 id="can-t-stop-won-t-stop">Can’t Stop. Won’t Stop</h3>
@@ -429,31 +429,31 @@
 <ol>
 <li><p>Item controller view is not retained in list view if not valid:<br><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
 <p> async.it(&#39;should not add an empty item to list view upon change to non-edit mode&#39;, function(done) {</p>
-<pre><code>var listViewLength = $listView<span class="preprocessor">.children</span>()<span class="preprocessor">.length</span><span class="comment">;</span></code></pre>
-</li>
+<pre><code><span class="hljs-keyword">var</span> listViewLength = <span class="hljs-variable">$listView</span>.children().length;
+</code></pre></li>
 </ol>
-<pre><code>  $(itemRenderer).on(<span class="string">'commit'</span>, <span class="keyword">function</span>(event) <span class="cell">{
+<pre><code>  $(itemRenderer).<span class="hljs-keyword">on</span>(<span class="hljs-string">'commit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(<span class="hljs-keyword">event</span>)</span> <span class="hljs-comment">{
 
-    expect($listView.children().length).toEqual(listViewLength - <span class="number">1</span>);
+    expect($listView.children().length).toEqual(listViewLength - 1);
 
     done();
 
-  }</span>);
+  }</span>);</span>
 
 
 
-  <span class="transposed_variable">item.</span>name = invalidName;
+  item.name = invalidName;
 
-  <span class="transposed_variable">itemRenderer.</span>state = <span class="transposed_variable">itemControllerFactory.</span><span class="transposed_variable">state.</span>UNEDITABLE;
+  itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
 
-});</code></pre>
-<ol>
+});
+</code></pre><ol>
 <li><p>When going from edit to non-edit mode, valid items are retained:<br><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
 <p> async.it(&#39;should save a valid item upon change to non-edit mode&#39;, function(done) {</p>
-<pre><code>var listLength = listController<span class="preprocessor">.getItemList</span>()<span class="preprocessor">.itemLength</span>()<span class="comment">;</span></code></pre>
-</li>
+<pre><code>var listLength = listController<span class="hljs-preprocessor">.getItemList</span>()<span class="hljs-preprocessor">.itemLength</span>()<span class="hljs-comment">;</span>
+</code></pre></li>
 </ol>
-<pre><code>  $(itemRenderer).<span class="keyword">on</span>('commit', function(event) {
+<pre><code>  $(itemRenderer).on(<span class="hljs-string">'commit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
     expect(listController.getItemList().itemLength()).toEqual(listLength);
 
@@ -463,7 +463,7 @@
 
 
 
-  <span class="property">item</span>.<span class="property">name</span> = itemName;
+  item.name = itemName;
 
   itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
 
@@ -471,15 +471,15 @@
 
 
 
-async.<span class="keyword">it</span>('should add a valid <span class="property">item</span> <span class="keyword">to</span> <span class="type">list</span> view upon change <span class="keyword">to</span> non-edit mode', function(done) {
+async.it(<span class="hljs-string">'should add a valid item to list view upon change to non-edit mode'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
 
-   var listViewLength = $listView.children.<span class="property">length</span>;
+   <span class="hljs-keyword">var</span> listViewLength = $listView.children.length;
 
 
 
-  $(itemRenderer).<span class="keyword">on</span>('commit', function(event) {
+  $(itemRenderer).on(<span class="hljs-string">'commit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-    expect($listView.children().<span class="property">length</span>).toEqual(listViewLength);
+    expect($listView.children().length).toEqual(listViewLength);
 
     done();
 
@@ -487,12 +487,12 @@ async.<span class="keyword">it</span>('should add a valid <span class="property"
 
 
 
-  <span class="property">item</span>.<span class="property">name</span> = itemName;
+  item.name = itemName;
 
   itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
 
-});</code></pre>
-<p>Those additional specs will pass with flying colors and without having to modify any more application code:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_10.png" alt="Finishing up all expectations for Save Item feature"></p>
+});
+</code></pre><p>Those additional specs will pass with flying colors and without having to modify any more application code:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_10.png" alt="Finishing up all expectations for Save Item feature"></p>
 <p>Tagged <strong>0.1.12</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.12"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.12">https://github.com/bustardcelly/grocery-ls/tree/0.1.12</a></a></p>
 <h1 id="conclusion">Conclusion</h1>
 <p>In this article we tested our way to closing a bug.</p>

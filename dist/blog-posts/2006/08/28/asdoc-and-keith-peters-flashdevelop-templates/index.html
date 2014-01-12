@@ -67,29 +67,29 @@
 <p>[Note: it&#39;s not really actionscript code below, i&#39;m just being lazy]</p>
 <p><strong>The additions to <em>build.properties</em></strong>:</p>
 <p><em>1 – under the project properties header…</em>  </p>
-<pre><code><span class="preprocessor">#document titles  </span>
+<pre><code><span class="hljs-preprocessor">#document titles  </span>
 
-docbuild=<span class="literal">false</span>  
+docbuild=<span class="hljs-literal">false</span>  
 
-doc<span class="variable">.maintitle</span>=templatetest  
+doc.maintitle=templatetest  
 
-doc<span class="variable">.windowtitle</span>=’template test’</code></pre>
-<p><em><br>… the docbuild property is a string boolean evaluated in a conditional in the build.xml. The others are command params <a href="http://labs.adobe.com/wiki/index.php/ASDoc:Using_ASDoc">found here</a>. Remember that anything with spaces needs quotes around it, as is the value for doc.windowtitle.</em></p>
+doc.windowtitle=’template test’
+</code></pre><p><em><br>… the docbuild property is a string boolean evaluated in a conditional in the build.xml. The others are command params <a href="http://labs.adobe.com/wiki/index.php/ASDoc:Using_ASDoc">found here</a>. Remember that anything with spaces needs quotes around it, as is the value for doc.windowtitle.</em></p>
 <p><em>2 – under the tools header…</em>  </p>
-<pre><code><span class="comment"># where you installed your documenter:  </span>
+<pre><code><span class="hljs-comment"># where you installed your documenter:  </span>
 
-asdoc.dir=<span class="constant">C</span><span class="symbol">:/Flex_2_sdk</span>  
+asdoc.dir=<span class="hljs-constant">C</span><span class="hljs-symbol">:/Flex_2_sdk</span>  
 
 …  
 
-<span class="comment"># most of this shouldn’t need to change  </span>
+<span class="hljs-comment"># most of this shouldn’t need to change  </span>
 
 …  
 
 documenter=bin/asdoc.exe  
 
-…  </code></pre>
-<p><em>… where asdoc.dir and documenter are relative to where you unzipped the ASDoc – in this case i threw it into the directory of the sdk.</em></p>
+…  
+</code></pre><p><em>… where asdoc.dir and documenter are relative to where you unzipped the ASDoc – in this case i threw it into the directory of the sdk.</em></p>
 <p><strong>the additions to <em>build.xml:</em></strong></p>
 <p><em>1- conditional added to the compile target:</em>  </p>
 <p><em>2 – the document target</em>  </p>

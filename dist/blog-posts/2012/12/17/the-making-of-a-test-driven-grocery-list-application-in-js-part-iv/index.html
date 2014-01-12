@@ -68,18 +68,18 @@
 <h3 id="list-item-controller">list-item-controller</h3>
 <p>Before we dive in to creating a <em>list-item-controller</em>, let’s take a look at what concerns within <em>list-controller</em> we want to move out. Looking from the <a href="https://github.com/bustardcelly/grocery-ls/blob/0.1.3/script/controller/list-controller.js">0.1.3 tagged list-controller</a>, we mainly want to cut out the item view creation – so the following node declarations and any associated item creation and item management:</p>
 <p><em>/script/controller/list-controller.js tagged at 0.1.3</em></p>
-<pre><code>itemFragment          = '<span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"grocery-item"</span> /&gt;</span>',
+<pre><code>itemFragment          = <span class="hljs-string">'&lt;li class="</span>grocery-item<span class="hljs-string">" /&gt;'</span>,
 
-editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"editable-grocery-item"</span>&gt;</span>' +
+editableItemFragment  = <span class="hljs-string">'&lt;li class="</span>editable-grocery-item<span class="hljs-string">"&gt;'</span> +
 
-                                           '<span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"editableItem"</span> <span class="attribute">name</span>=<span class="value">"editableItem"</span> ' +
+                                           <span class="hljs-string">'&lt;input id="</span>editableItem<span class="hljs-string">" name="</span>editableItem<span class="hljs-string">" '</span> +
 
-                                               '<span class="attribute">class</span>=<span class="value">"editable-item"</span> <span class="attribute">placeholder</span>=<span class="value">"Enter item name..."</span>&gt;</span>' +
+                                               <span class="hljs-string">'class="</span>editable-item<span class="hljs-string">" placeholder="</span>Enter item <span class="hljs-transposed_variable">name...</span><span class="hljs-string">"&gt;'</span> +
 
-                                          '<span class="tag">&lt;/<span class="title">input</span>&gt;</span>' +
+                                          <span class="hljs-string">'&lt;/input&gt;'</span> +
 
-                                        '<span class="tag">&lt;/<span class="title">li</span>&gt;</span>'</code></pre>
-<p>These declarations and management of view will be moved to the <em>list-item-controller</em>. The UI and usability of a list item will be driven by the model and should provide an API that is a level of abstraction from the model for any outside parties (ie, the <em>list-controller</em>). As well, the model drives the internal state of edit-ability and marked-off-ed-ness (<em>they’re words, alright</em>!), and the <em>list-item-controller</em> will dispatch events related to its change of state. Lofty goals, but let’s see if we can’t address them.</p>
+                                        <span class="hljs-string">'&lt;/li&gt;'</span>
+</code></pre><p>These declarations and management of view will be moved to the <em>list-item-controller</em>. The UI and usability of a list item will be driven by the model and should provide an API that is a level of abstraction from the model for any outside parties (ie, the <em>list-controller</em>). As well, the model drives the internal state of edit-ability and marked-off-ed-ness (<em>they’re words, alright</em>!), and the <em>list-item-controller</em> will dispatch events related to its change of state. Lofty goals, but let’s see if we can’t address them.</p>
 <h4 id="a-bit-of-uncertainty">a bit of uncertainty</h4>
 <p>We currently created specs for <em>Add Item</em> and <em>Mark Off Item</em> features. These were a little high-level in that they described features using the BDD syntax of <a href="http://pivotal.github.com/jasmine/">Jasmine</a> but did involve tests around how to interact with the <em>list-controller</em> API; so they do involve integration to some respect – we kind of ignore the whole UI and User Interaction aspect within the tests. </p>
 <p>Now here is where I have an internal struggle with writing specs: should the tests we need for the <em>list-item-controller</em> be added to these specs? Or should a new spec focused on <em>list-item-controller</em> API and usability be born? I ask, because from outside-looking-in, the creation, editability and mark-off of an item will still be feasible through the <em>list-controller</em> and to any other third parties – that API provides a facade to modifying a grocery list. So, the current specs we have serve as a nice example of how to interact with the application from the outside… and if they are passing, we know that from higher-level things <em>should</em>* work <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
@@ -88,77 +88,77 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 <h3 id="list-item-controller-design">list-item-controller design</h3>
 <p>In my <em>bit of uncertainty</em>, I basically described the design of the <em>list-item-controller</em>. Now, we’ll flesh out its behaviour and API in a spec and eventually move it to its own AMD implementation. To start out slowly we’ll create a new spec suite and define the <em>list-item-controller</em> attributes:</p>
 <p><em>/test/jasmine/spec/list-item-controller.spec.js</em></p>
-<pre><code>define([<span class="string">'jquery'</span>, <span class="string">'script/model/grocery-ls-item'</span>], function($, modelFactory) {
+<pre><code>define([<span class="hljs-string">'jquery'</span>, <span class="hljs-string">'script/model/grocery-ls-item'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($, modelFactory)</span> {</span>
 
 
 
-  describe(<span class="string">'list-item-controller'</span>, function() {
+  describe(<span class="hljs-string">'list-item-controller'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
 
-    function createStateEvent(oldState, newState) {
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createStateEvent</span><span class="hljs-params">(oldState, newState)</span> {</span>
 
-        <span class="keyword">var</span> <span class="keyword">event</span> = <span class="keyword">new</span> $.Event(<span class="string">'state-change'</span>);
+        <span class="hljs-keyword">var</span> event = <span class="hljs-keyword">new</span> $.Event(<span class="hljs-string">'state-change'</span>);
 
-        <span class="keyword">event</span>.oldState = oldState;
+        event.oldState = oldState;
 
-        <span class="keyword">event</span>.newState = newState;
+        event.newState = newState;
 
-        <span class="keyword">return</span> <span class="keyword">event</span>;
+        <span class="hljs-keyword">return</span> event;
 
     }
 
 
 
-    <span class="keyword">var</span> itemControllerFactory = {
+    <span class="hljs-keyword">var</span> itemControllerFactory = {
 
-        create: function(node, model) {
+        create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(node, model)</span> {</span>
 
-          <span class="keyword">var</span> itemController = Object.create(Object.prototype);
+          <span class="hljs-keyword">var</span> itemController = <span class="hljs-built_in">Object</span>.create(<span class="hljs-built_in">Object</span>.prototype);
 
 
 
-          (function(controller, stateEventCreator) {
+          (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(controller, stateEventCreator)</span> {</span>
 
-            <span class="keyword">var</span> _state = <span class="string">'normal'</span>;
+            <span class="hljs-keyword">var</span> _state = <span class="hljs-string">'normal'</span>;
 
-            Object.defineProperties(controller, {
+            <span class="hljs-built_in">Object</span>.defineProperties(controller, {
 
-              <span class="string">"model"</span>: {
+              <span class="hljs-string">"model"</span>: {
 
-                <span class="keyword">value</span>: model,
+                value: model,
 
-                writable: <span class="keyword">false</span>,
+                writable: <span class="hljs-literal">false</span>,
 
-                enumerable: <span class="keyword">true</span>
-
-              },
-
-              <span class="string">"parentView"</span>: {
-
-                <span class="keyword">value</span>: node,
-
-                writable: <span class="keyword">false</span>,
-
-                enumerable: <span class="keyword">true</span>
+                enumerable: <span class="hljs-literal">true</span>
 
               },
 
-              <span class="string">"state"</span>: {
+              <span class="hljs-string">"parentView"</span>: {
 
-                <span class="keyword">set</span>: function(<span class="keyword">value</span>) {
+                value: node,
 
-                  <span class="keyword">var</span> <span class="keyword">event</span> = stateEventCreator.call(<span class="keyword">this</span>, <span class="keyword">this</span>.state, <span class="keyword">value</span>);
+                writable: <span class="hljs-literal">false</span>,
 
-                  _state = <span class="keyword">value</span>;
+                enumerable: <span class="hljs-literal">true</span>
 
-                  $(<span class="keyword">this</span>).trigger(<span class="keyword">event</span>);
+              },
+
+              <span class="hljs-string">"state"</span>: {
+
+                set: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value)</span> {</span>
+
+                  <span class="hljs-keyword">var</span> event = stateEventCreator.call(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">this</span>.state, value);
+
+                  _state = value;
+
+                  $(<span class="hljs-keyword">this</span>).trigger(event);
 
                 },
 
-                <span class="keyword">get</span>: function() {
+                get: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-                  <span class="keyword">return</span> _state;
+                  <span class="hljs-keyword">return</span> _state;
 
                 }
 
@@ -170,7 +170,7 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
 
 
-          <span class="keyword">return</span> itemController;
+          <span class="hljs-keyword">return</span> itemController;
 
         }
 
@@ -178,8 +178,8 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
   });
 
-});</code></pre>
-<p>The object declared – <em>itemControllerFactory</em> – is a factory instance that will generate new instances of a <em>list-item-controller</em>. The factory pattern should be familiar to you if you look at the <em>grocery-ls-item</em> AMD we created in the second article in the series. When creating an instance of a <em>list-item-controller</em>, we have defined that a parent DOM node and a model should be passed in during creation, as can be seen in <em>itemControllerFactory:create()</em>. If we look at the <em>defineProperties</em>, we have also defined a few characteristics of the <em>list-item-controller</em> here. It has:</p>
+});
+</code></pre><p>The object declared – <em>itemControllerFactory</em> – is a factory instance that will generate new instances of a <em>list-item-controller</em>. The factory pattern should be familiar to you if you look at the <em>grocery-ls-item</em> AMD we created in the second article in the series. When creating an instance of a <em>list-item-controller</em>, we have defined that a parent DOM node and a model should be passed in during creation, as can be seen in <em>itemControllerFactory:create()</em>. If we look at the <em>defineProperties</em>, we have also defined a few characteristics of the <em>list-item-controller</em> here. It has:</p>
 <ul>
 <li>Parent Node reference – DOM instance of which to modify view state.</li>
 <li>Model reference – Model of which the View is driven by.</li>
@@ -198,7 +198,7 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 <li>Change to state is dispatched</li>
 </ol>
 <p><em>/test/jasmine/spec/list-item-controller.spec.js</em></p>
-<pre><code>describe('Grocery <span class="type">list</span>-<span class="property">item</span>-controller', function() {
+<pre><code><span class="hljs-function">describe(<span class="hljs-string">'Grocery list-item-controller'</span>, <span class="hljs-function">function()</span> {
 
 
 
@@ -206,109 +206,113 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
       newController,
 
-      async = new AsyncSpec(this);
+      async = new <span class="hljs-function">AsyncSpec(this)</span>;
 
 
 
-  beforeEach( function() {
+  <span class="hljs-function">beforeEach( <span class="hljs-function">function()</span> {
 
-    model = modelFactory.create();
+    model = modelFactory.<span class="hljs-function">create()</span>;
 
-    newController = itemControllerFactory.create(parentNode, model);
+    newController = itemControllerFactory.<span class="hljs-function">create(parentNode, model)</span>;
 
-  });
-
-
-
-  describe('<span class="type">list</span>-<span class="property">item</span>-controller factory creation', function() {
+  })</span>;
 
 
 
-    <span class="keyword">it</span>('should <span class="constant">return</span> a new instance <span class="keyword">of</span> <span class="type">list</span>-<span class="property">item</span>-controller', function() {
-
-      expect(newController).<span class="keyword">not</span>.toBeUndefined();
-
-    });
+  <span class="hljs-function">describe(<span class="hljs-string">'list-item-controller factory creation'</span>, <span class="hljs-function">function()</span> {
 
 
 
-    <span class="keyword">it</span>('should <span class="constant">return</span> unique instances <span class="keyword">of</span> <span class="type">list</span>-<span class="property">item</span>-controllers', function() {
+    <span class="hljs-function">it(<span class="hljs-string">'should return a new instance of list-item-controller'</span>, <span class="hljs-function">function()</span> {
 
-      var nextController = itemControllerFactory.create(parentNode, model);
+      <span class="hljs-function">expect(newController)</span>.not.<span class="hljs-function">toBeUndefined()</span>;
 
-      nextController.state = 'testing';
-
-      expect(nextController).<span class="keyword">not</span>.toBe(newController);
-
-      expect(nextController.state).<span class="keyword">not</span>.toBe(newController.state);
-
-    });
+    })</span>;
 
 
 
-  });
+    <span class="hljs-function">it(<span class="hljs-string">'should return unique instances of list-item-controllers'</span>, <span class="hljs-function">function()</span> {
+
+      var nextController = itemControllerFactory.<span class="hljs-function">create(parentNode, model)</span>;
+
+      nextController.state = <span class="hljs-string">'testing'</span>;
+
+      <span class="hljs-function">expect(nextController)</span>.not.<span class="hljs-function">toBe(newController)</span>;
+
+      <span class="hljs-function">expect(nextController.state)</span>.not.<span class="hljs-function">toBe(newController.state)</span>;
+
+    })</span>;
 
 
 
-  describe('new <span class="type">list</span>-<span class="property">item</span>-controller instance', function() {
+  })</span>;
 
 
 
-    <span class="keyword">it</span>('should expose model provided <span class="keyword">in</span> creation', function() {
-
-      expect(newController.model).<span class="keyword">not</span>.toBeUndefined();
-
-      expect(newController.model).toBe(model);
-
-    });
+  <span class="hljs-function">describe(<span class="hljs-string">'new list-item-controller instance'</span>, <span class="hljs-function">function()</span> {
 
 
 
-    <span class="keyword">it</span>('should expose non-writable model', function() {
+    <span class="hljs-function">it(<span class="hljs-string">'should expose model provided in creation'</span>, <span class="hljs-function">function()</span> {
 
-      var newModel = modelFactory.create();
+      <span class="hljs-function">expect(newController.model)</span>.not.<span class="hljs-function">toBeUndefined()</span>;
+
+      <span class="hljs-function">expect(newController.model)</span>.<span class="hljs-function">toBe(model)</span>;
+
+    })</span>;
+
+
+
+    <span class="hljs-function">it(<span class="hljs-string">'should expose non-writable model'</span>, <span class="hljs-function">function()</span> {
+
+      var newModel = modelFactory.<span class="hljs-function">create()</span>;
 
       newController.model = newModel;
 
-      expect(newController.model).<span class="keyword">not</span>.toBe(newModel);
+      <span class="hljs-function">expect(newController.model)</span>.not.<span class="hljs-function">toBe(newModel)</span>;
 
-      expect(newController.model).toBe(model);
+      <span class="hljs-function">expect(newController.model)</span>.<span class="hljs-function">toBe(model)</span>;
 
-    });
-
-
-
-  describe('<span class="type">list</span>-<span class="property">item</span>-controller notifies <span class="function_start"><span class="keyword">on</span> <span class="title">state</span></span>-change', function() {
+    })</span>;
 
 
 
-    async.<span class="keyword">it</span>('should provide old <span class="keyword">and</span> new state values <span class="function_start"><span class="keyword">on</span> <span class="title">state</span></span>-change', function(done) {
+  <span class="hljs-function">describe(<span class="hljs-string">'list-item-controller notifies on state-change'</span>, <span class="hljs-function">function()</span> {
+
+
+
+    async.<span class="hljs-function">it(<span class="hljs-string">'should provide old and new state values on state-change'</span>, <span class="hljs-function">function(done)</span> {
 
       var previousState = newController.state,
 
-          newState = 'editable';
+          newState = <span class="hljs-string">'editable'</span>;
 
 
 
-      $(newController).<span class="keyword">on</span>('state-change', function(event) {
+      $(newController)</span>.<span class="hljs-function">on(<span class="hljs-string">'state-change'</span>, <span class="hljs-function">function(event)</span> {
 
-        $(newController).off('state-change');
+        $(newController)</span>.<span class="hljs-function">off(<span class="hljs-string">'state-change'</span>)</span>;
 
 
 
-        expect(event.oldState).toBe(previousState);
+        <span class="hljs-function">expect(event.oldState)</span>.<span class="hljs-function">toBe(previousState)</span>;
 
-        expect(event.newState).toBe(newState);
+        <span class="hljs-function">expect(event.newState)</span>.<span class="hljs-function">toBe(newState)</span>;
 
-        expect(newController.state).toBe(newState);
+        <span class="hljs-function">expect(newController.state)</span>.<span class="hljs-function">toBe(newState)</span>;
 
-        done();
+        <span class="hljs-function">done()</span>;
 
-      });
+      })</span>;
 
       newController.state = newState;
 
-    });
+    })</span>;
+
+
+
+  })</span>;
 
 
 
@@ -316,109 +320,105 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
 
 
-  });
-
-
-
-  afterEach( function() {
+  <span class="hljs-function">afterEach( <span class="hljs-function">function()</span> {
 
     model = undefined;
 
     newController = undefined;
 
-  });
+  })</span>;
 
 
 
-});</code></pre>
-<p>The last spec declared, as you may notice, runs asynchronously in order to test the state notification:</p>
-<pre><code>async.<span class="keyword">it</span>('should provide old <span class="keyword">and</span> new state values <span class="function_start"><span class="keyword">on</span> <span class="title">state</span></span>-change', function(done) {</code></pre>
-<p>The <em>AsyncSpec</em> object comes from the <a href="https://github.com/derickbailey/jasmine.async">jasmine.async library</a> we’ve previously included in the specrunner page. By invoking the spec (<em>it()</em>) through an instance of <em>AsyncSpec</em>, the spec is suspended until either it fails or the <em>done</em> delegate method is invoked. Since notification of state change is event-based, we use it in the spec to verify that the <em>list-item-controller</em> does dispatch that event.</p>
+});
+</code></pre><p>The last spec declared, as you may notice, runs asynchronously in order to test the state notification:</p>
+<pre><code>async.it(<span class="hljs-string">'should provide old and new state values on state-change'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
+</code></pre><p>The <em>AsyncSpec</em> object comes from the <a href="https://github.com/derickbailey/jasmine.async">jasmine.async library</a> we’ve previously included in the specrunner page. By invoking the spec (<em>it()</em>) through an instance of <em>AsyncSpec</em>, the spec is suspended until either it fails or the <em>done</em> delegate method is invoked. Since notification of state change is event-based, we use it in the spec to verify that the <em>list-item-controller</em> does dispatch that event.</p>
 <p>Add that spec to the list:<br><em>/test/jasmine/specrunner.html</em></p>
-<pre><code><span class="keyword">require</span>( [<span class="string">'spec/newitem.spec.js'</span>, <span class="string">'spec/markitem.spec.js'</span>, <span class="string">'spec/list-item-controller.spec.js'</span>], <span class="keyword">function</span>() {
+<pre><code><span class="hljs-keyword">require</span>( [<span class="hljs-string">'spec/newitem.spec.js'</span>, <span class="hljs-string">'spec/markitem.spec.js'</span>, <span class="hljs-string">'spec/list-item-controller.spec.js'</span>], <span class="hljs-keyword">function</span>() {
 
 
 
   var jasmineEnv = jasmine.getEnv(),
 
-     <span class="keyword">...</span>
+     <span class="hljs-keyword">...</span>
 
   jasmineEnv.execute();
 
 
 
-});</code></pre>
-<p><img src="http://custardbelly.com/blog/images/tdd_js/part_iv_1.png" alt="passing list-item-controller spec"></p>
+});
+</code></pre><p><img src="http://custardbelly.com/blog/images/tdd_js/part_iv_1.png" alt="passing list-item-controller spec"></p>
 <h2 id="list-item-controller-implementation">list-item-controller implementation</h2>
 <p>We’ve verified our design for the <em>list-item-controller</em> with passing tests, but we have yet to incorporate it into our system and offload the responsibilities (addressed earlier in this article) from the <em>list-controller</em> to it. Before we get there, however, let’s move the implementation of the <em>list-item-controller</em> (and the factory) out into its own AMD module. To start we’ll just move the <em>itemControllerFactory</em> declaration into a new file:</p>
 <p><em>/script/controller/list-item-controller.js</em></p>
-<pre><code>define([<span class="string">'jquery'</span>], function($) {
+<pre><code>define([<span class="hljs-string">'jquery'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($)</span> {</span>
 
 
 
-  function createStateEvent(oldState, newState) {
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createStateEvent</span><span class="hljs-params">(oldState, newState)</span> {</span>
 
-    <span class="keyword">var</span> <span class="keyword">event</span> = <span class="keyword">new</span> $.Event(<span class="string">'state-change'</span>);
+    <span class="hljs-keyword">var</span> event = <span class="hljs-keyword">new</span> $.Event(<span class="hljs-string">'state-change'</span>);
 
-    <span class="keyword">event</span>.oldState = oldState;
+    event.oldState = oldState;
 
-    <span class="keyword">event</span>.newState = newState;
+    event.newState = newState;
 
-    <span class="keyword">return</span> <span class="keyword">event</span>;
+    <span class="hljs-keyword">return</span> event;
 
   }
 
 
 
-  <span class="keyword">return</span> {
+  <span class="hljs-keyword">return</span> {
 
-    create: function(node, model) {
+    create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(node, model)</span> {</span>
 
-      <span class="keyword">var</span> itemController = Object.create(Object.prototype);
+      <span class="hljs-keyword">var</span> itemController = <span class="hljs-built_in">Object</span>.create(<span class="hljs-built_in">Object</span>.prototype);
 
 
 
-      (function(controller, stateEventCreator) {
+      (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(controller, stateEventCreator)</span> {</span>
 
-        <span class="keyword">var</span> _state;
+        <span class="hljs-keyword">var</span> _state;
 
-        Object.defineProperties(controller, {
+        <span class="hljs-built_in">Object</span>.defineProperties(controller, {
 
-          <span class="string">"model"</span>: {
+          <span class="hljs-string">"model"</span>: {
 
-            <span class="keyword">value</span>: model,
+            value: model,
 
-            writable: <span class="keyword">false</span>,
+            writable: <span class="hljs-literal">false</span>,
 
-            enumerable: <span class="keyword">true</span>
-
-          },
-
-          <span class="string">"parentView"</span>: {
-
-            <span class="keyword">value</span>: node,
-
-            writable: <span class="keyword">false</span>,
-
-            enumerable: <span class="keyword">true</span>
+            enumerable: <span class="hljs-literal">true</span>
 
           },
 
-          <span class="string">"state"</span>: {
+          <span class="hljs-string">"parentView"</span>: {
 
-            <span class="keyword">set</span>: function(<span class="keyword">value</span>) {
+            value: node,
 
-              <span class="keyword">var</span> <span class="keyword">event</span> = stateEventCreator.call(<span class="keyword">this</span>, <span class="keyword">this</span>.state, <span class="keyword">value</span>);
+            writable: <span class="hljs-literal">false</span>,
 
-              _state = <span class="keyword">value</span>;
+            enumerable: <span class="hljs-literal">true</span>
 
-              $(<span class="keyword">this</span>).trigger(<span class="keyword">event</span>);
+          },
+
+          <span class="hljs-string">"state"</span>: {
+
+            set: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value)</span> {</span>
+
+              <span class="hljs-keyword">var</span> event = stateEventCreator.call(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">this</span>.state, value);
+
+              _state = value;
+
+              $(<span class="hljs-keyword">this</span>).trigger(event);
 
             },
 
-            <span class="keyword">get</span>: function() {
+            get: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-              <span class="keyword">return</span> _state;
+              <span class="hljs-keyword">return</span> _state;
 
             }
 
@@ -430,7 +430,7 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
 
 
-      <span class="keyword">return</span> itemController.init();
+      <span class="hljs-keyword">return</span> itemController.init();
 
     }
 
@@ -438,83 +438,83 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
 
 
-});</code></pre>
-<p>With that in place, we could modify the <em>list-item-controller.spec.js</em> file to include the <em>list-item-controller</em> dependency for testing:</p>
+});
+</code></pre><p>With that in place, we could modify the <em>list-item-controller.spec.js</em> file to include the <em>list-item-controller</em> dependency for testing:</p>
 <p><em>/test/jasmine/spec/list-item-controller.spec.js</em></p>
-<pre><code>define([<span class="string">'jquery'</span>, <span class="string">'script/model/grocery-ls-item'</span>, <span class="string">'script/controller/list-item-controller'</span>],
+<pre><code>define([<span class="hljs-string">'jquery'</span>, <span class="hljs-string">'script/model/grocery-ls-item'</span>, <span class="hljs-string">'script/controller/list-item-controller'</span>],
 
-          <span class="keyword">function</span>($, modelFactory, itemControllerFactory) {
+          <span class="hljs-keyword">function</span>($, modelFactory, itemControllerFactory) {
 
   // moved to script/controller/list-item-controller.js
 
 
 
-  describe(<span class="string">'Grocery list-item-controller'</span>, <span class="keyword">function</span>() {
+  describe(<span class="hljs-string">'Grocery list-item-controller'</span>, <span class="hljs-keyword">function</span>() {
 
-    <span class="keyword">...</span>
+    <span class="hljs-keyword">...</span>
 
   });
 
-});</code></pre>
-<p>And our tests still pass! But… we want to move all the view and item management out of <em>list-controller</em> and have that handled by a <em>list-item-controller</em>. So let’s transfer over those view fragments and flesh out the <em>list-item-controller</em> object that is generated from the factory:</p>
+});
+</code></pre><p>And our tests still pass! But… we want to move all the view and item management out of <em>list-controller</em> and have that handled by a <em>list-item-controller</em>. So let’s transfer over those view fragments and flesh out the <em>list-item-controller</em> object that is generated from the factory:</p>
 <p><em>/script/controller/list-item-controller.js</em></p>
-<pre><code>define([<span class="string">'jquery'</span>], <span class="keyword">function</span>($) {
+<pre><code>define([<span class="hljs-string">'jquery'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($)</span> {</span>
 
 
 
-  <span class="function"><span class="keyword">function</span> <span class="title">createStateEvent</span><span class="params">(oldState, newState)</span> {</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createStateEvent</span><span class="hljs-params">(oldState, newState)</span> {</span>
 
-    <span class="keyword">var</span> event = <span class="keyword">new</span> $.Event(<span class="string">'state-change'</span>);
+    <span class="hljs-keyword">var</span> event = <span class="hljs-keyword">new</span> $.Event(<span class="hljs-string">'state-change'</span>);
 
     event.oldState = oldState;
 
     event.newState = newState;
 
-    <span class="keyword">return</span> event;
+    <span class="hljs-keyword">return</span> event;
 
   }
 
 
 
-   <span class="keyword">var</span> stateEnum = {
+   <span class="hljs-keyword">var</span> stateEnum = {
 
-        UNEDITABLE: <span class="number">0</span>,
+        UNEDITABLE: <span class="hljs-number">0</span>,
 
-        EDITABLE: <span class="number">1</span>
+        EDITABLE: <span class="hljs-number">1</span>
 
       },
 
-      uneditableItemFragment  = <span class="string">'&lt;p class="grocery-item" /&gt;'</span>,
+      uneditableItemFragment  = <span class="hljs-string">'&lt;p class="grocery-item" /&gt;'</span>,
 
-      editableItemFragment    = <span class="string">'&lt;p class="editable-grocery-item"&gt;'</span> +
+      editableItemFragment    = <span class="hljs-string">'&lt;p class="editable-grocery-item"&gt;'</span> +
 
-                                                  <span class="string">'&lt;input name="editableItem" '</span> +
+                                                  <span class="hljs-string">'&lt;input name="editableItem" '</span> +
 
-                                                      <span class="string">'class="editable-item" placeholder="Enter item name..."&gt;'</span> +
+                                                      <span class="hljs-string">'class="editable-item" placeholder="Enter item name..."&gt;'</span> +
 
-                                                  <span class="string">'&lt;/input&gt;'</span> +
+                                                  <span class="hljs-string">'&lt;/input&gt;'</span> +
 
-                                               <span class="string">'&lt;/p&gt;'</span>,
+                                               <span class="hljs-string">'&lt;/p&gt;'</span>,
 
       listItemController = {
 
-        $editableView: <span class="literal">undefined</span>,
+        $editableView: <span class="hljs-literal">undefined</span>,
 
-        $uneditableView: <span class="literal">undefined</span>,
+        $uneditableView: <span class="hljs-literal">undefined</span>,
 
-        init: <span class="keyword">function</span>() {
+        init: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-          <span class="keyword">this</span>.$editableView = $(editableItemFragment);
+          <span class="hljs-keyword">this</span>.$editableView = $(editableItemFragment);
 
-          <span class="keyword">this</span>.$uneditableView = $(uneditableItemFragment);
+          <span class="hljs-keyword">this</span>.$uneditableView = $(uneditableItemFragment);
 
 
 
-          <span class="comment">// default to undeditable state.</span>
+          <span class="hljs-comment">// default to undeditable state.</span>
 
-          <span class="keyword">this</span>.state = stateEnum.UNEDITABLE;
+          <span class="hljs-keyword">this</span>.state = stateEnum.UNEDITABLE;
 
-          <span class="keyword">return</span> <span class="keyword">this</span>;
+          <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
 
         }
 
@@ -522,57 +522,57 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
 
 
-  <span class="keyword">return</span> {
+  <span class="hljs-keyword">return</span> {
 
     state: stateEnum,
 
-    create: <span class="keyword">function</span>(node, model) {
+    create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(node, model)</span> {</span>
 
-      <span class="keyword">var</span> itemController = Object.create(listItemController);
+      <span class="hljs-keyword">var</span> itemController = <span class="hljs-built_in">Object</span>.create(listItemController);
 
 
 
-      (<span class="keyword">function</span>(controller, stateEventCreator) {
+      (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(controller, stateEventCreator)</span> {</span>
 
-        <span class="keyword">var</span> _state = <span class="string">'normal'</span>;
+        <span class="hljs-keyword">var</span> _state = <span class="hljs-string">'normal'</span>;
 
-        Object.defineProperties(controller, {
+        <span class="hljs-built_in">Object</span>.defineProperties(controller, {
 
-          <span class="string">"model"</span>: {
+          <span class="hljs-string">"model"</span>: {
 
             value: model,
 
-            writable: <span class="literal">false</span>,
+            writable: <span class="hljs-literal">false</span>,
 
-            enumerable: <span class="literal">true</span>
+            enumerable: <span class="hljs-literal">true</span>
 
           },
 
-          <span class="string">"parentView"</span>: {
+          <span class="hljs-string">"parentView"</span>: {
 
             value: node,
 
-            writable: <span class="literal">false</span>,
+            writable: <span class="hljs-literal">false</span>,
 
-            enumerable: <span class="literal">true</span>
+            enumerable: <span class="hljs-literal">true</span>
 
           },
 
-          <span class="string">"state"</span>: {
+          <span class="hljs-string">"state"</span>: {
 
-            <span class="keyword">set</span>: <span class="keyword">function</span>(value) {
+            set: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value)</span> {</span>
 
-              <span class="keyword">var</span> event = stateEventCreator.call(<span class="keyword">this</span>, <span class="keyword">this</span>.state, value);
+              <span class="hljs-keyword">var</span> event = stateEventCreator.call(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">this</span>.state, value);
 
               _state = value;
 
-              $(<span class="keyword">this</span>).trigger(event);
+              $(<span class="hljs-keyword">this</span>).trigger(event);
 
             },
 
-            <span class="keyword">get</span>: <span class="keyword">function</span>() {
+            get: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-              <span class="keyword">return</span> _state;
+              <span class="hljs-keyword">return</span> _state;
 
             }
 
@@ -584,7 +584,7 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
 
 
-      <span class="keyword">return</span> itemController.init();
+      <span class="hljs-keyword">return</span> itemController.init();
 
     }
 
@@ -592,271 +592,271 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
 
 
-});</code></pre>
-<p>The <em>init()</em> method of a new <em>list-item-controller</em> is invoked upon creation and return in order to define the view references and default state. The fragment declarations have changed slightly as well – the list item wrappers have been removed. Basically, even though the name suggest that the view will reside in a list, we don’t want to tie the idea that they need to be <em>li</em> DOM elements since they also have no concept of what type of DOM element the <em>parentView</em> is.</p>
+});
+</code></pre><p>The <em>init()</em> method of a new <em>list-item-controller</em> is invoked upon creation and return in order to define the view references and default state. The fragment declarations have changed slightly as well – the list item wrappers have been removed. Basically, even though the name suggest that the view will reside in a list, we don’t want to tie the idea that they need to be <em>li</em> DOM elements since they also have no concept of what type of DOM element the <em>parentView</em> is.</p>
 <p>As it stands with <a href="https://github.com/bustardcelly/grocery-ls/blob/0.1.3">our current work from the previous article</a>, the <em>list-controller</em> was responsible for listening on UI events of a list item – such as <em>‘blur’</em> on input and <em>‘click’</em>. It is the intent to relive the <em>list-controller</em> of such responsibility so we’ll transfer that over, as well:</p>
 <p><em>/script/controller/list-item-controller.js</em></p>
 <pre><code>listItemController = {
 
-  $editableView: <span class="literal">undefined</span>,
+  $editableView: <span class="hljs-literal">undefined</span>,
 
-  $uneditableView: <span class="literal">undefined</span>,
+  $uneditableView: <span class="hljs-literal">undefined</span>,
 
-  init: <span class="reserved">function</span>() {
+  init: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-    <span class="keyword">this</span>.$editableView = $(editableItemFragment);
+    <span class="hljs-keyword">this</span>.$editableView = $(editableItemFragment);
 
-    <span class="keyword">this</span>.$uneditableView = $(uneditableItemFragment);
+    <span class="hljs-keyword">this</span>.$uneditableView = $(uneditableItemFragment);
 
 
 
-    <span class="regexp">//</span> view handlers.
+    <span class="hljs-comment">// view handlers.</span>
 
-    <span class="keyword">this</span>.$uneditableView.<span class="literal">on</span>(<span class="string">'click'</span>, (<span class="reserved">function</span>(controller) {
+    <span class="hljs-keyword">this</span>.$uneditableView.on(<span class="hljs-string">'click'</span>, (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(controller)</span> {</span>
 
-      <span class="keyword">return</span> <span class="reserved">function</span>(event) {
+      <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-        <span class="reserved">var</span> toggled = controller.$uneditableView.css(<span class="string">'text-decoration'</span>) === <span class="string">'line-through'</span>;
+        <span class="hljs-keyword">var</span> toggled = controller.$uneditableView.css(<span class="hljs-string">'text-decoration'</span>) === <span class="hljs-string">'line-through'</span>;
 
         controller.model.marked = !toggled;
 
       };
 
-    }(<span class="keyword">this</span>)));
+    }(<span class="hljs-keyword">this</span>)));
 
-    $(<span class="string">'input'</span>, <span class="keyword">this</span>.$editableView).<span class="literal">on</span>(<span class="string">'blur'</span>, (<span class="reserved">function</span>(controller) {
+    $(<span class="hljs-string">'input'</span>, <span class="hljs-keyword">this</span>.$editableView).on(<span class="hljs-string">'blur'</span>, (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(controller)</span> {</span>
 
-      <span class="keyword">return</span> <span class="reserved">function</span>(event) {
+      <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-        controller.model.name = $(<span class="keyword">this</span>).val();
+        controller.model.name = $(<span class="hljs-keyword">this</span>).val();
 
         controller.state = stateEnum.UNEDITABLE;
 
       };
 
-    }(<span class="keyword">this</span>)));
+    }(<span class="hljs-keyword">this</span>)));
 
 
 
-    <span class="regexp">//</span> <span class="reserved">default</span> to undeditable state.
+    <span class="hljs-comment">// default to undeditable state.</span>
 
-    <span class="keyword">this</span>.state = stateEnum.UNEDITABLE;
+    <span class="hljs-keyword">this</span>.state = stateEnum.UNEDITABLE;
 
-    <span class="keyword">return</span> <span class="keyword">this</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
 
   }
 
-};</code></pre>
-<p>Again, we are using an <strong>IIFE</strong>, and in this case to pass in a reference to the controller instance. I could have easily defined a new variable like</p>
-<pre><code><span class="keyword">var</span> <span class="keyword">self</span> = <span class="keyword">this</span>;</code></pre>
-<p>but that always makes me cry a little inside. Anyway, so we are listening on click of the uneditable view item in order to update value of the <em>marked</em> property on the model and we have assigned a <em>blur</em> handler on the input of the editable view item that updates the value of the <em>name</em> property of the model and flips the state. Now we have to respond to those changes <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+};
+</code></pre><p>Again, we are using an <strong>IIFE</strong>, and in this case to pass in a reference to the controller instance. I could have easily defined a new variable like</p>
+<pre><code><span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+</code></pre><p>but that always makes me cry a little inside. Anyway, so we are listening on click of the uneditable view item in order to update value of the <em>marked</em> property on the model and we have assigned a <em>blur</em> handler on the input of the editable view item that updates the value of the <em>name</em> property of the model and flips the state. Now we have to respond to those changes <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p><em>/script/controller/list-item-controller.js</em></p>
-<pre><code><span class="attribute">init</span>: <span class="string">function() {</span>
+<pre><code>init: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-<span class="coffeescript">  <span class="keyword">this</span>.$editableView = $(editableItemFragment);
+  <span class="hljs-keyword">this</span>.$editableView = $(editableItemFragment);
 
-  <span class="keyword">this</span>.$uneditableView = $(uneditableItemFragment);
+  <span class="hljs-keyword">this</span>.$uneditableView = $(uneditableItemFragment);
 
 
 
-  <span class="regexp">//</span> view handlers.
+  <span class="hljs-comment">// view handlers.</span>
 
-  <span class="keyword">this</span>.$uneditableView.<span class="literal">on</span>(<span class="string">'click'</span>, (<span class="reserved">function</span>(controller) {
+  <span class="hljs-keyword">this</span>.$uneditableView.on(<span class="hljs-string">'click'</span>, (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(controller)</span> {</span>
 
-    <span class="keyword">return</span> <span class="reserved">function</span>(event) {
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-      <span class="reserved">var</span> toggled = controller.$uneditableView.css(<span class="string">'text-decoration'</span>) === <span class="string">'line-through'</span>;
+      <span class="hljs-keyword">var</span> toggled = controller.$uneditableView.css(<span class="hljs-string">'text-decoration'</span>) === <span class="hljs-string">'line-through'</span>;
 
       controller.model.marked = !toggled;
 
     };
 
-  }(<span class="keyword">this</span>)));
+  }(<span class="hljs-keyword">this</span>)));
 
-  $(<span class="string">'input'</span>, <span class="keyword">this</span>.$editableView).<span class="literal">on</span>(<span class="string">'blur'</span>, (<span class="reserved">function</span>(controller) {
+  $(<span class="hljs-string">'input'</span>, <span class="hljs-keyword">this</span>.$editableView).on(<span class="hljs-string">'blur'</span>, (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(controller)</span> {</span>
 
-    <span class="keyword">return</span> <span class="reserved">function</span>(event) {
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-      controller.model.name = $(<span class="keyword">this</span>).val();
+      controller.model.name = $(<span class="hljs-keyword">this</span>).val();
 
       controller.state = stateEnum.UNEDITABLE;
 
     };
 
-  }(<span class="keyword">this</span>)));
+  }(<span class="hljs-keyword">this</span>)));
 
-  <span class="regexp">//</span> state &amp; model handlers.
+  <span class="hljs-comment">// state &amp; model handlers.</span>
 
-  $(<span class="keyword">this</span>).<span class="literal">on</span>(<span class="string">'state-change'</span>,  (<span class="reserved">function</span>(controller) {
+  $(<span class="hljs-keyword">this</span>).on(<span class="hljs-string">'state-change'</span>,  (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(controller)</span> {</span>
 
-    <span class="keyword">return</span> <span class="reserved">function</span>(event) {
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-      handleStateChange.call(<span class="literal">null</span>, controller, event);
-
-    };
-
-  }(<span class="keyword">this</span>)));
-
-  $(<span class="keyword">this</span>.model).<span class="literal">on</span>(<span class="string">'property-change'</span>, (<span class="reserved">function</span>(controller) {
-
-    <span class="keyword">return</span> <span class="reserved">function</span>(event) {
-
-      handlePropertyChange.call(<span class="literal">null</span>, controller, event);
+      handleStateChange.call(<span class="hljs-literal">null</span>, controller, event);
 
     };
 
-  }(<span class="keyword">this</span>)));
+  }(<span class="hljs-keyword">this</span>)));
 
-  <span class="regexp">//</span> <span class="reserved">default</span> to undeditable state.
+  $(<span class="hljs-keyword">this</span>.model).on(<span class="hljs-string">'property-change'</span>, (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(controller)</span> {</span>
 
-  <span class="keyword">this</span>.state = stateEnum.UNEDITABLE;
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-  <span class="keyword">return</span> <span class="keyword">this</span>;
+      handlePropertyChange.call(<span class="hljs-literal">null</span>, controller, event);
 
-}</span></code></pre>
-<p>The <em>handleStateChange</em> delegate is responsible for updating the view based on a change to state: either <em>EDITABLE</em> or <em>UNEDITABLE</em> from the <em>stateEnum</em> object:</p>
-<pre><code>function handleStateChange(controller, <span class="keyword">event</span>) {
+    };
 
-  <span class="comment">// remove state-based item.</span>
+  }(<span class="hljs-keyword">this</span>)));
 
-  <span class="keyword">if</span>( typeof <span class="keyword">event</span>.oldState !== <span class="string">'undefined'</span>) {
+  <span class="hljs-comment">// default to undeditable state.</span>
 
-    <span class="keyword">if</span>(<span class="keyword">event</span>.oldState === stateEnum.UNEDITABLE) {
+  <span class="hljs-keyword">this</span>.state = stateEnum.UNEDITABLE;
 
-      controller.<span class="variable">$uneditableView</span>.detach();
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+
+}
+</code></pre><p>The <em>handleStateChange</em> delegate is responsible for updating the view based on a change to state: either <em>EDITABLE</em> or <em>UNEDITABLE</em> from the <em>stateEnum</em> object:</p>
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleStateChange</span><span class="hljs-params">(controller, event)</span> {</span>
+
+  <span class="hljs-comment">// remove state-based item.</span>
+
+  <span class="hljs-keyword">if</span>( typeof event.oldState !== <span class="hljs-string">'undefined'</span>) {
+
+    <span class="hljs-keyword">if</span>(event.oldState === stateEnum.UNEDITABLE) {
+
+      controller.<span class="hljs-variable">$uneditableView</span>.detach();
 
     }
 
-    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">event</span>.oldState === stateEnum.EDITABLE) {
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(event.oldState === stateEnum.EDITABLE) {
 
-      controller.<span class="variable">$editableView</span>.detach();
+      controller.<span class="hljs-variable">$editableView</span>.detach();
 
     }
 
   }
 
-  <span class="comment">// append state-based item.</span>
+  <span class="hljs-comment">// append state-based item.</span>
 
-  <span class="keyword">if</span>(<span class="keyword">event</span>.newState === stateEnum.UNEDITABLE) {
+  <span class="hljs-keyword">if</span>(event.newState === stateEnum.UNEDITABLE) {
 
-    controller.parentView.append(controller.<span class="variable">$uneditableView</span>);
+    controller.parentView.append(controller.<span class="hljs-variable">$uneditableView</span>);
 
   }
 
-  <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">event</span>.newState === stateEnum.EDITABLE) {
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(event.newState === stateEnum.EDITABLE) {
 
-    var inputTimeout = setTimeout( function()  {
+    <span class="hljs-keyword">var</span> inputTimeout = setTimeout( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>  {</span>
 
       clearTimeout(inputTimeout);
 
-      <span class="variable">$(</span><span class="string">'input'</span>, controller.<span class="variable">$editableView</span>).focus();
+      $(<span class="hljs-string">'input'</span>, controller.<span class="hljs-variable">$editableView</span>).focus();
 
-    }, <span class="number">100</span>);
+    }, <span class="hljs-number">100</span>);
 
-    controller.parentView.append(controller.<span class="variable">$editableView</span>);
-
-  }
-
-}</code></pre>
-<p>The <em>handlePropertyChange</em> delegate is responsible for updating the views based on the <em>model</em> property values:</p>
-<pre><code>function handlePropertyChange(controller, <span class="keyword">event</span>) {
-
-  <span class="keyword">if</span>(<span class="keyword">event</span>.property === <span class="string">"name"</span>) {
-
-    <span class="comment">// update view based on model change.</span>
-
-    <span class="variable">$(</span><span class="string">'input'</span>, controller.<span class="variable">$editableView</span>).val(controller.model.name);
-
-    controller.<span class="variable">$uneditableView</span>.<span class="keyword">text</span>(<span class="keyword">event</span>.newValue);
+    controller.parentView.append(controller.<span class="hljs-variable">$editableView</span>);
 
   }
 
-  <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">event</span>.property === <span class="string">"marked"</span>) {
+}
+</code></pre><p>The <em>handlePropertyChange</em> delegate is responsible for updating the views based on the <em>model</em> property values:</p>
+<pre><code>function handlePropertyChange(controller, <span class="hljs-keyword">event</span>) {
 
-    <span class="comment">// update view based on model change.</span>
+  <span class="hljs-keyword">if</span>(<span class="hljs-keyword">event</span>.property === <span class="hljs-string">"name"</span>) {
 
-    controller.<span class="variable">$uneditableView</span>.css(<span class="string">'text-decoration'</span>, (<span class="keyword">event</span>.newValue) ? <span class="string">'line-through'</span> : <span class="string">'none'</span>);
+    <span class="hljs-comment">// update view based on model change.</span>
+
+    <span class="hljs-variable">$(</span><span class="hljs-string">'input'</span>, controller.<span class="hljs-variable">$editableView</span>).val(controller.model.name);
+
+    controller.<span class="hljs-variable">$uneditableView</span>.<span class="hljs-keyword">text</span>(<span class="hljs-keyword">event</span>.newValue);
 
   }
 
-}</code></pre>
-<p>That pretty much shores up the implementation for the <em>list-item-controller</em> taking on the responsibilities of view creation and management based on state and model updates. But running the tests from this point will fail. The reason being a change to design on the model.</p>
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-keyword">event</span>.property === <span class="hljs-string">"marked"</span>) {
+
+    <span class="hljs-comment">// update view based on model change.</span>
+
+    controller.<span class="hljs-variable">$uneditableView</span>.css(<span class="hljs-string">'text-decoration'</span>, (<span class="hljs-keyword">event</span>.newValue) ? <span class="hljs-string">'line-through'</span> : <span class="hljs-string">'none'</span>);
+
+  }
+
+}
+</code></pre><p>That pretty much shores up the implementation for the <em>list-item-controller</em> taking on the responsibilities of view creation and management based on state and model updates. But running the tests from this point will fail. The reason being a change to design on the model.</p>
 <h2 id="grocery-ls-item-modification">grocery-ls-item Modification</h2>
 <p>One particular change to design introduced in the implementation for <em>list-item-controller</em> is response to <em>‘property-change’</em> event from the model. In our work up to this point, the <em>grocery-ls-item</em> is a basic object; we’ll use the same paradigm that we implemented for notification of state for the <em>grocery-ls-item</em> in order to respond to changes on model properties. Although a simple change, we need to first test our design before modifying the code for the <em>grocery-ls-item</em>. Lets create a new spec file for our model:</p>
 <p><em>/test/jasmine/spec/grocery-ls-item.spec.js</em></p>
-<pre><code>define(['jquery', '<span class="keyword">script</span>/model/grocery-ls-<span class="property">item</span>'], function($, modelFactory) {
+<pre><code>define([<span class="hljs-string">'jquery'</span>, <span class="hljs-string">'script/model/grocery-ls-item'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($, modelFactory)</span> {</span>
 
 
 
-  describe('Grocery grocery-ls-<span class="property">item</span> model', function() {
+  describe(<span class="hljs-string">'Grocery grocery-ls-item model'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
 
-    var model,
+    <span class="hljs-keyword">var</span> model,
 
-        <span class="property">name</span> = 'grapes',
+        name = <span class="hljs-string">'grapes'</span>,
 
-        async = new AsyncSpec(this);
+        async = <span class="hljs-keyword">new</span> AsyncSpec(<span class="hljs-keyword">this</span>);
 
 
 
-    beforeEach( function() {
+    beforeEach( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
       model = modelFactory.create();
 
-      model.<span class="property">name</span> = <span class="property">name</span>;
+      model.name = name;
 
-      model.marked = <span class="constant">false</span>;
+      model.marked = <span class="hljs-literal">false</span>;
 
     });
 
 
 
-    describe('grocery-ls-<span class="property">item</span> factory model creation', function() {
+    describe(<span class="hljs-string">'grocery-ls-item factory model creation'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
 
-      <span class="keyword">it</span>('should generate unique instances <span class="keyword">of</span> model', function() {
+      it(<span class="hljs-string">'should generate unique instances of model'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-        var newModel = modelFactory.create();
+        <span class="hljs-keyword">var</span> newModel = modelFactory.create();
 
-        expect(model).<span class="keyword">not</span>.toBeUndefined();
+        expect(model).not.toBeUndefined();
 
-        expect(newModel).<span class="keyword">not</span>.toBeUndefined();
+        expect(newModel).not.toBeUndefined();
 
-        expect(model).<span class="keyword">not</span>.toBe(newModel);
+        expect(model).not.toBe(newModel);
 
       });
 
 
 
-      async.<span class="keyword">it</span>('should auto generate unique ids <span class="function_start"><span class="keyword">on</span> <span class="title">models</span></span>', function(done) {
+      async.it(<span class="hljs-string">'should auto generate unique ids on models'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
 
-        var newModel,
+        <span class="hljs-keyword">var</span> newModel,
 
             creationTimeout;
 
 
 
-        // Offload creation because ids are generated based <span class="function_start"><span class="keyword">on</span> <span class="title">time</span></span>.
+        <span class="hljs-comment">// Offload creation because ids are generated based on time.</span>
 
-        // This allows <span class="keyword">for</span> timestamp <span class="keyword">to</span> progess.
+        <span class="hljs-comment">// This allows for timestamp to progess.</span>
 
-        creationTimeout = setTimeout(function() {
+        creationTimeout = setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
           clearTimeout(creationTimeout);
 
           newModel = modelFactory.create();
 
-          expect(model.<span class="property">id</span>).<span class="keyword">not</span>.toBeUndefined();
+          expect(model.id).not.toBeUndefined();
 
-          expect(typeof model.<span class="property">id</span>).toBe('<span class="type">number</span>');
+          expect(<span class="hljs-keyword">typeof</span> model.id).toBe(<span class="hljs-string">'number'</span>);
 
-          expect(model.<span class="property">id</span>).<span class="keyword">not</span>.toEqual(newModel.<span class="property">id</span>);
+          expect(model.id).not.toEqual(newModel.id);
 
           done();
 
-        }, <span class="number">100</span>);
+        }, <span class="hljs-number">100</span>);
 
       });
 
@@ -866,19 +866,19 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
 
 
-    describe('grocery-ls-<span class="property">item</span> properties', function() {
+    describe(<span class="hljs-string">'grocery-ls-item properties'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
 
-      <span class="keyword">it</span>('should <span class="keyword">contain</span> an immutable <span class="property">id</span> <span class="keyword">property</span>, created <span class="keyword">at</span> instantiation', function() {
+      it(<span class="hljs-string">'should contain an immutable id property, created at instantiation'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-        var newID = <span class="number">1234567</span>;
+        <span class="hljs-keyword">var</span> newID = <span class="hljs-number">1234567</span>;
 
-        model.<span class="property">id</span> = newID;
+        model.id = newID;
 
 
 
-        expect(model.<span class="property">id</span>).<span class="keyword">not</span>.toEqual(newID);
+        expect(model.id).not.toEqual(newID);
 
       });
 
@@ -888,51 +888,51 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
 
 
-    describe('grocery-ls-<span class="property">item</span> <span class="keyword">property</span> change notification', function() {
+    describe(<span class="hljs-string">'grocery-ls-item property change notification'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
 
-      async.<span class="keyword">it</span>('should notify <span class="keyword">with</span> \'<span class="keyword">property</span>-change\' upon change <span class="keyword">to</span> <span class="property">name</span> <span class="keyword">property</span>', function(done) {
+      async.it(<span class="hljs-string">'should notify with \'property-change\' upon change to name property'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
 
-        var oldName = model.<span class="property">name</span>,
+        <span class="hljs-keyword">var</span> oldName = model.name,
 
-            newName = 'apples';
+            newName = <span class="hljs-string">'apples'</span>;
 
-        $(model).<span class="keyword">on</span>('<span class="keyword">property</span>-change', function(event) {
+        $(model).on(<span class="hljs-string">'property-change'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-          expect(event.<span class="keyword">property</span>).toEqual('<span class="property">name</span>');
+          expect(event.property).toEqual(<span class="hljs-string">'name'</span>);
 
           expect(event.oldValue).toEqual(oldName);
 
           expect(event.newValue).toEqual(newName);
 
-          $(model).off('<span class="keyword">property</span>-change');
+          $(model).off(<span class="hljs-string">'property-change'</span>);
 
           done();
 
         });
 
-        model.<span class="property">name</span> = newName;
+        model.name = newName;
 
       });
 
 
 
-      async.<span class="keyword">it</span>('should notify <span class="keyword">with</span> \'<span class="keyword">property</span>-change\' upon change <span class="keyword">to</span> marked <span class="keyword">property</span>', function(done) {
+      async.it(<span class="hljs-string">'should notify with \'property-change\' upon change to marked property'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
 
-        var oldValue = model.marked,
+        <span class="hljs-keyword">var</span> oldValue = model.marked,
 
-            newValue = <span class="constant">true</span>;
+            newValue = <span class="hljs-literal">true</span>;
 
-        $(model).<span class="keyword">on</span>('<span class="keyword">property</span>-change', function(event) {
+        $(model).on(<span class="hljs-string">'property-change'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-          expect(event.<span class="keyword">property</span>).toEqual('marked');
+          expect(event.property).toEqual(<span class="hljs-string">'marked'</span>);
 
           expect(event.oldValue).toEqual(oldValue);
 
           expect(event.newValue).toEqual(newValue);
 
-          $(model).off('<span class="keyword">property</span>-change');
+          $(model).off(<span class="hljs-string">'property-change'</span>);
 
           done();
 
@@ -948,9 +948,9 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
 
 
-    afterEach( function() {
+    afterEach( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-      model = undefined;
+      model = <span class="hljs-literal">undefined</span>;
 
     });
 
@@ -960,106 +960,106 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
 
 
-});</code></pre>
-<p>We have a few suites there to verify:</p>
+});
+</code></pre><p>We have a few suites there to verify:</p>
 <ol>
 <li>Model generation from factory produces unique items</li>
 <li>Model property immutability for auto-assigned IDs</li>
 <li>Event notification on property change</li>
 </ol>
 <p>We add that to our spec runner:</p>
-<pre><code><span class="keyword">require</span>( [<span class="string">'spec/newitem.spec.js'</span>, <span class="string">'spec/markitem.spec.js'</span>,
+<pre><code><span class="hljs-keyword">require</span>( [<span class="hljs-string">'spec/newitem.spec.js'</span>, <span class="hljs-string">'spec/markitem.spec.js'</span>,
 
-          <span class="string">'spec/item-controller.spec.js'</span>, <span class="string">'spec/grocery-ls-item.spec.js'</span>], <span class="keyword">function</span>() {
+          <span class="hljs-string">'spec/item-controller.spec.js'</span>, <span class="hljs-string">'spec/grocery-ls-item.spec.js'</span>], <span class="hljs-keyword">function</span>() {
 
 
 
   var jasmineEnv = jasmine.getEnv(),
 
-     <span class="keyword">...</span>
+     <span class="hljs-keyword">...</span>
 
   jasmineEnv.execute();
 
 
 
-});</code></pre>
-<p>… and it fails. Whoopee! It’s supposed to. Now we just take the knowledge we know of wiring up event notification on state of the <em>list-item-controller</em>, and apply it to <em>property-change</em> on the model:</p>
+});
+</code></pre><p>… and it fails. Whoopee! It’s supposed to. Now we just take the knowledge we know of wiring up event notification on state of the <em>list-item-controller</em>, and apply it to <em>property-change</em> on the model:</p>
 <p><em>/script/model/grocery-ls-item.js</em></p>
-<pre><code>define([<span class="string">'jquery'</span>], function($) {
+<pre><code>define([<span class="hljs-string">'jquery'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($)</span> {</span>
 
 
 
-  <span class="keyword">var</span> propertyEvent = {
+  <span class="hljs-keyword">var</span> propertyEvent = {
 
-      create: function(property, oldValue, newValue) {
+      create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(property, oldValue, newValue)</span> {</span>
 
-        <span class="keyword">var</span> <span class="keyword">event</span> = $.Event(<span class="string">'property-change'</span>);
+        <span class="hljs-keyword">var</span> event = $.Event(<span class="hljs-string">'property-change'</span>);
 
-        <span class="keyword">event</span>.property = property;
+        event.property = property;
 
-        <span class="keyword">event</span>.oldValue = oldValue;
+        event.oldValue = oldValue;
 
-        <span class="keyword">event</span>.newValue = newValue;
+        event.newValue = newValue;
 
-        <span class="keyword">return</span> <span class="keyword">event</span>;
+        <span class="hljs-keyword">return</span> event;
 
       }
 
     },
 
-    properties = function(id) {
+    properties = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(id)</span> {</span>
 
-      <span class="keyword">return</span> {
+      <span class="hljs-keyword">return</span> {
 
-        <span class="string">"id"</span>: {
+        <span class="hljs-string">"id"</span>: {
 
-          <span class="keyword">value</span>: id,
+          value: id,
 
-          writable: <span class="keyword">false</span>,
+          writable: <span class="hljs-literal">false</span>,
 
-          enumerable: <span class="keyword">true</span>
+          enumerable: <span class="hljs-literal">true</span>
 
         },
 
-        <span class="string">"name"</span>: {
+        <span class="hljs-string">"name"</span>: {
 
-          enumerable: <span class="keyword">true</span>,
+          enumerable: <span class="hljs-literal">true</span>,
 
-          <span class="keyword">set</span>: function(<span class="keyword">value</span>) {
+          set: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value)</span> {</span>
 
-            <span class="keyword">var</span> oldValue = <span class="keyword">this</span>._name;
+            <span class="hljs-keyword">var</span> oldValue = <span class="hljs-keyword">this</span>._name;
 
-            <span class="keyword">this</span>._name = <span class="keyword">value</span>;
+            <span class="hljs-keyword">this</span>._name = value;
 
-            $(<span class="keyword">this</span>).trigger(propertyEvent.create(<span class="string">'name'</span>, oldValue, <span class="keyword">value</span>));
+            $(<span class="hljs-keyword">this</span>).trigger(propertyEvent.create(<span class="hljs-string">'name'</span>, oldValue, value));
 
           },
 
-          <span class="keyword">get</span>: function() {
+          get: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-            <span class="keyword">return</span> <span class="keyword">this</span>._name;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._name;
 
           }
 
         },
 
-        <span class="string">"marked"</span>: {
+        <span class="hljs-string">"marked"</span>: {
 
-          enumerable: <span class="keyword">true</span>,
+          enumerable: <span class="hljs-literal">true</span>,
 
-          <span class="keyword">set</span>: function(<span class="keyword">value</span>) {
+          set: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value)</span> {</span>
 
-            <span class="keyword">var</span> oldValue = <span class="keyword">this</span>._marked;
+            <span class="hljs-keyword">var</span> oldValue = <span class="hljs-keyword">this</span>._marked;
 
-            <span class="keyword">this</span>._marked = <span class="keyword">value</span>;
+            <span class="hljs-keyword">this</span>._marked = value;
 
-            $(<span class="keyword">this</span>).trigger(propertyEvent.create(<span class="string">'marked'</span>, oldValue, <span class="keyword">value</span>));
+            $(<span class="hljs-keyword">this</span>).trigger(propertyEvent.create(<span class="hljs-string">'marked'</span>, oldValue, value));
 
           },
 
-          <span class="keyword">get</span>: function() {
+          get: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-            <span class="keyword">return</span> <span class="keyword">this</span>._marked;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._marked;
 
           }
 
@@ -1071,11 +1071,11 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
 
 
-  <span class="keyword">return</span> {
+  <span class="hljs-keyword">return</span> {
 
-    create: function() {
+    create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-      <span class="keyword">return</span> Object.create(Object.prototype, properties(<span class="keyword">new</span> Date().getTime()));
+      <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(<span class="hljs-built_in">Object</span>.prototype, properties(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime()));
 
     }
 
@@ -1083,8 +1083,8 @@ editableItemFragment  = '<span class="tag">&lt;<span class="title">li</span> <sp
 
 
 
-});</code></pre>
-<p>The modification to <em>grocery-ls-item</em> was perhaps our first introduction to writing failing tests due to a change in design prior to actually modifying the implementation. That feeling you’re feeling right now… that’s what makes this all worth it <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif" alt=";)"></p>
+});
+</code></pre><p>The modification to <em>grocery-ls-item</em> was perhaps our first introduction to writing failing tests due to a change in design prior to actually modifying the implementation. That feeling you’re feeling right now… that’s what makes this all worth it <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif" alt=";)"></p>
 <p>Anyway… hold on to that feeling until the next post, because we are not done and it will go away quickly… just kidding <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p><strong>Tagged</strong>: 0.1.5 <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.5"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.5">https://github.com/bustardcelly/grocery-ls/tree/0.1.5</a></a></p>
 <h2 id="blinders">Blinders</h2>

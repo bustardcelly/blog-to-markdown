@@ -70,74 +70,74 @@
 <p>Finally, a <strong>Spark</strong> equivalent of <strong>mx:Image</strong>! And with it comes its own skin – <strong>ImageSkin</strong> – that allows the ability to show loading progress (with its own skin!). I can’t tell you how many times i have made these for client projects. Many – let’s keep it at that. However, the skin contract I would create for these custom “images-with-loading-indicator-components” (as I would call them) defined an <strong>mx:Image</strong> as the graphics container. The reason being a security issue with trying to manipulate bitmap data added to a <strong>BitmapImage</strong>.</p>
 <p>Fortunately it looks like some updates to <strong>BitmapImage</strong> have been added as well in <a href="http://opensource.adobe.com/wiki/display/flexsdk/Download+Flex+4.5">Flex 4.5</a>, of which i am assuming clears up the security issues seeing as the skin contract for <strong>s:Image</strong> defines a <strong>BitmapImage</strong> as its graphic layer. Maybe I will dig into it later and come up with more info (or if someone reading knows, please tell), but what immediately pops out are the new <strong>load events and properties</strong> such as <em>trustedSource</em>, <em>contentLoader</em> and <em>bitmapData</em> (which returns a clone).</p>
 <h3 id="usage">Usage</h3>
-<pre><code><span class="tag">&lt;<span class="title">s:Image</span> <span class="attribute">source</span>=<span class="value">"[http://upload.wikimedia.org/wikipedia/commons/archive/4/4e/20090913162821](http://upload.wikimedia.org/wikipedia/commons/archive/4/4e/20090913162821)!Pleiades_large.jpg"</span>
+<pre><code>&lt;s:Image <span class="hljs-built_in">source</span>=<span class="hljs-string">"[http://upload.wikimedia.org/wikipedia/commons/archive/4/4e/20090913162821](http://upload.wikimedia.org/wikipedia/commons/archive/4/4e/20090913162821)!Pleiades_large.jpg"</span>
 
-                <span class="attribute">width</span>=<span class="value">"800"</span> <span class="attribute">height</span>=<span class="value">"600"</span>
+                width=<span class="hljs-string">"800"</span> height=<span class="hljs-string">"600"</span>
 
-                <span class="attribute">enableLoadingState</span>=<span class="value">"true"</span>
+                enableLoadingState=<span class="hljs-string">"true"</span>
 
-                /&gt;</span></code></pre>
-<p>Remember how i mentioned <em>contentLoader</em> as a new property for <strong>BitmapImage</strong> (and the decorating <strong>s:Image</strong>)? That is typed to an <strong>IContentLoader</strong> interface, of which <strong>ContentCache</strong> is an implementation.</p>
+                /&gt;
+</code></pre><p>Remember how i mentioned <em>contentLoader</em> as a new property for <strong>BitmapImage</strong> (and the decorating <strong>s:Image</strong>)? That is typed to an <strong>IContentLoader</strong> interface, of which <strong>ContentCache</strong> is an implementation.</p>
 <h2 id="2-contentcache">2. ContentCache</h2>
 <p>Many 3rd party libraries have been written for this. I’ve created some in <strong>AS2</strong>, some in <strong>AS3</strong>. Basically just a lookup on file access either remote or embedded so as not to load or generate new content – some with load queues, some with instant request. And that is what <strong>ContentCache</strong> provides – a queueable, cacheable loader for files on a remote resource. Another cool feature is being able to assign a grouping for queued requests and priority in loading – (another property on <strong>s:Image</strong> and <strong>BitmapImage</strong> not addressed previously).</p>
 <p>If we look at the <em>load</em>() signature on <strong>ContentCache</strong>:</p>
-<pre><code><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">load</span><span class="params">(source:Object, contentLoaderGrouping:String=null)</span><span class="type">:ContentRequest</span></code></pre>
-<p>we can see the grouping designation associated with the load request as the second argument. The first argument can be either a <strong>URLRequest</strong> object or a <strong>String</strong> (well <em>technically</em> you can supply anything there, but it will either be resolved to a <strong>URLRequest</strong> or <strong>String</strong> within the <em>load</em> function). We also see that <em>load</em>() returns an instance of <strong>ContentRequest</strong>. That can either be an active request in the queue or currently running or filled and considered <em>complete</em> from cache. </p>
+<pre><code><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">load</span><span class="hljs-params">(source:Object, contentLoaderGrouping:String=null)</span><span class="hljs-type">:ContentRequest</span></span>
+</code></pre><p>we can see the grouping designation associated with the load request as the second argument. The first argument can be either a <strong>URLRequest</strong> object or a <strong>String</strong> (well <em>technically</em> you can supply anything there, but it will either be resolved to a <strong>URLRequest</strong> or <strong>String</strong> within the <em>load</em> function). We also see that <em>load</em>() returns an instance of <strong>ContentRequest</strong>. That can either be an active request in the queue or currently running or filled and considered <em>complete</em> from cache. </p>
 <p>The <em>content</em> property on <strong>ContentRequest</strong> is typed as an Object and the docs suggest it can be anything. In the instance of the one returned from <strong>ContentCache</strong> it looks as though it is always typed to <strong>LoaderInfo</strong> (the target loader of the request). Pretty cool. So basically, you request <strong>ContentCache</strong> to load your image file, check for <em>complete</em> on the returned <strong>ContentRequest</strong>, if false, assign event handlers for complete. When using <strong>ContentCache</strong>, the <em>content</em> value on the <strong>ContentRequest</strong> (from what i see) will always be <strong>LoaderInfo</strong>. Obviously it is flexible enough to create your own <strong>IContentLoader</strong> implementation to return content of a different type.</p>
 <h3 id="usage">Usage</h3>
-<pre><code><span class="keyword">public</span> <span class="keyword">var</span> cache:ContentCache;
+<pre><code><span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> cache:ContentCache;
 
-<span class="keyword">public</span> <span class="keyword">var</span> requests:Vector.&lt;ContentRequest&gt;;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> requests:Vector.&lt;ContentRequest&gt;;
 
 
 
-<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">requestImages</span><span class="params">()</span><span class="type">:void</span>
+<span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">requestImages</span><span class="hljs-params">()</span><span class="hljs-type">:void</span>
 
 {</span>
 
-    cache = <span class="keyword">new</span> ContentCache();
+    cache = <span class="hljs-keyword">new</span> ContentCache();
 
-    cache.prioritize( <span class="string">"walls"</span> );
+    cache.prioritize( <span class="hljs-string">"walls"</span> );
 
-    cache.enableCaching = <span class="literal">true</span>;
+    cache.enableCaching = <span class="hljs-literal">true</span>;
 
-    cache.enableQueueing = <span class="literal">true</span>;
-
-
-
-    requests = <span class="keyword">new</span> Vector.&lt;ContentRequest&gt;();
-
-    requests.push( cache.load( <span class="string">"[http://30.media.tumblr.com/tumblr_loc6v1EmWE1qzpsuoo1_500.jpg](http://30.media.tumblr.com/tumblr_loc6v1EmWE1qzpsuoo1_500.jpg)"</span>, <span class="string">"superheros"</span> ) );
-
-    requests.push( cache.load( <span class="string">"[http://26.media.tumblr.com/tumblr_locs8oFznL1qzpsuoo1_400.jpg](http://26.media.tumblr.com/tumblr_locs8oFznL1qzpsuoo1_400.jpg)"</span>, <span class="string">"walls"</span> ) );
-
-    requests.push( cache.load( <span class="string">"[http://25.media.tumblr.com/tumblr_loc2ysUcfw1qzpsuoo1_500.jpg](http://25.media.tumblr.com/tumblr_loc2ysUcfw1qzpsuoo1_500.jpg)"</span>, <span class="string">"superheros"</span> ) )
-
-    requests.push( cache.load( <span class="string">"[http://24.media.tumblr.com/tumblr_loarags4Du1qzpsuoo1_500.jpg](http://24.media.tumblr.com/tumblr_loarags4Du1qzpsuoo1_500.jpg)"</span>, <span class="string">"walls"</span> ) )
+    cache.enableQueueing = <span class="hljs-literal">true</span>;
 
 
 
-    <span class="keyword">var</span> request:ContentRequest;
+    requests = <span class="hljs-keyword">new</span> Vector.&lt;ContentRequest&gt;();
 
-    <span class="keyword">var</span> i:int = requests.length;
+    requests.push( cache.load( <span class="hljs-string">"[http://30.media.tumblr.com/tumblr_loc6v1EmWE1qzpsuoo1_500.jpg](http://30.media.tumblr.com/tumblr_loc6v1EmWE1qzpsuoo1_500.jpg)"</span>, <span class="hljs-string">"superheros"</span> ) );
 
-    <span class="keyword">while</span>( --i &gt; -<span class="number">1</span> )
+    requests.push( cache.load( <span class="hljs-string">"[http://26.media.tumblr.com/tumblr_locs8oFznL1qzpsuoo1_400.jpg](http://26.media.tumblr.com/tumblr_locs8oFznL1qzpsuoo1_400.jpg)"</span>, <span class="hljs-string">"walls"</span> ) );
+
+    requests.push( cache.load( <span class="hljs-string">"[http://25.media.tumblr.com/tumblr_loc2ysUcfw1qzpsuoo1_500.jpg](http://25.media.tumblr.com/tumblr_loc2ysUcfw1qzpsuoo1_500.jpg)"</span>, <span class="hljs-string">"superheros"</span> ) )
+
+    requests.push( cache.load( <span class="hljs-string">"[http://24.media.tumblr.com/tumblr_loarags4Du1qzpsuoo1_500.jpg](http://24.media.tumblr.com/tumblr_loarags4Du1qzpsuoo1_500.jpg)"</span>, <span class="hljs-string">"walls"</span> ) )
+
+
+
+    <span class="hljs-keyword">var</span> request:ContentRequest;
+
+    <span class="hljs-keyword">var</span> i:int = requests.length;
+
+    <span class="hljs-keyword">while</span>( --i &gt; -<span class="hljs-number">1</span> )
 
     {
 
         request = requests[i];
 
-        <span class="keyword">if</span>( request.complete )
+        <span class="hljs-keyword">if</span>( request.complete )
 
         {
 
-            requests.splice( i, <span class="number">1</span> );
+            requests.splice( i, <span class="hljs-number">1</span> );
 
-            addImage( (request.content <span class="keyword">as</span> LoaderInfo).content <span class="keyword">as</span> Bitmap );
+            addImage( (request.content <span class="hljs-keyword">as</span> LoaderInfo).content <span class="hljs-keyword">as</span> Bitmap );
 
         }
 
-        <span class="keyword">else</span>
+        <span class="hljs-keyword">else</span>
 
         {
 
@@ -151,7 +151,7 @@
 
 
 
-<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">addRequestHandlers</span><span class="params">( request:ContentRequest )</span><span class="type">:void</span>
+<span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addRequestHandlers</span><span class="hljs-params">( request:ContentRequest )</span><span class="hljs-type">:void</span>
 
 {</span>
 
@@ -159,7 +159,7 @@
 
 }
 
-<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">removeRequestHandlers</span><span class="params">( request:ContentRequest )</span><span class="type">:void</span>
+<span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">removeRequestHandlers</span><span class="hljs-params">( request:ContentRequest )</span><span class="hljs-type">:void</span>
 
 {</span>
 
@@ -169,33 +169,33 @@
 
 
 
-<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">handleRequestComplete</span><span class="params">( evt:Event )</span><span class="type">:void</span>
+<span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleRequestComplete</span><span class="hljs-params">( evt:Event )</span><span class="hljs-type">:void</span>
 
 {</span>
 
-    <span class="keyword">var</span> request:ContentRequest = ( evt.target <span class="keyword">as</span> ContentRequest );
+    <span class="hljs-keyword">var</span> request:ContentRequest = ( evt.target <span class="hljs-keyword">as</span> ContentRequest );
 
-    <span class="keyword">var</span> index:int = requests.indexOf( request );
+    <span class="hljs-keyword">var</span> index:int = requests.indexOf( request );
 
-    requests.splice( index, <span class="number">1</span> );
+    requests.splice( index, <span class="hljs-number">1</span> );
 
     removeRequestHandlers( request );
 
 
 
-    <span class="keyword">var</span> info:LoaderInfo = request.content <span class="keyword">as</span> LoaderInfo;
+    <span class="hljs-keyword">var</span> info:LoaderInfo = request.content <span class="hljs-keyword">as</span> LoaderInfo;
 
-    addImage( info.content <span class="keyword">as</span> Bitmap );
+    addImage( info.content <span class="hljs-keyword">as</span> Bitmap );
 
 }
 
 
 
-<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">addImage</span><span class="params">( source:Bitmap )</span><span class="type">:void</span>
+<span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addImage</span><span class="hljs-params">( source:Bitmap )</span><span class="hljs-type">:void</span>
 
 {</span>
 
-    <span class="keyword">var</span> img:BitmapImage = <span class="keyword">new</span> BitmapImage();
+    <span class="hljs-keyword">var</span> img:BitmapImage = <span class="hljs-keyword">new</span> BitmapImage();
 
     img.width = source.width;
 
@@ -203,12 +203,12 @@
 
     img.source = source;
 
-    <span class="comment">// imageHolder is just some container on the display list.</span>
+    <span class="hljs-comment">// imageHolder is just some container on the display list.</span>
 
     imageHolder.addElement( img );
 
-}</code></pre>
-<h3 id="the-good-">The Good?</h3>
+}
+</code></pre><h3 id="the-good-">The Good?</h3>
 <p>Clean implementation. Remember that there is a <em>contentLoader</em> property on <strong>s:Image</strong> and <strong>BitmapImage</strong> now. You can use <strong>ContentLoader</strong> if it suits your needs, but you can also roll your own implementation of <strong>IContentLoader</strong>! I like.</p>
 <h3 id="the-bad-">The Bad?</h3>
 <p><em>Not necessarily bad implementations – we can certainly extend ContentLoader and make any modifications – these are more of things to consider when you are using it</em>:</p>
@@ -222,38 +222,38 @@
 <p>There have been some great implementations out there – such as ones found in <a href="http://lab.polygonal.de/as3ds/">polygonal’s data structures</a> – and i have built a couple in my day for clients with varying functionality based on requirements. </p>
 <p>I should say that it is a great exercise to create your own linked list and I recommend that you should do so. The one included in the <strong>SDK</strong> is good, but in my opinion very limited (or maybe i should say “lightweight”) and its implementation is a little different than how I would have handled. But, implementation aside, there is a <strong>LinkedList</strong> in the <strong>SDK</strong> now. It’s bare bones. No iterator, no traversal <strong>API</strong> on the list itself, and you traverse by accessing the nodes directly through the list.</p>
 <h3 id="usage-">Usage:</h3>
-<pre><code>var list:LinkedList = new LinkedList()<span class="comment">;</span>
+<pre><code><span class="hljs-keyword">var</span> <span class="hljs-keyword">list</span>:LinkedList = <span class="hljs-keyword">new</span> LinkedList();
 
-list<span class="preprocessor">.push</span>( <span class="string">"foo"</span> )<span class="comment">;</span>
+<span class="hljs-keyword">list</span>.push( <span class="hljs-string">"foo"</span> );
 
-list<span class="preprocessor">.push</span>( <span class="string">"bar"</span> )<span class="comment">;</span>
+<span class="hljs-keyword">list</span>.push( <span class="hljs-string">"bar"</span> );
 
-list<span class="preprocessor">.push</span>( <span class="string">"baz"</span> )<span class="comment">;</span>
+<span class="hljs-keyword">list</span>.push( <span class="hljs-string">"baz"</span> );
 
 
 
-var node:LinkedListNode = list<span class="preprocessor">.head</span><span class="comment">;</span>
+<span class="hljs-keyword">var</span> node:LinkedListNode = <span class="hljs-keyword">list</span>.head;
 
-while( node<span class="preprocessor">.next</span> )
+<span class="hljs-keyword">while</span>( node.next )
 
 {
 
-    trace( <span class="string">"Node value: "</span> + node<span class="preprocessor">.value</span> )<span class="comment">;</span>
+    trace( <span class="hljs-string">"Node value: "</span> + node.value );
 
-    node = node<span class="preprocessor">.next</span><span class="comment">;</span>
+    node = node.next;
 
 }
 
 
 
-// &lt;&lt;outputs&gt;&gt;
+<span class="hljs-comment">// &lt;&lt;outputs&gt;&gt;</span>
 
-// Node value: foo
+<span class="hljs-comment">// Node value: foo</span>
 
-// Node value: bar
+<span class="hljs-comment">// Node value: bar</span>
 
-// Node value: baz</code></pre>
-<h3 id="the-good-">The Good?</h3>
+<span class="hljs-comment">// Node value: baz</span>
+</code></pre><h3 id="the-good-">The Good?</h3>
 <p>If i need a simple linked list, i dont have to create a new one again… yay!</p>
 <h3 id="the-bad-">The Bad?</h3>
 <p><em>Again, not necessarily bad in implementation but things i may have done differently:</em></p>

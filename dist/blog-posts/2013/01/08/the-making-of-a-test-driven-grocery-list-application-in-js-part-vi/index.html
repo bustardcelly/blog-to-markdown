@@ -72,51 +72,51 @@
 <p>That statement may sound foolish, i’ll admit. If it was an expectation that the action of marking off an item was to trigger a reaction that defined another feature specification, then certainly I would write up tests accordingly. But as it stands, it changes a style on the <code>list-item-controller</code> view. I am not so concerned with that implementation at the moment – if it becomes a real business issue and it was a requirement to have the text shown with a strike-through, then yes.</p>
 <p>Let’s start with the setup and teardown for the <em>Mark Off Item</em> feature specs:</p>
 <p><em>/test/jasmine/spec/feature/markitem.spec.js</em></p>
-<pre><code><span class="function"><span class="title">define</span><span class="params">(['jquery', 'script/controller/list-controller', 'script/controller/list-item-controller'],
+<pre><code>define([<span class="hljs-string">'jquery'</span>, <span class="hljs-string">'script/controller/list-controller'</span>, <span class="hljs-string">'script/controller/list-item-controller'</span>],
 
-        <span class="keyword">fun</span><span class="function_name">ction</span>($, list<span class="variable">Controller</span>, item<span class="variable">ControllerFactory</span>) <span class="tuple">{
-
-
-
-  <span class="function_name">describe</span>('<span class="variable">Existing</span> item is marked-off', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+        <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($, listController, itemControllerFactory)</span> {</span>
 
 
 
-    var item,
-
-        item<span class="variable">Controller</span>,
-
-        get<span class="variable">RendererStub</span>;
+  describe(<span class="hljs-string">'Existing item is marked-off'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
 
-    <span class="function_name">beforeEach</span>( <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+    <span class="hljs-keyword">var</span> item,
 
-      item = list<span class="variable">Controller</span>.<span class="function_name">createNewItem</span>();
+        itemController,
 
-
-
-      item<span class="variable">Controller</span> = item<span class="variable">ControllerFactory</span>.<span class="function_name">create</span>($('&lt;li/&gt;'), item);
-
-      get<span class="variable">RendererStub</span> = sinon.<span class="function_name">stub</span>();
-
-      get<span class="variable">RendererStub</span>.<span class="function_name">returns</span>(item<span class="variable">Controller</span>);
-
-      list<span class="variable">Controller</span>.get<span class="variable">RendererFromItem</span> = get<span class="variable">RendererStub</span>;
-
-    }</span>);
+        getRendererStub;
 
 
 
-    <span class="function_name">afterEach</span>( <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+    beforeEach( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-      item = undefined;
+      item = listController.createNewItem();
 
-      item<span class="variable">Controller</span> = undefined;
 
-      get<span class="variable">RendererStub</span> = undefined;
 
-    }</span>);
+      itemController = itemControllerFactory.create($(<span class="hljs-string">'&lt;li/&gt;'</span>), item);
+
+      getRendererStub = sinon.stub();
+
+      getRendererStub.returns(itemController);
+
+      listController.getRendererFromItem = getRendererStub;
+
+    });
+
+
+
+    afterEach( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+
+      item = <span class="hljs-literal">undefined</span>;
+
+      itemController = <span class="hljs-literal">undefined</span>;
+
+      getRendererStub = <span class="hljs-literal">undefined</span>;
+
+    });
 
 
 
@@ -124,361 +124,361 @@
 
 
 
-});</code></pre>
-<p>In the <code>beforeEach()</code>, we’ve stubbed out a new method on <code>list-controller</code> that allows us to access the associated <code>list-item-controller</code> with a model: <code>getRendererFromItem()</code>.</p>
+});
+</code></pre><p>In the <code>beforeEach()</code>, we’ve stubbed out a new method on <code>list-controller</code> that allows us to access the associated <code>list-item-controller</code> with a model: <code>getRendererFromItem()</code>.</p>
 <p>If you remember <a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">from the last article</a>, we also did some stubbing of methods before moving to implementation on <code>list-controller</code>. We are doing the same here and using the <a href="http://sinonjs.org">SinonJS</a> <code>stub</code> API to stub a method that currently does not exist on <code>list-controller</code>. To do so, and not have exceptions thrown in your tests regarding the existence of the method on the object being stubbed, you create an anonymous stub and assign it to the target object:</p>
 <p><em>/test/jasmine/spec/feature/markitem.spec.js</em></p>
-<pre><code>getRendererStub = sinon<span class="preprocessor">.stub</span>()<span class="comment">;</span>
+<pre><code>getRendererStub = sinon<span class="hljs-preprocessor">.stub</span>()<span class="hljs-comment">;</span>
 
-getRendererStub<span class="preprocessor">.returns</span>(itemController)<span class="comment">;</span>
+getRendererStub<span class="hljs-preprocessor">.returns</span>(itemController)<span class="hljs-comment">;</span>
 
-listController<span class="preprocessor">.getRendererFromItem</span> = getRendererStub<span class="comment">;</span></code></pre>
-<p>The stub is sort of a fub, seeing as it is not really accessing the <code>list-item-controller</code> created by the <code>list-controller</code> in response to change on the collection – but it does provide some basis of design in that <code>getRendererFromItem()</code> is expected to return a <code>list-item-controller</code> which in turn responds to the provided model. Anyway, once we remove the stub and implement the API on the <code>list-controller</code> itself, we’ll certainly have to write more tests for that integration as we are not necessarily concerned in this specification of <code>getRendererFromItem()</code> returning the correct <code>list-item-controller</code> instance… so you have that to look forward to <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Right now, we only care about the preservation of state and model existence within the application.</p>
+listController<span class="hljs-preprocessor">.getRendererFromItem</span> = getRendererStub<span class="hljs-comment">;</span>
+</code></pre><p>The stub is sort of a fub, seeing as it is not really accessing the <code>list-item-controller</code> created by the <code>list-controller</code> in response to change on the collection – but it does provide some basis of design in that <code>getRendererFromItem()</code> is expected to return a <code>list-item-controller</code> which in turn responds to the provided model. Anyway, once we remove the stub and implement the API on the <code>list-controller</code> itself, we’ll certainly have to write more tests for that integration as we are not necessarily concerned in this specification of <code>getRendererFromItem()</code> returning the correct <code>list-item-controller</code> instance… so you have that to look forward to <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Right now, we only care about the preservation of state and model existence within the application.</p>
 <p>First we’ll test that setting an item as marked is preserved in the model and held on the item controller:<br><em>/test/jasmine/spec/feature/markitem.spec.js</em></p>
-<pre><code><span class="keyword">it</span>('should denote <span class="property">item</span> <span class="keyword">as</span> being <span class="keyword">in</span> possession', function() {
+<pre><code><span class="hljs-function">it(<span class="hljs-string">'should denote item as being in possession'</span>, <span class="hljs-function">function()</span> {
 
-  var itemRenderer = listController.getRendererFromItem(<span class="property">item</span>);
+  var itemRenderer = listController.<span class="hljs-function">getRendererFromItem(item)</span>;
 
-      savedItemSpy = sinon.spy();
-
-
-
-  savedItemSpy(itemRenderer.model);
-
-  <span class="property">item</span>.marked = <span class="constant">true</span>;
+      savedItemSpy = sinon.<span class="hljs-function">spy()</span>;
 
 
 
-  expect(<span class="property">item</span>.marked).toEqual(<span class="constant">true</span>);
+  <span class="hljs-function">savedItemSpy(itemRenderer.model)</span>;
 
-  sinon.assert.calledWith(savedItemSpy, sinon.match.hasOwn('marked', <span class="constant">true</span>));
-
-});</code></pre>
-<p>Then, I want to ensure that marking off an item does not mean that it is removed from the overall collection:<br><em>/test/jasmine/spec/feature/markitem.spec.js</em></p>
-<pre><code><span class="keyword">it</span>('should retain <span class="keyword">the</span> <span class="property">item</span> <span class="keyword">in</span> <span class="keyword">the</span> grocery <span class="type">list</span> collection', function() {
-
-  var itemIndex = listController.getItemList().getItemIndex(<span class="property">item</span>);
+  item.marked = true;
 
 
 
-  <span class="property">item</span>.marked = <span class="constant">true</span>;
+  <span class="hljs-function">expect(item.marked)</span>.<span class="hljs-function">toEqual(true)</span>;
 
-  expect(listController.getItemList().getItemIndex(<span class="property">item</span>)).toEqual(itemIndex);
+  sinon.assert.<span class="hljs-function">calledWith(savedItemSpy, sinon.match.<span class="hljs-function">hasOwn(<span class="hljs-string">'marked'</span>, true)</span>)</span>;
 
-});</code></pre>
-<p>And finally, just to be sure that we can safely toggle the marked off state and it be retained:<br><em>/test/jasmine/spec/feature/markitem.spec.js</em></p>
-<pre><code><span class="keyword">it</span>('should retain <span class="property">item</span> <span class="keyword">in</span> renderer listing regardless <span class="keyword">of</span> marked-off status', function() {
+})</span>;
+</code></pre><p>Then, I want to ensure that marking off an item does not mean that it is removed from the overall collection:<br><em>/test/jasmine/spec/feature/markitem.spec.js</em></p>
+<pre><code><span class="hljs-keyword">it</span>('should retain <span class="hljs-keyword">the</span> <span class="hljs-property">item</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> collection', function() {
 
-  var itemRenderer = listController.getRendererFromItem(<span class="property">item</span>),
-
-      itemIndex = listController.getItemList().getItemIndex(<span class="property">item</span>);
+  var itemIndex = listController.getItemList().getItemIndex(<span class="hljs-property">item</span>);
 
 
 
-  <span class="property">item</span>.marked = <span class="constant">true</span>;
+  <span class="hljs-property">item</span>.marked = <span class="hljs-constant">true</span>;
 
-  <span class="property">item</span>.marked = <span class="constant">false</span>;
+  expect(listController.getItemList().getItemIndex(<span class="hljs-property">item</span>)).toEqual(itemIndex);
+
+});
+</code></pre><p>And finally, just to be sure that we can safely toggle the marked off state and it be retained:<br><em>/test/jasmine/spec/feature/markitem.spec.js</em></p>
+<pre><code><span class="hljs-function">it(<span class="hljs-string">'should retain item in renderer listing regardless of marked-off status'</span>, <span class="hljs-function">function()</span> {
+
+  var itemRenderer = listController.<span class="hljs-function">getRendererFromItem(item)</span>,
+
+      itemIndex = listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">getItemIndex(item)</span>;
 
 
 
-  expect(itemRenderer.model.marked).toEqual(<span class="constant">false</span>);
+  item.marked = true;
 
-  expect(listController.getItemList().getItemIndex(<span class="property">item</span>)).toEqual(itemIndex);
+  item.marked = false;
 
-});</code></pre>
-<p>Perhaps the last one is out of a little paranoia, but it also describes the behavior of the <em>Mark Off Item</em> feature as being togglable from a User standpoint – meaning, marking off an item is not considered deleting it from the list. Also, a little paranoia sprinkled on some tests can save you from fret when working with the implementation code. </p>
+
+
+  <span class="hljs-function">expect(itemRenderer.model.marked)</span>.<span class="hljs-function">toEqual(false)</span>;
+
+  <span class="hljs-function">expect(listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">getItemIndex(item)</span>)</span>.<span class="hljs-function">toEqual(itemIndex)</span>;
+
+})</span>;
+</code></pre><p>Perhaps the last one is out of a little paranoia, but it also describes the behavior of the <em>Mark Off Item</em> feature as being togglable from a User standpoint – meaning, marking off an item is not considered deleting it from the list. Also, a little paranoia sprinkled on some tests can save you from fret when working with the implementation code. </p>
 <p>Speaking of implementation…</p>
 <h3 id="list-controller-implementation">list-controller Implementation</h3>
 <p>Moving the <code>getRendererFromItem()</code> method over to the <code>list-controller</code> will involve holding and maintaining a list of <code>list-item-renderers</code>. We’ll use the <em>Collection</em> object we created previously for the models and place the job of curation between both collections on the <code>list-controller</code>:</p>
 <p><em>/script/controller/list-controller</em></p>
-<pre><code><span class="keyword">var</span> collection = collectionFactory.create(),
+<pre><code><span class="hljs-keyword">var</span> collection = collectionFactory.create(),
 
     rendererList = collectionFactory.create(),
 
     listController = {
 
-      $view: <span class="literal">undefined</span>,
+      $view: <span class="hljs-literal">undefined</span>,
 
-      getItemList: <span class="keyword">function</span>() {
+      getItemList: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-        <span class="keyword">return</span> collection;
+        <span class="hljs-keyword">return</span> collection;
 
       },
 
-      getRendererFromItem: <span class="keyword">function</span>(item) {
+      getRendererFromItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
 
-        <span class="keyword">var</span> i = rendererList.itemLength();
+        <span class="hljs-keyword">var</span> i = rendererList.itemLength();
 
-        <span class="keyword">while</span>( --i &gt; -<span class="number">1</span> ) {
+        <span class="hljs-keyword">while</span>( --i &gt; -<span class="hljs-number">1</span> ) {
 
-          <span class="keyword">if</span>(rendererList.getItemAt(i).model === item) {
+          <span class="hljs-keyword">if</span>(rendererList.getItemAt(i).model === item) {
 
-            <span class="keyword">return</span> rendererList.getItemAt(i);
+            <span class="hljs-keyword">return</span> rendererList.getItemAt(i);
 
           }
 
-          <span class="keyword">return</span> <span class="literal">undefined</span>;
+          <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
 
         }
 
       },
 
-      createNewItem: <span class="keyword">function</span>() {
+      createNewItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-        <span class="keyword">var</span> model = modelFactory.create();
+        <span class="hljs-keyword">var</span> model = modelFactory.create();
 
         collection.addItem(model);
 
-        <span class="keyword">return</span> model;
+        <span class="hljs-keyword">return</span> model;
 
       },
 
-      setView: <span class="keyword">function</span>(view) {
+      setView: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(view)</span> {</span>
 
-        <span class="keyword">this</span>.$view = (view <span class="keyword">instanceof</span> $) ? view : $(view);
+        <span class="hljs-keyword">this</span>.$view = (view <span class="hljs-keyword">instanceof</span> $) ? view : $(view);
 
       }
 
-    };</code></pre>
-<p>If an associated <code>list-item-controller</code> cannot be found from the provided <code>grocery-ls-item</code> model, then undefined is returned. We will ensure this and other expectations in a new integration test for the <code>list-controller</code> in a bit, but for now we have a little more work to do in order for the list-controller to behave as described in the <em>Mark Off Item</em> feature specs.</p>
+    };
+</code></pre><p>If an associated <code>list-item-controller</code> cannot be found from the provided <code>grocery-ls-item</code> model, then undefined is returned. We will ensure this and other expectations in a new integration test for the <code>list-controller</code> in a bit, but for now we have a little more work to do in order for the list-controller to behave as described in the <em>Mark Off Item</em> feature specs.</p>
 <p>Next step is to have the tests fail by removing the stub for the <code>getRendererFromItem()</code> method now on the <code>list-controller</code>:<br><em>/test/jasmine/spec/feature/markitem.spec.js</em></p>
-<pre><code>define(['jquery', '<span class="keyword">script</span>/controller/<span class="type">list</span>-controller'],
+<pre><code><span class="hljs-function">define([<span class="hljs-string">'jquery'</span>, <span class="hljs-string">'script/controller/list-controller'</span>],
 
-        function($, listController) {
-
-
-
-  describe('Existing <span class="property">item</span> <span class="keyword">is</span> marked-off', function() {
+        <span class="hljs-function">function($, listController)</span> {
 
 
 
-    var <span class="property">item</span>;
+  <span class="hljs-function">describe(<span class="hljs-string">'Existing item is marked-off'</span>, <span class="hljs-function">function()</span> {
 
 
 
-    beforeEach( function() {
-
-      <span class="property">item</span> = listController.createNewItem();
-
-    });
+    var item;
 
 
 
-    <span class="keyword">it</span>('should denote <span class="property">item</span> <span class="keyword">as</span> being <span class="keyword">in</span> possession', function() {
+    <span class="hljs-function">beforeEach( <span class="hljs-function">function()</span> {
 
-      var itemRenderer = listController.getRendererFromItem(<span class="property">item</span>);
+      item = listController.<span class="hljs-function">createNewItem()</span>;
 
-          savedItemSpy = sinon.spy();
-
-
-
-      savedItemSpy(itemRenderer.model);
-
-      <span class="property">item</span>.marked = <span class="constant">true</span>;
+    })</span>;
 
 
 
-      expect(<span class="property">item</span>.marked).toEqual(<span class="constant">true</span>);
+    <span class="hljs-function">it(<span class="hljs-string">'should denote item as being in possession'</span>, <span class="hljs-function">function()</span> {
 
-      sinon.assert.calledWith(savedItemSpy, sinon.match.hasOwn('marked', <span class="constant">true</span>));
+      var itemRenderer = listController.<span class="hljs-function">getRendererFromItem(item)</span>;
 
-    });
-
-
-
-    <span class="keyword">it</span>('should retain <span class="keyword">the</span> <span class="property">item</span> <span class="keyword">in</span> <span class="keyword">the</span> grocery <span class="type">list</span> collection', function() {
-
-      var itemIndex = listController.getItemList().getItemIndex(<span class="property">item</span>);
+          savedItemSpy = sinon.<span class="hljs-function">spy()</span>;
 
 
 
-      <span class="property">item</span>.marked = <span class="constant">true</span>;
+      <span class="hljs-function">savedItemSpy(itemRenderer.model)</span>;
 
-      expect(listController.getItemList().getItemIndex(<span class="property">item</span>)).toEqual(itemIndex);
-
-    });
+      item.marked = true;
 
 
 
-    <span class="keyword">it</span>('should retain <span class="property">item</span> <span class="keyword">in</span> renderer listing regardless <span class="keyword">of</span> marked-off status', function() {
+      <span class="hljs-function">expect(item.marked)</span>.<span class="hljs-function">toEqual(true)</span>;
 
-      var itemRenderer = listController.getRendererFromItem(<span class="property">item</span>),
+      sinon.assert.<span class="hljs-function">calledWith(savedItemSpy, sinon.match.<span class="hljs-function">hasOwn(<span class="hljs-string">'marked'</span>, true)</span>)</span>;
 
-          itemIndex = listController.getItemList().getItemIndex(<span class="property">item</span>);
-
-
-
-      <span class="property">item</span>.marked = <span class="constant">true</span>;
-
-      <span class="property">item</span>.marked = <span class="constant">false</span>;
-
-      expect(itemRenderer.model.marked).toEqual(<span class="constant">false</span>);
-
-      expect(listController.getItemList().getItemIndex(<span class="property">item</span>)).toEqual(itemIndex);
-
-    });
+    })</span>;
 
 
 
-    afterEach( function() {
+    <span class="hljs-function">it(<span class="hljs-string">'should retain the item in the grocery list collection'</span>, <span class="hljs-function">function()</span> {
 
-      <span class="property">item</span> = undefined;
-
-    });
+      var itemIndex = listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">getItemIndex(item)</span>;
 
 
 
-  });
+      item.marked = true;
+
+      <span class="hljs-function">expect(listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">getItemIndex(item)</span>)</span>.<span class="hljs-function">toEqual(itemIndex)</span>;
+
+    })</span>;
 
 
 
-});</code></pre>
-<p>Run the tests, and we’ll get failures related to the <code>getRendererFromItem()</code> method returning undefined with each call:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vi_1.png" alt="Failing tests on getRendererFromItem invocation"></p>
+    <span class="hljs-function">it(<span class="hljs-string">'should retain item in renderer listing regardless of marked-off status'</span>, <span class="hljs-function">function()</span> {
+
+      var itemRenderer = listController.<span class="hljs-function">getRendererFromItem(item)</span>,
+
+          itemIndex = listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">getItemIndex(item)</span>;
+
+
+
+      item.marked = true;
+
+      item.marked = false;
+
+      <span class="hljs-function">expect(itemRenderer.model.marked)</span>.<span class="hljs-function">toEqual(false)</span>;
+
+      <span class="hljs-function">expect(listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">getItemIndex(item)</span>)</span>.<span class="hljs-function">toEqual(itemIndex)</span>;
+
+    })</span>;
+
+
+
+    <span class="hljs-function">afterEach( <span class="hljs-function">function()</span> {
+
+      item = undefined;
+
+    })</span>;
+
+
+
+  })</span>;
+
+
+
+})</span>;
+</code></pre><p>Run the tests, and we’ll get failures related to the <code>getRendererFromItem()</code> method returning undefined with each call:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vi_1.png" alt="Failing tests on getRendererFromItem invocation"></p>
 <p>Good. That sort of assures us that <code>getRendererFromItem()</code> works as expected. This little mid-implementation failure won’t save us from writing proper tests for <code>list-controller</code>, but it’s a warm feeling for now <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>The reason that <code>getRendererForItem()</code> is returning undefined on each call is that we have not modified <code>list-controller</code> to add the <code>list-item-controller</code> renderer to the underlying <code>rendererList</code> collection. Let’s add the maintenance to the <em>collection-change</em> response on the model collection:</p>
 <p><em>/script/controller/list-controller</em></p>
-<pre><code><span class="variable">$collection</span>.on(<span class="string">'collection-change'</span>, function(<span class="keyword">event</span>) {
+<pre><code><span class="hljs-variable">$collection</span>.on(<span class="hljs-string">'collection-change'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-  var model, itemController, <span class="variable">$itemView</span>;
+  <span class="hljs-keyword">var</span> model, itemController, <span class="hljs-variable">$itemView</span>;
 
-  <span class="keyword">switch</span>( <span class="keyword">event</span>.kind ) {
+  <span class="hljs-keyword">switch</span>( event.kind ) {
 
-    <span class="keyword">case</span> EventKindEnum.ADD:
+    <span class="hljs-keyword">case</span> EventKindEnum.ADD:
 
-      <span class="variable">$itemView</span> = <span class="variable">$(</span><span class="string">'&lt;li&gt;'</span>);
+      <span class="hljs-variable">$itemView</span> = $(<span class="hljs-string">'&lt;li&gt;'</span>);
 
-      model = <span class="keyword">event</span>.items.shift();
+      model = event.items.shift();
 
-      itemController = itemControllerFactory.create(<span class="variable">$itemView</span>, model);
+      itemController = itemControllerFactory.create(<span class="hljs-variable">$itemView</span>, model);
 
 
 
-      <span class="variable">$itemView</span>.appendTo(listController.<span class="variable">$view</span>);
+      <span class="hljs-variable">$itemView</span>.appendTo(listController.<span class="hljs-variable">$view</span>);
 
       rendererList.addItem(itemController);
 
       itemController.state = itemControllerFactory.state.EDITABLE;
 
-      <span class="keyword">break</span>;
+      <span class="hljs-keyword">break</span>;
 
-    <span class="keyword">case</span> EventKindEnum.REMOVE:
+    <span class="hljs-keyword">case</span> EventKindEnum.REMOVE:
 
-      <span class="keyword">break</span>;
+      <span class="hljs-keyword">break</span>;
 
-    <span class="keyword">case</span> EventKindEnum.RESET:
+    <span class="hljs-keyword">case</span> EventKindEnum.RESET:
 
-      <span class="keyword">break</span>;
+      <span class="hljs-keyword">break</span>;
 
   }
 
-});</code></pre>
-<p>We’ve moved the variable declarations out of the <em>switch..case</em> for the <code>ADD</code> event type; they are hoisted by the interpreter, anyway, but I like a little more clarity. More importantly, we are adding the newly created <code>list-item-controller</code> to he <code>renderList</code>.</p>
+});
+</code></pre><p>We’ve moved the variable declarations out of the <em>switch..case</em> for the <code>ADD</code> event type; they are hoisted by the interpreter, anyway, but I like a little more clarity. More importantly, we are adding the newly created <code>list-item-controller</code> to he <code>renderList</code>.</p>
 <p>Run the tests and we’ll be back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vi_2.png" alt="Passing tests on getRendererFromItem implementation"></p>
 <p>Hold on! Before you run out the door and down the street singing my praises… you need pants. I don’t know why you are reading this article without pants, but you probably will get a fine. Plus, we really need to add some tests for the <code>list-controller</code>.</p>
 <h2 id="list-controller-tests">list-controller Tests</h2>
 <p>The <em>Mark Off Item</em> specs we just got to pass are great in describing that feature and the usability, but they don’t necessarily test all the expectations we have of the <code>list-controller</code> and its API. Perhaps we should have wrote up the tests for <code>list-controller</code> and, specifically, the <code>getRendererFromItem()</code> method prior to modifying the <em>Mark Off Item</em> specs and getting them to pass. I would agree with that, but I am also not a stickler… as long as we get some integration tests in for <code>list-controller</code>, I won’t hold it against myself <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>There are more tests regarding the <code>list-controller</code> API in the repository tagged later in this article, but for now I wanted to create a new spec suite for <code>list-controller</code> and test the expectations we had previously described for the <code>getRendererFromItem()</code> method:</p>
 <p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
-<pre><code><span class="function"><span class="title">define</span><span class="params">(['jquery', 'script/controller/list-controller', 'script/model/grocery-ls-item'],
+<pre><code><span class="hljs-function">define([<span class="hljs-string">'jquery'</span>, <span class="hljs-string">'script/controller/list-controller'</span>, <span class="hljs-string">'script/model/grocery-ls-item'</span>],
 
-        <span class="keyword">fun</span><span class="function_name">ction</span>($, list<span class="variable">Controller</span>, model<span class="variable">Factory</span>) <span class="tuple">{
-
-
-
-  <span class="function_name">describe</span>('<span class="variable">Grocery</span> <span class="variable">List</span> list-controller', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+        <span class="hljs-function">function($, listController, modelFactory)</span> {
 
 
 
-    <span class="function_name">describe</span>(<span class="function_name">'getRendererItem</span>()', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+  <span class="hljs-function">describe(<span class="hljs-string">'Grocery List list-controller'</span>, <span class="hljs-function">function()</span> {
 
 
 
-      <span class="function_name">it</span>('should return renderer associated with model', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
-
-        var item<span class="variable">Model</span>, renderer;
+    <span class="hljs-function">describe(<span class="hljs-string">'getRendererItem()'</span>, <span class="hljs-function">function()</span> {
 
 
 
-        item<span class="variable">Model</span> = list<span class="variable">Controller</span>.<span class="function_name">createNewItem</span>();
+      <span class="hljs-function">it(<span class="hljs-string">'should return renderer associated with model'</span>, <span class="hljs-function">function()</span> {
 
-        renderer = list<span class="variable">Controller</span>.<span class="function_name">getRendererFromItem</span>(item<span class="variable">Model</span>);
-
-        <span class="function_name">expect</span>(renderer).not.<span class="function_name">toBeUndefined</span>();
-
-        <span class="function_name">expect</span>(renderer.model).<span class="function_name">toBe</span>(item<span class="variable">Model</span>);
-
-      }</span>);
+        var itemModel, renderer;
 
 
 
-      <span class="function_name">it</span>('should return undefined with no associated model', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+        itemModel = listController.<span class="hljs-function">createNewItem()</span>;
 
-        var item<span class="variable">Model</span>, renderer;
+        renderer = listController.<span class="hljs-function">getRendererFromItem(itemModel)</span>;
 
+        <span class="hljs-function">expect(renderer)</span>.not.<span class="hljs-function">toBeUndefined()</span>;
 
+        <span class="hljs-function">expect(renderer.model)</span>.<span class="hljs-function">toBe(itemModel)</span>;
 
-        item<span class="variable">Model</span> = model<span class="variable">Factory</span>.<span class="function_name">create</span>();
-
-        renderer = list<span class="variable">Controller</span>.<span class="function_name">getRendererFromItem</span>(item<span class="variable">Model</span>);
-
-        <span class="function_name">expect</span>(renderer).<span class="function_name">toBeUndefined</span>();
-
-      }</span>);
+      })</span>;
 
 
 
-    });
+      <span class="hljs-function">it(<span class="hljs-string">'should return undefined with no associated model'</span>, <span class="hljs-function">function()</span> {
+
+        var itemModel, renderer;
 
 
 
-  });
+        itemModel = modelFactory.<span class="hljs-function">create()</span>;
+
+        renderer = listController.<span class="hljs-function">getRendererFromItem(itemModel)</span>;
+
+        <span class="hljs-function">expect(renderer)</span>.<span class="hljs-function">toBeUndefined()</span>;
+
+      })</span>;
 
 
 
-});</code></pre>
-<p>We have defined two tests for the <code>getRendererFromItem()</code> method on <code>list-controller</code> to ensure that it <strong>1)</strong> does return the associated renderer when available and <strong>2)</strong> does return undefined when an associated renderer is not available.</p>
+    })</span>;
+
+
+
+  })</span>;
+
+
+
+})</span>;
+</code></pre><p>We have defined two tests for the <code>getRendererFromItem()</code> method on <code>list-controller</code> to ensure that it <strong>1)</strong> does return the associated renderer when available and <strong>2)</strong> does return undefined when an associated renderer is not available.</p>
 <p>Let’s add that to the specrunner:<br><em>/test/jasmine/specrunner.html</em></p>
-<pre><code><span class="keyword">require</span>( [<span class="string">'spec/feature/additem.spec.js'</span>, <span class="string">'spec/feature/markitem.spec.js'</span>,
+<pre><code><span class="hljs-keyword">require</span>( [<span class="hljs-string">'spec/feature/additem.spec.js'</span>, <span class="hljs-string">'spec/feature/markitem.spec.js'</span>,
 
-          <span class="string">'spec/list-controller.spec.js'</span>, <span class="string">'spec/list-item-controller.spec.js'</span>, <span class="string">'spec/grocery-ls-item.spec.js'</span>,
+          <span class="hljs-string">'spec/list-controller.spec.js'</span>, <span class="hljs-string">'spec/list-item-controller.spec.js'</span>, <span class="hljs-string">'spec/grocery-ls-item.spec.js'</span>,
 
-          <span class="string">'spec/collection.spec.js'</span>], <span class="keyword">function</span>() {
+          <span class="hljs-string">'spec/collection.spec.js'</span>], <span class="hljs-keyword">function</span>() {
 
 
 
   var jasmineEnv = jasmine.getEnv(),
 
-      <span class="keyword">...</span>
+      <span class="hljs-keyword">...</span>
 
   jasmineEnv.execute();
 
 
 
-});</code></pre>
-<h4 id="aside">aside</h4>
+});
+</code></pre><h4 id="aside">aside</h4>
 <p>You may be wondering why it seems like I am doubling up on tests; after all, we have verified that the <code>getRendererFromItem()</code> method does as expected from within the <em>Mark Off Item</em> specs. This is true. However, I think of this spec suite, <em>list-controller.spec.js</em>, as more unit tests in that we are verifying how the component behaves. Within the <em>Mark Off Item</em> specs, I feel it is closer to how the component behaves in the system and reveals more of an expectation of the features of the <strong>Grocery List</strong> application. If I was to do further work in modifying the <code>list-controller</code>, I would start with this spec, and if it impacted the <em>Mark Off Item</em> feature, get that passing afterward. Not stuck in my way of thinking on this, but it my current workflow. Let me know if you have any better strategies.</p>
 <p>Actually, that brings up a good point. We should revisit the <em>Add Item</em> specs and add a test to ensure that the newly created item returned from <code>createNewItem()</code> will return an associated list-item-controller instance from <code>getRendererFromItem()</code>…</p>
 <h2 id="add-item-feature-update">Add Item Feature Update</h2>
 <p>We’ll add a spec to the current suite that verifies that the new created <code>grocery-ls-item</code> is properly paired with the <code>list-item-controller</code> and that they associated view is the one made available on the <strong>Grocery List</strong> UI:</p>
 <p><em>/test/jasmine/spec/feature/additem.spec.js</em></p>
-<pre><code><span class="function"><span class="title">it</span><span class="params">('should enable associated item renderer as editable', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+<pre><code><span class="hljs-function">it(<span class="hljs-string">'should enable associated item renderer as editable'</span>, <span class="hljs-function">function()</span> {
 
-  var new<span class="variable">Item</span> = list<span class="variable">Controller</span>.<span class="function_name">createNewItem</span>(),
+  var newItem = listController.<span class="hljs-function">createNewItem()</span>,
 
-      item<span class="variable">Renderer</span> = list<span class="variable">Controller</span>.<span class="function_name">getRendererFromItem</span>(new<span class="variable">Item</span>);
+      itemRenderer = listController.<span class="hljs-function">getRendererFromItem(newItem)</span>;
 
 
 
-    <span class="function_name">expect</span>(item<span class="variable">Renderer</span>).not.<span class="function_name">toBeUndefined</span>();
+    <span class="hljs-function">expect(itemRenderer)</span>.not.<span class="hljs-function">toBeUndefined()</span>;
 
-    <span class="function_name">expect</span>(item<span class="variable">Renderer</span>.model).<span class="function_name">toBe</span>(new<span class="variable">Item</span>);
+    <span class="hljs-function">expect(itemRenderer.model)</span>.<span class="hljs-function">toBe(newItem)</span>;
 
-    <span class="function_name">expect</span>(item<span class="variable">Renderer</span>.state).<span class="function_name">toEqual</span>(item<span class="variable">ControllerFactory</span>.state.<span class="variable">EDITABLE</span>);
+    <span class="hljs-function">expect(itemRenderer.state)</span>.<span class="hljs-function">toEqual(itemControllerFactory.state.EDITABLE)</span>;
 
-    <span class="function_name">expect</span>($list<span class="variable">View</span>.<span class="function_name">children</span>()[<span class="number">0</span>]).<span class="function_name">toBe</span>(item<span class="variable">Renderer</span>.parent<span class="variable">View</span>.<span class="function_name">get</span>(<span class="number">0</span>));
+    <span class="hljs-function">expect($listView.<span class="hljs-function">children()</span>[<span class="hljs-number">0</span>])</span>.<span class="hljs-function">toBe(itemRenderer.parentView.<span class="hljs-function">get(<span class="hljs-number">0</span>)</span>)</span>;
 
-}</span>);</code></pre>
-<p>The last expectation in there utilizes some of the access API from <a href="http://custardbelly.com/blog/jquery.org">jQuery</a>. If you are unfamiliar with it, it is basically testing that the first item in the parent list view is that of the <code>parentView</code> managed by the associated <code>list-item-controller</code>. If you take a look at the <a href="https://github.com/bustardcelly/grocery-ls/blob/0.1.8/test/jasmine/spec/feature/newitem.spec.js">previous spec</a>, we had already verified that the child list of the list view had been changed to include a new item; now we are ensuring that the new item is the correct one, accessible from <code>getRendererFromItem()</code>.</p>
+})</span>;
+</code></pre><p>The last expectation in there utilizes some of the access API from <a href="http://custardbelly.com/blog/jquery.org">jQuery</a>. If you are unfamiliar with it, it is basically testing that the first item in the parent list view is that of the <code>parentView</code> managed by the associated <code>list-item-controller</code>. If you take a look at the <a href="https://github.com/bustardcelly/grocery-ls/blob/0.1.8/test/jasmine/spec/feature/newitem.spec.js">previous spec</a>, we had already verified that the child list of the list view had been changed to include a new item; now we are ensuring that the new item is the correct one, accessible from <code>getRendererFromItem()</code>.</p>
 <p>I think that pretty much shores up the proper testing in describing the <em>Add Item</em> and <em>Mark Off Item</em> features. Run the tests and all are green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vi_3.png" alt="Passing tests for Add Item and Mark Off Item Features"></p>
 <p>Tagged <strong>0.1.9</strong> : <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.9"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.9">https://github.com/bustardcelly/grocery-ls/tree/0.1.9</a></a></p>
 <h2 id="conclusion">Conclusion</h2>

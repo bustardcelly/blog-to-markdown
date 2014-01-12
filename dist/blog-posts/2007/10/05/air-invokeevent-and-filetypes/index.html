@@ -62,108 +62,108 @@
 <p>That said, there is a coupling of features of AIR while leveraging the Flex Framework that i cannot hold inside and think is worth mentioning: Associated filetypes, the invoke event, and BindingUtils. </p>
 <p><em>To view and download the full code, <a href="http://custardbelly.com/downloads/air/FileTypeFun">click here</a>.  
 </em><br><strong>File Types</strong><br>First off, you can associate filetypes to your AIR app in the application descriptor file within the <code>fileTypes</code> node:</p>
-<pre><code><span class="tag">&lt;<span class="title">filetypes</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">filetype</span>&gt;</span>
-      <span class="tag">&lt;<span class="title">name</span>&gt;</span>com.example<span class="tag">&lt;/<span class="title">name</span>&gt;</span>
-      <span class="tag">&lt;<span class="title">extension</span>&gt;</span>ftf<span class="tag">&lt;/<span class="title">extension</span>&gt;</span>
-      <span class="tag">&lt;<span class="title">description</span>&gt;</span>FileTypeFun file<span class="tag">&lt;/<span class="title">description</span>&gt;</span>
-      <span class="tag">&lt;<span class="title">contenttype</span>&gt;</span>text/plain<span class="tag">&lt;/<span class="title">contenttype</span>&gt;</span>
-    <span class="tag">&lt;/<span class="title">filetype</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">filetypes</span>&gt;</span></code></pre>
-<p>Once the AIR app is installed on your machine, a file with the extension set as the value of the <code>extension</code> node will be associated with your app. Meaning, it will show up first in the list when you choose ‘open with’ and even invoke the app if you double-click on the file – that is if the extension is not associated with another program on your machine (ie. doc) in which case you will have to set your app to always open associated as default to your app.</p>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">filetypes</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">filetype</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>com.example<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">extension</span>&gt;</span>ftf<span class="hljs-tag">&lt;/<span class="hljs-title">extension</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">description</span>&gt;</span>FileTypeFun file<span class="hljs-tag">&lt;/<span class="hljs-title">description</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">contenttype</span>&gt;</span>text/plain<span class="hljs-tag">&lt;/<span class="hljs-title">contenttype</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">filetype</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">filetypes</span>&gt;</span>
+</code></pre><p>Once the AIR app is installed on your machine, a file with the extension set as the value of the <code>extension</code> node will be associated with your app. Meaning, it will show up first in the list when you choose ‘open with’ and even invoke the app if you double-click on the file – that is if the extension is not associated with another program on your machine (ie. doc) in which case you will have to set your app to always open associated as default to your app.</p>
 <p><strong>InvokeEvent</strong><br>The invoke event of a <code>WindowedApplication</code> will be triggered upon initial instantiation – without having the application previously running – and any subsequent ‘open with file’ calls. The arguments property of the <code>InvokeEvent</code> is an array of arguments passed through invocation of the app. This not only allows command line junkies to open an application with a file like so:</p>
 <p><em>On Mac:</em>  </p>
 <blockquote>
 <p>open MyAirApp.app MyDocuments.ftf<br><em><br>On Windows:</em><br>MyAirApp MyDocument.ftf</p>
 </blockquote>
 <p>.. but as well as double-clicking or choosing ‘open with’ on a file (as describe above). Probably you wouldn’t have any documents lying around in your applications directory – but you get the picture. To handle those arguments your app would look something like as follows:</p>
-<pre><code><span class="tag">&lt; ?<span class="attribute">xml</span> <span class="attribute">version</span>=<span class="value">"1.0"</span> <span class="attribute">encoding</span>=<span class="value">"utf-8"</span>?&gt;</span>
-<span class="tag">&lt;<span class="title">mx</span> <span class="attribute">:WindowedApplication</span> 
-    <span class="attribute">xmlns:mx</span>=<span class="value">"http://www.adobe.com/2006/mxml"</span>
-    <span class="attribute">layout</span>=<span class="value">"vertical"</span> 
-    <span class="attribute">horizontalAlign</span>=<span class="value">"center"</span> <span class="attribute">verticalAlign</span>=<span class="value">"middle"</span>
-    <span class="attribute">invoke</span>=<span class="value">"onAppInvoke(event);"</span>&gt;</span>
-
-    <span class="tag">&lt;/<span class="title">mx</span>&gt;</span><span class="tag">&lt;<span class="title">mx</span> <span class="attribute">:Script</span>&gt;</span>
-        <span class="tag">&lt; ![<span class="attribute">CDATA</span>[
-            <span class="attribute">private</span> <span class="attribute">function</span> <span class="attribute">onAppInvoke</span>( <span class="attribute">evt:InvokeEvent</span> )<span class="attribute">:void</span>
-            {
-                <span class="attribute">var</span> <span class="attribute">items:Array</span> = <span class="attribute">evt.arguments</span>;
-                <span class="attribute">for</span>( <span class="attribute">var</span> <span class="attribute">i:int</span> = <span class="attribute">0</span>; <span class="attribute">i</span> &lt; <span class="attribute">items.length</span>; <span class="attribute">i</span>++ )
-                {
-                    <span class="attribute">trace</span>( <span class="attribute">items</span>[<span class="attribute">i</span>] );
-                }
-            }
-        ]]&gt;</span>
-    <span class="tag">&lt;<span class="title">mx</span> <span class="attribute">:Label</span> <span class="attribute">text</span>=<span class="value">"Welcome"</span> /&gt;</span>
-<span class="tag">&lt;/<span class="title">mx</span>&gt;</span></code></pre>
-<p><em>Note:<br>AARG… i can’t find a decent mxml plugin for Wordpress. There is an errant closing</em> mx <em>tag before the script and the closing tag at the end should read</em> /mx:WindowedApplication . <em>If anyone has any tips on a good plugin, please leave a comment!</em></p>
-<p>This assigns the <code>onAppInvoke()</code> method as the handler to the ‘invoke’ event dispatched from <code>WindowedApplication</code> upon instantiation AND any subsequent invocation calls. The arguments attribute of the <code>InvokeEvent</code> is a list of strings – deliminated by space if you on the command line. From here, just handle them as you want to. In following with this example we are going to handle paths to simple text files.</p>
-<p><strong>BindingUtils</strong><br>All this filetypes and invoke events craziness is enough to warrent me to stop writing… but i got to thinking (always bad news)… what if i’ve got an ‘invoke’ event that may trigger prior to the creation of a client that needs to know about an opened file, or more so, the app needs to switch focus to a client that has yet to be instantiated that knows how to handle that file? This is where <code>BindingUtils</code>and <code>ChangeWatcher</code>come into play and really show off the power of the Flex Framework.</p>
-<pre><code>&lt; ?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;
+<pre><code>&lt; ?xml version=<span class="hljs-string">"1.0"</span> encoding=<span class="hljs-string">"utf-8"</span>?&gt;
 &lt;mx :WindowedApplication 
-    xmlns:mx=<span class="string">"http://www.adobe.com/2006/mxml"</span>
-    layout=<span class="string">"vertical"</span> 
-    horizontalAlign=<span class="string">"center"</span> verticalAlign=<span class="string">"middle"</span>
-    applicationComplete=<span class="string">"onAppComplete();"</span>
-    invoke=<span class="string">"onAppInvoke(event);"</span>&gt;
+    xmlns:mx=<span class="hljs-string">"http://www.adobe.com/2006/mxml"</span>
+    layout=<span class="hljs-string">"vertical"</span> 
+    horizontalAlign=<span class="hljs-string">"center"</span> verticalAlign=<span class="hljs-string">"middle"</span>
+    invoke=<span class="hljs-string">"onAppInvoke(event);"</span>&gt;
+
     &lt;/mx&gt;&lt;mx :Script&gt;
         &lt; ![CDATA[
-            <span class="preprocessor"><span class="keyword">import</span> mx.binding.utils.ChangeWatcher;</span>
-            <span class="preprocessor"><span class="keyword">import</span> mx.binding.utils.BindingUtils;</span>
-            <span class="preprocessor"><span class="keyword">import</span> mx.events.FlexEvent;</span>
-
-            <span class="keyword">private</span> <span class="keyword">var</span> _invokedFile:File;
-            <span class="keyword">private</span> <span class="keyword">var</span> _fileWindow:FileDisplayWindow;
-            <span class="keyword">private</span> <span class="keyword">var</span> _filesBinding:ChangeWatcher;
-
-            <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">onAppComplete</span><span class="params">()</span><span class="type">:void</span>
+            <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onAppInvoke</span><span class="hljs-params">( evt:InvokeEvent )</span><span class="hljs-type">:void</span>
             {</span>
-                _filesBinding = BindingUtils.bindSetter( invalidateFiles, <span class="keyword">this</span>, <span class="string">'invokedFile'</span>, <span class="literal">true</span> );
+                <span class="hljs-keyword">var</span> items:Array = evt.arguments;
+                <span class="hljs-keyword">for</span>( <span class="hljs-keyword">var</span> i:int = <span class="hljs-number">0</span>; i &lt; items.length; i++ )
+                {
+                    trace( items[i] );
+                }
+            }
+        ]]&gt;
+    &lt;mx :Label text=<span class="hljs-string">"Welcome"</span> /&gt;
+&lt;/mx&gt;
+</code></pre><p><em>Note:<br>AARG… i can’t find a decent mxml plugin for Wordpress. There is an errant closing</em> mx <em>tag before the script and the closing tag at the end should read</em> /mx:WindowedApplication . <em>If anyone has any tips on a good plugin, please leave a comment!</em></p>
+<p>This assigns the <code>onAppInvoke()</code> method as the handler to the ‘invoke’ event dispatched from <code>WindowedApplication</code> upon instantiation AND any subsequent invocation calls. The arguments attribute of the <code>InvokeEvent</code> is a list of strings – deliminated by space if you on the command line. From here, just handle them as you want to. In following with this example we are going to handle paths to simple text files.</p>
+<p><strong>BindingUtils</strong><br>All this filetypes and invoke events craziness is enough to warrent me to stop writing… but i got to thinking (always bad news)… what if i’ve got an ‘invoke’ event that may trigger prior to the creation of a client that needs to know about an opened file, or more so, the app needs to switch focus to a client that has yet to be instantiated that knows how to handle that file? This is where <code>BindingUtils</code>and <code>ChangeWatcher</code>come into play and really show off the power of the Flex Framework.</p>
+<pre><code>&lt; ?xml version=<span class="hljs-string">"1.0"</span> encoding=<span class="hljs-string">"utf-8"</span>?&gt;
+&lt;mx :WindowedApplication 
+    xmlns:mx=<span class="hljs-string">"http://www.adobe.com/2006/mxml"</span>
+    layout=<span class="hljs-string">"vertical"</span> 
+    horizontalAlign=<span class="hljs-string">"center"</span> verticalAlign=<span class="hljs-string">"middle"</span>
+    applicationComplete=<span class="hljs-string">"onAppComplete();"</span>
+    invoke=<span class="hljs-string">"onAppInvoke(event);"</span>&gt;
+    &lt;/mx&gt;&lt;mx :Script&gt;
+        &lt; ![CDATA[
+            <span class="hljs-preprocessor"><span class="hljs-keyword">import</span> mx.binding.utils.ChangeWatcher;</span>
+            <span class="hljs-preprocessor"><span class="hljs-keyword">import</span> mx.binding.utils.BindingUtils;</span>
+            <span class="hljs-preprocessor"><span class="hljs-keyword">import</span> mx.events.FlexEvent;</span>
+
+            <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> _invokedFile:File;
+            <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> _fileWindow:FileDisplayWindow;
+            <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> _filesBinding:ChangeWatcher;
+
+            <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onAppComplete</span><span class="hljs-params">()</span><span class="hljs-type">:void</span>
+            {</span>
+                _filesBinding = BindingUtils.bindSetter( invalidateFiles, <span class="hljs-keyword">this</span>, <span class="hljs-string">'invokedFile'</span>, <span class="hljs-literal">true</span> );
             }
 
-            <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">onAppInvoke</span><span class="params">( evt:InvokeEvent )</span><span class="type">:void</span>
+            <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onAppInvoke</span><span class="hljs-params">( evt:InvokeEvent )</span><span class="hljs-type">:void</span>
             {</span>
-                <span class="keyword">var</span> items:Array = evt.arguments;
-                <span class="keyword">if</span>( items.length &gt; <span class="number">0</span> )
+                <span class="hljs-keyword">var</span> items:Array = evt.arguments;
+                <span class="hljs-keyword">if</span>( items.length &gt; <span class="hljs-number">0</span> )
                 {
-                    invokedFile = <span class="keyword">new</span> File( evt.arguments[<span class="number">0</span>] );
+                    invokedFile = <span class="hljs-keyword">new</span> File( evt.arguments[<span class="hljs-number">0</span>] );
                 }    
             }
 
-            <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">openFileWindow</span><span class="params">()</span><span class="type">:void</span>
+            <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">openFileWindow</span><span class="hljs-params">()</span><span class="hljs-type">:void</span>
             {</span>
-                _fileWindow = <span class="keyword">new</span> FileDisplayWindow();
+                _fileWindow = <span class="hljs-keyword">new</span> FileDisplayWindow();
                 _fileWindow.addEventListener( FlexEvent.CREATION_COMPLETE, applyFileToWindow );
                 _fileWindow.open();
             }
 
-            <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">applyFileToWindow</span><span class="params">( evt:FlexEvent = null )</span><span class="type">:void</span>
+            <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyFileToWindow</span><span class="hljs-params">( evt:FlexEvent = null )</span><span class="hljs-type">:void</span>
             {</span>
                 _fileWindow.file = _invokedFile;
             }
 
-            <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">invalidateFiles</span><span class="params">( arg:* = null )</span><span class="type">:void</span>
+            <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">invalidateFiles</span><span class="hljs-params">( arg:* = null )</span><span class="hljs-type">:void</span>
             {</span>
-                <span class="keyword">if</span>( _invokedFile == <span class="literal">null</span> ) <span class="keyword">return</span>;
-                <span class="keyword">if</span>( _fileWindow == <span class="literal">null</span> || _fileWindow.closed ) openFileWindow();
-                <span class="keyword">else</span> applyFileToWindow();
+                <span class="hljs-keyword">if</span>( _invokedFile == <span class="hljs-literal">null</span> ) <span class="hljs-keyword">return</span>;
+                <span class="hljs-keyword">if</span>( _fileWindow == <span class="hljs-literal">null</span> || _fileWindow.closed ) openFileWindow();
+                <span class="hljs-keyword">else</span> applyFileToWindow();
             }
 
             [Bindable]
-            <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span> <span class="title">invokedFile</span><span class="params">()</span><span class="type">:File</span>
+            <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span> <span class="hljs-title">invokedFile</span><span class="hljs-params">()</span><span class="hljs-type">:File</span>
             {</span>
-                <span class="keyword">return</span> _invokedFile;
+                <span class="hljs-keyword">return</span> _invokedFile;
             }
-            <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">set</span> <span class="title">invokedFile</span><span class="params">( arr:File )</span><span class="type">:void</span>
+            <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">set</span> <span class="hljs-title">invokedFile</span><span class="hljs-params">( arr:File )</span><span class="hljs-type">:void</span>
             {</span>
                 _invokedFile = arr;
             }
 
         ]]&gt;
-    &lt;mx :Label text=<span class="string">"Welcome"</span> /&gt;
-&lt;/mx&gt;</code></pre>
-<p><em>Note:<br>Again i apologize for the terrible representation of mxml code. To view the full code,</em> <a href="http://custardbelly.com/downloads/air/FileTypeFun">click here</a></p>
+    &lt;mx :Label text=<span class="hljs-string">"Welcome"</span> /&gt;
+&lt;/mx&gt;
+</code></pre><p><em>Note:<br>Again i apologize for the terrible representation of mxml code. To view the full code,</em> <a href="http://custardbelly.com/downloads/air/FileTypeFun">click here</a></p>
 <p>On dispatch of ‘applicationComplete’, a <code>ChangeWatcher</code>instance is created to bind any changes to the <code>invokeFile</code>attribute to the <code>invalidateFiles()</code> method. The <code>invalidateFiles()</code> method will be called upon a change to the <code>invokedFile</code>which is of type <code>File</code>from the AIR API. The client that handles any invoked files in this case is another addition to the AIR API – Window. I threw it in there because i can’t stop wanting to use it <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>The <code>invalidateFiles()</code> has checks to see if the file is valid as well as to make sure the <code>Window</code>is open and ready to receive data. Basically, with binding a change to the <code>invokedFile</code>attribute to the i<code>nvalidateFiles()</code> handler, we can be sure that when a file is requested to be open – either through invocation from the command, double-click, or ‘open with’ – the <code>Window</code>client that knows how to handle that file data will be presented.</p>
 <p>This just scratches the surface. There are icons you can associate with file types, there’s drag and drop capabilities that can update the invoked file if wanted… i just have to stop typing at some point!</p>

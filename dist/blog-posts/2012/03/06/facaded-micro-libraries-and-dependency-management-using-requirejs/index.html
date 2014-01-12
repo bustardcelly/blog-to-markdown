@@ -69,39 +69,39 @@
 <p>As mentioned previously, the largest part of this solution is to provide a common API to develop against. I want to have my scripts that interact with an API to pass tests regardless of the dependency passed in – with the dependence being the facade module that is adapted to the target micro-library. This area is possibly the crux of the whole argument. Which API do you adapt to? Or rather, which implementation of a micro-library should you favor in exposing an API for multiple micro-libraries? A lot of them have similar methods, but the delegate response signatures can vary. It’s all at the whim of the developer of the micro-library and their vision of the cleanest solution. I don’t have an answer to this, by the way <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Just bringing it up. I lean towards providing an API that is similar to the most widely-used solution.</p>
 <p>Recently I have been evaluating client-side routing libraries that fit perfectly into this modularized facading concept. Particularly, the first library I wanted to test was <a href="https://github.com/mtrpcic/pathjs">PathJS</a> which provided support for <a href="http://diveintohtml5.info/history.html">HTML5 history</a> as well as fall-back to hash tags (plus niceties like parameterized routes, roots, and others). However, as it provided these capabilities, it also provided two different APIs for them. We could go into a discussion of whether this is good practice and whether it should be abstracted away from the front-end developer, but that isn’t my biggest concern at the moment – especially as we can mitigate that concern by abstracting each approach into facades that share a common API. The following are examples of the implementations that adapt to the hash tag implementation and the History implementation respectively:</p>
 <p><em>/script/router/PathHashTagFacade.js</em></p>
-<pre><code>define( [<span class="string">'../../lib/path.min.js'</span>], <span class="keyword">function</span>() {
+<pre><code>define( [<span class="hljs-string">'../../lib/path.min.js'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
 
-    <span class="keyword">return</span> {
+    <span class="hljs-keyword">return</span> {
 
-        map: <span class="keyword">function</span>( fragment, delegate ) {
+        map: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( fragment, delegate )</span> {</span>
 
-            Path.map( <span class="string">'#'</span>+fragment ).to( <span class="keyword">function</span>() {
+            Path.map( <span class="hljs-string">'#'</span>+fragment ).to( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-                <span class="keyword">var</span> paramProperty,
+                <span class="hljs-keyword">var</span> paramProperty,
 
                     paramArray = [];
 
-                <span class="keyword">for</span>( paramProperty <span class="keyword">in</span> <span class="keyword">this</span>.params ) {
+                <span class="hljs-keyword">for</span>( paramProperty <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span>.params ) {
 
-                    paramArray[paramArray.length] = <span class="keyword">this</span>.params[paramProperty];
+                    paramArray[paramArray.length] = <span class="hljs-keyword">this</span>.params[paramProperty];
 
                 }
 
-                delegate.apply( <span class="keyword">this</span>, paramArray )
+                delegate.apply( <span class="hljs-keyword">this</span>, paramArray )
 
             });
 
         },
 
-        root: <span class="keyword">function</span>( fragment ) {
+        root: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( fragment )</span> {</span>
 
-            Path.root( <span class="string">'#'</span>+fragment );
+            Path.root( <span class="hljs-string">'#'</span>+fragment );
 
         },
 
-        init: <span class="keyword">function</span>( useHistory ) {
+        init: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( useHistory )</span> {</span>
 
             Path.listen();
 
@@ -111,33 +111,33 @@
 
 
 
-});</code></pre>
-<p><em>/script/router/PathHistoryFacade.js</em></p>
-<pre><code>define( [<span class="string">'../selector/SimpleSelectorFacade'</span>, <span class="string">'../../lib/path.min.js'</span>], function( $ ) {
+});
+</code></pre><p><em>/script/router/PathHistoryFacade.js</em></p>
+<pre><code>define( [<span class="hljs-string">'../selector/SimpleSelectorFacade'</span>, <span class="hljs-string">'../../lib/path.min.js'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( $ )</span> {</span>
 
 
 
-    <span class="keyword">var</span> links = $(<span class="string">'a'</span>),
+    <span class="hljs-keyword">var</span> links = $(<span class="hljs-string">'a'</span>),
 
-        i = <span class="number">0</span>, length = links.length;
-
-
-
-    <span class="keyword">for</span>( i; i &lt; length; i++ ) {
-
-        links[i].onclick = function( <span class="keyword">event</span> ){
-
-            <span class="keyword">event</span>.preventDefault();
+        i = <span class="hljs-number">0</span>, length = links.length;
 
 
 
-            <span class="keyword">var</span> location = <span class="keyword">this</span>.attributes[<span class="string">'href'</span>].<span class="keyword">value</span>;
+    <span class="hljs-keyword">for</span>( i; i &lt; length; i++ ) {
 
-            location = location.split( <span class="string">'#'</span> ).<span class="keyword">join</span>( <span class="string">''</span> );
+        links[i].onclick = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( event )</span>{</span>
 
-            Path.history.pushState( {}, <span class="string">''</span>, location );
+            event.preventDefault();
 
-            <span class="keyword">return</span> <span class="keyword">false</span>;
+
+
+            <span class="hljs-keyword">var</span> location = <span class="hljs-keyword">this</span>.attributes[<span class="hljs-string">'href'</span>].value;
+
+            location = location.split( <span class="hljs-string">'#'</span> ).join( <span class="hljs-string">''</span> );
+
+            Path.history.pushState( {}, <span class="hljs-string">''</span>, location );
+
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 
         };
 
@@ -145,106 +145,106 @@
 
 
 
-    <span class="keyword">return</span> {
+    <span class="hljs-keyword">return</span> {
 
-        map: function( fragment, <span class="keyword">delegate</span> ) {
+        map: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( fragment, delegate )</span> {</span>
 
-            Path.map( fragment ).to( function() {
+            Path.map( fragment ).to( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-                <span class="keyword">var</span> paramProperty,
+                <span class="hljs-keyword">var</span> paramProperty,
 
                     paramArray = [];
 
-                <span class="keyword">for</span>( paramProperty <span class="keyword">in</span> <span class="keyword">this</span>.<span class="keyword">params</span> ) {
+                <span class="hljs-keyword">for</span>( paramProperty <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span>.params ) {
 
-                    paramArray[paramArray.length] = <span class="keyword">this</span>.<span class="keyword">params</span>[paramProperty];
+                    paramArray[paramArray.length] = <span class="hljs-keyword">this</span>.params[paramProperty];
 
                 }
 
-                <span class="keyword">delegate</span>.apply( <span class="keyword">this</span>, paramArray )
+                delegate.apply( <span class="hljs-keyword">this</span>, paramArray )
 
             });
 
         },
 
-        root: function( fragment ) {
+        root: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( fragment )</span> {</span>
 
-            Path.history.pushState( {}, <span class="string">''</span>, fragment );
+            Path.history.pushState( {}, <span class="hljs-string">''</span>, fragment );
 
         },
 
-        init: function( useHistory ) {
+        init: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( useHistory )</span> {</span>
 
-            Path.history.listen( <span class="keyword">true</span> );
+            Path.history.listen( <span class="hljs-literal">true</span> );
 
         }
 
     };
 
-});</code></pre>
-<p>Within the definition of each module, a dependency on the <a href="https://github.com/mtrpcic/pathjs">PathJS</a> library is declared and loaded prior to entering the load delegate. <a href="https://github.com/mtrpcic/pathjs">PathJS</a> is not provided as an AMD module, so it is accessed using <em>Path</em> globally in both examples. The two differ, however, in their implementation of the their common API: <em>map</em>, <em>root</em>, and <em>init</em>. Let’s set aside the irony of the fact that I am now loading two files (<em>path.js</em> and either facade file) with the end goal being to minimize load times – this will be made clearer in the next example; I just wanted to show the possibility this solution provides in also testing implementation with the same library.</p>
+});
+</code></pre><p>Within the definition of each module, a dependency on the <a href="https://github.com/mtrpcic/pathjs">PathJS</a> library is declared and loaded prior to entering the load delegate. <a href="https://github.com/mtrpcic/pathjs">PathJS</a> is not provided as an AMD module, so it is accessed using <em>Path</em> globally in both examples. The two differ, however, in their implementation of the their common API: <em>map</em>, <em>root</em>, and <em>init</em>. Let’s set aside the irony of the fact that I am now loading two files (<em>path.js</em> and either facade file) with the end goal being to minimize load times – this will be made clearer in the next example; I just wanted to show the possibility this solution provides in also testing implementation with the same library.</p>
 <p>The implementations are very similar in the two examples. The former mostly takes input and prepends values with a hash (#). The latter uses the History API on <em>Path</em>, and intercepts click events on links to properly handle then in the context of <em>Path.history</em>.</p>
 <p>Just as a quick example of how I would then employ this:</p>
-<pre><code><span class="function"><span class="title">require</span><span class="params">( ['script/router/<span class="variable">PathHashTagFacade</span>'], handle<span class="variable">RouterDependency</span> )</span>;
+<pre><code><span class="hljs-built_in">require</span>( [<span class="hljs-string">'script/router/PathHashTagFacade'</span>], handleRouterDependency );
 
 
 
-<span class="title">function</span> <span class="title">handleRouteDependency</span><span class="params">( router )</span> {
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleRouteDependency</span><span class="hljs-params">( router )</span> {</span>
 
-    <span class="title">require</span><span class="params">( ['script/<span class="variable">RouterDependentClient</span>'], <span class="keyword">fun</span><span class="function_name">ction</span>( client ) <span class="tuple">{
+    <span class="hljs-built_in">require</span>( [<span class="hljs-string">'script/RouterDependentClient'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( client )</span> {</span>
 
-        client.<span class="function_name">setRouter</span>( router );
+        client.setRouter( router );
 
-    }</span>);
+    });
 
-};</code></pre>
-<p>If HTML5 History API was okay’d for the project and we wanted to utilize the History API on <a href="https://github.com/mtrpcic/pathjs">PathJS</a>, then we just change the loaded dependency in the first <em>require</em>() statement.</p>
+};
+</code></pre><p>If HTML5 History API was okay’d for the project and we wanted to utilize the History API on <a href="https://github.com/mtrpcic/pathjs">PathJS</a>, then we just change the loaded dependency in the first <em>require</em>() statement.</p>
 <p>If we look back at the two facade examples for the <em>Path</em> library, both <em>map</em> implementations change the way in which a mapped delegate is handed state with regards to how <em>Path</em> is designed to forward along parameterized values. Usually the parameter key/value pairs are filled on a <em>params</em> Object which is then inspected within the delegate method for the mapped URL. In those examples, I have changed the invocation on the delegate to actually provide the parameterized values as arguments. The reason is because another library I am evaluating does such, and I much prefer it.</p>
 <p>Another popular routing library is <a href="https://github.com/flatiron/director">Director</a>. We can now provide a facade for that library that adheres to the same API as the other examples and not have to modify any scripts that interact with the routing dependency (aside from the original <em>require</em>() call):</p>
 <p><em>/script/router/DirectorFacade.js</em></p>
-<pre><code><span class="function"><span class="title">define</span><span class="params">( ['../../lib/director-<span class="number">1.0</span>.<span class="number">7</span>.min.js'],<span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+<pre><code>define( [<span class="hljs-string">'../../lib/director-1.0.7.min.js'</span>],<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
 
-    var router, root,
+    <span class="hljs-keyword">var</span> router, root,
 
-        routes = <span class="tuple">{}</span>,
+        routes = {},
 
-        adapter = <span class="tuple">{
+        adapter = {
 
-            map: <span class="keyword">fun</span><span class="function_name">ction</span>( fragment, delegate ) <span class="tuple">{
+            map: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( fragment, delegate )</span> {</span>
 
                 routes[fragment] = delegate;
 
-            }</span>,
+            },
 
-            root: <span class="keyword">fun</span><span class="function_name">ction</span>( fragment ) <span class="tuple">{
+            root: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( fragment )</span> {</span>
 
-                if( router === undefined ) <span class="tuple">{
+                <span class="hljs-keyword">if</span>( router === <span class="hljs-literal">undefined</span> ) {
 
                     root = fragment;
 
-                }</span>
+                }
 
-                else <span class="tuple">{
+                <span class="hljs-keyword">else</span> {
 
-                    router.<span class="function_name">setRoute</span>( fragment );
+                    router.setRoute( fragment );
 
-                }</span>
+                }
 
             },
 
-            init: <span class="keyword">fun</span><span class="function_name">ction</span>( use<span class="variable">History</span> ) <span class="tuple">{
+            init: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( useHistory )</span> {</span>
 
-                router = new <span class="variable">Router</span>( routes );
+                router = <span class="hljs-keyword">new</span> Router( routes );
 
-                router.<span class="function_name">init</span>();
+                router.init();
 
-                if( root !== undefined ) <span class="tuple">{
+                <span class="hljs-keyword">if</span>( root !== <span class="hljs-literal">undefined</span> ) {
 
-                    router.<span class="function_name">setRoute</span>( root );
+                    router.setRoute( root );
 
-                }</span>
+                }
 
             }
 
@@ -252,12 +252,12 @@
 
 
 
-    return adapter;
+    <span class="hljs-keyword">return</span> adapter;
 
 
 
-});</code></pre>
-<p>Now I can swap out the preferred facade at any time during the development cycle of my project and not have to change any application code that depends on the one chosen.</p>
+});
+</code></pre><p>Now I can swap out the preferred facade at any time during the development cycle of my project and not have to change any application code that depends on the one chosen.</p>
 <p>You can checkout the code and an example at <a href="https://github.com/bustardcelly/requirejs-microlib-facade"><a href="https://github.com/bustardcelly/requirejs-microlib-facade">https://github.com/bustardcelly/requirejs-microlib-facade</a></a>.</p>
 <h2 id="evaluation">Evaluation</h2>
 <p>This isn’t going to be an evaluation of the micro-libraries I am currently testing. Perhaps I will do that in another post, but usually I reserve stating my preference on libraries through <a href="http://twitter.com/_toddanderson_">annoying tweets</a>. Rather, I wanted to provide my running list of Pro’s and Con’s with regards to this approach of developing an application against a common API that is defined in AMD modules that provide access similarly to underlying micro-libraries that implement the same contextual task differently. I like starting with Con’s.</p>

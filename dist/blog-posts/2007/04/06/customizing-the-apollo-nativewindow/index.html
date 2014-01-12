@@ -62,102 +62,102 @@
 <p>I don’t pretend to know enough about the architecture (so someone speak up if i am off track), but adding components to NativeWindows – without Daniel’s or the proceeding example- fails due to the reference to your main ApolloApplication’s stage when displaying components within the Flex framework. You can add all the displays existent in the AS3 library (Sprite, TextField, etc.) to the stage of your NativeWindow instance, but any in the Flex framework need a little push. Adding MXML components to your NativeWindows will still have to follow the formula Daniel laid out using the addChild/removeChild methods, yet there is a workaround to this for ActionScript components by adding an ADDED_TO_STAGE event listener within its constructor.</p>
 <p>I have a tendency to try and word things right and it comes out all mush, so i’ll just show some code. <em>You can alternatively look at<a href="http://custardbelly.com/downloads/apollo/NativeWindowExample"> source view</a></em>. </p>
 <p>The CustomLabel (CustomLabel.as) component that will be added to our NativeWindow:</p>
-<pre><code>        <span class="preprocessor"><span class="keyword">import</span> flash.events.Event;</span>
-    <span class="preprocessor"><span class="keyword">import</span> flash.text.TextField;</span>
+<pre><code>        <span class="hljs-preprocessor"><span class="hljs-keyword">import</span> flash.events.Event;</span>
+    <span class="hljs-preprocessor"><span class="hljs-keyword">import</span> flash.text.TextField;</span>
 
-    <span class="preprocessor"><span class="keyword">import</span> mx.containers.Canvas;</span>
+    <span class="hljs-preprocessor"><span class="hljs-keyword">import</span> mx.containers.Canvas;</span>
 
-    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomLabel</span> <span class="keyword">extends</span> <span class="title">Canvas</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CustomLabel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Canvas</span>
     {</span>
-        <span class="keyword">private</span> <span class="keyword">var</span> _label:TextField;
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> _label:TextField;
 
-        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">CustomLabel</span><span class="params">()</span>
+        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CustomLabel</span><span class="hljs-params">()</span>
         {</span>
-            <span class="keyword">super</span>();
+            <span class="hljs-keyword">super</span>();
             addEventListener( Event.ADDED_TO_STAGE, init );
         }
 
-        <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">init</span><span class="params">( evt:Event )</span><span class="type">:void</span>
+        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">init</span><span class="hljs-params">( evt:Event )</span><span class="hljs-type">:void</span>
         {</span>
             createChildren();
         }
 
-        <span class="keyword">override</span> <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">createChildren</span><span class="params">()</span><span class="type">:void</span>
+        <span class="hljs-keyword">override</span> <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createChildren</span><span class="hljs-params">()</span><span class="hljs-type">:void</span>
         {</span>
-            <span class="keyword">super</span>.createChildren();
+            <span class="hljs-keyword">super</span>.createChildren();
 
-            _label = createField( <span class="string">"HelloWorld"</span> );
+            _label = createField( <span class="hljs-string">"HelloWorld"</span> );
             stage.addChild( _label );
         }
 
-        <span class="keyword">override</span> <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">updateDisplayList</span><span class="params">( unscaledWidth:Number, unscaledHeight:Number )</span><span class="type">:void</span>
+        <span class="hljs-keyword">override</span> <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">updateDisplayList</span><span class="hljs-params">( unscaledWidth:Number, unscaledHeight:Number )</span><span class="hljs-type">:void</span>
         {</span>
-            <span class="keyword">super</span>.updateDisplayList( unscaledWidth, unscaledHeight );
+            <span class="hljs-keyword">super</span>.updateDisplayList( unscaledWidth, unscaledHeight );
         }
 
-        <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">createField</span><span class="params">( txt:String = <span class="string">""</span> )</span><span class="type">:TextField</span>
+        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createField</span><span class="hljs-params">( txt:String = <span class="hljs-string">""</span> )</span><span class="hljs-type">:TextField</span>
         {</span>
-            <span class="keyword">var</span> label:TextField = <span class="keyword">new</span> TextField();
+            <span class="hljs-keyword">var</span> label:TextField = <span class="hljs-keyword">new</span> TextField();
             label.text = txt;
-            <span class="keyword">return</span> label;    
+            <span class="hljs-keyword">return</span> label;    
         }
-    }</code></pre>
-<p>… And the main mxml (NativeWindowExample.mxml):</p>
+    }
+</code></pre><p>… And the main mxml (NativeWindowExample.mxml):</p>
 <pre><code>&lt;mx :ApolloApplication 
-    xmlns:mx=<span class="string">"http://www.adobe.com/2006/mxml"</span>
-    width=<span class="string">"200"</span>
-    height=<span class="string">"100"</span> 
-    layout=<span class="string">"absolute"</span>
-    applicationComplete=<span class="string">"onAppInit();"</span>&gt;
+    xmlns:mx=<span class="hljs-string">"http://www.adobe.com/2006/mxml"</span>
+    width=<span class="hljs-string">"200"</span>
+    height=<span class="hljs-string">"100"</span> 
+    layout=<span class="hljs-string">"absolute"</span>
+    applicationComplete=<span class="hljs-string">"onAppInit();"</span>&gt;
 
     &lt;/mx&gt;&lt;mx :Script&gt;
         &lt; ![CDATA[
 
-            <span class="keyword">private</span> <span class="keyword">var</span> _launchWindow:NativeWindow;
-            <span class="keyword">private</span> <span class="keyword">var</span> _customWindow:NativeWindow;
+            <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> _launchWindow:NativeWindow;
+            <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> _customWindow:NativeWindow;
 
-            <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">onAppInit</span><span class="params">()</span><span class="type">:void</span>
+            <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onAppInit</span><span class="hljs-params">()</span><span class="hljs-type">:void</span>
             {</span>
-                _launchWindow = <span class="keyword">this</span>.stage.window;
+                _launchWindow = <span class="hljs-keyword">this</span>.stage.window;
                 _launchWindow.addEventListener( Event.CLOSE, onAppClose );
             }
 
-            <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">openCustomWindow</span><span class="params">( evt:MouseEvent )</span><span class="type">:void</span>
+            <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">openCustomWindow</span><span class="hljs-params">( evt:MouseEvent )</span><span class="hljs-type">:void</span>
             {</span>
-                <span class="keyword">if</span>( _customWindow != <span class="literal">null</span> ) <span class="keyword">return</span>;
+                <span class="hljs-keyword">if</span>( _customWindow != <span class="hljs-literal">null</span> ) <span class="hljs-keyword">return</span>;
 
-                <span class="keyword">var</span> options:NativeWindowInitOptions = <span class="keyword">new</span> NativeWindowInitOptions();
-                _customWindow = <span class="keyword">new</span> NativeWindow( <span class="literal">true</span>, options );
+                <span class="hljs-keyword">var</span> options:NativeWindowInitOptions = <span class="hljs-keyword">new</span> NativeWindowInitOptions();
+                _customWindow = <span class="hljs-keyword">new</span> NativeWindow( <span class="hljs-literal">true</span>, options );
                 _customWindow.stage.align = StageAlign.TOP_LEFT;
                 _customWindow.stage.scaleMode = StageScaleMode.NO_SCALE;
-                _customWindow.title = <span class="string">"CustomWindow"</span>;
-                _customWindow.stage.addChild( <span class="keyword">new</span> CustomLabel() );
+                _customWindow.title = <span class="hljs-string">"CustomWindow"</span>;
+                _customWindow.stage.addChild( <span class="hljs-keyword">new</span> CustomLabel() );
                 _customWindow.addEventListener( Event.CLOSE, onWindowClose );
             }
 
-            <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">onWindowClose</span><span class="params">( evt:Event )</span><span class="type">:void</span>
+            <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onWindowClose</span><span class="hljs-params">( evt:Event )</span><span class="hljs-type">:void</span>
             {</span>
-                _customWindow = <span class="literal">null</span>;
+                _customWindow = <span class="hljs-literal">null</span>;
             }
 
-            <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">onAppClose</span><span class="params">( evt:Event )</span><span class="type">:void</span>
+            <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onAppClose</span><span class="hljs-params">( evt:Event )</span><span class="hljs-type">:void</span>
             {</span>
-                <span class="keyword">if</span>( _customWindow != <span class="literal">null</span> ) _customWindow.close();
+                <span class="hljs-keyword">if</span>( _customWindow != <span class="hljs-literal">null</span> ) _customWindow.close();
             }
 
         ]]&gt;
     &lt;/mx&gt;
 
-    &lt;mx :Button id=<span class="string">"windowBtn"</span> 
-        top=<span class="string">"10"</span> left=<span class="string">"10"</span> right=<span class="string">"10"</span> bottom=<span class="string">"10"</span>
-        label=<span class="string">"open custom window"</span>
-        click=<span class="string">"openCustomWindow( event );"</span>&gt;
-    &lt;/mx&gt;</code></pre>
-<p><strong>NOTE:</strong> <em>the preceding code has some major problems due to mx tags in wordpress, so disregard all affending close tags <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> </em></p>
+    &lt;mx :Button id=<span class="hljs-string">"windowBtn"</span> 
+        top=<span class="hljs-string">"10"</span> left=<span class="hljs-string">"10"</span> right=<span class="hljs-string">"10"</span> bottom=<span class="hljs-string">"10"</span>
+        label=<span class="hljs-string">"open custom window"</span>
+        click=<span class="hljs-string">"openCustomWindow( event );"</span>&gt;
+    &lt;/mx&gt;
+</code></pre><p><strong>NOTE:</strong> <em>the preceding code has some major problems due to mx tags in wordpress, so disregard all affending close tags <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> </em></p>
 <p>— As well, you could extend NativeWindow and add the AS components to its stage to bypass adding them in the main app. –</p>
 <p>In the main app file we are just creating a new NativeWindow instance and adding the custom AS component, CustomLabel, to it’s display.</p>
-<pre><code>_customWindow<span class="preprocessor">.stage</span><span class="preprocessor">.addChild</span>( new CustomLabel() )<span class="comment">;</span></code></pre>
-<p>What is happening in the constructor of the CustomLabel is of importance in this example, as it listens for its event of being added to a clients stage. From there we can call the override of UIComponent:createChildren, and add whatever we want to the display. When creating AS components NOT to be added to the NativeWindow, that method (createChildren) would be called as long as you call the super constructor. That is not the case when adding components extending the Flex framework in NativeWindow. Again, if i am missing something crucial or if you have more insight, please leave a comment. So that’s it. Once it has been added to the stage, we can go about our business. Of course, when using ActionScript components you lose the inherent layout capabilities within MXML components, but that is why we’ve added the override of #updateDisplayList.<br>Until Flex came around, i know i spent more than my fair share nailing down layouts for applications- so this is like going back home… <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<pre><code>_customWindow<span class="hljs-preprocessor">.stage</span><span class="hljs-preprocessor">.addChild</span>( new CustomLabel() )<span class="hljs-comment">;</span>
+</code></pre><p>What is happening in the constructor of the CustomLabel is of importance in this example, as it listens for its event of being added to a clients stage. From there we can call the override of UIComponent:createChildren, and add whatever we want to the display. When creating AS components NOT to be added to the NativeWindow, that method (createChildren) would be called as long as you call the super constructor. That is not the case when adding components extending the Flex framework in NativeWindow. Again, if i am missing something crucial or if you have more insight, please leave a comment. So that’s it. Once it has been added to the stage, we can go about our business. Of course, when using ActionScript components you lose the inherent layout capabilities within MXML components, but that is why we’ve added the override of #updateDisplayList.<br>Until Flex came around, i know i spent more than my fair share nailing down layouts for applications- so this is like going back home… <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>To find out more about extending ActionScript components, visit<a href="http://blog.flashgen.com/2006/11/08/base-component-methods-actionscript-20-to-30/"> this post</a> on FlashGen and <a href="http://download.macromedia.com/pub/documentation/en/flex/2/flex2_createextendcomponents.pdf">this doc</a> from <a href="http://labs.adobe.com/">the labs</a>.</p>
 <p>PS. I’ve been a little lacking in the post area, and though i have the usual excuses- family, work, beer… – i could be more on top of it and you should be seeing more Flex and Apollo thoughts in the near future, but no promises because i love those excuses. I also am working on something that i hope to announce here a little later if all goes well…</p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/apollo/">Apollo</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>.</p>

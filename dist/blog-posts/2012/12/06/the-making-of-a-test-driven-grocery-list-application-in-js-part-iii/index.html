@@ -84,15 +84,15 @@
 <h2 id="test">Test</h2>
 <p>To start, the story in question and described above adds to the API of the <em>list-controller</em> we defined and created in the <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">previous article</a>. The <em>list-controller</em> will need to expose a way to mark off an item that is saved to the list, and a way to unmark an item that was previously marked. As I see it, that’s two new methods – let’s call them <em>markOffItem</em> and <em>unmarkOffItem</em>. Let’s flesh them out and their signatures in a new spec for this feature:</p>
 <p><em>/test/jasmine/spec/markitem.spec.js</em></p>
-<pre><code>define([<span class="string">'script/controller/list-controller'</span>], <span class="keyword">function</span>(listController) {
+<pre><code><span class="hljs-function">define([<span class="hljs-string">'script/controller/list-controller'</span>], <span class="hljs-function">function(listController)</span> {
 
 
 
-  describe(<span class="string">'User Requests to mark-off existing item'</span>, <span class="keyword">function</span>() {
+  <span class="hljs-function">describe(<span class="hljs-string">'User Requests to mark-off existing item'</span>, <span class="hljs-function">function()</span> {
 
 
 
-    var name = <span class="string">'apples'</span>,
+    var name = <span class="hljs-string">'apples'</span>,
 
         savedItem,
 
@@ -102,163 +102,163 @@
 
 
 
-    beforeEach( <span class="keyword">function</span>() {
+    <span class="hljs-function">beforeEach( <span class="hljs-function">function()</span> {
 
-      listController.createNewItem();
+      listController.<span class="hljs-function">createNewItem()</span>;
 
-      listController.editFocusedItem(name);
+      listController.<span class="hljs-function">editFocusedItem(name)</span>;
 
-      listController.saveFocusedItem();
-
-
-
-      savedItem = listController.itemList[listController.itemList.length-<span class="number">1</span>];
+      listController.<span class="hljs-function">saveFocusedItem()</span>;
 
 
 
-      markOffSpy = spyOn(listController, <span class="string">"markOffItem"</span>).andCallThrough();
-
-      unmarkOffSpy = spyOn(listController, <span class="string">"unmarkOffItem"</span>).andCallThrough();
-
-    });
+      savedItem = listController.itemList[listController.itemList.length-<span class="hljs-number">1</span>];
 
 
 
-    <span class="keyword">...</span>
+      markOffSpy = <span class="hljs-function">spyOn(listController, <span class="hljs-string">"markOffItem"</span>)</span>.<span class="hljs-function">andCallThrough()</span>;
+
+      unmarkOffSpy = <span class="hljs-function">spyOn(listController, <span class="hljs-string">"unmarkOffItem"</span>)</span>.<span class="hljs-function">andCallThrough()</span>;
+
+    })</span>;
 
 
 
-    afterEach( <span class="keyword">function</span>() {
+    ...
+
+
+
+    <span class="hljs-function">afterEach( <span class="hljs-function">function()</span> {
 
       savedItem = undefined;
 
-      markOffSpy.reset();
+      markOffSpy.<span class="hljs-function">reset()</span>;
 
-      unmarkOffSpy.reset();
+      unmarkOffSpy.<span class="hljs-function">reset()</span>;
 
       listController.itemList = [];
 
       listController.editableItem = undefined;
 
-    });
+    })</span>;
 
 
 
-  });
+  })</span>;
 
 
 
-});</code></pre>
-<p>I wanted to start off this test example with just showing to setup and teardown for the feature as it introduces the concept of spies. The <em>beforeEach()</em> of the above specification suite starts off similarly to the other spec we created for the <em>Add Item</em> feature – create, edit and save an item on the <em>list-controller</em>. Following that, and specifically on line 17 and 18, we create spies for the API modifications we are making on the <em>list-controller</em> in order to add the <em>Mark Off Item</em> feature – <em>markOffItem()</em> and <em>unmarkOffItem()</em>. Spies, in as far as they are used in this instance, are essentially wrappers on a function that can record invocation calls and provide another API to facilitate in affirming expectations of how a method should be used. If you are unfamiliar with spies, both <a href="https://github.com/pivotal/jasmine/wiki/Spies">Jasmine</a> and <a href="http://sinonjs.org/docs/#spies">Sinon</a> have some great documentation.</p>
+})</span>;
+</code></pre><p>I wanted to start off this test example with just showing to setup and teardown for the feature as it introduces the concept of spies. The <em>beforeEach()</em> of the above specification suite starts off similarly to the other spec we created for the <em>Add Item</em> feature – create, edit and save an item on the <em>list-controller</em>. Following that, and specifically on line 17 and 18, we create spies for the API modifications we are making on the <em>list-controller</em> in order to add the <em>Mark Off Item</em> feature – <em>markOffItem()</em> and <em>unmarkOffItem()</em>. Spies, in as far as they are used in this instance, are essentially wrappers on a function that can record invocation calls and provide another API to facilitate in affirming expectations of how a method should be used. If you are unfamiliar with spies, both <a href="https://github.com/pivotal/jasmine/wiki/Spies">Jasmine</a> and <a href="http://sinonjs.org/docs/#spies">Sinon</a> have some great documentation.</p>
 <p>The spies are defined to “call through” to the function implementation on the <em>list-controller</em>, as well. This will allow for the benefit of recording invocation and defining expectations of the actual implementation. Before we get into the real implementation, let’s take a look at the first spec for this test – marking off an item:</p>
 <p><em>/test/jasmine/spec/markitem.spec.js</em></p>
-<pre><code>it(<span class="string">'should denote item as being in possession'</span>, <span class="keyword">function</span>() {
+<pre><code><span class="hljs-function">it(<span class="hljs-string">'should denote item as being in possession'</span>, <span class="hljs-function">function()</span> {
 
-  <span class="keyword">var</span> previouslySavedItem = savedItem,
+  var previouslySavedItem = savedItem,
 
       savedItemID = savedItem.id,
 
-      savedItemSpy = sinon.spy();
+      savedItemSpy = sinon.<span class="hljs-function">spy()</span>;
 
 
 
-  savedItemSpy(previouslySavedItem);
+  <span class="hljs-function">savedItemSpy(previouslySavedItem)</span>;
 
-  listController.markOffItem(savedItemID);
-
-
-
-  <span class="comment">// spy expectations.</span>
-
-  expect(markOffSpy).toHaveBeenCalled();
-
-  expect(markOffSpy).toHaveBeenCalledWith(savedItemID);
+  listController.<span class="hljs-function">markOffItem(savedItemID)</span>;
 
 
 
-  <span class="comment">// model expectations.</span>
+  // spy expectations.
 
-  expect(previouslySavedItem.hasOwnProperty(<span class="string">'marked'</span>)).toBe(<span class="literal">true</span>);
+  <span class="hljs-function">expect(markOffSpy)</span>.<span class="hljs-function">toHaveBeenCalled()</span>;
 
-  expect(previouslySavedItem.marked).toBe(<span class="literal">true</span>);
+  <span class="hljs-function">expect(markOffSpy)</span>.<span class="hljs-function">toHaveBeenCalledWith(savedItemID)</span>;
 
-  <span class="comment">// OR &gt;</span>
 
-  sinon.assert.calledWith(savedItemSpy, sinon.match.hasOwn(<span class="string">'marked'</span>, <span class="literal">true</span>));
 
-});</code></pre>
-<p>With this spec, we are affirming the signature of <em>markOffItem()</em> method on the <em>list-controller</em>, as well as revealing the need for modifications to the attributes on the model of a grocery list item. I wanted to highlight how the <em>markOffSpy()</em> is being used in expectations, and – though not technically needed – also maybe provide some intrigue (hopefully not confusion) in using spies from <a href="http://sinonjs.org">SinonJS</a> as well.</p>
+  // model expectations.
+
+  <span class="hljs-function">expect(previouslySavedItem.<span class="hljs-function">hasOwnProperty(<span class="hljs-string">'marked'</span>)</span>)</span>.<span class="hljs-function">toBe(true)</span>;
+
+  <span class="hljs-function">expect(previouslySavedItem.marked)</span>.<span class="hljs-function">toBe(true)</span>;
+
+  // OR &gt;
+
+  sinon.assert.<span class="hljs-function">calledWith(savedItemSpy, sinon.match.<span class="hljs-function">hasOwn(<span class="hljs-string">'marked'</span>, true)</span>)</span>;
+
+})</span>;
+</code></pre><p>With this spec, we are affirming the signature of <em>markOffItem()</em> method on the <em>list-controller</em>, as well as revealing the need for modifications to the attributes on the model of a grocery list item. I wanted to highlight how the <em>markOffSpy()</em> is being used in expectations, and – though not technically needed – also maybe provide some intrigue (hopefully not confusion) in using spies from <a href="http://sinonjs.org">SinonJS</a> as well.</p>
 <p>The following expectations, taken from the above spec, facilitate more in describing how <em>listController.markOffItem()</em> is to be used in the application, particularly that the method should be called with only one argument and that being an ID of an item from the list :</p>
-<pre><code><span class="function"><span class="title">expect</span><span class="params">(mark<span class="variable">OffSpy</span>)</span>.<span class="title">toHaveBeenCalled</span><span class="params">()</span>;
+<pre><code>expect(markOffSpy)<span class="hljs-preprocessor">.toHaveBeenCalled</span>()<span class="hljs-comment">;</span>
 
-<span class="title">expect</span><span class="params">(mark<span class="variable">OffSpy</span>)</span>.<span class="title">toHaveBeenCalledWith</span><span class="params">(saved<span class="variable">ItemID</span>)</span>;</code></pre>
-<p>Some may say that such expectations are superfluous, and in some ways I do agree. Essentially, this line already defines its usage:</p>
-<pre><code>listController<span class="preprocessor">.markOffItem</span>(savedItemID)<span class="comment">;</span></code></pre>
-<p>If the test didn’t cough at that line, that we can relatively assume the expectations called into question. To each his own, however. In fact, part of me thinks I should go <em>even more</em> overboard – ensuring only one argument was called, that it was of the same type as the id attribute on the model, etc. Anyway, after the expectations on the spy, we verify an update to the model on an attribute we have yet to define as well. From this test, we have defined it as being a boolean value and accessible on the <em>marked</em> property. I included a spy created using <a href="http://sinonjs.org">SinonJS</a> as well, just to show off it’s capabilities and compare and contrast testing on the new attribute of the model:</p>
+expect(markOffSpy)<span class="hljs-preprocessor">.toHaveBeenCalledWith</span>(savedItemID)<span class="hljs-comment">;</span>
+</code></pre><p>Some may say that such expectations are superfluous, and in some ways I do agree. Essentially, this line already defines its usage:</p>
+<pre><code>listController<span class="hljs-preprocessor">.markOffItem</span>(savedItemID)<span class="hljs-comment">;</span>
+</code></pre><p>If the test didn’t cough at that line, that we can relatively assume the expectations called into question. To each his own, however. In fact, part of me thinks I should go <em>even more</em> overboard – ensuring only one argument was called, that it was of the same type as the id attribute on the model, etc. Anyway, after the expectations on the spy, we verify an update to the model on an attribute we have yet to define as well. From this test, we have defined it as being a boolean value and accessible on the <em>marked</em> property. I included a spy created using <a href="http://sinonjs.org">SinonJS</a> as well, just to show off it’s capabilities and compare and contrast testing on the new attribute of the model:</p>
 <pre><code>var previouslySavedItem = savedItem,
 
       savedItemSpy = sinon.spy();
 
 savedItemSpy(previouslySavedItem);
 
-<span class="keyword">...</span>
+<span class="hljs-keyword">...</span>
 
-sinon.assert.calledWith(savedItemSpy, sinon.match.hasOwn(<span class="string">'marked'</span>, true));</code></pre>
-<p>A spy is created on the model object, and after marking it off through the <em>list-controller</em> API, it is verified as being of type boolean and value of true using a sinon assert. Neat stuff. In this case, I probably would have just stuck with the <strong>Jasmine</strong> expectations, but I wanted to show you the power of <strong>SinonJS</strong> as it can provide a more robust testing API.</p>
+sinon.assert.calledWith(savedItemSpy, sinon.match.hasOwn(<span class="hljs-string">'marked'</span>, true));
+</code></pre><p>A spy is created on the model object, and after marking it off through the <em>list-controller</em> API, it is verified as being of type boolean and value of true using a sinon assert. Neat stuff. In this case, I probably would have just stuck with the <strong>Jasmine</strong> expectations, but I wanted to show you the power of <strong>SinonJS</strong> as it can provide a more robust testing API.</p>
 <p>Rambling on. There’s still two other specifications we need to cover in this suite:</p>
 <p><em>/test/jasmine/spec/markitem.spec.js</em></p>
-<pre><code><span class="keyword">it</span>('should retain <span class="keyword">the</span> <span class="property">item</span> <span class="keyword">in</span> <span class="keyword">the</span> grocery <span class="type">list</span>', function() {
+<pre><code><span class="hljs-function">it(<span class="hljs-string">'should retain the item in the grocery list'</span>, <span class="hljs-function">function()</span> {
 
-  listController.markOffItem(savedItem.<span class="property">id</span>);
-
-
-
-  expect(listController.itemList.<span class="property">length</span>).toBe(<span class="number">1</span>);
-
-  expect(listController.itemList.indexOf(savedItem)).toBe(<span class="number">0</span>);
-
-});
+  listController.<span class="hljs-function">markOffItem(savedItem.id)</span>;
 
 
 
-<span class="keyword">it</span>('should have marked-off <span class="property">item</span> available <span class="keyword">to</span> unmark-off', function() {
+  <span class="hljs-function">expect(listController.itemList.length)</span>.<span class="hljs-function">toBe(<span class="hljs-number">1</span>)</span>;
+
+  <span class="hljs-function">expect(listController.itemList.<span class="hljs-function">indexOf(savedItem)</span>)</span>.<span class="hljs-function">toBe(<span class="hljs-number">0</span>)</span>;
+
+})</span>;
+
+
+
+<span class="hljs-function">it(<span class="hljs-string">'should have marked-off item available to unmark-off'</span>, <span class="hljs-function">function()</span> {
 
   var previouslySavedItem = savedItem,
 
-      savedItemID = savedItem.<span class="property">id</span>;
+      savedItemID = savedItem.id;
 
 
 
-  listController.markOffItem(savedItem.<span class="property">id</span>);
+  listController.<span class="hljs-function">markOffItem(savedItem.id)</span>;
 
-  listController.unmarkOffItem(savedItem.<span class="property">id</span>);
+  listController.<span class="hljs-function">unmarkOffItem(savedItem.id)</span>;
 
 
 
   // stubbed expectations.
 
-  expect(unmarkOffSpy).toHaveBeenCalled();
+  <span class="hljs-function">expect(unmarkOffSpy)</span>.<span class="hljs-function">toHaveBeenCalled()</span>;
 
   // model expectations.
 
-  expect(previouslySavedItem.marked).<span class="keyword">not</span>.toBe(<span class="constant">true</span>);
+  <span class="hljs-function">expect(previouslySavedItem.marked)</span>.not.<span class="hljs-function">toBe(true)</span>;
 
-});</code></pre>
-<p>These specs define the expectations of the list remaining unmodified when marking off an item, and that the model is updated appropriately when unmarking off an item through the <em>list-controller</em> API, respectively. </p>
+})</span>;
+</code></pre><p>These specs define the expectations of the list remaining unmodified when marking off an item, and that the model is updated appropriately when unmarking off an item through the <em>list-controller</em> API, respectively. </p>
 <p>[note]<br><em>I am using Array.prototype.indexOf in the first spec from the previous example. That didn’t make <a href="https://developer.mozilla.org/en-US/docs/JavaScript/New_in_JavaScript/1.6">an appearance until JavaScript 1.6</a> and as such is not implemented in some older browsers (i have no &lt;3 for IE&lt;9). As I mentioned in the first article of this series, I am taking for granted that the application will be viewed on modern browsers, and in particular modern mobile browsers.</em>  </p>
 <h3 id="failing">Failing</h3>
 <p>If you added this spec to the spec runner like so:</p>
 <p><em>/test/jasmine/specrunner.html</em></p>
-<pre><code><span class="keyword">require</span>( [<span class="string">'spec/newitem.spec.js'</span>, <span class="string">'spec/markitem.spec.js'</span>], <span class="keyword">function</span>() {
+<pre><code><span class="hljs-keyword">require</span>( [<span class="hljs-string">'spec/newitem.spec.js'</span>, <span class="hljs-string">'spec/markitem.spec.js'</span>], <span class="hljs-keyword">function</span>() {
 
   var jasmineEnv = jasmine.getEnv(),
 
-       <span class="keyword">...</span>
+       <span class="hljs-keyword">...</span>
 
   jasmineEnv.execute();
 
-});</code></pre>
-<blockquote>
+});
+</code></pre><blockquote>
 <p>it will fail. miserably. But that’s okay! That’s expected. Spies require an actual implementation on the object you are spying, and if you recall from the first spec described, we actually request a call through on the implementation in order to verify expected functionality. </p>
 </blockquote>
 <p>Let’s get to the <em>list-controller</em> and <em>grocery-ls-item</em> model, as those are the two items addressed in the latest spec suite as needing modifications to pass.</p>
@@ -276,70 +276,70 @@ sinon.assert.calledWith(savedItemSpy, sinon.match.hasOwn(<span class="string">'m
 </ul>
 <p>The first instinct is to just add these to the <em>list-controller</em> object and add an internal method that traverses the held <em>itemList</em> array to locate models that have the passed <em>itemID</em> value. Not a bad instinct, and something of the following would get the tests passing:</p>
 <p><em>/script/controller/list-controller.js</em></p>
-<pre><code><span class="attribute">markOffItem</span>: <span class="string">function(itemID) {</span>
+<pre><code>markOffItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(itemID)</span> {</span>
 
-<span class="applescript">  var <span class="property">item</span> = findItemByID(itemID, this.itemList),
+  <span class="hljs-keyword">var</span> item = findItemByID(itemID, <span class="hljs-keyword">this</span>.itemList),
 
-        renderer = findRendererByItem(<span class="property">item</span>, $itemList.children());
+        renderer = findRendererByItem(item, $itemList.children());
 
-  <span class="property">item</span>.marked = <span class="constant">true</span>;
+  item.marked = <span class="hljs-literal">true</span>;
 
-  $(renderer).css('<span class="type">text</span>-decoration', 'line-<span class="keyword">through</span>');
+  $(renderer).css(<span class="hljs-string">'text-decoration'</span>, <span class="hljs-string">'line-through'</span>);
 
 },
 
-unmarkOffItem: function(itemID) {
+unmarkOffItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(itemID)</span> {</span>
 
-  var <span class="property">item</span> = findItemByID(itemID, this.itemList),
+  <span class="hljs-keyword">var</span> item = findItemByID(itemID, <span class="hljs-keyword">this</span>.itemList),
 
-        renderer = findRendererByItem(<span class="property">item</span>, $itemList.children());
+        renderer = findRendererByItem(item, $itemList.children());
 
-  <span class="property">item</span>.marked = <span class="constant">false</span>;
+  item.marked = <span class="hljs-literal">false</span>;
 
-  $(renderer).css('<span class="type">text</span>-decoration', 'none');
+  $(renderer).css(<span class="hljs-string">'text-decoration'</span>, <span class="hljs-string">'none'</span>);
 
-}</span></code></pre>
-<p><em>&gt; where findByItemID() locates the model associated with the itemID within the itemList array and findRendererByItem() locates the DOM element associated with the model.</em></p>
+}
+</code></pre><p><em>&gt; where findByItemID() locates the model associated with the itemID within the itemList array and findRendererByItem() locates the DOM element associated with the model.</em></p>
 <p>If you were to run that, the tests would pass. Well, technically, if you left that bit in there where a <a href="http://sinonjs.org">SinonJS</a> spy was asserting on the model, it would not pass. But if you took that out, all green. Even without modifying the <em>grocery-ls-item</em> model… such is the dynamic nature of JavaScript. For brevities sake, let’s add the marked property to the Object.defineProperties object upon creation of a new model:</p>
 <p><em>/script/model/grocery-ls-item.js</em></p>
-<pre><code>var properties = function(id) {
+<pre><code><span class="hljs-keyword">var</span> properties = function(id) {
 
-    return {
+    <span class="hljs-keyword">return</span> {
 
-      <span class="comment">"id"</span>: {
+      <span class="hljs-string">"id"</span>: {
 
-        <span class="method">value:</span> id,
+        <span class="hljs-keyword">value</span>: id,
 
-        <span class="method">writable:</span> <span class="keyword">false</span>,
+        writable: <span class="hljs-keyword">false</span>,
 
-        <span class="method">enumerable:</span> <span class="keyword">true</span>
-
-      },
-
-      <span class="comment">"name"</span>: {
-
-        <span class="method">value:</span> <span class="string">''</span>,
-
-        <span class="method">writable:</span> <span class="keyword">true</span>,
-
-        <span class="method">enumerable:</span> <span class="keyword">true</span>
+        enumerable: <span class="hljs-keyword">true</span>
 
       },
 
-      <span class="comment">"marked"</span>: {
+      <span class="hljs-string">"name"</span>: {
 
-        <span class="method">value:</span> <span class="keyword">false</span>,
+        <span class="hljs-keyword">value</span>: <span class="hljs-string">''</span>,
 
-        <span class="method">writable:</span> <span class="keyword">true</span>,
+        writable: <span class="hljs-keyword">true</span>,
 
-        <span class="method">enumerable:</span> <span class="keyword">true</span>
+        enumerable: <span class="hljs-keyword">true</span>
+
+      },
+
+      <span class="hljs-string">"marked"</span>: {
+
+        <span class="hljs-keyword">value</span>: <span class="hljs-keyword">false</span>,
+
+        writable: <span class="hljs-keyword">true</span>,
+
+        enumerable: <span class="hljs-keyword">true</span>
 
       }
 
     };
 
-  };</code></pre>
-<p><img src="http://custardbelly.com/blog/images/tdd_js/part_iii_1.png" alt="passing mark-off item spec"><br><img src="http://custardbelly.com/blog/images/tdd_js/part_iii_app_1.png" alt="grocery list app with mark off"></p>
+  };
+</code></pre><p><img src="http://custardbelly.com/blog/images/tdd_js/part_iii_1.png" alt="passing mark-off item spec"><br><img src="http://custardbelly.com/blog/images/tdd_js/part_iii_app_1.png" alt="grocery list app with mark off"></p>
 <p><strong>Tagged</strong>: 0.1.3 <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.3"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.3">https://github.com/bustardcelly/grocery-ls/tree/0.1.3</a></a></p>
 <h2 id="before-you-leave-">Before you leave!</h2>
 <p>I am not satisfied with the current state of the <em>list-controller</em>; it has far too much responsibility in managing list item renderers and models and lacks the finer details to properly keep the 1:1 relationship that renderers have to their models. We could just throw more code in there, more tests and let it grow into this gross beast, but I really think it is up for a good refactor.</p>

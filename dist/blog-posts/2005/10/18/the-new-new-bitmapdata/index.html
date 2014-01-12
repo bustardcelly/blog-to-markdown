@@ -63,37 +63,37 @@
 <p>There has to be a way to represent this in AS3… but for my first day of trying, i’ve come up empty.</p>
 <p>With all the flash 8 experiments out there, has anyone else come across this, and come up with a solution?</p>
 <p><em>As a side note:</em><br>I am a huge fan of the new Loader class. Here’s a small sample:  </p>
-<pre><code><span class="preprocessor"><span class="keyword">import</span> flash.net.URLRequest;</span>  
+<pre><code>import flash.net.URLRequest;  
 
-<span class="preprocessor"><span class="keyword">import</span> flash.display.Loader;</span>  
+import flash.display.Loader;  
 
-<span class="preprocessor"><span class="keyword">import</span> flash.util.trace;</span>  
+import flash.util.trace;  
 
-<span class="preprocessor"><span class="keyword">import</span> flash.events.*;</span>
-
-
+import flash.events.*;
 
 
-<span class="class"><span class="keyword">class</span> <span class="title">LoaderTest</span> <span class="keyword">extends</span> <span class="title">Sprite</span>  
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoaderTest</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Sprite</span>  
 
 {</span>  
 
-    <span class="keyword">private</span> <span class="keyword">var</span> __loader:Loader;  
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> __loader:Loader;  
 
-    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">var</span> IMAGE_URL:String = “myimage.png”;
-
-
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">var</span> IMAGE_URL:String = “myimage.png”;
 
 
-    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">LoaderTest</span><span class="params">()</span>  
+
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">LoaderTest</span><span class="hljs-params">()</span>  
 
     {</span>  
 
-        __loader = <span class="keyword">new</span> Loader();  
+        __loader = <span class="hljs-keyword">new</span> Loader();  
 
         __loader.addEventListener(EventType.COMPLETE, onLoadComplete);  
 
-        <span class="keyword">var</span> request:URLRequest = <span class="keyword">new</span> URLRequest(IMAGE_URL);
+        <span class="hljs-keyword">var</span> request:URLRequest = <span class="hljs-keyword">new</span> URLRequest(IMAGE_URL);
 
 
 
@@ -105,7 +105,7 @@
 
 
 
-    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">onLoadComplete</span><span class="params">(evt:Event)</span>  
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onLoadComplete</span><span class="hljs-params">(evt:Event)</span>  
 
     {</span>  
 
@@ -113,8 +113,8 @@
 
     }  
 
-}  </code></pre>
-<p>…. no more loadMovie / onEnterFrame, or MovieClipLoader (which for some reason seems to crash Flash8 for me).</p>
+}  
+</code></pre><p>…. no more loadMovie / onEnterFrame, or MovieClipLoader (which for some reason seems to crash Flash8 for me).</p>
 <p>i guess i should get off the double-underscore train too… i don’t know … my head’s about to burst.</p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>.</p>
 

@@ -65,87 +65,87 @@
 <p>Now it should be noted that this functionality is at parity in Flex 4.x, yet only available to <strong>SkinnableContainers</strong> – and more accurately those that implement <a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/mx/core/IDeferredContentOwner.html#propertySummary"><strong>IDeferredContentOwner</strong></a>. Those containers within the Flex 4 SDK which are considered lighter-weight, such as <strong>Group</strong> and <strong>DataGroup</strong>, do not play host to skins or define style properties for graphical backgrounds but they also do not support deferred content inherently either.</p>
 <p>I should stop here and say that even though <strong>Group</strong> and <strong>DataGroup</strong> are in the same boat as not being privy to a <em>creationPolicy</em>, the example code should really only be translated to a <strong>Group</strong> container. Deferred content for a <strong>DataGroup</strong> should be left to its defined layout and its properties. That said, there is a way to defer the child element creation of a <strong>Group</strong> rather simply; that is by utilizing the <strong>[DefaultProperty]</strong> metadata.</p>
 <p>You can see the full <a href="https://gist.github.com/1340472">gist of the moving pieces on my github</a>, but just to give a quick example and rundown:</p>
-<pre><code><span class="package"><span class="keyword">package</span>
+<pre><code><span class="hljs-keyword">package</span>
 
-{</span>
+{
 
-    <span class="preprocessor"><span class="keyword">import</span> flash.events.Event;</span>
-
-
-
-    <span class="preprocessor"><span class="keyword">import</span> mx.events.FlexEvent;</span>
+    <span class="hljs-keyword">import</span> flash.events.Event;
 
 
 
-    <span class="preprocessor"><span class="keyword">import</span> spark.components.Group;</span>
+    <span class="hljs-keyword">import</span> mx.events.FlexEvent;
 
 
 
-    <span class="comment">/**
+    <span class="hljs-keyword">import</span> spark.components.Group;
+
+
+
+    <span class="hljs-javadoc">/**
 
      * Use the deferredElements property as the modifier that is handed the list of IVisualElements defined in MXML.
 
      */</span>
 
-    [DefaultProperty(<span class="string">"deferredElements"</span>)]
+    [DefaultProperty(<span class="hljs-string">"deferredElements"</span>)]
 
 
 
-    <span class="comment">/**
+    <span class="hljs-javadoc">/**
 
      * Group container extension in order to do deferred child element attachment.
 
      */</span>
 
-    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeferredGroup</span> <span class="keyword">extends</span> <span class="title">Group</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DeferredGroup</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Group</span>
 
     {</span>
 
-        <span class="keyword">protected</span> <span class="keyword">var</span> _elementAddQuota:int = <span class="number">10</span>;
+        <span class="hljs-keyword">protected</span> var _elementAddQuota:<span class="hljs-keyword">int</span> = <span class="hljs-number">10</span>;
 
 
 
-        <span class="comment">/* IVisualElement[] */</span>
+        <span class="hljs-comment">/* IVisualElement[] */</span>
 
-        <span class="keyword">protected</span> <span class="keyword">var</span> _deferredElements:Array;
+        <span class="hljs-keyword">protected</span> var _deferredElements:Array;
 
-        <span class="keyword">protected</span> <span class="keyword">var</span> _deferredElementsChanged:Boolean;
-
-
-
-        <span class="keyword">protected</span> <span class="keyword">var</span> _deferredElementAttacher:IDeferredElementAttacher;
+        <span class="hljs-keyword">protected</span> var _deferredElementsChanged:Boolean;
 
 
 
-        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">DeferredGroup</span><span class="params">()</span>
+        <span class="hljs-keyword">protected</span> var _deferredElementAttacher:IDeferredElementAttacher;
 
-        {</span>
 
-            <span class="keyword">super</span>();
+
+        <span class="hljs-keyword">public</span> function <span class="hljs-title">DeferredGroup</span>()
+
+        {
+
+            <span class="hljs-keyword">super</span>();
 
         }
 
 
 
-        <span class="comment">/**
+        <span class="hljs-javadoc">/**
 
-         * @inheritDoc
+         *<span class="hljs-javadoctag"> @inheritDoc</span>
 
          */</span>
 
-        <span class="keyword">override</span> <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">commitProperties</span><span class="params">()</span><span class="type">:void</span>
+        override <span class="hljs-keyword">protected</span> function <span class="hljs-title">commitProperties</span>():<span class="hljs-keyword">void</span>
 
-        {</span>
+        {
 
-            <span class="keyword">super</span>.commitProperties();
+            <span class="hljs-keyword">super</span>.commitProperties();
 
-            <span class="keyword">if</span>( _deferredElementsChanged )
+            <span class="hljs-keyword">if</span>( _deferredElementsChanged )
 
             {
 
                 queueDeferredElements();
 
-                _deferredElementsChanged = <span class="literal">false</span>;
+                _deferredElementsChanged = <span class="hljs-keyword">false</span>;
 
             }
 
@@ -153,7 +153,7 @@
 
 
 
-        <span class="comment">/**
+        <span class="hljs-javadoc">/**
 
          * Defines and executes the IDeferredElementAttacher implementation used in queue-ing up "packs"
 
@@ -161,31 +161,31 @@
 
          */</span>
 
-        <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">queueDeferredElements</span><span class="params">()</span><span class="type">:void</span>
+        <span class="hljs-keyword">protected</span> function <span class="hljs-title">queueDeferredElements</span>():<span class="hljs-keyword">void</span>
 
-        {</span>
+        {
 
-            <span class="comment">// Define IDeferredElementAttacher and listen for completion on attach of all elements within deferredElements.</span>
+            <span class="hljs-comment">// Define IDeferredElementAttacher and listen for completion on attach of all elements within deferredElements.</span>
 
-            _deferredElementAttacher = <span class="keyword">new</span> FrameDeferredElementAttacher( <span class="keyword">this</span> );
+            _deferredElementAttacher = <span class="hljs-keyword">new</span> FrameDeferredElementAttacher( <span class="hljs-keyword">this</span> );
 
-            _deferredElementAttacher.addEventListener( Event.COMPLETE, handleDeferredAttachmentComplete, <span class="literal">false</span>, <span class="number">0</span>, <span class="literal">true</span> );
+            _deferredElementAttacher.addEventListener( Event.COMPLETE, handleDeferredAttachmentComplete, <span class="hljs-keyword">false</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">true</span> );
 
 
 
-            <span class="comment">// "Chunk" up lists of IVisualElements based on limit quota.</span>
+            <span class="hljs-comment">// "Chunk" up lists of IVisualElements based on limit quota.</span>
 
-            <span class="keyword">var</span> i:int;
+            var i:<span class="hljs-keyword">int</span>;
 
-            <span class="keyword">var</span> startIndex:int;
+            var startIndex:<span class="hljs-keyword">int</span>;
 
-            <span class="keyword">var</span> endIndex:int;
+            var endIndex:<span class="hljs-keyword">int</span>;
 
-            <span class="keyword">var</span> length:int = _deferredElements.length;
+            var length:<span class="hljs-keyword">int</span> = _deferredElements.length;
 
-            <span class="keyword">var</span> count:int = Math.ceil(length / _elementAddQuota);
+            var count:<span class="hljs-keyword">int</span> = Math.ceil(length / _elementAddQuota);
 
-            <span class="keyword">for</span>( i = <span class="number">0</span>; i &lt; count; i++ )
+            <span class="hljs-keyword">for</span>( i = <span class="hljs-number">0</span>; i &lt; count; i++ )
 
             {
 
@@ -205,53 +205,53 @@
 
 
 
-        <span class="comment">/**
+        <span class="hljs-javadoc">/**
 
          * Event handler for completion from the IDeferredElementAttacher instance.
 
-         * @param evt Event
+         *<span class="hljs-javadoctag"> @param</span> evt Event
 
          */</span>
 
-        <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">handleDeferredAttachmentComplete</span><span class="params">( evt:Event )</span><span class="type">:void</span>
+        <span class="hljs-keyword">protected</span> function <span class="hljs-title">handleDeferredAttachmentComplete</span>( evt:Event ):<span class="hljs-keyword">void</span>
 
-        {</span>
+        {
 
-            <span class="comment">// Kill reference.</span>
+            <span class="hljs-comment">// Kill reference.</span>
 
-            _deferredElementAttacher.removeEventListener( Event.COMPLETE, handleDeferredAttachmentComplete, <span class="literal">false</span> );
+            _deferredElementAttacher.removeEventListener( Event.COMPLETE, handleDeferredAttachmentComplete, <span class="hljs-keyword">false</span> );
 
             _deferredElementAttacher.dispose();
 
-            _deferredElementAttacher = <span class="literal">null</span>;
+            _deferredElementAttacher = <span class="hljs-keyword">null</span>;
 
 
 
-            <span class="comment">// -&gt; Do whatever you normally would do in a handler for CREATION_COMPLETE.</span>
+            <span class="hljs-comment">// -&gt; Do whatever you normally would do in a handler for CREATION_COMPLETE.</span>
 
         }
 
 
 
-        <span class="comment">/**
+        <span class="hljs-javadoc">/**
 
          * The amount of IVisualElements to "chunk" into packets for deferred queue.
 
-         * @return int
+         *<span class="hljs-javadoctag"> @return</span> int
 
          */</span>
 
-        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span> <span class="title">elementAddQuota</span><span class="params">()</span><span class="type">:int</span>
+        <span class="hljs-keyword">public</span> function get <span class="hljs-title">elementAddQuota</span>():<span class="hljs-keyword">int</span>
 
-        {</span>
+        {
 
-            <span class="keyword">return</span> _elementAddQuota;
+            <span class="hljs-keyword">return</span> _elementAddQuota;
 
         }
 
-        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">set</span> <span class="title">elementAddQuota</span><span class="params">( value:int )</span><span class="type">:void</span>
+        <span class="hljs-keyword">public</span> function set <span class="hljs-title">elementAddQuota</span>( value:<span class="hljs-keyword">int</span> ):<span class="hljs-keyword">void</span>
 
-        {</span>
+        {
 
             _elementAddQuota = value;
 
@@ -259,33 +259,33 @@
 
 
 
-        <span class="comment">/**
+        <span class="hljs-javadoc">/**
 
          * The DefaultProperty array of IVisualElements declared in MXML markup.
 
-         * @return Array Required to be IVisualElement[]
+         *<span class="hljs-javadoctag"> @return</span> Array Required to be IVisualElement[]
 
          */</span>
 
-        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span> <span class="title">deferredElements</span><span class="params">()</span><span class="type">:Array</span>
+        <span class="hljs-keyword">public</span> function get <span class="hljs-title">deferredElements</span>():Array
 
-        {</span>
+        {
 
-            <span class="keyword">return</span> _deferredElements;
+            <span class="hljs-keyword">return</span> _deferredElements;
 
         }
 
-        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">set</span> <span class="title">deferredElements</span><span class="params">( value:Array )</span><span class="type">:void</span>
+        <span class="hljs-keyword">public</span> function set <span class="hljs-title">deferredElements</span>( value:Array ):<span class="hljs-keyword">void</span>
 
-        {</span>
+        {
 
-            <span class="keyword">if</span>( _deferredElements == value ) <span class="keyword">return</span>;
+            <span class="hljs-keyword">if</span>( _deferredElements == value ) <span class="hljs-keyword">return</span>;
 
 
 
             _deferredElements = value;
 
-            _deferredElementsChanged = <span class="literal">true</span>;
+            _deferredElementsChanged = <span class="hljs-keyword">true</span>;
 
             invalidateProperties();
 
@@ -293,47 +293,47 @@
 
     }
 
-}</code></pre>
-<p>Essentially, I have defined the <strong>[DefaultProperty]</strong> to be the <em>deferredElements</em> property. By default, any Flex container’s <strong>[DefaultProperty]</strong> is the <em>mxmlContent</em> property. If left to default, anything declared in MXML within the container declaration is handed to the <em>mxmlContent</em> property which in turn is used to add the children to the container using ActionScript at a later time within its instantiation cycle. Just as an example, the <strong>Label</strong> and <strong>Button</strong> of the <strong>Group</strong> container defined in this MXML can be considered the array of <strong>IVisualElements</strong> known to the parent <strong>Group</strong> as <em>mxmlContent</em>.</p>
-<pre><code><span class="tag">&lt;<span class="title">s:Group</span>&gt;</span>
+}
+</code></pre><p>Essentially, I have defined the <strong>[DefaultProperty]</strong> to be the <em>deferredElements</em> property. By default, any Flex container’s <strong>[DefaultProperty]</strong> is the <em>mxmlContent</em> property. If left to default, anything declared in MXML within the container declaration is handed to the <em>mxmlContent</em> property which in turn is used to add the children to the container using ActionScript at a later time within its instantiation cycle. Just as an example, the <strong>Label</strong> and <strong>Button</strong> of the <strong>Group</strong> container defined in this MXML can be considered the array of <strong>IVisualElements</strong> known to the parent <strong>Group</strong> as <em>mxmlContent</em>.</p>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">s:Group</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">s:Label</span> <span class="attribute">text</span>=<span class="value">"Hello, World"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">s:Label</span> <span class="hljs-attribute">text</span>=<span class="hljs-value">"Hello, World"</span> /&gt;</span>
 
-    <span class="tag">&lt;<span class="title">s:Button</span> <span class="attribute">label</span>=<span class="value">"foo"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">s:Button</span> <span class="hljs-attribute">label</span>=<span class="hljs-value">"foo"</span> /&gt;</span>
 
-<span class="tag">&lt;/<span class="title">s:Group</span>&gt;</span></code></pre>
-<p>… and same goes for Flex 3 containers. Not much has changed, aside form non-parity in <em>creationPolicy</em> on Flex 4 containers that don’t implement <strong>IDeferredContentOwner</strong>. However, in the example provided above and in the <a href="https://gist.github.com/1340472">gist</a>, the declared children in MXML aren’t handed to the <em>mxmlChildren</em>, but rather the <em>deferredChildren</em>. Because of this, we can then check if we have deferred content upon a pass to <em>invalidationProperties()</em> and act accordingly – as is done by invoking <em>queueDeferredElements</em>() in the example:</p>
-<pre><code><span class="comment">/**
+<span class="hljs-tag">&lt;/<span class="hljs-title">s:Group</span>&gt;</span>
+</code></pre><p>… and same goes for Flex 3 containers. Not much has changed, aside form non-parity in <em>creationPolicy</em> on Flex 4 containers that don’t implement <strong>IDeferredContentOwner</strong>. However, in the example provided above and in the <a href="https://gist.github.com/1340472">gist</a>, the declared children in MXML aren’t handed to the <em>mxmlChildren</em>, but rather the <em>deferredChildren</em>. Because of this, we can then check if we have deferred content upon a pass to <em>invalidationProperties()</em> and act accordingly – as is done by invoking <em>queueDeferredElements</em>() in the example:</p>
+<pre><code><span class="hljs-comment">/**
 
  * Defines and executes the IDeferredElementAttacher implementation used in queue-ing up "packs" of IVisualElement instances declared in MXML and assigned as deferredElements.
 
  */</span>
 
-<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">queueDeferredElements</span><span class="params">()</span><span class="type">:void</span>
+<span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">queueDeferredElements</span><span class="hljs-params">()</span><span class="hljs-type">:void</span>
 
 {</span>
 
-    <span class="comment">// Define IDeferredElementAttacher and listen for completion on attach of all elements within deferredElements.</span>
+    <span class="hljs-comment">// Define IDeferredElementAttacher and listen for completion on attach of all elements within deferredElements.</span>
 
-    _deferredElementAttacher = <span class="keyword">new</span> FrameDeferredElementAttacher( <span class="keyword">this</span> );
+    _deferredElementAttacher = <span class="hljs-keyword">new</span> FrameDeferredElementAttacher( <span class="hljs-keyword">this</span> );
 
-    _deferredElementAttacher.addEventListener( Event.COMPLETE, handleDeferredAttachmentComplete, <span class="literal">false</span>, <span class="number">0</span>, <span class="literal">true</span> );
+    _deferredElementAttacher.addEventListener( Event.COMPLETE, handleDeferredAttachmentComplete, <span class="hljs-literal">false</span>, <span class="hljs-number">0</span>, <span class="hljs-literal">true</span> );
 
 
 
-    <span class="comment">// "Chunk" up lists of IVisualElements based on limit quota.</span>
+    <span class="hljs-comment">// "Chunk" up lists of IVisualElements based on limit quota.</span>
 
-    <span class="keyword">var</span> i:int;
+    <span class="hljs-keyword">var</span> i:int;
 
-    <span class="keyword">var</span> startIndex:int;
+    <span class="hljs-keyword">var</span> startIndex:int;
 
-    <span class="keyword">var</span> endIndex:int;
+    <span class="hljs-keyword">var</span> endIndex:int;
 
-    <span class="keyword">var</span> length:int = _deferredElements.length;
+    <span class="hljs-keyword">var</span> length:int = _deferredElements.length;
 
-    <span class="keyword">var</span> count:int = Math.ceil(length / _elementAddQuota);
+    <span class="hljs-keyword">var</span> count:int = Math.ceil(length / _elementAddQuota);
 
-    <span class="keyword">for</span>( i = <span class="number">0</span>; i &lt; count; i++ )
+    <span class="hljs-keyword">for</span>( i = <span class="hljs-number">0</span>; i &lt; count; i++ )
 
     {
 
@@ -349,8 +349,8 @@
 
      _deferredElementAttacher.start();
 
-}</code></pre>
-<p>And in that method, an <strong>IDeferredElementAttacher</strong> (non-SDK, part of the <a href="https://gist.github.com/1340472">gist</a>) implementation is used to queue up smaller arrays of child elements and dequeued to start adding children to the target container. In this example that implementation is a <strong>FrameDeferredElementAttacher</strong> instance which waits a frame to move along in its queue. Included in the <a href="https://gist.github.com/1340472">gist</a> is also one for timer-based element addition.</p>
+}
+</code></pre><p>And in that method, an <strong>IDeferredElementAttacher</strong> (non-SDK, part of the <a href="https://gist.github.com/1340472">gist</a>) implementation is used to queue up smaller arrays of child elements and dequeued to start adding children to the target container. In this example that implementation is a <strong>FrameDeferredElementAttacher</strong> instance which waits a frame to move along in its queue. Included in the <a href="https://gist.github.com/1340472">gist</a> is also one for timer-based element addition.</p>
 <p>This post got rather long as far as just wanting to show off how to defer child content of a <strong>Group</strong> container in Flex 4, but I just wanted to bring light my solution as there is no parity of <em>creationPolicy</em> on non-<strong>IDeferredContentOwner</strong> containers in the SDK.</p>
 <p>See the whole gist here: <a href="https://gist.github.com/1340472"><a href="https://gist.github.com/1340472">https://gist.github.com/1340472</a></a>.</p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/air/">AIR</a>, <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/flex-4/">Flex 4</a>, <a href="http://custardbelly.com/blog/category/flex-4-5/">Flex 4.5</a>.</p>

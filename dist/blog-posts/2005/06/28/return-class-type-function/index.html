@@ -64,27 +64,27 @@
 <li>where <strong>__characterManager</strong> is the singleton</li>
 </ul>
 <p>….(in <em>Character Manager</em>)  </p>
-<pre><code>    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">registerCharacterClass</span><span class="params">(classToAdd, classNameStr)</span>  
+<pre><code>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">registerCharacterClass</span><span class="hljs-params">(classToAdd, classNameStr)</span>  
 
     {</span>  
 
         __classList[ classNameStr ] = classToAdd;  
 
-    }  </code></pre>
-<ul>
+    }  
+</code></pre><ul>
 <li>and then when i want to retrive that class when i create a new character i say:</li>
 </ul>
 <p>(1)  </p>
-<pre><code>     Application<span class="variable">.addCharacter</span>(”<span class="class"><span class="keyword">class</span> <span class="id">name</span>”, “<span class="id">symbol</span> <span class="id">linkage</span> <span class="id">id</span>”, “<span class="id">instance</span> <span class="id">name</span>”);  </span></code></pre>
-<p>(2)  </p>
-<pre><code>     <span class="function"><span class="keyword">function</span> <span class="title">addCharacter</span><span class="params">(classNameStr, clipID, name)</span>  
+<pre><code>     Application.addCharacter(”<span class="hljs-type">class</span> <span class="hljs-property">name</span>”, “symbol linkage <span class="hljs-property">id</span>”, “instance <span class="hljs-property">name</span>”);  
+</code></pre><p>(2)  </p>
+<pre><code>     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addCharacter</span><span class="hljs-params">(classNameStr, clipID, name)</span>  
 
       {</span>
 
 
 
 
-          <span class="keyword">var</span> characterClass:Character =  
+          <span class="hljs-keyword">var</span> characterClass:Character =  
 
 
 
@@ -94,20 +94,20 @@
 
 
 
-          <span class="keyword">var</span> character:Character = characterClass.create(clipID, name);  
+          <span class="hljs-keyword">var</span> character:Character = characterClass.create(clipID, name);  
 
-      }  </code></pre>
-<ul>
+      }  
+</code></pre><ul>
 <li>what i had in the <em>CharacterManager</em> class before i found the reason why i’m asking this question is this:  </li>
 </ul>
-<pre><code>    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getCharacterClassByName</span><span class="params">(classNameStr)</span><span class="type">:Character</span>  
+<pre><code>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getCharacterClassByName</span><span class="hljs-params">(classNameStr)</span><span class="hljs-type">:Character</span>  
 
     {</span>  
 
-        <span class="keyword">return</span> __classList[ classNameStr ];  
+        <span class="hljs-keyword">return</span> __classList[ classNameStr ];  
 
-    }  </code></pre>
-<ul>
+    }  
+</code></pre><ul>
 <li>but that always returned the [type Function]- never a reference to the class i was trying to get.<br>So i peeked into the <em>CommandTemplate</em> class within <a href="http://ariaware.com/products/arp/">the ariaware package</a>, and noticed how they did it.<br>Using this: </li>
 </ul>
 <p><strong>return new __classList<a href=""> classNameStr</a>;</strong></p>

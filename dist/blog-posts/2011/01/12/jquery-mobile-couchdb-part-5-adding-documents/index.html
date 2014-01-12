@@ -66,130 +66,130 @@
 <p>Well, we are not going to do that for the <em>album add</em> page. Instead, we will declare the page <strong>internally</strong> and not worry about removing it form the <strong>DOM</strong> to prevent page caching. The reason is that, though it will look very similar to the <em>album edit</em> page in mark-up, it differs slightly in its usage. The <em>album add</em> page has no document association and is not served up based on a document <strong>id</strong>. So using a <strong>show function</strong> would essentially return a 404. We could have it as an external page, but I got to thinking… will we need the ability for a user to hit the <em>album add</em> page outside of the context of the client application? Meaning, should we restrict the ability to add documents to a single client? I am choosing to, but you can certainly run with it and make it external. For me it makes more sense to only allow the <em>index.html</em> to be hit and the sole starting point for the <strong>Albums</strong> application.</p>
 <p>To start, open up that old <em>index.html</em> file from the <em>/_attachments</em> directory in your favorite text editor. We are initially just going to modify the page declarations in the <strong>body</strong> tag, so the following modifications are a subset of lines from the <em>index.html</em>. The whole file will be presented later; for now save the following changes:</p>
 <p><em>_attachments/index.html</em></p>
-<pre><code><span class="tag">&lt;<span class="title">body</span>&gt;</span>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"home"</span> <span class="attribute">data-role</span>=<span class="value">"page"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"home"</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"page"</span>&gt;</span>
 
-        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span>&gt;</span><span class="tag">&lt;<span class="title">h1</span>&gt;</span>Albums<span class="tag">&lt;/<span class="title">h1</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"header"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Albums<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"content"</span>&gt;</span>
 
-            <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">id</span>=<span class="value">"albums"</span> <span class="attribute">data-role</span>=<span class="value">"listview"</span> <span class="attribute">data-theme</span>=<span class="value">"c"</span> <span class="attribute">data-dividertheme</span>=<span class="value">"b"</span>&gt;</span><span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"albums"</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"listview"</span> <span class="hljs-attribute">data-theme</span>=<span class="hljs-value">"c"</span> <span class="hljs-attribute">data-dividertheme</span>=<span class="hljs-value">"b"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
 
-        <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span> <span class="attribute">class</span>=<span class="value">"ui-bar"</span>&gt;</span><span class="tag">&lt;<span class="title">h4</span>&gt;</span>a list of albums<span class="tag">&lt;/<span class="title">h4</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"footer"</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"ui-bar"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">h4</span>&gt;</span>a list of albums<span class="hljs-tag">&lt;/<span class="hljs-title">h4</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"addAlbum"</span> <span class="attribute">data-role</span>=<span class="value">"page"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"addAlbum"</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"page"</span>&gt;</span>
 
-        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span>&gt;</span><span class="tag">&lt;<span class="title">h1</span>&gt;</span>Add Album<span class="tag">&lt;/<span class="title">h1</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"header"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Add Album<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"content"</span>&gt;</span>
 
-            <span class="tag">&lt;<span class="title">form</span> <span class="attribute">id</span>=<span class="value">"albumAddForm"</span> <span class="attribute">action</span>=<span class="value">"#"</span> <span class="attribute">method</span>=<span class="value">"get"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">form</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"albumAddForm"</span> <span class="hljs-attribute">action</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">method</span>=<span class="hljs-value">"get"</span>&gt;</span>
 
-                <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"fieldcontain"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"fieldcontain"</span>&gt;</span>
 
-                  <span class="tag">&lt;<span class="title">label</span> <span class="attribute">for</span>=<span class="value">"artist"</span>&gt;</span>Artist:<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-title">label</span> <span class="hljs-attribute">for</span>=<span class="hljs-value">"artist"</span>&gt;</span>Artist:<span class="hljs-tag">&lt;/<span class="hljs-title">label</span>&gt;</span>
 
-                     <span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"addArtistField"</span> <span class="attribute">name</span>=<span class="value">"artist"</span> <span class="attribute">type</span>=<span class="value">"text"</span> /&gt;</span>
+                     <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"addArtistField"</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"artist"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text"</span> /&gt;</span>
 
-              <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+              <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-              <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"fieldcontain"</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"fieldcontain"</span>&gt;</span>
 
-                  <span class="tag">&lt;<span class="title">label</span> <span class="attribute">for</span>=<span class="value">"title"</span>&gt;</span>Title:<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-title">label</span> <span class="hljs-attribute">for</span>=<span class="hljs-value">"title"</span>&gt;</span>Title:<span class="hljs-tag">&lt;/<span class="hljs-title">label</span>&gt;</span>
 
-                     <span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"addTitleField"</span> <span class="attribute">name</span>=<span class="value">"title"</span> <span class="attribute">type</span>=<span class="value">"text"</span> /&gt;</span>
+                     <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"addTitleField"</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"title"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text"</span> /&gt;</span>
 
-              <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+              <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-              <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"fieldcontain"</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"fieldcontain"</span>&gt;</span>
 
-                  <span class="tag">&lt;<span class="title">label</span> <span class="attribute">for</span>=<span class="value">"description"</span>&gt;</span>Description:<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-title">label</span> <span class="hljs-attribute">for</span>=<span class="hljs-value">"description"</span>&gt;</span>Description:<span class="hljs-tag">&lt;/<span class="hljs-title">label</span>&gt;</span>
 
-                  <span class="tag">&lt;<span class="title">textarea</span> <span class="attribute">id</span>=<span class="value">"addDescriptionField"</span> <span class="attribute">name</span>=<span class="value">"description"</span> <span class="attribute">cols</span>=<span class="value">"40"</span> <span class="attribute">rows</span>=<span class="value">"8"</span>&gt;</span><span class="tag">&lt;/<span class="title">textarea</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-title">textarea</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"addDescriptionField"</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"description"</span> <span class="hljs-attribute">cols</span>=<span class="hljs-value">"40"</span> <span class="hljs-attribute">rows</span>=<span class="hljs-value">"8"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">textarea</span>&gt;</span>
 
-              <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+              <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-              <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-body ui-body-b"</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"ui-body ui-body-b"</span>&gt;</span>
 
-                  <span class="tag">&lt;<span class="title">fieldset</span> <span class="attribute">class</span>=<span class="value">"ui-grid-a"</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-title">fieldset</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"ui-grid-a"</span>&gt;</span>
 
-                      <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-block-a"</span>&gt;</span>
+                      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"ui-block-a"</span>&gt;</span>
 
-                          <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#home"</span> <span class="attribute">id</span>=<span class="value">"addCancelButton"</span> <span class="attribute">data-role</span>=<span class="value">"button"</span> <span class="attribute">data-theme</span>=<span class="value">"d"</span>&gt;</span>Cancel<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+                          <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#home"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"addCancelButton"</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"button"</span> <span class="hljs-attribute">data-theme</span>=<span class="hljs-value">"d"</span>&gt;</span>Cancel<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
 
-                      <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+                      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-                      <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-block-b"</span>&gt;</span>
+                      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"ui-block-b"</span>&gt;</span>
 
-                          <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">id</span>=<span class="value">"addSubmitButton"</span> <span class="attribute">data-role</span>=<span class="value">"button"</span> <span class="attribute">data-theme</span>=<span class="value">"a"</span>&gt;</span>Submit<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+                          <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"addSubmitButton"</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"button"</span> <span class="hljs-attribute">data-theme</span>=<span class="hljs-value">"a"</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
 
-                      <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+                      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-                  <span class="tag">&lt;/<span class="title">fieldset</span>&gt;</span>
+                  <span class="hljs-tag">&lt;/<span class="hljs-title">fieldset</span>&gt;</span>
 
-              <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+              <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-          <span class="tag">&lt;/<span class="title">form</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-title">form</span>&gt;</span>
 
-        <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-<span class="tag">&lt;/<span class="title">body</span>&gt;</span></code></pre>
-<p>As i mentioned earlier, if you have been following along with the previous posts, the <strong>addAlbum</strong> page is very similar to the <strong>external</strong> <em>album edit</em> page (created in the last post); the only difference being that the fields/buttons have different <strong>id</strong>s and the header is left to default in displaying the <strong>Back</strong> button.</p>
+<span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+</code></pre><p>As i mentioned earlier, if you have been following along with the previous posts, the <strong>addAlbum</strong> page is very similar to the <strong>external</strong> <em>album edit</em> page (created in the last post); the only difference being that the fields/buttons have different <strong>id</strong>s and the header is left to default in displaying the <strong>Back</strong> button.</p>
 <p>There is associated script with the internal <strong>addAlbum</strong> page that handles submitting a new album document to the <a href="http://couchdb.apache.org/">CouchDB</a> database, and there is no time like the present to shut me up and dive right in. Make the following changes to the previously created <em>handleDocumentReady</em>() <strong>JavaScript</strong> method within <em>index.html</em>:</p>
 <p><em>_attachments/index.html</em></p>
-<pre><code>function handleDocumentReady()
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleDocumentReady</span><span class="hljs-params">()</span>
 
-{
+{</span>
 
-    $(<span class="string">"#home"</span>)<span class="preprocessor">.bind</span>( <span class="string">"pagebeforeshow"</span>, refreshAlbums )<span class="comment">;</span>
+    $(<span class="hljs-string">"#home"</span>).bind( <span class="hljs-string">"pagebeforeshow"</span>, refreshAlbums );
 
-    refreshAlbums()<span class="comment">;</span>
+    refreshAlbums();
 
 
 
-    $(<span class="string">"#addSubmitButton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, function( event ) {
+    $(<span class="hljs-string">"#addSubmitButton"</span>).live( <span class="hljs-string">"click"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( event )</span> {</span>
 
-        event<span class="preprocessor">.preventDefault</span>()<span class="comment">;</span>
+        event.preventDefault();
 
-        var document = {}<span class="comment">;</span>
+        <span class="hljs-keyword">var</span> document = {};
 
-        document<span class="preprocessor">.artist</span> = $(<span class="string">"input#addArtistField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+        document.artist = $(<span class="hljs-string">"input#addArtistField"</span>).val();
 
-        document<span class="preprocessor">.title</span> = $(<span class="string">"input#addTitleField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+        document.title = $(<span class="hljs-string">"input#addTitleField"</span>).val();
 
-        document<span class="preprocessor">.description</span> = $(<span class="string">"textarea#addDescriptionField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+        document.description = $(<span class="hljs-string">"textarea#addDescriptionField"</span>).val();
 
-        document<span class="preprocessor">.creation</span>_date = ( new Date() )<span class="preprocessor">.getTime</span>()<span class="comment">;</span>
+        document.creation_date = ( <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() ).getTime();
 
-        $db<span class="preprocessor">.saveDoc</span>( document, {
+        $db.saveDoc( document, {
 
-                success: function() {
+                success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-                    $<span class="preprocessor">.mobile</span><span class="preprocessor">.changePage</span>( <span class="string">"#home"</span>, <span class="string">"slidedown"</span>, true, true )<span class="comment">;</span>
+                    $.mobile.changePage( <span class="hljs-string">"#home"</span>, <span class="hljs-string">"slidedown"</span>, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span> );
 
                 },
 
-                error: function() {
+                error: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-                    alert( <span class="string">"Cannot save new document."</span> )<span class="comment">;</span>
+                    alert( <span class="hljs-string">"Cannot save new document."</span> );
 
                  }
 
-        })<span class="comment">;</span>
+        });
 
-        return false<span class="comment">;</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 
-    })<span class="comment">;</span>
+    });
 
-}</code></pre>
-<p>Essentially, we add a <em>click</em> event handler to the <strong>submit button</strong>, create a new document object, fill in the proper fields then use the <strong>$db</strong> instance (established on load as the albums databased from the <a href="http://couchdb.apache.org/">CouchDB</a> instance) to save the new document. You may notice that saving a new document and updating an existing document are both done using the same function from the <strong>jquery.couch</strong> plugin: <em>saveDoc</em>(). That function will check for an <strong>_id</strong> on the document object (first argument) and determine if a <strong>POST</strong> or <strong>PUT</strong> is required. That is all handled internally in <em>saveDoc</em>() so you don’t have to worry.</p>
+}
+</code></pre><p>Essentially, we add a <em>click</em> event handler to the <strong>submit button</strong>, create a new document object, fill in the proper fields then use the <strong>$db</strong> instance (established on load as the albums databased from the <a href="http://couchdb.apache.org/">CouchDB</a> instance) to save the new document. You may notice that saving a new document and updating an existing document are both done using the same function from the <strong>jquery.couch</strong> plugin: <em>saveDoc</em>(). That function will check for an <strong>_id</strong> on the document object (first argument) and determine if a <strong>POST</strong> or <strong>PUT</strong> is required. That is all handled internally in <em>saveDoc</em>() so you don’t have to worry.</p>
 <h3 id="creation_date">creation_date</h3>
 <p>You may have also noticed that i said “proper fields” and the document object has a property that was not on the previous documents we created from the first post. Where did this <strong>creation_date</strong> property come from? And why won’t it throw an error on save? Short answer: we are working with a document-oriented database, so we are not tied to a schema and a pre-defined set of fields in a table. So anything can be added to any document?! Isn’t that a little wild-west?! Maybe, but we are making a pretty focused client application here where we know what fields we want to present to the user; but it is a good point and a solid argument to not keep your <a href="http://couchdb.apache.org/">CouchDB</a> instance in <a href="http://guide.couchdb.org/draft/security.html">admin-party</a> and to create good <a href="http://guide.couchdb.org/draft/validation.html">validation functions</a>. For now, we are not concerned about security or validation and are having some fun.</p>
 <p>OK, so why did we add <strong>creation_date</strong>? The reason is related to the <strong>map function</strong> for <em>/views/albums</em>. If you remember way back to the <a href="http://custardbelly.com/blog/?p=244">first article</a>, we created a <strong>map function</strong> for our <strong>albums view</strong> that basically returned a key and value. The key being the <strong>_id</strong> of each document. That key is used to sort the returned array of documents. That key is also automatically generated for us when we create a new document. Hence, a case could be made that the order of added documents will not correlate to the descending order of the sorted key list (<strong>_id</strong> of each document in the database). In order to be able to properly present the list of albums in the order that they were added to the database, the <strong>creation_date</strong> property is now being added to each new document. I use the time in milliseconds as the value for <strong>creation_date</strong> because i feel that most (if not all) client-side languages will know how to use that number and format the date as required.</p>
@@ -197,181 +197,181 @@
 <p>Well… now there is the issue of returning and displaying album documents sorted by <strong>creation_date</strong>. Fortunately it is an easy issue to resolve: we are going to update the key value returned from the <strong>map function</strong> of the <strong>albums view</strong>.</p>
 <p>Open up <em>/views/albums/map.js</em> in your favorite text editor and change the previously-saved <em>emit</em>() invocation to the following:</p>
 <p>/views/albums/map.js</p>
-<pre><code><span class="function"><span class="title">function</span><span class="params">(doc)</span> {
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(doc)</span> {</span>
 
-  <span class="title">emit</span><span class="params">( ( new <span class="variable">Date</span>(doc.creation_date)</span> ).<span class="title">getTime</span><span class="params">()</span>, <span class="title">doc</span> );
+  emit( ( <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(doc.creation_date) ).getTime(), doc );
 
-}</code></pre>
-<p>We are now using the <strong>creation_date</strong> property as the key for each document to return. <a href="http://couchdb.apache.org/">CouchDB</a> will sort on this key and return a list of documents from the <strong>albums</strong> database in our <a href="http://couchdb.apache.org/">CouchDB</a> instance. You may notice that we are resolving to a new instance of <strong>Date</strong> using the <strong>creation_date</strong> property value and then returning the same value using <em>getTime</em>(). Seems a little superfluous. However, it is just a sort of future-proofing if a requirement comes down the pipe that <strong>creation_date</strong> needs to be saved in some other format. Who knows.</p>
+}
+</code></pre><p>We are now using the <strong>creation_date</strong> property as the key for each document to return. <a href="http://couchdb.apache.org/">CouchDB</a> will sort on this key and return a list of documents from the <strong>albums</strong> database in our <a href="http://couchdb.apache.org/">CouchDB</a> instance. You may notice that we are resolving to a new instance of <strong>Date</strong> using the <strong>creation_date</strong> property value and then returning the same value using <em>getTime</em>(). Seems a little superfluous. However, it is just a sort of future-proofing if a requirement comes down the pipe that <strong>creation_date</strong> needs to be saved in some other format. Who knows.</p>
 <h3 id="sorting">Sorting</h3>
 <p>If we were to push our changes and requested the list of album documents, you would notice that the documents are sorted by <a href="http://couchdb.apache.org/">CouchDB</a> in ascending order (oldest <strong>creation_date</strong> first). Now, we could create a <strong>reduce function</strong> to return the list in descending order, but i don’t think that is the best use of <strong>reduce</strong> seeing as we can easily using <strong>JavaScript</strong> to reverse the array upon response. So, I am going to make you open up <em>index.html</em> again and add one line with the <em>refreshAlbums</em>() <strong>JavaScript</strong> method:</p>
 <p><em>/_attachments/index.html</em></p>
-<pre><code><span class="title">function</span> refreshAlbums()
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">refreshAlbums</span><span class="hljs-params">()</span>
 
-{
+{</span>
 
-    $(<span class="string">"#albums"</span>).empty();
+    $(<span class="hljs-string">"#albums"</span>).empty();
 
-    $db.view(<span class="string">"albums/albums"</span>, {
+    $db.view(<span class="hljs-string">"albums/albums"</span>, {
 
-        success: function( <span class="typedef"><span class="keyword">data</span> ) <span class="container">{
+        success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( data )</span> {</span>
 
-                <span class="title">var</span> <span class="title">i</span>;
+                <span class="hljs-keyword">var</span> i;
 
-                <span class="title">var</span> <span class="title">album</span>;
+                <span class="hljs-keyword">var</span> album;
 
-                <span class="title">var</span> <span class="title">artist</span>;
+                <span class="hljs-keyword">var</span> artist;
 
-                <span class="title">var</span> <span class="title">title</span>;
+                <span class="hljs-keyword">var</span> title;
 
-                <span class="title">var</span> <span class="title">description</span>;
+                <span class="hljs-keyword">var</span> description;
 
-                <span class="title">var</span> <span class="title">listItem</span>;
+                <span class="hljs-keyword">var</span> listItem;
 
-                <span class="title">var</span> <span class="title">header</span>;
+                <span class="hljs-keyword">var</span> header;
 
-                <span class="title">var</span> <span class="title">albumLink</span>;
+                <span class="hljs-keyword">var</span> albumLink;
 
-                <span class="title">data</span>.<span class="title">rows</span>.<span class="title">reverse</span>();
+                data.rows.reverse();
 
-                <span class="title">for</span>( <span class="title">i</span> <span class="title">in</span> <span class="title">data</span>.<span class="title">rows</span> )
+                <span class="hljs-keyword">for</span>( i <span class="hljs-keyword">in</span> data.rows )
 
                 {
 
-                    <span class="title">album</span> = <span class="title">data</span>.<span class="title">rows</span>[<span class="title">i</span>].<span class="title">value</span>;
+                    album = data.rows[i].value;
 
-                    <span class="title">artist</span> = <span class="title">album</span>.<span class="title">artist</span>;
+                    artist = album.artist;
 
-                    <span class="title">title</span> = <span class="title">album</span>.<span class="title">title</span>;
+                    title = album.title;
 
-                    <span class="title">description</span> = <span class="title">album</span>.<span class="title">description</span>;
+                    description = album.description;
 
-                    <span class="title">externalPage</span> = "<span class="title">_show</span>/<span class="title">album</span>/" + <span class="title">album</span>.<span class="title">_id</span>;
+                    externalPage = <span class="hljs-string">"_show/album/"</span> + album._id;
 
-                    <span class="title">listItem</span> = "&lt;<span class="title">li</span> <span class="title">class</span>=\"<span class="title">album</span>\"&gt;" +
+                    listItem = <span class="hljs-string">"&lt;li class=\"album\"&gt;"</span> +
 
-                                "&lt;<span class="title">a</span> <span class="title">href</span>=\"" + <span class="title">externalPage</span> + "\"&gt;" +
+                                <span class="hljs-string">"&lt;a href=\""</span> + externalPage + <span class="hljs-string">"\"&gt;"</span> +
 
-                                    "&lt;<span class="title">h2</span> <span class="title">class</span>=\"<span class="title">artist</span>\"&gt;" + <span class="title">artist</span> + "&lt;\/<span class="title">h2</span>&gt;" +
+                                    <span class="hljs-string">"&lt;h2 class=\"artist\"&gt;"</span> + artist + <span class="hljs-string">"&lt;\/h2&gt;"</span> +
 
-                                "&lt;\/<span class="title">a</span>&gt;" +
+                                <span class="hljs-string">"&lt;\/a&gt;"</span> +
 
-                                "&lt;<span class="title">p</span> <span class="title">class</span>=\"<span class="title">title</span>\"&gt;" + <span class="title">title</span> + "&lt;\/<span class="title">p</span>&gt;" +
+                                <span class="hljs-string">"&lt;p class=\"title\"&gt;"</span> + title + <span class="hljs-string">"&lt;\/p&gt;"</span> +
 
-                                "&lt;<span class="title">p</span> <span class="title">class</span>=\"<span class="title">description</span>\"&gt;" + <span class="title">description</span> + "&lt;\/<span class="title">p</span>&gt;" +
+                                <span class="hljs-string">"&lt;p class=\"description\"&gt;"</span> + description + <span class="hljs-string">"&lt;\/p&gt;"</span> +
 
-                               "&lt;\/<span class="title">li</span>&gt;";
+                               <span class="hljs-string">"&lt;\/li&gt;"</span>;
 
-                    $("#<span class="title">albums</span>").<span class="title">append</span>( <span class="title">listItem</span> );
+                    $(<span class="hljs-string">"#albums"</span>).append( listItem );
 
-                }</span></span>
+                }
 
-                $(<span class="string">"#albums"</span>).listview( <span class="string">"refresh"</span> );
+                $(<span class="hljs-string">"#albums"</span>).listview( <span class="hljs-string">"refresh"</span> );
 
             }
 
     });
 
-}</code></pre>
-<p>That’s it! Just reverse the returned rows of album documents from the view request and we have a descending list of albums we have added to the database based on <strong>creation_date</strong>.</p>
+}
+</code></pre><p>That’s it! Just reverse the returned rows of album documents from the view request and we have a descending list of albums we have added to the database based on <strong>creation_date</strong>.</p>
 <p>Now the only problem is we have no way of accessing the <strong>addAlbum</strong> page! Don’t fret. We’re going to add a button bar to the <strong>footer</strong> of the <strong>#home</strong> page that will take us there.</p>
 <h2 id="updating-home-footer">Updating #home Footer</h2>
 <p>We are going to update the default (<strong>#home</strong>) <a href="http://jquerymobile.com/">jQuery Mobile</a> page for our application to display a button bar in the <strong>footer</strong>. Originally, we just had some text there as a placeholder, but seeing as we want to ability to add album documents from the list view will replace that text with a <strong>navbar</strong> containing a single button – the <strong>add button</strong> – that will navigate the user to the <em>album add</em> page we created in the previous section of this article. Doing so will involve a couple user experience issues that we will address and uncover a few more <a href="http://jquerymobile.com/">jQuery Mobile</a> goodies.</p>
 <p>Open up <em>/_attachments/index.html</em> in your favorite editor and save the following modifications to the <strong>#home</strong> page:</p>
 <p><em>/_attachments/index.html</em></p>
-<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"home"</span> <span class="attribute">data-role</span>=<span class="value">"page"</span>&gt;</span>
+<pre><code><span class="hljs-subst">&lt;</span>div id<span class="hljs-subst">=</span><span class="hljs-string">"home"</span> <span class="hljs-built_in">data</span><span class="hljs-attribute">-role</span><span class="hljs-subst">=</span><span class="hljs-string">"page"</span><span class="hljs-subst">&gt;</span>
 
-  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span> <span class="attribute">data-position</span>=<span class="value">"fixed"</span>&gt;</span><span class="tag">&lt;<span class="title">h1</span>&gt;</span>Albums<span class="tag">&lt;/<span class="title">h1</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="hljs-subst">&lt;</span>div <span class="hljs-built_in">data</span><span class="hljs-attribute">-role</span><span class="hljs-subst">=</span><span class="hljs-string">"header"</span> <span class="hljs-built_in">data</span><span class="hljs-attribute">-position</span><span class="hljs-subst">=</span><span class="hljs-string">"fixed"</span><span class="hljs-subst">&gt;&lt;</span>h1<span class="hljs-subst">&gt;</span>Albums<span class="hljs-subst">&lt;</span>/h1<span class="hljs-subst">&gt;&lt;</span>/div<span class="hljs-subst">&gt;</span>
 
-  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span>&gt;</span>
+  <span class="hljs-subst">&lt;</span>div <span class="hljs-built_in">data</span><span class="hljs-attribute">-role</span><span class="hljs-subst">=</span><span class="hljs-string">"content"</span><span class="hljs-subst">&gt;</span>
 
-      <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">id</span>=<span class="value">"albums"</span> <span class="attribute">data-role</span>=<span class="value">"listview"</span> <span class="attribute">data-theme</span>=<span class="value">"c"</span> <span class="attribute">data-dividertheme</span>=<span class="value">"b"</span>&gt;</span><span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+      <span class="hljs-subst">&lt;</span>ul id<span class="hljs-subst">=</span><span class="hljs-string">"albums"</span> <span class="hljs-built_in">data</span><span class="hljs-attribute">-role</span><span class="hljs-subst">=</span><span class="hljs-string">"listview"</span> <span class="hljs-built_in">data</span><span class="hljs-attribute">-theme</span><span class="hljs-subst">=</span><span class="hljs-string">"c"</span> <span class="hljs-built_in">data</span><span class="hljs-attribute">-dividertheme</span><span class="hljs-subst">=</span><span class="hljs-string">"b"</span><span class="hljs-subst">&gt;&lt;</span>/ul<span class="hljs-subst">&gt;</span>
 
-  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="hljs-subst">&lt;</span>/div<span class="hljs-subst">&gt;</span>
 
-  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span> <span class="attribute">data-position</span>=<span class="value">"fixed"</span>&gt;</span>
+  <span class="hljs-subst">&lt;</span>div <span class="hljs-built_in">data</span><span class="hljs-attribute">-role</span><span class="hljs-subst">=</span><span class="hljs-string">"footer"</span> <span class="hljs-built_in">data</span><span class="hljs-attribute">-position</span><span class="hljs-subst">=</span><span class="hljs-string">"fixed"</span><span class="hljs-subst">&gt;</span>
 
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"navbar"</span>&gt;</span>
+    <span class="hljs-subst">&lt;</span>div <span class="hljs-built_in">data</span><span class="hljs-attribute">-role</span><span class="hljs-subst">=</span><span class="hljs-string">"navbar"</span><span class="hljs-subst">&gt;</span>
 
-        <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">class</span>=<span class="value">"ui-grid-a"</span>&gt;</span>
+        <span class="hljs-subst">&lt;</span>ul class<span class="hljs-subst">=</span><span class="hljs-string">"ui-grid-a"</span><span class="hljs-subst">&gt;</span>
 
-            <span class="tag">&lt;<span class="title">li</span> <span class="attribute">style</span>=<span class="value">"width:100%;"</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#addAlbum"</span> <span class="attribute">data-transition</span>=<span class="value">"slideup"</span> <span class="attribute">data-icon</span>=<span class="value">"plus"</span>&gt;</span>Add Album<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+            <span class="hljs-subst">&lt;</span>li style<span class="hljs-subst">=</span><span class="hljs-string">"width:100%;"</span><span class="hljs-subst">&gt;&lt;</span>a href<span class="hljs-subst">=</span><span class="hljs-string">"#addAlbum"</span> <span class="hljs-built_in">data</span><span class="hljs-attribute">-transition</span><span class="hljs-subst">=</span><span class="hljs-string">"slideup"</span> <span class="hljs-built_in">data</span><span class="hljs-attribute">-icon</span><span class="hljs-subst">=</span><span class="hljs-string">"plus"</span><span class="hljs-subst">&gt;</span>Add Album<span class="hljs-subst">&lt;</span>/a<span class="hljs-subst">&gt;&lt;</span>/li<span class="hljs-subst">&gt;</span>
 
-        <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+        <span class="hljs-subst">&lt;</span>/ul<span class="hljs-subst">&gt;</span>
 
-    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="hljs-subst">&lt;</span>/div<span class="hljs-subst">&gt;</span>
 
-  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="hljs-subst">&lt;</span>/div<span class="hljs-subst">&gt;</span>
 
-<span class="tag">&lt;/<span class="title">div</span>&gt;</span></code></pre>
-<p>The first thing you may notice is that we have added a <strong>data-position</strong> attribute to the <strong>header</strong> and <strong>footer</strong>. With a value of “<em>fixed</em>“, the<a href="http://jquerymobile.com/"> jQuery Mobile</a> framework will ensure that they are always in place (<strong>header</strong> at top, <strong>footer</strong> at bottom) without regards to scrolling. This will treat the content list as the scrollable area, so when our list grows with all the new album documents that we create a user will always see and be able to access the <strong>header</strong> and <strong>footer</strong> (with the <strong>add button</strong>).</p>
+<span class="hljs-subst">&lt;</span>/div<span class="hljs-subst">&gt;</span>
+</code></pre><p>The first thing you may notice is that we have added a <strong>data-position</strong> attribute to the <strong>header</strong> and <strong>footer</strong>. With a value of “<em>fixed</em>“, the<a href="http://jquerymobile.com/"> jQuery Mobile</a> framework will ensure that they are always in place (<strong>header</strong> at top, <strong>footer</strong> at bottom) without regards to scrolling. This will treat the content list as the scrollable area, so when our list grows with all the new album documents that we create a user will always see and be able to access the <strong>header</strong> and <strong>footer</strong> (with the <strong>add button</strong>).</p>
 <p>Aside from the <strong>data-position</strong> attribution, we added a <strong>navbar</strong> as the content for the <strong>footer</strong>. The content of the <strong>navbar</strong> is a list with a single item with its navigational reference to the <strong>addAlbum</strong> <a href="http://jquerymobile.com/">jQuery Mobile</a> page we created previously. Assigning a <a href="http://jquerymobile.com/demos/1.0a2/#docs/content/content-grids.html">grid</a> class to the list will layout its items in a sequently manner. We set the <strong>width</strong> style rule directly for the list item because styling of list items for a <strong>navbar</strong> are limited to at least 2 items in the <a href="http://jquerymobile.com/">jQuery Mobile</a>. To get around that and have a single button, we just set it to have the width of the <strong>navbar</strong>. Then we also got all fancy with transitions and icons on the link within the list item <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>The only drawback to this solution is that we dynamically fill our list upon load. Unfortunately this updates the y position of the <strong>footer</strong> by (<em>n*list item height</em>). So if we kept our page like this, we’d lose the <strong>footer</strong> off the page once the list is filled <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_sad.gif" alt=":("> Wait, don’t leave… we can easily fix that!</p>
 <p>With the <em>/_attachments/index.html</em> file still open in your favorite text editor, add the following line after the list <em>refresh</em>():</p>
 <p><em>/_attachments/index.html</em></p>
-<pre><code><span class="title">function</span> refreshAlbums()
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">refreshAlbums</span><span class="hljs-params">()</span>
 
-{
+{</span>
 
-    $(<span class="string">"#albums"</span>).empty();
+    $(<span class="hljs-string">"#albums"</span>).empty();
 
-    $db.view(<span class="string">"albums/albums"</span>, {
+    $db.view(<span class="hljs-string">"albums/albums"</span>, {
 
-        success: function( <span class="typedef"><span class="keyword">data</span> ) <span class="container">{
+        success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( data )</span> {</span>
 
-                <span class="title">var</span> <span class="title">i</span>;
+                <span class="hljs-keyword">var</span> i;
 
-                <span class="title">var</span> <span class="title">album</span>;
+                <span class="hljs-keyword">var</span> album;
 
-                <span class="title">var</span> <span class="title">artist</span>;
+                <span class="hljs-keyword">var</span> artist;
 
-                <span class="title">var</span> <span class="title">title</span>;
+                <span class="hljs-keyword">var</span> title;
 
-                <span class="title">var</span> <span class="title">description</span>;
+                <span class="hljs-keyword">var</span> description;
 
-                <span class="title">var</span> <span class="title">listItem</span>;
+                <span class="hljs-keyword">var</span> listItem;
 
-                <span class="title">var</span> <span class="title">header</span>;
+                <span class="hljs-keyword">var</span> header;
 
-                <span class="title">var</span> <span class="title">albumLink</span>;
+                <span class="hljs-keyword">var</span> albumLink;
 
-                <span class="title">data</span>.<span class="title">rows</span>.<span class="title">reverse</span>();
+                data.rows.reverse();
 
-                <span class="title">for</span>( <span class="title">i</span> <span class="title">in</span> <span class="title">data</span>.<span class="title">rows</span> )
+                <span class="hljs-keyword">for</span>( i <span class="hljs-keyword">in</span> data.rows )
 
                 {
 
-                    <span class="title">album</span> = <span class="title">data</span>.<span class="title">rows</span>[<span class="title">i</span>].<span class="title">value</span>;
+                    album = data.rows[i].value;
 
-                    <span class="title">artist</span> = <span class="title">album</span>.<span class="title">artist</span>;
+                    artist = album.artist;
 
-                    <span class="title">title</span> = <span class="title">album</span>.<span class="title">title</span>;
+                    title = album.title;
 
-                    <span class="title">description</span> = <span class="title">album</span>.<span class="title">description</span>;
+                    description = album.description;
 
-                    <span class="title">externalPage</span> = "<span class="title">_show</span>/<span class="title">album</span>/" + <span class="title">album</span>.<span class="title">_id</span>;
+                    externalPage = <span class="hljs-string">"_show/album/"</span> + album._id;
 
-                    <span class="title">listItem</span> = "&lt;<span class="title">li</span> <span class="title">class</span>=\"<span class="title">album</span>\"&gt;" +
+                    listItem = <span class="hljs-string">"&lt;li class=\"album\"&gt;"</span> +
 
-                                "&lt;<span class="title">a</span> <span class="title">href</span>=\"" + <span class="title">externalPage</span> + "\"&gt;" +
+                                <span class="hljs-string">"&lt;a href=\""</span> + externalPage + <span class="hljs-string">"\"&gt;"</span> +
 
-                                    "&lt;<span class="title">h2</span> <span class="title">class</span>=\"<span class="title">artist</span>\"&gt;" + <span class="title">artist</span> + "&lt;\/<span class="title">h2</span>&gt;" +
+                                    <span class="hljs-string">"&lt;h2 class=\"artist\"&gt;"</span> + artist + <span class="hljs-string">"&lt;\/h2&gt;"</span> +
 
-                                "&lt;\/<span class="title">a</span>&gt;" +
+                                <span class="hljs-string">"&lt;\/a&gt;"</span> +
 
-                                "&lt;<span class="title">p</span> <span class="title">class</span>=\"<span class="title">title</span>\"&gt;" + <span class="title">title</span> + "&lt;\/<span class="title">p</span>&gt;" +
+                                <span class="hljs-string">"&lt;p class=\"title\"&gt;"</span> + title + <span class="hljs-string">"&lt;\/p&gt;"</span> +
 
-                                "&lt;<span class="title">p</span> <span class="title">class</span>=\"<span class="title">description</span>\"&gt;" + <span class="title">description</span> + "&lt;\/<span class="title">p</span>&gt;" +
+                                <span class="hljs-string">"&lt;p class=\"description\"&gt;"</span> + description + <span class="hljs-string">"&lt;\/p&gt;"</span> +
 
-                                "&lt;<span class="title">p</span> <span class="title">class</span>=\"<span class="title">date</span>\"&gt;" + <span class="title">new</span> <span class="type">Date</span>( <span class="title">album</span>.<span class="title">creation_date</span> ) + "&lt;\/<span class="title">p</span>&gt;" +
+                                <span class="hljs-string">"&lt;p class=\"date\"&gt;"</span> + <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>( album.creation_date ) + <span class="hljs-string">"&lt;\/p&gt;"</span> +
 
-                               "&lt;\/<span class="title">li</span>&gt;";
+                               <span class="hljs-string">"&lt;\/li&gt;"</span>;
 
-                    $("#<span class="title">albums</span>").<span class="title">append</span>( <span class="title">listItem</span> );
+                    $(<span class="hljs-string">"#albums"</span>).append( listItem );
 
-                }</span></span>
+                }
 
-                $(<span class="string">"#albums"</span>).listview( <span class="string">"refresh"</span> );
+                $(<span class="hljs-string">"#albums"</span>).listview( <span class="hljs-string">"refresh"</span> );
 
                 $.fixedToolbars.show();
 
@@ -379,238 +379,238 @@
 
     });
 
-}</code></pre>
-<p>The <strong>fixedToolbars</strong> controller is available from <a href="http://jquerymobile.com/">jQuery Mobile</a> with several public methods exposed for dealing with the <strong>header</strong> and <strong>footer</strong> toolbars. We are using <em>show</em>() to force an update in placement once the list has been refreshed. This will affectively put the <strong>footer</strong> (with its add button) back to the bottom where it belongs and is accessible. Hack? Maybe. But it works for now (see versions at end of post <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ).</p>
+}
+</code></pre><p>The <strong>fixedToolbars</strong> controller is available from <a href="http://jquerymobile.com/">jQuery Mobile</a> with several public methods exposed for dealing with the <strong>header</strong> and <strong>footer</strong> toolbars. We are using <em>show</em>() to force an update in placement once the list has been refreshed. This will affectively put the <strong>footer</strong> (with its add button) back to the bottom where it belongs and is accessible. Hack? Maybe. But it works for now (see versions at end of post <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ).</p>
 <p>So that is it… except for one thing. </p>
 <h3 id="finishing-up">Finishing Up</h3>
 <p>I can be a stickler. The <strong>addAlbum</strong> page is not removed from the <strong>DOM</strong> once navigated away from like the other pages we have created. We did that previously to ensure we were getting the correct returns from the <strong>show function</strong> based on document <strong>_id</strong>; <a href="http://jquerymobile.com/">jQuery Mobile</a> was caching those pages in the <strong>DOM</strong> so it never went back out with the update <strong>_id</strong>. However, our case here is a little different. </p>
 <p>The <strong>addAlbum</strong> page is not associated with a document upon view. It just saves a document to the <a href="http://couchdb.apache.org/">CouchDB</a> database using the <em>jquery.couch</em> plugin. As such, if a user navigates away from the page – either from an explicit cancel/close or directed back to <strong>#home</strong> upon save success – we should clear out those input fields. Otherwise, when a user navigates to the <strong>addAlbum</strong> page again, we’ll always see the last input. That shouldn’t be the case. The user should start fresh each time. To do that, we’ll just listen to when the page is hidden in the <strong>DOM</strong> and clear the fields.</p>
 <p>With <em>/_attachments/index.html</em> still open in your favorite text editor, save the following modifications to the <em>handleDocumentReady</em>() <strong>JavaScript</strong> function:</p>
 <p><em>/_attachments/index.html</em></p>
-<pre><code>function handleDocumentReady()
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleDocumentReady</span><span class="hljs-params">()</span>
 
-{
+{</span>
 
-    $(<span class="string">"#home"</span>)<span class="preprocessor">.bind</span>( <span class="string">"pagebeforeshow"</span>, refreshAlbums )<span class="comment">;</span>
+    $(<span class="hljs-string">"#home"</span>).bind( <span class="hljs-string">"pagebeforeshow"</span>, refreshAlbums );
 
-    refreshAlbums()<span class="comment">;</span>
+    refreshAlbums();
 
 
 
-    $(<span class="string">"#addSubmitButton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, function( event ) {
+    $(<span class="hljs-string">"#addSubmitButton"</span>).live( <span class="hljs-string">"click"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( event )</span> {</span>
 
-        event<span class="preprocessor">.preventDefault</span>()<span class="comment">;</span>
+        event.preventDefault();
 
-        var document = {}<span class="comment">;</span>
+        <span class="hljs-keyword">var</span> document = {};
 
-        document<span class="preprocessor">.artist</span> = $(<span class="string">"input#addArtistField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+        document.artist = $(<span class="hljs-string">"input#addArtistField"</span>).val();
 
-        document<span class="preprocessor">.title</span> = $(<span class="string">"input#addTitleField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+        document.title = $(<span class="hljs-string">"input#addTitleField"</span>).val();
 
-        document<span class="preprocessor">.description</span> = $(<span class="string">"textarea#addDescriptionField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+        document.description = $(<span class="hljs-string">"textarea#addDescriptionField"</span>).val();
 
-        document<span class="preprocessor">.creation</span>_date = ( new Date() )<span class="preprocessor">.getTime</span>()<span class="comment">;</span>
+        document.creation_date = ( <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() ).getTime();
 
-        $db<span class="preprocessor">.saveDoc</span>( document, {
+        $db.saveDoc( document, {
 
-                success: function() {
+                success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-                    $<span class="preprocessor">.mobile</span><span class="preprocessor">.changePage</span>( <span class="string">"#home"</span>, <span class="string">"slidedown"</span>, true, true )<span class="comment">;</span>
+                    $.mobile.changePage( <span class="hljs-string">"#home"</span>, <span class="hljs-string">"slidedown"</span>, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span> );
 
                 },
 
-                error: function() {
+                error: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-                    alert( <span class="string">"Cannot save new document."</span> )<span class="comment">;</span>
+                    alert( <span class="hljs-string">"Cannot save new document."</span> );
 
                  }
 
-        })<span class="comment">;</span>
+        });
 
-        return false<span class="comment">;</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 
-    })<span class="comment">;</span>
+    });
 
 
 
-    $(<span class="string">"#addAlbum"</span>)<span class="preprocessor">.bind</span>( <span class="string">"pagehide"</span>, function() {
+    $(<span class="hljs-string">"#addAlbum"</span>).bind( <span class="hljs-string">"pagehide"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-       $(<span class="string">"input#addArtistField"</span>)<span class="preprocessor">.val</span>( <span class="string">""</span> )<span class="comment">;</span>
+       $(<span class="hljs-string">"input#addArtistField"</span>).val( <span class="hljs-string">""</span> );
 
-       $(<span class="string">"input#addTitleField"</span>)<span class="preprocessor">.val</span>( <span class="string">""</span> )<span class="comment">;</span>
+       $(<span class="hljs-string">"input#addTitleField"</span>).val( <span class="hljs-string">""</span> );
 
-       $(<span class="string">"textarea#addDescriptionField"</span>)<span class="preprocessor">.val</span>( <span class="string">""</span> )<span class="comment">;</span>
+       $(<span class="hljs-string">"textarea#addDescriptionField"</span>).val( <span class="hljs-string">""</span> );
 
-    })<span class="comment">;</span>
+    });
 
-}</code></pre>
-<p>Similarly to how we listened for navigation away from the other <strong>external</strong> pages, we assign an even handler for the “<em>pagehide</em>” event and clear the input fields. That will be invoked upon back/cancel and successful commit (via the <strong>$.mobile</strong>.<em>changePage</em>() method), so we can ensure that the fields are always presented empty upon hitting the <strong>addAlbum</strong> page.</p>
+}
+</code></pre><p>Similarly to how we listened for navigation away from the other <strong>external</strong> pages, we assign an even handler for the “<em>pagehide</em>” event and clear the input fields. That will be invoked upon back/cancel and successful commit (via the <strong>$.mobile</strong>.<em>changePage</em>() method), so we can ensure that the fields are always presented empty upon hitting the <strong>addAlbum</strong> page.</p>
 <p>So we are all on the same page (pun… intended?), here is the updated <em>/_attachments/index.html</em> file in all its modified glory:</p>
-<pre><code><span class="xml"><span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<pre><code><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
 
-<span class="tag">&lt;<span class="title">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">title</span>&gt;</span>My Albums<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>My Albums<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/main.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/main.css"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/jquery.mobile-</span><span class="number">1.0</span><span class="xml">a2.css" type="text/css"/&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/jquery.mobile-1.0a2.css"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span>/&gt;</span>
 
-  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"home"</span> <span class="attribute">data-role</span>=<span class="value">"page"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"home"</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"page"</span>&gt;</span>
 
-          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span> <span class="attribute">data-position</span>=<span class="value">"fixed"</span>&gt;</span><span class="tag">&lt;<span class="title">h1</span>&gt;</span>Albums<span class="tag">&lt;/<span class="title">h1</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"header"</span> <span class="hljs-attribute">data-position</span>=<span class="hljs-value">"fixed"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Albums<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"content"</span>&gt;</span>
 
-              <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">id</span>=<span class="value">"albums"</span> <span class="attribute">data-role</span>=<span class="value">"listview"</span> <span class="attribute">data-theme</span>=<span class="value">"c"</span> <span class="attribute">data-dividertheme</span>=<span class="value">"b"</span>&gt;</span><span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"albums"</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"listview"</span> <span class="hljs-attribute">data-theme</span>=<span class="hljs-value">"c"</span> <span class="hljs-attribute">data-dividertheme</span>=<span class="hljs-value">"b"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
 
-          <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span> <span class="attribute">data-position</span>=<span class="value">"fixed"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"footer"</span> <span class="hljs-attribute">data-position</span>=<span class="hljs-value">"fixed"</span>&gt;</span>
 
-            <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"navbar"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"navbar"</span>&gt;</span>
 
-                <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">class</span>=<span class="value">"ui-grid-a"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"ui-grid-a"</span>&gt;</span>
 
-                    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">style</span>=<span class="value">"width:</span><span class="number">100</span><span class="xml">%;"&gt;<span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#addAlbum"</span> <span class="attribute">data-transition</span>=<span class="value">"slideup"</span> <span class="attribute">data-icon</span>=<span class="value">"plus"</span>&gt;</span>Add Album<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">"width:100%;"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#addAlbum"</span> <span class="hljs-attribute">data-transition</span>=<span class="hljs-value">"slideup"</span> <span class="hljs-attribute">data-icon</span>=<span class="hljs-value">"plus"</span>&gt;</span>Add Album<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
 
-                <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
 
-            <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-          <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-      <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-      <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"addAlbum"</span> <span class="attribute">data-role</span>=<span class="value">"page"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"addAlbum"</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"page"</span>&gt;</span>
 
-          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span>&gt;</span><span class="tag">&lt;<span class="title">h1</span>&gt;</span>Add Album<span class="tag">&lt;/<span class="title">h1</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"header"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Add Album<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"content"</span>&gt;</span>
 
-              <span class="tag">&lt;<span class="title">form</span> <span class="attribute">id</span>=<span class="value">"albumAddForm"</span> <span class="attribute">action</span>=<span class="value">"#"</span> <span class="attribute">method</span>=<span class="value">"get"</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-title">form</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"albumAddForm"</span> <span class="hljs-attribute">action</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">method</span>=<span class="hljs-value">"get"</span>&gt;</span>
 
-                  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"fieldcontain"</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"fieldcontain"</span>&gt;</span>
 
-                    <span class="tag">&lt;<span class="title">label</span> <span class="attribute">for</span>=<span class="value">"artist"</span>&gt;</span>Artist:<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-title">label</span> <span class="hljs-attribute">for</span>=<span class="hljs-value">"artist"</span>&gt;</span>Artist:<span class="hljs-tag">&lt;/<span class="hljs-title">label</span>&gt;</span>
 
-                       <span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"addArtistField"</span> <span class="attribute">name</span>=<span class="value">"artist"</span> <span class="attribute">type</span>=<span class="value">"text"</span> /&gt;</span>
+                       <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"addArtistField"</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"artist"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text"</span> /&gt;</span>
 
-                <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-                <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"fieldcontain"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"fieldcontain"</span>&gt;</span>
 
-                    <span class="tag">&lt;<span class="title">label</span> <span class="attribute">for</span>=<span class="value">"title"</span>&gt;</span>Title:<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-title">label</span> <span class="hljs-attribute">for</span>=<span class="hljs-value">"title"</span>&gt;</span>Title:<span class="hljs-tag">&lt;/<span class="hljs-title">label</span>&gt;</span>
 
-                       <span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"addTitleField"</span> <span class="attribute">name</span>=<span class="value">"title"</span> <span class="attribute">type</span>=<span class="value">"text"</span> /&gt;</span>
+                       <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"addTitleField"</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"title"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text"</span> /&gt;</span>
 
-                <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-                <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"fieldcontain"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"fieldcontain"</span>&gt;</span>
 
-                    <span class="tag">&lt;<span class="title">label</span> <span class="attribute">for</span>=<span class="value">"description"</span>&gt;</span>Description:<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-title">label</span> <span class="hljs-attribute">for</span>=<span class="hljs-value">"description"</span>&gt;</span>Description:<span class="hljs-tag">&lt;/<span class="hljs-title">label</span>&gt;</span>
 
-                    <span class="tag">&lt;<span class="title">textarea</span> <span class="attribute">id</span>=<span class="value">"addDescriptionField"</span> <span class="attribute">name</span>=<span class="value">"description"</span> <span class="attribute">cols</span>=<span class="value">"</span><span class="number">40</span><span class="xml">" rows="</span><span class="number">8</span><span class="xml">"&gt;<span class="tag">&lt;/<span class="title">textarea</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-title">textarea</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"addDescriptionField"</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"description"</span> <span class="hljs-attribute">cols</span>=<span class="hljs-value">"40"</span> <span class="hljs-attribute">rows</span>=<span class="hljs-value">"8"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">textarea</span>&gt;</span>
 
-                <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-                <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-body ui-body-b"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"ui-body ui-body-b"</span>&gt;</span>
 
-                    <span class="tag">&lt;<span class="title">fieldset</span> <span class="attribute">class</span>=<span class="value">"ui-grid-a"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-title">fieldset</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"ui-grid-a"</span>&gt;</span>
 
-                        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-block-a"</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"ui-block-a"</span>&gt;</span>
 
-                            <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#home"</span> <span class="attribute">id</span>=<span class="value">"addCancelButton"</span> <span class="attribute">data-role</span>=<span class="value">"button"</span> <span class="attribute">data-theme</span>=<span class="value">"d"</span>&gt;</span>Cancel<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#home"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"addCancelButton"</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"button"</span> <span class="hljs-attribute">data-theme</span>=<span class="hljs-value">"d"</span>&gt;</span>Cancel<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
 
-                        <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-                        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-block-b"</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"ui-block-b"</span>&gt;</span>
 
-                            <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">id</span>=<span class="value">"addSubmitButton"</span> <span class="attribute">data-role</span>=<span class="value">"button"</span> <span class="attribute">data-theme</span>=<span class="value">"a"</span>&gt;</span>Submit<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"addSubmitButton"</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"button"</span> <span class="hljs-attribute">data-theme</span>=<span class="hljs-value">"a"</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
 
-                        <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-                    <span class="tag">&lt;/<span class="title">fieldset</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-title">fieldset</span>&gt;</span>
 
-                <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-            <span class="tag">&lt;/<span class="title">form</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">form</span>&gt;</span>
 
-          <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-      <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">charset</span>=<span class="value">"utf-</span><span class="number">8</span><span class="xml">"&gt;
-
-
-
-      </span><span class="variable">$db</span><span class="xml"> = </span><span class="variable">$.couch.db</span><span class="xml">("albums");
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/javascript"</span> <span class="hljs-attribute">charset</span>=<span class="hljs-value">"utf-8"</span>&gt;</span><span class="javascript">
 
 
 
-      function handleDocumentReady()
+      $db = $.couch.db(<span class="hljs-string">"albums"</span>);
 
-      {
 
-          $("#home").bind( "pagebeforeshow", refreshAlbums );
+
+      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleDocumentReady</span><span class="hljs-params">()</span>
+
+      {</span>
+
+          $(<span class="hljs-string">"#home"</span>).bind( <span class="hljs-string">"pagebeforeshow"</span>, refreshAlbums );
 
           refreshAlbums();
 
 
 
-          $("#addSubmitButton").live( "click", function( event ) {
+          $(<span class="hljs-string">"#addSubmitButton"</span>).live( <span class="hljs-string">"click"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( event )</span> {</span>
 
               event.preventDefault();
 
-              var document = {};
+              <span class="hljs-keyword">var</span> document = {};
 
-              document.artist = $("input#addArtistField").val();
+              document.artist = $(<span class="hljs-string">"input#addArtistField"</span>).val();
 
-              document.title = $("input#addTitleField").val();
+              document.title = $(<span class="hljs-string">"input#addTitleField"</span>).val();
 
-              document.description = $("textarea#addDescriptionField").val();
+              document.description = $(<span class="hljs-string">"textarea#addDescriptionField"</span>).val();
 
-              document.creation_date = ( new Date() ).getTime();
+              document.creation_date = ( <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() ).getTime();
 
-              </span><span class="variable">$db.saveDoc</span><span class="xml">( document, {
+              $db.saveDoc( document, {
 
-                      success: function() {
+                      success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-                          </span><span class="variable">$.mobile.changePage</span><span class="xml">( "#home", "slidedown", true, true );
+                          $.mobile.changePage( <span class="hljs-string">"#home"</span>, <span class="hljs-string">"slidedown"</span>, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span> );
 
                       },
 
-                      error: function() {
+                      error: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-                          alert( "Cannot save new document." );
+                          alert( <span class="hljs-string">"Cannot save new document."</span> );
 
                       }
 
               });
 
-              return false;
+              <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 
           });
 
 
 
-          $("#addAlbum").bind( "pagehide", function() {
+          $(<span class="hljs-string">"#addAlbum"</span>).bind( <span class="hljs-string">"pagehide"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-              $("input#addArtistField").val( "" );
+              $(<span class="hljs-string">"input#addArtistField"</span>).val( <span class="hljs-string">""</span> );
 
-              $("input#addTitleField").val( "" );
+              $(<span class="hljs-string">"input#addTitleField"</span>).val( <span class="hljs-string">""</span> );
 
-              $("textarea#addDescriptionField").val( "" );
+              $(<span class="hljs-string">"textarea#addDescriptionField"</span>).val( <span class="hljs-string">""</span> );
 
           });
 
@@ -618,35 +618,35 @@
 
 
 
-      function refreshAlbums()
+      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">refreshAlbums</span><span class="hljs-params">()</span>
 
-      {
+      {</span>
 
-          $("#albums").empty();
+          $(<span class="hljs-string">"#albums"</span>).empty();
 
-          </span><span class="variable">$db.view</span><span class="xml">("albums/albums", {
+          $db.view(<span class="hljs-string">"albums/albums"</span>, {
 
-            success: function( data ) {
+            success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( data )</span> {</span>
 
-                    var i;
+                    <span class="hljs-keyword">var</span> i;
 
-                    var album;
+                    <span class="hljs-keyword">var</span> album;
 
-                    var artist;
+                    <span class="hljs-keyword">var</span> artist;
 
-                    var title;
+                    <span class="hljs-keyword">var</span> title;
 
-                    var description;
+                    <span class="hljs-keyword">var</span> description;
 
-                    var listItem;
+                    <span class="hljs-keyword">var</span> listItem;
 
-                    var header;
+                    <span class="hljs-keyword">var</span> header;
 
-                    var albumLink;
+                    <span class="hljs-keyword">var</span> albumLink;
 
                     data.rows.reverse();
 
-                    for( i in data.rows )
+                    <span class="hljs-keyword">for</span>( i <span class="hljs-keyword">in</span> data.rows )
 
                     {
 
@@ -658,29 +658,29 @@
 
                         description = album.description;
 
-                        externalPage = "_show/album/" + album._id;
+                        externalPage = <span class="hljs-string">"_show/album/"</span> + album._id;
 
-                        listItem = "<span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">\"album\"</span>&gt;</span>" +
+                        listItem = <span class="hljs-string">"&lt;li class=\"album\"&gt;"</span> +
 
-                                    "<span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">\""</span> + <span class="attribute">externalPage</span> + "\"&gt;</span>" +
+                                    <span class="hljs-string">"&lt;a href=\""</span> + externalPage + <span class="hljs-string">"\"&gt;"</span> +
 
-                                        "<span class="tag">&lt;<span class="title">h2</span> <span class="attribute">class</span>=<span class="value">\"artist\"</span>&gt;</span>" + artist + "<span class="tag">&lt;<span class="title">\</span>/<span class="attribute">h2</span>&gt;</span>" +
+                                        <span class="hljs-string">"&lt;h2 class=\"artist\"&gt;"</span> + artist + <span class="hljs-string">"&lt;\/h2&gt;"</span> +
 
-                                    "<span class="tag">&lt;<span class="title">\</span>/<span class="attribute">a</span>&gt;</span>" +
+                                    <span class="hljs-string">"&lt;\/a&gt;"</span> +
 
-                                    "<span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">\"title\"</span>&gt;</span>" + title + "<span class="tag">&lt;<span class="title">\</span>/<span class="attribute">p</span>&gt;</span>" +
+                                    <span class="hljs-string">"&lt;p class=\"title\"&gt;"</span> + title + <span class="hljs-string">"&lt;\/p&gt;"</span> +
 
-                                    "<span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">\"description\"</span>&gt;</span>" + description + "<span class="tag">&lt;<span class="title">\</span>/<span class="attribute">p</span>&gt;</span>" +
+                                    <span class="hljs-string">"&lt;p class=\"description\"&gt;"</span> + description + <span class="hljs-string">"&lt;\/p&gt;"</span> +
 
-                                    "<span class="tag">&lt;<span class="title">\</span>/<span class="attribute">li</span>&gt;</span>";
+                                    <span class="hljs-string">"&lt;\/li&gt;"</span>;
 
-                        $("#albums").append( listItem );
+                        $(<span class="hljs-string">"#albums"</span>).append( listItem );
 
                     }
 
-                    $("#albums").listview( "refresh" );
+                    $(<span class="hljs-string">"#albums"</span>).listview( <span class="hljs-string">"refresh"</span> );
 
-                    </span><span class="variable">$.fixedToolbars.show</span><span class="xml">();
+                    $.fixedToolbars.show();
 
                 }
 
@@ -692,13 +692,13 @@
 
 
 
-  <span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+  </span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-<span class="tag">&lt;/<span class="title">html</span>&gt;</span></span></code></pre>
-<h3 id="deployment">Deployment</h3>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre><h3 id="deployment">Deployment</h3>
 <p>We modified our application to utilize a <strong>show function</strong> to serve the <em>albumadd</em> page up within a <a href="http://jquerymobile.com/">jquery Mobile</a> application. With these changes saved, we can now push to the <a href="http://couchdb.apache.org/">CouchDB</a> database using the <a href="http://couchapp.org/page/index">couchapp</a> utility. Open a terminal and navigate to the directory where you create your <strong>CouchApp</strong> applications (for me that is <em>/Documents/workspace/custardbelly/couchdb</em> and in there i have a folder named <em>albums</em> which is the <strong>CouchApp</strong> application directory for these examples). Enter the following command to push the changes to the <strong>CouchDB</strong> instance:</p>
-<pre><code><span class="title">couchapp</span> push albums <span class="url">http://127.0.0.1:5984/albums</code></pre>
-<p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>, we’ll still have our old familiar list and our new <strong>navbar</strong> items in the <strong>footer</strong>. Click the <strong>Add Album</strong> button to open the form and save some information. The document should be saved to the <strong>CouchDB</strong> database and the application will direct you back to the <strong>#home</strong> page with the updated list of albums.</p>
+<pre><code>couchapp push albums http:<span class="hljs-comment">//127.0.0.1:5984/albums</span>
+</code></pre><p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>, we’ll still have our old familiar list and our new <strong>navbar</strong> items in the <strong>footer</strong>. Click the <strong>Add Album</strong> button to open the form and save some information. The document should be saved to the <strong>CouchDB</strong> database and the application will direct you back to the <strong>#home</strong> page with the updated list of albums.</p>
 <p><em>index.html#addAlbum</em><br><img src="http://www.custardbelly.com/blog/images/couchapp_add_album.png" alt=""></p>
 <p><em>index.html#home</em><br><img src="http://www.custardbelly.com/blog/images/couchapp_new_list.png" alt=""></p>
 <h3 id="conclusion">Conclusion</h3>

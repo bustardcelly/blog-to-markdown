@@ -2,10 +2,11 @@
 *.sql
 *.sublime-*
 node_modules/*
-!node_modules/grunt-markdown-blog
 generated
 app/lib/highlight/*
 !app/lib/highlight/highlight.pack.js
 !app/lib/highlight/LICENSE
 !app/lib/highlight/styles/github.css
 doc/notes.txt
+dryrun
+dist_bak

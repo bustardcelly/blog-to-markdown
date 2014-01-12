@@ -1,7 +1,7 @@
 <article id="archives">
   <h1>archives</h1>
   <ul>
-  <% _(site.posts).chain().reverse().each(function(post){ %>
+  <% _.forEachRight(site.posts, function(post){ %>
     <li>
       <p>
         <a href="<%= rootlocation %>/<%= post.htmlPath() %>"><%= post.title() %></a>

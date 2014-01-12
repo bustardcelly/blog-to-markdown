@@ -75,153 +75,153 @@
 <p>Create a new database called <em>albums</em>… or whatever you want to call it. I will be building <em>album</em> views in these examples but you could easily make them something else. Once we have our <em>albums</em> database created, lets create a couple <em>album</em> documents since we are going to have a view that shows a list of albums. The make up of an <em>album</em> document is as such:</p>
 <pre><code>{
 
-    "<span class="attribute">artist</span>" : <span class="value">{
+    "<span class="hljs-attribute">artist</span>" : <span class="hljs-value">{
 
-        "<span class="attribute">type</span>" : <span class="value"><span class="string">"string"</span>
+        "<span class="hljs-attribute">type</span>" : <span class="hljs-value"><span class="hljs-string">"string"</span>
 
-    }</span>
+    </span>}
 
-    <span class="string">"title"</span> : {
+    <span class="hljs-string">"title"</span> : {
 
-        "<span class="attribute">type</span>" : <span class="value"><span class="string">"string"</span>
+        "<span class="hljs-attribute">type</span>" : <span class="hljs-value"><span class="hljs-string">"string"</span>
 
-    }</span>
+    </span>}
 
-    <span class="string">"description"</span> : {
+    <span class="hljs-string">"description"</span> : {
 
-        "<span class="attribute">type</span>" : <span class="value"><span class="string">"string"</span>
+        "<span class="hljs-attribute">type</span>" : <span class="hljs-value"><span class="hljs-string">"string"</span>
 
-    }</span>
+    </span>}
 
-}</span></code></pre>
-<p>… pretty basic for our purposes. Using that schema, add a couple album documents to the databse. I just threw in the following document entries:</p>
-<pre><code>{"<span class="attribute">artist</span>":<span class="value"><span class="string">"Thin Lizzy"</span></span>, "<span class="attribute">title</span>":<span class="value"><span class="string">"Fighting"</span></span>, "<span class="attribute">description</span>":<span class="value"><span class="string">"Bona-fide rock classic."</span>}</span>
+</span>}
+</code></pre><p>… pretty basic for our purposes. Using that schema, add a couple album documents to the databse. I just threw in the following document entries:</p>
+<pre><code>{"<span class="hljs-attribute">artist</span>":<span class="hljs-value"><span class="hljs-string">"Thin Lizzy"</span></span>, "<span class="hljs-attribute">title</span>":<span class="hljs-value"><span class="hljs-string">"Fighting"</span></span>, "<span class="hljs-attribute">description</span>":<span class="hljs-value"><span class="hljs-string">"Bona-fide rock classic."</span></span>}
 
-{"<span class="attribute">artist</span>":<span class="value"><span class="string">"David Bowie"</span></span>, "<span class="attribute">title</span>":<span class="value"><span class="string">"Honky Dory"</span></span>, "<span class="attribute">description</span>":<span class="value"><span class="string">"Doesn't get much better than this."</span>}</span></code></pre>
-<p>… and now you know a little bit about my musical tastes <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Any way, we’ve got our database and a few documents residing in it. Lets create a client-side application using <a href="http://couchapp.org/page/index">CouchApp</a> and push it to the <em>albums</em> database. </p>
+{"<span class="hljs-attribute">artist</span>":<span class="hljs-value"><span class="hljs-string">"David Bowie"</span></span>, "<span class="hljs-attribute">title</span>":<span class="hljs-value"><span class="hljs-string">"Honky Dory"</span></span>, "<span class="hljs-attribute">description</span>":<span class="hljs-value"><span class="hljs-string">"Doesn't get much better than this."</span></span>}
+</code></pre><p>… and now you know a little bit about my musical tastes <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Any way, we’ve got our database and a few documents residing in it. Lets create a client-side application using <a href="http://couchapp.org/page/index">CouchApp</a> and push it to the <em>albums</em> database. </p>
 <h2 id="our-albums-couchapp">Our Albums CouchApp</h2>
 <p>With <a href="https://github.com/couchapp/couchapp">CouchApp</a> properly installed, we’ll move over to using the command line tools to create our <strong>Albums</strong> application, create views and push the documents to our <strong>CouchDB</strong> database.</p>
 <h3 id="application">Application</h3>
 <p>With the terminal open, navigate to a directory that you deem worthy to create applications for <strong>CouchDB</strong> in. For example, on <strong>Mac</strong>, that for me is usually <em>/Documents/workspace/custardbelly/couchdb</em>. Enter in the following command to generate an <em>albums</em> application to which we will add some views and later push to the <em>albums</em> database:</p>
-<pre><code><span class="title">couchapp</span> generate app albums</code></pre>
-<p>If all goes well, a new folder named <em>albums</em> will be in the target directory and will contain files such as the following:</p>
+<pre><code>couchapp <span class="hljs-keyword">generate</span> app albums
+</code></pre><p>If all goes well, a new folder named <em>albums</em> will be in the target directory and will contain files such as the following:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_one.png" alt="couch app application diretory"></p>
 <p>I won’t cover all of what those files pertain to, but basically those files will be pushed to the <em>albums</em> database and stored based on the <strong>id_ file value – <strong>CouchApp</strong> defaults to </strong>design/${application}<em> and for this example will be __design/albums</em>.</p>
 <p>Now, if we were to push this application to our <strong>CouchDB</strong> database as it stands now and visited <a href="http://127.0.0.1:5984/albums/_all_docs"><a href="http://127.0.0.1:5984/albums/_all_docs">http://127.0.0.1:5984/albums/_all_docs</a></a> we would get returned a page that shows the <strong>JSON</strong> object of rows of available documents with the default key/values. Maybe useful to some, but not a good user experience for looking at documents in our database. To do this we can create a view using <strong>CouchApp</strong> that will help in presenting a page that lists the available documents in a nice readable manner.</p>
 <h3 id="view">View</h3>
 <p>In the terminal, enter the following command to generate a view for all albums in the database:</p>
-<pre><code><span class="title">couchapp</span> generate view albums albums</code></pre>
-<p>With that command, we have used <strong>CouchApp</strong> to create a view named <em>albums</em> (the last argument) in the database <em>albums</em> (argument after <strong>view</strong>). If you take a look at the views directory in the <em>albums application</em> folder, you will see that a new folder called <em>albums</em> has been created containing the <em>map.js</em> and <em>reduce.js</em> files. </p>
+<pre><code>couchapp <span class="hljs-keyword">generate</span> view albums albums
+</code></pre><p>With that command, we have used <strong>CouchApp</strong> to create a view named <em>albums</em> (the last argument) in the database <em>albums</em> (argument after <strong>view</strong>). If you take a look at the views directory in the <em>albums application</em> folder, you will see that a new folder called <em>albums</em> has been created containing the <em>map.js</em> and <em>reduce.js</em> files. </p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_two.png" alt="couch app application diretory"></p>
 <p>I won’t go over all that is involved in map/reduce in <strong>CouchDB</strong>, so this is some good information if you are interested: <a href="http://wiki.apache.org/couchdb/Introduction_to_CouchDB_views"><a href="http://wiki.apache.org/couchdb/Introduction_to_CouchDB_views">http://wiki.apache.org/couchdb/Introduction_to_CouchDB_views</a></a>. For now, we are just going to modify the<em> map.js</em> file and delete the <em>reduce.js</em> file so it returns a list of the album documents in the database.</p>
 <h3 id="map-js">map.js</h3>
 <p>Open up the <em>/albums/views/albums/map.js</em> file in you favorite text editor and add the following line within the <em>function()</em> statement:</p>
-<pre><code><span class="function"><span class="title">function</span><span class="params">( doc )</span> {
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( doc )</span> {</span>
 
-    <span class="title">emit</span><span class="params">( doc.<span class="variable">_</span>id, doc )</span>;
+    emit( doc._id, doc );
 
-}</code></pre>
-<p>When you visit <a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums"><a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums">http://127.0.0.1:5984/albums/_design/albums/_view/albums</a></a> a <strong>JSON</strong> object will be returned with a key/value pairing for each document in the database with the key being the <em>_id</em> assigned to the document and the value being the full document object. In essence, when you create a view, you are creating a rule of how you want documents from the database returned to you. For this simple example, we are just going to return all the documents trusting that they will all be albums. You can create more views (and more applications) as you see fit. For now, we’ll just work with all the documents and wire up a page to view them.</p>
+}
+</code></pre><p>When you visit <a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums"><a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums">http://127.0.0.1:5984/albums/_design/albums/_view/albums</a></a> a <strong>JSON</strong> object will be returned with a key/value pairing for each document in the database with the key being the <em>_id</em> assigned to the document and the value being the full document object. In essence, when you create a view, you are creating a rule of how you want documents from the database returned to you. For this simple example, we are just going to return all the documents trusting that they will all be albums. You can create more views (and more applications) as you see fit. For now, we’ll just work with all the documents and wire up a page to view them.</p>
 <p>Let’s go ahead and push the <em>albums</em> application to our albums database:</p>
-<pre><code><span class="title">couchapp</span> push albums <span class="url">http://127.0.0.1:5984/albums</code></pre>
-<p>If successful, that should return:</p>
-<pre><code><span class="number">2010</span>-<span class="number">12</span>-<span class="number">06</span> <span class="number">17</span><span class="symbol">:</span><span class="number">37</span><span class="symbol">:</span><span class="number">24</span> [<span class="constant">INFO</span>] <span class="constant">Visit</span> your <span class="constant">CouchApp</span> <span class="symbol">here:</span>
+<pre><code>couchapp push albums http:<span class="hljs-comment">//127.0.0.1:5984/albums</span>
+</code></pre><p>If successful, that should return:</p>
+<pre><code><span class="hljs-number">2010</span>-<span class="hljs-number">12</span>-<span class="hljs-number">06</span> <span class="hljs-number">17</span><span class="hljs-symbol">:</span><span class="hljs-number">37</span><span class="hljs-symbol">:</span><span class="hljs-number">24</span> [<span class="hljs-constant">INFO</span>] <span class="hljs-constant">Visit</span> your <span class="hljs-constant">CouchApp</span> <span class="hljs-symbol">here:</span>
 
-<span class="symbol">http:</span>/<span class="regexp">/127.0.0.1:5984/albums</span><span class="regexp">/_design/albums</span><span class="regexp">/index.html</code></pre>
-<p>If you go and visit <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>, you will notice that shows absolutely no relevance to our application or our database <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> If you go to <a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums"><a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums">http://127.0.0.1:5984/albums/_design/albums/_view/albums</a></a> you will now see our full <strong>JSON</strong> object that we will use when we modify that <em>index.html</em>. </p>
+<span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/127.0.0.1:5984/albums</span><span class="hljs-regexp">/_design/albums</span><span class="hljs-regexp">/index.html</span>
+</code></pre><p>If you go and visit <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>, you will notice that shows absolutely no relevance to our application or our database <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> If you go to <a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums"><a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums">http://127.0.0.1:5984/albums/_design/albums/_view/albums</a></a> you will now see our full <strong>JSON</strong> object that we will use when we modify that <em>index.html</em>. </p>
 <p>The index file that you were originally directed to is the <em>index.html</em> file in the <em>/albums/_attachments</em> directory. If you open that file up in a text editor, you will see that it is using the <strong>couch.app</strong> <strong>jQuery</strong> plugin to construct the elements on the default page. We can modify this <strong>HTML</strong> document now and use the <strong>jQuery Mobile</strong> plugin to present our list of albums beautifully (no guarantees on the beautiful part:)).</p>
 <h2 id="albums-application-user-interface">Albums Application User Interface</h2>
 <p><a href="http://couchdb.apache.org/">CouchDB</a> ships with a version of <a href="http://jquery.com/">jQuery</a> and a plugin to interact with a <strong>CouchDB</strong> instance. They (and other scripts for serialization and <strong>futon</strong>) can be found in your installation, which on my make is in the following location:</p>
-<pre><code>/opt/<span class="keyword">local</span>/share/couchdb/www/<span class="keyword">script</span></code></pre>
-<p>If we look at the default <em>index.html</em> page created for us when we used <strong>CouchApp</strong> to create our <em>albums</em> application, we see that it is using a loader to load in all those necessary scripts:</p>
-<pre><code><span class="tag">&lt;<span class="title">html</span>&gt;</span>
+<pre><code>/opt/<span class="hljs-keyword">local</span>/share/couchdb/www/<span class="hljs-keyword">script</span>
+</code></pre><p>If we look at the default <em>index.html</em> page created for us when we used <strong>CouchApp</strong> to create our <em>albums</em> application, we see that it is using a loader to load in all those necessary scripts:</p>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">title</span>&gt;</span>My New CouchApp<span class="tag">&lt; <span class="attribute">itle</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>My New CouchApp<span class="hljs-tag">&lt; <span class="hljs-attribute">itle</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/main.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/main.css"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span>&gt;</span>
 
-  <span class="tag">&lt;/<span class="title">link</span>&gt;</span><span class="tag">&lt;/<span class="title">title</span>&gt;</span><span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"account"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-
-
-
-    <span class="tag">&lt;<span class="title">h1</span>&gt;</span>Generated CouchApp<span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"account"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
 
 
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"profile"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"items"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Generated CouchApp<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
 
 
 
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"sidebar"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"profile"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-      <span class="tag">&lt;<span class="title">p</span>&gt;</span>Edit welcome message.<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"items"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-      <span class="tag">&lt;<span class="title">p</span>&gt;</span>Ideas: You could easily turn this into a photo sharing app, or a grocery list, or a chat room.<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
 
-    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 
-  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"sidebar"</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>Edit welcome message.<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span>&gt;</span><span class="javascript">
+      <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>Ideas: You could easily turn this into a photo sharing app, or a grocery list, or a chat room.<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
 
-    $.couch.app(<span class="keyword">function</span>(app) {
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-      $(<span class="string">"#account"</span>).evently(<span class="string">"account"</span>, app);
+  <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
 
-      $(<span class="string">"#profile"</span>).evently(<span class="string">"profile"</span>, app);
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-      $.evently.connect(<span class="string">"#account"</span>,<span class="string">"#profile"</span>, [<span class="string">"loggedIn"</span>,<span class="string">"loggedOut"</span>]);
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/javascript"</span> <span class="hljs-attribute">charset</span>=<span class="hljs-value">"utf-8"</span>&gt;</span><span class="javascript">
 
-      $(<span class="string">"#items"</span>).evently(<span class="string">"items"</span>, app);
+    $.couch.app(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(app)</span> {</span>
+
+      $(<span class="hljs-string">"#account"</span>).evently(<span class="hljs-string">"account"</span>, app);
+
+      $(<span class="hljs-string">"#profile"</span>).evently(<span class="hljs-string">"profile"</span>, app);
+
+      $.evently.connect(<span class="hljs-string">"#account"</span>,<span class="hljs-string">"#profile"</span>, [<span class="hljs-string">"loggedIn"</span>,<span class="hljs-string">"loggedOut"</span>]);
+
+      $(<span class="hljs-string">"#items"</span>).evently(<span class="hljs-string">"items"</span>, app);
 
     });
 
-  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+  </span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-<span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
-<p>That <em>loader.js</em> file can be found in the <em>/albums/vendor/couchapp/_attachments</em> directory and looks like the following:</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">couchapp_load</span><span class="params">(scripts)</span> {</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre><p>That <em>loader.js</em> file can be found in the <em>/albums/vendor/couchapp/_attachments</em> directory and looks like the following:</p>
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">couchapp_load</span><span class="hljs-params">(scripts)</span> {</span>
 
-  <span class="keyword">for</span> (var <span class="built_in">i</span>=<span class="number">0</span>; <span class="built_in">i</span> &lt; <span class="transposed_variable">scripts.</span><span class="built_in">length</span>; <span class="built_in">i</span>++) <span class="cell">{
+  <span class="hljs-keyword">for</span> (var i=<span class="hljs-number">0</span>; i &lt; <span class="hljs-transposed_variable">scripts.</span><span class="hljs-built_in">length</span>; i++) {
 
-    document.write(<span class="string">'&lt;script src="'</span>+scripts[i]+<span class="string">'"&gt;&lt; \/script&gt;'</span>)
+    <span class="hljs-transposed_variable">document.</span>write(<span class="hljs-string">'&lt;script src="</span><span class="hljs-string">'+scripts[i]+'</span><span class="hljs-string">"&gt;&lt; \/script&gt;'</span>)
 
-  }</span>;
+  };
 
 };
 
 
 
-couchapp_load(<span class="matrix">[
+couchapp_load(<span class="hljs-matrix">[
 
-  "/_utils/script/sha1.js",
+  <span class="hljs-string">"/_utils/script/sha1.js"</span>,
 
-  "/_utils/script/json2.js",
+  <span class="hljs-string">"/_utils/script/json2.js"</span>,
 
-  "/_utils/script/jquery.js",
+  <span class="hljs-string">"/_utils/script/jquery.js"</span>,
 
-  "/_utils/script/jquery.couch.js",
+  <span class="hljs-string">"/_utils/script/jquery.couch.js"</span>,
 
-  "vendor/couchapp/jquery.couch.app.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.couch.app.js"</span>,
 
-  "vendor/couchapp/jquery.couch.app.util.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.couch.app.util.js"</span>,
 
-  "vendor/couchapp/jquery.mustache.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.mustache.js"</span>,
 
-  "vendor/couchapp/jquery.evently.js"
+  <span class="hljs-string">"vendor/couchapp/jquery.evently.js"</span>
 
-]</span>);</code></pre>
-<p>As we intend to use <a href="http://jquerymobile.com/">jQuery Mobile</a> for our user interface, we will modify this <em>loader.js</em> file to include the latest <a href="http://jquery.com/">jQuery</a> libray and the <a href="http://jquerymodile.com/">jQuery Mobile</a> plugin.</p>
+]</span>);
+</code></pre><p>As we intend to use <a href="http://jquerymobile.com/">jQuery Mobile</a> for our user interface, we will modify this <em>loader.js</em> file to include the latest <a href="http://jquery.com/">jQuery</a> libray and the <a href="http://jquerymodile.com/">jQuery Mobile</a> plugin.</p>
 <h3 id="modifying-loader-js">Modifying loader.js</h3>
 <p>If you have not already done so, download the latest releases of <a href="http://jquery.com/">jQuery</a> and <a href="http://jquerymobile.com/">jQuery Mobile</a>. As of this writing those are:</p>
 <ol>
@@ -230,165 +230,165 @@ couchapp_load(<span class="matrix">[
 </ol>
 <p>Copy those files from wherever you downloaded them to into the <em>/albums/vendor/couchapp/_attachments/</em> directory.</p>
 <p>Open up <em>loader.js</em> from that same directory in you favorite text editor and make the following changes:</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">couchapp_load</span><span class="params">(scripts)</span> {</span>
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">couchapp_load</span><span class="hljs-params">(scripts)</span> {</span>
 
-  <span class="keyword">for</span> (var <span class="built_in">i</span>=<span class="number">0</span>; <span class="built_in">i</span> &lt; <span class="transposed_variable">scripts.</span><span class="built_in">length</span>; <span class="built_in">i</span>++) <span class="cell">{
+  <span class="hljs-keyword">for</span> (var i=<span class="hljs-number">0</span>; i &lt; <span class="hljs-transposed_variable">scripts.</span><span class="hljs-built_in">length</span>; i++) {
 
-    document.write(<span class="string">'&lt;script src="'</span>+scripts[i]+<span class="string">'"&gt;&lt; \/script&gt;'</span>)
+    <span class="hljs-transposed_variable">document.</span>write(<span class="hljs-string">'&lt;script src="</span><span class="hljs-string">'+scripts[i]+'</span><span class="hljs-string">"&gt;&lt; \/script&gt;'</span>)
 
-  }</span>;
+  };
 
 };
 
 
 
-couchapp_load(<span class="matrix">[
+couchapp_load(<span class="hljs-matrix">[
 
-  "/_utils/script/sha1.js",
+  <span class="hljs-string">"/_utils/script/sha1.js"</span>,
 
-  "/_utils/script/json2.js",
+  <span class="hljs-string">"/_utils/script/json2.js"</span>,
 
-  "vendor/couchapp/jquery-<span class="number">1.4</span><span class="number">.4</span>.js",
+  <span class="hljs-string">"vendor/couchapp/jquery-1.4.4.js"</span>,
 
-  "/_utils/script/jquery.couch.js",
+  <span class="hljs-string">"/_utils/script/jquery.couch.js"</span>,
 
-  "vendor/couchapp/jquery.couch.app.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.couch.app.js"</span>,
 
-  "vendor/couchapp/jquery.couch.app.util.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.couch.app.util.js"</span>,
 
-  "vendor/couchapp/jquery.mustache.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.mustache.js"</span>,
 
-  "vendor/couchapp/jquery.evently.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.evently.js"</span>,
 
-  "vendor/couchapp/jquery.mobile-<span class="number">1.0</span>a2.js"
+  <span class="hljs-string">"vendor/couchapp/jquery.mobile-1.0a2.js"</span>
 
-]</span>);</code></pre>
-<p>Save the changes to <em>loader.js</em>. We could probably get rid of the <em>mustache.js</em> and <em>evently.js</em> includes, but we’ll forget about that for now.</p>
+]</span>);
+</code></pre><p>Save the changes to <em>loader.js</em>. We could probably get rid of the <em>mustache.js</em> and <em>evently.js</em> includes, but we’ll forget about that for now.</p>
 <p>Now that we have our loader loading the proper scripts to display a <strong>jQuery Mobile</strong> interface, we need to modify the <em>index.html</em> file to display the list of <em>album</em> documents from our <strong>CouchDB</strong> database.</p>
 <h3 id="modifying-index-html">Modifying index.html</h3>
 <p>Firstly, we’ll need to add the necessary css and image files that came with the <strong>jQuery Mobile</strong> download so we get the default look-and-feel. </p>
 <p>Copy the <em>jquery.mobile-1.0.a2.css</em> file and the <em>images/</em> directory from your <strong>jQuery Mobile</strong> download into the <em>/albums/_attachments/style/</em> folder (residing along with the default <em>main.css</em> file generated using <strong>CouchApp</strong>).</p>
 <p>Open up the <em>index.html</em> file in the <em>/albums/_attachments</em> directory with your favorite text editor, and start off with a clean slate by removing the inline <strong>JavaScript</strong> and <em>div</em> tags in the body of the <strong>HTML</strong> document. Also declare the <em>jquery.mobile-1.0a2.css</em> file in your stylesheets. The <em>index.html</em> file should now look somewhat like the following:</p>
-<pre><code><span class="tag">&lt;<span class="title">html</span>&gt;</span>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">title</span>&gt;</span>My Albums<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>My Albums<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/main.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/main.css"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/jquery.mobile-1.0a2.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/jquery.mobile-1.0a2.css"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span>/&gt;</span>
 
-  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
-
-
-
-  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
-
-  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
-
-  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span>&gt;</span><span class="javascript">
+  <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
 
 
 
-  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
 
-<span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
-<h3 id="jquery-mobile-page">JQuery Mobile Page</h3>
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/javascript"</span> <span class="hljs-attribute">charset</span>=<span class="hljs-value">"utf-8"</span>&gt;</span><span class="javascript">
+
+
+
+  </span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre><h3 id="jquery-mobile-page">JQuery Mobile Page</h3>
 <p>This post is already getting pretty long as it is, and i don’t want to discuss the finer parts of <a href="http://jquerymobile.com/">jQuery Mobile</a> so the following modifications might not have the fullest explanations as to why we are adding some elements, but i will try at times to explain. </p>
 <p>To begin, a <strong>jQuery Mobile</strong> application is comprised of <em>pages</em>. You can declare all your <em>pages</em> in a single <strong>HTML</strong> document or load other pages (saved as <strong>HTML</strong> documents) into <em>divs</em>. A page is denoted by a <strong>data-role</strong> attribute with the value of <em>“page”</em>. The <strong>jQuery Mobile</strong> framework handles this pagination and its browser history for you, so there isn’t much to worry about except for how you want you pages to look… well there is more to worry about, but we won’t for the time being <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>The landing page for our <em>albums</em> application will display the list of album documents. To do so, modify the <em>index.html</em> file by adding a page <em>div</em> to the <em>body</em> of the <strong>HTML</strong> document:</p>
-<pre><code><span class="tag">&lt;<span class="title">html</span>&gt;</span>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">title</span>&gt;</span>My Albums<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>My Albums<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/main.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/main.css"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/jquery.mobile-1.0a2.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/jquery.mobile-1.0a2.css"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span>/&gt;</span>
 
-  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"page"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"page"</span>&gt;</span>
 
-          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span>&gt;</span><span class="tag">&lt;<span class="title">h2</span>&gt;</span>Albums<span class="tag">&lt;/<span class="title">h2</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"header"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>Albums<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"content"</span>&gt;</span>
 
-              <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">id</span>=<span class="value">"albums"</span> <span class="attribute">data-role</span>=<span class="value">"listview"</span> <span class="attribute">data-theme</span>=<span class="value">"c"</span> <span class="attribute">data-dividertheme</span>=<span class="value">"b"</span> /&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"albums"</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"listview"</span> <span class="hljs-attribute">data-theme</span>=<span class="hljs-value">"c"</span> <span class="hljs-attribute">data-dividertheme</span>=<span class="hljs-value">"b"</span> /&gt;</span>
 
-          <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span>&gt;</span>Footer<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"footer"</span>&gt;</span>Footer<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-      <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span>&gt;</span><span class="javascript">
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/javascript"</span> <span class="hljs-attribute">charset</span>=<span class="hljs-value">"utf-8"</span>&gt;</span><span class="javascript">
 
 
 
-  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+  </span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-<span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
-<p>The make up of a <strong>jQuery Mobile</strong> page contains a <em>content</em> div and optional <em>header</em> and <em>footer</em> divs. In this example we have included the <em>header</em> and <em>footer</em> with some very basic information. What is of note is the <em>content</em> div (marked with the <strong>data-role</strong> of “<em>content</em>“). The content of our landing page is a list maked with a <strong>data-role</strong> of “<em>listview</em>” which will be populated with the document result form our <strong>CouchDB</strong> database query for all album documents.</p>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre><p>The make up of a <strong>jQuery Mobile</strong> page contains a <em>content</em> div and optional <em>header</em> and <em>footer</em> divs. In this example we have included the <em>header</em> and <em>footer</em> with some very basic information. What is of note is the <em>content</em> div (marked with the <strong>data-role</strong> of “<em>content</em>“). The content of our landing page is a list maked with a <strong>data-role</strong> of “<em>listview</em>” which will be populated with the document result form our <strong>CouchDB</strong> database query for all album documents.</p>
 <p>With our <strong>jQuery Mobile</strong> elements in place, we will add the <strong>JavaScript</strong> to communicate with our <strong>CouchDB</strong> instance and request the <em>album</em> documents from our <em>albums</em> database.</p>
 <h3 id="communication">Communication</h3>
 <p>As mentioned previously, <a href="http://couchdb.apache.org/">CouchDB</a> ships with a <a href="http://jquery.com/">jquery</a> plugin to ease the communication with a <strong>CouchDB</strong> instance. That script (<em>jquery.couch.js</em>) along with scripts for serialization are loaded within the <em>loader.js</em>.</p>
 <p>First things first, we need to assign a handler for when the document has become available and we declare our database reference as the <em>albums</em> database form the <strong>CouchDB</strong> instance:</p>
-<pre><code><span class="tag">&lt;<span class="title">html</span>&gt;</span>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">title</span>&gt;</span>My Albums<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>My Albums<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/main.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/main.css"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/jquery.mobile-1.0a2.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/jquery.mobile-1.0a2.css"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span>/&gt;</span>
 
-  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"page"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"page"</span>&gt;</span>
 
-          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span>&gt;</span><span class="tag">&lt;<span class="title">h2</span>&gt;</span>Albums<span class="tag">&lt;/<span class="title">h2</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"header"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>Albums<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"content"</span>&gt;</span>
 
-              <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">id</span>=<span class="value">"albums"</span> <span class="attribute">data-role</span>=<span class="value">"listview"</span> <span class="attribute">data-theme</span>=<span class="value">"c"</span> <span class="attribute">data-dividertheme</span>=<span class="value">"b"</span> /&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"albums"</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"listview"</span> <span class="hljs-attribute">data-theme</span>=<span class="hljs-value">"c"</span> <span class="hljs-attribute">data-dividertheme</span>=<span class="hljs-value">"b"</span> /&gt;</span>
 
-          <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span>&gt;</span>Footer<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"footer"</span>&gt;</span>Footer<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-      <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span>&gt;</span><span class="javascript">
-
-
-
-      $db = $.couch.db(<span class="string">"albums"</span>);
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/javascript"</span> <span class="hljs-attribute">charset</span>=<span class="hljs-value">"utf-8"</span>&gt;</span><span class="javascript">
 
 
 
-      <span class="function"><span class="keyword">function</span> <span class="title">handleDocumentReady</span><span class="params">()</span>
+      $db = $.couch.db(<span class="hljs-string">"albums"</span>);
+
+
+
+      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleDocumentReady</span><span class="hljs-params">()</span>
 
       {</span>
 
-          <span class="comment">// request album documents...</span>
+          <span class="hljs-comment">// request album documents...</span>
 
       }
 
@@ -398,54 +398,54 @@ couchapp_load(<span class="matrix">[
 
 
 
-  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+  </span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-<span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
-<p>The <a href="http://docs.jquery.com/Tutorials:Introducing_$(document">$(document).ready()</a>.ready()) event hook is a standard part of <a href="http://jquery.com/">jQuery</a> to recognize when the <strong>DOM</strong> has been loaded and we can begin any operations/transactions. In this example, the <em>handleDocumentReady()</em> method is defined as the handler for that event. Within that handler we will add the communication with the <em>$db</em> instance to request our album documents and add them to the <em>listview</em> of the content.</p>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre><p>The <a href="http://docs.jquery.com/Tutorials:Introducing_$(document">$(document).ready()</a>.ready()) event hook is a standard part of <a href="http://jquery.com/">jQuery</a> to recognize when the <strong>DOM</strong> has been loaded and we can begin any operations/transactions. In this example, the <em>handleDocumentReady()</em> method is defined as the handler for that event. Within that handler we will add the communication with the <em>$db</em> instance to request our album documents and add them to the <em>listview</em> of the content.</p>
 <p>The following snippet is a full implementation of making a request for those documents and adding them to the <em>listview</em>:</p>
-<pre><code><span class="xml"><span class="tag">&lt;<span class="title">html</span>&gt;</span>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">title</span>&gt;</span>My Albums<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>My Albums<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/main.css"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/main.css"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"style/jquery.mobile-</span><span class="number">1.0</span><span class="xml">a2.css" type="text/css"/&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/jquery.mobile-1.0a2.css"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span>/&gt;</span>
 
-  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"page"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"page"</span>&gt;</span>
 
-          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span>&gt;</span><span class="tag">&lt;<span class="title">h2</span>&gt;</span>Albums<span class="tag">&lt;/<span class="title">h2</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"header"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>Albums<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"content"</span>&gt;</span>
 
-              <span class="tag">&lt;<span class="title">ul</span> <span class="attribute">id</span>=<span class="value">"albums"</span> <span class="attribute">data-role</span>=<span class="value">"listview"</span> <span class="attribute">data-theme</span>=<span class="value">"c"</span> <span class="attribute">data-dividertheme</span>=<span class="value">"b"</span> /&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"albums"</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"listview"</span> <span class="hljs-attribute">data-theme</span>=<span class="hljs-value">"c"</span> <span class="hljs-attribute">data-dividertheme</span>=<span class="hljs-value">"b"</span> /&gt;</span>
 
-          <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-          <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span>&gt;</span>Footer<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"footer"</span>&gt;</span>Footer<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-      <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">charset</span>=<span class="value">"utf-</span><span class="number">8</span><span class="xml">"&gt;
-
-
-
-      </span><span class="variable">$db</span><span class="xml"> = </span><span class="variable">$.couch.db</span><span class="xml">("albums");
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/javascript"</span> <span class="hljs-attribute">charset</span>=<span class="hljs-value">"utf-8"</span>&gt;</span><span class="javascript">
 
 
 
-      function handleDocumentReady()
+      $db = $.couch.db(<span class="hljs-string">"albums"</span>);
 
-      {
+
+
+      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleDocumentReady</span><span class="hljs-params">()</span>
+
+      {</span>
 
           refreshAlbums();
 
@@ -453,29 +453,29 @@ couchapp_load(<span class="matrix">[
 
 
 
-      function refreshAlbums()
+      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">refreshAlbums</span><span class="hljs-params">()</span>
 
-      {
+      {</span>
 
-          $("#albums").empty();
+          $(<span class="hljs-string">"#albums"</span>).empty();
 
-          </span><span class="variable">$db.view</span><span class="xml">("albums/albums",
+          $db.view(<span class="hljs-string">"albums/albums"</span>,
 
-            { success: function( data ) {
+            { success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( data )</span> {</span>
 
-                    var i;
+                    <span class="hljs-keyword">var</span> i;
 
-                    var album;
+                    <span class="hljs-keyword">var</span> album;
 
-                    var artist;
+                    <span class="hljs-keyword">var</span> artist;
 
-                    var title;
+                    <span class="hljs-keyword">var</span> title;
 
-                    var description;
+                    <span class="hljs-keyword">var</span> description;
 
-                    var listItem;
+                    <span class="hljs-keyword">var</span> listItem;
 
-                    for( i in data.rows )
+                    <span class="hljs-keyword">for</span>( i <span class="hljs-keyword">in</span> data.rows )
 
                     {
 
@@ -487,19 +487,19 @@ couchapp_load(<span class="matrix">[
 
                         description = album.description;
 
-                        listItem = "<span class="tag">&lt;<span class="title">li</span>&gt;</span>" +
+                        listItem = <span class="hljs-string">"&lt;li&gt;"</span> +
 
-                                    "<span class="tag">&lt;<span class="title">h2</span> <span class="attribute">class</span>=<span class="value">\"artist\"</span>&gt;</span>gt;" + artist + "<span class="tag">&lt;<span class="title">\</span>/<span class="attribute">h2</span>&gt;</span>" +
+                                    <span class="hljs-string">"&lt;h2 class=\"artist\"&gt;gt;"</span> + artist + <span class="hljs-string">"&lt;\/h2&gt;"</span> +
 
-                                    "<span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">\"title\"</span>&gt;</span>gt;" + title + "<span class="tag">&lt;<span class="title">\</span>/<span class="attribute">p</span>&gt;</span>" +
+                                    <span class="hljs-string">"&lt;p class=\"title\"&gt;gt;"</span> + title + <span class="hljs-string">"&lt;\/p&gt;"</span> +
 
-                                    "<span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">\"description\"</span>&gt;</span>gt;" + description + "<span class="tag">&lt;<span class="title">\</span>/<span class="attribute">p</span>&gt;</span>";
+                                    <span class="hljs-string">"&lt;p class=\"description\"&gt;gt;"</span> + description + <span class="hljs-string">"&lt;\/p&gt;"</span>;
 
-                        $("#albums").append( listItem );
+                        $(<span class="hljs-string">"#albums"</span>).append( listItem );
 
                     }
 
-                    $("#albums").listview( "refresh" );
+                    $(<span class="hljs-string">"#albums"</span>).listview( <span class="hljs-string">"refresh"</span> );
 
                 }
 
@@ -513,120 +513,120 @@ couchapp_load(<span class="matrix">[
 
 
 
-  <span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+  </span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-<span class="tag">&lt;/<span class="title">html</span>&gt;</span></span></code></pre>
-<p>To get a deeper view, lets look in detail at the method that handles loading the album documents in the script which is invoked from the <em>handleDocumentReady(</em>) handler:</p>
-<pre><code><span class="title">function</span> refreshAlbums()
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre><p>To get a deeper view, lets look in detail at the method that handles loading the album documents in the script which is invoked from the <em>handleDocumentReady(</em>) handler:</p>
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">refreshAlbums</span><span class="hljs-params">()</span>
 
-{
+{</span>
 
-    $(<span class="string">"#albums"</span>).empty();
+    $(<span class="hljs-string">"#albums"</span>).empty();
 
-    $db.view(<span class="string">"albums/albums"</span>,
+    $db.view(<span class="hljs-string">"albums/albums"</span>,
 
-    { success: function( <span class="typedef"><span class="keyword">data</span> ) <span class="container">{
+    { success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( data )</span> {</span>
 
-            <span class="title">var</span> <span class="title">i</span>;
+            <span class="hljs-keyword">var</span> i;
 
-            <span class="title">var</span> <span class="title">album</span>;
+            <span class="hljs-keyword">var</span> album;
 
-            <span class="title">var</span> <span class="title">artist</span>;
+            <span class="hljs-keyword">var</span> artist;
 
-            <span class="title">var</span> <span class="title">title</span>;
+            <span class="hljs-keyword">var</span> title;
 
-            <span class="title">var</span> <span class="title">description</span>;
+            <span class="hljs-keyword">var</span> description;
 
-            <span class="title">var</span> <span class="title">listItem</span>;
+            <span class="hljs-keyword">var</span> listItem;
 
-            <span class="title">for</span>( <span class="title">i</span> <span class="title">in</span> <span class="title">data</span>.<span class="title">rows</span> )
+            <span class="hljs-keyword">for</span>( i <span class="hljs-keyword">in</span> data.rows )
 
             {
 
-                <span class="title">album</span> = <span class="title">data</span>.<span class="title">rows</span>[<span class="title">i</span>].<span class="title">value</span>;
+                album = data.rows[i].value;
 
-                <span class="title">artist</span> = <span class="title">album</span>.<span class="title">artist</span>;
+                artist = album.artist;
 
-                <span class="title">title</span> = <span class="title">album</span>.<span class="title">title</span>;
+                title = album.title;
 
-                <span class="title">description</span> = <span class="title">album</span>.<span class="title">description</span>;
+                description = album.description;
 
-                <span class="title">listItem</span> = "&lt;<span class="title">li</span>&gt;" +
+                listItem = <span class="hljs-string">"&lt;li&gt;"</span> +
 
-                            "&lt;<span class="title">h2</span> <span class="title">class</span>=\"<span class="title">artist</span>\"&gt;" + <span class="title">artist</span> + "&lt;\/<span class="title">h2</span>&gt;" +
+                            <span class="hljs-string">"&lt;h2 class=\"artist\"&gt;"</span> + artist + <span class="hljs-string">"&lt;\/h2&gt;"</span> +
 
-                            "&lt;<span class="title">p</span> <span class="title">class</span>=\"<span class="title">title</span>\"&gt;" + <span class="title">title</span> + "&lt;\/<span class="title">p</span>&gt;" +
+                            <span class="hljs-string">"&lt;p class=\"title\"&gt;"</span> + title + <span class="hljs-string">"&lt;\/p&gt;"</span> +
 
-                            "&lt;<span class="title">p</span> <span class="title">class</span>=\"<span class="title">description</span>\"&gt;" + <span class="title">description</span> + "&lt;\/<span class="title">p</span>&gt;";
+                            <span class="hljs-string">"&lt;p class=\"description\"&gt;"</span> + description + <span class="hljs-string">"&lt;\/p&gt;"</span>;
 
-                $("#<span class="title">albums</span>").<span class="title">append</span>( <span class="title">listItem</span> );
+                $(<span class="hljs-string">"#albums"</span>).append( listItem );
 
-            }</span></span>
+            }
 
-            $(<span class="string">"#albums"</span>).listview( <span class="string">"refresh"</span> );
+            $(<span class="hljs-string">"#albums"</span>).listview( <span class="hljs-string">"refresh"</span> );
 
         }
 
     });
 
-}</code></pre>
-<p>First and foremost, as we might use this method in later implementations of the application to refresh the list, we make a call to empty the content of the <em>listview</em>:</p>
-<pre><code>$(<span class="string">"#albums"</span>)<span class="preprocessor">.empty</span>()<span class="comment">;</span></code></pre>
-<p>Following that, we request the <em>albums</em> view from the database instance by calling <strong>$db.view()</strong> and pointing to the <em>albums</em> view that we created and pushed to the <strong>CouchDB</strong> database using <strong>CouchApp</strong>.</p>
-<pre><code><span class="variable">$db</span>.view(<span class="string">"albums/albums"</span></code></pre>
-<p>… and then resolve a successful result to a function that handles interpreting each <strong>JSON</strong> object related to to an album document so as to add them as list items to the <em>listview</em>:</p>
-<pre><code>{ success: function( <span class="typedef"><span class="keyword">data</span> ) <span class="container">{
+}
+</code></pre><p>First and foremost, as we might use this method in later implementations of the application to refresh the list, we make a call to empty the content of the <em>listview</em>:</p>
+<pre><code><span class="hljs-variable">$(</span><span class="hljs-string">"#albums"</span>).empty();
+</code></pre><p>Following that, we request the <em>albums</em> view from the database instance by calling <strong>$db.view()</strong> and pointing to the <em>albums</em> view that we created and pushed to the <strong>CouchDB</strong> database using <strong>CouchApp</strong>.</p>
+<pre><code><span class="hljs-variable">$db</span>.view(<span class="hljs-string">"albums/albums"</span>
+</code></pre><p>… and then resolve a successful result to a function that handles interpreting each <strong>JSON</strong> object related to to an album document so as to add them as list items to the <em>listview</em>:</p>
+<pre><code>{ success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( data )</span> {</span>
 
-            <span class="title">var</span> <span class="title">i</span>;
+            <span class="hljs-keyword">var</span> i;
 
-            <span class="title">var</span> <span class="title">album</span>;
+            <span class="hljs-keyword">var</span> album;
 
-            <span class="title">var</span> <span class="title">artist</span>;
+            <span class="hljs-keyword">var</span> artist;
 
-            <span class="title">var</span> <span class="title">title</span>;
+            <span class="hljs-keyword">var</span> title;
 
-            <span class="title">var</span> <span class="title">description</span>;
+            <span class="hljs-keyword">var</span> description;
 
-            <span class="title">var</span> <span class="title">listItem</span>;
+            <span class="hljs-keyword">var</span> listItem;
 
-            <span class="title">for</span>( <span class="title">i</span> <span class="title">in</span> <span class="title">data</span>.<span class="title">rows</span> )
+            <span class="hljs-keyword">for</span>( i <span class="hljs-keyword">in</span> data.rows )
 
             {
 
-                <span class="title">album</span> = <span class="title">data</span>.<span class="title">rows</span>[<span class="title">i</span>].<span class="title">value</span>;
+                album = data.rows[i].value;
 
-                <span class="title">artist</span> = <span class="title">album</span>.<span class="title">artist</span>;
+                artist = album.artist;
 
-                <span class="title">title</span> = <span class="title">album</span>.<span class="title">title</span>;
+                title = album.title;
 
-                <span class="title">description</span> = <span class="title">album</span>.<span class="title">description</span>;
+                description = album.description;
 
-                <span class="title">listItem</span> = "&lt;<span class="title">li</span>&gt;" +
+                listItem = <span class="hljs-string">"&lt;li&gt;"</span> +
 
-                            "&lt;<span class="title">h2</span> <span class="title">class</span>=\"<span class="title">artist</span>\"&gt;" + <span class="title">artist</span> + "&lt;\/<span class="title">h2</span>&gt;" +
+                            <span class="hljs-string">"&lt;h2 class=\"artist\"&gt;"</span> + artist + <span class="hljs-string">"&lt;\/h2&gt;"</span> +
 
-                            "&lt;<span class="title">p</span> <span class="title">class</span>=\"<span class="title">title</span>\"&gt;" + <span class="title">title</span> + "&lt;\/<span class="title">p</span>&gt;" +
+                            <span class="hljs-string">"&lt;p class=\"title\"&gt;"</span> + title + <span class="hljs-string">"&lt;\/p&gt;"</span> +
 
-                            "&lt;<span class="title">p</span> <span class="title">class</span>=\"<span class="title">description</span>\"&gt;" + <span class="title">description</span> + "&lt;\/<span class="title">p</span>&gt;";
+                            <span class="hljs-string">"&lt;p class=\"description\"&gt;"</span> + description + <span class="hljs-string">"&lt;\/p&gt;"</span>;
 
-                $("#<span class="title">albums</span>").<span class="title">append</span>( <span class="title">listItem</span> );
+                $(<span class="hljs-string">"#albums"</span>).append( listItem );
 
-            }</span></span>
+            }
 
-            $(<span class="string">"#albums"</span>).listview( <span class="string">"refresh"</span> );
+            $(<span class="hljs-string">"#albums"</span>).listview( <span class="hljs-string">"refresh"</span> );
 
         }
 
-}</code></pre>
-<p>The <em>for..in</em> loop in this example goes reads each document object and appends a list item to the <em>listview</em>, after which we make a call to <strong>refresh</strong> the view.</p>
+}
+</code></pre><p>The <em>for..in</em> loop in this example goes reads each document object and appends a list item to the <em>listview</em>, after which we make a call to <strong>refresh</strong> the view.</p>
 <h3 id="deployment">Deployment</h3>
 <p>With the <em>index.html</em> file modified and ready to go live, we can use the couchapp utility to push an update to the <strong>CouchDB</strong> instance so we can view our new mobile-based application in a browser:</p>
-<pre><code><span class="title">couchapp</span> push albums <span class="url">http://127.0.0.1:5984/albums</code></pre>
-<p>.. if all goes well you should see the following printed out :</p>
-<pre><code><span class="number">2010</span>-<span class="number">12</span>-<span class="number">07</span> <span class="number">11</span><span class="symbol">:</span><span class="number">46</span><span class="symbol">:</span><span class="number">55</span> [<span class="constant">INFO</span>] <span class="constant">Visit</span> your <span class="constant">CouchApp</span> <span class="symbol">here:</span>
+<pre><code>couchapp push albums http:<span class="hljs-comment">//127.0.0.1:5984/albums</span>
+</code></pre><p>.. if all goes well you should see the following printed out :</p>
+<pre><code><span class="hljs-number">2010</span>-<span class="hljs-number">12</span>-<span class="hljs-number">07</span> <span class="hljs-number">11</span><span class="hljs-symbol">:</span><span class="hljs-number">46</span><span class="hljs-symbol">:</span><span class="hljs-number">55</span> [<span class="hljs-constant">INFO</span>] <span class="hljs-constant">Visit</span> your <span class="hljs-constant">CouchApp</span> <span class="hljs-symbol">here:</span>
 
-<span class="symbol">http:</span>/<span class="regexp">/127.0.0.1:5984/albums</span><span class="regexp">/_design/albums</span><span class="regexp">/index.html</code></pre>
-<p>Now, if you do visit that link, it should redirect you to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a> and you should see something like the following:</p>
+<span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/127.0.0.1:5984/albums</span><span class="hljs-regexp">/_design/albums</span><span class="hljs-regexp">/index.html</span>
+</code></pre><p>Now, if you do visit that link, it should redirect you to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a> and you should see something like the following:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_three.png" alt="couch app mobile application"></p>
 <p>Pretty, no? No. But maybe in later posts we can modify that. For now its up and running. yay!</p>
 <h2 id="conclusion">Conclusion</h2>

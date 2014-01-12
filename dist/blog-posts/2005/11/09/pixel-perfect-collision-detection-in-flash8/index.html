@@ -63,23 +63,23 @@
 <p>This is a pretty “lite” example since it’s only checking three objects during onMouseMove, but you can see how it works, and in theory you wouldn’t run this detection process unless sprites were in a certain area of each other.</p>
 <p>After i clean up my code and make a better example i’ll throw the source up here, but i’ll show you some things it’s doing.</p>
 <p>Before it goes into the process of checking pixel transparencies between two sprites, it runs the age old  </p>
-<pre><code><span class="function"><span class="title">if</span><span class="params">(    ay2 &lt; by1 ||  
+<pre><code><span class="hljs-keyword">if</span>(    ay2 &lt; by1 ||  
 
     ay1 &gt; by2 ||  
 
     ax2 &lt; bx1 ||  
 
-    ax1 &gt; bx2)</span>  
+    ax1 &gt; bx2)  
 
 {  
 
-    <span class="title">return</span> <span class="title">false</span>;  
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;  
 
-}  </code></pre>
-<p>operation (where ay1 is mc1._y, ay2 is mc1._height, and the b’s are the same but with other movieclip). If that returns, the two sprites being checked don’t overlap, so we don’t even bother going on to check if it’s only transparent pixels that are overlapping.</p>
+}  
+</code></pre><p>operation (where ay1 is mc1._y, ay2 is mc1._height, and the b’s are the same but with other movieclip). If that returns, the two sprites being checked don’t overlap, so we don’t even bother going on to check if it’s only transparent pixels that are overlapping.</p>
 <p>If that doesn’t return, it goes on to determine the rectangle of intersection, from which it derives what pixels to check in each bitmapdata instance.<br>It runs the alpha check with this operation:  </p>
-<pre><code>var aVal:Number = ((bmpData<span class="preprocessor">.getPixel</span>32(<span class="built_in">x</span>, <span class="built_in">y</span>) &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xFF</span>)<span class="comment">;  </span></code></pre>
-<p>If that shows up as 0, it’s transparent. I stink at techinical explanations, so if you want to learn about this visit this article by Grant Skinner – <a href="http://www.macromedia.com/devnet/flash/articles/bitwise_operators.html">Using Bitwise Operators to Manipulate Bits and Colors</a>, but it’s basically checking for any similar bits between the alpha channel of the pixel and 0xFF.</p>
+<pre><code><span class="hljs-keyword">var</span> aVal:<span class="hljs-built_in">Number</span> = ((bmpData.getPixel32(x, y) &gt;&gt; <span class="hljs-number">24</span>) &amp; <span class="hljs-number">0xFF</span>);  
+</code></pre><p>If that shows up as 0, it’s transparent. I stink at techinical explanations, so if you want to learn about this visit this article by Grant Skinner – <a href="http://www.macromedia.com/devnet/flash/articles/bitwise_operators.html">Using Bitwise Operators to Manipulate Bits and Colors</a>, but it’s basically checking for any similar bits between the alpha channel of the pixel and 0xFF.</p>
 <p>I’d also like to point out Grant Skinner’s great example of <a href="http://www.gskinner.com/blog/archives/2005/10/source_code_sha.html">Shape-Based Collision Detection</a>, if you haven’t already seen it. </p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
 

@@ -75,79 +75,79 @@
 <p>The <strong>ScrollViewport</strong> control from <a href="https://github.com/bustardcelly/as3flobile/">as3flobile</a> essentially uses its dimensions as a visible area for child content. Its target child content is typed to an <strong>InteractiveObject</strong>, which is the base display class from which touch/mouse events are received on. <strong>Flex</strong> containers subclass (through a larger inheritance chain) <strong>InteractiveObject</strong> so there was no extra effort or cajoling of the as3flobile library to make <strong>ScrollViewport</strong> work with <strong>Flex</strong> containers.</p>
 <p>With its content set to <strong>IntractiveObject</strong>, <strong>ScrollViewport</strong> employs the <a href="http://en.wikipedia.org/wiki/Strategy_pattern">Strategy Pattern</a> to recognize interactive events on the content and perform scrolling. You can assign custom scroll contexts and strategies to <strong>ScrollViewport</strong>, but the default context reacts to <strong>Mouse</strong> events invoking the default scroll strategy. The scroll behaviour is based on the <strong>width</strong> and <strong>height</strong> dimensions of the target content for the <strong>ScrollViewport</strong>. If the <strong>height</strong> of the content is less than or equal to the <strong>height</strong> property of <strong>ScrollViewport</strong>, then vertical scrolling is turned off. Likewise for the <strong>width</strong> property values and horizontal scrolling.</p>
 <p>To set up a viewport for <strong>AS3</strong>, you would do something of the following:</p>
-<pre><code>var container:Sprite = new Sprite()<span class="comment">;</span>
+<pre><code><span class="hljs-keyword">var</span> container:Sprite = <span class="hljs-keyword">new</span> Sprite();
 
-var bitmap:Bitmap = new Bitmap( new BitmapData( <span class="number">200</span>, <span class="number">200</span>, false, <span class="number">0x000000</span> ) )<span class="comment">;</span>
+<span class="hljs-keyword">var</span> bitmap:Bitmap = <span class="hljs-keyword">new</span> Bitmap( <span class="hljs-keyword">new</span> BitmapData( <span class="hljs-number">200</span>, <span class="hljs-number">200</span>, <span class="hljs-keyword">false</span>, <span class="hljs-number">0x000000</span> ) );
 
-container<span class="preprocessor">.addChild</span>( bitmap )<span class="comment">;</span>
-
-
-
-// Direct dimension values
-
-var viewport:ScrollViewport = new ScrollViewport()<span class="comment">;</span>
-
-viewport<span class="preprocessor">.width</span> = <span class="number">100</span><span class="comment">;</span>
-
-viewport<span class="preprocessor">.height</span> = <span class="number">100</span><span class="comment">;</span>
-
-viewport<span class="preprocessor">.content</span> = container<span class="comment">;</span>
-
-addChild( viewport )<span class="comment">;</span>
+container.addChild( bitmap );
 
 
 
-// <span class="keyword">OR</span> - Utility convenience instantiation
+<span class="hljs-comment">// Direct dimension values</span>
 
-var viewport:ScrollViewport = ScrollViewport<span class="preprocessor">.initWithScrollRect</span>( new Rectangle( <span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">100</span> ) )<span class="comment">;</span>
+<span class="hljs-keyword">var</span> viewport:ScrollViewport = <span class="hljs-keyword">new</span> ScrollViewport();
 
-viewport<span class="preprocessor">.content</span> = container<span class="comment">;</span>
+viewport.width = <span class="hljs-number">100</span>;
 
-addChild( viewport )<span class="comment">;</span></code></pre>
-<p>In this example, the <strong>InteractiveObject</strong> target is the <strong>Sprite</strong> that has a <strong>Bitmap</strong> child. The size of the <strong>Bitmap</strong> (and consequently the parenting size of the <strong>Sprite</strong>) is larger than the designated size for the viewport. In reality this is a terrible example because you won’t really see the scrolling affect due to a single colored bitmap. <em>An example with a loaded bitmap can be seen at <a href="http://www.custardbelly.com/android/froyo/as3flobile"><a href="http://www.custardbelly.com/android/froyo/as3flobile">http://www.custardbelly.com/android/froyo/as3flobile</a></a>.</em></p>
+viewport.height = <span class="hljs-number">100</span>;
+
+viewport.content = container;
+
+addChild( viewport );
+
+
+
+<span class="hljs-comment">// OR - Utility convenience instantiation</span>
+
+<span class="hljs-keyword">var</span> viewport:ScrollViewport = ScrollViewport.initWithScrollRect( <span class="hljs-keyword">new</span> Rectangle( <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">100</span> ) );
+
+viewport.content = container;
+
+addChild( viewport );
+</code></pre><p>In this example, the <strong>InteractiveObject</strong> target is the <strong>Sprite</strong> that has a <strong>Bitmap</strong> child. The size of the <strong>Bitmap</strong> (and consequently the parenting size of the <strong>Sprite</strong>) is larger than the designated size for the viewport. In reality this is a terrible example because you won’t really see the scrolling affect due to a single colored bitmap. <em>An example with a loaded bitmap can be seen at <a href="http://www.custardbelly.com/android/froyo/as3flobile"><a href="http://www.custardbelly.com/android/froyo/as3flobile">http://www.custardbelly.com/android/froyo/as3flobile</a></a>.</em></p>
 <h2 id="targeting-flex-4-containers">Targeting Flex 4 containers</h2>
 <p>The approach to apply the content of the <strong>ScrollViewport</strong> to a <strong>Flex</strong> container is relatively the same as in the <strong>AS3</strong> example. The only caveat is that you need to listen for a change in the <strong>contentWidth</strong> and <strong>contentHeight</strong> properties of the <strong>Flex</strong> container and refresh the <strong>ScrollViewport</strong> instance. As well, the <strong>ScrollViewport</strong> needs to be added as a child of <strong>SpriteVisualElement</strong>, and the target container re-parented to the <strong>ScrollViewport</strong>. Here is a quick example:</p>
-<pre><code><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<pre><code>&lt;?xml version=<span class="hljs-string">"1.0"</span> encoding=<span class="hljs-string">"utf-8"</span>?&gt;
 
-<span class="tag">&lt;<span class="title">s:Group</span> <span class="attribute">xmlns:fx</span>=<span class="value">"[http://ns.adobe.com/mxml/2009](http://ns.adobe.com/mxml/2009)"</span>
+&lt;s:Group xmlns:fx=<span class="hljs-string">"[http://ns.adobe.com/mxml/2009](http://ns.adobe.com/mxml/2009)"</span>
 
-         <span class="attribute">xmlns:s</span>=<span class="value">"[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"</span>
+         xmlns:s=<span class="hljs-string">"[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"</span>
 
-         <span class="attribute">xmlns:mx</span>=<span class="value">"[library://ns.adobe.com/flex/mx](library://ns.adobe.com/flex/mx)"</span>
+         xmlns:mx=<span class="hljs-string">"[library://ns.adobe.com/flex/mx](library://ns.adobe.com/flex/mx)"</span>
 
-         <span class="attribute">creationComplete</span>=<span class="value">"handleCreationComplete();"</span>&gt;</span>
-
-
-
-    <span class="tag">&lt;<span class="title">fx:Script</span>&gt;</span>
-
-        <span class="cdata">&lt;![CDATA[
-
-            import com.custardbelly.as3flobile.controls.viewport.ScrollViewport;
+         creationComplete=<span class="hljs-string">"handleCreationComplete();"</span>&gt;
 
 
 
-            import mx.events.PropertyChangeEvent;
+    &lt;fx:Script&gt;
+
+        &lt;![CDATA[
+
+            <span class="hljs-preprocessor"><span class="hljs-keyword">import</span> com.custardbelly.as3flobile.controls.viewport.ScrollViewport;</span>
 
 
 
-            protected var viewport:ScrollViewport;
+            <span class="hljs-preprocessor"><span class="hljs-keyword">import</span> mx.events.PropertyChangeEvent;</span>
 
 
 
-            protected function handleCreationComplete():void
-
-            {
-
-                container.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, handleContentPropertyChange, false, 0, true );
+            <span class="hljs-keyword">protected</span> <span class="hljs-keyword">var</span> viewport:ScrollViewport;
 
 
 
-                viewport = new ScrollViewport();
+            <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleCreationComplete</span><span class="hljs-params">()</span><span class="hljs-type">:void</span>
 
-                viewport.width = 100;
+            {</span>
 
-                viewport.height = 100;
+                container.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, handleContentPropertyChange, <span class="hljs-literal">false</span>, <span class="hljs-number">0</span>, <span class="hljs-literal">true</span> );
+
+
+
+                viewport = <span class="hljs-keyword">new</span> ScrollViewport();
+
+                viewport.width = <span class="hljs-number">100</span>;
+
+                viewport.height = <span class="hljs-number">100</span>;
 
                 viewport.content = container;
 
@@ -157,11 +157,11 @@ addChild( viewport )<span class="comment">;</span></code></pre>
 
 
 
-            protected function handleContentPropertyChange( evt:PropertyChangeEvent ):void
+            <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleContentPropertyChange</span><span class="hljs-params">( evt:PropertyChangeEvent )</span><span class="hljs-type">:void</span>
 
-            {
+            {</span>
 
-                if( evt.property == "contentWidth" || evt.property == "contentHeight" )
+                <span class="hljs-keyword">if</span>( evt.property == <span class="hljs-string">"contentWidth"</span> || evt.property == <span class="hljs-string">"contentHeight"</span> )
 
                 {
 
@@ -171,44 +171,44 @@ addChild( viewport )<span class="comment">;</span></code></pre>
 
             }
 
-        ]]&gt;</span>
+        ]]&gt;
 
-    <span class="tag">&lt;/<span class="title">fx:Script</span>&gt;</span>
-
-
-
-    <span class="tag">&lt;<span class="title">s:SpriteVisualElement</span> <span class="attribute">id</span>=<span class="value">"viewportHolder"</span> /&gt;</span>
+    &lt;/fx:Script&gt;
 
 
 
-    <span class="tag">&lt;<span class="title">s:Group</span> <span class="attribute">id</span>=<span class="value">"container"</span> <span class="attribute">width</span>=<span class="value">"200"</span> <span class="attribute">height</span>=<span class="value">"200"</span>&gt;</span>
-
-        <span class="tag">&lt;<span class="title">s:Rect</span> <span class="attribute">width</span>=<span class="value">"200"</span> <span class="attribute">height</span>=<span class="value">"200"</span>&gt;</span>
-
-            <span class="tag">&lt;<span class="title">s:fill</span>&gt;</span>
-
-                <span class="tag">&lt;<span class="title">s:LinearGradient</span>&gt;</span>
-
-                    <span class="tag">&lt;<span class="title">s:entries</span>&gt;</span>
-
-                        <span class="tag">&lt;<span class="title">s:GradientEntry</span> <span class="attribute">color</span>=<span class="value">"0x000000"</span> <span class="attribute">ratio</span>=<span class="value">"0"</span> /&gt;</span>
-
-                        <span class="tag">&lt;<span class="title">s:GradientEntry</span> <span class="attribute">color</span>=<span class="value">"0xFFFFFF"</span> <span class="attribute">ratio</span>=<span class="value">".66"</span> /&gt;</span>
-
-                    <span class="tag">&lt;/<span class="title">s:entries</span>&gt;</span>
-
-                <span class="tag">&lt;/<span class="title">s:LinearGradient</span>&gt;</span>
-
-            <span class="tag">&lt;/<span class="title">s:fill</span>&gt;</span>
-
-        <span class="tag">&lt;/<span class="title">s:Rect</span>&gt;</span>
-
-    <span class="tag">&lt;/<span class="title">s:Group</span>&gt;</span>
+    &lt;s:SpriteVisualElement id=<span class="hljs-string">"viewportHolder"</span> /&gt;
 
 
 
-<span class="tag">&lt;/<span class="title">s:Group</span>&gt;</span></code></pre>
-<p>The target content – in this example, a <strong>Group</strong> container with the id of “container” – needs to go through the invalidation cycle within <strong>Flex</strong>. So it is declared in mark-up as a child of the parent <strong>Group</strong>. This is important to note, because the target content container cannot be added from a <strong>Declarations</strong> tag in <strong>Flex</strong>. It needs to have gone through its invalidation in order to be rendered and re-parented to the <strong>ScrollViewport</strong>. Once the container is set as the content for the <strong>ScrollViewport</strong> it is now on the display list of the <strong>ScrollViewport</strong>.</p>
+    &lt;s:Group id=<span class="hljs-string">"container"</span> width=<span class="hljs-string">"200"</span> height=<span class="hljs-string">"200"</span>&gt;
+
+        &lt;s:Rect width=<span class="hljs-string">"200"</span> height=<span class="hljs-string">"200"</span>&gt;
+
+            &lt;s:fill&gt;
+
+                &lt;s:LinearGradient&gt;
+
+                    &lt;s:entries&gt;
+
+                        &lt;s:GradientEntry color=<span class="hljs-string">"0x000000"</span> ratio=<span class="hljs-string">"0"</span> /&gt;
+
+                        &lt;s:GradientEntry color=<span class="hljs-string">"0xFFFFFF"</span> ratio=<span class="hljs-string">".66"</span> /&gt;
+
+                    &lt;/s:entries&gt;
+
+                &lt;/s:LinearGradient&gt;
+
+            &lt;/s:fill&gt;
+
+        &lt;/s:Rect&gt;
+
+    &lt;/s:Group&gt;
+
+
+
+&lt;/s:Group&gt;
+</code></pre><p>The target content – in this example, a <strong>Group</strong> container with the id of “container” – needs to go through the invalidation cycle within <strong>Flex</strong>. So it is declared in mark-up as a child of the parent <strong>Group</strong>. This is important to note, because the target content container cannot be added from a <strong>Declarations</strong> tag in <strong>Flex</strong>. It needs to have gone through its invalidation in order to be rendered and re-parented to the <strong>ScrollViewport</strong>. Once the container is set as the content for the <strong>ScrollViewport</strong> it is now on the display list of the <strong>ScrollViewport</strong>.</p>
 <p>As mentioned early, in this example, i have assigned a <strong>PropertyChangeEvent</strong> listener to pick up the change to <strong>contentWidth</strong> and <strong>contentHeight</strong> of the container. Once caught, the viewport is refreshed. This is needed in order to properly based its scroll bounds in the strategy. Once that is set, you are already to go.</p>
 <p>Here is an example of using this approach which shows vertical and horizontal scroll viewports for <strong>Group</strong> containers:</p>
 <p>[view source enabled]<br><a href="http://www.custardbelly.com/downloads/as3flobile/containerviewport/"><img src="http://www.custardbelly.com/blog/images/as3flobile_vp_container.png" alt="as3flobile viewport container"></a><br><em>ScrollViewport with Group containers.</em></p>
@@ -216,45 +216,45 @@ addChild( viewport )<span class="comment">;</span></code></pre>
 <p>After drumming up a working example with <strong>Group</strong> container as content target for <strong>ScrollViewport</strong>, my mind immediately changed focus to <strong>DataGroups</strong>. And not just <strong>DataGroup</strong>s, but the need for item renderer recycling using virtualization. I<em>f you are unfamiliar with virualization and <strong>DataGroup</strong>s, <strong>Adobe</strong> has some useful information <a href="http://help.adobe.com/en_US/flex/using/WS64909091-7042-4fb8-A243-8FD4E2990264.html">here</a>.</em></p>
 <p>That gets a little trickier, but not too much. Fortunately the <strong>contentWidth</strong> and <strong>contentHeight</strong> property values are updated on a <strong>DataGroup</strong> based on the <strong>dataProvider</strong> and the item renderer using <em>virtualization</em>, even though every data renderer for an item in the <strong>dataProvider</strong> is not present in the layout display stack since they are recycled. In broad terms, this means our scroll strategy will still be a viable solution, but we will need to update the <strong>verticalScrollPosition</strong> and <strong>y</strong> position of the <strong>DataGroup</strong> during the scroll behaviour.</p>
 <p>Here is an example of using <strong>DataGroup</strong> with a virtualized layout:</p>
-<pre><code><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<pre><code><span class="hljs-pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
 
-<span class="tag">&lt;<span class="title">s:Group</span> <span class="attribute">xmlns:fx</span>=<span class="value">"[http://ns.adobe.com/mxml/2009](http://ns.adobe.com/mxml/2009)"</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">s:Group</span> <span class="hljs-attribute">xmlns:fx</span>=<span class="hljs-value">"[http://ns.adobe.com/mxml/2009](http://ns.adobe.com/mxml/2009)"</span>
 
-         <span class="attribute">xmlns:s</span>=<span class="value">"[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"</span>
+         <span class="hljs-attribute">xmlns:s</span>=<span class="hljs-value">"[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"</span>
 
-         <span class="attribute">xmlns:mx</span>=<span class="value">"[library://ns.adobe.com/flex/mx](library://ns.adobe.com/flex/mx)"</span>
+         <span class="hljs-attribute">xmlns:mx</span>=<span class="hljs-value">"[library://ns.adobe.com/flex/mx](library://ns.adobe.com/flex/mx)"</span>
 
-         <span class="attribute">creationComplete</span>=<span class="value">"handleCreationComplete();"</span>&gt;</span>
-
-
-
-    <span class="tag">&lt;<span class="title">fx:Declarations</span>&gt;</span>
-
-        <span class="tag">&lt;<span class="title">s:ArrayList</span> <span class="attribute">id</span>=<span class="value">"dp"</span>&gt;</span>
-
-            <span class="tag">&lt;<span class="title">fx:String</span>&gt;</span>hello<span class="tag">&lt;/<span class="title">fx:String</span>&gt;</span>
-
-            <span class="tag">&lt;<span class="title">fx:String</span>&gt;</span>world<span class="tag">&lt;/<span class="title">fx:String</span>&gt;</span>
-
-            <span class="tag">&lt;<span class="title">fx:String</span>&gt;</span>foo<span class="tag">&lt;/<span class="title">fx:String</span>&gt;</span>
-
-            <span class="tag">&lt;<span class="title">fx:String</span>&gt;</span>bar<span class="tag">&lt;/<span class="title">fx:String</span>&gt;</span>
-
-            <span class="tag">&lt;<span class="title">fx:String</span>&gt;</span>baz<span class="tag">&lt;/<span class="title">fx:String</span>&gt;</span>
-
-            <span class="tag">&lt;<span class="title">fx:String</span>&gt;</span>jello<span class="tag">&lt;/<span class="title">fx:String</span>&gt;</span>
-
-            <span class="tag">&lt;<span class="title">fx:String</span>&gt;</span>biafra<span class="tag">&lt;/<span class="title">fx:String</span>&gt;</span>
-
-        <span class="tag">&lt;/<span class="title">s:ArrayList</span>&gt;</span>
-
-    <span class="tag">&lt;/<span class="title">fx:Declarations</span>&gt;</span>
+         <span class="hljs-attribute">creationComplete</span>=<span class="hljs-value">"handleCreationComplete();"</span>&gt;</span>
 
 
 
-    <span class="tag">&lt;<span class="title">fx:Script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">fx:Declarations</span>&gt;</span>
 
-        <span class="cdata">&lt;![CDATA[
+        <span class="hljs-tag">&lt;<span class="hljs-title">s:ArrayList</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"dp"</span>&gt;</span>
+
+            <span class="hljs-tag">&lt;<span class="hljs-title">fx:String</span>&gt;</span>hello<span class="hljs-tag">&lt;/<span class="hljs-title">fx:String</span>&gt;</span>
+
+            <span class="hljs-tag">&lt;<span class="hljs-title">fx:String</span>&gt;</span>world<span class="hljs-tag">&lt;/<span class="hljs-title">fx:String</span>&gt;</span>
+
+            <span class="hljs-tag">&lt;<span class="hljs-title">fx:String</span>&gt;</span>foo<span class="hljs-tag">&lt;/<span class="hljs-title">fx:String</span>&gt;</span>
+
+            <span class="hljs-tag">&lt;<span class="hljs-title">fx:String</span>&gt;</span>bar<span class="hljs-tag">&lt;/<span class="hljs-title">fx:String</span>&gt;</span>
+
+            <span class="hljs-tag">&lt;<span class="hljs-title">fx:String</span>&gt;</span>baz<span class="hljs-tag">&lt;/<span class="hljs-title">fx:String</span>&gt;</span>
+
+            <span class="hljs-tag">&lt;<span class="hljs-title">fx:String</span>&gt;</span>jello<span class="hljs-tag">&lt;/<span class="hljs-title">fx:String</span>&gt;</span>
+
+            <span class="hljs-tag">&lt;<span class="hljs-title">fx:String</span>&gt;</span>biafra<span class="hljs-tag">&lt;/<span class="hljs-title">fx:String</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;/<span class="hljs-title">s:ArrayList</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;/<span class="hljs-title">fx:Declarations</span>&gt;</span>
+
+
+
+    <span class="hljs-tag">&lt;<span class="hljs-title">fx:Script</span>&gt;</span>
+
+        <span class="hljs-cdata">&lt;![CDATA[
 
             import com.custardbelly.as3flobile.controls.viewport.ScrollViewport;
 
@@ -326,48 +326,48 @@ addChild( viewport )<span class="comment">;</span></code></pre>
 
         ]]&gt;</span>
 
-    <span class="tag">&lt;/<span class="title">fx:Script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">fx:Script</span>&gt;</span>
 
 
 
-    <span class="tag">&lt;<span class="title">s:SpriteVisualElement</span> <span class="attribute">id</span>=<span class="value">"viewportHolder"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">s:SpriteVisualElement</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"viewportHolder"</span> /&gt;</span>
 
 
 
-    <span class="tag">&lt;<span class="title">s:Group</span> <span class="attribute">id</span>=<span class="value">"container"</span> <span class="attribute">width</span>=<span class="value">"100"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">s:Group</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"container"</span> <span class="hljs-attribute">width</span>=<span class="hljs-value">"100"</span>&gt;</span>
 
-        <span class="tag">&lt;<span class="title">s:Rect</span> <span class="attribute">id</span>=<span class="value">"contentBackground"</span> <span class="attribute">width</span>=<span class="value">"100"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">s:Rect</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"contentBackground"</span> <span class="hljs-attribute">width</span>=<span class="hljs-value">"100"</span>&gt;</span>
 
-            <span class="tag">&lt;<span class="title">s:fill</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">s:fill</span>&gt;</span>
 
-                <span class="tag">&lt;<span class="title">s:SolidColor</span> <span class="attribute">color</span>=<span class="value">"#DDDDDD"</span> /&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">s:SolidColor</span> <span class="hljs-attribute">color</span>=<span class="hljs-value">"#DDDDDD"</span> /&gt;</span>
 
-            <span class="tag">&lt;/<span class="title">s:fill</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">s:fill</span>&gt;</span>
 
-        <span class="tag">&lt;/<span class="title">s:Rect</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">s:Rect</span>&gt;</span>
 
-        <span class="tag">&lt;<span class="title">s:DataGroup</span> <span class="attribute">id</span>=<span class="value">"dataGroup"</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">s:DataGroup</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"dataGroup"</span>
 
-                     <span class="attribute">width</span>=<span class="value">"100"</span> <span class="attribute">height</span>=<span class="value">"200"</span>
+                     <span class="hljs-attribute">width</span>=<span class="hljs-value">"100"</span> <span class="hljs-attribute">height</span>=<span class="hljs-value">"200"</span>
 
-                     <span class="attribute">clipAndEnableScrolling</span>=<span class="value">"true"</span>
+                     <span class="hljs-attribute">clipAndEnableScrolling</span>=<span class="hljs-value">"true"</span>
 
-                     <span class="attribute">itemRenderer</span>=<span class="value">"spark.skins.spark.DefaultItemRenderer"</span>&gt;</span>
+                     <span class="hljs-attribute">itemRenderer</span>=<span class="hljs-value">"spark.skins.spark.DefaultItemRenderer"</span>&gt;</span>
 
-            <span class="tag">&lt;<span class="title">s:layout</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">s:layout</span>&gt;</span>
 
-                <span class="tag">&lt;<span class="title">s:VerticalLayout</span> <span class="attribute">useVirtualLayout</span>=<span class="value">"true"</span> <span class="attribute">gap</span>=<span class="value">"2"</span> /&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">s:VerticalLayout</span> <span class="hljs-attribute">useVirtualLayout</span>=<span class="hljs-value">"true"</span> <span class="hljs-attribute">gap</span>=<span class="hljs-value">"2"</span> /&gt;</span>
 
-            <span class="tag">&lt;/<span class="title">s:layout</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">s:layout</span>&gt;</span>
 
-        <span class="tag">&lt;/<span class="title">s:DataGroup</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">s:DataGroup</span>&gt;</span>
 
-    <span class="tag">&lt;/<span class="title">s:Group</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">s:Group</span>&gt;</span>
 
 
 
-<span class="tag">&lt;/<span class="title">s:Group</span>&gt;</span></code></pre>
-<p>In this example, we are basing our target content container dimensions on change to the contentHeight property of the <strong>DataGroup</strong> child. The <strong>dataProvider</strong> and the item renderer are the basis of the <strong>contentHeight</strong> property, and once we handle that change, we apply the height properties to the container and contentBackground, then refresh the viewport. The <strong>contentBackground</strong> is there to act as a grabbable area within the container so we can scroll without having to touched down on an item renderer in the <strong>DataGroup</strong> directly.</p>
+<span class="hljs-tag">&lt;/<span class="hljs-title">s:Group</span>&gt;</span>
+</code></pre><p>In this example, we are basing our target content container dimensions on change to the contentHeight property of the <strong>DataGroup</strong> child. The <strong>dataProvider</strong> and the item renderer are the basis of the <strong>contentHeight</strong> property, and once we handle that change, we apply the height properties to the container and contentBackground, then refresh the viewport. The <strong>contentBackground</strong> is there to act as a grabbable area within the container so we can scroll without having to touched down on an item renderer in the <strong>DataGroup</strong> directly.</p>
 <p>The handler for the <strong>scrollChange</strong> <a href="https://github.com/robertpenner/as3-signals">Signal</a> then updates the <strong>verticalScrollPosition</strong> of the <strong>DataGroup</strong> and the <strong>y</strong> position within the container. This gives the perceived scrolling display incorporated with item renderer recycling (notice the <strong>useVirtualLayout</strong> property value on the <strong>VerticalLayout</strong> assigned to the <strong>DataGroup</strong>).</p>
 <p>Here is an example of this working with the status API of <strong>Twitter</strong> as the data content for a <strong>DataGroup</strong>:</p>
 <p>[view source enabled]<br><a href="http://www.custardbelly.com/downloads/as3flobile/flexviewport/"><img src="http://www.custardbelly.com/blog/images/as3flobile_vp_datagroup.png" alt="as3flobile viewport datagroup"></a><br><em>ScrollViewport with virtualized DataGroup container.</em></p>

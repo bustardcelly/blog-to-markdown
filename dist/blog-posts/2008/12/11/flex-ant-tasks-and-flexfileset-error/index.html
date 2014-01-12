@@ -61,26 +61,26 @@
     <p><em>*This is more of a post-reminder or a google-search aha than a soliloquy on the joys of FlexTasks and how to use them. If you want to know more about <a href="http://labs.adobe.com/wiki/index.php/Flex_Ant_Tasks">flextasks, visit here</a>, or <a href="http://www.boostworthy.com/blog/">Ryan Taylor’s blog</a> for some good tips, or pick up <a href="http://www.amazon.com/Flex-Cookbook-Code-Recipes-Developers-Developer/dp/0596529856/ref=pd_bbs_sr_1?ie=UTF8&amp;s=books&amp;qid=1229047533&amp;sr=8-1">this wonderful book</a>… the holidays are coming.</em></p>
 <p>I have had the fortunate opportunity to work with <a href="http://blog.zupko.info/">Andy Zupko</a> on a project here at <a href="http://infrared5.com/">Infrared5</a>. We have our good days and our bad days – as most projects go – and hopefully we’ll be able to showcase our efforts at some time. Recently i started whipping the project into shape to handle modules, rsls and loaded styles to minimize the download time and highten user experience. Why does it always come down to the last few days to get this up and running? I don’t know. Maybe we’re so gung-ho to get things finished for an iteration and to show a client that deployment structure falls a little to the wayside. In any event Andy, and in some part me i suppose, structured the project to have minimal impact when it came time to have a deployment routine and manage runtime styles and rsls. Enough horn-tooting! What am i talking about?</p>
 <p>Well, when it came time to set up the ant tasks that will take over the deployment and distribution of the application i was hitting a wall in compiling against an rsl. More to the point, i was getting this error:</p>
-<pre><code>BUILD FAILED : No directory specified for FlexFile<span class="operator"><span class="keyword">Set</span>.</code></pre>
-<p>… when combined with this directive</p>
-<pre><code>&lt;compiler .external-library-path&gt;
-    &lt;include name=<span class="string">"<span class="subst">${app.dir}</span>/<span class="subst">${rsl.name}</span>.swc"</span> /&gt;
-&lt;<span class="regexp">/compiler&gt;</code></pre>
-<p>I’m not gonna go into the nuts and bolts of the build file or even attempt to explain what that error means. I am familiar with compiling applications and modules from the Terminal and pretty much love doing most things from the terminal rather than relying on tools in eclipse, but i thought to bring experience down to a playing ground for a project that will be handed off to a client at some point, go with flex ant tasks. It’s well documented. Google finds most answers. Etc. But there are subtle changes to syntax that i am unfamiliar with when it comes to create a build file targeting the command line tools of the SDK.</p>
+<pre><code>BUILD FAILED : No <span class="hljs-built_in">directory</span> specified <span class="hljs-keyword">for</span> FlexFileSet.
+</code></pre><p>… when combined with this directive</p>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">compiler</span> <span class="hljs-attribute">.external-library-path</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">include</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"${app.dir}/${rsl.name}.swc"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">compiler</span>&gt;</span>
+</code></pre><p>I’m not gonna go into the nuts and bolts of the build file or even attempt to explain what that error means. I am familiar with compiling applications and modules from the Terminal and pretty much love doing most things from the terminal rather than relying on tools in eclipse, but i thought to bring experience down to a playing ground for a project that will be handed off to a client at some point, go with flex ant tasks. It’s well documented. Google finds most answers. Etc. But there are subtle changes to syntax that i am unfamiliar with when it comes to create a build file targeting the command line tools of the SDK.</p>
 <p>In any event, it baffled me why this command would not work. It syntactically looked correct to me. The compiler directive is spelled correctly, the option variable is the correct path… wtf. Well just like the -library-path option i suppose you had to remove the directory that the SWC lives in from the variable and add it as a dir property.</p>
-<pre><code>&lt;compiler .external-library-path dir=<span class="string">"<span class="subst">${app.dir}</span>"</span>&gt;
-    &lt;include name=<span class="string">"<span class="subst">${rsl.name}</span>.swc"</span> /&gt;
-&lt;<span class="regexp">/compiler&gt;</code></pre>
-<p>Works! All is fine… but it took a hell of a long time to figure that out. Thought i would post this for any Terminal monkeys out there that run across this issue when building an ant file for compiling rsls into your application.</p>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">compiler</span> <span class="hljs-attribute">.external-library-path</span> <span class="hljs-attribute">dir</span>=<span class="hljs-value">"${app.dir}"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">include</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"${rsl.name}.swc"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">compiler</span>&gt;</span>
+</code></pre><p>Works! All is fine… but it took a hell of a long time to figure that out. Thought i would post this for any Terminal monkeys out there that run across this issue when building an ant file for compiling rsls into your application.</p>
 <p>Was I bone-head for 2 hours? Probably…. feel free to leave a comment.</p>
 <p><strong>[Update February 3rd, 2009]</strong> – <a href="http://www.boostworthy.com/blog/">Ryan Taylor</a> sent a solution that he uses (after being welcomed by my wordpress comments failure), which i find pretty elegant and will use in the future.</p>
-<pre><code><span class="xml"><span class="tag">&lt;<span class="title">mxmlc</span> <span class="attribute">...</span>&gt;</span>
-       <span class="tag">&lt;<span class="title">runtime</span> <span class="attribute">-shared-library-path</span> <span class="attribute">path-element</span>=<span class="value">"</span><span class="variable">${libs}</span><span class="xml">/MyLibrary.swc"&gt;
-           <span class="tag">&lt;<span class="title">url</span> <span class="attribute">rsl-url</span>=<span class="value">"MyLibrary.swf"</span> /&gt;</span>
-           <span class="tag">&lt;<span class="title">url</span> <span class="attribute">policy-file-url</span>=<span class="value">""</span> /&gt;</span>
-    <span class="tag">&lt;/<span class="title">runtime</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">mxmlc</span>&gt;</span></span></code></pre>
-<p>Thanks, Ryan!</p>
+<pre><code>&lt;mxmlc <span class="hljs-keyword">...</span>&gt;
+       &lt;runtime -shared-<span class="hljs-keyword">library</span>-path path-element=<span class="hljs-string">"${libs}/MyLibrary.swc"</span>&gt;
+           &lt;url rsl-url=<span class="hljs-string">"MyLibrary.swf"</span> /&gt;
+           &lt;url policy-file-url=<span class="hljs-string">""</span> /&gt;
+    &lt;/runtime&gt;
+&lt;/mxmlc&gt;
+</code></pre><p>Thanks, Ryan!</p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/flextasks/">FlexTasks</a>.</p>
 
   </section>

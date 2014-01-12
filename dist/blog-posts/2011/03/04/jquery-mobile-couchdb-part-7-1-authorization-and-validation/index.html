@@ -74,10 +74,10 @@
 <p>Click that link, and a dialog should appear looking like the following:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_1_2.png" alt="Create Server Admin"><br><em>[Create Server Admin]</em></p>
 <p>Make sure to read what is in that dialog as it is useful and i will not reiterate its information here… we’re just trying to get back to coding people! Enter in whatever <strong>username</strong> and <strong>password</strong> you choose. For the purposes of this article series (as the information will be used later) I entered:</p>
-<pre><code><span class="attribute">u</span>: <span class="string">toddanderson</span>
+<pre><code><span class="hljs-attribute">u</span>: <span class="hljs-string">toddanderson</span>
 
-<span class="http"><span class="attribute">p</span>: <span class="string">admin123</span></span></code></pre>
-<p>Click <em>Create</em> to create the <strong>admin</strong> user and relax. What just happened is that you created an <strong>admin</strong> that can now do everything everybody used to be able to do. That <strong>username</strong> and <strong>hashed password</strong> are now saved in <em>/etc/couchdb/local.ini</em> of your <a href="http://couchdb.apache.org/">CouchDB</a> instance and is viewable in <a href="http://127.0.0.1:5984/_utils">Futon</a> when you go to <strong>Configuration</strong>:</p>
+<span class="http"><span class="hljs-attribute">p</span>: <span class="hljs-string">admin123</span></span>
+</code></pre><p>Click <em>Create</em> to create the <strong>admin</strong> user and relax. What just happened is that you created an <strong>admin</strong> that can now do everything everybody used to be able to do. That <strong>username</strong> and <strong>hashed password</strong> are now saved in <em>/etc/couchdb/local.ini</em> of your <a href="http://couchdb.apache.org/">CouchDB</a> instance and is viewable in <a href="http://127.0.0.1:5984/_utils">Futon</a> when you go to <strong>Configuration</strong>:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_1_3.png" alt="Configuration Panel"><br><em>[Configuration panel]</em></p>
 <p>I have to admit, I am doing this all backtracking. Meaning I took my <a href="http://couchdb.apache.org/">CouchDB</a> instance off of <strong>admin party</strong> some time ago. So I am trusting this is still the way to go about it. And I am hoping that since <a href="http://couchdb.apache.org/">CouchDB</a> 1.0+ there has been a <strong>users_ database. To check if there is within <a href="http://127.0.0.1:5984/_utils">Futon</a>, go to <strong>Overview</strong> and one of the first databases listed should be </strong>users_. If its there, great! It should probably even have its authentication validation view included so we are all set, and the <strong>admin</strong> you just created may or may not be automatically entered as a user (i have on mine).</p>
 <p>If <em>_users</em> is not available for you… leave a comment and we can work something out.</p>
@@ -92,10 +92,10 @@
 <p>There are a couple things to note here. First off, I took that screen shot after i already assigned a role (<em>“albums-user”</em>) to it. My bad. To do that for you new user, just click on the roles value field and enter <em>“albums-user”</em> (with quotes). That role assignment will be used later when validating documents, so don’t think too hard about it right now.</p>
 <p>The other things of note are the auto-generated <strong>type</strong> field with a value of <em>“user”</em>, and the <strong>password_sha</strong> and <strong>salt</strong> fields – auto-generated and populated with values created through the <em>jquery.couch</em> plugin during signup. The <strong>_id</strong> for a user also has to have the form of reverse-domain for a couchdb user: <em>org.couchdb.user:custardbelly</em>. It must be in that format to be a valid user id so if you ever go about creating a new User manually, either from the <em>_user</em> database <strong>New Document</strong> option or from the command line, keep that in mind. Last, but not least, the <strong>name</strong> field is populated with the value of the <em>username</em> (the one entered in the <strong>Sign Up</strong> dialog through <a href="http://127.0.0.1:5984/_utils">Futon</a> and the value at the end of the <strong>_id</strong> property). The name property is commonly used in validating documents against a user context which we will get into a little later.</p>
 <p>That said, you could create a new user using the database controls in <a href="http://127.0.0.1:5984/_utils">Futon</a> or the command line, but some extra work would be needed to create that <strong>sha1</strong> encrypted password. It would be neat to have a script that would do that and output a <strong>json</strong> file that can be passed in the command line creation of a User, but i won’t go into that right now. Just so you can see what that would look like, the following is an example of how to create a user using the command line:</p>
-<pre><code><span class="comment">curl</span> <span class="literal">-</span><span class="comment">vX</span> <span class="comment">PUT</span> <span class="comment">http://toddanderson:admin123@127</span>.<span class="comment">0</span>.<span class="comment">0</span>.<span class="comment">1:5984/_users/org</span>.<span class="comment">couchdb</span>.<span class="comment">user:custardbelly</span> <span class="literal">-</span><span class="comment">d</span> <span class="comment">'{"name":"custardbelly"</span>, <span class="comment">"roles":</span>[<span class="comment">"albums</span>-<span class="comment">user"</span>]<span class="string">,</span> <span class="comment">"type":"user"</span>, <span class="comment">"password</span>-<span class="comment">sha":"39bc3d994b6a0ce19cb60726b630237d494ae928"</span>, <span class="comment">"salt":"312b9eb84105e322eb508a559b0000d3"}'</code></pre>
-<p>The <strong>-d</strong> argument takes a valid <strong>json</strong> string and you could alternatively point to a file using:</p>
-<pre><code><span class="literal">-</span><span class="comment">d</span> <span class="comment">@custardbelly_user</span>.<span class="comment">json</code></pre>
-<p>So yeah, a script would be awesome to perform the password encryption and generate that <strong>json</strong> file with the proper fields. If you have one, let me know. Otherwise it might be a little project for me at a later date. For now, I just use <a href="http://127.0.0.1:5984/_utils">Futon</a> to create new users.</p>
+<pre><code>curl -v<span class="hljs-variable">X</span> <span class="hljs-variable">PUT</span> http://toddanderson:admin123@<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">5984</span>/<span class="hljs-variable">_</span>users/org.couchdb.user:custardbelly -d '<span class="hljs-tuple">{<span class="hljs-string">"name"</span>:<span class="hljs-string">"custardbelly"</span>, <span class="hljs-string">"roles"</span>:[<span class="hljs-string">"albums-user"</span>], <span class="hljs-string">"type"</span>:<span class="hljs-string">"user"</span>, <span class="hljs-string">"password-sha"</span>:<span class="hljs-string">"39bc3d994b6a0ce19cb60726b630237d494ae928"</span>, <span class="hljs-string">"salt"</span>:<span class="hljs-string">"312b9eb84105e322eb508a559b0000d3"</span>}</span>'
+</code></pre><p>The <strong>-d</strong> argument takes a valid <strong>json</strong> string and you could alternatively point to a file using:</p>
+<pre><code>-<span class="ruby">d <span class="hljs-variable">@custardbelly_user</span>.json</span>
+</code></pre><p>So yeah, a script would be awesome to perform the password encryption and generate that <strong>json</strong> file with the proper fields. If you have one, let me know. Otherwise it might be a little project for me at a later date. For now, I just use <a href="http://127.0.0.1:5984/_utils">Futon</a> to create new users.</p>
 <h2 id="adding-user-to-documents">Adding User to Documents</h2>
 <p>Great. Now we have to associate a user with each album in the <strong>albums</strong> database. Technically, becaaue we are working with a document-based DMS, we don’t have to go and add a <strong>user</strong> field to all the <strong>album</strong> documents we currently have entered. Not having a <strong>user</strong> field on an <strong>album</strong> document – though we will include on in all future creates and updates to albums – will not break either party: client or server. But it will be needed for validation on operations. And because we are working with a lovely document-based DMS, its not pulling teeth. For the <strong>album</strong> documents i currently have in my <strong>albums</strong> database, i have gone and added a <strong>user</strong> field with the value of the user <em>name</em> previously created:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_1_7.png" alt="Document Update"><br><em>[Document Update]</em></p>
@@ -106,144 +106,144 @@
 <p>Truthfully, i spend my days as a client-side architect/developer. So i can’t speak well enough about how <a href="http://couchdb.apache.org/">CouchDB</a> invokes the <strong>validate_doc_update</strong> and why we are allowed to use <strong>JavaScript</strong>. There is some type of interpreter that intercepts a create or update (/delete) operation and invokes the <strong>validate_update_doc</strong> script. If no exception is thrown from that script, it continues along with the operation. Easy concept to grasp and a beautiful design by the <a href="http://couchdb.apache.org/">CouchDB</a> team… someday i will dig more into how all this comes to happen…</p>
 <p>So, we can use good ol’ familiar <strong>JavaScript</strong> for our validation. When the <strong>validate_doc_update</strong> is invoked, it is passed two document objects – the “if-all-goes-well” new document and old document – and the <strong>user context</strong>. The <strong>user context</strong> object is representative of the current user logged into a session and has property values that can be used for validation on document operations.</p>
 <p>To keep you even further from creating the <strong>validate_update_doc</strong> <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> , let’s take a look at what is returned when you create a session:</p>
-<pre><code>&gt; curl <span class="method">http:</span>//<span class="method">toddanderson:</span><span class="number">6</span>s0jo772c0kcnwg@<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">5984</span>/_session
+<pre><code>&gt; curl http:<span class="hljs-comment">//toddanderson:6s0jo772c0kcnwg@127.0.0.1:5984/_session</span>
 
-&gt; {<span class="comment">"ok"</span>:<span class="keyword">true</span>,<span class="comment">"userCtx"</span>:{<span class="comment">"name"</span>:<span class="comment">"toddanderson"</span>,<span class="comment">"roles"</span>:[<span class="comment">"_admin"</span>,<span class="comment">"admin"</span>]},<span class="comment">"info"</span>:{<span class="comment">"authentication_db"</span>:<span class="comment">"_users"</span>,<span class="comment">"authentication_handlers"</span>:[<span class="comment">"oauth"</span>,<span class="comment">"cookie"</span>,<span class="comment">"default"</span>],<span class="comment">"authenticated"</span>:<span class="comment">"default"</span>}}</code></pre>
-<p>So that <strong>userCtx</strong> object is essentially what is passed during invocation of <strong>validation_doc_update</strong>. On to the code! Open up your favorite text editor, add the following script and save the file as <em>validate_doc_update.js</em> in the root of your <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> directory (for me, in following with this series, is: <em>/Documents/workspace/custardbelly/couchdb/albums/</em>):</p>
+&gt; {<span class="hljs-string">"ok"</span>:<span class="hljs-keyword">true</span>,<span class="hljs-string">"userCtx"</span>:{<span class="hljs-string">"name"</span>:<span class="hljs-string">"toddanderson"</span>,<span class="hljs-string">"roles"</span>:[<span class="hljs-string">"_admin"</span>,<span class="hljs-string">"admin"</span>]},<span class="hljs-string">"info"</span>:{<span class="hljs-string">"authentication_db"</span>:<span class="hljs-string">"_users"</span>,<span class="hljs-string">"authentication_handlers"</span>:[<span class="hljs-string">"oauth"</span>,<span class="hljs-string">"cookie"</span>,<span class="hljs-string">"default"</span>],<span class="hljs-string">"authenticated"</span>:<span class="hljs-string">"default"</span>}}
+</code></pre><p>So that <strong>userCtx</strong> object is essentially what is passed during invocation of <strong>validation_doc_update</strong>. On to the code! Open up your favorite text editor, add the following script and save the file as <em>validate_doc_update.js</em> in the root of your <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> directory (for me, in following with this series, is: <em>/Documents/workspace/custardbelly/couchdb/albums/</em>):</p>
 <p><em>/validate_doc_update.js</em></p>
-<pre><code>function( newDoc, oldDoc, userCtx ) {
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( newDoc, oldDoc, userCtx )</span> {</span>
 
-  <span class="comment">// Load validation script.</span>
+  <span class="hljs-comment">// Load validation script.</span>
 
-  var v = require(<span class="string">"vendor/couchapp/lib/validate"</span>)<span class="variable">.init</span>( newDoc, oldDoc, userCtx );
-
-
-
-  <span class="comment">// Create method to test if valid user.</span>
-
-  v<span class="variable">.isAlbumsUser</span> = function() {
-
-    <span class="keyword">return</span> v<span class="variable">.isAdmin</span>() || userCtx<span class="variable">.roles</span><span class="variable">.indexOf</span>(<span class="string">"albums-user"</span>) != -<span class="number">1</span>;
-
-  }
+  <span class="hljs-keyword">var</span> v = <span class="hljs-keyword">require</span>(<span class="hljs-string">"vendor/couchapp/lib/validate"</span>).init( newDoc, oldDoc, userCtx );
 
 
 
-  <span class="comment">// Ensure that a current session exists for editing.</span>
+  <span class="hljs-comment">// Create method to test if valid user.</span>
 
-  <span class="keyword">if</span>( !userCtx<span class="variable">.name</span> ) {
+  v.isAlbumsUser = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-    v<span class="variable">.unauthorized</span>( <span class="string">"You need to be logged in order to do that."</span> );
-
-  }
-
-  <span class="keyword">else</span> <span class="keyword">if</span>( !v<span class="variable">.isAlbumsUser</span>() ) {
-
-    v<span class="variable">.forbidden</span>( <span class="string">"You do not have proper access to edit this document."</span> );
+    <span class="hljs-keyword">return</span> v.isAdmin() || userCtx.roles.indexOf(<span class="hljs-string">"albums-user"</span>) != -<span class="hljs-number">1</span>;
 
   }
 
 
 
-  <span class="comment">// Ensure that any updates need to match user.</span>
+  <span class="hljs-comment">// Ensure that a current session exists for editing.</span>
 
-  var isDeletingWithoutPermission = ( newDoc<span class="variable">._deleted</span> &amp;&amp; ( oldDoc<span class="variable">.user</span> != userCtx<span class="variable">.name</span> ) );
+  <span class="hljs-keyword">if</span>( !userCtx.name ) {
 
-  var isUpdatingWithoutPermission = ( newDoc<span class="variable">.user</span> != userCtx<span class="variable">.name</span> ) || ( oldDoc &amp;&amp; ( newDoc<span class="variable">.user</span> != oldDoc<span class="variable">.user</span> ) );
-
-  <span class="comment">// If either non-permission criteria is met, checking delete first...</span>
-
-  <span class="keyword">if</span>( !v<span class="variable">.isAdmin</span>() &amp;&amp; isDeletingWithoutPermission ) {
-
-    v<span class="variable">.forbidden</span>( <span class="string">"Only the creator of this document has permission to delete."</span> );
+    v.unauthorized( <span class="hljs-string">"You need to be logged in order to do that."</span> );
 
   }
 
-  <span class="keyword">else</span> <span class="keyword">if</span>( !v<span class="variable">.isAdmin</span> &amp;&amp; ( !newDoc<span class="variable">._deleted</span> &amp;&amp; isUpdatingWithoutPermission ) ) {
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>( !v.isAlbumsUser() ) {
 
-    v<span class="variable">.forbidden</span>( <span class="string">"Only the creator of this document has permission to update."</span> );
-
-  }
-
-  <span class="keyword">else</span> {
-
-    <span class="comment">// If it is being deleted, we are all set.</span>
-
-    <span class="keyword">if</span>( newDoc<span class="variable">._deleted</span> ) <span class="keyword">return</span> <span class="literal">true</span>;
-
-
-
-    <span class="comment">// Require a user field.</span>
-
-    v<span class="variable">.require</span>( <span class="string">"user"</span> );
-
-    <span class="comment">// Ensure the assigned user is not changed.</span>
-
-    v<span class="variable">.unchanged</span>( <span class="string">"user"</span> );
-
-    <span class="comment">// Ensure that user does not have value of undefined.</span>
-
-    v<span class="variable">.assert</span>( (newDoc<span class="variable">.user</span> != <span class="string">"undefined"</span>), <span class="string">"New documents must have an associated user."</span> );
+    v.forbidden( <span class="hljs-string">"You do not have proper access to edit this document."</span> );
 
   }
 
-}</code></pre>
-<p>First off, when you create a <a href="http://couchapp.org/page/index">CouchApp</a>, you get a bunch of scripts available to you in the <em>/vendor</em> directory. We seen and used some of these, most notably in the <em>loader.js</em> from <em>/vender/couchapp/_attachments</em> that is loaded by the <em>index.html</em> document of our <a href="http://jquerymobile.com/">jQuery Mobile</a> application. In the first line of our <strong>validate_doc_update</strong> we require another <strong>JavaScript</strong> provided through <a href="http://couchapp.org/page/index">CouchApp</a> – the <em>validate.js</em>. The <em>validate.js</em> script essentially exposes helper methods for determining user roles and validating document updates as well as convenience methods for throwing exceptions (as forbidden or unauthorized). The <em>init</em>() method is a utility method to access a new instance of this validation object and call these methods against the <strong>newDoc</strong>, <strong>oldDoc</strong> and <strong>userCtx</strong> objects.</p>
+
+
+  <span class="hljs-comment">// Ensure that any updates need to match user.</span>
+
+  <span class="hljs-keyword">var</span> isDeletingWithoutPermission = ( newDoc._deleted &amp;&amp; ( oldDoc.user != userCtx.name ) );
+
+  <span class="hljs-keyword">var</span> isUpdatingWithoutPermission = ( newDoc.user != userCtx.name ) || ( oldDoc &amp;&amp; ( newDoc.user != oldDoc.user ) );
+
+  <span class="hljs-comment">// If either non-permission criteria is met, checking delete first...</span>
+
+  <span class="hljs-keyword">if</span>( !v.isAdmin() &amp;&amp; isDeletingWithoutPermission ) {
+
+    v.forbidden( <span class="hljs-string">"Only the creator of this document has permission to delete."</span> );
+
+  }
+
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>( !v.isAdmin &amp;&amp; ( !newDoc._deleted &amp;&amp; isUpdatingWithoutPermission ) ) {
+
+    v.forbidden( <span class="hljs-string">"Only the creator of this document has permission to update."</span> );
+
+  }
+
+  <span class="hljs-keyword">else</span> {
+
+    <span class="hljs-comment">// If it is being deleted, we are all set.</span>
+
+    <span class="hljs-keyword">if</span>( newDoc._deleted ) <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+
+
+
+    <span class="hljs-comment">// Require a user field.</span>
+
+    v.<span class="hljs-keyword">require</span>( <span class="hljs-string">"user"</span> );
+
+    <span class="hljs-comment">// Ensure the assigned user is not changed.</span>
+
+    v.unchanged( <span class="hljs-string">"user"</span> );
+
+    <span class="hljs-comment">// Ensure that user does not have value of undefined.</span>
+
+    v.assert( (newDoc.user != <span class="hljs-string">"undefined"</span>), <span class="hljs-string">"New documents must have an associated user."</span> );
+
+  }
+
+}
+</code></pre><p>First off, when you create a <a href="http://couchapp.org/page/index">CouchApp</a>, you get a bunch of scripts available to you in the <em>/vendor</em> directory. We seen and used some of these, most notably in the <em>loader.js</em> from <em>/vender/couchapp/_attachments</em> that is loaded by the <em>index.html</em> document of our <a href="http://jquerymobile.com/">jQuery Mobile</a> application. In the first line of our <strong>validate_doc_update</strong> we require another <strong>JavaScript</strong> provided through <a href="http://couchapp.org/page/index">CouchApp</a> – the <em>validate.js</em>. The <em>validate.js</em> script essentially exposes helper methods for determining user roles and validating document updates as well as convenience methods for throwing exceptions (as forbidden or unauthorized). The <em>init</em>() method is a utility method to access a new instance of this validation object and call these methods against the <strong>newDoc</strong>, <strong>oldDoc</strong> and <strong>userCtx</strong> objects.</p>
 <p>We add a new method to our validation object to check if the user has a role of is an <em>“albums-user”</em> or is an <strong>admin</strong>:</p>
 <p><em>/validate_doc_update.js</em></p>
-<pre><code>v<span class="variable">.isAlbumsUser</span> = function() {
+<pre><code>v.isAlbumsUser = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-  <span class="keyword">return</span> v<span class="variable">.isAdmin</span>() || userCtx<span class="variable">.roles</span><span class="variable">.indexOf</span>(<span class="string">"albums-user"</span>) != -<span class="number">1</span>;
+  <span class="hljs-keyword">return</span> v.isAdmin() || userCtx.roles.indexOf(<span class="hljs-string">"albums-user"</span>) != -<span class="hljs-number">1</span>;
 
-}</code></pre>
-<p>That is then used to verify that we can go forward in our validation of the document based on the <strong>userCtx</strong> and documents. It is important to note that a document that is in the process of being deleted is assigned a <em>_deleted</em> property before being passed to the <strong>validate_doc_update</strong>. That is important to our validation as it will not necessarily be filled with a <em>“user”</em> property, nor is the <em>“user”</em> property necessary on the <strong>newDoc</strong> to validate the operation. We need to check if a delete operation is valid by comparing the <strong>oldDoc</strong> to the <strong>userCtx</strong>:</p>
+}
+</code></pre><p>That is then used to verify that we can go forward in our validation of the document based on the <strong>userCtx</strong> and documents. It is important to note that a document that is in the process of being deleted is assigned a <em>_deleted</em> property before being passed to the <strong>validate_doc_update</strong>. That is important to our validation as it will not necessarily be filled with a <em>“user”</em> property, nor is the <em>“user”</em> property necessary on the <strong>newDoc</strong> to validate the operation. We need to check if a delete operation is valid by comparing the <strong>oldDoc</strong> to the <strong>userCtx</strong>:</p>
 <p><em>/validate_doc_update.js</em></p>
-<pre><code>var isDeletingWithoutPermission = ( newDoc<span class="variable">._deleted</span> &amp;&amp; ( oldDoc<span class="variable">.user</span> != userCtx<span class="variable">.name</span> ) );
+<pre><code>var isDeletingWithoutPermission = ( newDoc._deleted &amp;&amp; ( oldDoc<span class="hljs-preprocessor">.user</span> != userCtx<span class="hljs-preprocessor">.name</span> ) )<span class="hljs-comment">;</span>
 
-var isUpdatingWithoutPermission = ( newDoc<span class="variable">.user</span> != userCtx<span class="variable">.name</span> ) || ( oldDoc &amp;&amp; ( newDoc<span class="variable">.user</span> != oldDoc<span class="variable">.user</span> ) );
+var isUpdatingWithoutPermission = ( newDoc<span class="hljs-preprocessor">.user</span> != userCtx<span class="hljs-preprocessor">.name</span> ) || ( oldDoc &amp;&amp; ( newDoc<span class="hljs-preprocessor">.user</span> != oldDoc<span class="hljs-preprocessor">.user</span> ) )<span class="hljs-comment">;</span>
 
-<span class="comment">// If either non-permission criteria is met, checking delete first...</span>
+// If either non-permission criteria is met, checking delete first...
 
-<span class="keyword">if</span>( !v<span class="variable">.isAdmin</span>() &amp;&amp; isDeletingWithoutPermission ) {
+if( !v<span class="hljs-preprocessor">.isAdmin</span>() &amp;&amp; isDeletingWithoutPermission ) {
 
-  v<span class="variable">.forbidden</span>( <span class="string">"Only the creator of this document has permission to delete."</span> );
+  v<span class="hljs-preprocessor">.forbidden</span>( <span class="hljs-string">"Only the creator of this document has permission to delete."</span> )<span class="hljs-comment">;</span>
 
 }
 
-<span class="keyword">else</span> <span class="keyword">if</span>( !v<span class="variable">.isAdmin</span> &amp;&amp; ( !newDoc<span class="variable">._deleted</span> &amp;&amp; isUpdatingWithoutPermission ) ) {
+else if( !v<span class="hljs-preprocessor">.isAdmin</span> &amp;&amp; ( !newDoc._deleted &amp;&amp; isUpdatingWithoutPermission ) ) {
 
-  v<span class="variable">.forbidden</span>( <span class="string">"Only the creator of this document has permission to update."</span> );
+  v<span class="hljs-preprocessor">.forbidden</span>( <span class="hljs-string">"Only the creator of this document has permission to update."</span> )<span class="hljs-comment">;</span>
 
-}</code></pre>
-<p>If our validation passes through that, then all that is left is to make sure that we have the correct fields and their values are valid:</p>
+}
+</code></pre><p>If our validation passes through that, then all that is left is to make sure that we have the correct fields and their values are valid:</p>
 <p>/validate_doc_update.js</p>
-<pre><code><span class="keyword">else</span> {
+<pre><code><span class="hljs-keyword">else</span> {
 
-  <span class="regexp">//</span> If it <span class="keyword">is</span> being deleted, we are all set.
+  <span class="hljs-regexp">//</span> <span class="hljs-constant">If</span> it is being deleted, we are all set.
 
-  <span class="keyword">if</span>( newDoc._deleted ) <span class="keyword">return</span> <span class="literal">true</span>;
+  <span class="hljs-keyword">if</span>( newDoc._deleted ) <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
 
 
 
-  <span class="regexp">//</span> Require a user field.
+  <span class="hljs-regexp">//</span> <span class="hljs-constant">Require</span> a user field.
 
-  v.require( <span class="string">"user"</span> );
+  v.<span class="hljs-keyword">require</span>( <span class="hljs-string">"user"</span> );
 
-  <span class="regexp">//</span> Ensure the assigned user <span class="keyword">is</span> <span class="keyword">not</span> changed.
+  <span class="hljs-regexp">//</span> <span class="hljs-constant">Ensure</span> the assigned user is <span class="hljs-keyword">not</span> changed.
 
-  v.unchanged( <span class="string">"user"</span> );
+  v.unchanged( <span class="hljs-string">"user"</span> );
 
-  <span class="regexp">//</span> Ensure that user does <span class="keyword">not</span> have value <span class="keyword">of</span> <span class="literal">undefined</span>.
+  <span class="hljs-regexp">//</span> <span class="hljs-constant">Ensure</span> that user does <span class="hljs-keyword">not</span> have value of undefined.
 
-  v.assert( (newDoc.user != <span class="string">"undefined"</span>), <span class="string">"New documents must have an associated user."</span> );
+  v.assert( (newDoc.user != <span class="hljs-string">"undefined"</span>), <span class="hljs-string">"New documents must have an associated user."</span> );
 
-}</code></pre>
-<p>If we are simply deleting the document, return true to pass the validation, else we ensure that a <strong>user</strong> field is present, that it has not changed and that it is not undefined. If none of those checks throws an exception, the validation will be complete and the update (create or update) will pass.</p>
+}
+</code></pre><p>If we are simply deleting the document, return true to pass the validation, else we ensure that a <strong>user</strong> field is present, that it has not changed and that it is not undefined. If none of those checks throws an exception, the validation will be complete and the update (create or update) will pass.</p>
 <p>What’s cool about <a href="http://127.0.0.1:5984/_utils">Futon</a> is that it will use that validation script when working on documents within <a href="http://127.0.0.1:5984/_utils">Futon</a>… pretty meta. So if you have shut down validation to no-one-at-all-ever, and go and try to update a document in your database, you’ll get an alert and will have to log in as an admin and change your <strong>validate_doc_update</strong>.</p>
 <h3 id="push-validation-to-our-albums-couchapp">Push Validation to our Albums CouchApp</h3>
 <p>Alright, with our <strong>validate_doc_update</strong> script ready to go, its time to push it live. If you have been following along in this series, you are familiar with how we push updates using <a href="http://couchapp.org/page/index">couchapp</a>. However, with our new privileges that we implemented in this article, we have to do it a little differently. Whoa whoa whoa! Calm down… its not that bad. We just have to pass our admin credentials in the command:</p>
-<pre><code><span class="title">couchapp</span> push albums <span class="url">http://toddanderson:admin123@127.0.0.1:5984/albums</code></pre>
-<p>All we did was use <a href="http://en.wikipedia.org/wiki/Basic_access_authentication">basic access authentication</a> to push an update to our <a href="http://couchapp.org/page/index">couchapp</a> with the credentials of the <strong>admin</strong> we created previously. Now you have authority. Can you feel the power? Sometimes i think i feel the power, but it could be gas. Not this time, though. I swear.</p>
+<pre><code>couchapp <span class="hljs-keyword">push</span> albums http:<span class="hljs-regexp">//toddanderson</span>:admin123<span class="hljs-variable">@127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>:<span class="hljs-number">5984</span>/albums
+</code></pre><p>All we did was use <a href="http://en.wikipedia.org/wiki/Basic_access_authentication">basic access authentication</a> to push an update to our <a href="http://couchapp.org/page/index">couchapp</a> with the credentials of the <strong>admin</strong> we created previously. Now you have authority. Can you feel the power? Sometimes i think i feel the power, but it could be gas. Not this time, though. I swear.</p>
 <h2 id="security">Security</h2>
 <p>If you have been playing around with <a href="http://127.0.0.1:5984/_utils">Futon</a> and looked at your <strong>albums</strong> database, you may have seen a <strong>Security…</strong> option in the list of actions:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_1_8.png" alt="Security Option"><br><em>[Security Option]</em></p>

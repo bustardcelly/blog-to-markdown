@@ -60,20 +60,20 @@
   <section>
     <p>If you have been following/using <a href="http://github.com/bustardcelly/as3flobile">as3flobile</a>, I just recently committed an update for <a href="http://github.com/bustardcelly/as3flobile">v0.3 to github</a>. The new version now utilizes <a href="http://github.com/robertpenner/as3-signals">as3-signals</a> by <strong><a href="http://robertpenner.com/flashblog/">Robert Penner</a></strong> for assigning delegate handling.</p>
 <p>In the previous versions of <a href="http://github.com/bustardcelly/as3flobile">as3flobile</a>, interface delegates were used in order to notify subscribing clients of a change to a control. I knew i did not want to institute event dispatching in <a href="http://github.com/bustardcelly/as3flobile">as3flobile</a> because it was faster to notify a client through a method than going through an observer. So interface delegates were originally used. In basic terms, each control in <a href="http://github.com/bustardcelly/as3flobile">as3flobile</a> declared one or more optional delegates whose method(s) would be invoked when a change to the control had occured. As an example, this was the now deprecated <strong>IButtonDelegate</strong>:</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IButtonDelegate</span>
+<pre><code><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IButtonDelegate</span>
 {</span>
-    <span class="function"><span class="keyword">function</span> <span class="title">buttonTapped</span><span class="params">( button:Button )</span><span class="type">:void</span>;</span>
-}</code></pre>
-<p>When a client wanted to subscribe as the delegate for a tap gesture on the <strong>Button</strong>, it would point itself as the delegate for the <strong>Button</strong>:</p>
-<pre><code><span class="keyword">var</span> button:Button = <span class="keyword">new</span> Button();
-button.<span class="class"><span class="keyword">delegate</span> = <span class="title">this</span>;
-<span class="title">addChild</span>( <span class="title">button</span> );
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buttonTapped</span><span class="hljs-params">( button:Button )</span><span class="hljs-type">:void</span>;</span>
+}
+</code></pre><p>When a client wanted to subscribe as the delegate for a tap gesture on the <strong>Button</strong>, it would point itself as the delegate for the <strong>Button</strong>:</p>
+<pre><code><span class="hljs-keyword">var</span> button:Button = <span class="hljs-keyword">new</span> Button();
+button.<span class="hljs-keyword">delegate</span> = <span class="hljs-keyword">this</span>;
+addChild( button );
 
-<span class="title">public</span> <span class="title">function</span> <span class="title">buttonTapped</span>( <span class="title">button</span>:<span class="title">Button</span> )
-{</span>
-trace( <span class="string">"button tapped: "</span> + button );
-}</code></pre>
-<p>I had some issues with this, but i went ahead with that implementation for the first couple versions of <a href="http://github.com/bustardcelly/as3flobile">as3flobile</a>. As far as how this solution stacked up:</p>
+<span class="hljs-keyword">public</span> function <span class="hljs-title">buttonTapped</span>( button:Button )
+{
+trace( <span class="hljs-string">"button tapped: "</span> + button );
+}
+</code></pre><p>I had some issues with this, but i went ahead with that implementation for the first couple versions of <a href="http://github.com/bustardcelly/as3flobile">as3flobile</a>. As far as how this solution stacked up:</p>
 <p><strong>Pros:</strong>  </p>
 <ol>
 <li>No event system. Faster execution.</li>

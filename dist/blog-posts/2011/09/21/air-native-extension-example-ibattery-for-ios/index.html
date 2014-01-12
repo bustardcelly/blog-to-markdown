@@ -92,48 +92,48 @@
 <h2 id="native">Native</h2>
 <p>I am not that much of an C/Objective-C developer. I have developed and deployed a handful of iOS applications in the past (some reaching the <strong>AppStore</strong>), but honestly have not touched it in quite some time. So I have some history, but cannot speak at length on how things work and why. Let’s just say, for the example in this article, that I knew enough to get in and get out and carry on on the <strong>ActionScript</strong> side of things.</p>
 <p>When creating a native extension targeting the iOS platform, you’ll write some C code (which can call Obj-C) and deploy a static library with a <strong>.a</strong> extension. What i did was create a new Library project in Xcode, imported the header file included with the <strong>AIR SDK</strong> (found at <strong>/include/FlashRuntimeExtensions.h</strong>) and added a <strong>.m</strong> (Obj-C implementation) file to the project that will serve as the implementation of the native context and expose the API for accessing the battery life and information of the iOS device:</p>
-<pre><code>// Access battery life.
+<pre><code><span class="hljs-comment">// Access battery life.</span>
 
-FREObject GetBatteryLife(FREContext ctx, void* funcData, uint32_t argc, FREObject argv[]) {
+FREObject GetBatteryLife(FREContext ctx, <span class="hljs-keyword">void</span>* funcData, uint32_t argc, FREObject argv[]) {
 
-    UIDevice *device = [UIDevice currentDevice]<span class="comment">;</span>
+    UIDevice *device = [UIDevice currentDevice];
 
-    [device setBatteryMonitoringEnabled:YES]<span class="comment">;</span>
+    [device setBatteryMonitoringEnabled:<span class="hljs-literal">YES</span>];
 
-    float life = [device batteryLevel]<span class="comment">;</span>
+    <span class="hljs-keyword">float</span> life = [device batteryLevel];
 
 
 
-    FREObject retVal<span class="comment">;</span>
+    FREObject retVal;
 
-    FRENewObjectFromDouble( life, &amp;retVal )<span class="comment">;</span>
+    FRENewObjectFromDouble( life, &amp;retVal );
 
-    return retVal<span class="comment">;</span>
+    <span class="hljs-keyword">return</span> retVal;
 
 }
 
 
 
-// Access info about battery
+<span class="hljs-comment">// Access info about battery</span>
 
-FREObject GetBatteryInfo(FREContext ctx, void* funcData, uint32_t argc, FREObject argv[]) {
+FREObject GetBatteryInfo(FREContext ctx, <span class="hljs-keyword">void</span>* funcData, uint32_t argc, FREObject argv[]) {
 
-    UIDevice *device = [UIDevice currentDevice]<span class="comment">;</span>
+    UIDevice *device = [UIDevice currentDevice];
 
-    [device setBatteryMonitoringEnabled:YES]<span class="comment">;</span>
+    [device setBatteryMonitoringEnabled:<span class="hljs-literal">YES</span>];
 
-    int info = [device batteryState]<span class="comment">;</span>
+    <span class="hljs-keyword">int</span> info = [device batteryState];
 
 
 
-    FREObject retVal<span class="comment">;</span>
+    FREObject retVal;
 
-    FRENewObjectFromInt32( info, &amp;retVal )<span class="comment">;</span>
+    FRENewObjectFromInt32( info, &amp;retVal );
 
-    return retVal<span class="comment">;</span>
+    <span class="hljs-keyword">return</span> retVal;
 
-}</code></pre>
-<p>Boiled down and abstracted in thinking on the <strong>ActionScript</strong> side of things, the API of this native library exposes two methods: <em>GetBatteryLife</em> and <em>GetBatteryInfo</em>. Each return a numerical value related to their context: a Number representing the percent of battery life left on the device and an Integer representing battery state, respectively. The relation of the Number value to percent is fairly straight-forward. The Integer returned from <em>[[UIDevice currentDevice] batteryState]</em> relates to the various “states” that the battery can be in, and they are:</p>
+}
+</code></pre><p>Boiled down and abstracted in thinking on the <strong>ActionScript</strong> side of things, the API of this native library exposes two methods: <em>GetBatteryLife</em> and <em>GetBatteryInfo</em>. Each return a numerical value related to their context: a Number representing the percent of battery life left on the device and an Integer representing battery state, respectively. The relation of the Number value to percent is fairly straight-forward. The Integer returned from <em>[[UIDevice currentDevice] batteryState]</em> relates to the various “states” that the battery can be in, and they are:</p>
 <ul>
 <li>0 : Unknown</li>
 <li>1 : Unplugged</li>
@@ -148,132 +148,132 @@ FREObject GetBatteryInfo(FREContext ctx, void* funcData, uint32_t argc, FREObjec
 <li>Use the ADT command line tool with to generate an .ane file compiled against the library SWC and the native library.</li>
 </ol>
 <p>The <a href="http://help.adobe.com/en_US/FlashPlatform/beta/reference/actionscript/3/flash/external/ExtensionContext.html">flash.external.ExtensionContext</a> from the <strong>AIR SDK</strong> is your main access point to the native library. Essentially, you create a new instance of an <strong>ExtensionContext</strong> using an ID defined in an extension descriptor file compiled into the <strong>Native Extension</strong>. For the <strong>iBattery Native Extension</strong>, this is what my extension descriptor file looks like:</p>
-<pre><code><span class="tag">&lt;<span class="title">extension</span> <span class="attribute">xmlns</span>=<span class="value">"[http://ns.adobe.com/air/extension/2.5](http://ns.adobe.com/air/extension/2.5)"</span>&gt;</span>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">extension</span> <span class="hljs-attribute">xmlns</span>=<span class="hljs-value">"[http://ns.adobe.com/air/extension/2.5](http://ns.adobe.com/air/extension/2.5)"</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">id</span>&gt;</span>com.custardbelly.ibattery<span class="tag">&lt;/<span class="title">id</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">id</span>&gt;</span>com.custardbelly.ibattery<span class="hljs-tag">&lt;/<span class="hljs-title">id</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">versionNumber</span>&gt;</span>1<span class="tag">&lt;/<span class="title">versionNumber</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">versionNumber</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-title">versionNumber</span>&gt;</span>
 
-  <span class="tag">&lt;<span class="title">platforms</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">platforms</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">platform</span> <span class="attribute">name</span>=<span class="value">"iPhone-ARM"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">platform</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"iPhone-ARM"</span>&gt;</span>
 
-            <span class="tag">&lt;<span class="title">applicationDeployment</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">applicationDeployment</span>&gt;</span>
 
-                <span class="tag">&lt;<span class="title">nativeLibrary</span>&gt;</span>libAIRExtensionC.a<span class="tag">&lt;/<span class="title">nativeLibrary</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">nativeLibrary</span>&gt;</span>libAIRExtensionC.a<span class="hljs-tag">&lt;/<span class="hljs-title">nativeLibrary</span>&gt;</span>
 
-                <span class="tag">&lt;<span class="title">initializer</span>&gt;</span>ExtInitializer<span class="tag">&lt;/<span class="title">initializer</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">initializer</span>&gt;</span>ExtInitializer<span class="hljs-tag">&lt;/<span class="hljs-title">initializer</span>&gt;</span>
 
-                <span class="tag">&lt;<span class="title">finalizer</span>&gt;</span>ExtFinalizer<span class="tag">&lt;/<span class="title">finalizer</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">finalizer</span>&gt;</span>ExtFinalizer<span class="hljs-tag">&lt;/<span class="hljs-title">finalizer</span>&gt;</span>
 
-            <span class="tag">&lt;/<span class="title">applicationDeployment</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">applicationDeployment</span>&gt;</span>
 
-        <span class="tag">&lt;/<span class="title">platform</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">platform</span>&gt;</span>
 
-  <span class="tag">&lt;/<span class="title">platforms</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">platforms</span>&gt;</span>
 
-<span class="tag">&lt;/<span class="title">extension</span>&gt;</span></code></pre>
-<p>Highlighted in that snippet are some important bits. The <strong>id</strong> node value will be used to create a new <strong>ExtensionContext</strong> instance. The <strong>nativeLibrary</strong> node value is the native library created in the previous section. For this example, it is also of note that we have defined the <em>iPhone-ARM</em> platform as a target, as well. This extension descriptor file describes the association of id to native library that the <strong>ExtensionContext</strong> will look up upon instantiation. To create an <strong>ExtensionContext</strong>:</p>
+<span class="hljs-tag">&lt;/<span class="hljs-title">extension</span>&gt;</span>
+</code></pre><p>Highlighted in that snippet are some important bits. The <strong>id</strong> node value will be used to create a new <strong>ExtensionContext</strong> instance. The <strong>nativeLibrary</strong> node value is the native library created in the previous section. For this example, it is also of note that we have defined the <em>iPhone-ARM</em> platform as a target, as well. This extension descriptor file describes the association of id to native library that the <strong>ExtensionContext</strong> will look up upon instantiation. To create an <strong>ExtensionContext</strong>:</p>
 <p><em>com.cusardbelly.air.extensions.battery.ios.Battery</em></p>
-<pre><code><span class="setting">_extensionContext = <span class="value">ExtensionContext.createExtensionContext( <span class="string">"com.custardbelly.ibattery"</span>, <span class="string">"main"</span> );</span></span></code></pre>
-<p>… and then use the <strong>call</strong>() method to invoke the corresponding method exposed in the native library. For the purposes of the example in this article, and for the <strong>iBattery Native Extension</strong>, I basically exposed the same API that was on the native side:</p>
+<pre><code><span class="hljs-setting">_extensionContext = <span class="hljs-value">ExtensionContext.createExtensionContext( <span class="hljs-string">"com.custardbelly.ibattery"</span>, <span class="hljs-string">"main"</span> );</span></span>
+</code></pre><p>… and then use the <strong>call</strong>() method to invoke the corresponding method exposed in the native library. For the purposes of the example in this article, and for the <strong>iBattery Native Extension</strong>, I basically exposed the same API that was on the native side:</p>
 <p><em>com.cusardbelly.air.extensions.battery.ios.Battery</em></p>
-<pre><code><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getBatteryLife</span><span class="params">()</span><span class="type">:Number</span>
+<pre><code><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBatteryLife</span><span class="hljs-params">()</span><span class="hljs-type">:Number</span>
 
 {</span>
 
-    <span class="keyword">return</span> _extensionContext.call( <span class="string">'GetBatteryLife'</span> ) <span class="keyword">as</span> Number;
+    <span class="hljs-keyword">return</span> _extensionContext.call( <span class="hljs-string">'GetBatteryLife'</span> ) <span class="hljs-keyword">as</span> Number;
 
 }
 
 
 
-<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getBatteryState</span><span class="params">()</span><span class="type">:int</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBatteryState</span><span class="hljs-params">()</span><span class="hljs-type">:int</span>
 
 {</span>
 
-    <span class="keyword">return</span> _extensionContext.call( <span class="string">'GetBatteryInfo'</span> ) <span class="keyword">as</span> int;
+    <span class="hljs-keyword">return</span> _extensionContext.call( <span class="hljs-string">'GetBatteryInfo'</span> ) <span class="hljs-keyword">as</span> int;
 
-}</code></pre>
-<p>With my API done, I compiled the library into a SWC:</p>
-<pre><code>&gt; <span class="comment">/Users/todd/SDKs/flex_4</span>.<span class="comment">5_air_3rc1/bin/compc</span> <span class="literal">-</span><span class="comment">output</span> <span class="comment">build/iBattery</span>.<span class="comment">swc</span> <span class="literal">-</span><span class="comment">load</span>-<span class="comment">config</span>+<span class="comment">=ibattery_lib</span>.<span class="comment">config</span> <span class="literal">+</span><span class="comment">configname=airmobile</code></pre>
-<p>If you are unfamiliar with using the command line tools of the SDK, I used the compc tool which is used to generate SWC files. The <strong>iBattery.swc</strong> file is generated and placed in a build directory and is compiled against an additional custom config (which just defines source location) and the <strong>+configname=airmobile</strong> directive. That’s actually a little fun tidbit. If you want to generate a SWC or SWF that uses the AIR mobile libraries, just add <strong>+configname=airmobile</strong> and they’ll be compiled against for you without defining them in an additional config file.</p>
+}
+</code></pre><p>With my API done, I compiled the library into a SWC:</p>
+<pre><code><span class="hljs-subst">&gt;</span> /Users/todd/SDKs/flex_4<span class="hljs-number">.5</span>_air_3rc1/bin/compc <span class="hljs-attribute">-output</span> build/iBattery<span class="hljs-built_in">.</span>swc <span class="hljs-attribute">-load</span><span class="hljs-attribute">-config</span><span class="hljs-subst">+=</span>ibattery_lib<span class="hljs-built_in">.</span>config <span class="hljs-subst">+</span>configname<span class="hljs-subst">=</span>airmobile
+</code></pre><p>If you are unfamiliar with using the command line tools of the SDK, I used the compc tool which is used to generate SWC files. The <strong>iBattery.swc</strong> file is generated and placed in a build directory and is compiled against an additional custom config (which just defines source location) and the <strong>+configname=airmobile</strong> directive. That’s actually a little fun tidbit. If you want to generate a SWC or SWF that uses the AIR mobile libraries, just add <strong>+configname=airmobile</strong> and they’ll be compiled against for you without defining them in an additional config file.</p>
 <p>I then took the iBattery.swc and unzipped it to get the <strong>library.swf</strong> file. This is necessary for generating a <strong>Native Extension</strong> file (.ane) using the <strong>ADT</strong> command line tool:</p>
-<pre><code>&gt; /Users/todd/SDKs/flex_4<span class="number">.5</span>_air_3rc1/bin/adt -<span class="package"><span class="keyword">package</span> -<span class="title">target</span> <span class="title">ane</span> ../<span class="title">release</span>/<span class="title">ibatteryextension</span>.<span class="title">ane</span> <span class="title">extension</span>.<span class="title">xml</span> -<span class="title">swc</span> <span class="title">iBattery</span>.<span class="title">swc</span> -<span class="title">platform</span> <span class="title">iPhone</span>-<span class="title">ARM</span> <span class="title">library</span>.<span class="title">swf</span> <span class="title">libAIRExtensionC</span>.<span class="title">a</span></code></pre>
-<p>That generates an <strong>ibatteryextension.ane</strong> in a release directory and defines the target SWC library and platform as well as compiling in the descriptor, SWF library and native library.</p>
+<pre><code><span class="hljs-subst">&gt;</span> /Users/todd/SDKs/flex_4<span class="hljs-number">.5</span>_air_3rc1/bin/adt <span class="hljs-attribute">-package</span> <span class="hljs-attribute">-target</span> ane <span class="hljs-built_in">..</span>/release/ibatteryextension<span class="hljs-built_in">.</span>ane extension<span class="hljs-built_in">.</span><span class="hljs-built_in">xml</span> <span class="hljs-attribute">-swc</span> iBattery<span class="hljs-built_in">.</span>swc <span class="hljs-attribute">-platform</span> iPhone<span class="hljs-attribute">-ARM</span> library<span class="hljs-built_in">.</span>swf libAIRExtensionC<span class="hljs-built_in">.</span>a
+</code></pre><p>That generates an <strong>ibatteryextension.ane</strong> in a release directory and defines the target SWC library and platform as well as compiling in the descriptor, SWF library and native library.</p>
 <p>That <strong>Native extension</strong> is then used as one would as SWC library in an AIR Mobile application to interface with the native library. You need to compile against the .ane and include it in an extension directory within the AIR application.</p>
 <h2 id="the-air-mobile-application">The AIR Mobile Application</h2>
 <p>The application I created to showcase the <strong>iBattery Native Extension</strong> is pretty dead simple. Again, I am assuming you have some knowledge of a mobile AIR application and its pieces. There are a ton of great articles out there that can help in developing an AIR application targeting mobile, so I won’t provide any more explanations in this article, I just wanted to show you quickly how the communication works and the requirements for compilation of the application.</p>
 <p>To being I just have a main <em>ViewNavigatorApplication</em> that defines a single view:</p>
 <p><em>iBatteryExample.mxml</em></p>
-<pre><code><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<pre><code><span class="hljs-pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
 
-<span class="tag">&lt;<span class="title">s:ViewNavigatorApplication</span> <span class="attribute">xmlns:fx</span>=<span class="value">"[http://ns.adobe.com/mxml/2009](http://ns.adobe.com/mxml/2009)"</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">s:ViewNavigatorApplication</span> <span class="hljs-attribute">xmlns:fx</span>=<span class="hljs-value">"[http://ns.adobe.com/mxml/2009](http://ns.adobe.com/mxml/2009)"</span>
 
-        <span class="attribute">xmlns:s</span>=<span class="value">"[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"</span>
+        <span class="hljs-attribute">xmlns:s</span>=<span class="hljs-value">"[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"</span>
 
-        <span class="attribute">firstView</span>=<span class="value">"BatteryTestView"</span>&gt;</span>
+        <span class="hljs-attribute">firstView</span>=<span class="hljs-value">"BatteryTestView"</span>&gt;</span>
 
 
 
-<span class="tag">&lt;/<span class="title">s:ViewNavigatorApplication</span>&gt;</span></code></pre>
-<p>… and the <em>BatteryTestView</em> provides a UI to request the battery information on the device and does all the communication through the <strong>ActionScript</strong> side of the <strong>Native Extension</strong> library generated previously:</p>
+<span class="hljs-tag">&lt;/<span class="hljs-title">s:ViewNavigatorApplication</span>&gt;</span>
+</code></pre><p>… and the <em>BatteryTestView</em> provides a UI to request the battery information on the device and does all the communication through the <strong>ActionScript</strong> side of the <strong>Native Extension</strong> library generated previously:</p>
 <p><em>BatteryTestView.mxml</em></p>
-<pre><code><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<pre><code>&lt;?xml version=<span class="hljs-string">"1.0"</span> encoding=<span class="hljs-string">"utf-8"</span>?&gt;
 
-<span class="tag">&lt;<span class="title">s:View</span> <span class="attribute">xmlns:fx</span>=<span class="value">"[http://ns.adobe.com/mxml/2009](http://ns.adobe.com/mxml/2009)"</span>
+&lt;s:View xmlns:fx=<span class="hljs-string">"[http://ns.adobe.com/mxml/2009](http://ns.adobe.com/mxml/2009)"</span>
 
-        <span class="attribute">xmlns:s</span>=<span class="value">"[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"</span>
+        xmlns:s=<span class="hljs-string">"[library://ns.adobe.com/flex/spark](library://ns.adobe.com/flex/spark)"</span>
 
-        <span class="attribute">title</span>=<span class="value">"BatteryTestView"</span> <span class="attribute">creationComplete</span>=<span class="value">"handleCreationComplete();"</span>&gt;</span>
-
-
-
-    <span class="tag">&lt;<span class="title">fx:Script</span>&gt;</span>
-
-        <span class="cdata">&lt;![CDATA[
-
-            import com.custardbelly.air.extensions.battery.ios.Battery;
+        title=<span class="hljs-string">"BatteryTestView"</span> creationComplete=<span class="hljs-string">"handleCreationComplete();"</span>&gt;
 
 
 
-            protected var _batteryExtension:Battery;
+    &lt;fx:Script&gt;
+
+        &lt;![CDATA[
+
+            <span class="hljs-preprocessor"><span class="hljs-keyword">import</span> com.custardbelly.air.extensions.battery.ios.Battery;</span>
 
 
 
-            protected function handleCreationComplete():void
-
-            {
-
-                _batteryExtension = new Battery();
+            <span class="hljs-keyword">protected</span> <span class="hljs-keyword">var</span> _batteryExtension:Battery;
 
 
 
-                lifeButton.addEventListener( MouseEvent.CLICK, handleLifeRequest, false, 0, true );
+            <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleCreationComplete</span><span class="hljs-params">()</span><span class="hljs-type">:void</span>
 
-                infoButton.addEventListener( MouseEvent.CLICK, handleInfoRequest, false, 0, true );
+            {</span>
+
+                _batteryExtension = <span class="hljs-keyword">new</span> Battery();
+
+
+
+                lifeButton.addEventListener( MouseEvent.CLICK, handleLifeRequest, <span class="hljs-literal">false</span>, <span class="hljs-number">0</span>, <span class="hljs-literal">true</span> );
+
+                infoButton.addEventListener( MouseEvent.CLICK, handleInfoRequest, <span class="hljs-literal">false</span>, <span class="hljs-number">0</span>, <span class="hljs-literal">true</span> );
 
             }
 
 
 
-            protected function handleLifeRequest( evt:Event ):void
+            <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleLifeRequest</span><span class="hljs-params">( evt:Event )</span><span class="hljs-type">:void</span>
 
-            {
+            {</span>
 
-                try {
+                <span class="hljs-keyword">try</span> {
 
-                    console.appendText( "Battery Life Percentage: " );
+                    console.appendText( <span class="hljs-string">"Battery Life Percentage: "</span> );
 
-                    console.appendText( ( _batteryExtension.getBatteryLife() * 100 ).toString() + "%\n" );
+                    console.appendText( ( _batteryExtension.getBatteryLife() * <span class="hljs-number">100</span> ).toString() + <span class="hljs-string">"%\n"</span> );
 
                 }
 
-                catch( e:Error )
+                <span class="hljs-keyword">catch</span>( e:Error )
 
                 {
 
-                    console.appendText( "Error: " + e.message );
+                    console.appendText( <span class="hljs-string">"Error: "</span> + e.message );
 
                 }
 
@@ -281,68 +281,68 @@ FREObject GetBatteryInfo(FREContext ctx, void* funcData, uint32_t argc, FREObjec
 
 
 
-            protected function handleInfoRequest( evt:Event ):void
+            <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleInfoRequest</span><span class="hljs-params">( evt:Event )</span><span class="hljs-type">:void</span>
 
-            {
+            {</span>
 
-                console.appendText( "Battery State: " + ( _batteryExtension.getBatteryState() ).toString() + "\n" );
+                console.appendText( <span class="hljs-string">"Battery State: "</span> + ( _batteryExtension.getBatteryState() ).toString() + <span class="hljs-string">"\n"</span> );
 
             }
 
-        ]]&gt;</span>
+        ]]&gt;
 
-    <span class="tag">&lt;/<span class="title">fx:Script</span>&gt;</span>
-
-
-
-    <span class="tag">&lt;<span class="title">s:layout</span>&gt;</span>
-
-        <span class="tag">&lt;<span class="title">s:VerticalLayout</span> <span class="attribute">paddingLeft</span>=<span class="value">"10"</span> <span class="attribute">paddingRight</span>=<span class="value">"10"</span> <span class="attribute">paddingTop</span>=<span class="value">"10"</span> <span class="attribute">paddingBottom</span>=<span class="value">"10"</span> /&gt;</span>
-
-    <span class="tag">&lt;/<span class="title">s:layout</span>&gt;</span>
+    &lt;/fx:Script&gt;
 
 
 
-    <span class="tag">&lt;<span class="title">s:TextArea</span> <span class="attribute">id</span>=<span class="value">"console"</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"100%"</span> <span class="attribute">editable</span>=<span class="value">"false"</span> <span class="attribute">text</span>=<span class="value">"Hello World!"</span> /&gt;</span>
+    &lt;s:layout&gt;
 
-    <span class="tag">&lt;<span class="title">s:HGroup</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"24"</span> <span class="attribute">verticalAlign</span>=<span class="value">"middle"</span>&gt;</span>
+        &lt;s:VerticalLayout paddingLeft=<span class="hljs-string">"10"</span> paddingRight=<span class="hljs-string">"10"</span> paddingTop=<span class="hljs-string">"10"</span> paddingBottom=<span class="hljs-string">"10"</span> /&gt;
 
-        <span class="tag">&lt;<span class="title">s:Button</span> <span class="attribute">id</span>=<span class="value">"lifeButton"</span> <span class="attribute">label</span>=<span class="value">"get life"</span> /&gt;</span>
-
-        <span class="tag">&lt;<span class="title">s:Button</span> <span class="attribute">id</span>=<span class="value">"infoButton"</span> <span class="attribute">label</span>=<span class="value">"get info"</span> /&gt;</span>
-
-    <span class="tag">&lt;/<span class="title">s:HGroup</span>&gt;</span>
+    &lt;/s:layout&gt;
 
 
 
-<span class="tag">&lt;/<span class="title">s:View</span>&gt;</span></code></pre>
-<p>Access to the <strong>ActionScript</strong> API from the <strong>Native Extension</strong> is available just as if you were developing against an external SWC library, and I created a new instance of a <em>Battery</em> to request life and information of the device which is then just printed out in a text area:</p>
+    &lt;s:TextArea id=<span class="hljs-string">"console"</span> width=<span class="hljs-string">"100%"</span> height=<span class="hljs-string">"100%"</span> editable=<span class="hljs-string">"false"</span> text=<span class="hljs-string">"Hello World!"</span> /&gt;
+
+    &lt;s:HGroup width=<span class="hljs-string">"100%"</span> height=<span class="hljs-string">"24"</span> verticalAlign=<span class="hljs-string">"middle"</span>&gt;
+
+        &lt;s:Button id=<span class="hljs-string">"lifeButton"</span> label=<span class="hljs-string">"get life"</span> /&gt;
+
+        &lt;s:Button id=<span class="hljs-string">"infoButton"</span> label=<span class="hljs-string">"get info"</span> /&gt;
+
+    &lt;/s:HGroup&gt;
+
+
+
+&lt;/s:View&gt;
+</code></pre><p>Access to the <strong>ActionScript</strong> API from the <strong>Native Extension</strong> is available just as if you were developing against an external SWC library, and I created a new instance of a <em>Battery</em> to request life and information of the device which is then just printed out in a text area:</p>
 <p><em>BatteryTestView.mxml</em></p>
-<pre><code>_batteryExtension = new Battery()<span class="comment">;</span>
+<pre><code>_batteryExtension = new Battery()<span class="hljs-comment">;</span>
 
-console<span class="preprocessor">.appendText</span>( <span class="string">"Battery State: "</span> + ( _batteryExtension<span class="preprocessor">.getBatteryState</span>() )<span class="preprocessor">.toString</span>() + <span class="string">"\n"</span> )<span class="comment">;</span></code></pre>
-<p>To generate my AIR application for iOS, was a two step process. First, I generated the application SWF targeting AIR mobile:</p>
-<pre><code>&gt; <span class="comment">/Users/todd/SDKs/flex_4</span>.<span class="comment">5_air_3rc1/bin/mxmlc</span> <span class="literal">+</span><span class="comment">configname=airmobile</span> <span class="literal">-</span><span class="comment">output</span> <span class="comment">build/iBatteryExample</span>.<span class="comment">swf</span> <span class="comment">src/iBatteryExample</span>.<span class="comment">mxml</span> <span class="literal">-</span><span class="comment">load</span>-<span class="comment">config</span>+<span class="comment">=battery_app</span>.<span class="comment">config</code></pre>
-<p>Again i used the <strong>+configname=airmobile</strong> directive to include the mobile SWC from the Adobe AIR SDK without defining the dependencies in an additional config file. I did, however, have an additional config file that defined the <strong>Native Extension</strong> (.ane file) to compile against as an external library:</p>
+console<span class="hljs-preprocessor">.appendText</span>( <span class="hljs-string">"Battery State: "</span> + ( _batteryExtension<span class="hljs-preprocessor">.getBatteryState</span>() )<span class="hljs-preprocessor">.toString</span>() + <span class="hljs-string">"\n"</span> )<span class="hljs-comment">;</span>
+</code></pre><p>To generate my AIR application for iOS, was a two step process. First, I generated the application SWF targeting AIR mobile:</p>
+<pre><code>&gt; /Users/todd/SDKs/flex_4<span class="hljs-number">.5</span>_air_3rc1/bin/mxmlc +configname=airmobile -output build/iBatteryExample<span class="hljs-preprocessor">.swf</span> src/iBatteryExample<span class="hljs-preprocessor">.mxml</span> -load-config+=battery_app<span class="hljs-preprocessor">.config</span>
+</code></pre><p>Again i used the <strong>+configname=airmobile</strong> directive to include the mobile SWC from the Adobe AIR SDK without defining the dependencies in an additional config file. I did, however, have an additional config file that defined the <strong>Native Extension</strong> (.ane file) to compile against as an external library:</p>
 <p><em>battery_app.config</em></p>
-<pre><code><span class="pi">&lt;?xml version="1.0"?&gt;</span>
+<pre><code><span class="hljs-pi">&lt;?xml version="1.0"?&gt;</span>
 
-<span class="tag">&lt;<span class="title">flex-config</span> <span class="attribute">xmlns</span>=<span class="value">"[http://www.adobe.com/2006/flex-config](http://www.adobe.com/2006/flex-config)"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">flex-config</span> <span class="hljs-attribute">xmlns</span>=<span class="hljs-value">"[http://www.adobe.com/2006/flex-config](http://www.adobe.com/2006/flex-config)"</span>&gt;</span>
 
-    <span class="tag">&lt;<span class="title">compiler</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">compiler</span>&gt;</span>
 
-        <span class="tag">&lt;<span class="title">external-library-path</span> <span class="attribute">append</span>=<span class="value">"true"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">external-library-path</span> <span class="hljs-attribute">append</span>=<span class="hljs-value">"true"</span>&gt;</span>
 
-            <span class="tag">&lt;<span class="title">path-element</span>&gt;</span>ext/ibatteryextension.ane<span class="tag">&lt;/<span class="title">path-element</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">path-element</span>&gt;</span>ext/ibatteryextension.ane<span class="hljs-tag">&lt;/<span class="hljs-title">path-element</span>&gt;</span>
 
-        <span class="tag">&lt;/<span class="title">external-library-path</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">external-library-path</span>&gt;</span>
 
-    <span class="tag">&lt;/<span class="title">compiler</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">compiler</span>&gt;</span>
 
-<span class="tag">&lt;/<span class="title">flex-config</span>&gt;</span></code></pre>
-<p>That generated an <em>iBatteryExample.swf</em> which was then used alongside an application descriptor file to compile and generate the <strong>.ipa</strong> file (application installer file for iOS). We can create that using the <strong>ADT</strong> command line tool:</p>
-<pre><code>&gt; <span class="comment">/Users/todd/SDKs/flex_4</span>.<span class="comment">5_air_3rc1/bin/adt</span> <span class="literal">-</span><span class="comment">package</span> <span class="literal">-</span><span class="comment">target</span> <span class="comment">ipa</span>-<span class="comment">test</span>-<span class="comment">interpreter</span> <span class="literal">-</span><span class="comment">provisioning</span>-<span class="comment">profile</span> <span class="comment">{path</span>.<span class="comment">to}</span>.<span class="comment">mobileprovision</span> <span class="literal">-</span><span class="comment">storetype</span> <span class="comment">pkcs12</span> <span class="literal">-</span><span class="comment">keystore</span> <span class="comment">{path</span>.<span class="comment">to}</span>.<span class="comment">developer_identity</span>.<span class="comment">p12</span> <span class="literal">-</span><span class="comment">storepass</span> <span class="comment">{pass}</span> <span class="string">.</span><span class="string">.</span><span class="comment">/release/iBatteryExample</span>.<span class="comment">ipa</span> <span class="comment">iBatteryExample</span>-<span class="comment">app</span>.<span class="comment">xml</span> <span class="comment">iBatteryExample</span>.<span class="comment">swf</span> <span class="literal">-</span><span class="comment">extdir</span> <span class="string">.</span><span class="string">.</span><span class="comment">/ext/</code></pre>
-<p>There are two things in this command that you should note. First off, you will need to replace the <em>{path.to}</em> and <em>{pass}</em> tokens to point to your iOS developer files and password, respectively. Second is the <em>-extdir</em> option. This defines where the application can locate the <strong>Native Extension</strong> (.ane file).</p>
+<span class="hljs-tag">&lt;/<span class="hljs-title">flex-config</span>&gt;</span>
+</code></pre><p>That generated an <em>iBatteryExample.swf</em> which was then used alongside an application descriptor file to compile and generate the <strong>.ipa</strong> file (application installer file for iOS). We can create that using the <strong>ADT</strong> command line tool:</p>
+<pre><code><span class="hljs-subst">&gt;</span> /Users/todd/SDKs/flex_4<span class="hljs-number">.5</span>_air_3rc1/bin/adt <span class="hljs-attribute">-package</span> <span class="hljs-attribute">-target</span> ipa<span class="hljs-attribute">-test</span><span class="hljs-attribute">-interpreter</span> <span class="hljs-attribute">-provisioning</span><span class="hljs-attribute">-profile</span> {path<span class="hljs-built_in">.</span><span class="hljs-keyword">to</span>}<span class="hljs-built_in">.</span>mobileprovision <span class="hljs-attribute">-storetype</span> pkcs12 <span class="hljs-attribute">-keystore</span> {path<span class="hljs-built_in">.</span><span class="hljs-keyword">to</span>}<span class="hljs-built_in">.</span>developer_identity<span class="hljs-built_in">.</span>p12 <span class="hljs-attribute">-storepass</span> {pass} <span class="hljs-built_in">..</span>/release/iBatteryExample<span class="hljs-built_in">.</span>ipa iBatteryExample<span class="hljs-attribute">-app</span><span class="hljs-built_in">.</span><span class="hljs-built_in">xml</span> iBatteryExample<span class="hljs-built_in">.</span>swf <span class="hljs-attribute">-extdir</span> <span class="hljs-built_in">..</span>/ext<span class="hljs-subst">/</span>
+</code></pre><p>There are two things in this command that you should note. First off, you will need to replace the <em>{path.to}</em> and <em>{pass}</em> tokens to point to your iOS developer files and password, respectively. Second is the <em>-extdir</em> option. This defines where the application can locate the <strong>Native Extension</strong> (.ane file).</p>
 <p>And that was pretty much it for the application. Pretty basic, but a rather quick way to get up and running to allow someone to find information about their battery on an iOS device.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>The addition of <strong>Native Extensions for Adobe AIR</strong> to the AIR SDK opens a lot of doors not only for native device integration but also to the experience you can provide in a mobile AIR application – with the biggest takeaway (as a developer) being that we no longer have to wait and see what gets exposed to us at the device-level in future <strong>AIR SDK</strong> releases. We can just write our own native extension now.</p>

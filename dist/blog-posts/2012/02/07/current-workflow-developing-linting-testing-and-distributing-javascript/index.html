@@ -79,146 +79,146 @@
 <h3 id="requirejs">RequireJS</h3>
 <p>The <a href="http://requirejs.org/docs/api.html">RequireJS API</a> defines how to define a module as well as how to load modules with dependencies. Along with other niceties, it also provides the ability to define dependency load order and loading of <strong>text</strong> files (including <strong>CSS</strong>).<br>Just taking some stripped down and generalized examples from the common lib of my <a href="https://github.com/bustardcelly/massroute-js">massroute_js repo</a>, a module is defined as such:</p>
 <p><em>/script/com/custardbelly/js/RequestToken.js</em></p>
-<pre><code>define( <span class="keyword">function</span>() {
+<pre><code>define( <span class="hljs-keyword">function</span>() {
 
 
 
-    var RequestToken = (<span class="keyword">function</span>() {
+    var RequestToken = (<span class="hljs-keyword">function</span>() {
 
-        this.then = <span class="keyword">function</span>( handler ) {
+        this.then = <span class="hljs-keyword">function</span>( handler ) {
 
-            <span class="keyword">...</span>
+            <span class="hljs-keyword">...</span>
 
         }
 
     });
 
-    <span class="keyword">return</span> RequestToken;
+    <span class="hljs-keyword">return</span> RequestToken;
 
 
 
-})l</code></pre>
-<blockquote>
+})l
+</code></pre><blockquote>
 <p>and a module with dependencies are defined as so:</p>
 </blockquote>
 <p><em>/script/com/custardbelly/js/Request.js</em></p>
-<pre><code>define( [<span class="string">"com/custardbelly/js/RequestToken"</span>], <span class="keyword">function</span>( RequestToken ) {
+<pre><code>define( [<span class="hljs-string">"com/custardbelly/js/RequestToken"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( RequestToken )</span> {</span>
 
 
 
-    var Request = (<span class="keyword">function</span>( url ) {
+    <span class="hljs-keyword">var</span> Request = (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( url )</span> {</span>
 
-        this.send = <span class="keyword">function</span>( variables ) {
+        <span class="hljs-keyword">this</span>.send = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( variables )</span> {</span>
 
-            var token = new RequestToken();
+            <span class="hljs-keyword">var</span> token = <span class="hljs-keyword">new</span> RequestToken();
 
-            <span class="keyword">...</span>
+            ...
 
-            <span class="keyword">return</span> token;
+            <span class="hljs-keyword">return</span> token;
 
         }
 
     });
 
-    <span class="keyword">return</span> Request;
+    <span class="hljs-keyword">return</span> Request;
 
 
 
-});</code></pre>
-<p>So with these two examples we see how to define modules with and without dependencies, hopefully demonstrating the benefit of modularization but also the beauty of composition through dependency that <strong>AMD</strong> libraries like <a href="http://requirejs.org/">RequireJS</a> provide. </p>
+});
+</code></pre><p>So with these two examples we see how to define modules with and without dependencies, hopefully demonstrating the benefit of modularization but also the beauty of composition through dependency that <strong>AMD</strong> libraries like <a href="http://requirejs.org/">RequireJS</a> provide. </p>
 <p>Another great benefit in using RequireJS is that it gets rid of you having to manage your code in namespaces. In other words, this is no longer necessary:</p>
-<pre><code><span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="body"> window )</span></span> {
+<pre><code>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( window )</span> {</span>
 
-    var massroute = getNamspace<span class="list">(<span class="body"> 'com.custardbelly.massroute' )</span></span><span class="comment">;</span>
+    <span class="hljs-keyword">var</span> massroute = getNamspace( <span class="hljs-string">'com.custardbelly.massroute'</span> );
 
 
 
-    function getNamespace<span class="list">(<span class="body"> value )</span></span> {
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getNamespace</span><span class="hljs-params">( value )</span> {</span>
 
-        var parts = value.split<span class="list">(<span class="body"> '.' )</span></span>,
+        <span class="hljs-keyword">var</span> parts = value.split( <span class="hljs-string">'.'</span> ),
 
-            i = <span class="number">0</span>,
+            i = <span class="hljs-number">0</span>,
 
             length = parts.length,
 
-            package, parent = window<span class="comment">;</span>
+            package, <span class="hljs-keyword">parent</span> = window;
 
 
 
-        for<span class="list">(<span class="body"> i<span class="comment">; i &lt; length; i++ ) {</span>
+        <span class="hljs-keyword">for</span>( i; i &lt; length; i++ ) {
 
-            package = parts[i]<span class="comment">;</span>
+            package = parts[i];
 
-            parent[package] = parent[package] || {}<span class="comment">;</span>
+            <span class="hljs-keyword">parent</span>[package] = <span class="hljs-keyword">parent</span>[package] || {};
 
-            parent = package<span class="comment">;</span>
+            <span class="hljs-keyword">parent</span> = package;
 
         }
 
-        return parent<span class="comment">;</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">parent</span>;
 
-     }<span class="comment">;</span>
+     };
 
 
 
-    var Something = function<span class="list">(<span class="body">)</span></span> {
+    <span class="hljs-keyword">var</span> Something = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
         ....
 
-    }<span class="comment">;</span>
+    };
 
 
 
-    massroute.Something = Something<span class="comment">;</span>
+    massroute.Something = Something;
 
 
 
-})</span></span><span class="list">(<span class="body"> this )</span></span><span class="comment">;</span></code></pre>
-<p>What is happening under the hood, loading and reference-wise, is that <strong>RequireJS</strong> (now <em>require</em> on the <strong>window</strong> Object) holds a list of file references in its own <em>contexts.urlMap</em> property – the key being the normalized string of the module based on configuration and the value being the actual url for that module file. As dependency requests are made, a lookup is made on <strong>require</strong>’s <em>contexts.loaded</em> property which maps the normalized module string to a flag of already loaded and available. A script tag is actually written and attached to the <strong>DOM</strong> to begin loading of the script just as most script loaders do. What sets it apart is the use of async and datasets. If we take a look at what is appended for the <em>Request</em> module from a previous example:</p>
-<pre><code><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span> <span class="attribute">async</span>=<span class="value">""</span> <span class="attribute">data-requirecontext</span>=<span class="value">"_"</span> <span class="attribute">data-requiremodule</span>=<span class="value">"com/custardbelly/js/Request"</span> <span class="attribute">src</span>=<span class="value">"./../script/com/custardbelly/js/Request.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></code></pre>
-<p>We can see that the values on the datasets directly correspond to those of the key/value pairs in <em>require.context.urlMap</em> for your application. So as these are loaded, the flag in <em>require.context.loaded</em> is flipped. Pretty elegant, and if you are interested in more about <strong>RequireJS</strong>’s design and the requirements it adheres to, this is a great article: <a href="http://requirejs.org/docs/requirements.html"><a href="http://requirejs.org/docs/requirements.html">http://requirejs.org/docs/requirements.html</a></a>. Now… back to looking at code.</p>
+})( this );
+</code></pre><p>What is happening under the hood, loading and reference-wise, is that <strong>RequireJS</strong> (now <em>require</em> on the <strong>window</strong> Object) holds a list of file references in its own <em>contexts.urlMap</em> property – the key being the normalized string of the module based on configuration and the value being the actual url for that module file. As dependency requests are made, a lookup is made on <strong>require</strong>’s <em>contexts.loaded</em> property which maps the normalized module string to a flag of already loaded and available. A script tag is actually written and attached to the <strong>DOM</strong> to begin loading of the script just as most script loaders do. What sets it apart is the use of async and datasets. If we take a look at what is appended for the <em>Request</em> module from a previous example:</p>
+<pre><code><span class="hljs-subst">&lt;</span>script <span class="hljs-keyword">type</span><span class="hljs-subst">=</span><span class="hljs-string">"text/javascript"</span> charset<span class="hljs-subst">=</span><span class="hljs-string">"utf-8"</span> async<span class="hljs-subst">=</span><span class="hljs-string">""</span> <span class="hljs-built_in">data</span><span class="hljs-attribute">-requirecontext</span><span class="hljs-subst">=</span><span class="hljs-string">"_"</span> <span class="hljs-built_in">data</span><span class="hljs-attribute">-requiremodule</span><span class="hljs-subst">=</span><span class="hljs-string">"com/custardbelly/js/Request"</span> src<span class="hljs-subst">=</span><span class="hljs-string">"./../script/com/custardbelly/js/Request.js"</span><span class="hljs-subst">&gt;&lt;</span>/script<span class="hljs-subst">&gt;</span>
+</code></pre><p>We can see that the values on the datasets directly correspond to those of the key/value pairs in <em>require.context.urlMap</em> for your application. So as these are loaded, the flag in <em>require.context.loaded</em> is flipped. Pretty elegant, and if you are interested in more about <strong>RequireJS</strong>’s design and the requirements it adheres to, this is a great article: <a href="http://requirejs.org/docs/requirements.html"><a href="http://requirejs.org/docs/requirements.html">http://requirejs.org/docs/requirements.html</a></a>. Now… back to looking at code.</p>
 <p>When it came time to employ these modules, I would <em>require</em>() where my application is responsible for making a request. Let’s just take on start-up in a main file as an example:</p>
 <p><em>/app/main.js</em></p>
-<pre><code><span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="body"> require )</span></span> {
+<pre><code><span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">( require )</span> <span class="hljs-collection">{
 
-    require.config<span class="list">(<span class="body">{
+    require.config<span class="hljs-list">(<span class="hljs-collection">{
 
-        baseUrl: <span class="string">"."</span>,
+        baseUrl: <span class="hljs-string">"."</span>,
 
-        paths: {
+        paths: <span class="hljs-collection">{
 
-            <span class="string">"com"</span>: <span class="string">"./script/com"</span>
+            <span class="hljs-string">"com"</span>: <span class="hljs-string">"./script/com"</span>
 
-        }
+        }</span>
 
-    })</span></span><span class="comment">;</span>
-
-
-
-    require<span class="list">(<span class="body"> ['com/custardbelly/js/Request'], function<span class="list">(<span class="body"> Request )</span></span> {
+    }</span>)</span><span class="hljs-comment">;</span>
 
 
 
-        var request = new Request<span class="list">(<span class="body"> '[http<span class="keyword">://somewhere</span>.fun/go]<span class="list">(<span class="title">http</span><span class="body"><span class="keyword">://somewhere</span>.fun/go)</span></span>')</span></span>,
-
-            token = request.send<span class="list">(<span class="body">{person:'Todd'})</span></span><span class="comment">;</span>
+    require<span class="hljs-list">( <span class="hljs-collection">['com/custardbelly/js/Request']</span>, function<span class="hljs-list">( Request )</span> <span class="hljs-collection">{
 
 
 
-        token.then<span class="list">(<span class="body"> relax )</span></span><span class="comment">;</span>
+        var request = new Request<span class="hljs-list">( '<span class="hljs-collection">[http<span class="hljs-attribute">://somewhere.fun/go</span>]</span><span class="hljs-list">(<span class="hljs-title">http</span><span class="hljs-attribute">://somewhere.fun/go</span>)</span>')</span>,
+
+            token = request.send<span class="hljs-list">(<span class="hljs-collection">{person<span class="hljs-attribute">:'Todd'</span>}</span>)</span><span class="hljs-comment">;</span>
 
 
 
-        function relax<span class="list">(<span class="body">)</span></span> {
+        token.then<span class="hljs-list">( relax )</span><span class="hljs-comment">;</span>
 
-            console.log<span class="list">(<span class="body"> 'ahhh' )</span></span><span class="comment">;</span>
 
-        }
 
-    })</span></span><span class="comment">;</span>
+        function relax<span class="hljs-list">()</span> <span class="hljs-collection">{
 
-})</span></span><span class="list">(<span class="body"> requirejs )</span></span><span class="comment">;</span></code></pre>
-<p>It should be noted that anything (ie. objects, functions, native objects) can be returned from a module definition. Typically, though, and which is seen from these examples, i tend to return constructors probably due to my class-based language background; in other words, <em>x</em> requires <em>y</em> as <em>x</em> is going to create at least one new instance of it. But you could very well return an object or a function, and the real power comes in when you consider composition and module dependencies… and for all you <strong>DI</strong> fans out there like me, the cogs might start spinning up in that noggin. I have yet to do a real test-drive of <strong>IoC</strong> containers for <strong>JavaScript</strong> but there must be or could be something that is a perfect match for <strong>RequireJS</strong>. I am aware of <a href="https://github.com/briancavalier/wire">wire</a>, but as I said, have yet to give it a go – Santa failed on delivering more hours in the day <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> If you know of any, please leave a comment.</p>
+            console.log<span class="hljs-list">( 'ahhh' )</span><span class="hljs-comment">;</span>
+
+        }</span>
+
+    }</span>)</span><span class="hljs-comment">;</span>
+
+}</span>)</span><span class="hljs-list">( requirejs )</span><span class="hljs-comment">;</span>
+</code></pre><p>It should be noted that anything (ie. objects, functions, native objects) can be returned from a module definition. Typically, though, and which is seen from these examples, i tend to return constructors probably due to my class-based language background; in other words, <em>x</em> requires <em>y</em> as <em>x</em> is going to create at least one new instance of it. But you could very well return an object or a function, and the real power comes in when you consider composition and module dependencies… and for all you <strong>DI</strong> fans out there like me, the cogs might start spinning up in that noggin. I have yet to do a real test-drive of <strong>IoC</strong> containers for <strong>JavaScript</strong> but there must be or could be something that is a perfect match for <strong>RequireJS</strong>. I am aware of <a href="https://github.com/briancavalier/wire">wire</a>, but as I said, have yet to give it a go – Santa failed on delivering more hours in the day <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> If you know of any, please leave a comment.</p>
 <p>So that is where my <strong>AMD</strong> loader choice stands. I have been using it for some time and have been pretty happy. Keep in mind that all these modules are separated to their own files. Depending on the size of the project, that can tally up to a lot of requests. And if we compound that with a slow network and a limited caching capabilities, we’re talking about trade-offs in even using <strong>AMD</strong>… unless we can optimize our development workspace down to a reasonable production environment that will go live. We’ll address those concerns a little later in the article…</p>
 <h3 id="amd-reading-link-dump-">AMD reading link dump:</h3>
 <p><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD specification on GitHub</a><br><a href="https://github.com/umdjs/umd">(UMD) Universal Module Definition</a><br><a href="http://unscriptable.com/code/AMD-vs-CommonJS/#0">John Hann: AMD vs CommonJS</a><br><a href="http://dailyjs.com/2011/12/22/framework/">DailyJS: The How and Why of AMD</a><br><a href="http://addyosmani.com/writing-modular-js/">Addy Osmani: Writing Modular JavaScript with AMD, CommonJS and ES Harmony</a><br><a href="http://tagneto.blogspot.com/2012/01/simplicity-and-javascript-modules.html?m=1">James Burke: Simplicity and JavaScript modules</a><br><a href="http://tomdale.net/2012/01/amd-is-not-the-answer">Tom Dale: AMD is Not the Answer</a><br><a href="http://wiki.ecmascript.org/doku.php?id=harmony:modules_examples">ES Harmony modules proposal</a><br><a href="http://requirejs.org/">RequireJS</a></p>
@@ -242,23 +242,23 @@
 <p>All of those are important. That list is really more representative of the order the contact states of a 3-way bulb where it eventually all came together. It was imperative that I could keep developing without choosing a <strong>Unit Testing</strong> framework that influenced the <strong>AMD</strong> library I chose and (as I will go into in a bit) it was necessary for my deployment needs to run the tests in a headless environment; during development, i want to write my tests (hopefully using “<a href="http://www.markhneedham.com/blog/2009/04/30/coding-dojo-13-tdd-as-if-you-meant-it/"><em>TDD-like-you-mean-it</em></a>“) and run them quickly and visually, but I also was looking forward to take that work in unit testing unmodified and provide it to a headless test runner when it came to run a full deployment. So <a href="http://docs.jquery.com/QUnit">QUnit</a> fit in nicely… for now at least. The familiarity and ease of use is a nice initial draw, but the other two are really the weighing factors and I would not mind giving <a href="http://pivotal.github.com/jasmine/">Jasmine</a> more of a go at a later date if i can ensure those two points.</p>
 <p>In any event, using <a href="http://requirejs.org/">RequireJS</a> and <a href="http://docs.jquery.com/QUnit">QUnit</a> together is rather straight-forward, especially after finding this <a href="https://gist.github.com/920405">nice gist from drewwells: <a href="https://gist.github.com/920405">https://gist.github.com/920405</a></a>. The main rule to remember is to set <em>autostart</em> to false on <strong>QUnit</strong>, and only invoke :<em>start()</em> once you have required all tests:</p>
 <p><em>/test/index.html</em></p>
-<pre><code><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"../lib/require-1.0.4.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"../lib/require-1.0.4.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-<span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"lib/qunit.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"lib/qunit.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-<span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="javascript">
 
-    QUnit.config.autostart = <span class="literal">false</span>;
+    QUnit.config.autostart = <span class="hljs-literal">false</span>;
 
 
 
-    require.config({
+    <span class="hljs-built_in">require</span>.config({
 
-        baseUrl: <span class="string">"."</span>,
+        baseUrl: <span class="hljs-string">"."</span>,
 
         paths: {
 
-            <span class="string">"com"</span>: <span class="string">"../script/com"</span>
+            <span class="hljs-string">"com"</span>: <span class="hljs-string">"../script/com"</span>
 
         }
 
@@ -266,48 +266,48 @@
 
 
 
-    requirejs([<span class="string">'script/RequestTest.js'</span>, <span class="string">'script/RequestTokenTest.js'</span>, <span class="string">'script/RouteStopTest.js'</span>], <span class="keyword">function</span>() {
+    requirejs([<span class="hljs-string">'script/RequestTest.js'</span>, <span class="hljs-string">'script/RequestTokenTest.js'</span>, <span class="hljs-string">'script/RouteStopTest.js'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-        QUnit.start(); <span class="comment">// Tests loaded, run tests</span>
+        QUnit.start(); <span class="hljs-comment">// Tests loaded, run tests</span>
 
     });
 
-</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></code></pre>
-<p>In basic terms, you have replaced adding <em><script></em> tags for each test – as you normally would when working with <strong>QUnit</strong> – with loading them as modules through <strong>RequireJS</strong>. The tests utilize <strong>RequireJS</strong> as well, but do not define a module; rather require necessary dependencies through <strong>RequireJS</strong> and define tests that <strong>QUnit</strong> will find:</p>
+</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+</code></pre><p>In basic terms, you have replaced adding <em><script></em> tags for each test – as you normally would when working with <strong>QUnit</strong> – with loading them as modules through <strong>RequireJS</strong>. The tests utilize <strong>RequireJS</strong> as well, but do not define a module; rather require necessary dependencies through <strong>RequireJS</strong> and define tests that <strong>QUnit</strong> will find:</p>
 <p><em>/test/script/RequestTest.js</em></p>
-<pre><code><span class="keyword">require</span>( [<span class="string">'com/custardbelly/js/RequestToken'</span>, <span class="string">'com/custardbelly/js/Request'</span>], <span class="keyword">function</span>( RequestToken, Request ) {
+<pre><code><span class="hljs-keyword">require</span>( [<span class="hljs-string">'com/custardbelly/js/RequestToken'</span>, <span class="hljs-string">'com/custardbelly/js/Request'</span>], <span class="hljs-keyword">function</span>( RequestToken, Request ) {
 
 
 
-    module( <span class="string">"Request Test"</span> );
+    module( <span class="hljs-string">"Request Test"</span> );
 
 
 
-    test( <span class="string">'send returns RequestToken'</span>, <span class="keyword">function</span>() {
+    test( <span class="hljs-string">'send returns RequestToken'</span>, <span class="hljs-keyword">function</span>() {
 
         var token,
 
-            xhr = new Request( <span class="string">'[http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&amp;a=mbta](http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&amp;a=mbta)'</span> );
+            xhr = new Request( <span class="hljs-string">'[http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&amp;a=mbta](http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&amp;a=mbta)'</span> );
 
 
 
         token = xhr.send();
 
-        equals( ( token !== <span class="string">'undefined'</span> ), true, <span class="string">'Request.send() returns RequestToken'</span> );
+        equals( ( token !== <span class="hljs-string">'undefined'</span> ), true, <span class="hljs-string">'Request.send() returns RequestToken'</span> );
 
     });
 
-    <span class="keyword">...</span>
+    <span class="hljs-keyword">...</span>
 
-});</code></pre>
-<p>The source library dependencies are defined in the first argument for <em>require</em>(), while the second argument is a handler with there reference supplied as arguments. As for the <em>module</em>() call, there’s nothing there now accept the name that will be associated and printed along with the tests but the <strong>QUnit</strong> <em>modules</em> can also be used to define your <em>setUp</em> and <em>tearDown</em> fixtures. <a href="http://docs.jquery.com/QUnit">Check out the docs for more information</a>.</p>
+});
+</code></pre><p>The source library dependencies are defined in the first argument for <em>require</em>(), while the second argument is a handler with there reference supplied as arguments. As for the <em>module</em>() call, there’s nothing there now accept the name that will be associated and printed along with the tests but the <strong>QUnit</strong> <em>modules</em> can also be used to define your <em>setUp</em> and <em>tearDown</em> fixtures. <a href="http://docs.jquery.com/QUnit">Check out the docs for more information</a>.</p>
 <h3 id="phantomjs">PhantomJS</h3>
 <p>As I mentioned in the previous part of this section, it is a requirement for my deployment process to be able to run my unit tests in a headless environment. As well, it is preferable to not modify the set-up for unit testing in the development environment to run the tests later in deployment. I originally checked out <a href="http://code.google.com/p/js-test-driver/">JsTestDriver</a> for my headless environment as it is undoubtably the most widely known – and for good reason. It even has an <a href="http://code.google.com/p/js-test-driver/wiki/QUnitAdapter">adapter for QUnit</a>, and I spent a great deal of time to get it working with my <strong>QUnit</strong> + <strong>RequireJS</strong> setup. To no available, however, as <a href="http://groups.google.com/group/requirejs/browse_thread/thread/5113a89cf5f5dc52">this discussion reveals</a> in which script loading is not really supported by <strong>JsTestDriver</strong>, which is required (no pun) as we saw earlier in this article that <strong>RequireJS</strong> writes <em>async</em> <em><script></em> tags to the <strong>DOM</strong>.</p>
 <p>That discovery led me to <a href="http://www.phantomjs.org/">PhantomJS</a> which I am pretty happy out. As the site states:</p>
 <p>“PhantomJS is a headless WebKit with JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.<br>PhantomJS is created by <a href="https://twitter.com/AriyaHidayat">Ariya Hidayat</a>.”</p>
 <p>What that basically means is that it is nothing short of awesome, and by executing the <strong>QUnit</strong> adapter script provided at <a href="http://code.google.com/p/phantomjs/wiki/TestFrameworkIntegration"><a href="http://code.google.com/p/phantomjs/wiki/TestFrameworkIntegration">http://code.google.com/p/phantomjs/wiki/TestFrameworkIntegration</a></a> I could point to my local main file that I use for running unit tests during development and run <strong>PhantomJS</strong> during deployment to stop and report back any failures encountered. Here is an example of that command:</p>
-<pre><code>.<span class="regexp">/bin/phantomjs</span> run-qunit.js <span class="symbol">file:</span>/<span class="regexp">/localhost/</span><span class="constant">Users</span>/todd/massroute_js/massroute-examples/common/test/index.html</code></pre>
-<p>I actually played around with <a href="http://www.phantomjs.org/">PhantomJS</a> farther beyond just trying to integrate with my <a href="http://requirejs.org/">RequireJS</a> and <a href="http://docs.jquery.com/QUnit">QUnit</a> set up for deployment, and the <strong>API</strong> it provides is exceptional and proves its use in a variety of automated tasks: <a href="http://code.google.com/p/phantomjs/wiki/Interface"><a href="http://code.google.com/p/phantomjs/wiki/Interface">http://code.google.com/p/phantomjs/wiki/Interface</a></a>.</p>
+<pre><code>./bin/phantomjs run-qunit<span class="hljs-preprocessor">.js</span> file://localhost/Users/todd/massroute_js/massroute-examples/common/test/index<span class="hljs-preprocessor">.html</span>
+</code></pre><p>I actually played around with <a href="http://www.phantomjs.org/">PhantomJS</a> farther beyond just trying to integrate with my <a href="http://requirejs.org/">RequireJS</a> and <a href="http://docs.jquery.com/QUnit">QUnit</a> set up for deployment, and the <strong>API</strong> it provides is exceptional and proves its use in a variety of automated tasks: <a href="http://code.google.com/p/phantomjs/wiki/Interface"><a href="http://code.google.com/p/phantomjs/wiki/Interface">http://code.google.com/p/phantomjs/wiki/Interface</a></a>.</p>
 <ul>
 <li><em>If you are interested in how you can hook up additional logging/output for PhantomJS+QUnit, <a href="https://twitter.com/gavincoop">@gavincoop</a> tweeted this gist to me that incorporates output of JUnit XML, which I hadn’t incorporated into my workflow: <a href="https://gist.github.com/1588423"><a href="https://gist.github.com/1588423">https://gist.github.com/1588423</a></a></em></li>
 </ul>
@@ -327,59 +327,59 @@
 <p>In one way or another, most open-source build systems I have come across use one or a coupling of these. Each have their own strengths and compiler options, but I can not speak at length on the benefits outweighing one or the other. The reason that I didn’t delve into which incorporated better into my workflow was due to my want of modular development and <strong>RequireJS</strong>. So for obvious reasons that lead me to the supported optimizer tool from <strong>RequireJS</strong> – <a href="http://requirejs.org/docs/optimization.html">r.js</a>.</p>
 <p><a href="https://github.com/jrburke/r.js">r.js</a> is an optimizer for JavaScript source files that use the AMD API. It can be configured to use either <strong>UglifyJS</strong>(default) or the <strong>Closure Compiler</strong> and can be run under <a href="http://nodejs.org/">node.js</a> and <a href="http://www.mozilla.org/rhino/">Rhino</a>. It is a minifier and concatenator rolled into one and does so with respect to AMD loaders.</p>
 <p>When using <strong>r.js</strong>, you provide a build file that defines your desired configuration in optimization. There is a good base example up in github: <a href="https://github.com/jrburke/r.js/blob/master/build/example.build.js"><a href="https://github.com/jrburke/r.js/blob/master/build/example.build.js">https://github.com/jrburke/r.js/blob/master/build/example.build.js</a></a>, and just as a quick example of what I have for a build file for the custom script in <a href="https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/common">massroute-js/common</a>:</p>
-<pre><code>({
+<pre><code>(<span class="hljs-rules">{
 
-    <span class="method">baseUrl:</span> <span class="string">'../../script'</span>,
+    <span class="hljs-rule"><span class="hljs-attribute">baseUrl</span>:<span class="hljs-value"> <span class="hljs-string">'../../script'</span>,
 
-    <span class="method">name:</span> <span class="string">'com/custardbelly/js/Request'</span>,
+    name: <span class="hljs-string">'com/custardbelly/js/Request'</span>,
 
-    <span class="method">include:</span> [<span class="string">'com/custardbelly/js/RequestToken'</span>],
+    include: [<span class="hljs-string">'com/custardbelly/js/RequestToken'</span>],
 
-    <span class="method">out:</span> <span class="string">'../../dist/script/custardbelly.min.js'</span>,
+    out: <span class="hljs-string">'../../dist/script/custardbelly.min.js'</span>,
 
-    <span class="method">optimize:</span> <span class="comment">"closure"</span>,
+    optimize: <span class="hljs-string">"closure"</span>,
 
-    <span class="method">wrap:</span> <span class="keyword">true</span>
+    wrap: true
 
-})</code></pre>
-<p>That is the defining the base URL for modules to be used by the AMD loader (<em>baseUrl</em>), the main module (<em>name</em>) and its dependencies (<em>include[]</em>), the output filename (<em>out</em>), preferred optimizer (<em>optimize</em>), and whether or not to wrap the optimized file in <em>(function() { … }());</em> to encapsulate the code.</p>
+</span></span></span>})
+</code></pre><p>That is the defining the base URL for modules to be used by the AMD loader (<em>baseUrl</em>), the main module (<em>name</em>) and its dependencies (<em>include[]</em>), the output filename (<em>out</em>), preferred optimizer (<em>optimize</em>), and whether or not to wrap the optimized file in <em>(function() { … }());</em> to encapsulate the code.</p>
 <p>Now, for my “commons” library that is being developed for the <a href="https://github.com/bustardcelly/massroute-js">massroute-js examples</a>, I have source split up into two packages – one that may be considered common to my domain, and one that is considered common to the application. Unfortunately, a single build file for <a href="https://github.com/jrburke/r.js">r.js</a> doesn’t seem to be compatible to define multiple output modules with their own separate dependencies. In remembering the configuration file from previous example, I had thought this would be achievable by placing the <em>name</em>, <em>include</em> and <em>out</em> properties into each element of the modules list available from the <strong>r.js</strong> build API, eg.:</p>
-<pre><code>({
+<pre><code>(<span class="hljs-rules">{
 
-    <span class="method">baseUrl:</span> <span class="string">'../../script'</span>,
+    <span class="hljs-rule"><span class="hljs-attribute">baseUrl</span>:<span class="hljs-value"> <span class="hljs-string">'../../script'</span>,
 
-    <span class="method">dir:</span> <span class="string">'../../dist/script'</span>,
+    dir: <span class="hljs-string">'../../dist/script'</span>,
 
-    <span class="method">modules:</span> [
-
-        {
-
-            <span class="method">name:</span> <span class="string">'com/custardbelly/js/Request'</span>,
-
-            <span class="method">include:</span> [<span class="string">'com/custardbelly/js/RequestToken'</span>],
-
-            <span class="method">out:</span> <span class="string">'custardbelly.min.js'</span>
-
-        },
+    modules: [
 
         {
 
-            <span class="method">name:</span> <span class="string">'com/custardbelly/massroute/model/InflatableModel'</span>,
+            name: <span class="hljs-string">'com/custardbelly/js/Request'</span>,
 
-            <span class="method">include:</span> [<span class="string">'com/custardbelly/massroute/model/Route'</span>, <span class="string">'com/custardbelly/massroute/model/RouteStop'</span>],
+            include: [<span class="hljs-string">'com/custardbelly/js/RequestToken'</span>],
 
-            <span class="method">out:</span> <span class="string">'massroute.min.js'</span>
+            out: <span class="hljs-string">'custardbelly.min.js'</span>
 
-        }
+        </span></span></span>},
+
+        <span class="hljs-rules">{
+
+            <span class="hljs-rule"><span class="hljs-attribute">name</span>:<span class="hljs-value"> <span class="hljs-string">'com/custardbelly/massroute/model/InflatableModel'</span>,
+
+            include: [<span class="hljs-string">'com/custardbelly/massroute/model/Route'</span>, <span class="hljs-string">'com/custardbelly/massroute/model/RouteStop'</span>],
+
+            out: <span class="hljs-string">'massroute.min.js'</span>
+
+        </span></span></span>}
 
     ],
 
-    <span class="method">optimize:</span> <span class="comment">"closure"</span>,
+    <span class="hljs-tag">optimize</span>: "<span class="hljs-tag">closure</span>",
 
-    <span class="method">wrap:</span> <span class="keyword">true</span>
+    <span class="hljs-tag">wrap</span>: <span class="hljs-tag">true</span>
 
-})</code></pre>
-<p>In this build file example, I attempted to output two optimized modules – one each for the <em>custardbelly</em> and <em>massroute</em> namespace, as I figured with the previous example representing a single module output with its configuration, defining them in the list in <em>modules</em> would perform multiple module outputs; which is not the case. That is when i stumbled upon <a href="https://github.com/jrburke/r.js/issues/30#issuecomment-3693033">this ticket in requirejs’ github</a> and gave the solution of using multiple “single file” builds, which is what I wound up using in my deployment.</p>
+})
+</code></pre><p>In this build file example, I attempted to output two optimized modules – one each for the <em>custardbelly</em> and <em>massroute</em> namespace, as I figured with the previous example representing a single module output with its configuration, defining them in the list in <em>modules</em> would perform multiple module outputs; which is not the case. That is when i stumbled upon <a href="https://github.com/jrburke/r.js/issues/30#issuecomment-3693033">this ticket in requirejs’ github</a> and gave the solution of using multiple “single file” builds, which is what I wound up using in my deployment.</p>
 <p>It should be noted that <a href="http://tagneto.blogspot.com">James Burke</a> has also released <a href="https://github.com/jrburke/almond">almond.js</a>, which is a light-weight AMD loader. With this, it is possible to run <strong>r.js</strong> and compile in <strong>almond.js</strong> to remove the dependency of loading the <strong>require.js</strong> library at runtime. I attempted to fold this solution into my deployment build, but ended up not using it mainly because of how <strong>Rhino</strong> looks up resources based on the <em>name</em> property in the <strong>r.js</strong> configuration file; the only way to reliably fold <strong>almond.js</strong> into my optimized library was to include in the same directory as my custom scripts. I generally like to separate my scripts out into folders that rightly define their role and particularly do not intermix third-party libraries with my own scripts. But whatever. I am being a stickler and if it comes a benefit, I will probably incorporate a script that will temporarily copy the <em>/external/lib/almond.js</em> file into my <em>/scripts</em> directory only to remove if after running optimization with <a href="http://requirejs.org/docs/optimization.html">r.js</a>.</p>
 <h3 id="min-concat-link-dump-">Min/Concat link dump:</h3>
 <p><a href="http://developer.yahoo.com/performance/rules.html">Yahoo!: Best Practices For Speeding Up Your Website</a><br><a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a><br><a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a><br><a href="https://github.com/mishoo/UglifyJS/">UglifyJS</a><br><a href="http://requirejs.org/docs/optimization.html">r.js</a><br><a href="https://github.com/jrburke/almond">almond.js</a></p>
@@ -406,7 +406,7 @@ PHANTOM_QUNIT_RUNNER = ./build/phantom/run-qunit.js
 
 TEST_DIR = ./test
 
-TEST_INDEX_URL = <span class="keyword">file</span>:<span class="comment">//localhost/Users/todd/massroute_js/massroute-examples/common/test/index.html</span>
+TEST_INDEX_URL = <span class="hljs-keyword">file</span>:<span class="hljs-comment">//localhost/Users/todd/massroute_js/massroute-examples/common/test/index.html</span>
 
 
 
@@ -424,36 +424,36 @@ all: lint phantom optimize
 
 lint:
 
-    <span class="variable">@echo</span> <span class="string">'==&gt; JSHint $&lt;'</span>
+    <span class="hljs-variable">@echo</span> <span class="hljs-string">'==&gt; JSHint $&lt;'</span>
 
-    <span class="variable">@@</span><span class="keyword">for</span> <span class="keyword">file</span> <span class="keyword">in</span> <span class="string">`find ${SRC_DIR} -name "*.js"`</span>; \
+    <span class="hljs-variable">@@</span><span class="hljs-keyword">for</span> <span class="hljs-keyword">file</span> <span class="hljs-keyword">in</span> <span class="hljs-string">`find ${SRC_DIR} -name "*.js"`</span>; \
 
-        <span class="keyword">do</span> echo ===Linting <span class="variable">$$</span><span class="keyword">file</span>...===; <span class="variable">${LINT}</span> <span class="variable">$$</span><span class="keyword">file</span>; done;
+        <span class="hljs-keyword">do</span> echo ===Linting <span class="hljs-variable">$$</span><span class="hljs-keyword">file</span>...===; <span class="hljs-variable">${LINT}</span> <span class="hljs-variable">$$</span><span class="hljs-keyword">file</span>; done;
 
-    <span class="variable">@echo</span>
+    <span class="hljs-variable">@echo</span>
 
 
 
 phantom:
 
-    <span class="variable">@echo</span> <span class="string">'==&gt; Phantom $&lt;'</span>
+    <span class="hljs-variable">@echo</span> <span class="hljs-string">'==&gt; Phantom $&lt;'</span>
 
-    <span class="variable">${PHANTOM}</span> <span class="variable">${PHANTOM_QUNIT_RUNNER}</span> <span class="variable">${TEST_INDEX_URL}</span>;
+    <span class="hljs-variable">${PHANTOM}</span> <span class="hljs-variable">${PHANTOM_QUNIT_RUNNER}</span> <span class="hljs-variable">${TEST_INDEX_URL}</span>;
 
-    <span class="variable">@echo</span>
+    <span class="hljs-variable">@echo</span>
 
 
 
 optimize:
 
-    <span class="variable">@echo</span> <span class="string">'==&gt; r.js $&lt;'</span>
+    <span class="hljs-variable">@echo</span> <span class="hljs-string">'==&gt; r.js $&lt;'</span>
 
-    <span class="variable">@@</span><span class="keyword">for</span> <span class="keyword">file</span> <span class="keyword">in</span> <span class="string">`find ${R_DIR} -name "*.build.js"`</span>; \
+    <span class="hljs-variable">@@</span><span class="hljs-keyword">for</span> <span class="hljs-keyword">file</span> <span class="hljs-keyword">in</span> <span class="hljs-string">`find ${R_DIR} -name "*.build.js"`</span>; \
 
-       <span class="keyword">do</span> echo ===r.js: <span class="variable">$$</span><span class="keyword">file</span>...===; <span class="variable">${R_JS}</span> <span class="variable">${R_DIR}</span>/r.js -o <span class="variable">$$</span><span class="keyword">file</span>; done;
+       <span class="hljs-keyword">do</span> echo ===r.js: <span class="hljs-variable">$$</span><span class="hljs-keyword">file</span>...===; <span class="hljs-variable">${R_JS}</span> <span class="hljs-variable">${R_DIR}</span>/r.js -o <span class="hljs-variable">$$</span><span class="hljs-keyword">file</span>; done;
 
-    <span class="variable">@echo</span></code></pre>
-<p>Certainly, this sort of <a href="http://www.gnu.org/software/make/manual/make.html">Makefile</a> is intended for the lead developer or automated system to run at deployment, rather than being shared across multiple developers during development as the constants are pretty system specific. If this development/deployment workflow were to introduced into a company workflow, I would probably opt for <a href="http://ant.apache.org/">ANT</a> or <a href="http://rake.rubyforge.org/">Rake</a> – which I intend to add to the repository at some point. As well, this deployment is simply just for JavaScript. I may find down the line that a more complete system is required which can optimize HTML, CSS, images, etc. and actually deploy files to a server. The playing field then widens and sticking with <strong>Make</strong> is probably not going to be the optimal solution, and I may rethink requiring <a href="http://nodejs.org/">node.js</a> or <a href="http://www.ruby-lang.org/en/">ruby</a> environments for deployment.</p>
+    <span class="hljs-variable">@echo</span>
+</code></pre><p>Certainly, this sort of <a href="http://www.gnu.org/software/make/manual/make.html">Makefile</a> is intended for the lead developer or automated system to run at deployment, rather than being shared across multiple developers during development as the constants are pretty system specific. If this development/deployment workflow were to introduced into a company workflow, I would probably opt for <a href="http://ant.apache.org/">ANT</a> or <a href="http://rake.rubyforge.org/">Rake</a> – which I intend to add to the repository at some point. As well, this deployment is simply just for JavaScript. I may find down the line that a more complete system is required which can optimize HTML, CSS, images, etc. and actually deploy files to a server. The playing field then widens and sticking with <strong>Make</strong> is probably not going to be the optimal solution, and I may rethink requiring <a href="http://nodejs.org/">node.js</a> or <a href="http://www.ruby-lang.org/en/">ruby</a> environments for deployment.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>So there we have it. My current development and deployment workflow. Subject to change, as always. Decisions towards testing and optimization were definitely weighted with respect to my choice in <a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a>, but I feel <a href="http://requirejs.org/">RequireJS</a> presents a strong enough case for modular development, so I am pretty confortable and happy with it at the moment. It was a great learning experience researching and testing all the various frameworks, libraries and systems in finding what worked and I appreciate the openness of the <strong>JavaScript</strong> community in releasing such quality and well-documented code; I hope to return the favor some day.</p>
 <p>A quick round-up from the original listing of what i wanted to achieve, marked with the decision:</p>

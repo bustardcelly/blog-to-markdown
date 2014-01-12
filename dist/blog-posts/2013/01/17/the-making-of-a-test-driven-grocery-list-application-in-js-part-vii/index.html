@@ -70,43 +70,43 @@
 <h2 id="tests">Tests</h2>
 <p>As always, before we get into adding code to the components of the application to implement the new feature, let’s get some failing tests to pass. We’ll start of with defining a new spec suite for the <em>Remove Item</em> feature, with the setup (<code>beforeEach()</code>) being the <strong>Given</strong> describe above:</p>
 <p><em>/test/jasmine/spec/feature/removeitem.spec.js</em></p>
-<pre><code><span class="function"><span class="title">define</span><span class="params">(['jquery', 'script/controller/list-controller'], <span class="keyword">fun</span><span class="function_name">ction</span>($, list<span class="variable">Controller</span>) <span class="tuple">{
+<pre><code>define([<span class="hljs-string">'jquery'</span>, <span class="hljs-string">'script/controller/list-controller'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($, listController)</span> {</span>
 
 
 
-  <span class="function_name">describe</span>('<span class="variable">Remove</span> item', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+  describe(<span class="hljs-string">'Remove item'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
 
-    var $list<span class="variable">View</span> = $('&lt;ul/&gt;'),
+    <span class="hljs-keyword">var</span> $listView = $(<span class="hljs-string">'&lt;ul/&gt;'</span>),
 
-        grocery<span class="variable">Item</span>;
-
-
-
-    <span class="function_name">beforeEach</span>( <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
-
-      list<span class="variable">Controller</span>.<span class="function_name">setView</span>($list<span class="variable">View</span>);
-
-      grocery<span class="variable">Item</span> = list<span class="variable">Controller</span>.<span class="function_name">createNewItem</span>();
-
-    }</span>);
+        groceryItem;
 
 
 
-    <span class="function_name">it</span>('should remove existing item from the collection', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+    beforeEach( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-      <span class="function_name">expect</span>(false).<span class="function_name">toEqual</span>(true);
+      listController.setView($listView);
 
-    }</span>);
+      groceryItem = listController.createNewItem();
+
+    });
 
 
 
-    <span class="function_name">afterEach</span>( <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+    it(<span class="hljs-string">'should remove existing item from the collection'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-      grocery<span class="variable">Item</span> = undefined;
+      expect(<span class="hljs-literal">false</span>).toEqual(<span class="hljs-literal">true</span>);
 
-    }</span>);
+    });
+
+
+
+    afterEach( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+
+      groceryItem = <span class="hljs-literal">undefined</span>;
+
+    });
 
 
 
@@ -114,168 +114,168 @@
 
 
 
-});</code></pre>
-<p>Don’t mind the expectation declared in the spec. <a href="http://pivotal.github.com/jasmine/">Jasmine</a> does not check empty specs and automatically fail them. In fact, if we ran it without any expectations defined, it would be all green. So, I usually drop a failing expectation in quickly when creating new specs in cases where someone/thing comes and interrupts me, I know where to pick back up when i come back. It’s habit. Maybe a little paranoia. Don’t know if it’s right or wrong <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)">  </p>
+});
+</code></pre><p>Don’t mind the expectation declared in the spec. <a href="http://pivotal.github.com/jasmine/">Jasmine</a> does not check empty specs and automatically fail them. In fact, if we ran it without any expectations defined, it would be all green. So, I usually drop a failing expectation in quickly when creating new specs in cases where someone/thing comes and interrupts me, I know where to pick back up when i come back. It’s habit. Maybe a little paranoia. Don’t know if it’s right or wrong <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)">  </p>
 <p>If you have been following along in the articles of this series, I typically do my implementation in the tests then move them to their respective modules. It’s a nice workflow for me, and in most cases I feel it gets me more focused on design. In this case, I am just going to declare my expectations, see them fail and move over to implementing the code right in the module, running the spec runner as we go until we see green.  </p>
 <p>Anyway, first on the agenda is to verify that the Remove API from <code>list-controller</code> is expected to remove the item from the underlying collection of grocery list items:</p>
 <p><em>/test/jasmine/spec/feature/removeitem.spec.js</em></p>
-<pre><code><span class="function"><span class="title">it</span><span class="params">('should remove existing item from the collection', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+<pre><code><span class="hljs-function">it(<span class="hljs-string">'should remove existing item from the collection'</span>, <span class="hljs-function">function()</span> {
 
-  var collection = list<span class="variable">Controller</span>.<span class="function_name">getItemList</span>(),
+  var collection = listController.<span class="hljs-function">getItemList()</span>,
 
-      removed<span class="variable">Item</span>;
-
-
-
-  removed<span class="variable">Item</span> = list<span class="variable">Controller</span>.<span class="function_name">removeItem</span>(grocery<span class="variable">Item</span>);
+      removedItem;
 
 
 
-  <span class="function_name">expect</span>(removed<span class="variable">Item</span>).<span class="function_name">toBe</span>(grocery<span class="variable">Item</span>);
+  removedItem = listController.<span class="hljs-function">removeItem(groceryItem)</span>;
 
-  <span class="function_name">expect</span>(collection.<span class="function_name">getItemIndex</span>(grocery<span class="variable">Item</span>)).<span class="function_name">toBe</span>(-<span class="number">1</span>);
 
-}</span>);</code></pre>
-<p>Add the new spec to the spec runner:<br><em>/test/jasmine/specrunner.html</em></p>
-<pre><code><span class="keyword">require</span>( [<span class="string">'spec/feature/additem.spec.js'</span>, <span class="string">'spec/feature/markitem.spec.js'</span>, <span class="string">'spec/feature/removeitem.spec.js'</span>,
 
-          <span class="string">'spec/list-controller.spec.js'</span>, <span class="string">'spec/list-item-controller.spec.js'</span>, <span class="string">'spec/grocery-ls-item.spec.js'</span>,
+  <span class="hljs-function">expect(removedItem)</span>.<span class="hljs-function">toBe(groceryItem)</span>;
 
-          <span class="string">'spec/collection.spec.js'</span>], <span class="keyword">function</span>() {
+  <span class="hljs-function">expect(collection.<span class="hljs-function">getItemIndex(groceryItem)</span>)</span>.<span class="hljs-function">toBe(-<span class="hljs-number">1</span>)</span>;
+
+})</span>;
+</code></pre><p>Add the new spec to the spec runner:<br><em>/test/jasmine/specrunner.html</em></p>
+<pre><code><span class="hljs-keyword">require</span>( [<span class="hljs-string">'spec/feature/additem.spec.js'</span>, <span class="hljs-string">'spec/feature/markitem.spec.js'</span>, <span class="hljs-string">'spec/feature/removeitem.spec.js'</span>,
+
+          <span class="hljs-string">'spec/list-controller.spec.js'</span>, <span class="hljs-string">'spec/list-item-controller.spec.js'</span>, <span class="hljs-string">'spec/grocery-ls-item.spec.js'</span>,
+
+          <span class="hljs-string">'spec/collection.spec.js'</span>], <span class="hljs-keyword">function</span>() {
 
 
 
   var jasmineEnv = jasmine.getEnv(),
 
-      <span class="keyword">...</span>
+      <span class="hljs-keyword">...</span>
 
   jasmineEnv.execute();
 
 
 
-});</code></pre>
-<p>Run that, and we have a big honking failure:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_1.png" alt="Failing remove spec on collection."><br>Good!</p>
+});
+</code></pre><p>Run that, and we have a big honking failure:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_1.png" alt="Failing remove spec on collection."><br>Good!</p>
 <p>In looking at the expectations of the <code>removeItem()</code> method on <code>list-controller</code>, we are expecting that the item is removed from the collection and returned on invocation. Let’s implement <code>removeItem</code> on <code>list-controller</code> with this understanding:</p>
 <p><em>/script/controller/list-controller.js</em></p>
 <pre><code>listController = {
 
-  $view: <span class="literal">undefined</span>,
+  $view: <span class="hljs-literal">undefined</span>,
 
-  getItemList: <span class="keyword">function</span>() {
+  getItemList: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-    <span class="keyword">return</span> collection;
+    <span class="hljs-keyword">return</span> collection;
 
   },
 
-  getRendererFromItem: <span class="keyword">function</span>(item) {
+  getRendererFromItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
 
-    <span class="keyword">var</span> i = rendererList.itemLength();
+    <span class="hljs-keyword">var</span> i = rendererList.itemLength();
 
-    <span class="keyword">while</span>( --i &gt; -<span class="number">1</span> ) {
+    <span class="hljs-keyword">while</span>( --i &gt; -<span class="hljs-number">1</span> ) {
 
-      <span class="keyword">if</span>(rendererList.getItemAt(i).model === item) {
+      <span class="hljs-keyword">if</span>(rendererList.getItemAt(i).model === item) {
 
-        <span class="keyword">return</span> rendererList.getItemAt(i);
+        <span class="hljs-keyword">return</span> rendererList.getItemAt(i);
 
       }
 
-      <span class="keyword">return</span> <span class="literal">undefined</span>;
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
 
     }
 
   },
 
-  createNewItem: <span class="keyword">function</span>() {
+  createNewItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-    <span class="keyword">var</span> model = modelFactory.create();
+    <span class="hljs-keyword">var</span> model = modelFactory.create();
 
     collection.addItem(model);
 
-    <span class="keyword">return</span> model;
+    <span class="hljs-keyword">return</span> model;
 
   },
 
-  removeItem: <span class="keyword">function</span>(item) {
+  removeItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
 
-    <span class="keyword">return</span> collection.removeItem(item);
+    <span class="hljs-keyword">return</span> collection.removeItem(item);
 
   },
 
-  setView: <span class="keyword">function</span>(view) {
+  setView: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(view)</span> {</span>
 
-    <span class="keyword">this</span>.$view = (view <span class="keyword">instanceof</span> $) ? view : $(view);
+    <span class="hljs-keyword">this</span>.$view = (view <span class="hljs-keyword">instanceof</span> $) ? view : $(view);
 
   }
 
-};</code></pre>
-<p>Run it, and we pass!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_2.png" alt="Passing tests on remove from collection."><br>Well, that was sort of easy and anti-climatic. No drama. A little boring, if I may say so.</p>
+};
+</code></pre><p>Run it, and we pass!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_2.png" alt="Passing tests on remove from collection."><br>Well, that was sort of easy and anti-climatic. No drama. A little boring, if I may say so.</p>
 <p>But… there’s more! The <code>list-controller</code> isn’t just some dumb facade to the underlying <strong>Grocery List</strong> collection – it also manages the associated renderers to the <code>grocery-ls-item</code> models. Let’s get back to our tests and add a new spec:</p>
 <p><em>/test/jasmine/spec/feature/removeitem.spec.js</em></p>
-<pre><code><span class="function"><span class="title">it</span><span class="params">('should remove item renderer from view', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+<pre><code><span class="hljs-function">it(<span class="hljs-string">'should remove item renderer from view'</span>, <span class="hljs-function">function()</span> {
 
-  list<span class="variable">Controller</span>.<span class="function_name">removeItem</span>(grocery<span class="variable">Item</span>);
+  listController.<span class="hljs-function">removeItem(groceryItem)</span>;
 
 
 
-  <span class="function_name">expect</span>($list<span class="variable">View</span>.<span class="function_name">children</span>().length).<span class="function_name">toEqual</span>(<span class="number">0</span>);
+  <span class="hljs-function">expect($listView.<span class="hljs-function">children()</span>.length)</span>.<span class="hljs-function">toEqual(<span class="hljs-number">0</span>)</span>;
 
-}</span>);</code></pre>
-<p>Just as we had done for the <em>Add Item</em> feature specification, we are inspecting the view reference held by list-controller that is updated based on change to the model. In this case, we are expecting that the list item renderer is removed upon <code>removeItem()</code> as well.</p>
+})</span>;
+</code></pre><p>Just as we had done for the <em>Add Item</em> feature specification, we are inspecting the view reference held by list-controller that is updated based on change to the model. In this case, we are expecting that the list item renderer is removed upon <code>removeItem()</code> as well.</p>
 <p>Run that, and failure!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_3.png" alt="Failure of test on removl of item views."><br>It might be important to note the actual print out from the failing expectation. It says that the length of children on the list view is 2 – that is because we now have 2 specs that are defining the expectations of <code>removeItem()</code> that are failing to remove the item view from the list.</p>
 <p>Let’s switch over the list-controller and get this sorted and back to green. But before we do, let’s think about the relationship of the <code>list-controller</code> and its underlying collection. The <code>list-controller</code> responds to collection event for <code>EventKindEnum.ADD</code> in order to modify the view. So, we will respond to <code>EventKindEnum.REMOVE</code> accordingly to modify the view on removal of an item as well, instead of adding more logic to the <code>removeItem()</code> method on <code>list-controller</code>:</p>
 <p><em>/script/controller/list-controller.js</em></p>
-<pre><code><span class="variable">$collection</span>.on(<span class="string">'collection-change'</span>, function(<span class="keyword">event</span>) {
+<pre><code><span class="hljs-variable">$collection</span>.on(<span class="hljs-string">'collection-change'</span>, function(<span class="hljs-keyword">event</span>) {
 
-  var model, itemController, <span class="variable">$itemView</span>;
+  var model, itemController, <span class="hljs-variable">$itemView</span>;
 
-  <span class="keyword">switch</span>( <span class="keyword">event</span>.kind ) {
+  <span class="hljs-keyword">switch</span>( <span class="hljs-keyword">event</span>.kind ) {
 
-    <span class="keyword">case</span> EventKindEnum.ADD:
+    <span class="hljs-keyword">case</span> EventKindEnum.ADD:
 
-      <span class="variable">$itemView</span> = <span class="variable">$(</span><span class="string">'&lt;li&gt;'</span>);
+      <span class="hljs-variable">$itemView</span> = <span class="hljs-variable">$(</span><span class="hljs-string">'&lt;li&gt;'</span>);
 
-      model = <span class="keyword">event</span>.items.shift();
+      model = <span class="hljs-keyword">event</span>.items.shift();
 
-      itemController = itemControllerFactory.create(<span class="variable">$itemView</span>, model);
+      itemController = itemControllerFactory.create(<span class="hljs-variable">$itemView</span>, model);
 
 
 
-      <span class="variable">$itemView</span>.appendTo(listController.<span class="variable">$view</span>);
+      <span class="hljs-variable">$itemView</span>.appendTo(listController.<span class="hljs-variable">$view</span>);
 
       rendererList.addItem(itemController);
 
       itemController.state = itemControllerFactory.state.EDITABLE;
 
-      <span class="keyword">break</span>;
+      <span class="hljs-keyword">break</span>;
 
-    <span class="keyword">case</span> EventKindEnum.REMOVE:
+    <span class="hljs-keyword">case</span> EventKindEnum.REMOVE:
 
-      model = <span class="keyword">event</span>.items.shift();
+      model = <span class="hljs-keyword">event</span>.items.shift();
 
       itemController = listController.getRendererFromItem(model);
 
 
 
-      <span class="keyword">if</span>(itemController) {
+      <span class="hljs-keyword">if</span>(itemController) {
 
-        <span class="variable">$itemView</span> = itemController.parentView;
+        <span class="hljs-variable">$itemView</span> = itemController.parentView;
 
-        <span class="variable">$itemView</span>.remove();
+        <span class="hljs-variable">$itemView</span>.remove();
 
         rendererList.removeItem(itemController);
 
       }
 
-      <span class="keyword">break</span>;
+      <span class="hljs-keyword">break</span>;
 
-    <span class="keyword">case</span> EventKindEnum.RESET:
+    <span class="hljs-keyword">case</span> EventKindEnum.RESET:
 
-      <span class="keyword">break</span>;
+      <span class="hljs-keyword">break</span>;
 
   }
 
-});</code></pre>
-<p>In the <code>EventKindEnum.REMOVE</code> case, we are grabbing the model provided on the event, using it to access the associated <code>list-item-controller</code> instance, and – if defined – removing the list item renderer view from the DOM and the controller from the renderer collection.</p>
+});
+</code></pre><p>In the <code>EventKindEnum.REMOVE</code> case, we are grabbing the model provided on the event, using it to access the associated <code>list-item-controller</code> instance, and – if defined – removing the list item renderer view from the DOM and the controller from the renderer collection.</p>
 <p>Run that, and we are back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_4.png" alt="Passing tests on removal of item from view."></p>
 <p>Tagged <strong>0.1.10</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.10"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.10">https://github.com/bustardcelly/grocery-ls/tree/0.1.10</a></a></p>
 <h2 id="back-to-reality">Back to Reality</h2>
@@ -284,192 +284,192 @@
 <h3 id="tests">Tests</h3>
 <p>We’ll start with the specs for the <code>list-controller</code>. We are not going to be adding any new specs to the <em>Remove Item</em> feature to accomplish the implementation of <code>list-item-controller</code> notifying of a <code>remove</code> event; it seems a little odd to me as well, but we have already established that the <em>Remove</em> API performs as expected. We need to verify that the <code>list-controller</code> uses that API in response to a <code>list-item-controller</code> – less of a feature and more of an integration point.</p>
 <p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
-<pre><code><span class="function"><span class="title">describe</span><span class="params">('list-item-controller remove event response', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+<pre><code><span class="hljs-function">describe(<span class="hljs-string">'list-item-controller remove event response'</span>, <span class="hljs-function">function()</span> {
 
 
 
-  <span class="function_name">it</span>('should invoke list-<span class="function_name">controller:removeItem</span>()', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+  <span class="hljs-function">it(<span class="hljs-string">'should invoke list-controller:removeItem()'</span>, <span class="hljs-function">function()</span> {
 
-    var new<span class="variable">Item</span> = list<span class="variable">Controller</span>.<span class="function_name">createNewItem</span>(),
+    var newItem = listController.<span class="hljs-function">createNewItem()</span>,
 
-        item<span class="variable">Renderer</span> = list<span class="variable">Controller</span>.<span class="function_name">getRendererFromItem</span>(new<span class="variable">Item</span>);
-
-
-
-    <span class="function_name">spyOn</span>(list<span class="variable">Controller</span>, 'remove<span class="variable">Item</span>');
-
-    $(item<span class="variable">Renderer</span>).<span class="function_name">trigger</span>('remove');
-
-    <span class="function_name">expect</span>(list<span class="variable">Controller</span>.remove<span class="variable">Item</span>).<span class="function_name">toHaveBeenCalledWith</span>(new<span class="variable">Item</span>);
-
-  }</span>);
+        itemRenderer = listController.<span class="hljs-function">getRendererFromItem(newItem)</span>;
 
 
 
-});</code></pre>
-<p>In this spec, we set up a <a href="https://github.com/pivotal/jasmine/wiki/Spies">spy</a> to verify that the <code>removeItem()</code> method is invoked upon dispatch of <code>remove</code> from a <code>list-item-controller</code> instance.</p>
+    <span class="hljs-function">spyOn(listController, <span class="hljs-string">'removeItem'</span>)</span>;
+
+    $(itemRenderer)</span>.<span class="hljs-function">trigger(<span class="hljs-string">'remove'</span>)</span>;
+
+    <span class="hljs-function">expect(listController.removeItem)</span>.<span class="hljs-function">toHaveBeenCalledWith(newItem)</span>;
+
+  })</span>;
+
+
+
+});
+</code></pre><p>In this spec, we set up a <a href="https://github.com/pivotal/jasmine/wiki/Spies">spy</a> to verify that the <code>removeItem()</code> method is invoked upon dispatch of <code>remove</code> from a <code>list-item-controller</code> instance.</p>
 <p>Run that and we are back to red, with a message letting us know that <code>removeItem()</code> was never called.<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_5.png" alt="Failing implementation of remove event."><br>Good. Let’s open up <code>list-controller</code> and implement a <code>remove</code> event response:</p>
 <p>/script/controller/list-controller.js</p>
-<pre><code><span class="variable">$collection</span>.on(<span class="string">'collection-change'</span>, function(<span class="keyword">event</span>) {
+<pre><code><span class="hljs-variable">$collection</span>.on(<span class="hljs-string">'collection-change'</span>, function(<span class="hljs-keyword">event</span>) {
 
-  var model, itemController, <span class="variable">$itemView</span>;
+  var model, itemController, <span class="hljs-variable">$itemView</span>;
 
-  <span class="keyword">switch</span>( <span class="keyword">event</span>.kind ) {
+  <span class="hljs-keyword">switch</span>( <span class="hljs-keyword">event</span>.kind ) {
 
-    <span class="keyword">case</span> EventKindEnum.ADD:
+    <span class="hljs-keyword">case</span> EventKindEnum.ADD:
 
-      <span class="variable">$itemView</span> = <span class="variable">$(</span><span class="string">'&lt;li&gt;'</span>);
+      <span class="hljs-variable">$itemView</span> = <span class="hljs-variable">$(</span><span class="hljs-string">'&lt;li&gt;'</span>);
 
-      model = <span class="keyword">event</span>.items.shift();
+      model = <span class="hljs-keyword">event</span>.items.shift();
 
-      itemController = itemControllerFactory.create(<span class="variable">$itemView</span>, model);
+      itemController = itemControllerFactory.create(<span class="hljs-variable">$itemView</span>, model);
 
 
 
-      <span class="variable">$itemView</span>.appendTo(listController.<span class="variable">$view</span>);
+      <span class="hljs-variable">$itemView</span>.appendTo(listController.<span class="hljs-variable">$view</span>);
 
       rendererList.addItem(itemController);
 
       itemController.state = itemControllerFactory.state.EDITABLE;
 
-      <span class="variable">$(</span>itemController).on(<span class="string">'remove'</span>, function(<span class="keyword">event</span>) {
+      <span class="hljs-variable">$(</span>itemController).on(<span class="hljs-string">'remove'</span>, function(<span class="hljs-keyword">event</span>) {
 
         listController.removeItem(model);
 
       });
 
-      <span class="keyword">break</span>;
+      <span class="hljs-keyword">break</span>;
 
-    <span class="keyword">case</span> EventKindEnum.REMOVE:
+    <span class="hljs-keyword">case</span> EventKindEnum.REMOVE:
 
-      model = <span class="keyword">event</span>.items.shift();
+      model = <span class="hljs-keyword">event</span>.items.shift();
 
       itemController = listController.getRendererFromItem(model);
 
 
 
-      <span class="keyword">if</span>(itemController) {
+      <span class="hljs-keyword">if</span>(itemController) {
 
-        <span class="variable">$itemView</span> = itemController.parentView;
+        <span class="hljs-variable">$itemView</span> = itemController.parentView;
 
-        <span class="variable">$itemView</span>.remove();
+        <span class="hljs-variable">$itemView</span>.remove();
 
         itemController.dispose();
 
-        <span class="variable">$(</span>itemController).off(<span class="string">'remove'</span>);
+        <span class="hljs-variable">$(</span>itemController).off(<span class="hljs-string">'remove'</span>);
 
         rendererList.removeItem(itemController);
 
       }
 
-      <span class="keyword">break</span>;
+      <span class="hljs-keyword">break</span>;
 
-    <span class="keyword">case</span> EventKindEnum.RESET:
+    <span class="hljs-keyword">case</span> EventKindEnum.RESET:
 
-      <span class="keyword">break</span>;
+      <span class="hljs-keyword">break</span>;
 
   }
 
-});</code></pre>
-<p>We added the remove handler delegation in the <code>ADD</code> case when the collection changes, along with the other implementation of item renderer establishment. And, for good measure and memory management, we are sure to remove the event handler in the <code>REMOVE</code> case from the collection change, as well.</p>
+});
+</code></pre><p>We added the remove handler delegation in the <code>ADD</code> case when the collection changes, along with the other implementation of item renderer establishment. And, for good measure and memory management, we are sure to remove the event handler in the <code>REMOVE</code> case from the collection change, as well.</p>
 <p>Run the test now and we are back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_6.png" alt="Passing remove event response."></p>
 <h3 id="list-item-controller-modification">list-item-controller Modification</h3>
 <p>That’s great, but we are still glazing over the usability aspect: <em>How does a User delete an item?</em></p>
 <p>Again, we could go into a lengthy discussion of UX and code implementations, but to save yourself from scrolling just to read me ramble off topic, we’ll keep it simple: <em>add a delete button</em>! I don’t know why I got excited there. I’ll show the implementation in piecemeal just to see how it all comes together. First we’ll start with the markup we declared for the <code>list-item-controller</code> views:</p>
 <p><em>/script/controller/list-item-controller.js</em></p>
-<pre><code>uneditableItemFragment  = '<span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"grocery-item"</span>&gt;</span>' +
+<pre><code>uneditableItemFragment  = <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;p class="grocery-item"&gt;</span>' +</span>
 
-                                             '<span class="tag">&lt;<span class="title">span</span> <span class="attribute">class</span>=<span class="value">"grocery-item-label"</span> /&gt;</span>' +
+                                             <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;span class="grocery-item-label" /&gt;</span>' +</span>
 
-                                             '<span class="tag">&lt;<span class="title">button</span> <span class="attribute">class</span>=<span class="value">"delete-item-button"</span>&gt;</span>delete<span class="tag">&lt;/<span class="title">button</span>&gt;</span>' +
+                                             <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;button class="delete-item-button"&gt;</span>delete<span class="hljs-xmlDocTag">&lt;/button&gt;</span>' +</span>
 
-                                           '<span class="tag">&lt;/<span class="title">p</span>&gt;</span>',
+                                           <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;/p&gt;</span>',</span>
 
-editableItemFragment    = '<span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"editable-grocery-item"</span>&gt;</span>' +
+editableItemFragment    = <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;p class="editable-grocery-item"&gt;</span>' +</span>
 
-                                            '<span class="tag">&lt;<span class="title">input</span> <span class="attribute">name</span>=<span class="value">"editableItem"</span> ' +
+                                            <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;input name="editableItem" ' +
 
-                                              '<span class="attribute">class</span>=<span class="value">"editable-item"</span> <span class="attribute">placeholder</span>=<span class="value">"Enter item name..."</span>&gt;</span>' +
+                                              'class="editable-item" placeholder="Enter item name..."&gt;</span>' +</span>
 
-                                            '<span class="tag">&lt;/<span class="title">input</span>&gt;</span>' +
+                                            <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;/input&gt;</span>' +</span>
 
-                                         '<span class="tag">&lt;/<span class="title">p</span>&gt;</span>'</code></pre>
-<p>The <code>uneditableItemFragment</code> markup has changed slightly to support a label and a button. It was previously just a <code>p</code> element all by its lonesome, but with several references for modification and event <code>click</code> event handling. We’ll need to update those, as well as add another event handler for the <code>button</code> element:</p>
+                                         <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;/p&gt;</span>'</span>
+</code></pre><p>The <code>uneditableItemFragment</code> markup has changed slightly to support a label and a button. It was previously just a <code>p</code> element all by its lonesome, but with several references for modification and event <code>click</code> event handling. We’ll need to update those, as well as add another event handler for the <code>button</code> element:</p>
 <p><em>/script/controller/list-item-controller.js</em></p>
-<pre><code><span class="attribute">init</span>: <span class="string">function() {</span>
+<pre><code>init: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-<span class="coffeescript">  <span class="keyword">this</span>.$editableView = $(editableItemFragment);
+  <span class="hljs-keyword">this</span>.$editableView = $(editableItemFragment);
 
-  <span class="keyword">this</span>.$uneditableView = $(uneditableItemFragment);
+  <span class="hljs-keyword">this</span>.$uneditableView = $(uneditableItemFragment);
 
 
 
-  <span class="regexp">//</span> view handlers.
+  <span class="hljs-comment">// view handlers.</span>
 
-  $(<span class="string">'span.grocery-item-label'</span>, <span class="keyword">this</span>.$uneditableView).<span class="literal">on</span>(<span class="string">'click'</span>, (<span class="reserved">function</span>(controller) {
+  $(<span class="hljs-string">'span.grocery-item-label'</span>, <span class="hljs-keyword">this</span>.$uneditableView).on(<span class="hljs-string">'click'</span>, (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(controller)</span> {</span>
 
-    <span class="keyword">return</span> <span class="reserved">function</span>(event) {
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
-      <span class="reserved">var</span> toggled = $(<span class="keyword">this</span>).css(<span class="string">'text-decoration'</span>) === <span class="string">'line-through'</span>;
+      <span class="hljs-keyword">var</span> toggled = $(<span class="hljs-keyword">this</span>).css(<span class="hljs-string">'text-decoration'</span>) === <span class="hljs-string">'line-through'</span>;
 
       controller.model.marked = !toggled;
 
     };
 
-  }(<span class="keyword">this</span>)));
+  }(<span class="hljs-keyword">this</span>)));
 
-  $(<span class="string">'button.delete-item-button'</span>, <span class="keyword">this</span>.$uneditableView).<span class="literal">on</span>(<span class="string">'click'</span>, (<span class="reserved">function</span>(controller) {
+  $(<span class="hljs-string">'button.delete-item-button'</span>, <span class="hljs-keyword">this</span>.$uneditableView).on(<span class="hljs-string">'click'</span>, (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(controller)</span> {</span>
 
-    <span class="keyword">return</span> <span class="reserved">function</span>(event) {
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
 
       $(controller).trigger(createRemoveEvent(controller));
 
     };
 
-  }(<span class="keyword">this</span>)));
+  }(<span class="hljs-keyword">this</span>)));
 
   ...
 
-}</span></code></pre>
-<p>As seen previously, we are using <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a>s here as a factory method in order to pass in a reference to the <code>list-item-controller</code> instance instead of declaring the old:</p>
-<pre><code><span class="keyword">var</span> <span class="keyword">self</span> = <span class="keyword">this</span>;</code></pre>
-<p>and then passing <code>self</code> around which always makes me cringe. In any event (no pun intended), we have transferred the <em>click</em> handling previously assigned to the <code>p</code> element over the <code>span</code> element in order to support the usability of marking off an item. As well, we added handling of delete <code>button</code> <em>click</em> to trigger a new event:</p>
+}
+</code></pre><p>As seen previously, we are using <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a>s here as a factory method in order to pass in a reference to the <code>list-item-controller</code> instance instead of declaring the old:</p>
+<pre><code><span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+</code></pre><p>and then passing <code>self</code> around which always makes me cringe. In any event (no pun intended), we have transferred the <em>click</em> handling previously assigned to the <code>p</code> element over the <code>span</code> element in order to support the usability of marking off an item. As well, we added handling of delete <code>button</code> <em>click</em> to trigger a new event:</p>
 <p><em>/script/controller/list-item-controller.js</em></p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">createRemoveEvent</span><span class="params">(controller)</span> {</span>
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createRemoveEvent</span><span class="hljs-params">(controller)</span> {</span>
 
-  <span class="keyword">var</span> event = $.Event(<span class="string">'remove'</span>);
+  <span class="hljs-keyword">var</span> event = $.Event(<span class="hljs-string">'remove'</span>);
 
   event.controller = controller;
 
-  <span class="keyword">return</span> event;
+  <span class="hljs-keyword">return</span> event;
 
-}</code></pre>
-<p>Pretty straight forward in how we have create factory methods for our <a href="http://jquery.org">jQuery</a> events previously in this series. Next we need to modify the references that respond to model changes, such as the <code>marked</code> property value:</p>
+}
+</code></pre><p>Pretty straight forward in how we have create factory methods for our <a href="http://jquery.org">jQuery</a> events previously in this series. Next we need to modify the references that respond to model changes, such as the <code>marked</code> property value:</p>
 <p><em>/script/controller/list-item-controller.js</em></p>
-<pre><code>function handlePropertyChange(controller, <span class="keyword">event</span>) {
+<pre><code>function handlePropertyChange(controller, <span class="hljs-keyword">event</span>) {
 
-  <span class="keyword">if</span>(<span class="keyword">event</span>.property === <span class="string">"name"</span>) {
+  <span class="hljs-keyword">if</span>(<span class="hljs-keyword">event</span>.property === <span class="hljs-string">"name"</span>) {
 
-    <span class="comment">// update view based on model change.</span>
+    <span class="hljs-comment">// update view based on model change.</span>
 
-    <span class="variable">$(</span><span class="string">'input'</span>, controller.<span class="variable">$editableView</span>).val(controller.model.name);
+    <span class="hljs-variable">$(</span><span class="hljs-string">'input'</span>, controller.<span class="hljs-variable">$editableView</span>).val(controller.model.name);
 
-    <span class="variable">$(</span><span class="string">'span.grocery-item-label'</span>, controller.<span class="variable">$uneditableView</span>).<span class="keyword">text</span>(<span class="keyword">event</span>.newValue);
-
-  }
-
-  <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">event</span>.property === <span class="string">"marked"</span>) {
-
-    <span class="comment">// update view based on model change.</span>
-
-    <span class="variable">$(</span><span class="string">'span.grocery-item-label'</span>, controller.<span class="variable">$uneditableView</span>)
-
-        .css(<span class="string">'text-decoration'</span>, ( <span class="keyword">event</span>.newValue ) ? <span class="string">'line-through'</span> : <span class="string">'none'</span>);
+    <span class="hljs-variable">$(</span><span class="hljs-string">'span.grocery-item-label'</span>, controller.<span class="hljs-variable">$uneditableView</span>).<span class="hljs-keyword">text</span>(<span class="hljs-keyword">event</span>.newValue);
 
   }
 
-}</code></pre>
-<p>Alright. That should just about do it. Now you may be saying to yourself, <em>‘Why haven’t we modified any tests in order to support this change in UI and event handling?’</em> To which I will respond, <em>‘Stop bringing that up!’</em> In all seriousness, we perhaps should be writing tests to support these changes, however those will get pretty fine grained on the UI design aspect of the application. As you can see, it is constantly changing at this time and we are more concerned with the logical points of how the <strong>Grocery List</strong> application should behave. </p>
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-keyword">event</span>.property === <span class="hljs-string">"marked"</span>) {
+
+    <span class="hljs-comment">// update view based on model change.</span>
+
+    <span class="hljs-variable">$(</span><span class="hljs-string">'span.grocery-item-label'</span>, controller.<span class="hljs-variable">$uneditableView</span>)
+
+        .css(<span class="hljs-string">'text-decoration'</span>, ( <span class="hljs-keyword">event</span>.newValue ) ? <span class="hljs-string">'line-through'</span> : <span class="hljs-string">'none'</span>);
+
+  }
+
+}
+</code></pre><p>Alright. That should just about do it. Now you may be saying to yourself, <em>‘Why haven’t we modified any tests in order to support this change in UI and event handling?’</em> To which I will respond, <em>‘Stop bringing that up!’</em> In all seriousness, we perhaps should be writing tests to support these changes, however those will get pretty fine grained on the UI design aspect of the application. As you can see, it is constantly changing at this time and we are more concerned with the logical points of how the <strong>Grocery List</strong> application should behave. </p>
 <p>Like with most of my code, future me may look back and shake his head at past me for such a statement – but for right now, present me will live with it <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <h3 id="using-the-grocery-list-application">Using the Grocery List Application</h3>
 <p>Let’s actually <em>run</em> the application and use it. We spend all this time making our tests turn red and green, we barely get to use what we are building.<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_7.png" alt="Grocery list application"></p>

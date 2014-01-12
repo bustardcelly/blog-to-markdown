@@ -131,12 +131,12 @@ module.exports = function(grunt) {
       }
     },
     exec: {
-        yslow: {
-            cmd: 'phantomjs yslow.js --info basic --format plain <%= config.site.dist %>'
-        },
-        sitespeed: {
-            cmd: '<%= config.sitespeed %> -u <%= config.site.dist %> -r ' + __dirname + '/doc/metrics'
-        }
+      yslow: {
+        cmd: 'phantomjs yslow.js --info basic --format plain <%= config.site.dist %>'
+      },
+      sitespeed: {
+        cmd: '<%= config.sitespeed %> -u <%= config.site.dist %> -r ' + __dirname + '/doc/metrics'
+      }
     }
   });
 

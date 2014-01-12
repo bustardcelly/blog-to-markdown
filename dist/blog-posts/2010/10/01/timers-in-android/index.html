@@ -61,11 +61,11 @@
     <p>Thought i’d make a quick post as part of a reminder for me or for those coming from ActionScript to <strong>Android</strong> and wondering how to create a <strong>Timer</strong>. It’s no secret but took me some searching to find (what i think is) the correct way to use timers in Android while i was working on some stuff for <a href="http://custardbelly.com/blog/?p=191"><strong>MassRoute</strong></a>.</p>
 <p>Within the <strong>Android SDK</strong> there is a <strong>Handler</strong> class. I won’t go into the specifics of Handler as there is a pretty good explanation within the <a href="http://developer.android.com/reference/android/os/Handler.html">documentation</a>, but the basics is that you pass a <strong>Runnable</strong> object that will be invoked at a given time.</p>
 <p><em>To run the timer once:</em></p>
-<pre><code><span class="keyword">protected</span> Handler taskHandler = <span class="keyword">new</span> Handler();
-<span class="keyword">protected</span> <span class="keyword">void</span> setTimer( <span class="keyword">long</span> time )
+<pre><code><span class="hljs-keyword">protected</span> Handler taskHandler = <span class="hljs-keyword">new</span> Handler();
+<span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setTimer</span>( <span class="hljs-keyword">long</span> time )
 {
-    Runnable t = <span class="keyword">new</span> Runnable() {
-    <span class="keyword">public</span> <span class="keyword">void</span> run()
+    Runnable t = <span class="hljs-keyword">new</span> Runnable() {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span>()
     {
         runNextTask();
     }
@@ -73,39 +73,39 @@
     taskHandler.postAtTime( t, time );
 }
 
-<span class="keyword">protected</span> <span class="keyword">void</span> runNextTask()
+<span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">runNextTask</span>()
 {
-    <span class="comment">// run my task.</span>
-}</code></pre>
-<p>[<strong>UPDATE 10/20/2010</strong>: After talking with <a href="http://jessefreeman.com/">Jesse Freeman</a> over continuous delayed timers in using Runnable in Android development, we discovered that the previous solution didn&#39;t quite go the whole mile. This example has been updated to provide a continuous delayed timer that stops based on a flag]</p>
+    <span class="hljs-comment">// run my task.</span>
+}
+</code></pre><p>[<strong>UPDATE 10/20/2010</strong>: After talking with <a href="http://jessefreeman.com/">Jesse Freeman</a> over continuous delayed timers in using Runnable in Android development, we discovered that the previous solution didn&#39;t quite go the whole mile. This example has been updated to provide a continuous delayed timer that stops based on a flag]</p>
 <p><em>To run the timer continuously at a given time:</em></p>
-<pre><code><span class="comment">// -- Class Members --</span>
-<span class="keyword">protected</span> Handler taskHandler = <span class="keyword">new</span> Handler();
-<span class="keyword">protected</span> Boolean isComplete = <span class="keyword">false</span>;
+<pre><code><span class="hljs-comment">// -- Class Members --</span>
+<span class="hljs-keyword">protected</span> Handler taskHandler = <span class="hljs-keyword">new</span> Handler();
+<span class="hljs-keyword">protected</span> Boolean isComplete = <span class="hljs-keyword">false</span>;
 
-<span class="comment">// -- Set Timer --</span>
-<span class="keyword">protected</span> <span class="keyword">void</span> setTimer( <span class="keyword">long</span> time )
+<span class="hljs-comment">// -- Set Timer --</span>
+<span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setTimer</span>( <span class="hljs-keyword">long</span> time )
 {
-    <span class="keyword">final</span> <span class="keyword">long</span> elapse = <span class="number">1000</span>;
-    Runnable t = <span class="keyword">new</span> Runnable() {
-        <span class="keyword">public</span> <span class="keyword">void</span> run()
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> elapse = <span class="hljs-number">1000</span>;
+    Runnable t = <span class="hljs-keyword">new</span> Runnable() {
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span>()
         {
             runNextTask();
-            <span class="keyword">if</span>( !isComplete )
+            <span class="hljs-keyword">if</span>( !isComplete )
             {
-                _taskHandler.postDelayed( <span class="keyword">this</span>, elapse );
+                _taskHandler.postDelayed( <span class="hljs-keyword">this</span>, elapse );
             }
         }
     };
     _taskHandler.postDelayed( t, elapse );
 }
 
-<span class="keyword">protected</span> <span class="keyword">void</span> runNextTask()
+<span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">runNextTask</span>()
 {
-    <span class="comment">// run my task.</span>
-    <span class="comment">// determine isComplete.</span>
-}</code></pre>
-<p>Posted in <a href="http://custardbelly.com/blog/category/android/">Android</a>.</p>
+    <span class="hljs-comment">// run my task.</span>
+    <span class="hljs-comment">// determine isComplete.</span>
+}
+</code></pre><p>Posted in <a href="http://custardbelly.com/blog/category/android/">Android</a>.</p>
 
   </section>
   <section class="navigation">

@@ -65,30 +65,30 @@
 <p>One important thing to remember is that the context file is an external file that is loaded by the application at runtime. This means you will need to have all the possible classes your application <em>may</em> use already compiled into the SWF in order for the objects to be instantiated and your application to work. If you are typing to interfaces, this could prove to be a bit of a problem. You could create a reference for each class that may be needed in another class that is known to be compiled into the SWF – as Christophe explains <a href="http://www.herrodius.com/blog/65">in this post</a> – but that always seemed dirty to me. </p>
 <p>As is mentioned in the comments to that <a href="http://www.herrodius.com/blog/65">post</a>, you can also go about adding each class using the -includes compiler option. Adding all possible classes using the -includes option makes for an excellent case on when to use additional compiler configurations, and presents the option to really just change the application context file and the additional configuration file as the project sees fit, without having to open up the source and tack on or remove dummy references to classes.</p>
 <p>As an example, take for instance this application context file:</p>
-<pre><code><span class="tag">&lt; ?<span class="attribute">xml</span> <span class="attribute">version</span>=<span class="value">"1.0"</span> <span class="attribute">encoding</span>=<span class="value">"utf-8"</span>?&gt;</span>
-<span class="tag">&lt;<span class="title">objects</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">property</span> <span class="attribute">file</span>=<span class="value">"app.properties"</span> /&gt;</span>
-    <span class="comment">&lt;!-- Handles direct invocation on client --&gt;</span>
-    <span class="tag">&lt;<span class="title">object</span> <span class="attribute">id</span>=<span class="value">"callbackHandler"</span> <span class="attribute">class</span>=<span class="value">"com.example.responder.CallbackResponderImpl"</span> /&gt;</span>
-    <span class="comment">&lt;!-- Handles connection to Red5 application --&gt;</span>
-    <span class="tag">&lt;<span class="title">object</span> <span class="attribute">id</span>=<span class="value">"connectionDelegate"</span> <span class="attribute">class</span>=<span class="value">"com.example.business.ConnectionDelegateImpl"</span>&gt;</span>
-        <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"rtmpURI"</span> <span class="attribute">value</span>=<span class="value">"${app.rtmpURI}"</span> /&gt;</span>
-        <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"client"</span>&gt;</span>
-            <span class="tag">&lt;<span class="title">ref</span>&gt;</span>callbackHandler<span class="tag">&lt;/<span class="title">ref</span>&gt;</span>
-        <span class="tag">&lt;/<span class="title">property</span>&gt;</span>
-    <span class="tag">&lt;/<span class="title">object</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">objects</span>&gt;</span></code></pre>
-<p>.. for each possible implementation of <strong>ConnectionDelegate</strong> and <strong>CallbackResponder</strong> that i may decide to swap in and out as the project seems fit, i would either need to hold a reference to each implementation in some class sure or be compiled into the SWF, or i could store them in an additional config file that can be added using the -load-config option with an additional value:</p>
+<pre><code><span class="hljs-tag">&lt; ?<span class="hljs-attribute">xml</span> <span class="hljs-attribute">version</span>=<span class="hljs-value">"1.0"</span> <span class="hljs-attribute">encoding</span>=<span class="hljs-value">"utf-8"</span><span class="hljs-value">?</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">objects</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">property</span> <span class="hljs-attribute">file</span>=<span class="hljs-value">"app.properties"</span> /&gt;</span>
+    <span class="hljs-comment">&lt;!-- Handles direct invocation on client --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">object</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"callbackHandler"</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"com.example.responder.CallbackResponderImpl"</span> /&gt;</span>
+    <span class="hljs-comment">&lt;!-- Handles connection to Red5 application --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">object</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"connectionDelegate"</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"com.example.business.ConnectionDelegateImpl"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">property</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"rtmpURI"</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"${app.rtmpURI}"</span> /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">property</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"client"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">ref</span>&gt;</span>callbackHandler<span class="hljs-tag">&lt;/<span class="hljs-title">ref</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">object</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">objects</span>&gt;</span>
+</code></pre><p>.. for each possible implementation of <strong>ConnectionDelegate</strong> and <strong>CallbackResponder</strong> that i may decide to swap in and out as the project seems fit, i would either need to hold a reference to each implementation in some class sure or be compiled into the SWF, or i could store them in an additional config file that can be added using the -load-config option with an additional value:</p>
 <p>The <strong>prana.config</strong> file:</p>
-<pre><code><span class="tag">&lt;<span class="title">flex</span> <span class="attribute">-config</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">includes</span> <span class="attribute">append</span>=<span class="value">"true"</span>&gt;</span>
-        <span class="tag">&lt;<span class="title">symbol</span>&gt;</span>com.example.reponder.CallbackResponderImpl<span class="tag">&lt;/<span class="title">symbol</span>&gt;</span>
-        <span class="tag">&lt;<span class="title">symbol</span>&gt;</span>com.example.business.ConnectionDelegateImpl<span class="tag">&lt;/<span class="title">symbol</span>&gt;</span>
-    <span class="tag">&lt;/<span class="title">includes</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">flex</span>&gt;</span></code></pre>
-<p>… drop that in my source folder and add the compiler option:</p>
-<pre><code>-<span class="operator"><span class="keyword">load</span>-config+=prana.config</code></pre>
-<p>From there, i could change the context as i see fit, update the prana.config file to reflect my preferences and just recompile the application without having to go into the source and muck about. It’s a little more clean for me and allows me to happily go about using the <a href="http://www.pranaframework.org/">Prana</a> framework.</p>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">flex</span> <span class="hljs-attribute">-config</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">includes</span> <span class="hljs-attribute">append</span>=<span class="hljs-value">"true"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">symbol</span>&gt;</span>com.example.reponder.CallbackResponderImpl<span class="hljs-tag">&lt;/<span class="hljs-title">symbol</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">symbol</span>&gt;</span>com.example.business.ConnectionDelegateImpl<span class="hljs-tag">&lt;/<span class="hljs-title">symbol</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">includes</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">flex</span>&gt;</span>
+</code></pre><p>… drop that in my source folder and add the compiler option:</p>
+<pre><code><span class="hljs-attribute">-load</span><span class="hljs-attribute">-config</span><span class="hljs-subst">+=</span>prana<span class="hljs-built_in">.</span>config
+</code></pre><p>From there, i could change the context as i see fit, update the prana.config file to reflect my preferences and just recompile the application without having to go into the source and muck about. It’s a little more clean for me and allows me to happily go about using the <a href="http://www.pranaframework.org/">Prana</a> framework.</p>
 <p>The best part is that <a href="http://www.herrodius.com/blog/64">Prana is truthfully AS3 compliant</a>! Meaning you can use it in your Flex <em>AND</em> AS3 projects, which cannot be said for some frameworks that claim to be AS3 and actually use class from the mx package… (looking at you <a href="http://code.google.com/p/as3lib/">as3lib</a>). <em>A huge pet-peeve of mine.</em><br>*Last i checked, the source under version control doesn’t seem to reflect the current changes <a href="http://www.herrodius.com/blog/">Christophe</a> has made, but they are included in the downloads.</p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/prana/">Prana</a>.</p>
 

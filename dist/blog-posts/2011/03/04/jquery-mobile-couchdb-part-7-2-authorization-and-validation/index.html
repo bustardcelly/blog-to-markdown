@@ -68,100 +68,100 @@
 <p>We learned about templates on the <a href="http://couchdb.apache.org/">CouchDB</a> side previously – using <a href="https://github.com/janl/mustache.js/">Mustache</a> and <strong>Partials</strong> to create our views. Same concept. We want to be able to declare some mark-up in one place that will be rendered in the <strong>DOM</strong> upon request from anywhere in the application. To do that, we’ll use the <a href="http://github.com/jquery/jquery-tmpl">jquery.tmpl</a> plugin available at: <a href="http://github.com/jquery/jquery-tmpl"><a href="http://github.com/jquery/jquery-tmpl">http://github.com/jquery/jquery-tmpl</a></a>. Why jquery.tmpl? It is simple to use and – though still in beta – is considered an <a href="http://www.borismoore.com/2010/10/jquery-templates-is-now-official-jquery.html">official jQuery plugin</a>, so documentation can be found on the <a href="http://jquery.com/">jQuery</a> site at: <a href="http://api.jquery.com/jquery.tmpl/"><a href="http://api.jquery.com/jquery.tmpl/">http://api.jquery.com/jquery.tmpl/</a></a>. In any event, make sure to download the jquery.tmpl plugin from <a href="http://github.com/jquery/jquery-tmpl"><a href="http://github.com/jquery/jquery-tmpl">http://github.com/jquery/jquery-tmpl</a></a> as we are going to use it for our login dialog.</p>
 <p>With <em>jquery.tmpl</em> downloaded and added to the <em>/vendor/couchapp/_attachments/</em> folder of our <strong>albums</strong> <a href="http://couchapp.org/page/index">coucapp</a> directory (in following the examples within this series, for me that directory is <em>/Documents/workspace/custardbelly/couchdb/albums</em>), open up the <em>loader.js</em> file from that same directory and save the following modification to include the <em>jquery.tmpl</em>:</p>
 <p><em>/vendor/couchapp/_attachments/loader.js</em></p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">couchapp_load</span><span class="params">(scripts)</span> {</span>
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">couchapp_load</span><span class="hljs-params">(scripts)</span> {</span>
 
-  <span class="keyword">for</span> (var <span class="built_in">i</span>=<span class="number">0</span>; <span class="built_in">i</span> &lt; <span class="transposed_variable">scripts.</span><span class="built_in">length</span>; <span class="built_in">i</span>++) <span class="cell">{
+  <span class="hljs-keyword">for</span> (var i=<span class="hljs-number">0</span>; i &lt; <span class="hljs-transposed_variable">scripts.</span><span class="hljs-built_in">length</span>; i++) {
 
-    document.write(<span class="string">'&lt;script src="'</span>+scripts[i]+<span class="string">'"&gt;&lt;\/script&gt;'</span>)
+    <span class="hljs-transposed_variable">document.</span>write(<span class="hljs-string">'&lt;script src="</span><span class="hljs-string">'+scripts[i]+'</span><span class="hljs-string">"&gt;&lt;\/script&gt;'</span>)
 
-  }</span>;
+  };
 
 };
 
 
 
-couchapp_load(<span class="matrix">[
+couchapp_load(<span class="hljs-matrix">[
 
-  "/_utils/script/sha1.js",
+  <span class="hljs-string">"/_utils/script/sha1.js"</span>,
 
-  "/_utils/script/json2.js",
+  <span class="hljs-string">"/_utils/script/json2.js"</span>,
 
-  "vendor/couchapp/jquery-<span class="number">1.4</span><span class="number">.4</span>.js",
+  <span class="hljs-string">"vendor/couchapp/jquery-1.4.4.js"</span>,
 
-  "/_utils/script/jquery.couch.js",
+  <span class="hljs-string">"/_utils/script/jquery.couch.js"</span>,
 
-  "vendor/couchapp/jquery.couch.app.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.couch.app.js"</span>,
 
-  "vendor/couchapp/jquery.couch.app.util.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.couch.app.util.js"</span>,
 
-  "vendor/couchapp/jquery.mustache.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.mustache.js"</span>,
 
-  "vendor/couchapp/jquery.evently.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.evently.js"</span>,
 
-  "vendor/couchapp/jquery.mobile-<span class="number">1.0</span>a2.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.mobile-1.0a2.js"</span>,
 
-  "vendor/couchapp/jquery.tmpl.js"
+  <span class="hljs-string">"vendor/couchapp/jquery.tmpl.js"</span>
 
-]</span>);</code></pre>
-<p>Pretty straight forward; just adding the <em>jquery.tmpl</em> <strong>plugin</strong> to be loaded into the <strong>DOM</strong>. Now we need to declare the mark-up for our <strong>login dialog</strong>. We’ll just add it to our main page and its usage will be revealed later. For now, open up the <em>/_attachments/index.html</em> file and save the following script tag and content between the previously declared script tags for the <em>loader.js</em> and our application script:</p>
-<pre><code><span class="xml"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"vendor/couchapp/loader.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+]</span>);
+</code></pre><p>Pretty straight forward; just adding the <em>jquery.tmpl</em> <strong>plugin</strong> to be loaded into the <strong>DOM</strong>. Now we need to declare the mark-up for our <strong>login dialog</strong>. We’ll just add it to our main page and its usage will be revealed later. For now, open up the <em>/_attachments/index.html</em> file and save the following script tag and content between the previously declared script tags for the <em>loader.js</em> and our application script:</p>
+<pre><code>&lt;<span class="hljs-keyword">script</span> src=<span class="hljs-string">"vendor/couchapp/loader.js"</span>&gt;&lt;/<span class="hljs-keyword">script</span>&gt;
 
-<span class="tag">&lt;<span class="title">script</span> <span class="attribute">id</span>=<span class="value">"loginSignupDialog"</span> <span class="attribute">type</span>=<span class="value">"text/x-jquery-tmpl"</span>&gt;</span><span class="javascript">
+&lt;<span class="hljs-keyword">script</span> <span class="hljs-property">id</span>=<span class="hljs-string">"loginSignupDialog"</span> type=<span class="hljs-string">"text/x-jquery-tmpl"</span>&gt;
 
-    &lt;div role=<span class="string">"dialog"</span> data-backbtn=<span class="string">"false"</span> class=<span class="string">"ui-dialog ui-body-a"</span>&gt;
+    &lt;<span class="hljs-keyword">div</span> role=<span class="hljs-string">"dialog"</span> data-backbtn=<span class="hljs-string">"false"</span> <span class="hljs-type">class</span>=<span class="hljs-string">"ui-dialog ui-body-a"</span>&gt;
 
-      <span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ui-header ui-bar-a ui-corner-top ui-overlay-shadow"</span>&gt;</span>
+      &lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"ui-header ui-bar-a ui-corner-top ui-overlay-shadow"</span>&gt;
 
-    <span class="tag">&lt;<span class="title">h1</span> <span class="attribute">class</span>=<span class="value">"ui-title"</span>&gt;</span><span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+    &lt;h1 <span class="hljs-type">class</span>=<span class="hljs-string">"ui-title"</span>&gt;&lt;/h1&gt;
 
-    <span class="tag">&lt;<span class="title">a</span> <span class="attribute">id</span>=<span class="value">"dialogCloseButton"</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">data-icon</span>=<span class="value">"delete"</span> <span class="attribute">data-iconpos</span>=<span class="value">"notext"</span> <span class="attribute">style</span>=<span class="value">"left: </span></span></span><span class="number">15</span><span class="xml">px; top: </span><span class="number">.4</span><span class="xml">em; position: absolute;" /&gt;
+    &lt;a <span class="hljs-property">id</span>=<span class="hljs-string">"dialogCloseButton"</span> href=<span class="hljs-string">"#"</span> data-icon=<span class="hljs-string">"delete"</span> data-iconpos=<span class="hljs-string">"notext"</span> style=<span class="hljs-string">"left: 15px; top: .4em; position: absolute;"</span> /&gt;
 
-      <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+      &lt;/<span class="hljs-keyword">div</span>&gt;
 
-      <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span> <span class="attribute">class</span>=<span class="value">"ui-body-c ui-corner-bottom ui-overlay-shadow"</span>&gt;</span>
+      &lt;<span class="hljs-keyword">div</span> data-role=<span class="hljs-string">"content"</span> <span class="hljs-type">class</span>=<span class="hljs-string">"ui-body-c ui-corner-bottom ui-overlay-shadow"</span>&gt;
 
-        <span class="tag">&lt;<span class="title">p</span>&gt;</span>You need to be logged in to do that!<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+        &lt;p&gt;You need <span class="hljs-keyword">to</span> be logged <span class="hljs-keyword">in</span> <span class="hljs-keyword">to</span> do <span class="hljs-keyword">that</span>!&lt;/p&gt;
 
-        <span class="tag">&lt;<span class="title">form</span> <span class="attribute">action</span>=<span class="value">"#"</span> <span class="attribute">method</span>=<span class="value">"post"</span>&gt;</span>
+        &lt;form action=<span class="hljs-string">"#"</span> method=<span class="hljs-string">"post"</span>&gt;
 
-          <span class="tag">&lt;<span class="title">label</span> <span class="attribute">for</span>=<span class="value">"username"</span>&gt;</span>Username:<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
+          &lt;label <span class="hljs-keyword">for</span>=<span class="hljs-string">"username"</span>&gt;Username:&lt;/label&gt;
 
-          <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">name</span>=<span class="value">"username"</span> <span class="attribute">id</span>=<span class="value">"username"</span> <span class="attribute">value</span>=<span class="value">""</span>  /&gt;</span>
+          &lt;input type=<span class="hljs-string">"text"</span> <span class="hljs-property">name</span>=<span class="hljs-string">"username"</span> <span class="hljs-property">id</span>=<span class="hljs-string">"username"</span> value=<span class="hljs-string">""</span>  /&gt;
 
-          <span class="tag">&lt;<span class="title">label</span> <span class="attribute">for</span>=<span class="value">"password"</span>&gt;</span>Password:<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
+          &lt;label <span class="hljs-keyword">for</span>=<span class="hljs-string">"password"</span>&gt;Password:&lt;/label&gt;
 
-          <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"password"</span> <span class="attribute">name</span>=<span class="value">"password"</span> <span class="attribute">id</span>=<span class="value">"password"</span> <span class="attribute">value</span>=<span class="value">""</span> /&gt;</span>
+          &lt;input type=<span class="hljs-string">"password"</span> <span class="hljs-property">name</span>=<span class="hljs-string">"password"</span> <span class="hljs-property">id</span>=<span class="hljs-string">"password"</span> value=<span class="hljs-string">""</span> /&gt;
 
-          <span class="tag">&lt;<span class="title">a</span> <span class="attribute">id</span>=<span class="value">"submitButton"</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">type</span>=<span class="value">"submit"</span> <span class="attribute">data-role</span>=<span class="value">"button"</span> <span class="attribute">data-theme</span>=<span class="value">"b"</span>&gt;</span>Submit<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+          &lt;a <span class="hljs-property">id</span>=<span class="hljs-string">"submitButton"</span> href=<span class="hljs-string">"#"</span> type=<span class="hljs-string">"submit"</span> data-role=<span class="hljs-string">"button"</span> data-theme=<span class="hljs-string">"b"</span>&gt;Submit&lt;/a&gt;
 
-          <span class="tag">&lt;<span class="title">hr</span>/&gt;</span>
+          &lt;hr/&gt;
 
-          <span class="tag">&lt;<span class="title">a</span> <span class="attribute">id</span>=<span class="value">"optionLinkButton"</span> <span class="attribute">href</span>=<span class="value">"#"</span> /&gt;</span>
+          &lt;a <span class="hljs-property">id</span>=<span class="hljs-string">"optionLinkButton"</span> href=<span class="hljs-string">"#"</span> /&gt;
 
-        <span class="tag">&lt;/<span class="title">form</span>&gt;</span>
+        &lt;/form&gt;
 
-      <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+      &lt;/<span class="hljs-keyword">div</span>&gt;
 
-      <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span> /&gt;</span>
+      &lt;<span class="hljs-keyword">div</span> data-role=<span class="hljs-string">"footer"</span> /&gt;
 
-    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    &lt;/<span class="hljs-keyword">div</span>&gt;
 
-<span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+&lt;/<span class="hljs-keyword">script</span>&gt;
 
-<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">charset</span>=<span class="value">"utf-</span><span class="number">8</span><span class="xml">"&gt;
+&lt;<span class="hljs-keyword">script</span> type=<span class="hljs-string">"text/javascript"</span> charset=<span class="hljs-string">"utf-8"</span>&gt;
 
-     </span><span class="variable">$db</span><span class="xml"> = </span><span class="variable">$.couch.db</span><span class="xml">("albums");</span></code></pre>
-<p>The <strong>loginSignupDialog</strong> template looks pretty familiar if you have been following along in this series. It is just a hacked up <a href="http://jquerymobile.com/">jQuery Mobile</a> page dialog with a form – looks pretty much what our <em>albumdelete.html</em> <strong>template</strong> we created before but with a form in it. You may notice that the header and <strong>optionLinkButton</strong> have no textual content. That will be updated based on the state of the dialog (login or signup). We’ll get to that later. What is important is to know that this template declaration can be rendered using the following:</p>
-<pre><code><span class="variable">$(</span><span class="string">"#loginSignupDialog"</span>).tmpl()</code></pre>
-<p>Once it has been rendered it can be added to the <strong>DOM</strong> as you normally would with <a href="http://jquery.com/">jQuery</a> (eg, <em>appendTo</em>()), but since we are developing in the context of a <a href="http://jquerymobile.com/">jQuery Mobile</a> application, we will treating it as a page in the application. Things to remember and will act upon later.</p>
+     $db = $.couch.db(<span class="hljs-string">"albums"</span>);
+</code></pre><p>The <strong>loginSignupDialog</strong> template looks pretty familiar if you have been following along in this series. It is just a hacked up <a href="http://jquerymobile.com/">jQuery Mobile</a> page dialog with a form – looks pretty much what our <em>albumdelete.html</em> <strong>template</strong> we created before but with a form in it. You may notice that the header and <strong>optionLinkButton</strong> have no textual content. That will be updated based on the state of the dialog (login or signup). We’ll get to that later. What is important is to know that this template declaration can be rendered using the following:</p>
+<pre><code><span class="hljs-variable">$(</span><span class="hljs-string">"#loginSignupDialog"</span>).tmpl()
+</code></pre><p>Once it has been rendered it can be added to the <strong>DOM</strong> as you normally would with <a href="http://jquery.com/">jQuery</a> (eg, <em>appendTo</em>()), but since we are developing in the context of a <a href="http://jquerymobile.com/">jQuery Mobile</a> application, we will treating it as a page in the application. Things to remember and will act upon later.</p>
 <p>Also important to note is the type attribute of the <strong>template</strong> declaration – <em>text/x-jquery-tmpl</em>. That is so the <strong>HTML</strong> parser knows to treat that markup as a string and not try to parse and add to the <strong>DOM</strong>. Without that type, you likely will get a parse error when viewing your application in a browser. The plugin does not search for the explicit type value of <em>text/x-jquery-tmpl</em> in order to due its rendering, it just needs to have some denotation for the browser engine to recognize not to render the content to the <strong>DOM</strong> – <em>text/x-jquery-tmpl</em> is just easier to recognize what is being reserved as a <a href="http://jquery.com/">jQuery</a> template by human readers.</p>
 <h2 id="organization-and-re-use">Organization and Re-use</h2>
 <p>Up to this point in the series, if you have been following along, the extent of our working with <a href="http://jquery.com/">jQuery</a> has been in accessing and modifying the <strong>DOM</strong>. We’ve used the <a href="http://jquerymobile.com/">jQuery Mobile</a> API mainly to listen for events and change pages. The extent of working with the <a href="http://jquery.com/">jQuery Mobile</a> framework has been more under the hood – which i believe is the intent – though we have employed some hacks to get things to work as we would like. So, the <strong>JavaScript</strong> we have done up until this point has been to manipulate the <strong>DOM</strong> associated with a particular view – we created our <strong>Partials</strong> as quasi-view controllers and we have some script related to the <a href="http://jquerymobile.com/">jQuery Mobile</a> pages we have defined in <em>index.html</em>.</p>
 <p>That’s fine. I might do some things a little different if this was going to get my seal of approval, but we were having fun. I’m gonna get a little more organized now, however, and use some great functionality and <strong>API</strong> available to us just by loading <a href="http://jquery.com/">jQuery</a> and <a href="http://jquerymobile.com/">jQuery Mobile</a> that we have been foolishly ignoring. Not really ignoring… we just never had a really strong use case to address it until now.</p>
 <p>We are going to employ two architectural concepts of jQuery in order to present our login dialog and authenticate session with our <a href="http://couchdb.apache.org/">CouchDB</a> instance: <strong>widgets</strong> and <strong>plugins</strong>.</p>
 <p>Before we dive into some code, perhaps I should clarify how I interpret each concept as really they can be somewhat interchangeable and used in the same fashion. For instance they both can target an element like so:</p>
-<pre><code>$(<span class="string">"#myElement"</span>)<span class="preprocessor">.something</span>()<span class="comment">;</span></code></pre>
-<p>It is typically the <em>something</em>() invocation, for me, that sets them apart (aside from the code behind the <em>something</em>()). If it is a directive to manipulate the element or its ancestry in the <strong>DOM</strong>, then it is a plugin. If it is a call to decorate the element in such a way that it looks and behaves in a manner usually not associated with that element, then i consider it a <strong>widget</strong> <em>(in fact, as we will discuss later, there is more to this in terms of a factory/builder plugin for widgets)</em>. Say for instance: <strong>$(”#myElement”)</strong>.<em>slider</em>() would manipulate the contents of <strong>#myElement</strong> to behave like a slider control.</p>
+<pre><code><span class="hljs-variable">$(</span><span class="hljs-string">"#myElement"</span>).something();
+</code></pre><p>It is typically the <em>something</em>() invocation, for me, that sets them apart (aside from the code behind the <em>something</em>()). If it is a directive to manipulate the element or its ancestry in the <strong>DOM</strong>, then it is a plugin. If it is a call to decorate the element in such a way that it looks and behaves in a manner usually not associated with that element, then i consider it a <strong>widget</strong> <em>(in fact, as we will discuss later, there is more to this in terms of a factory/builder plugin for widgets)</em>. Say for instance: <strong>$(”#myElement”)</strong>.<em>slider</em>() would manipulate the contents of <strong>#myElement</strong> to behave like a slider control.</p>
 <p>And then of course, plugins can declare a global access variable and define an <strong>API</strong>, as we have seen with <strong>$.mobile</strong> (<em>jquery-mobile-1.0a2.js</em>) and <strong>$.couch</strong> (<em>jquery.couch.js</em>), which takes the <strong>plugin</strong> concept from being more of a “utility” method on element(s) to that of a library.</p>
 <p>Of course, I could be totally off-base in how i interpret these concepts and am open to discussion. If you have different interpretations or more insight please leave a comment.</p>
 <h2 id="widget">Widget</h2>
@@ -169,398 +169,398 @@ couchapp_load(<span class="matrix">[
 <p>So we have <strong>$.widget</strong> at our disposal (thanks to <a href="http://jquerymobile.com/">jQuery Mobile</a>). We’ll use the <strong>$.widget</strong> factory to create a <strong>login dialog</strong> widget to provide functional logic to our <strong>login template</strong> create previously in this article. In this sense, you can think of the <strong>login dialog widget</strong>, itself, as a sort of presenter. We can go about mucking around with the layout and such of our template and wire up our widget to respond to events from elements in our view.</p>
 <p>Before we dive right in to some code, I wanted to touch on some finer points so when we take a look at how our <strong>login dialog widget</strong> is created we might have a clearer understanding of its construction. <strong>$.widget</strong> is considered a factory method to create custom widgets and is an extension of <strong>$.Widget</strong> (capital W). <strong>$.Widget</strong> itself acts as sort of a builder. Upon widget-ization of an element, <strong>init_() and </strong>create<em>() hook methods are invoked and available for override in our custom <strong>widget</strong>. There are also some methods for options, enablement, and for triggering events (__trigger</em>()) to name a few. But most importantly, there is a <em>destroy</em>() method. To squash any memory leaks, we must tidy up our mess. </p>
 <p>So, to break it down, <strong>$.Widget</strong> provides a lifecycle method template and is the builder of our <strong>widget</strong>. <strong>$.widget</strong> is a factory method for creating custom widgets and allows us to widget-ize elements based on the name of our widget. <em>What the hell does that mean?</em> If we create a widget using the <strong>$.widget</strong> factory and provide it a name of “<em>albums.loginDialog</em>“, we can widget-ize our template as such:</p>
-<pre><code>$(<span class="string">"#loginSignupDialog"</span>)<span class="variable">.tmpl</span>()<span class="variable">.loginDialog</span>()</code></pre>
-<p>In fact, that is essentially what we are going to do… but we first lets cover how we’re going to do it. For some extra reading, this is a great article form <a href="http://jqueryui.com/">jQuery UI</a> explaining the widget factory: <a href="http://jqueryui.com/docs/Developer_Guide"><a href="http://jqueryui.com/docs/Developer_Guide">http://jqueryui.com/docs/Developer_Guide</a></a>. There is also this excellent write up i found by <a href="http://www.erichynds.com">Eric Hynds</a>: <a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/"><a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/">http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/</a></a>.</p>
+<pre><code>$(<span class="hljs-string">"#loginSignupDialog"</span>)<span class="hljs-preprocessor">.tmpl</span>()<span class="hljs-preprocessor">.loginDialog</span>()
+</code></pre><p>In fact, that is essentially what we are going to do… but we first lets cover how we’re going to do it. For some extra reading, this is a great article form <a href="http://jqueryui.com/">jQuery UI</a> explaining the widget factory: <a href="http://jqueryui.com/docs/Developer_Guide"><a href="http://jqueryui.com/docs/Developer_Guide">http://jqueryui.com/docs/Developer_Guide</a></a>. There is also this excellent write up i found by <a href="http://www.erichynds.com">Eric Hynds</a>: <a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/"><a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/">http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/</a></a>.</p>
 <p>Less talk. More code. Open up your favorite editor and save the following snippet as <em>jquery.albums.loginDialog.js</em> in the <em>/_attachments/script</em> directory of the <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> (for me that directory is <em>/Documents/workspace/custardbelly/couchdb/albums</em>):</p>
 <p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
-<pre><code><span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="body"> $ )</span></span> {
+<pre><code><span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">( $ )</span> {
 
 
 
-  $.widget<span class="list">(<span class="body"> <span class="string">"albums.loginDialog"</span>, {
+  $.widget<span class="hljs-list">( <span class="hljs-string">"albums.loginDialog"</span>, {
 
 
 
     options: {
 
-      state: <span class="number">0</span>, // <span class="number">0</span> - log in state. <span class="number">1</span> - sign up state.
+      state: <span class="hljs-number">0</span>, // <span class="hljs-number">0</span> - log in state. <span class="hljs-number">1</span> - sign up state.
 
-      loginText: <span class="string">"Log In"</span>,
+      loginText: <span class="hljs-string">"Log In"</span>,
 
-      signUpText: <span class="string">"Sign Up"</span>
+      signUpText: <span class="hljs-string">"Sign Up"</span>
 
     },
 
 
 
-    _create: function<span class="list">(<span class="body">)</span></span> {
+    _create: function<span class="hljs-list">()</span> {
 
-      var ops = this.options<span class="comment">;</span>
+      var ops = this.options<span class="hljs-comment">;</span>
 
-      var $element = this.element<span class="comment">;</span>
+      var $element = this.element<span class="hljs-comment">;</span>
 
 
 
       // Current page reference.
 
-      var currentPage = $.mobile.activePage<span class="comment">;</span>
+      var currentPage = $.mobile.activePage<span class="hljs-comment">;</span>
 
-      var pageLink = currentPage.attr<span class="list">(<span class="body"> <span class="string">"id"</span> )</span></span><span class="comment">;</span>
+      var pageLink = currentPage.attr<span class="hljs-list">( <span class="hljs-string">"id"</span> )</span><span class="hljs-comment">;</span>
 
       // It is an internal page link.
 
-      if<span class="list">(<span class="body"> pageLink.indexOf<span class="list">(<span class="body"> <span class="string">".html"</span> )</span></span> == <span class="number">-1</span> )</span></span> pageLink = <span class="string">"#"</span> + pageLink<span class="comment">;</span>
+      if<span class="hljs-list">( pageLink.indexOf<span class="hljs-list">( <span class="hljs-string">".html"</span> )</span> == <span class="hljs-number">-1</span> )</span> pageLink = <span class="hljs-string">"#"</span> + pageLink<span class="hljs-comment">;</span>
 
-      var closeButton = $element.find<span class="list">(<span class="body"> <span class="string">"div[class*='ui-header'] a#dialogCloseButton"</span> )</span></span>
+      var closeButton = $element.find<span class="hljs-list">( <span class="hljs-string">"div[class*='ui-header'] a#dialogCloseButton"</span> )</span>
 
-                                .attr<span class="list">(<span class="body"> <span class="string">"href"</span>, pageLink )</span></span><span class="comment">;</span>
+                                .attr<span class="hljs-list">( <span class="hljs-string">"href"</span>, pageLink )</span><span class="hljs-comment">;</span>
 
       // Hold reference in custom data expando.
 
-      $element.data<span class="list">(<span class="body"><span class="string">"previous"</span>, pageLink )</span></span><span class="comment">;</span>
+      $element.data<span class="hljs-list">(<span class="hljs-string">"previous"</span>, pageLink )</span><span class="hljs-comment">;</span>
 
 
 
       // Wrap the content in a dialog page.
 
-      var wrapper = this._wrapDialog<span class="list">(<span class="body"> $element )</span></span><span class="comment">;</span>
+      var wrapper = this._wrapDialog<span class="hljs-list">( $element )</span><span class="hljs-comment">;</span>
 
       // Wire interactions.
 
-      this._wire<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+      this._wire<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-      this._changeState<span class="list">(<span class="body"> ops.state )</span></span><span class="comment">;</span>
+      this._changeState<span class="hljs-list">( ops.state )</span><span class="hljs-comment">;</span>
 
-      // For some reason, i have to add it to the DOM in order to changePage<span class="list">(<span class="body">)</span></span> to it.
+      // For some reason, i have to add it to the DOM in order to changePage<span class="hljs-list">()</span> to it.
 
-      $<span class="list">(<span class="body"><span class="string">"body[class*=\"ui-mobile-viewport\"]"</span>)</span></span>.append<span class="list">(<span class="title">wrapper</span><span class="body">)</span></span><span class="comment">;</span>
+      $<span class="hljs-list">(<span class="hljs-string">"body[class*=\"ui-mobile-viewport\"]"</span>)</span>.append<span class="hljs-list">(<span class="hljs-title">wrapper</span>)</span><span class="hljs-comment">;</span>
 
-      $.mobile.changePage<span class="list">(<span class="body"> [currentPage, wrapper], <span class="string">"pop"</span>, false )</span></span><span class="comment">;</span>
-
-    },
-
-
-
-    _setOption: function<span class="list">(<span class="body"> key, value )</span></span> {
-
-      this._changeState<span class="list">(<span class="body"> <span class="list">(<span class="body"> key == <span class="string">"state"</span> )</span></span> ? value : this.options.state )</span></span><span class="comment">;</span>
-
-      jQuery.Widget.prototype._setOption.apply<span class="list">(<span class="body"> this, arguments )</span></span><span class="comment">;</span>
+      $.mobile.changePage<span class="hljs-list">( [currentPage, wrapper], <span class="hljs-string">"pop"</span>, false )</span><span class="hljs-comment">;</span>
 
     },
 
 
 
-    _wrapDialog: function<span class="list">(<span class="body"> dialogElement )</span></span> {
+    _setOption: function<span class="hljs-list">( key, value )</span> {
+
+      this._changeState<span class="hljs-list">( <span class="hljs-list">( key == <span class="hljs-string">"state"</span> )</span> ? value : this.options.state )</span><span class="hljs-comment">;</span>
+
+      jQuery.Widget.prototype._setOption.apply<span class="hljs-list">( this, arguments )</span><span class="hljs-comment">;</span>
+
+    },
+
+
+
+    _wrapDialog: function<span class="hljs-list">( dialogElement )</span> {
 
       // Page wrapper usually created on external page.
 
-      var dialogPage = $<span class="list">(<span class="body"><span class="string">"&lt;div data-role=\"page\"&gt;"</span>)</span></span><span class="comment">;</span>
+      var dialogPage = $<span class="hljs-list">(<span class="hljs-string">"&lt;div data-role=\"page\"&gt;"</span>)</span><span class="hljs-comment">;</span>
 
-      dialogPage.append<span class="list">(<span class="body"> dialogElement )</span></span><span class="comment">;</span>
+      dialogPage.append<span class="hljs-list">( dialogElement )</span><span class="hljs-comment">;</span>
 
-      dialogPage.page<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+      dialogPage.page<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
 
 
-      dialogPage.bind<span class="list">(<span class="body"> <span class="string">"pagebeforeshow"</span>, function<span class="list">(<span class="body">)</span></span> {
+      dialogPage.bind<span class="hljs-list">( <span class="hljs-string">"pagebeforeshow"</span>, function<span class="hljs-list">()</span> {
 
-          dialogPage.unbind<span class="list">(<span class="body"> <span class="string">"pagebeforeshow"</span> )</span></span><span class="comment">;</span>
+          dialogPage.unbind<span class="hljs-list">( <span class="hljs-string">"pagebeforeshow"</span> )</span><span class="hljs-comment">;</span>
 
-          var h = parseFloat<span class="list">(<span class="title">dialogPage</span><span class="body">.innerHeight<span class="list">(<span class="body">)</span></span>)</span></span><span class="comment">;</span>
+          var h = parseFloat<span class="hljs-list">(<span class="hljs-title">dialogPage</span>.innerHeight<span class="hljs-list">()</span>)</span><span class="hljs-comment">;</span>
 
-          h -= <span class="list">(<span class="body"> parseFloat<span class="list">(<span class="title">dialogElement</span><span class="body">.css<span class="list">(<span class="body"><span class="string">"border-top-width"</span>)</span></span>)</span></span> + parseFloat<span class="list">(<span class="title">dialogElement</span><span class="body">.css<span class="list">(<span class="body"><span class="string">"border-bottom-width"</span>)</span></span>)</span></span> )</span></span><span class="comment">;</span>
+          h -= <span class="hljs-list">( parseFloat<span class="hljs-list">(<span class="hljs-title">dialogElement</span>.css<span class="hljs-list">(<span class="hljs-string">"border-top-width"</span>)</span>)</span> + parseFloat<span class="hljs-list">(<span class="hljs-title">dialogElement</span>.css<span class="hljs-list">(<span class="hljs-string">"border-bottom-width"</span>)</span>)</span> )</span><span class="hljs-comment">;</span>
 
           // define the height based on innerHeight of wrapping parent page and the border styles applied to a dialog.
 
-          dialogElement.css<span class="list">(<span class="body"> <span class="string">"height"</span>, h + <span class="string">"px"</span> )</span></span><span class="comment">;</span>
+          dialogElement.css<span class="hljs-list">( <span class="hljs-string">"height"</span>, h + <span class="hljs-string">"px"</span> )</span><span class="hljs-comment">;</span>
 
-      })</span></span><span class="comment">;</span>
+      })</span><span class="hljs-comment">;</span>
 
-      dialogPage.bind<span class="list">(<span class="body"> <span class="string">"pagehide"</span>, function<span class="list">(<span class="body">)</span></span> {
+      dialogPage.bind<span class="hljs-list">( <span class="hljs-string">"pagehide"</span>, function<span class="hljs-list">()</span> {
 
-          dialogPage.unbind<span class="list">(<span class="body"> <span class="string">"pagehide"</span> )</span></span><span class="comment">;</span>
+          dialogPage.unbind<span class="hljs-list">( <span class="hljs-string">"pagehide"</span> )</span><span class="hljs-comment">;</span>
 
-          dialogPage.empty<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+          dialogPage.empty<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-          dialogPage.remove<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+          dialogPage.remove<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-      })</span></span><span class="comment">;</span>
+      })</span><span class="hljs-comment">;</span>
 
-      return dialogPage<span class="comment">;</span>
-
-    },
-
-
-
-    _changeState: function<span class="list">(<span class="body"> state )</span></span> {
-
-      var mainText = <span class="list">(<span class="body"> state == <span class="number">0</span> )</span></span> ? this.options.loginText : this.options.signUpText<span class="comment">;</span>
-
-      var optionText = <span class="list">(<span class="body"> state == <span class="number">0</span> )</span></span> ? this.options.signUpText : this.options.loginText<span class="comment">;</span>
-
-      var $element = this.element<span class="comment">;</span>
-
-      var header = $element.find<span class="list">(<span class="body"> <span class="string">"div[class*='ui-header']"</span> )</span></span><span class="comment">;</span>
-
-      var page = $element.find<span class="list">(<span class="body"> <span class="string">"div[data-role='content']"</span> )</span></span><span class="comment">;</span>
-
-      var title = header.find<span class="list">(<span class="body"> <span class="string">"[class*='ui-title']"</span> )</span></span><span class="comment">;</span>
-
-      var optionLinkButton =  page.find<span class="list">(<span class="body"> <span class="string">"#optionLinkButton"</span> )</span></span><span class="comment">;</span>
-
-      var submitButton = page.find<span class="list">(<span class="body"> <span class="string">"a[aria-label='submit']"</span> )</span></span><span class="comment">;</span>
-
-      title.html<span class="list">(<span class="body"> mainText )</span></span><span class="comment">;</span>
-
-      optionLinkButton.html<span class="list">(<span class="body"> optionText + <span class="string">"?"</span> )</span></span><span class="comment">;</span>
-
-      submitButton.html<span class="list">(<span class="body"> mainText )</span></span><span class="comment">;</span>
-
-      submitButton.buttonMarkup<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+      return dialogPage<span class="hljs-comment">;</span>
 
     },
 
 
 
-    _wire: function<span class="list">(<span class="body">)</span></span> {
+    _changeState: function<span class="hljs-list">( state )</span> {
 
-      var ref = this<span class="comment">;</span>
+      var mainText = <span class="hljs-list">( state == <span class="hljs-number">0</span> )</span> ? this.options.loginText : this.options.signUpText<span class="hljs-comment">;</span>
 
-      var $element = ref.element<span class="comment">;</span>
+      var optionText = <span class="hljs-list">( state == <span class="hljs-number">0</span> )</span> ? this.options.signUpText : this.options.loginText<span class="hljs-comment">;</span>
 
-      var ops = ref.options<span class="comment">;</span>
+      var $element = this.element<span class="hljs-comment">;</span>
 
-      var page = $element.find<span class="list">(<span class="body"><span class="string">"div[data-role='content']"</span>)</span></span><span class="comment">;</span>
+      var header = $element.find<span class="hljs-list">( <span class="hljs-string">"div[class*='ui-header']"</span> )</span><span class="hljs-comment">;</span>
 
-      var optionLinkButton = page.find<span class="list">(<span class="body"> <span class="string">"#optionLinkButton"</span> )</span></span><span class="comment">;</span>
+      var page = $element.find<span class="hljs-list">( <span class="hljs-string">"div[data-role='content']"</span> )</span><span class="hljs-comment">;</span>
+
+      var title = header.find<span class="hljs-list">( <span class="hljs-string">"[class*='ui-title']"</span> )</span><span class="hljs-comment">;</span>
+
+      var optionLinkButton =  page.find<span class="hljs-list">( <span class="hljs-string">"#optionLinkButton"</span> )</span><span class="hljs-comment">;</span>
+
+      var submitButton = page.find<span class="hljs-list">( <span class="hljs-string">"a[aria-label='submit']"</span> )</span><span class="hljs-comment">;</span>
+
+      title.html<span class="hljs-list">( mainText )</span><span class="hljs-comment">;</span>
+
+      optionLinkButton.html<span class="hljs-list">( optionText + <span class="hljs-string">"?"</span> )</span><span class="hljs-comment">;</span>
+
+      submitButton.html<span class="hljs-list">( mainText )</span><span class="hljs-comment">;</span>
+
+      submitButton.buttonMarkup<span class="hljs-list">()</span><span class="hljs-comment">;</span>
+
+    },
 
 
 
-      optionLinkButton.bind<span class="list">(<span class="body"> <span class="string">"click"</span>, function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
+    _wire: function<span class="hljs-list">()</span> {
 
-        event.preventDefault<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+      var ref = this<span class="hljs-comment">;</span>
+
+      var $element = ref.element<span class="hljs-comment">;</span>
+
+      var ops = ref.options<span class="hljs-comment">;</span>
+
+      var page = $element.find<span class="hljs-list">(<span class="hljs-string">"div[data-role='content']"</span>)</span><span class="hljs-comment">;</span>
+
+      var optionLinkButton = page.find<span class="hljs-list">( <span class="hljs-string">"#optionLinkButton"</span> )</span><span class="hljs-comment">;</span>
+
+
+
+      optionLinkButton.bind<span class="hljs-list">( <span class="hljs-string">"click"</span>, function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> {
+
+        event.preventDefault<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
         // toggle state.
 
-        ref._setOption<span class="list">(<span class="body"> <span class="string">"state"</span>, <span class="list">(<span class="body"> ops.state == <span class="number">1</span> )</span></span> ? <span class="number">0</span> : <span class="number">1</span> )</span></span><span class="comment">;</span>
+        ref._setOption<span class="hljs-list">( <span class="hljs-string">"state"</span>, <span class="hljs-list">( ops.state == <span class="hljs-number">1</span> )</span> ? <span class="hljs-number">0</span> : <span class="hljs-number">1</span> )</span><span class="hljs-comment">;</span>
 
-        return false<span class="comment">;</span>
+        return false<span class="hljs-comment">;</span>
 
-      })</span></span><span class="comment">;</span>
-
-
-
-      $element.bind<span class="list">(<span class="body"> <span class="string">"submit"</span>, function<span class="list">(<span class="title">event</span><span class="body">)</span></span> {
-
-        event.preventDefault<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
-
-        var username = $element.find<span class="list">(<span class="body"> <span class="string">"input#username"</span> )</span></span>.val<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
-
-        var password = $element.find<span class="list">(<span class="body"> <span class="string">"input#password"</span> )</span></span>.val<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
-
-        var uievent = <span class="list">(<span class="body"> ops.state == <span class="number">0</span> )</span></span> ? <span class="string">"login"</span> : <span class="string">"signup"</span><span class="comment">;</span>
-
-        var ui = {name<span class="keyword">:username</span>, password<span class="keyword">:password</span>}<span class="comment">;</span>
-
-        ref._trigger<span class="list">(<span class="body"> uievent, {type<span class="keyword">:uievent</span>}, ui )</span></span><span class="comment">;</span>
-
-        return false<span class="comment">;</span>
-
-      })</span></span><span class="comment">;</span>
-
-    },
+      })</span><span class="hljs-comment">;</span>
 
 
 
-    _unwire: function<span class="list">(<span class="body">)</span></span> {
+      $element.bind<span class="hljs-list">( <span class="hljs-string">"submit"</span>, function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> {
 
-      var $element = this.element<span class="comment">;</span>
+        event.preventDefault<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-      var page = $element.find<span class="list">(<span class="body"> <span class="string">"div[data-role='content']"</span> )</span></span><span class="comment">;</span>
+        var username = $element.find<span class="hljs-list">( <span class="hljs-string">"input#username"</span> )</span>.val<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-      var optionLinkButton =  page.find<span class="list">(<span class="body"> <span class="string">"#optionLinkButton"</span> )</span></span><span class="comment">;</span>
+        var password = $element.find<span class="hljs-list">( <span class="hljs-string">"input#password"</span> )</span>.val<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-      optionLinkButton.unbind<span class="list">(<span class="body"> <span class="string">"click"</span> )</span></span><span class="comment">;</span>
+        var uievent = <span class="hljs-list">( ops.state == <span class="hljs-number">0</span> )</span> ? <span class="hljs-string">"login"</span> : <span class="hljs-string">"signup"</span><span class="hljs-comment">;</span>
 
-      $element.unbind<span class="list">(<span class="body"> <span class="string">"submit"</span> )</span></span><span class="comment">;</span>
+        var ui = {name<span class="hljs-keyword">:username</span>, password<span class="hljs-keyword">:password</span>}<span class="hljs-comment">;</span>
+
+        ref._trigger<span class="hljs-list">( uievent, {type<span class="hljs-keyword">:uievent</span>}, ui )</span><span class="hljs-comment">;</span>
+
+        return false<span class="hljs-comment">;</span>
+
+      })</span><span class="hljs-comment">;</span>
 
     },
 
 
 
-    close: function<span class="list">(<span class="body">)</span></span> {
+    _unwire: function<span class="hljs-list">()</span> {
 
-      var $element = this.element<span class="comment">;</span>
+      var $element = this.element<span class="hljs-comment">;</span>
 
-      this._trigger<span class="list">(<span class="body"> <span class="string">"close"</span>, {type:<span class="string">"close"</span>} )</span></span><span class="comment">;</span>
+      var page = $element.find<span class="hljs-list">( <span class="hljs-string">"div[data-role='content']"</span> )</span><span class="hljs-comment">;</span>
 
-      $.mobile.changePage<span class="list">(<span class="body"> $element.data<span class="list">(<span class="body"><span class="string">"previous"</span>)</span></span>, undefined, false )</span></span><span class="comment">;</span>
+      var optionLinkButton =  page.find<span class="hljs-list">( <span class="hljs-string">"#optionLinkButton"</span> )</span><span class="hljs-comment">;</span>
+
+      optionLinkButton.unbind<span class="hljs-list">( <span class="hljs-string">"click"</span> )</span><span class="hljs-comment">;</span>
+
+      $element.unbind<span class="hljs-list">( <span class="hljs-string">"submit"</span> )</span><span class="hljs-comment">;</span>
 
     },
 
 
 
-    destroy: function<span class="list">(<span class="body">)</span></span> {
+    close: function<span class="hljs-list">()</span> {
 
-      this._unwire<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+      var $element = this.element<span class="hljs-comment">;</span>
+
+      this._trigger<span class="hljs-list">( <span class="hljs-string">"close"</span>, {type:<span class="hljs-string">"close"</span>} )</span><span class="hljs-comment">;</span>
+
+      $.mobile.changePage<span class="hljs-list">( $element.data<span class="hljs-list">(<span class="hljs-string">"previous"</span>)</span>, undefined, false )</span><span class="hljs-comment">;</span>
+
+    },
+
+
+
+    destroy: function<span class="hljs-list">()</span> {
+
+      this._unwire<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
       // jQuery Mobile keeps adding a Submit button substitue to the template upon show,
 
       // Lets remove it here.
 
-      var $element = this.element<span class="comment">;</span>
+      var $element = this.element<span class="hljs-comment">;</span>
 
-      var page = $element.find<span class="list">(<span class="body"> <span class="string">"div[data-role='content']"</span> )</span></span><span class="comment">;</span>
+      var page = $element.find<span class="hljs-list">( <span class="hljs-string">"div[data-role='content']"</span> )</span><span class="hljs-comment">;</span>
 
-      var submitButton = page.find<span class="list">(<span class="body"> <span class="string">"a[aria-label='submit']"</span> )</span></span><span class="comment">;</span>
+      var submitButton = page.find<span class="hljs-list">( <span class="hljs-string">"a[aria-label='submit']"</span> )</span><span class="hljs-comment">;</span>
 
-      submitButton.remove<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+      submitButton.remove<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
       // super destroy.
 
-      jQuery.Widget.prototype.destroy.call<span class="list">(<span class="body"> this )</span></span><span class="comment">;</span>
+      jQuery.Widget.prototype.destroy.call<span class="hljs-list">( this )</span><span class="hljs-comment">;</span>
 
-      this.element = null<span class="comment">;</span>
+      this.element = null<span class="hljs-comment">;</span>
 
     }
 
 
 
-  })</span></span><span class="comment">;</span>
+  })</span><span class="hljs-comment">;</span>
 
 
 
-})</span></span><span class="list">(<span class="title">jQuery</span><span class="body">)</span></span></code></pre>
-<p>You wanted code? You got it <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> I am not going to go into explaining the under-workings of <strong>$.widget</strong> or <strong>$.Widget</strong> but more the work we have here that relates to <a href="http://jquerymobile.com/">jQuery Mobile</a> and our application. Again, if you are curious, <a href="http://jqueryui.com/">jQuery UI</a> has some great documentation at <a href="http://jqueryui.com/docs/Developer_Guide"><a href="http://jqueryui.com/docs/Developer_Guide">http://jqueryui.com/docs/Developer_Guide</a></a> and you can also look at the <strong>JavaScript</strong> source for <a href="http://jquerymobile.com/">jQuery Mobile</a>. That is chock full of widgets. And then there is this awesome write up by <a href="http://www.erichynds.com">Eric Hynds</a>: <a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/"><a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/">http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/</a></a>.</p>
+})</span><span class="hljs-list">(<span class="hljs-title">jQuery</span>)</span>
+</code></pre><p>You wanted code? You got it <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> I am not going to go into explaining the under-workings of <strong>$.widget</strong> or <strong>$.Widget</strong> but more the work we have here that relates to <a href="http://jquerymobile.com/">jQuery Mobile</a> and our application. Again, if you are curious, <a href="http://jqueryui.com/">jQuery UI</a> has some great documentation at <a href="http://jqueryui.com/docs/Developer_Guide"><a href="http://jqueryui.com/docs/Developer_Guide">http://jqueryui.com/docs/Developer_Guide</a></a> and you can also look at the <strong>JavaScript</strong> source for <a href="http://jquerymobile.com/">jQuery Mobile</a>. That is chock full of widgets. And then there is this awesome write up by <a href="http://www.erichynds.com">Eric Hynds</a>: <a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/"><a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/">http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/</a></a>.</p>
 <p>Now, let’s step through it… If you are being introduced to <a href="http://jquery.com/">jQuery</a> by this article series: <strong>a)</strong> i hope i have not mislead you in my explanations and <strong>b)</strong> this might be the first time you have seen this anonymous function declaration:</p>
-<pre><code>(<span class="keyword">function</span>( $ ) {
+<pre><code>(<span class="hljs-keyword">function</span>( $ ) {
 
-<span class="keyword">...</span>
+<span class="hljs-keyword">...</span>
 
-})(jQuery)</code></pre>
-<p>There is more going on here (conflict resolution) than i will explain, but in essence this is a self-executing method that has a reference to <a href="http://jquery.com/">jQuery</a>. Basically, upon load any code within this anonymous function will be run and have access to <a href="http://jquery.com/">jQuery</a> using the <strong>$</strong> token; once <em>jquery.albums.loginDialog.js</em> is loaded, we invoke the <strong>$.widget</strong> factory method to create a <strong>widget</strong> accessible via <em>loginDialog</em>() on an element reference:</p>
+})(jQuery)
+</code></pre><p>There is more going on here (conflict resolution) than i will explain, but in essence this is a self-executing method that has a reference to <a href="http://jquery.com/">jQuery</a>. Basically, upon load any code within this anonymous function will be run and have access to <a href="http://jquery.com/">jQuery</a> using the <strong>$</strong> token; once <em>jquery.albums.loginDialog.js</em> is loaded, we invoke the <strong>$.widget</strong> factory method to create a <strong>widget</strong> accessible via <em>loginDialog</em>() on an element reference:</p>
 <p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
-<pre><code>$.widget( <span class="string">"albums.loginDialog"</span>, {
+<pre><code>$.widget( <span class="hljs-string">"albums.loginDialog"</span>, {
 
-<span class="keyword">...</span>
+<span class="hljs-keyword">...</span>
 
-} );</code></pre>
-<p>The second argument to <strong>$.widget</strong> – the whole big object – is basically the meat of our <strong>widget</strong>; its got some declared default options, overidden inherited methods and some other private and public methods to make our <strong>loginDialog</strong> work. Our options are just some default values to set the initial state (either to <em>login</em> or <em>signup</em>) and the textual content associated with the state. Our <strong>login dialog</strong> isn’t going to be very pretty or contain much content other than a form and a way to switch between <em>login</em> and <em>signup</em>.</p>
+} );
+</code></pre><p>The second argument to <strong>$.widget</strong> – the whole big object – is basically the meat of our <strong>widget</strong>; its got some declared default options, overidden inherited methods and some other private and public methods to make our <strong>loginDialog</strong> work. Our options are just some default values to set the initial state (either to <em>login</em> or <em>signup</em>) and the textual content associated with the state. Our <strong>login dialog</strong> isn’t going to be very pretty or contain much content other than a form and a way to switch between <em>login</em> and <em>signup</em>.</p>
 <p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
-<pre><code><span class="attribute">options</span>: <span class="string">{</span>
+<pre><code><span class="hljs-attribute">options</span>: <span class="hljs-string">{</span>
 
-<span class="http">  <span class="attribute">state</span>: <span class="string">0, // 0 - log in state. 1 - sign up state.</span>
+<span class="http">  <span class="hljs-attribute">state</span>: <span class="hljs-string">0, // 0 - log in state. 1 - sign up state.</span>
 
-<span class="http">  <span class="attribute">loginText</span>: <span class="string">"Log In",</span>
+<span class="http">  <span class="hljs-attribute">loginText</span>: <span class="hljs-string">"Log In",</span>
 
-<span class="http">  <span class="attribute">signUpText</span>: <span class="string">"Sign Up"</span>
+<span class="http">  <span class="hljs-attribute">signUpText</span>: <span class="hljs-string">"Sign Up"</span>
 
-<span class="undefined">},</span></span></span></span></code></pre>
-<p>When it enters <em>_create</em>() (inheritance call from <strong>$.Widget</strong>), is when we do some real magic:</p>
+<span class="undefined">},</span></span></span></span>
+</code></pre><p>When it enters <em>_create</em>() (inheritance call from <strong>$.Widget</strong>), is when we do some real magic:</p>
 <p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
-<pre><code>var $element = this<span class="preprocessor">.element</span><span class="comment">;</span>
+<pre><code><span class="hljs-keyword">var</span> <span class="hljs-variable">$element</span> = this.element;
 
 
 
-// Current page reference.
+<span class="hljs-comment">// Current page reference.</span>
 
-var currentPage = $<span class="preprocessor">.mobile</span><span class="preprocessor">.activePage</span><span class="comment">;</span>
+<span class="hljs-keyword">var</span> currentPage = $.mobile.activePage;
 
-var pageLink = currentPage<span class="preprocessor">.attr</span>( <span class="string">"id"</span> )<span class="comment">;</span>
+<span class="hljs-keyword">var</span> pageLink = currentPage.attr( <span class="hljs-string">"id"</span> );
 
-// It is an internal page link.
+<span class="hljs-comment">// It is an internal page link.</span>
 
-if( pageLink<span class="preprocessor">.indexOf</span>( <span class="string">".html"</span> ) == -<span class="number">1</span> ) pageLink = <span class="string">"#"</span> + pageLink<span class="comment">;</span>
+<span class="hljs-keyword">if</span>( pageLink.indexOf( <span class="hljs-string">".html"</span> ) == -<span class="hljs-number">1</span> ) pageLink = <span class="hljs-string">"#"</span> + pageLink;
 
-var closeButton = $element<span class="preprocessor">.find</span>( <span class="string">"div[class*='ui-header'] a#dialogCloseButton"</span> )
+<span class="hljs-keyword">var</span> closeButton = <span class="hljs-variable">$element</span>.find( <span class="hljs-string">"div[class*='ui-header'] a#dialogCloseButton"</span> )
 
-                          <span class="preprocessor">.attr</span>( <span class="string">"href"</span>, pageLink )<span class="comment">;</span>
+                          .attr( <span class="hljs-string">"href"</span>, pageLink );
 
-// Hold reference <span class="keyword">in</span> custom data expando.
+<span class="hljs-comment">// Hold reference in custom data expando.</span>
 
-$element<span class="preprocessor">.data</span>(<span class="string">"previous"</span>, pageLink )<span class="comment">;</span></code></pre>
-<p>The target element (the one widget-ized by calling <strong>$(”#myElement”)</strong>.<em>loginDialog</em>()) is accessed using the this keyword and is available through the life of the <strong>widget</strong>. In order to get a reference to the current page prior to opening the <strong>loginDialog</strong>, we access the id value of <strong>$.mobile</strong>.<em>activePage</em> and determine if it is an external or internal page. We then pass that as the href value for the close button on the <strong>loginDialog</strong> and add a <strong>data-previous</strong> attribute to the target element. </p>
+<span class="hljs-variable">$element</span>.data(<span class="hljs-string">"previous"</span>, pageLink );
+</code></pre><p>The target element (the one widget-ized by calling <strong>$(”#myElement”)</strong>.<em>loginDialog</em>()) is accessed using the this keyword and is available through the life of the <strong>widget</strong>. In order to get a reference to the current page prior to opening the <strong>loginDialog</strong>, we access the id value of <strong>$.mobile</strong>.<em>activePage</em> and determine if it is an external or internal page. We then pass that as the href value for the close button on the <strong>loginDialog</strong> and add a <strong>data-previous</strong> attribute to the target element. </p>
 <p>After the previous page has been determined to return to after login or signup, we then wrap the <strong>dialog template</strong> element in a page <strong>div</strong> listen for events, change the state to the default defined in options and change the page to the <strong>loginDialog</strong>:</p>
 <p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
-<pre><code><span class="comment">// Wrap the content in a dialog page.</span>
+<pre><code><span class="hljs-comment">// Wrap the content in a dialog page.</span>
 
-var wrapper = <span class="keyword">this</span><span class="variable">._wrapDialog</span>( $element );
+<span class="hljs-keyword">var</span> wrapper = <span class="hljs-keyword">this</span>._wrapDialog( $element );
 
-<span class="comment">// Wire interactions.</span>
+<span class="hljs-comment">// Wire interactions.</span>
 
-<span class="keyword">this</span><span class="variable">._wire</span>();
+<span class="hljs-keyword">this</span>._wire();
 
-<span class="keyword">this</span><span class="variable">._changeState</span>( ops<span class="variable">.state</span> );
+<span class="hljs-keyword">this</span>._changeState( ops.state );
 
-<span class="comment">// For some reason, i have to add it to the DOM in order to changePage() to it.</span>
+<span class="hljs-comment">// For some reason, i have to add it to the DOM in order to changePage() to it.</span>
 
-$(<span class="string">"body[class*=\"ui-mobile-viewport\"]"</span>)<span class="variable">.append</span>(wrapper);
+$(<span class="hljs-string">"body[class*=\"ui-mobile-viewport\"]"</span>).append(wrapper);
 
-$<span class="variable">.mobile</span><span class="variable">.changePage</span>( [currentPage, wrapper], <span class="string">"pop"</span>, <span class="literal">false</span> );</code></pre>
-<p>You see that funky append before <strong>$.mobile</strong>.<em>changePage</em>()?</p>
+$.mobile.changePage( [currentPage, wrapper], <span class="hljs-string">"pop"</span>, <span class="hljs-literal">false</span> );
+</code></pre><p>You see that funky append before <strong>$.mobile</strong>.<em>changePage</em>()?</p>
 <p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
-<pre><code><span class="formula">$("body<span class="special">[</span>class*=<span class="command">\"</span>ui-mobile-viewport<span class="command">\"</span><span class="special">]</span>").append(wrapper);</code></pre>
-<p>The comment above that line explains it, but for some reason i couldn’t just switch to this dynamically created page. Instead i had to add it quickly at the end of the body (accessed by the <em>ui-mobile-viewport</em> class) and then was able to switch from the previous page to show a <strong>loginDialog</strong>. No big deal, just something to look out for. </p>
+<pre><code><span class="hljs-char">$(</span><span class="hljs-comment">"body[class*=\"</span>ui-mobile-viewport\<span class="hljs-comment">"]"</span>).append(wrapper);
+</code></pre><p>The comment above that line explains it, but for some reason i couldn’t just switch to this dynamically created page. Instead i had to add it quickly at the end of the body (accessed by the <em>ui-mobile-viewport</em> class) and then was able to switch from the previous page to show a <strong>loginDialog</strong>. No big deal, just something to look out for. </p>
 <p>Most of what is in <em>jquery.albums.loginDialog</em>, if you have been following along, may be pretty familiar to you. We do the same sizing on <em>pagebeforeshow</em> and emptying on <em>pagehide</em>, and change values based on state using <a href="http://jquery.com/">jQuery</a>. Your basic fanfare. I just wanted to touch on two more methods in <em>jquery.albums.loginDialog</em>: <em>close</em> and <em>destroy</em>:</p>
 <p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
-<pre><code><span class="attribute">close</span>: <span class="string">function() {</span>
+<pre><code>close: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-<span class="objectivec">var $element = <span class="keyword">this</span><span class="variable">.element</span>;
+<span class="hljs-keyword">var</span> $element = <span class="hljs-keyword">this</span>.element;
 
-<span class="keyword">this</span><span class="variable">._trigger</span>( <span class="string">"close"</span>, {type:<span class="string">"close"</span>} );
+<span class="hljs-keyword">this</span>._trigger( <span class="hljs-string">"close"</span>, {type:<span class="hljs-string">"close"</span>} );
 
-$<span class="variable">.mobile</span><span class="variable">.changePage</span>( $element<span class="variable">.data</span>(<span class="string">"previous"</span>), undefined, <span class="literal">false</span> );
+$.mobile.changePage( $element.data(<span class="hljs-string">"previous"</span>), <span class="hljs-literal">undefined</span>, <span class="hljs-literal">false</span> );
 
 },
 
 
 
-destroy: function() {
+destroy: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-  <span class="keyword">this</span><span class="variable">._unwire</span>();
+  <span class="hljs-keyword">this</span>._unwire();
 
-  <span class="comment">// jQuery Mobile keeps adding a Submit button substitue to the template upon show,</span>
+  <span class="hljs-comment">// jQuery Mobile keeps adding a Submit button substitue to the template upon show,</span>
 
-  <span class="comment">// Lets remove it here.</span>
+  <span class="hljs-comment">// Lets remove it here.</span>
 
-  var $element = <span class="keyword">this</span><span class="variable">.element</span>;
+  <span class="hljs-keyword">var</span> $element = <span class="hljs-keyword">this</span>.element;
 
-  var page = $element<span class="variable">.find</span>( <span class="string">"div[data-role='content']"</span> );
+  <span class="hljs-keyword">var</span> page = $element.find( <span class="hljs-string">"div[data-role='content']"</span> );
 
-  var submitButton = page<span class="variable">.find</span>( <span class="string">"a[aria-label='submit']"</span> );
+  <span class="hljs-keyword">var</span> submitButton = page.find( <span class="hljs-string">"a[aria-label='submit']"</span> );
 
-  submitButton<span class="variable">.remove</span>();
+  submitButton.remove();
 
-  <span class="comment">// super destroy.</span>
+  <span class="hljs-comment">// super destroy.</span>
 
-  jQuery<span class="variable">.Widget</span><span class="variable">.prototype</span><span class="variable">.destroy</span><span class="variable">.call</span>( <span class="keyword">this</span> );
+  jQuery.Widget.prototype.destroy.call( <span class="hljs-keyword">this</span> );
 
-  <span class="keyword">this</span><span class="variable">.element</span> = null;
+  <span class="hljs-keyword">this</span>.element = <span class="hljs-literal">null</span>;
 
-}</span></code></pre>
-<p>The <em>close</em>() method we have exposed and is not part of <strong>$.Widget</strong>. That just allows access to anyone with a reference to the created <strong>loginDialog</strong> to directly close it (as opposed to explicitly closing it within the dialog). You can see that we change the page by using the previous data value set on the element within <strong>create<em>(). We also dispatch a “_close</em>” event using </strong>trigger<em>(). The __trigger</em>() method is part of <strong>$.Widget</strong> and can be bound to like other events, yet the type is slightly different within the context of a <strong>widget</strong>. The type value is actually appended to the <strong>widget</strong> name, so if you were to listen for close on this:</p>
-<pre><code>$(<span class="string">"#loginSignupDialog"</span>)<span class="preprocessor">.tmpl</span>()<span class="preprocessor">.loginDialog</span>()<span class="preprocessor">.bind</span>( <span class="string">"logindialogclose"</span>, handleLoginDialogClose )<span class="comment">;</span></code></pre>
-<p>That’s one way to do it, though i often assign handlers by passing in a <strong>callback</strong> object like so:</p>
-<pre><code>$(<span class="string">"#loginSignupDialog"</span>).tmpl().loginDialog( {
+}
+</code></pre><p>The <em>close</em>() method we have exposed and is not part of <strong>$.Widget</strong>. That just allows access to anyone with a reference to the created <strong>loginDialog</strong> to directly close it (as opposed to explicitly closing it within the dialog). You can see that we change the page by using the previous data value set on the element within <strong>create<em>(). We also dispatch a “_close</em>” event using </strong>trigger<em>(). The __trigger</em>() method is part of <strong>$.Widget</strong> and can be bound to like other events, yet the type is slightly different within the context of a <strong>widget</strong>. The type value is actually appended to the <strong>widget</strong> name, so if you were to listen for close on this:</p>
+<pre><code>$(<span class="hljs-string">"#loginSignupDialog"</span>)<span class="hljs-preprocessor">.tmpl</span>()<span class="hljs-preprocessor">.loginDialog</span>()<span class="hljs-preprocessor">.bind</span>( <span class="hljs-string">"logindialogclose"</span>, handleLoginDialogClose )<span class="hljs-comment">;</span>
+</code></pre><p>That’s one way to do it, though i often assign handlers by passing in a <strong>callback</strong> object like so:</p>
+<pre><code>$(<span class="hljs-string">"#loginSignupDialog"</span>).tmpl().loginDialog( {
 
-        close: <span class="keyword">function</span>( evt, ui ) {
+        close: <span class="hljs-keyword">function</span>( evt, ui ) {
 
-            <span class="keyword">...</span>
+            <span class="hljs-keyword">...</span>
 
         }
 
-});</code></pre>
-<p>We actually trigger two other events within our <strong>loginDialog</strong> – “<em>login</em>” and “<em>signup</em>” – which are dispatched upon submit based on current state. We’ll see how all this is handled a little later on in more code, but i quickly wanted to touch on something that looks odd in the <em>destroy</em>() override:</p>
+});
+</code></pre><p>We actually trigger two other events within our <strong>loginDialog</strong> – “<em>login</em>” and “<em>signup</em>” – which are dispatched upon submit based on current state. We’ll see how all this is handled a little later on in more code, but i quickly wanted to touch on something that looks odd in the <em>destroy</em>() override:</p>
 <p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
-<pre><code>var $element = this<span class="preprocessor">.element</span><span class="comment">;</span>
+<pre><code><span class="hljs-keyword">var</span> <span class="hljs-variable">$element</span> = this.element;
 
-var page = $element<span class="preprocessor">.find</span>( <span class="string">"div[data-role='content']"</span> )<span class="comment">;</span>
+<span class="hljs-keyword">var</span> page = <span class="hljs-variable">$element</span>.find( <span class="hljs-string">"div[data-role='content']"</span> );
 
-var submitButton = page<span class="preprocessor">.find</span>( <span class="string">"a[aria-label='submit']"</span> )<span class="comment">;</span>
+<span class="hljs-keyword">var</span> submitButton = page.find( <span class="hljs-string">"a[aria-label='submit']"</span> );
 
-submitButton<span class="preprocessor">.remove</span>()<span class="comment">;</span></code></pre>
-<p>When a form is added top the <strong>DOM</strong> through <a href="http://jquerymobile.com/">jQuery Mobile</a>, it actually duplicates and hides the originally declared <strong>submit</strong> button and decorates a that duplicate for display. In that decoration, it is given the <strong>aria-label</strong> attribute for accessibility. Not entirely a huge issue, but if you were to show the template form more than once, you would start to see n+ times the amount of submit buttons! So we just remove it in our <em>destroy</em> override and move on.</p>
+submitButton.remove();
+</code></pre><p>When a form is added top the <strong>DOM</strong> through <a href="http://jquerymobile.com/">jQuery Mobile</a>, it actually duplicates and hides the originally declared <strong>submit</strong> button and decorates a that duplicate for display. In that decoration, it is given the <strong>aria-label</strong> attribute for accessibility. Not entirely a huge issue, but if you were to show the template form more than once, you would start to see n+ times the amount of submit buttons! So we just remove it in our <em>destroy</em> override and move on.</p>
 <p>Alright. Hopefully you are still with me. You may or may not have created your first <a href="http://jquery.com/">jQuery</a> <strong>widget</strong>. Isn’t it glorious or not glorious, respectively? With our <strong>template</strong> and <strong>widget</strong> defined, now begs the question: <em>When do we show this thing?</em></p>
 <h2 id="plugin">Plugin</h2>
 <p>So you thought introducing two new concepts (<a href="http://jquery.com/">jQuery</a> <strong>templates</strong> and <strong>widgets</strong>) was enough for one article? Well, in the words of television’s <strong>Emeril</strong>, ‘<em>We’re going to kick it up a notch!</em>‘ That’s actually probably a paraphrase. I don’t know the exact words he said and i don’t feel like googling it. I was just pandering to the developer crowd who enjoys watching cooking shows… Its a low point in this article and i am not proud of it. Let’s keep going.</p>
@@ -568,20 +568,20 @@ submitButton<span class="preprocessor">.remove</span>()<span class="comment">;</
 <p>Now, we could just open the <strong>loginDialog</strong> all willy-nilly, here and there, and try to track down the persisted user across actions, but a saner approach (for me at least) is to encapsulate this logic in a <strong>plugin</strong>. You may be familiar with <a href="http://jquery.com/">jQuery</a> <strong>plugins</strong>… actually we have been using them throughout this whole series. We just haven’t directly looked at how they are made or work. Like I did with our <strong>widget</strong> example, I am not going to go into a discussion of <a href="http://jquery.com/">jQuery</a> <strong>plugins</strong> per se – I am going to try and focus on the task at hand and provide explanations as to how it pertains to our application as a whole. That said, to read more about <a href="http://jquery.com/">jQuery</a> <strong>plugins</strong>, this is always a great place to start: <a href="http://docs.jquery.com/Plugins/Authoring"><a href="http://docs.jquery.com/Plugins/Authoring">http://docs.jquery.com/Plugins/Authoring</a></a>.</p>
 <p>Alright, we are going to take a little piecemeal approach to fleshing out our <strong>plugin</strong>, explaining as we go along, and I’ll provide it in its entirety afterward. To start, open up your favorite editor, create a file named <em>jquery.albums.app.js</em> and save it in the <em>/_attachments/script</em> folder of our <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> directory. Add the following:</p>
 <p><em>/_attachments/script/jquery.albums.app.js</em></p>
-<pre><code><span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="body">$)</span></span> {
+<pre><code><span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">$</span>)</span> <span class="hljs-collection">{
 
 
 
-  $.albums = $.albums || {}<span class="comment">;</span>
+  $.albums = $.albums || <span class="hljs-collection">{}</span><span class="hljs-comment">;</span>
 
-  $.extend<span class="list">(<span class="body"> $.albums, {
+  $.extend<span class="hljs-list">( $.albums, <span class="hljs-collection">{
 
-  })</span></span><span class="comment">;</span>
+  }</span>)</span><span class="hljs-comment">;</span>
 
 
 
-})</span></span><span class="list">(<span class="title">jQuery</span><span class="body">)</span></span></code></pre>
-<p>That is the start of our <strong>albums</strong> <strong>plugin</strong> which will be accessible by <strong>$.albums</strong>. We’re extending our (hopefully) newly created <strong>$.albums</strong> object to flesh out its public <strong>API</strong>. <strong>$.albums</strong> will serve as a facade/adaptor to the <strong>$.couch</strong> plugin and handle the display and event from the <strong>loginDialog</strong>. So there are roughly five main functions of out <strong>$.albums</strong> plugin:</p>
+}</span>)</span><span class="hljs-list">(<span class="hljs-title">jQuery</span>)</span>
+</code></pre><p>That is the start of our <strong>albums</strong> <strong>plugin</strong> which will be accessible by <strong>$.albums</strong>. We’re extending our (hopefully) newly created <strong>$.albums</strong> object to flesh out its public <strong>API</strong>. <strong>$.albums</strong> will serve as a facade/adaptor to the <strong>$.couch</strong> plugin and handle the display and event from the <strong>loginDialog</strong>. So there are roughly five main functions of out <strong>$.albums</strong> plugin:</p>
 <ul>
 <li>Log In – Direct log in request.</li>
 <li>Log Out – Direct log out request</li>
@@ -590,13 +590,13 @@ submitButton<span class="preprocessor">.remove</span>()<span class="comment">;</
 </ul>
 <p>The <strong>Log In</strong> and <strong>Log Out</strong> methods mainly interface directly with <strong>$.couch</strong> and won’t deal with any UI. They are just facades to track the logged in user so we can properly send user data when creating or updating documents. The <strong>Save Document</strong> and <strong>Delete Document</strong> methods are more adaptors for <strong>$.couch</strong> communication – checking session and presenting the <strong>loginDialog</strong> if necessary. Update the <em>jquery.albums.app.js</em> with the following:</p>
 <p><em>/_attachments/script/jquery.albums.app.js</em></p>
-<pre><code><span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="body">$)</span></span> {
+<pre><code><span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">$</span>)</span> <span class="hljs-collection">{
 
 
 
-  $.albums = $.albums || {}<span class="comment">;</span>
+  $.albums = $.albums || <span class="hljs-collection">{}</span><span class="hljs-comment">;</span>
 
-  $.extend<span class="list">(<span class="body"> $.albums, {
+  $.extend<span class="hljs-list">( $.albums, <span class="hljs-collection">{
 
 
 
@@ -606,181 +606,181 @@ submitButton<span class="preprocessor">.remove</span>()<span class="comment">;</
 
 
 
-    logIn: function<span class="list">(<span class="body"> name, password, options )</span></span> {
+    logIn: function<span class="hljs-list">( name, password, options )</span> <span class="hljs-collection">{
 
-      doLogIn<span class="list">(<span class="body"> name, password, options )</span></span><span class="comment">;</span>
+      doLogIn<span class="hljs-list">( name, password, options )</span><span class="hljs-comment">;</span>
 
-    },
-
-
-
-    logOut: function<span class="list">(<span class="body"> options )</span></span> {
-
-      doLogOut<span class="list">(<span class="body"> options )</span></span><span class="comment">;</span>
-
-    },
+    }</span>,
 
 
 
-    saveDocument: function<span class="list">(<span class="body"> document, options )</span></span> {
+    logOut: function<span class="hljs-list">( options )</span> <span class="hljs-collection">{
 
-      checkSession<span class="list">(<span class="body"> {
+      doLogOut<span class="hljs-list">( options )</span><span class="hljs-comment">;</span>
 
-        available: function<span class="list">(<span class="body"> userCtx )</span></span> {
-
-          document.user = user<span class="comment">;</span>
-
-          $.albums.database.saveDoc<span class="list">(<span class="body"> document, options )</span></span><span class="comment">;</span>
-
-        },
-
-        unavailable: function<span class="list">(<span class="body">)</span></span> {
-
-          showDialog<span class="list">(<span class="body"> options )</span></span><span class="comment">;</span>
-
-        }
-
-      })</span></span><span class="comment">;</span>
-
-    },
+    }</span>,
 
 
 
-    deleteDocument: function<span class="list">(<span class="body"> document, options )</span></span> {
+    saveDocument: function<span class="hljs-list">( document, options )</span> <span class="hljs-collection">{
 
-      checkSession<span class="list">(<span class="body"> {
+      checkSession<span class="hljs-list">( <span class="hljs-collection">{
 
-        available: function<span class="list">(<span class="body"> userCtx )</span></span> {
+        available: function<span class="hljs-list">( userCtx )</span> <span class="hljs-collection">{
 
-          $.albums.database.removeDoc<span class="list">(<span class="body"> document, options )</span></span><span class="comment">;</span>
+          document.user = user<span class="hljs-comment">;</span>
 
-        },
+          $.albums.database.saveDoc<span class="hljs-list">( document, options )</span><span class="hljs-comment">;</span>
 
-        unavailable: function<span class="list">(<span class="body">)</span></span> {
+        }</span>,
 
-          showDialog<span class="list">(<span class="body"> options )</span></span><span class="comment">;</span>
+        unavailable: function<span class="hljs-list">()</span> <span class="hljs-collection">{
 
-        }
+          showDialog<span class="hljs-list">( options )</span><span class="hljs-comment">;</span>
 
-      })</span></span><span class="comment">;</span>
+        }</span>
 
-    }
+      }</span>)</span><span class="hljs-comment">;</span>
 
-
-
-  })</span></span><span class="comment">;</span>
+    }</span>,
 
 
 
-})</span></span><span class="list">(<span class="title">jQuery</span><span class="body">)</span></span></code></pre>
-<p>So there we have our 4 public methods of <strong>$.albums</strong>. We have also added to public properties: <strong>dialog</strong> and <strong>database</strong>. These two will be the targets to the <strong>loginDialog</strong> template and a reference to our <strong>albums</strong> database, respectively. This is so we don’t rely so heavily on globally declared variables to do what we need in our nice little encapsulated <strong>plugin</strong>. In any event, if you have looked at the contents of these methods, they all call other functions that we haven’t declared yet. Lets start with <em>checkSession</em>() in <strong>saveDocument</strong> and <strong>deleteDocument</strong>. Add the following after the <strong>$.extend</strong> declaration and prior to close of <em>function</em>():</p>
+    deleteDocument: function<span class="hljs-list">( document, options )</span> <span class="hljs-collection">{
+
+      checkSession<span class="hljs-list">( <span class="hljs-collection">{
+
+        available: function<span class="hljs-list">( userCtx )</span> <span class="hljs-collection">{
+
+          $.albums.database.removeDoc<span class="hljs-list">( document, options )</span><span class="hljs-comment">;</span>
+
+        }</span>,
+
+        unavailable: function<span class="hljs-list">()</span> <span class="hljs-collection">{
+
+          showDialog<span class="hljs-list">( options )</span><span class="hljs-comment">;</span>
+
+        }</span>
+
+      }</span>)</span><span class="hljs-comment">;</span>
+
+    }</span>
+
+
+
+  }</span>)</span><span class="hljs-comment">;</span>
+
+
+
+}</span>)</span><span class="hljs-list">(<span class="hljs-title">jQuery</span>)</span>
+</code></pre><p>So there we have our 4 public methods of <strong>$.albums</strong>. We have also added to public properties: <strong>dialog</strong> and <strong>database</strong>. These two will be the targets to the <strong>loginDialog</strong> template and a reference to our <strong>albums</strong> database, respectively. This is so we don’t rely so heavily on globally declared variables to do what we need in our nice little encapsulated <strong>plugin</strong>. In any event, if you have looked at the contents of these methods, they all call other functions that we haven’t declared yet. Lets start with <em>checkSession</em>() in <strong>saveDocument</strong> and <strong>deleteDocument</strong>. Add the following after the <strong>$.extend</strong> declaration and prior to close of <em>function</em>():</p>
 <p><em>/_attachments/script/jquery.albums.app.js</em></p>
-<pre><code>function checkSession( options ) {
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkSession</span><span class="hljs-params">( options )</span> {</span>
 
-    options = options || {}<span class="comment">;</span>
+    options = options || {};
 
-    $<span class="preprocessor">.couch</span><span class="preprocessor">.session</span>( {
+    $.couch.session( {
 
-      success: function( response ) {
+      success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( response )</span> {</span>
 
-        var context = response<span class="preprocessor">.userCtx</span><span class="comment">;</span>
+        <span class="hljs-keyword">var</span> context = response.userCtx;
 
-        if( context<span class="preprocessor">.name</span> == null ) {
+        <span class="hljs-keyword">if</span>( context.name == <span class="hljs-literal">null</span> ) {
 
-          if( options<span class="preprocessor">.unavailable</span> ) options<span class="preprocessor">.unavailable</span>()<span class="comment">;</span>
+          <span class="hljs-keyword">if</span>( options.unavailable ) options.unavailable();
 
         }
 
-        else{
+        <span class="hljs-keyword">else</span>{
 
-          if( options<span class="preprocessor">.available</span> ) options<span class="preprocessor">.available</span>( context )<span class="comment">;</span>
+          <span class="hljs-keyword">if</span>( options.available ) options.available( context );
 
         }
 
       },
 
-      error: function( status, error, reason ) {
+      error: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( status, error, reason )</span> {</span>
 
-        if( options<span class="preprocessor">.unavailable</span> ) options<span class="preprocessor">.unavailable</span>()<span class="comment">;</span>
+        <span class="hljs-keyword">if</span>( options.unavailable ) options.unavailable();
 
       }
 
-    })<span class="comment">;</span>
+    });
 
-}</code></pre>
-<p>The <em>checkSession</em>() does just that: request the current session established by our client through the <strong>$.couch</strong> plugin. If the <strong>userCtx</strong> comes back as null, there is no session and no logged in user on our end. We can try this out using <strong>curl</strong> on the command line:</p>
-<pre><code>&gt; curl -vX <span class="constant">GET</span> <span class="symbol">http:</span>/<span class="regexp">/127.0.0.1:5984/</span>_session
+}
+</code></pre><p>The <em>checkSession</em>() does just that: request the current session established by our client through the <strong>$.couch</strong> plugin. If the <strong>userCtx</strong> comes back as null, there is no session and no logged in user on our end. We can try this out using <strong>curl</strong> on the command line:</p>
+<pre><code>&gt; curl -vX <span class="hljs-constant">GET</span> <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/127.0.0.1:5984/</span>_session
 
-&lt; {<span class="string">"ok"</span><span class="symbol">:true</span>,<span class="string">"userCtx"</span><span class="symbol">:</span>{<span class="string">"name"</span><span class="symbol">:null</span>,<span class="string">"roles"</span><span class="symbol">:[]</span>},<span class="string">"info"</span><span class="symbol">:</span>{<span class="string">"authentication_db"</span><span class="symbol">:<span class="string">"_users"</span></span>,<span class="string">"authentication_handlers"</span><span class="symbol">:</span>[<span class="string">"oauth"</span>,<span class="string">"cookie"</span>,<span class="string">"default"</span>]}}</code></pre>
-<p>Depending on the value of <strong>userCtx</strong>, <em>checkSession</em>() will invoke an <em>available</em>() or <em>unavailable</em>() <strong>callback</strong> method on the anonymous options argument. The available responder on <em>saveDocument</em>() and <em>deleteDocument</em>() is different – one saves, the other deletes – but if unavailable is entered, they both call <em>showDialog</em>(). Append the following script to <em>jquery.albums.app.js</em> after the <em>checkSession</em>() declaration:</p>
+&lt; {<span class="hljs-string">"ok"</span><span class="hljs-symbol">:true</span>,<span class="hljs-string">"userCtx"</span><span class="hljs-symbol">:</span>{<span class="hljs-string">"name"</span><span class="hljs-symbol">:null</span>,<span class="hljs-string">"roles"</span><span class="hljs-symbol">:[]</span>},<span class="hljs-string">"info"</span><span class="hljs-symbol">:</span>{<span class="hljs-string">"authentication_db"</span><span class="hljs-symbol">:<span class="hljs-string">"_users"</span></span>,<span class="hljs-string">"authentication_handlers"</span><span class="hljs-symbol">:</span>[<span class="hljs-string">"oauth"</span>,<span class="hljs-string">"cookie"</span>,<span class="hljs-string">"default"</span>]}}
+</code></pre><p>Depending on the value of <strong>userCtx</strong>, <em>checkSession</em>() will invoke an <em>available</em>() or <em>unavailable</em>() <strong>callback</strong> method on the anonymous options argument. The available responder on <em>saveDocument</em>() and <em>deleteDocument</em>() is different – one saves, the other deletes – but if unavailable is entered, they both call <em>showDialog</em>(). Append the following script to <em>jquery.albums.app.js</em> after the <em>checkSession</em>() declaration:</p>
 <p><em>/_attachments/script/jquery.albums.app.js</em></p>
-<pre><code>function showDialog( options ) {
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showDialog</span><span class="hljs-params">( options )</span></span> {
 
-    $<span class="preprocessor">.albums</span><span class="preprocessor">.dialog</span><span class="preprocessor">.loginDialog</span>( {
+    $.albums.dialog.loginDialog( {
 
-      login: function( evt, ui ) {
+      login: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( evt, ui )</span></span> {
 
-        doLogIn( ui<span class="preprocessor">.name</span>, ui<span class="preprocessor">.password</span>, {
+        doLogIn( ui.name, ui.password, {
 
-          success: function( response ) {
+          success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( response )</span></span> {
 
-            $<span class="preprocessor">.albums</span><span class="preprocessor">.dialog</span><span class="preprocessor">.loginDialog</span>( <span class="string">"close"</span> )<span class="comment">;</span>
+            $.albums.dialog.loginDialog( <span class="hljs-string">"close"</span> );
 
           },
 
-          error: function( status, error, reason ) {
+          <span class="hljs-built_in">error</span>: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( status, error, reason )</span></span> {
 
-            alert( <span class="string">"Error: "</span> + error + <span class="string">", "</span> + reason )<span class="comment">;</span>
+            alert( <span class="hljs-string">"Error: "</span> + <span class="hljs-built_in">error</span> + <span class="hljs-string">", "</span> + reason );
 
           }
 
-        })<span class="comment">;</span>
+        });
 
       },
 
-      signup: function( evt, ui ) {
+      signup: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( evt, ui )</span></span> {
 
-        doSignUp( ui<span class="preprocessor">.name</span>, ui<span class="preprocessor">.password</span>, {
+        doSignUp( ui.name, ui.password, {
 
-          success: function( response ) {
+          success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( response )</span></span> {
 
-            $<span class="preprocessor">.albums</span><span class="preprocessor">.dialog</span><span class="preprocessor">.loginDialog</span>( <span class="string">"close"</span> )<span class="comment">;</span>
+            $.albums.dialog.loginDialog( <span class="hljs-string">"close"</span> );
 
           },
 
-          error: function( status, error, reason ) {
+          <span class="hljs-built_in">error</span>: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( status, error, reason )</span></span> {
 
-            alert( <span class="string">"Error: "</span> + error + <span class="string">", "</span> + reason )<span class="comment">;</span>
+            alert( <span class="hljs-string">"Error: "</span> + <span class="hljs-built_in">error</span> + <span class="hljs-string">", "</span> + reason );
 
           }
 
-        })<span class="comment">;</span>
+        });
 
       }
 
-    })<span class="comment">;</span>
+    });
 
-}</code></pre>
-<p>Hey! That’s using our <strong>widget</strong>! I don’t know why i seriously get excited when i see that… In any event, there it is in all its glory. The <strong>login template</strong> will be handed to <strong>$.albums</strong> and we’ll widget-ize it within the <em>showDialog</em>() invocation:</p>
+}
+</code></pre><p>Hey! That’s using our <strong>widget</strong>! I don’t know why i seriously get excited when i see that… In any event, there it is in all its glory. The <strong>login template</strong> will be handed to <strong>$.albums</strong> and we’ll widget-ize it within the <em>showDialog</em>() invocation:</p>
 <pre><code>$.albums.dialog.loginDialog( {
 
-<span class="keyword">...</span>
+<span class="hljs-keyword">...</span>
 
-});</code></pre>
-<p>If you remember back when we created the <strong>widget</strong>, it will dispatch two events when submitted based on state: <em>login</em> and <em>signup</em>. Here we have added the <strong>callbacks</strong> to those events which in turn call either <em>doLogIn</em>() or <em>doSignUp</em>(). We’ll get to that in a bit, but i wanted to point out the success responders in the anonymous <strong>callback</strong> objects we pass to those methods:</p>
-<pre><code><span class="attribute">success</span>: <span class="string">function( response ) {</span>
+});
+</code></pre><p>If you remember back when we created the <strong>widget</strong>, it will dispatch two events when submitted based on state: <em>login</em> and <em>signup</em>. Here we have added the <strong>callbacks</strong> to those events which in turn call either <em>doLogIn</em>() or <em>doSignUp</em>(). We’ll get to that in a bit, but i wanted to point out the success responders in the anonymous <strong>callback</strong> objects we pass to those methods:</p>
+<pre><code><span class="hljs-attribute">success</span>: <span class="hljs-string">function( response ) {</span>
 
-<span class="avrasm">    $<span class="preprocessor">.albums</span><span class="preprocessor">.dialog</span><span class="preprocessor">.loginDialog</span>( <span class="string">"close"</span> )<span class="comment">;</span>
+<span class="avrasm">    $<span class="hljs-preprocessor">.albums</span><span class="hljs-preprocessor">.dialog</span><span class="hljs-preprocessor">.loginDialog</span>( <span class="hljs-string">"close"</span> )<span class="hljs-comment">;</span>
 
-}</span></code></pre>
-<p>If we have passed being logged in/signed up, we close the <strong>loginDialog</strong>. We exposed the <em>close</em>() method in <em>jquery.albums.loginDialog.js</em>, but its important to note that you cannot call <em>close</em>() using dot-notation like a property. The reason is that we are not holding a reference to the <strong>loginDialog</strong>. Calling <strong>$(”#myElement”)</strong>.<em>loginDialog</em>() just decorates the target element on the <strong>DOM</strong>. We can still interface with <strong>$(”#myElement”)</strong> but those methods associated with the <strong>widget</strong> are not then accessible on the target element. So we call a public method through <em>loginDialog</em>().</p>
+}</span>
+</code></pre><p>If we have passed being logged in/signed up, we close the <strong>loginDialog</strong>. We exposed the <em>close</em>() method in <em>jquery.albums.loginDialog.js</em>, but its important to note that you cannot call <em>close</em>() using dot-notation like a property. The reason is that we are not holding a reference to the <strong>loginDialog</strong>. Calling <strong>$(”#myElement”)</strong>.<em>loginDialog</em>() just decorates the target element on the <strong>DOM</strong>. We can still interface with <strong>$(”#myElement”)</strong> but those methods associated with the <strong>widget</strong> are not then accessible on the target element. So we call a public method through <em>loginDialog</em>().</p>
 <p>OK. So <em>doLogin</em>(), <em>doLogout</em>() and <em>doSignUp</em>() are yet to be covered. For some reason i have this convention where if it is considered an internal response to a public invocation i prepend ‘<em>d<em>o’ to the public method name. Some people prefer “_</em></em>“. To each his own. Just if you are wondering… Let’s tackle the login and logout first, as they are easy. Add the following script to <em>jquery.albums.app.js</em> somewhere after the <strong>$.extend</strong> declaration and prior to the end of the <em>function</em>() block:</p>
 <p><em>/_attachments/script/jquery.albums.app.js</em></p>
 <pre><code>var user; /* _user &gt; document.name */
 
 
 
-<span class="keyword">function</span> doLogIn( name, password, options ) {
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doLogIn</span><span class="hljs-params">( name, password, options )</span></span> {
 
     options = options || {};
 
@@ -790,17 +790,17 @@ submitButton<span class="preprocessor">.remove</span>()<span class="comment">;</
 
       password:password,
 
-      success: <span class="keyword">function</span>( <span class="built_in">response</span> ) {
+      success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( response )</span></span> {
 
-        user = <span class="built_in">response</span>.name;
+        user = response.name;
 
-        <span class="keyword">if</span>( options.success ) options.success( <span class="built_in">response</span> );
+        <span class="hljs-keyword">if</span>( options.success ) options.success( response );
 
       },
 
-      <span class="keyword">error</span>: <span class="keyword">function</span>( status, <span class="keyword">error</span>, reason ) {
+      <span class="hljs-built_in">error</span>: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( status, error, reason )</span></span> {
 
-        <span class="keyword">if</span>( options.<span class="keyword">error</span> ) options.<span class="keyword">error</span>( status, <span class="keyword">error</span>, reason );
+        <span class="hljs-keyword">if</span>( options.<span class="hljs-built_in">error</span> ) options.<span class="hljs-built_in">error</span>( status, <span class="hljs-built_in">error</span>, reason );
 
       }
 
@@ -812,30 +812,30 @@ submitButton<span class="preprocessor">.remove</span>()<span class="comment">;</
 
 
 
-<span class="keyword">function</span> doLogOut( options ) {
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doLogOut</span><span class="hljs-params">( options )</span></span> {
 
     options = options || {};
 
     $.couch.logout( {
 
-      success: <span class="keyword">function</span>( <span class="built_in">response</span> ) {
+      success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( response )</span></span> {
 
         user = undefined;
 
-        <span class="keyword">if</span>( options.success ) options.success( <span class="built_in">response</span> );
+        <span class="hljs-keyword">if</span>( options.success ) options.success( response );
 
       },
 
-      <span class="keyword">error</span>: <span class="keyword">function</span>( status, <span class="keyword">error</span>, reason ) {
+      <span class="hljs-built_in">error</span>: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( status, error, reason )</span></span> {
 
-        <span class="keyword">if</span>( options.<span class="keyword">error</span> ) options.<span class="keyword">error</span>( status, <span class="keyword">error</span>, reason );
+        <span class="hljs-keyword">if</span>( options.<span class="hljs-built_in">error</span> ) options.<span class="hljs-built_in">error</span>( status, <span class="hljs-built_in">error</span>, reason );
 
       }
 
     })
 
-}</code></pre>
-<p>Again, we are just interfacing with the <strong>$.couch</strong> plugin to perform the <em>login</em>() and <em>logout</em>(). The only reason we go through <strong>$.albums</strong> instead of <strong>$.couch</strong> directly is to maintain the <strong>user</strong>, which we have privately declared. That user value is the one assigned to the user field of a document when a new <strong>album</strong> document will be created and saved through <strong>$.albums</strong> using <em>saveDocument</em>().</p>
+}
+</code></pre><p>Again, we are just interfacing with the <strong>$.couch</strong> plugin to perform the <em>login</em>() and <em>logout</em>(). The only reason we go through <strong>$.albums</strong> instead of <strong>$.couch</strong> directly is to maintain the <strong>user</strong>, which we have privately declared. That user value is the one assigned to the user field of a document when a new <strong>album</strong> document will be created and saved through <strong>$.albums</strong> using <em>saveDocument</em>().</p>
 <p>Alright, <strong>Sign Up</strong> is where the magic happens. Signing a user up through <strong>$.couch</strong> is a little trickier. In <a href="http://127.0.0.1:5984/_utils">Futon</a> it is all easy-peasy as we saw in the last article in this mini-series in a series. Now that we have taken our <a href="http://couchdb.apache.org/">CouchDB</a> instance out of <strong>Admin Party</strong> mode, the <strong>$.couch</strong>.<em>signUp</em>() method won’t work unless we are logged in as an admin. We don’t want to take the approach of <a href="http://127.0.0.1:5984/_utils">Futon</a> for the User Experience for our little application here. Our application shouldn’t act as an admin console to the <a href="http://couchdb.apache.org/">CouchDB</a> database as well as its current function of just adding, updating and deleting <strong>album</strong> documents. </p>
 <p>We going to secretly log in as an admin behind the scenes and set our new user up for gold and start adding documents. So, <strong>Sign Up</strong> is actually going to be a series of commands just to sign someone up, assign their proper <strong>user-role</strong> and create their session to allow them to start working with <strong>album</strong> documents. That sequence in readable terms is:</p>
 <ol>
@@ -849,213 +849,213 @@ submitButton<span class="preprocessor">.remove</span>()<span class="comment">;</
 <p>Maybe the <em>jquery.couch</em> plugin has changed since the last revision i checked out, but that is the order of things to <em>signup</em> and <em>login</em> a new user as far as i understand. The signature for <strong>$.couch</strong>.<em>signUp</em>() method has no arguments for administration to do this more streamlined, so we are going to create a chain of commands to signup a new user a little more efficiently. Now, in actuality, i would turn to a server-side developer and ask pretty-please that they implement a proxy in whatever language to do this and not handle it all in <strong>JavaScript</strong> (especially since we are going to expose our admin credentials – <em>HIDE YOUR CHILDREN</em>!), but we’re having fun and not going to production with this, right? We’re taking some liberties to explore what we have…</p>
 <p>Now, if you have not figured out yet in following these articles, i can get a little anal. But it isn’t about everything. I seem to get focused on one thing that really irks me. And one of those things is deeply nested anonymous <strong>callbacks</strong>. Sure i am guilty of doing it and when i do it i feel dirty, but i usually let it go if its not nesting too deep. This sequence of actions for <strong>Sign Up</strong>, however, i can foresee being really ugly if we just went with anonymous <strong>callback</strong> objects down the line. So what i did was create <strong>Queue</strong> and <strong>Command</strong> “classes” to keep my sanity. The following is the script for that. Open a new document in your favorite editor (we’ll get back to <em>jquery.albums.app.js</em> in a bit) and save the following script as <em>command_queue.js</em> in <em>/_attachments/script</em>:</p>
 <p><em>/_attachments/script/command_queue.js</em></p>
-<pre><code><span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="title">window</span><span class="body">)</span></span> {
+<pre><code>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(window)</span> {</span>
 
 
 
-    function Commandable<span class="list">(<span class="body">)</span></span> {}
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Commandable</span><span class="hljs-params">()</span> {</span>}
 
-    Commandable.prototype.execute = function<span class="list">(<span class="body"> data )</span></span>{}<span class="comment">;</span>
-
-
-
-    function Queue<span class="list">(<span class="body"> ops )</span></span> {
-
-        this.options = ops || {}<span class="comment">;</span>
-
-        this.list = []<span class="comment">;</span>
-
-        this.command<span class="comment">;</span>
+    Commandable.prototype.execute = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( data )</span>{</span>};
 
 
 
-        this.addCommand = function<span class="list">(<span class="body"> command )</span></span> {
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Queue</span><span class="hljs-params">( ops )</span> {</span>
 
-            var length = this.list.length<span class="comment">;</span>
+        <span class="hljs-keyword">this</span>.options = ops || {};
 
-            if<span class="list">(<span class="body"> length &gt; <span class="number">0</span> )</span></span> {
+        <span class="hljs-keyword">this</span>.list = [];
 
-                this.list[length<span class="number">-1</span>].nextCommand = this<span class="comment">;</span>
+        <span class="hljs-keyword">this</span>.command;
 
-            }
 
-            this.list.push<span class="list">(<span class="body"> command )</span></span><span class="comment">;</span>
 
-        }
+        <span class="hljs-keyword">this</span>.addCommand = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( command )</span> {</span>
 
-    }
+            <span class="hljs-keyword">var</span> length = <span class="hljs-keyword">this</span>.list.length;
 
-    var q = Queue.prototype = new Commandable<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+            <span class="hljs-keyword">if</span>( length &gt; <span class="hljs-number">0</span> ) {
 
-    q.options = undefined<span class="comment">;</span>
-
-    q.list = undefined<span class="comment">;</span>
-
-    q.command = undefined<span class="comment">;</span>
-
-    q.constructor = Queue<span class="comment">;</span>
-
-    q.execute = function<span class="list">(<span class="body"> data )</span></span> {
-
-        if<span class="list">(<span class="body"> this.list.length &gt; <span class="number">0</span> )</span></span> {
-
-            this.command = this.list.shift<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
-
-            this.command.execute<span class="list">(<span class="body"> data )</span></span><span class="comment">;</span>
-
-        }
-
-        else {
-
-            this.command = undefined<span class="comment">;</span>
-
-            if<span class="list">(<span class="body"> this.options.complete )</span></span> {
-
-                this.options.complete<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+                <span class="hljs-keyword">this</span>.list[length-<span class="hljs-number">1</span>].nextCommand = <span class="hljs-keyword">this</span>;
 
             }
 
+            <span class="hljs-keyword">this</span>.list.push( command );
+
+        }
+
+    }
+
+    <span class="hljs-keyword">var</span> q = Queue.prototype = <span class="hljs-keyword">new</span> Commandable();
+
+    q.options = <span class="hljs-literal">undefined</span>;
+
+    q.list = <span class="hljs-literal">undefined</span>;
+
+    q.command = <span class="hljs-literal">undefined</span>;
+
+    q.constructor = Queue;
+
+    q.execute = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( data )</span> {</span>
+
+        <span class="hljs-keyword">if</span>( <span class="hljs-keyword">this</span>.list.length &gt; <span class="hljs-number">0</span> ) {
+
+            <span class="hljs-keyword">this</span>.command = <span class="hljs-keyword">this</span>.list.shift();
+
+            <span class="hljs-keyword">this</span>.command.execute( data );
+
+        }
+
+        <span class="hljs-keyword">else</span> {
+
+            <span class="hljs-keyword">this</span>.command = <span class="hljs-literal">undefined</span>;
+
+            <span class="hljs-keyword">if</span>( <span class="hljs-keyword">this</span>.options.complete ) {
+
+                <span class="hljs-keyword">this</span>.options.complete();
+
+            }
+
         }
 
     }
 
 
 
-    function Command<span class="list">(<span class="body"> target, args, ops )</span></span> {
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Command</span><span class="hljs-params">( target, args, ops )</span> {</span>
 
-        this.target = target<span class="comment">;</span>
+        <span class="hljs-keyword">this</span>.target = target;
 
-        this.args = args || []<span class="comment">;</span>
+        <span class="hljs-keyword">this</span>.args = args || [];
 
-        this.options = ops || {}<span class="comment">;</span>
+        <span class="hljs-keyword">this</span>.options = ops || {};
 
-        this.nextCommand = undefined<span class="comment">;</span>
+        <span class="hljs-keyword">this</span>.nextCommand = <span class="hljs-literal">undefined</span>;
 
     }
 
-    var c = Command.prototype = new Commandable<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+    <span class="hljs-keyword">var</span> c = Command.prototype = <span class="hljs-keyword">new</span> Commandable();
 
-    c.constructor = Command<span class="comment">;</span>
+    c.constructor = Command;
 
-    c.getCommandOptions = function<span class="list">(<span class="body"> options, nextCommand )</span></span> {
+    c.getCommandOptions = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( options, nextCommand )</span> {</span>
 
-        var responder = {
+        <span class="hljs-keyword">var</span> responder = {
 
             ops: options,
 
-            success: function<span class="list">(<span class="body"> response )</span></span> {
+            success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( response )</span> {</span>
 
-                if<span class="list">(<span class="body"> options <span class="keyword">&amp;&amp;</span> options.success )</span></span> options.success<span class="list">(<span class="body"> response )</span></span><span class="comment">;</span>
+                <span class="hljs-keyword">if</span>( options &amp;&amp; options.success ) options.success( response );
 
-                if<span class="list">(<span class="body"> nextCommand )</span></span> {
+                <span class="hljs-keyword">if</span>( nextCommand ) {
 
-                    nextCommand.execute<span class="list">(<span class="body"> response )</span></span><span class="comment">;</span>
+                    nextCommand.execute( response );
 
                 }
 
             },
 
-            error: function<span class="list">(<span class="body"> status, error, reason )</span></span> {
+            error: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( status, error, reason )</span> {</span>
 
-                if<span class="list">(<span class="body"> options <span class="keyword">&amp;&amp;</span> options.error )</span></span> options.error<span class="list">(<span class="body"> status, error, reason )</span></span><span class="comment">;</span>
+                <span class="hljs-keyword">if</span>( options &amp;&amp; options.error ) options.error( status, error, reason );
 
             }
 
-        }<span class="comment">;</span>
+        };
 
-        return $.extend<span class="list">(<span class="body"> {}, this.options, responder )</span></span><span class="comment">;</span>
-
-    }
-
-    c.execute = function<span class="list">(<span class="body"> data )</span></span> {
-
-        this.args.push<span class="list">(<span class="body"> this.getCommandOptions<span class="list">(<span class="body"> this.options, this.nextCommand )</span></span> )</span></span><span class="comment">;</span>
-
-        this.target.apply<span class="list">(<span class="body"> this, this.args )</span></span><span class="comment">;</span>
+        <span class="hljs-keyword">return</span> $.extend( {}, <span class="hljs-keyword">this</span>.options, responder );
 
     }
 
+    c.execute = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( data )</span> {</span>
+
+        <span class="hljs-keyword">this</span>.args.push( <span class="hljs-keyword">this</span>.getCommandOptions( <span class="hljs-keyword">this</span>.options, <span class="hljs-keyword">this</span>.nextCommand ) );
+
+        <span class="hljs-keyword">this</span>.target.apply( <span class="hljs-keyword">this</span>, <span class="hljs-keyword">this</span>.args );
+
+    }
 
 
-window.Queue = Queue<span class="comment">;</span>
 
-window.Command = Command<span class="comment">;</span>
+window.Queue = Queue;
+
+window.Command = Command;
 
 
 
-}<span class="list">(<span class="title">window</span><span class="body">)</span></span>)</span></span><span class="comment">;</span></code></pre>
-<p>I’m not going to say it’s sophisticated by any means, but this is a simple implementation to allow us to chain commands together. That is done by adding <strong>Commands</strong> to the <strong>Queue</strong> using <em>addCommand</em>(), which then appends a command using the <em>nextCommand</em> property of the previous (if available) <strong>Command</strong>. Both <strong>Queue</strong> and <strong>Command</strong> have a method called <em>execute</em>() (as extensions of <strong>Commandable</strong>). Executing a <strong>Queue</strong> will start the chain of commands; executing a <strong>Command</strong> will invoke whatever <strong>target</strong> method supplied in the constructor. If this needs more explanation, please leave a comment. We’ll see how we use this by implementing our <em>doSignUp</em>() method in <em>jquery.albums.app.js</em>. Open up <em>jquery.albums.app.js</em> in your favorite editor and add the following script somewhere after the <strong>$.execute</strong> declaration and before the end of the <em>function</em>() block:</p>
+}(window));
+</code></pre><p>I’m not going to say it’s sophisticated by any means, but this is a simple implementation to allow us to chain commands together. That is done by adding <strong>Commands</strong> to the <strong>Queue</strong> using <em>addCommand</em>(), which then appends a command using the <em>nextCommand</em> property of the previous (if available) <strong>Command</strong>. Both <strong>Queue</strong> and <strong>Command</strong> have a method called <em>execute</em>() (as extensions of <strong>Commandable</strong>). Executing a <strong>Queue</strong> will start the chain of commands; executing a <strong>Command</strong> will invoke whatever <strong>target</strong> method supplied in the constructor. If this needs more explanation, please leave a comment. We’ll see how we use this by implementing our <em>doSignUp</em>() method in <em>jquery.albums.app.js</em>. Open up <em>jquery.albums.app.js</em> in your favorite editor and add the following script somewhere after the <strong>$.execute</strong> declaration and before the end of the <em>function</em>() block:</p>
 <p><em>/_attachments/script/jquery.albums.app.js</em></p>
-<pre><code>function doSignUp( name, password, options ) {
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSignUp</span><span class="hljs-params">( name, password, options )</span> {</span>
 
-    options = options || {}<span class="comment">;</span>
+    options = options || {};
 
-    var queueOptions = {
+    <span class="hljs-keyword">var</span> queueOptions = {
 
-      complete: function() {
+      complete: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-        if( options<span class="preprocessor">.success</span> ) options<span class="preprocessor">.success</span>()<span class="comment">;</span>
+        <span class="hljs-keyword">if</span>( options.success ) options.success();
 
       }
 
     }
 
-    var queue = new Queue( queueOptions )<span class="comment">;</span>
+    <span class="hljs-keyword">var</span> queue = <span class="hljs-keyword">new</span> Queue( queueOptions );
 
-    queue<span class="preprocessor">.addCommand</span>( new Command( $<span class="preprocessor">.albums</span><span class="preprocessor">.logIn</span>, [<span class="string">"toddanderson"</span>, <span class="string">"admin123"</span>] ) )<span class="comment">;</span>
+    queue.addCommand( <span class="hljs-keyword">new</span> Command( $.albums.logIn, [<span class="hljs-string">"toddanderson"</span>, <span class="hljs-string">"admin123"</span>] ) );
 
-    queue<span class="preprocessor">.addCommand</span>( new Command( $<span class="preprocessor">.couch</span><span class="preprocessor">.signup</span>, [{name:name}, password] ) )<span class="comment">;</span>
+    queue.addCommand( <span class="hljs-keyword">new</span> Command( $.couch.signup, [{name:name}, password] ) );
 
-    queue<span class="preprocessor">.addCommand</span>( new OpenUserDocCommand() )<span class="comment">;</span>
+    queue.addCommand( <span class="hljs-keyword">new</span> OpenUserDocCommand() );
 
-    queue<span class="preprocessor">.addCommand</span>( new AssignRoleCommand() )<span class="comment">;</span>
+    queue.addCommand( <span class="hljs-keyword">new</span> AssignRoleCommand() );
 
-    queue<span class="preprocessor">.addCommand</span>( new Command( $<span class="preprocessor">.albums</span><span class="preprocessor">.logOut</span> ) )<span class="comment">;</span>
+    queue.addCommand( <span class="hljs-keyword">new</span> Command( $.albums.logOut ) );
 
-    queue<span class="preprocessor">.addCommand</span>( new Command( $<span class="preprocessor">.albums</span><span class="preprocessor">.logIn</span>, [name, password], options ) )<span class="comment">;</span>
+    queue.addCommand( <span class="hljs-keyword">new</span> Command( $.albums.logIn, [name, password], options ) );
 
-    queue<span class="preprocessor">.execute</span>()<span class="comment">;</span>
+    queue.execute();
 
-}</code></pre>
-<p>There we have our sequence of command described earlier. You can see how we pass the target method and arguments to the <strong>Command</strong> to be executed and the queue of commands is assembled using <strong>Queue</strong>:<em>addCommand</em>(). Again, our admin credentials are exposed and available to all – I do not recommend this practice in real life. Its just us here. So, there are two commands there in the middle that we haven’t discussed and aren’t declared in <em>command_queue.js</em>. They are specific to our <strong>albums</strong> application, so we will define them in <em>jquery.albums.app.js</em>. With the file still open, add the following script after (or before) the <em>doSignUp</em>() declaration:</p>
+}
+</code></pre><p>There we have our sequence of command described earlier. You can see how we pass the target method and arguments to the <strong>Command</strong> to be executed and the queue of commands is assembled using <strong>Queue</strong>:<em>addCommand</em>(). Again, our admin credentials are exposed and available to all – I do not recommend this practice in real life. Its just us here. So, there are two commands there in the middle that we haven’t discussed and aren’t declared in <em>command_queue.js</em>. They are specific to our <strong>albums</strong> application, so we will define them in <em>jquery.albums.app.js</em>. With the file still open, add the following script after (or before) the <em>doSignUp</em>() declaration:</p>
 <p><em>/_attachments/script/jquery.albums.app.js</em></p>
-<pre><code><span class="title">function</span> <span class="type">OpenUserDocCommand</span>( target, args, options ) {}
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">OpenUserDocCommand</span><span class="hljs-params">( target, args, options )</span> {</span>}
 
-<span class="type">OpenUserDocCommand</span>.prototype = new <span class="type">Command</span>();
+OpenUserDocCommand.prototype = <span class="hljs-keyword">new</span> Command();
 
-<span class="type">OpenUserDocCommand</span>.prototype.execute = function( <span class="typedef"><span class="keyword">data</span> ) <span class="container">{
+OpenUserDocCommand.prototype.execute = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( data )</span> {</span>
 
-      <span class="title">var</span> $<span class="title">userDB</span> = $.<span class="title">couch</span>.<span class="title">db</span>("<span class="title">_users</span>");
+      <span class="hljs-keyword">var</span> $userDB = $.couch.db(<span class="hljs-string">"_users"</span>);
 
-      $<span class="title">userDB</span>.<span class="title">openDoc</span>( <span class="title">data</span>.<span class="title">id</span>, <span class="title">this</span>.<span class="title">getCommandOptions</span>( <span class="title">this</span>.<span class="title">options</span>, <span class="title">this</span>.<span class="title">nextCommand</span> ) );
+      $userDB.openDoc( data.id, <span class="hljs-keyword">this</span>.getCommandOptions( <span class="hljs-keyword">this</span>.options, <span class="hljs-keyword">this</span>.nextCommand ) );
 
-}</span></span>
+}
 
 
 
-<span class="title">function</span> <span class="type">AssignRoleCommand</span>( target, args, options ) {}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">AssignRoleCommand</span><span class="hljs-params">( target, args, options )</span> {</span>}
 
-<span class="type">AssignRoleCommand</span>.prototype = new <span class="type">Command</span>();
+AssignRoleCommand.prototype = <span class="hljs-keyword">new</span> Command();
 
-<span class="type">AssignRoleCommand</span>.prototype.execute = function( <span class="typedef"><span class="keyword">data</span> ) <span class="container">{
+AssignRoleCommand.prototype.execute = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( data )</span> {</span>
 
-      <span class="title">data</span>.<span class="title">roles</span> = ["<span class="title">albums</span>-<span class="title">user</span>"];
+      data.roles = [<span class="hljs-string">"albums-user"</span>];
 
-      <span class="title">var</span> $<span class="title">userDB</span> = $.<span class="title">couch</span>.<span class="title">db</span>("<span class="title">_users</span>");
+      <span class="hljs-keyword">var</span> $userDB = $.couch.db(<span class="hljs-string">"_users"</span>);
 
-      $<span class="title">userDB</span>.<span class="title">saveDoc</span>( <span class="title">data</span>, <span class="title">this</span>.<span class="title">getCommandOptions</span>( <span class="title">this</span>.<span class="title">options</span>, <span class="title">this</span>.<span class="title">nextCommand</span> ) );
+      $userDB.saveDoc( data, <span class="hljs-keyword">this</span>.getCommandOptions( <span class="hljs-keyword">this</span>.options, <span class="hljs-keyword">this</span>.nextCommand ) );
 
-}</span></span></code></pre>
-<p>Nothing too crazy going on in <strong>OpenUserDocCommand</strong> or <strong>AssignRoleCommand</strong>, just needed to do some work with the <strong>_users</strong> database of our <a href="http://couchdb.apache.org/">CouchDB</a> instance as an admin.</p>
+}
+</code></pre><p>Nothing too crazy going on in <strong>OpenUserDocCommand</strong> or <strong>AssignRoleCommand</strong>, just needed to do some work with the <strong>_users</strong> database of our <a href="http://couchdb.apache.org/">CouchDB</a> instance as an admin.</p>
 <p>Guess what? That’s it! We’re done with <em>jquery.albums.app.js</em>. Whew! If you have stuck around, i am quite humbled. Seriously. A lot of code and rambling on. I don’t know if i would have made it. Anyway, here is <em>jquery.albums.app.js</em> in full:</p>
 <p><em>/_attachments/script/jquery.albums.app.js</em></p>
-<pre><code><span class="list">(<span class="title">function</span><span class="body"><span class="list">(<span class="body">$)</span></span> {
+<pre><code><span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">$</span>)</span> <span class="hljs-collection">{
 
 
 
-  $.albums = $.albums || {}<span class="comment">;</span>
+  $.albums = $.albums || <span class="hljs-collection">{}</span><span class="hljs-comment">;</span>
 
-  $.extend<span class="list">(<span class="body"> $.albums, {
+  $.extend<span class="hljs-list">( $.albums, <span class="hljs-collection">{
 
 
 
@@ -1065,402 +1065,402 @@ window.Command = Command<span class="comment">;</span>
 
 
 
-    logIn: function<span class="list">(<span class="body"> name, password, options )</span></span> {
+    logIn: function<span class="hljs-list">( name, password, options )</span> <span class="hljs-collection">{
 
-      doLogIn<span class="list">(<span class="body"> name, password, options )</span></span><span class="comment">;</span>
+      doLogIn<span class="hljs-list">( name, password, options )</span><span class="hljs-comment">;</span>
 
-    },
+    }</span>,
 
 
 
-    logOut: function<span class="list">(<span class="body"> options )</span></span> {
+    logOut: function<span class="hljs-list">( options )</span> <span class="hljs-collection">{
 
-      doLogOut<span class="list">(<span class="body"> options )</span></span><span class="comment">;</span>
+      doLogOut<span class="hljs-list">( options )</span><span class="hljs-comment">;</span>
 
-    },
+    }</span>,
 
 
 
-    saveDocument: function<span class="list">(<span class="body"> document, options )</span></span> {
+    saveDocument: function<span class="hljs-list">( document, options )</span> <span class="hljs-collection">{
 
-      checkSession<span class="list">(<span class="body"> {
+      checkSession<span class="hljs-list">( <span class="hljs-collection">{
 
-        available: function<span class="list">(<span class="body"> userCtx )</span></span> {
+        available: function<span class="hljs-list">( userCtx )</span> <span class="hljs-collection">{
 
-          document.user = user<span class="comment">;</span>
+          document.user = user<span class="hljs-comment">;</span>
 
-          $.albums.database.saveDoc<span class="list">(<span class="body"> document, options )</span></span><span class="comment">;</span>
+          $.albums.database.saveDoc<span class="hljs-list">( document, options )</span><span class="hljs-comment">;</span>
 
-        },
+        }</span>,
 
-        unavailable: function<span class="list">(<span class="body">)</span></span> {
+        unavailable: function<span class="hljs-list">()</span> <span class="hljs-collection">{
 
-          showDialog<span class="list">(<span class="body"> options )</span></span><span class="comment">;</span>
+          showDialog<span class="hljs-list">( options )</span><span class="hljs-comment">;</span>
 
-        }
+        }</span>
 
-      })</span></span><span class="comment">;</span>
+      }</span>)</span><span class="hljs-comment">;</span>
 
-    },
+    }</span>,
 
 
 
-    deleteDocument: function<span class="list">(<span class="body"> document, options )</span></span> {
+    deleteDocument: function<span class="hljs-list">( document, options )</span> <span class="hljs-collection">{
 
-      checkSession<span class="list">(<span class="body"> {
+      checkSession<span class="hljs-list">( <span class="hljs-collection">{
 
-        available: function<span class="list">(<span class="body"> userCtx )</span></span> {
+        available: function<span class="hljs-list">( userCtx )</span> <span class="hljs-collection">{
 
-          $.albums.database.removeDoc<span class="list">(<span class="body"> document, options )</span></span><span class="comment">;</span>
+          $.albums.database.removeDoc<span class="hljs-list">( document, options )</span><span class="hljs-comment">;</span>
 
-        },
+        }</span>,
 
-        unavailable: function<span class="list">(<span class="body">)</span></span> {
+        unavailable: function<span class="hljs-list">()</span> <span class="hljs-collection">{
 
-          showDialog<span class="list">(<span class="body"> options )</span></span><span class="comment">;</span>
+          showDialog<span class="hljs-list">( options )</span><span class="hljs-comment">;</span>
 
-        }
+        }</span>
 
-      })</span></span><span class="comment">;</span>
+      }</span>)</span><span class="hljs-comment">;</span>
 
-    }
+    }</span>
 
 
 
-  })</span></span><span class="comment">;</span>
+  }</span>)</span><span class="hljs-comment">;</span>
 
 
 
-  var user<span class="comment">; /* _user &gt; document.name */</span>
+  var user<span class="hljs-comment">; /* _user &gt; document.name */</span>
 
 
 
-  function OpenUserDocCommand<span class="list">(<span class="body"> target, args, options )</span></span> {}
+  function OpenUserDocCommand<span class="hljs-list">( target, args, options )</span> <span class="hljs-collection">{}</span>
 
-  OpenUserDocCommand.prototype = new Command<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+  OpenUserDocCommand.prototype = new Command<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-  OpenUserDocCommand.prototype.execute = function<span class="list">(<span class="body"> data )</span></span> {
+  OpenUserDocCommand.prototype.execute = function<span class="hljs-list">( data )</span> <span class="hljs-collection">{
 
-      var $userDB = $.couch.db<span class="list">(<span class="body"><span class="string">"_users"</span>)</span></span><span class="comment">;</span>
+      var $userDB = $.couch.db<span class="hljs-list">(<span class="hljs-string">"_users"</span>)</span><span class="hljs-comment">;</span>
 
-      $userDB.openDoc<span class="list">(<span class="body"> data.id, this.getCommandOptions<span class="list">(<span class="body"> this.options, this.nextCommand )</span></span> )</span></span><span class="comment">;</span>
+      $userDB.openDoc<span class="hljs-list">( data.id, this.getCommandOptions<span class="hljs-list">( this.options, this.nextCommand )</span> )</span><span class="hljs-comment">;</span>
 
-  }
+  }</span>
 
 
 
-  function AssignRoleCommand<span class="list">(<span class="body"> target, args, options )</span></span> {}
+  function AssignRoleCommand<span class="hljs-list">( target, args, options )</span> <span class="hljs-collection">{}</span>
 
-  AssignRoleCommand.prototype = new Command<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+  AssignRoleCommand.prototype = new Command<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-  AssignRoleCommand.prototype.execute = function<span class="list">(<span class="body"> data )</span></span> {
+  AssignRoleCommand.prototype.execute = function<span class="hljs-list">( data )</span> <span class="hljs-collection">{
 
-      data.roles = [<span class="string">"albums-user"</span>]<span class="comment">;</span>
+      data.roles = <span class="hljs-collection">[<span class="hljs-string">"albums-user"</span>]</span><span class="hljs-comment">;</span>
 
-      var $userDB = $.couch.db<span class="list">(<span class="body"><span class="string">"_users"</span>)</span></span><span class="comment">;</span>
+      var $userDB = $.couch.db<span class="hljs-list">(<span class="hljs-string">"_users"</span>)</span><span class="hljs-comment">;</span>
 
-      $userDB.saveDoc<span class="list">(<span class="body"> data, this.getCommandOptions<span class="list">(<span class="body"> this.options, this.nextCommand )</span></span> )</span></span><span class="comment">;</span>
+      $userDB.saveDoc<span class="hljs-list">( data, this.getCommandOptions<span class="hljs-list">( this.options, this.nextCommand )</span> )</span><span class="hljs-comment">;</span>
 
-  }
+  }</span>
 
 
 
-  function checkSession<span class="list">(<span class="body"> options )</span></span> {
+  function checkSession<span class="hljs-list">( options )</span> <span class="hljs-collection">{
 
-    options = options || {}<span class="comment">;</span>
+    options = options || <span class="hljs-collection">{}</span><span class="hljs-comment">;</span>
 
-    $.couch.session<span class="list">(<span class="body"> {
+    $.couch.session<span class="hljs-list">( <span class="hljs-collection">{
 
-      success: function<span class="list">(<span class="body"> response )</span></span> {
+      success: function<span class="hljs-list">( response )</span> <span class="hljs-collection">{
 
-        var context = response.userCtx<span class="comment">;</span>
+        var context = response.userCtx<span class="hljs-comment">;</span>
 
-        if<span class="list">(<span class="body"> context.name == null )</span></span> {
+        if<span class="hljs-list">( context.name == null )</span> <span class="hljs-collection">{
 
-          if<span class="list">(<span class="body"> options.unavailable )</span></span> options.unavailable<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+          if<span class="hljs-list">( options.unavailable )</span> options.unavailable<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-        }
+        }</span>
 
-        else{
+        else<span class="hljs-collection">{
 
-          if<span class="list">(<span class="body"> options.available )</span></span> options.available<span class="list">(<span class="body"> context )</span></span><span class="comment">;</span>
+          if<span class="hljs-list">( options.available )</span> options.available<span class="hljs-list">( context )</span><span class="hljs-comment">;</span>
 
-        }
+        }</span>
 
-      },
+      }</span>,
 
-      error: function<span class="list">(<span class="body"> status, error, reason )</span></span> {
+      error: function<span class="hljs-list">( status, error, reason )</span> <span class="hljs-collection">{
 
-        if<span class="list">(<span class="body"> options.unavailable )</span></span> options.unavailable<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+        if<span class="hljs-list">( options.unavailable )</span> options.unavailable<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-      }
+      }</span>
 
-    })</span></span><span class="comment">;</span>
+    }</span>)</span><span class="hljs-comment">;</span>
 
-  }
+  }</span>
 
 
 
-  function doLogIn<span class="list">(<span class="body"> name, password, options )</span></span> {
+  function doLogIn<span class="hljs-list">( name, password, options )</span> <span class="hljs-collection">{
 
-    options = options || {}<span class="comment">;</span>
+    options = options || <span class="hljs-collection">{}</span><span class="hljs-comment">;</span>
 
-    var loginObj = {
+    var loginObj = <span class="hljs-collection">{
 
-      name<span class="keyword">:name</span>,
+      name<span class="hljs-attribute">:name</span>,
 
-      password<span class="keyword">:password</span>,
+      password<span class="hljs-attribute">:password</span>,
 
-      success: function<span class="list">(<span class="body"> response )</span></span> {
+      success: function<span class="hljs-list">( response )</span> <span class="hljs-collection">{
 
-        user = response.name<span class="comment">;</span>
+        user = response.name<span class="hljs-comment">;</span>
 
-        if<span class="list">(<span class="body"> options.success )</span></span> options.success<span class="list">(<span class="body"> response )</span></span><span class="comment">;</span>
+        if<span class="hljs-list">( options.success )</span> options.success<span class="hljs-list">( response )</span><span class="hljs-comment">;</span>
 
-      },
+      }</span>,
 
-      error: function<span class="list">(<span class="body"> status, error, reason )</span></span> {
+      error: function<span class="hljs-list">( status, error, reason )</span> <span class="hljs-collection">{
 
-        if<span class="list">(<span class="body"> options.error )</span></span> options.error<span class="list">(<span class="body"> status, error, reason )</span></span><span class="comment">;</span>
+        if<span class="hljs-list">( options.error )</span> options.error<span class="hljs-list">( status, error, reason )</span><span class="hljs-comment">;</span>
 
-      }
+      }</span>
 
-    }<span class="comment">;</span>
+    }</span><span class="hljs-comment">;</span>
 
-    $.couch.login<span class="list">(<span class="body"> loginObj )</span></span><span class="comment">;</span>
+    $.couch.login<span class="hljs-list">( loginObj )</span><span class="hljs-comment">;</span>
 
-  }
+  }</span>
 
 
 
-  function doLogOut<span class="list">(<span class="body"> options )</span></span> {
+  function doLogOut<span class="hljs-list">( options )</span> <span class="hljs-collection">{
 
-    options = options || {}<span class="comment">;</span>
+    options = options || <span class="hljs-collection">{}</span><span class="hljs-comment">;</span>
 
-    $.couch.logout<span class="list">(<span class="body"> {
+    $.couch.logout<span class="hljs-list">( <span class="hljs-collection">{
 
-      success: function<span class="list">(<span class="body"> response )</span></span> {
+      success: function<span class="hljs-list">( response )</span> <span class="hljs-collection">{
 
-        user = undefined<span class="comment">;</span>
+        user = undefined<span class="hljs-comment">;</span>
 
-        if<span class="list">(<span class="body"> options.success )</span></span> options.success<span class="list">(<span class="body"> response )</span></span><span class="comment">;</span>
+        if<span class="hljs-list">( options.success )</span> options.success<span class="hljs-list">( response )</span><span class="hljs-comment">;</span>
 
-      },
+      }</span>,
 
-      error: function<span class="list">(<span class="body"> status, error, reason )</span></span> {
+      error: function<span class="hljs-list">( status, error, reason )</span> <span class="hljs-collection">{
 
-        if<span class="list">(<span class="body"> options.error )</span></span> options.error<span class="list">(<span class="body"> status, error, reason )</span></span><span class="comment">;</span>
+        if<span class="hljs-list">( options.error )</span> options.error<span class="hljs-list">( status, error, reason )</span><span class="hljs-comment">;</span>
 
-      }
+      }</span>
 
-    })</span></span>
+    }</span>)</span>
 
-  }
+  }</span>
 
 
 
-  function doSignUp<span class="list">(<span class="body"> name, password, options )</span></span> {
+  function doSignUp<span class="hljs-list">( name, password, options )</span> <span class="hljs-collection">{
 
-    options = options || {}<span class="comment">;</span>
+    options = options || <span class="hljs-collection">{}</span><span class="hljs-comment">;</span>
 
-    var queueOptions = {
+    var queueOptions = <span class="hljs-collection">{
 
-      complete: function<span class="list">(<span class="body">)</span></span> {
+      complete: function<span class="hljs-list">()</span> <span class="hljs-collection">{
 
-        if<span class="list">(<span class="body"> options.success )</span></span> options.success<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+        if<span class="hljs-list">( options.success )</span> options.success<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-      }
+      }</span>
 
-    }
+    }</span>
 
-    var queue = new Queue<span class="list">(<span class="body"> queueOptions )</span></span><span class="comment">;</span>
+    var queue = new Queue<span class="hljs-list">( queueOptions )</span><span class="hljs-comment">;</span>
 
-    queue.addCommand<span class="list">(<span class="body"> new Command<span class="list">(<span class="body"> $.albums.logIn, [<span class="string">"toddanderson"</span>, <span class="string">"admin123"</span>] )</span></span> )</span></span><span class="comment">;</span>
+    queue.addCommand<span class="hljs-list">( new Command<span class="hljs-list">( $.albums.logIn, <span class="hljs-collection">[<span class="hljs-string">"toddanderson"</span>, <span class="hljs-string">"admin123"</span>]</span> )</span> )</span><span class="hljs-comment">;</span>
 
-    queue.addCommand<span class="list">(<span class="body"> new Command<span class="list">(<span class="body"> $.couch.signup, [{name<span class="keyword">:name</span>}, password] )</span></span> )</span></span><span class="comment">;</span>
+    queue.addCommand<span class="hljs-list">( new Command<span class="hljs-list">( $.couch.signup, <span class="hljs-collection">[<span class="hljs-collection">{name<span class="hljs-attribute">:name</span>}</span>, password]</span> )</span> )</span><span class="hljs-comment">;</span>
 
-    queue.addCommand<span class="list">(<span class="body"> new OpenUserDocCommand<span class="list">(<span class="body">)</span></span> )</span></span><span class="comment">;</span>
+    queue.addCommand<span class="hljs-list">( new OpenUserDocCommand<span class="hljs-list">()</span> )</span><span class="hljs-comment">;</span>
 
-    queue.addCommand<span class="list">(<span class="body"> new AssignRoleCommand<span class="list">(<span class="body">)</span></span> )</span></span><span class="comment">;</span>
+    queue.addCommand<span class="hljs-list">( new AssignRoleCommand<span class="hljs-list">()</span> )</span><span class="hljs-comment">;</span>
 
-    queue.addCommand<span class="list">(<span class="body"> new Command<span class="list">(<span class="body"> $.albums.logOut )</span></span> )</span></span><span class="comment">;</span>
+    queue.addCommand<span class="hljs-list">( new Command<span class="hljs-list">( $.albums.logOut )</span> )</span><span class="hljs-comment">;</span>
 
-    queue.addCommand<span class="list">(<span class="body"> new Command<span class="list">(<span class="body"> $.albums.logIn, [name, password], options )</span></span> )</span></span><span class="comment">;</span>
+    queue.addCommand<span class="hljs-list">( new Command<span class="hljs-list">( $.albums.logIn, <span class="hljs-collection">[name, password]</span>, options )</span> )</span><span class="hljs-comment">;</span>
 
-    queue.execute<span class="list">(<span class="body">)</span></span><span class="comment">;</span>
+    queue.execute<span class="hljs-list">()</span><span class="hljs-comment">;</span>
 
-  }
+  }</span>
 
 
 
-  function showDialog<span class="list">(<span class="body"> options )</span></span> {
+  function showDialog<span class="hljs-list">( options )</span> <span class="hljs-collection">{
 
-    $.albums.dialog.loginDialog<span class="list">(<span class="body"> {
+    $.albums.dialog.loginDialog<span class="hljs-list">( <span class="hljs-collection">{
 
-      login: function<span class="list">(<span class="body"> evt, ui )</span></span> {
+      login: function<span class="hljs-list">( evt, ui )</span> <span class="hljs-collection">{
 
-        doLogIn<span class="list">(<span class="body"> ui.name, ui.password, {
+        doLogIn<span class="hljs-list">( ui.name, ui.password, <span class="hljs-collection">{
 
-          success: function<span class="list">(<span class="body"> response )</span></span> {
+          success: function<span class="hljs-list">( response )</span> <span class="hljs-collection">{
 
-            $.albums.dialog.loginDialog<span class="list">(<span class="body"> <span class="string">"close"</span> )</span></span><span class="comment">;</span>
+            $.albums.dialog.loginDialog<span class="hljs-list">( <span class="hljs-string">"close"</span> )</span><span class="hljs-comment">;</span>
 
-          },
+          }</span>,
 
-          error: function<span class="list">(<span class="body"> status, error, reason )</span></span> {
+          error: function<span class="hljs-list">( status, error, reason )</span> <span class="hljs-collection">{
 
-            alert<span class="list">(<span class="body"> <span class="string">"Error: "</span> + error + <span class="string">", "</span> + reason )</span></span><span class="comment">;</span>
+            alert<span class="hljs-list">( <span class="hljs-string">"Error: "</span> + error + <span class="hljs-string">", "</span> + reason )</span><span class="hljs-comment">;</span>
 
-          }
+          }</span>
 
-        })</span></span><span class="comment">;</span>
+        }</span>)</span><span class="hljs-comment">;</span>
 
-      },
+      }</span>,
 
-      signup: function<span class="list">(<span class="body"> evt, ui )</span></span> {
+      signup: function<span class="hljs-list">( evt, ui )</span> <span class="hljs-collection">{
 
-        doSignUp<span class="list">(<span class="body"> ui.name, ui.password, {
+        doSignUp<span class="hljs-list">( ui.name, ui.password, <span class="hljs-collection">{
 
-          success: function<span class="list">(<span class="body"> response )</span></span> {
+          success: function<span class="hljs-list">( response )</span> <span class="hljs-collection">{
 
-            $.albums.dialog.loginDialog<span class="list">(<span class="body"> <span class="string">"close"</span> )</span></span><span class="comment">;</span>
+            $.albums.dialog.loginDialog<span class="hljs-list">( <span class="hljs-string">"close"</span> )</span><span class="hljs-comment">;</span>
 
-          },
+          }</span>,
 
-          error: function<span class="list">(<span class="body"> status, error, reason )</span></span> {
+          error: function<span class="hljs-list">( status, error, reason )</span> <span class="hljs-collection">{
 
-            alert<span class="list">(<span class="body"> <span class="string">"Error: "</span> + error + <span class="string">", "</span> + reason )</span></span><span class="comment">;</span>
+            alert<span class="hljs-list">( <span class="hljs-string">"Error: "</span> + error + <span class="hljs-string">", "</span> + reason )</span><span class="hljs-comment">;</span>
 
-          }
+          }</span>
 
-        })</span></span><span class="comment">;</span>
+        }</span>)</span><span class="hljs-comment">;</span>
 
-      }
+      }</span>
 
-    })</span></span><span class="comment">;</span>
+    }</span>)</span><span class="hljs-comment">;</span>
 
-  }
+  }</span>
 
 
 
-})</span></span><span class="list">(<span class="title">jQuery</span><span class="body">)</span></span></code></pre>
-<p>Now before you run off, kiss your significant other and tell him/her that you will soon be billionaires, we have a little more work to do to get this up and running in our <strong>Albums</strong> application.</p>
+}</span>)</span><span class="hljs-list">(<span class="hljs-title">jQuery</span>)</span>
+</code></pre><p>Now before you run off, kiss your significant other and tell him/her that you will soon be billionaires, we have a little more work to do to get this up and running in our <strong>Albums</strong> application.</p>
 <h2 id="loader-and-index">Loader and Index</h2>
 <p>We kind of went off the deep-end there and dove right into code that code stand on its own outside of our current design of the <strong>Albums</strong> application. That’s good, but now we gotta reel it back in and wire it up. To start, lets add our new scripts in the <em>loader</em>. Open up <em>/vendor/couchapp/_attachments/loader.js</em> and save the following modifications:</p>
 <p><em>/vendor/couchapp/_attachments/loader.js</em></p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">couchapp_load</span><span class="params">(scripts)</span> {</span>
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">couchapp_load</span><span class="hljs-params">(scripts)</span> {</span>
 
-  <span class="keyword">for</span> (var <span class="built_in">i</span>=<span class="number">0</span>; <span class="built_in">i</span> &lt; <span class="transposed_variable">scripts.</span><span class="built_in">length</span>; <span class="built_in">i</span>++) <span class="cell">{
+  <span class="hljs-keyword">for</span> (var i=<span class="hljs-number">0</span>; i &lt; <span class="hljs-transposed_variable">scripts.</span><span class="hljs-built_in">length</span>; i++) {
 
-    document.write(<span class="string">'&lt;script src="'</span>+scripts[i]+<span class="string">'"&gt;&lt;\/script&gt;'</span>)
+    <span class="hljs-transposed_variable">document.</span>write(<span class="hljs-string">'&lt;script src="</span><span class="hljs-string">'+scripts[i]+'</span><span class="hljs-string">"&gt;&lt;\/script&gt;'</span>)
 
-  }</span>;
+  };
 
 };
 
 
 
-couchapp_load(<span class="matrix">[
+couchapp_load(<span class="hljs-matrix">[
 
-  "/_utils/script/sha1.js",
+  <span class="hljs-string">"/_utils/script/sha1.js"</span>,
 
-  "/_utils/script/json2.js",
+  <span class="hljs-string">"/_utils/script/json2.js"</span>,
 
-  "vendor/couchapp/jquery-<span class="number">1.4</span><span class="number">.4</span>.js",
+  <span class="hljs-string">"vendor/couchapp/jquery-1.4.4.js"</span>,
 
-  "/_utils/script/jquery.couch.js",
+  <span class="hljs-string">"/_utils/script/jquery.couch.js"</span>,
 
-  "vendor/couchapp/jquery.couch.app.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.couch.app.js"</span>,
 
-  "vendor/couchapp/jquery.couch.app.util.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.couch.app.util.js"</span>,
 
-  "vendor/couchapp/jquery.mustache.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.mustache.js"</span>,
 
-  "vendor/couchapp/jquery.evently.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.evently.js"</span>,
 
-  "vendor/couchapp/jquery.mobile-<span class="number">1.0</span>a2.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.mobile-1.0a2.js"</span>,
 
-  "vendor/couchapp/jquery.tmpl.js",
+  <span class="hljs-string">"vendor/couchapp/jquery.tmpl.js"</span>,
 
-  "script/command_queue.js",
+  <span class="hljs-string">"script/command_queue.js"</span>,
 
-  "script/jquery.albums.app.js",
+  <span class="hljs-string">"script/jquery.albums.app.js"</span>,
 
-  "script/jquery.albums.loginDialog.js"
+  <span class="hljs-string">"script/jquery.albums.loginDialog.js"</span>
 
-]</span>);</code></pre>
-<p>We’ve just added the last three files we have been working on: the <em>command_queue</em> script and our <strong>$.albums</strong> plugin and <strong>loginDialog</strong> widget. Now we’re going to make some modifications to the inline script on our <em>index.html</em> document. In a <a href="http://custardbelly.com/blog/?p=332">previous article</a> we hooked up the saving of a new album document to the internal <a href="http://jquerymobile.com/">jQuery Mobile</a> <strong>addAlbum</strong> page, and were using the <em>jquery.couch</em> plugin directly to save the document. Now we are just going to go through our <strong>$.albums</strong> plugin to perform that action which will open the <strong>loginDialog</strong> if a session is currently not available on our client. Open the <em>/_attachments/index.html</em> file in your favorite editor and save the following modifications in the <em>handleDocumentReady</em>() function:</p>
+]</span>);
+</code></pre><p>We’ve just added the last three files we have been working on: the <em>command_queue</em> script and our <strong>$.albums</strong> plugin and <strong>loginDialog</strong> widget. Now we’re going to make some modifications to the inline script on our <em>index.html</em> document. In a <a href="http://custardbelly.com/blog/?p=332">previous article</a> we hooked up the saving of a new album document to the internal <a href="http://jquerymobile.com/">jQuery Mobile</a> <strong>addAlbum</strong> page, and were using the <em>jquery.couch</em> plugin directly to save the document. Now we are just going to go through our <strong>$.albums</strong> plugin to perform that action which will open the <strong>loginDialog</strong> if a session is currently not available on our client. Open the <em>/_attachments/index.html</em> file in your favorite editor and save the following modifications in the <em>handleDocumentReady</em>() function:</p>
 <p><em>/attachments/index.html</em></p>
-<pre><code>function handleDocumentReady()
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleDocumentReady</span><span class="hljs-params">()</span>
 
-{
+{</span>
 
-    $(<span class="string">"#home"</span>)<span class="preprocessor">.bind</span>( <span class="string">"pagebeforeshow"</span>, refreshAlbums )<span class="comment">;</span>
+    $(<span class="hljs-string">"#home"</span>).bind( <span class="hljs-string">"pagebeforeshow"</span>, refreshAlbums );
 
-    refreshAlbums()<span class="comment">;</span>
+    refreshAlbums();
 
 
 
-    // <span class="keyword">Set</span> database reference <span class="keyword">and</span> dialog template on albums.
+    <span class="hljs-comment">// Set database reference and dialog template on albums.</span>
 
-    $<span class="preprocessor">.extend</span>( $<span class="preprocessor">.albums</span>, {
+    $.extend( $.albums, {
 
         database: $db,
 
-        dialog:  $(<span class="string">"#loginSignupDialog"</span>)<span class="preprocessor">.tmpl</span>()
+        dialog:  $(<span class="hljs-string">"#loginSignupDialog"</span>).tmpl()
 
-    })<span class="comment">;</span>
+    });
 
 
 
-    $(<span class="string">"#addSubmitButton"</span>)<span class="preprocessor">.live</span>( <span class="string">"click"</span>, function( event ) {
+    $(<span class="hljs-string">"#addSubmitButton"</span>).live( <span class="hljs-string">"click"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( event )</span> {</span>
 
-        event<span class="preprocessor">.preventDefault</span>()<span class="comment">;</span>
+        event.preventDefault();
 
-        var document = {}<span class="comment">;</span>
+        <span class="hljs-keyword">var</span> document = {};
 
-        document<span class="preprocessor">.artist</span> = $(<span class="string">"input#addArtistField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+        document.artist = $(<span class="hljs-string">"input#addArtistField"</span>).val();
 
-        document<span class="preprocessor">.title</span> = $(<span class="string">"input#addTitleField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+        document.title = $(<span class="hljs-string">"input#addTitleField"</span>).val();
 
-        document<span class="preprocessor">.description</span> = $(<span class="string">"textarea#addDescriptionField"</span>)<span class="preprocessor">.val</span>()<span class="comment">;</span>
+        document.description = $(<span class="hljs-string">"textarea#addDescriptionField"</span>).val();
 
-        document<span class="preprocessor">.creation</span>_date = ( new Date() )<span class="preprocessor">.getTime</span>()<span class="comment">;</span>
+        document.creation_date = ( <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() ).getTime();
 
-        $<span class="preprocessor">.albums</span><span class="preprocessor">.saveDocument</span>( document, {
+        $.albums.saveDocument( document, {
 
-            success: function() {
+            success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-                $<span class="preprocessor">.mobile</span><span class="preprocessor">.changePage</span>( <span class="string">"#home"</span>, <span class="string">"slidedown"</span>, true, true )<span class="comment">;</span>
+                $.mobile.changePage( <span class="hljs-string">"#home"</span>, <span class="hljs-string">"slidedown"</span>, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span> );
 
             },
 
-            error: function( status, error, reason ) {
+            error: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( status, error, reason )</span> {</span>
 
-                alert( <span class="string">"Cannot save new document.\n"</span> + status + <span class="string">", "</span> + reason + <span class="string">", "</span> + error )<span class="comment">;</span>
+                alert( <span class="hljs-string">"Cannot save new document.\n"</span> + status + <span class="hljs-string">", "</span> + reason + <span class="hljs-string">", "</span> + error );
 
             }
 
-        })<span class="comment">;</span>
+        });
 
-        return false<span class="comment">;</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 
-    })<span class="comment">;</span>
+    });
 
 
 
-    $(<span class="string">"#addAlbum"</span>)<span class="preprocessor">.bind</span>( <span class="string">"pagehide"</span>, function() {
+    $(<span class="hljs-string">"#addAlbum"</span>).bind( <span class="hljs-string">"pagehide"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-        $(<span class="string">"input#addArtistField"</span>)<span class="preprocessor">.val</span>( <span class="string">""</span> )<span class="comment">;</span>
+        $(<span class="hljs-string">"input#addArtistField"</span>).val( <span class="hljs-string">""</span> );
 
-        $(<span class="string">"input#addTitleField"</span>)<span class="preprocessor">.val</span>( <span class="string">""</span> )<span class="comment">;</span>
+        $(<span class="hljs-string">"input#addTitleField"</span>).val( <span class="hljs-string">""</span> );
 
-        $(<span class="string">"textarea#addDescriptionField"</span>)<span class="preprocessor">.val</span>( <span class="string">""</span> )<span class="comment">;</span>
+        $(<span class="hljs-string">"textarea#addDescriptionField"</span>).val( <span class="hljs-string">""</span> );
 
-    })<span class="comment">;</span>
+    });
 
-}</code></pre>
-<p>Not that much to change. First we assign the default properties for the dialog <strong>template</strong> and database reference for our <strong>$.albums</strong> plugin and then we replace the call to save the document using <em>jquery.couch</em> to that of our <strong>$.albums</strong> plugin. Ta-da! Now we can add new documents as a logged in user.</p>
+}
+</code></pre><p>Not that much to change. First we assign the default properties for the dialog <strong>template</strong> and database reference for our <strong>$.albums</strong> plugin and then we replace the call to save the document using <em>jquery.couch</em> to that of our <strong>$.albums</strong> plugin. Ta-da! Now we can add new documents as a logged in user.</p>
 <p>There is, however, two more places that we need to interact with our <strong>$.albums</strong> plugin: the <strong>edit</strong> page and the <strong>delete</strong> page. Without modifying those and with the new authorization and validation we have introduced, we’d only be able to create and read documents… </p>
 <p><em>Oh nos! There are tons of albums that i entered in late at night in a different state of mind! I am second guessing my decision on wanting <strong>Hall &amp; Oates</strong>‘</em> War Babies! </p>
 <p>These are the type of exclamations i am assuming are going through your head… because i would never…</p>
@@ -1468,81 +1468,81 @@ couchapp_load(<span class="matrix">[
 <p>If you go way back in this article series and have been following along, you may remember that we create quasi-view controllers for our <a href="http://couchapp.org/page/index">couchapp</a> <strong>template</strong> pages and included the as <strong>partials</strong> in the <strong>show function</strong>. There are two that we need to modify with our recent changes to using the <strong>$.albums</strong> plugin to verify session: <em>/_attachments/script/album-delete-dialog.js</em> and <em>/_attachments/script/album-edit-page.js</em>. They will be small changes, but once deployed will give our application a little more security on who can perform modifications on <strong>album</strong> documents.</p>
 <p>Open up <em>/_attachments/script/album-delete-dialog.js</em> in your favorite editor and save the following change to the <em>handleDelete</em>() function:</p>
 <p><em>/_attachments/script/album-delete-dialog.js</em></p>
-<pre><code>function handleDelete( event )
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleDelete</span><span class="hljs-params">( event )</span>
 
-{
+{</span>
 
-    event<span class="preprocessor">.preventDefault</span>()<span class="comment">;</span>
+    event.preventDefault();
 
-    var docId = $(<span class="string">"#dialogContent"</span>)<span class="preprocessor">.data</span>(<span class="string">"identity"</span>)<span class="comment">;</span>
+    <span class="hljs-keyword">var</span> docId = $(<span class="hljs-string">"#dialogContent"</span>).data(<span class="hljs-string">"identity"</span>);
 
-    // First open doc based on ID <span class="keyword">in</span> order to get full document.
+    <span class="hljs-comment">// First open doc based on ID in order to get full document.</span>
 
-    $db<span class="preprocessor">.openDoc</span>( docId, {
+    $db.openDoc( docId, {
 
-        success: function( document ) {
+        success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( document )</span> {</span>
 
-            // Then use the opened doc as reference to remove.
+            <span class="hljs-comment">// Then use the opened doc as reference to remove.</span>
 
-            $<span class="preprocessor">.albums</span><span class="preprocessor">.deleteDocument</span>( document, {
+            $.albums.deleteDocument( document, {
 
-                success: function() {
+                success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-                    $<span class="preprocessor">.mobile</span><span class="preprocessor">.changePage</span>( <span class="string">"#home"</span>, <span class="string">"slide"</span>, true, true )<span class="comment">;</span>
+                    $.mobile.changePage( <span class="hljs-string">"#home"</span>, <span class="hljs-string">"slide"</span>, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span> );
 
                 },
 
-                error: function() {
+                error: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-                    alert( <span class="string">"Could not remove document with id: "</span> + docId )<span class="comment">;</span>
+                    alert( <span class="hljs-string">"Could not remove document with id: "</span> + docId );
 
                 }
 
-            })<span class="comment">;</span>
+            });
 
         },
 
-        error: function() {
+        error: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-            alert( <span class="string">"Could not find document with id: "</span> + docId )<span class="comment">;</span>
+            alert( <span class="hljs-string">"Could not find document with id: "</span> + docId );
 
         }
 
-    })<span class="comment">;</span>
+    });
 
-    return false<span class="comment">;</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 
-}</code></pre>
-<p>Open up <em>/_attachments/script/album-edit-page.js</em> in your favorite editor and save the following change to <em>saveDocument</em>():</p>
+}
+</code></pre><p>Open up <em>/_attachments/script/album-edit-page.js</em> in your favorite editor and save the following change to <em>saveDocument</em>():</p>
 <p><em>/_attachments/script/album-edit-page.js</em></p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">saveDocument</span><span class="params">( document )</span></span>
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">saveDocument</span><span class="hljs-params">( document )</span>
 
-<span class="cell">{
+{</span>
 
     $.albums.saveDocument( document, {
 
-        success: function( response )  {
+        success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( response )</span>  {</span>
 
             updateEditableAlbum( document );
 
             navigateToAlbumPage( document._id );
 
-        }</span>,
+        },
 
-        error: <span class="keyword">function</span>( status, error, reason ) <span class="cell">{
+        error: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( status, error, reason )</span> {</span>
 
-            alert( "Cannot save document: " + document._id + "\n" + reason );
+            alert( <span class="hljs-string">"Cannot save document: "</span> + document._id + <span class="hljs-string">"\n"</span> + reason );
 
-        }</span>
+        }
 
     });
 
-}</code></pre>
-<p>That’s all! basically moved away from actions through the reference to our <strong>albums</strong> database to using the <strong>$.albums</strong> plugin. Finally. Now let’s push all this to our <a href="http://couchdb.apache.org/">CouchDB</a> instance so we can play around with it.</p>
+}
+</code></pre><p>That’s all! basically moved away from actions through the reference to our <strong>albums</strong> database to using the <strong>$.albums</strong> plugin. Finally. Now let’s push all this to our <a href="http://couchdb.apache.org/">CouchDB</a> instance so we can play around with it.</p>
 <h2 id="deployment">Deployment</h2>
 <p>If you remember from the last article when we introduced authorization, we need to pass our credentials when we push our couchapp to the <a href="http://couchdb.apache.org/">CouchDB</a> instance:</p>
-<pre><code><span class="title">couchapp</span> push albums <span class="url">http://toddanderson:admin123@127.0.0.1:5984/albums</code></pre>
-<p>You’ll will have to replace to username and password, but once we have pushed we can now checkout our application at <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>. If you visit your application and try to either add, edit or delete a document and have not previously logged in, you will see something on the following:</p>
+<pre><code>couchapp <span class="hljs-keyword">push</span> albums http:<span class="hljs-regexp">//toddanderson</span>:admin123<span class="hljs-variable">@127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>:<span class="hljs-number">5984</span>/albums
+</code></pre><p>You’ll will have to replace to username and password, but once we have pushed we can now checkout our application at <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>. If you visit your application and try to either add, edit or delete a document and have not previously logged in, you will see something on the following:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_2_2.png" alt="Log In"><br><em>[Log In]</em></p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_2_1.png" alt="Log In"><br><em>[Sign Up]</em></p>
 <h2 id="conclusion">Conclusion</h2>

@@ -92,25 +92,25 @@
 <p>They all - along with various other metrics - provide a scoring based on some criteria which, as far as I can tell, are defined either by <strong>Yahoo!</strong> (via <a href="http://developer.yahoo.com/yslow/">yslow</a>) or <strong>Google</strong> (via <a href="https://developers.google.com/speed/pagespeed/?csw=1">PageSpeed</a>).</p>
 <p>Typically I stick to opening and running <a href="https://developers.google.com/speed/pagespeed/?csw=1">PageSpeed</a> when developing in Chrome to get a overall recommndation of optimizations and then visit <a href="http://www.webpagetest.org/">WebPageTest</a> when I want some serious analysis and am busy updating my <strong>.htaccess</strong> file with rewrites and expiries.</p>
 <h2 id="integrating-performance-reporting-in-workflow">Integrating Performance Reporting in Workflow</h2>
-<p>Running analysis using tools desribed above is a great way to see some metrics and determine what solutions to take to better the load performance of you site/application, but I like to automate all the things when I can as well as provide reporting to Continuous Integration servers so that we can document progress or failures. To provide such value, I am a strong proponent of using <a href="http://www.sitespeed.io/">sitespeed.io</a>.</p>
+<p>Running analysis using tools described above is a great way to see some metrics and determine what solutions to take to better the load performance of your site/application, but I like to automate all the things when I can as well as provide reporting to Continuous Integration servers so that we can document progress or failures. To provide such value, I am a strong proponent of using <a href="http://www.sitespeed.io/">sitespeed.io</a>.</p>
 <p>I have nothing bad to say about <a href="http://www.sitespeed.io/">sitespeed.io</a>. It&#39;s built on top of <a href="https://github.com/ariya/phantomjs">PhantomJS</a>, <a href="https://github.com/marcelduran/yslow/">yslow</a>, <a href="https://github.com/tobli/browsertime">browsertime</a> and <a href="https://github.com/twbs/bootstrap/">bootstrap</a>. You can alternatively use the <a href="http://yslow.org/phantomjs/">yslow script for PhantomJS</a> if you want something more stripped down, but <a href="http://www.sitespeed.io/">sitespeed.io</a> generates a nice set of web documents that provide performance summaries along with being able to produce a <strong><a href="http://www.sitespeed.io/documentation/#junit">JUnit</a></strong> report for CI.</p>
 <p>The documentation for <strong>sitespeed.io</strong> is thorough and easy to follow along and the <a href="http://www.sitespeed.io/documentation/#configuration">configuration options</a> are insanely helpful in finding possible pages on your site that may be of issue.</p>
 <h3 id="grunt-integration">Grunt integration</h3>
 <p>I am sure there is some <a href="http://gruntjs.com">Grunt</a> task out there in the wild that hooks into running <strong>sitespeed.io</strong> (or I should probably just stop being lazy and make one), but I have yet to find or search for one. I personally just use <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> to run the command during a build and deploy. With the proper <a href="http://www.sitespeed.io/documentation/#installation">installation of sitespeed.io</a>, I have the following subtask under <code>exec</code> task:</p>
 <pre><code>grunt.initConfig({
-  <span class="keyword">...</span>
+  <span class="hljs-keyword">...</span>
   exec: {
     sitespeed: {
-      cmd: <span class="string">'sitspeed.io -u http://staging.mysite.com -r ./doc/metrics'</span>
+      cmd: <span class="hljs-string">'sitspeed.io -u http://staging.mysite.com -r ./doc/metrics'</span>
     }
   }
 }
 });
 
-grunt.loadNpmTasks(<span class="string">'grunt-exec'</span>);
-grunt.registerTask(<span class="string">'dryrun'</span>, <span class="string">'Build, deploy and analyze.'</span>,\ 
-  [<span class="string">'build'</span>, <span class="string">'deploy:staging'</span>, <span class="string">'exec:sitespeed'</span>]);</code></pre>
-<p>That generates the JUnit report and summary documentation artifacts that can be consumed and presented by your CI server of choice. I also have a tendency to use the <a href="https://github.com/marcelduran/yslow/">yslow</a> script for <a href="https://github.com/ariya/phantomjs">PhantomJS</a> in tandem on the <code>exec</code> task as that will print out my perfomance grade in the console after issuing my <strong>grunt</strong> deployment.</p>
+grunt.loadNpmTasks(<span class="hljs-string">'grunt-exec'</span>);
+grunt.registerTask(<span class="hljs-string">'dryrun'</span>, <span class="hljs-string">'Build, deploy and analyze.'</span>,\ 
+  [<span class="hljs-string">'build'</span>, <span class="hljs-string">'deploy:staging'</span>, <span class="hljs-string">'exec:sitespeed'</span>]);
+</code></pre><p>That generates the JUnit report and summary documentation artifacts that can be consumed and presented by your CI server of choice. I also have a tendency to use the <a href="https://github.com/marcelduran/yslow/">yslow</a> script for <a href="https://github.com/ariya/phantomjs">PhantomJS</a> in tandem on the <code>exec</code> task as that will print out my perfomance grade in the console after issuing my <strong>grunt</strong> deployment.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>Sometimes, especially when working with 3rd party libraries, web fonts, etc, it is unrealistic to hit 100 for your performance grading - who am I kidding, it is damn near impossible. I try to stay above 90 and feel satisfied. </p>
 <p>As well, it should be stated that the final test is actually physically visiting the sites on handheld devices over a data plan. As I mentioned previously, I usually do some perceived perfomance testing while on the bus ride home, ensuring that I don&#39;t get frustrated with the load time on my own work (and I hope I am more critical of my own stuff than others are ;)).</p>
@@ -118,6 +118,8 @@ grunt.registerTask(<span class="string">'dryrun'</span>, <span class="string">'B
 
   </section>
   <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">&#8672;&nbsp;newer</a></span>
       
       
         <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2014/01/03/so-long-wordpress/index.html">older&nbsp;&#8674;</a></span>

@@ -6,7 +6,7 @@
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
     <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/docco.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - BDD in JavaScript: CucumberJS</title>
@@ -58,15 +58,76 @@
     </p>
   </div>
   <section>
-    <p>I have previously written about <strong>TDD</strong> in JavaScript, most notably using the BDD-style library <a href="https://github.com/pivotal/jasmine">Jasmine</a> in a series on <a href="http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">building a Test-Driven Grocery List Application</a>. In that posts series I went through thinking of User Stories for features and scenarios as actual development tasks, and - reading back on it - it&#39;s all very green in my finding a way to deliver test-driven code. Nothing wrong with that and I will most likely look upon this and subsequent posts in the same manner. That said, I still hold true that TDD is the best way to deliver concise, tested and well thought-out code.</p>
-<p>Since that time, however, I have incorporated a different tool into my <strong>TDD</strong> workflow for JavaScript-based projects that affords me the integration of feature specs more closely to my development and truly encompasses my current ideal of <strong>Behaviour Driven Development</strong>: <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>.</p>
-<h2 id="gherkin">Gherkin</h2>
+    <p>I have previously written about <strong>TDD</strong> in JavaScript, most notably using the BDD-style library <a href="https://github.com/pivotal/jasmine">Jasmine</a> in a series on <a href="http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">building a Test-Driven Grocery List Application</a>. In that posts series I went through thinking of User Stories for features and Scenarios as actual development tasks, and - reading back on it - it&#39;s all very green in my finding a way to deliver test-driven code. Nothing wrong with that and I will most likely look upon this and subsequent posts in the same manner. That said, I still hold true that TDD is the best way to deliver concise, tested and well thought-out code.</p>
+<p>Since that time, however, I have incorporated a different tool into my <strong>TDD</strong> workflow for JavaScript-based projects that affords me the integration of feature specs more closely to my development and truly encompasses my current ideal of <strong>Behaviour Driven Development</strong>: <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. Essentially, it allows me to truly adhere to <strong>TDD</strong> while developing from the outside in - running automated tests that fail until I have written code that supports a feature.</p>
+<h3 id="-gt-assumptions-and-notes">&gt; assumptions and notes</h3>
+<p>It is assumed that you are familiar with <a href="http://nodejs.org">NodeJS</a>, <a href="https://npmjs.org/">npm</a>, developing node modules and common unit testing practices as these topics too large to discuss in this post.</p>
+<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
+<h2 id="cucumberjs">CucumberJS</h2>
+<p><a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> is the JavaScript version of the popular BDD tool <a href="http://cukes.info/">Cucumber</a> (which itself was a rewrite of RSpec). It allows you to define Feature Specs in a Domain-Specific-Language (DSL) - called <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin</a> - and run your specs using a command line tool which will report the passing and/or failing of scenarios and the steps they are comprised of.</p>
+<p>It is important to note that <strong>Cucumber</strong> itself does not provide any unit testing framework or assertion library. It provides a command line tool that will consume defined features and validate scenarios by running steps that are written in JavaScript. It is the developers choice as to the testing framework and assert library to be used in making those steps pass or fail. It is my intent to clarify the process through the example in this post.</p>
+<p>Install <strong>CucumberJS</strong> in your project using npm:</p>
+<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">npm</span> <span class="hljs-comment">install</span> <span class="hljs-comment">cucumber</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">save</span><span class="hljs-literal">-</span><span class="hljs-comment">dev</span>
+</code></pre><h2 id="gherkin">Gherkin</h2>
+<p>If you had followed along in the previous <a href="http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">TDD Series</a>, you will find the specs defined in that series similar to <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin</a>. In fact, I will be re-hashing a feature spec from that series to demonstrate working through your first cuke.</p>
+<p>If we were to remake the <a href="(http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">Grocery List</a> application under TDD/BDD using <strong>Cucumber</strong>, we would first start with a feature using the <strong>Gherkin</strong> syntax:</p>
+<pre><code>Feature: Shopper can <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> their Grocery List
+  As <span class="hljs-operator">a</span> shopper
+  I want <span class="hljs-built_in">to</span> <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> my grocery list
+  So that I can remember <span class="hljs-built_in">to</span> buy that <span class="hljs-keyword">item</span> <span class="hljs-keyword">at</span> <span class="hljs-operator">the</span> grocery store
+
+  Scenario: Item added <span class="hljs-built_in">to</span> grocery list
+    Given I have <span class="hljs-operator">an</span> <span class="hljs-constant">empty</span> grocery list
+    When I <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> list
+    Then The gorcery list <span class="hljs-operator">contains</span> <span class="hljs-operator">a</span> single <span class="hljs-keyword">item</span>
+
+  Scenario: Item accessible <span class="hljs-built_in">from</span> grocery list
+    Given I have <span class="hljs-operator">an</span> <span class="hljs-constant">empty</span> grocery list
+    When I <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> list
+    Then I can access that <span class="hljs-keyword">item</span> <span class="hljs-built_in">from</span> <span class="hljs-operator">the</span> grocery list
+</code></pre><p>The <strong>Feature</strong> defines a business value, while the <strong>Scenarios</strong> define the steps that provides that value. Most often, in the software development world, it is from these Scenarios that development tasks are taken on and QA tests are defined.</p>
+<p>I stopped at two Scenarios, but we could very easily add more scenarios to this feature; immediately what comes to mind is validation of properties that allow for an item to be added or rejected. In hindsight, it could make more sense in creating seperate feature specs for such details. We could spend a whole post on such topics, though... let&#39;s get back to the feature already defined.</p>
+<p>Within each <strong>Scenario</strong> is a list of sequential <strong>Steps</strong>: <em>Given</em>, <em>When</em> and <em>Then</em>. After each of those, you can optionally have <em>And</em> and <em>But</em>, however - though necessary and unavoidable at times - I try to stay away from such additional step clauses. It is these steps that <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> will execute after having consume this feature spec.</p>
+<h3 id="running-it">Running it</h3>
+<p>Having saved that down to a file in a <strong>/features</strong> direcory, we can then run it under <strong>Cucumber</strong>:</p>
+<pre><code><span class="hljs-variable">$ </span>node_modules/.bin/cucumber-js
+</code></pre><p>By default, <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> will consume all feature specs found in the relative <strong>/features</strong> directory.</p>
+<p>The current console output will look something like the following which essentially means that all the steps have not been located or defined:</p>
+<pre><code>UUUUUU
+
+<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> <span class="hljs-literal">undefined</span>)
+<span class="hljs-number">6</span> steps (<span class="hljs-number">6</span> <span class="hljs-literal">undefined</span>)
+
+You can implement step definitions <span class="hljs-keyword">for</span> <span class="hljs-literal">undefined</span> steps <span class="hljs-keyword">with</span> these snippets:
+
+<span class="hljs-keyword">this</span>.Given(<span class="hljs-regexp">/^I have an empty grocery list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
+  <span class="hljs-comment">// express the regexp above with the code you wish you had</span>
+  callback.pending();
+});
+
+<span class="hljs-keyword">this</span>.When(<span class="hljs-regexp">/^I add an item to the list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
+  <span class="hljs-comment">// express the regexp above with the code you wish you had</span>
+  callback.pending();
+});
+
+<span class="hljs-keyword">this</span>.Then(<span class="hljs-regexp">/^The gorcery list contains a single item$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
+  <span class="hljs-comment">// express the regexp above with the code you wish you had</span>
+  callback.pending();
+});
+
+<span class="hljs-keyword">this</span>.Then(<span class="hljs-regexp">/^I can access that item from the grocery list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
+  <span class="hljs-comment">// express the regexp above with the code you wish you had</span>
+  callback.pending();
+});
+</code></pre><p>That&#39;s understandable because we have yet to define the steps :)</p>
 <h2 id="step-definitions">Step Definitions</h2>
+<p>In the previous section, we saw that running <strong>CucumberJS</strong> against our Add Item Feature alerted us that we have undefined (and, though not printed in red, failing) scenarios to support the feature. By default <strong>CucumberJS</strong> reads in all features from the <strong>/features</strong> directory relative to where the command was run, but it could not locate the supported step files in which these methods are defined.</p>
+<p>As mentioned previously, <strong>CucumberJS</strong> does not provide any testing framework or assert library. The only assumption at this point - since the <strong>CucumberJS</strong> tool is run under <a href="http://nodejs.org/">NodeJS</a> - is that the supported steps will be loaded as node modules. It is at this point where your team would decide on the framework and libraries to use in defining these scenarios/steps to be run by <strong>CucumberJS</strong>.</p>
 <h2 id="world">World</h2>
 <h2 id="grunt-tasks">Grunt Tasks</h2>
 <h2 id="conclusion">Conclusion</h2>
-<p>In a following post I want to address how I use cucumberjs to run tests that rely on browser integration - ie, window and document access.</p>
-<p>In the past I have used zombie to much success, but oscar has tipped me to him karma solution that I am excited to test-drive.</p>
+<p>In a following post I want to address how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> to run tests that rely on browser integration - ie, <strong>window</strong> and <strong>document</strong> access.</p>
+<p><em>In the past I have used <a href="http://zombie.labnotes.org/">ZombieJS</a> to much success, but <a href="https://twitter.com/s9tpepper">Oscar Gonzalez</a> has tipped me to him <a href="https://github.com/s9tpepper/karma-cucumberjs">Karma solution</a> that I am excited to test-drive.</em></p>
 
   </section>
   <section class="navigation">

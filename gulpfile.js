@@ -15,7 +15,8 @@ var gulp = require('gulp'),
     markdown = require('gulp-markdown'),
     stylish = require('jshint-stylish'),
     gutil = require('gulp-util'),
-    ftp = require('gulp-ftp');
+    watch = require('gulp-watch'),
+    ssh = require('gulp-ssh');
 
 var ENV_LOCAL = 'local',
     ENV_REMOTE = 'remote',
@@ -24,8 +25,8 @@ var ENV_LOCAL = 'local',
     LOCAL_LOCATION = '',
     REMOTE_LOCATION = 'http://custardbelly.com/blog';
 
-var environment = ENV_LOCAL;
-var deployDest = DEPLOY_DEV;
+var environment = ENV_REMOTE;
+var deployDest = DEPLOY_DIST;
 var dateFormat = 'YYYY MMMM Do';
 
 var Post = function(filepath, content, configuration) {
@@ -110,7 +111,7 @@ var defineEnvironment = function(env) {
   environment = env;
   deployDest = (env === ENV_REMOTE) ? DEPLOY_DIST : DEPLOY_DEV;
   siteContext.rootlocation = (env === ENV_REMOTE) ? REMOTE_LOCATION : LOCAL_LOCATION;
-}
+};
 
 var stripheader = function(options) {
   return map(function(file, cb) {
@@ -289,12 +290,23 @@ gulp.task('build-remote', function() {
   gulp.run('build');
 });
 
-gulp.task('deploy', function() {
-  gulp.src('dist/*')
-      .pipe(ftp({
-        host: 'host',
-        user: 'user',
-        pass: 'pass',
-        remotePath: '/www'
+gulp.task('watch', function() {
+  defineEnvironment(ENV_LOCAL);
+  gulp.src('blog-posts/**/*.md')
+      .pipe(watch(function() {
+        gulp.run('build-posts');
       }));
+
+});
+
+gulp.task('deploy', function() {
+  ssh.exec({
+    command: ['uptime', 'ls -a'],
+    sshConfig: {
+      host: 'xxx.xx.xx.xx',
+      port: 22,
+      username: 'xxx',
+      password: 'xxx'
+    }
+  });
 });

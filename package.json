@@ -22,7 +22,7 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "all": "grunt"
+    "all": "gulp build"
   },
   "devDependencies": {
     "gulp": "~3.2.4",
@@ -38,7 +38,8 @@
     "rss": "~0.2.1",
     "mkdirp": "~0.3.5",
     "highlight.js": "~8.0.0",
-    "gulp-ftp": "~0.1.0"
+    "gulp-watch": "~0.5.0",
+    "gulp-ssh": "0.0.2"
   },
   "keywords": [
     "toddanderson",

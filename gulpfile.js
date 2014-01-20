@@ -104,8 +104,8 @@ var siteContext = {
       rootlocation: LOCAL_LOCATION,
       css: 'style/main.css',
       highlightjs: 'lib/highlight/highlight.pack.js',
-      highlightcss: 'lib/highlight/styles/docco.css'
-      // highlightcss: 'lib/highlight/styles/zenburn.css'
+      // highlightcss: 'lib/highlight/styles/docco.css'
+      highlightcss: 'lib/highlight/styles/github.css'
     };
 
 var defineEnvironment = function(env) {
@@ -250,7 +250,7 @@ gulp.task('build-archive', function() {
 gulp.task('build-copy', function() {
   gulp.src('app/lib/highlight/highlight.pack.js')
       .pipe(gulp.dest(deployDest + '/lib/highlight'));
-  gulp.src('app/lib/highlight/styles/docco.css')
+  gulp.src('app/' + siteContext.highlightcss)
       .pipe(gulp.dest(deployDest + '/lib/highlight/styles'));
   gulp.src(['app/asset/**/*']).pipe(gulp.dest(deployDest + '/asset'));
   gulp.src(['app/style/**/*']).pipe(gulp.dest(deployDest + '/style'));

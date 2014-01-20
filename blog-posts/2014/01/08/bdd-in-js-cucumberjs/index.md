@@ -2,37 +2,38 @@
 title: 'BDD in JavaScript: CucumberJS'
 author:
   name: 'todd anderson'
-date: '2014-01-08'
+date: '2014-01-19'
 ---
-I have previously written about __TDD__ in JavaScript, most notably using the BDD-style library [Jasmine](https://github.com/pivotal/jasmine) in a series on [building a Test-Driven Grocery List Application](http://custardbelly.com/blog/blog-pages/category/grocery-ls.html). In that posts series I went through thinking of User Stories for features and Scenarios as actual development tasks, and - reading back on it - it's all very green (no pun intended) in my finding a way to deliver test-driven code. Nothing wrong with that and I will most likely look upon this and subsequent posts in the same manner. That said, I still hold true that TDD is the best way to deliver concise, tested and well thought-out code.
+I have previously written about __TDD__ in JavaScript, most notably using the BDD-style library [Jasmine](https://github.com/pivotal/jasmine) in a series on [building a Test-Driven Grocery List Application](http://custardbelly.com/blog/blog-pages/category/grocery-ls.html). In that posts series I went through thinking of User Stories for Features and Scenarios as actual development tasks, and - reading back on it - it's all very green (no pun intended) in my finding a way to deliver test-driven code. Nothing wrong with that and I will most likely look upon this and subsequent posts in the same manner. That said, I still hold true that TDD is the best way to deliver concise, tested and well thought-out code.
 
-Since that time, however, I have incorporated a different tool into my __TDD__ workflow for JavaScript-based projects that affords me the integration of feature specs more closely to my development and truly encompasses my current ideal of __Behaviour Driven Development__: [CucumberJS](https://github.com/cucumber/cucumber-js). Essentially, it allows me to truly adhere to __TDD__ while developing from the outside in - running automated tests that fail until I have written code that supports a feature.
+Since that time, however, I have incorporated a different tool into my __TDD__ workflow for JavaScript-based projects that affords me the integration of Feature specs more closely to my development and truly encompasses my current ideal of __Behaviour Driven Development__: [CucumberJS](https://github.com/cucumber/cucumber-js). Essentially, it allows me to truly adhere to __TDD__ while developing from the outside in - running automated tests that fail until I have written code that supports a feature.
 
 ### &gt; assumptions and notes
-It is assumed that you are familiar with [NodeJS](http://nodejs.org), [npm](https://npmjs.org/), developing node modules and common unit testing practices as these topics too large to discuss in this post.
+For the examples in this post, it is assumed that you are familiar with [NodeJS](http://nodejs.org), [npm](https://npmjs.org/), developing node modules and common unit testing practices as these topics too large to discuss in this post.
 
 Supported files related to this and any subsequent posts on this topic will be available at:  
 [https://github.com/bustardcelly/cucumberjs-examples](https://github.com/bustardcelly/cucumberjs-examples)
 
 ## CucumberJS
-[CucumberJS](https://github.com/cucumber/cucumber-js) is the JavaScript version of the popular BDD tool [Cucumber](http://cukes.info/) (which itself was a rewrite of RSpec). It allows you to define Feature Specs in a Domain-Specific-Language (DSL) - called [Gherkin](http://docs.behat.org/guides/1.gherkin.html) - and run your specs using a command line tool which will report the passing and/or failing of scenarios and the steps they are comprised of.
+[CucumberJS](https://github.com/cucumber/cucumber-js) is a JavaScript port of the popular BDD tool [Cucumber](http://cukes.info/) (which itself was a rewrite of RSpec). It allows you to define Feature Specs in a Domain-Specific-Language (DSL) - called [Gherkin](http://docs.behat.org/guides/1.gherkin.html) - and run your specs using a command line tool which will report the passing and/or failing of scenarios and the steps they are comprised of.
 
-It is important to note that __Cucumber__ itself does not provide a default assertion library. It provides a command line tool that will consume defined features and validate scenarios by running steps that are written in JavaScript. It is the developers choice include the assertion library to be used in making those steps pass or fail. It is my intent to clarify the process through the example in this post.
+It is important to note that __Cucumber__ itself does not provide a default assertion library. It is a testing framework providing a command line tool that consumes defined Features and validates Scenarios by running Steps that are written in JavaScript. It is the developers choice to include the desired assertion library used in order to make those steps <span style="color:green;">pass</span> or <span style="color:red;">fail</span>. It is my intent to clarify the process by example through a single Feature with multiple Scenarios in this post.
 
-Install __CucumberJS__ in your project using npm:
+### Installation
+You can install [CucumberJS](https://github.com/cucumber/cucumber-js) in your project using [npm](https://npmjs.org/):
 ```
 $ npm install cucumber --save-dev
 ```
 
 ## Gherkin
-If you had followed along in the previous [TDD Series](http://custardbelly.com/blog/blog-pages/category/grocery-ls.html), you will find the specs defined in that series similar to [Gherkin](http://docs.behat.org/guides/1.gherkin.html). In fact, I will be re-hashing a feature spec from that series to demonstrate working through your first cuke.
+If you had followed along in the previous [TDD Series](http://custardbelly.com/blog/blog-pages/category/grocery-ls.html), you will find the specs defined in that series similar to [Gherkin](http://docs.behat.org/guides/1.gherkin.html). In fact, I will be re-hashing a feature spec from that series to demonstrate working through your first cuke (aka, passing feature spec).
 
 If we were to remake the [Grocery List]((http://custardbelly.com/blog/blog-pages/category/grocery-ls.html) application under TDD/BDD using __Cucumber__, we would first start with a feature using the __Gherkin__ syntax:
 
 _/features/add-item.feature_
 ```
 Feature: Shopper can add an item to their Grocery List
-  As a shopper
+  As a grocery shopper
   I want to add an item to my grocery list
   So that I can remember to buy that item at the grocery store
 
@@ -47,11 +48,11 @@ Feature: Shopper can add an item to their Grocery List
     Then I can access that item from the grocery list
 ```
 
-The __Feature__ defines a business value, while the __Scenarios__ define the steps that provides that value. Most often, in the software development world, it is from these Scenarios that development tasks are taken on and QA tests are defined.
+The __Feature__ defines a business value, while the __Scenarios__ define the steps that provides that value. Most often, in the software development world, it is from these __Scenarios__ that development tasks are taken on and QA tests are defined.
 
 I stopped at two Scenarios, but we could very easily add more scenarios to this feature; immediately what comes to mind are item insertion rules and validation of properties that allow for an item to be added or rejected. In hindsight, it could make more sense in creating seperate feature specs for such details. We could spend a whole post on such topics, though... let's get back to the feature already defined.
 
-Within each __Scenario__ is a list of sequential __Steps__: _Given_, _When_ and _Then_. After each of those, you can optionally have _And_ and _But_, however - though necessary and unavoidable at times - I try to stay away from such additional step clauses. It is these steps that [CucumberJS](https://github.com/cucumber/cucumber-js) will execute after having consume this feature spec.
+Within each __Scenario__ is a list of sequential __Steps__: _Given_, _When_ and _Then_. It is these steps that [CucumberJS](https://github.com/cucumber/cucumber-js) will execute after having consume this feature spec. After each of those, you can optionally have _And_ and _But_, however - though necessary and unavoidable at times - I try to stay away from such additional step clauses.
 
 ### Running it
 Having saved that down to a file in a __/features__ direcory, we can then run it under __Cucumber__:
@@ -91,7 +92,7 @@ this.Then(/^I can access that item from the grocery list$/, function(callback) {
 ```
 So we have 6 undefined __Steps__ that make up 2 __Scenarios__ and the __CucumberJS__ ci tool even provides examples of defining them!
 
-An important part of that snippet to understand is that there are only 4 steps to implement. In our __Feature__ we have 2 __Scenerios__ each with 3 __Steps__. There are a total of 6 steps, but we only need to define 4. The reason being that each __Scenario__ shared the same _Given_ and _When_ step; these only need to be defined once and will be run separately for each __Scenario__. Essentially, if you define similar __Steps__ using the same context, it will reuse the "setup" for a single __Step__ within each __Scenario__.
+An important part of that snippet to understand is that there are only 4 steps to implement. In our __Feature__ we have 2 __Scenerios__ each with 3 __Steps__. There are a total of 6 steps, but we only need to define 4. The reason being that each __Scenario__ shares the same _Given_ and _When_ step; these only need to be defined once and will be run separately for each __Scenario__. Essentially, if you define similar __Steps__ using the same context, it will reuse the "setup" for a single __Step__ within each __Scenario__.
 
 _I use "setup" in quotes because I mean it more in a role of defining context for __When__ and __Then__ steps._
 
@@ -104,7 +105,7 @@ As mentioned previously, __CucumberJS__ does not provide an assertion library. T
 
 To start, let's take those step definitions provided by the __CucumberJS__ ci tool and drop them into a node module:
 
-_add-item.steps.js_
+_/features/step_definitions/add-item.steps.js_
 ```
 'use strict';
 
@@ -141,6 +142,8 @@ P--P--
 6 steps (2 pending, 4 skipped)
 ```
 Not too suprising seeing as we notify the callback of a `pending` state. [CucumberJS](https://github.com/cucumber/cucumber-js) enters the first step (_Given_) and is immediately returned with a pending notification. As such, it doesn't bother with entering any subsequent steps and marks them as skipped.
+
+_Note: It is too much to get into a discussion about [client-side modules and AMD vs CommonJS](http://addyosmani.com/writing-modular-js/). For the purposes of this example I will be using CommonJS, as I my current interests lie in utilizing [Browserify](https://github.com/substack/node-browserify) for client-side development. For a long time, I was a proponent of [RequireJS](http://requirejs.org/) and AMD. Again, a whole other discussion :)_
 
 ### Given
 <hr/>
@@ -212,7 +215,7 @@ In reviewing the _When_ step for the __Scenarios__:
 ```
 When I add an item to the list
 ```
-we need to provide a way in which to add an item to the Grocery List instance create in the _Given_ - and do so in as little code to make the step pass...
+we need to provide a way in which to add an item to the Grocery List instance created in the _Given_ - and do so in as little code to make the step pass...
 
 First, we'll define our expectation of the make up and `add` signature of the Grocery List in the step definitions:
 
@@ -279,7 +282,7 @@ $ ./node_modules/.bin/cucumber-js
 
 ### Then
 <hr/>
-We progressed through our step implementations and have reached the step(s) at which we assert operations and properties that prove that or scenario provides its intended value. As mentioned previously, [CucumberJS](https://github.com/cucumber/cucumber-js) does not provide an assert library. My preference in assertion libraries lies with a combination of [Chai](https://github.com/chaijs/chai), [Sinon](http://github.com/cjohansen/Sinon.JS) and [Sinon-Chai](http://github.com/domenic/sinon-chai), but for the examples in this post, I am just going to use the `assert` module that comes with [NodeJS](http://nodejs.org). I encourage you to check out other assertion libraries and leave a note if you have a favorite; perhaps one of these posts will address how I use __Chai__ and __Sinon__.
+We progressed through our step implementations and have reached the step(s) at which we assert operations and properties that prove that our scenario provides its intended value. As mentioned previously, [CucumberJS](https://github.com/cucumber/cucumber-js) does not provide an assertion library. My preference in assertion libraries is a combination of [Chai](https://github.com/chaijs/chai), [Sinon](http://github.com/cjohansen/Sinon.JS) and [Sinon-Chai](http://github.com/domenic/sinon-chai), but for the examples in this post, I am just going to use the `assert` module that comes with [NodeJS](http://nodejs.org). I encourage you to check out other assertion libraries and leave a note if you have a favorite; perhaps one of these posts will address how I use __Chai__ and __Sinon__.
 
 _Note: This section will be a little example heavy as we quickly switch from modifying our code and run the spec runner frequently._
 
@@ -290,7 +293,7 @@ Then The grocery list contains a single item
 ```
 we will need to prove that the Grocery List instance grows by a factor of 1 for each new item added.
 
-Updating out steps to define how we expect that to be validated:
+Update the step to define how we expect that specification to be validated:
 
 _/feature/step_definitions/add-item.step.js_
 ```
@@ -310,7 +313,7 @@ module.exports = function() {
 ...
 
 ```
-We've pulled in the `assert` module and attempt to validate that the length of the Grocery List has grown by one after having run the previous step - _When_ - in adding the item.
+We've pulled in the `assert` module and attempt to validate that the length of the Grocery List has grown by a value of 1 after having run the previous step - _When_ - in adding the item.
 
 Run that and we'll get an exception:
 ```
@@ -377,15 +380,15 @@ $ ./node_modules/.bin/cucumber-js
 
 AssertionError: Grocery List should grow by one item.
 ```
-Now, we have a proper <span style="color:red;">F</span>ail being reported to us from an assertion that causes the step to not pass. Hooray!
+Now, we have a proper <span style="color:red;">Fail</span> being reported to us from an assertion that causes the step to not pass. Hooray!
 
 ### -- take a breather --
-Let's pause here for a second before adding more code to get this pass. The issue at hand is not actually adding an item to the array being returned, it is more about ensuring that an item is added through the `add` method and the result from `getAll` being a list appended with that item.
+Let's pause here for a second before adding more code to get this step to <span style="color:green;">pass</span>. The issue at hand is not actually adding an item to the array being returned, it is more about ensuring that an item is added through the `add` method and the result from `getAll` being a list extended with that item.
 
-Implementation details that are involved in making this test pass is where your team uses their architecture experience, but care is required that only the most essential code is added and we don't go overboard in thinking about the internals of our Grocery List collection model. It's a slippery tight-rope that could easily fall down a rabbit hole - just like that poorly-worded metaphor :)
+Implementation details that are involved in making this test pass is where your team uses their architecture experience, but care is required that only the most essential code is added and not to go overboard in thinking about the internals of the Grocery List collection model. It's a slippery tight-rope that could easily fall down a rabbit hole - just like that poorly-worded metaphor :)
 
 ### -- get back to work! --
-We'll use the `propertiesObject` argument of `Object.create` to define a list getter that will serve as a mutable array for our grocery list items:
+For the purposes of this examples, we'll use the `propertiesObject` argument of `Object.create` to define a `list` getter that will serve as a mutable array for our grocery list items:
 
 _/script/model/grocery-list.js_
 ```
@@ -429,13 +432,13 @@ In reviewing the final step of our 2nd __Scenario__, the pending implementation 
 Then I can access that item from the grocery list
 ```
 
-To make this step pass we need to verify that we can access the item appended to the Grocery List through `add()`. 
+To make this step pass we need to verify that we can access the item appended to the Grocery List by invoking `add()` with an item. 
 
-As with the implementation of accessing the length of the Grocery List, there are several ways in which we could make this test pass in the code. Again, I feel this is where software development experience and taste comes into play with regards to architecture, but I also do prefer _trying_ to produce the least amount of code possible; and I will be the first to admit that sometimes I go a little overboard and create more than my fair share... hence, _trying_ :)
+As with the implementation of accessing the length of the Grocery List, there are several ways in which we could make this test pass in the code. Again, I feel this is where software development experience and taste comes into play with regards to architecture, but I also do prefer _trying_ to produce the least amount of code possible; and I will be the first to admit that sometimes I go a little absent-minded and create more code than is necessary... hence, _trying_ :)
 
-That said, we also have to take into account the language specifications in how we address making the assertion pass - and JavaScript, with its history, has many to consider. That is not a slight, it is just a forethought in setting expectations for required browsers.
+That said, we also have to take into account language and environment specifications in how we address making the assertion pass - and the browser, with its history, has many to consider. That is not a slight, it is just a forethought in setting expectations for requirements.
 
-Specifically, suppose we were to say that the step can be verified using the `Array.indexOf()` method on the collection returned from 'getAll()' on the Grocery List object? Without a polyfill, then we are limiting ourselves to passing assertions on [IE 9 and older](http://kangax.github.io/es5-compat-table/#Array.prototype.indexOf). That is just the tip of the iceberg when deciding about what to introduce into your codebase in order to have your tests pass, and really should be left up to a team discussion on what is considered necessary to get the product to production.
+Specifically: suppose we were to say that the step can be verified using the `Array.indexOf()` method on the collection returned from 'getAll()' on the Grocery List object? Without a polyfill, then we are limiting ourselves to passing assertions on [IE 9 and older](http://kangax.github.io/es5-compat-table/#Array.prototype.indexOf). Such considerations are just the tip of the iceberg when deciding about what to introduce into your codebase in order to have your tests pass, and really should be left up to a team discussion on what is considered necessary to get the product to production.
 
 I could go on and on, but let's just assume we want to cover all bases when it comes to browsers (IE 6 and up, shudder). In my opinion, to make this second __Scenario__ turn green, we will add a `getItemIndex()` method with the following signature:
 ```
@@ -451,7 +454,7 @@ this.Then(/^I can access that item from the grocery list$/, function(callback) {
   callback();
 });
 ```
-Again, we are just checking that the index that the added item resides in the collection is non-negative as we are not trying to validate a specification as to where new items are added in a list (eg, prepended or appended).
+The acceptance in order for this test to pass is that the index at which the added item resides in the collection is non-negative. For this scenariom we are not trying to validate a specification as to _where_ new item is added in a list (eg, prepended or appended), but simply that it is accessible.
 
 Running that will produce an exception:
 ```
@@ -517,7 +520,7 @@ $ ./node_modules/.bin/cucumber-js
 Our cukes are <span style="color:green;">GREEN</span>! (This is the point you wipe your brow and slow clap).
 
 ## Conclusion
-In this post, I introduce how I use the BDD tool [CucumberJS](https://github.com/cucumber/cucumber-js) in order to adhere to Test Driven Development in JavaScript. I went through using an example of a single __Feature__ with two __Scenarios__ and turning <span style="color:red;">failing</span> __Steps__ to <span style="color:green;">green</span> cukes. If unfamiliar with the process, I hope you followed along. I may be wordy and it seem that it takes a lot of time, but it really does not once you get in the swing of developing under such a practice - plus I think there is a huge reward in having your code under a test harness when it comes to refactoring and bug fixing.
+In this post, I introduce how I use the BDD tool [CucumberJS](https://github.com/cucumber/cucumber-js) in order to adhere to Test Driven Development in JavaScript. I went through using an example of a single __Feature__ with two __Scenarios__ and turning <span style="color:red;">failing</span> __Steps__ to <span style="color:green;">green</span> cukes. If you are unfamiliar with the process with making tests fail first only to produce code to make the test pass, I hope you followed along; I may be wordy and the process could appear to take a lot of time, but development under such practices does start to move smoothly once you get in the groove. Additionally, I think there is a huge reward in having your code under a test harness when it comes to refactoring and bug fixing - both in developer health and business.
 
 ## The Future
 I was going to cover the following topics in this post but have decided to exclude with the hopes of re-addressing in a later post:

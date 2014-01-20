@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sat, 18 Jan 2014 16:27:59 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[BDD in JavaScript: CucumberJS]]></title><description><![CDATA[<p>I have previously written about <strong>TDD</strong> in JavaScript, most notably using the BDD-style library <a href="https://github.com/pivotal/jasmine">Jasmine</a> in a series on <a href="http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">building a Test-Driven Grocery List Application</a>. In that posts series I went through thinking of User Stories for features and Scenarios as actual development tasks, and - reading back on it - it&#39;s all very green in my finding a way to deliver test-driven code. Nothing wrong with that and I will most likely look upon this and subsequent posts in the same manner. That said, I still hold true that TDD is the best way to deliver concise, tested and well thought-out code.</p>
-<p>Since that time, however, I have incorporated a different tool into my <strong>TDD</strong> workflow for JavaScript-based projects that affords me the integration of feature specs more closely to my development and truly encompasses my current ideal of <strong>Behaviour Driven Development</strong>: <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. Essentially, it allows me to truly adhere to <strong>TDD</strong> while developing from the outside in - running automated tests that fail until I have written code that supports a feature.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Mon, 20 Jan 2014 01:02:31 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[BDD in JavaScript: CucumberJS]]></title><description><![CDATA[<p>I have previously written about <strong>TDD</strong> in JavaScript, most notably using the BDD-style library <a href="https://github.com/pivotal/jasmine">Jasmine</a> in a series on <a href="http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">building a Test-Driven Grocery List Application</a>. In that posts series I went through thinking of User Stories for Features and Scenarios as actual development tasks, and - reading back on it - it&#39;s all very green (no pun intended) in my finding a way to deliver test-driven code. Nothing wrong with that and I will most likely look upon this and subsequent posts in the same manner. That said, I still hold true that TDD is the best way to deliver concise, tested and well thought-out code.</p>
+<p>Since that time, however, I have incorporated a different tool into my <strong>TDD</strong> workflow for JavaScript-based projects that affords me the integration of Feature specs more closely to my development and truly encompasses my current ideal of <strong>Behaviour Driven Development</strong>: <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. Essentially, it allows me to truly adhere to <strong>TDD</strong> while developing from the outside in - running automated tests that fail until I have written code that supports a feature.</p>
 <h3 id="-gt-assumptions-and-notes">&gt; assumptions and notes</h3>
-<p>It is assumed that you are familiar with <a href="http://nodejs.org">NodeJS</a>, <a href="https://npmjs.org/">npm</a>, developing node modules and common unit testing practices as these topics too large to discuss in this post.</p>
+<p>For the examples in this post, it is assumed that you are familiar with <a href="http://nodejs.org">NodeJS</a>, <a href="https://npmjs.org/">npm</a>, developing node modules and common unit testing practices as these topics too large to discuss in this post.</p>
 <p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
 <h2 id="cucumberjs">CucumberJS</h2>
-<p><a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> is the JavaScript version of the popular BDD tool <a href="http://cukes.info/">Cucumber</a> (which itself was a rewrite of RSpec). It allows you to define Feature Specs in a Domain-Specific-Language (DSL) - called <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin</a> - and run your specs using a command line tool which will report the passing and/or failing of scenarios and the steps they are comprised of.</p>
-<p>It is important to note that <strong>Cucumber</strong> itself does not provide any unit testing framework or assertion library. It provides a command line tool that will consume defined features and validate scenarios by running steps that are written in JavaScript. It is the developers choice as to the testing framework and assert library to be used in making those steps pass or fail. It is my intent to clarify the process through the example in this post.</p>
-<p>Install <strong>CucumberJS</strong> in your project using npm:</p>
+<p><a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> is a JavaScript port of the popular BDD tool <a href="http://cukes.info/">Cucumber</a> (which itself was a rewrite of RSpec). It allows you to define Feature Specs in a Domain-Specific-Language (DSL) - called <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin</a> - and run your specs using a command line tool which will report the passing and/or failing of scenarios and the steps they are comprised of.</p>
+<p>It is important to note that <strong>Cucumber</strong> itself does not provide a default assertion library. It is a testing framework providing a command line tool that consumes defined Features and validates Scenarios by running Steps that are written in JavaScript. It is the developers choice to include the desired assertion library used in order to make those steps <span style="color:green;">pass</span> or <span style="color:red;">fail</span>. It is my intent to clarify the process by example through a single Feature with multiple Scenarios in this post.</p>
+<h3 id="installation">Installation</h3>
+<p>You can install <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in your project using <a href="https://npmjs.org/">npm</a>:</p>
 <pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">npm</span> <span class="hljs-comment">install</span> <span class="hljs-comment">cucumber</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">save</span><span class="hljs-literal">-</span><span class="hljs-comment">dev</span>
 </code></pre><h2 id="gherkin">Gherkin</h2>
-<p>If you had followed along in the previous <a href="http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">TDD Series</a>, you will find the specs defined in that series similar to <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin</a>. In fact, I will be re-hashing a feature spec from that series to demonstrate working through your first cuke.</p>
+<p>If you had followed along in the previous <a href="http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">TDD Series</a>, you will find the specs defined in that series similar to <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin</a>. In fact, I will be re-hashing a feature spec from that series to demonstrate working through your first cuke (aka, passing feature spec).</p>
 <p>If we were to remake the <a href="(http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">Grocery List</a> application under TDD/BDD using <strong>Cucumber</strong>, we would first start with a feature using the <strong>Gherkin</strong> syntax:</p>
+<p><em>/features/add-item.feature</em></p>
 <pre><code>Feature: Shopper can <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> their Grocery List
-  As <span class="hljs-operator">a</span> shopper
+  As <span class="hljs-operator">a</span> grocery shopper
   I want <span class="hljs-built_in">to</span> <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> my grocery list
   So that I can remember <span class="hljs-built_in">to</span> buy that <span class="hljs-keyword">item</span> <span class="hljs-keyword">at</span> <span class="hljs-operator">the</span> grocery store
 
   Scenario: Item added <span class="hljs-built_in">to</span> grocery list
     Given I have <span class="hljs-operator">an</span> <span class="hljs-constant">empty</span> grocery list
     When I <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> list
-    Then The gorcery list <span class="hljs-operator">contains</span> <span class="hljs-operator">a</span> single <span class="hljs-keyword">item</span>
+    Then The grocery list <span class="hljs-operator">contains</span> <span class="hljs-operator">a</span> single <span class="hljs-keyword">item</span>
 
   Scenario: Item accessible <span class="hljs-built_in">from</span> grocery list
     Given I have <span class="hljs-operator">an</span> <span class="hljs-constant">empty</span> grocery list
     When I <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> list
     Then I can access that <span class="hljs-keyword">item</span> <span class="hljs-built_in">from</span> <span class="hljs-operator">the</span> grocery list
-</code></pre><p>The <strong>Feature</strong> defines a business value, while the <strong>Scenarios</strong> define the steps that provides that value. Most often, in the software development world, it is from these Scenarios that development tasks are taken on and QA tests are defined.</p>
-<p>I stopped at two Scenarios, but we could very easily add more scenarios to this feature; immediately what comes to mind is validation of properties that allow for an item to be added or rejected. In hindsight, it could make more sense in creating seperate feature specs for such details. We could spend a whole post on such topics, though... let&#39;s get back to the feature already defined.</p>
-<p>Within each <strong>Scenario</strong> is a list of sequential <strong>Steps</strong>: <em>Given</em>, <em>When</em> and <em>Then</em>. After each of those, you can optionally have <em>And</em> and <em>But</em>, however - though necessary and unavoidable at times - I try to stay away from such additional step clauses. It is these steps that <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> will execute after having consume this feature spec.</p>
+</code></pre><p>The <strong>Feature</strong> defines a business value, while the <strong>Scenarios</strong> define the steps that provides that value. Most often, in the software development world, it is from these <strong>Scenarios</strong> that development tasks are taken on and QA tests are defined.</p>
+<p>I stopped at two Scenarios, but we could very easily add more scenarios to this feature; immediately what comes to mind are item insertion rules and validation of properties that allow for an item to be added or rejected. In hindsight, it could make more sense in creating seperate feature specs for such details. We could spend a whole post on such topics, though... let&#39;s get back to the feature already defined.</p>
+<p>Within each <strong>Scenario</strong> is a list of sequential <strong>Steps</strong>: <em>Given</em>, <em>When</em> and <em>Then</em>. It is these steps that <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> will execute after having consume this feature spec. After each of those, you can optionally have <em>And</em> and <em>But</em>, however - though necessary and unavoidable at times - I try to stay away from such additional step clauses.</p>
 <h3 id="running-it">Running it</h3>
 <p>Having saved that down to a file in a <strong>/features</strong> direcory, we can then run it under <strong>Cucumber</strong>:</p>
 <pre><code><span class="hljs-variable">$ </span>node_modules/.bin/cucumber-js
@@ -51,7 +53,7 @@ You can implement step definitions <span class="hljs-keyword">for</span> <span c
   callback.pending();
 });
 
-<span class="hljs-keyword">this</span>.Then(<span class="hljs-regexp">/^The gorcery list contains a single item$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
+<span class="hljs-keyword">this</span>.Then(<span class="hljs-regexp">/^The grocery list contains a single item$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
   <span class="hljs-comment">// express the regexp above with the code you wish you had</span>
   callback.pending();
 });
@@ -60,14 +62,339 @@ You can implement step definitions <span class="hljs-keyword">for</span> <span c
   <span class="hljs-comment">// express the regexp above with the code you wish you had</span>
   callback.pending();
 });
-</code></pre><p>That&#39;s understandable because we have yet to define the steps :)</p>
+</code></pre><p>So we have 6 undefined <strong>Steps</strong> that make up 2 <strong>Scenarios</strong> and the <strong>CucumberJS</strong> ci tool even provides examples of defining them!</p>
+<p>An important part of that snippet to understand is that there are only 4 steps to implement. In our <strong>Feature</strong> we have 2 <strong>Scenerios</strong> each with 3 <strong>Steps</strong>. There are a total of 6 steps, but we only need to define 4. The reason being that each <strong>Scenario</strong> shares the same <em>Given</em> and <em>When</em> step; these only need to be defined once and will be run separately for each <strong>Scenario</strong>. Essentially, if you define similar <strong>Steps</strong> using the same context, it will reuse the &quot;setup&quot; for a single <strong>Step</strong> within each <strong>Scenario</strong>.</p>
+<p><em>I use &quot;setup&quot; in quotes because I mean it more in a role of defining context for <strong>When</strong> and <strong>Then</strong> steps.</em></p>
+<p><em>I don&#39;t want to get it confused with the setup/teardown methods of other unit testing practices - which are known as Before/After support tasks in CucumberJS - and carry more of a context of setting up an environment in which tests are then executed (such as filling a DB of users) and then tearing down that set up.</em></p>
 <h2 id="step-definitions">Step Definitions</h2>
-<p>In the previous section, we saw that running <strong>CucumberJS</strong> against our Add Item Feature alerted us that we have undefined (and, though not printed in red, failing) scenarios to support the feature. By default <strong>CucumberJS</strong> reads in all features from the <strong>/features</strong> directory relative to where the command was run, but it could not locate the supported step files in which these methods are defined.</p>
-<p>As mentioned previously, <strong>CucumberJS</strong> does not provide any testing framework or assert library. The only assumption at this point - since the <strong>CucumberJS</strong> tool is run under <a href="http://nodejs.org/">NodeJS</a> - is that the supported steps will be loaded as node modules. It is at this point where your team would decide on the framework and libraries to use in defining these scenarios/steps to be run by <strong>CucumberJS</strong>.</p>
-<h2 id="world">World</h2>
-<h2 id="grunt-tasks">Grunt Tasks</h2>
+<p>In the previous section, we saw that running <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> against our Add Item Feature alerted us that we have undefined (and, though not printed in <span style="color:red;">red</span>, failing) scenarios to support the feature. By default <strong>CucumberJS</strong> reads in all features from the <strong>/features</strong> directory relative to where the command was run, but it could not locate the supported step files in which these methods are defined.</p>
+<p>As mentioned previously, <strong>CucumberJS</strong> does not provide an assertion library. The only assumption at this point - since the <strong>CucumberJS</strong> tool is run under <a href="http://nodejs.org/">NodeJS</a> - is that the supported steps will be loaded as node modules with an exported function to be executed. As we start implementing the steps, we will need to decide on the assertion library to use in validating our logic. We&#39;ll put that decision on the shelf at the moment and get the barebones setup to fail :)</p>
+<p>To start, let&#39;s take those step definitions provided by the <strong>CucumberJS</strong> ci tool and drop them into a node module:</p>
+<p><em>/features/step_definitions/add-item.steps.js</em></p>
+<pre><code><span class="hljs-pi">'use strict'</span>;
+
+module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+
+  <span class="hljs-keyword">this</span>.Given(<span class="hljs-regexp">/^I have an empty grocery list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
+    callback.pending();
+  });
+
+  <span class="hljs-keyword">this</span>.When(<span class="hljs-regexp">/^I add an item to the list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
+    callback.pending();
+  });
+
+  <span class="hljs-keyword">this</span>.Then(<span class="hljs-regexp">/^The grocery list contains a single item$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
+    callback.pending();
+  });
+
+  <span class="hljs-keyword">this</span>.Then(<span class="hljs-regexp">/^I can access that item from the grocery list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
+    callback.pending();
+  });
+
+};
+</code></pre><p>By default, <strong>CucumberJS</strong> will look for steps to be loaded within a folder titled <code>step_definitions</code> under the <strong>/features</strong> directory relative to where you issue the command. You can optionally use the <code>-r</code> option to have <strong>CucumberJS</strong> load steps from another location. Running the default is the same as setting the following step definition directory option:</p>
+<pre><code><span class="hljs-built_in">.</span>/node_modules<span class="hljs-subst">/</span><span class="hljs-built_in">.</span>bin/cucumber<span class="hljs-attribute">-js</span> <span class="hljs-attribute">-r</span> features/step_definitions
+</code></pre><p>The console output will now look like the following:</p>
+<pre><code><span class="hljs-comment">P</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">P</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+
+<span class="hljs-comment">2</span> <span class="hljs-comment">scenarios</span> <span class="hljs-comment">(2</span> <span class="hljs-comment">pending)</span>
+<span class="hljs-comment">6</span> <span class="hljs-comment">steps</span> <span class="hljs-comment">(2</span> <span class="hljs-comment">pending</span><span class="hljs-string">,</span> <span class="hljs-comment">4</span> <span class="hljs-comment">skipped)</span>
+</code></pre><p>Not too suprising seeing as we notify the callback of a <code>pending</code> state. <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> enters the first step (<em>Given</em>) and is immediately returned with a pending notification. As such, it doesn&#39;t bother with entering any subsequent steps and marks them as skipped.</p>
+<p><em>Note: It is too much to get into a discussion about <a href="http://addyosmani.com/writing-modular-js/">client-side modules and AMD vs CommonJS</a>. For the purposes of this example I will be using CommonJS, as I my current interests lie in utilizing <a href="https://github.com/substack/node-browserify">Browserify</a> for client-side development. For a long time, I was a proponent of <a href="http://requirejs.org/">RequireJS</a> and AMD. Again, a whole other discussion :)</em></p>
+<h3 id="given">Given</h3>
+<p><hr/>
+To get closer to <span style="color:green;">green</span>, we&#39;ll tackle the <strong>Given</strong> step first:</p>
+<p><em>/features/step_definitions/add-item.step.js</em></p>
+<pre><code><span class="hljs-pi">'use strict'</span>;
+
+<span class="hljs-keyword">var</span> GroceryList = <span class="hljs-built_in">require</span>(process.cwd() + <span class="hljs-string">'/script/model/grocery-list'</span>);
+
+module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+
+  <span class="hljs-keyword">var</span> myList;
+
+  <span class="hljs-keyword">this</span>.Given(<span class="hljs-regexp">/^I have an empty grocery list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
+    myList = GroceryList.create();
+    callback();
+  });
+  ...
+
+};
+</code></pre><p>If we were to run that again, we&#39;d get an exception right away:</p>
+<pre><code><span class="hljs-variable">$ </span>./node_modules/.bin/cucumber-js
+
+<span class="hljs-class"><span class="hljs-keyword">module</span>.<span class="hljs-title">js</span>:340</span>
+    throw err;
+          ^
+<span class="hljs-constant">Error</span><span class="hljs-symbol">:</span> <span class="hljs-constant">Cannot</span> find <span class="hljs-class"><span class="hljs-keyword">module</span> './<span class="hljs-title">script</span>/<span class="hljs-title">model</span>/<span class="hljs-title">grocery</span>-<span class="hljs-title">list</span>'</span>
+    at <span class="hljs-constant">Function</span>.<span class="hljs-constant">Module</span>._resolveFilename (<span class="hljs-class"><span class="hljs-keyword">module</span>.<span class="hljs-title">js</span>:338:15)</span>
+    at <span class="hljs-constant">Function</span>.<span class="hljs-constant">Module</span>._load (<span class="hljs-class"><span class="hljs-keyword">module</span>.<span class="hljs-title">js</span>:280:25)</span>
+    at <span class="hljs-constant">Module</span>.<span class="hljs-keyword">require</span> (<span class="hljs-class"><span class="hljs-keyword">module</span>.<span class="hljs-title">js</span>:364:17)</span>
+    at <span class="hljs-keyword">require</span> (<span class="hljs-class"><span class="hljs-keyword">module</span>.<span class="hljs-title">js</span>:380:17)</span>
+    at <span class="hljs-constant">Object</span>.&lt;anonymous&gt; (<span class="hljs-regexp">/Users/toddanderson</span><span class="hljs-regexp">/Documents/workspace</span><span class="hljs-regexp">/custardbelly/cucumberjs</span>-example/features/step_definitions/add-item.steps.<span class="hljs-symbol">js:</span><span class="hljs-number">3</span><span class="hljs-symbol">:</span><span class="hljs-number">19</span>)
+</code></pre><p>Which is understandable, we haven&#39;t any other code but this step definition module and are trying to require a module that doesn&#39;t exist. In sticking with TDD, this is a good thing - we know why it&#39;s failing and we expect it; I would be pulling my hair out if it <em>didn&#39;t</em> throw an exception!</p>
+<p>In order to get this to pass, we&#39;ll create a node module in the specified directory and which exports an object with a <code>create</code> method:</p>
+<p><em>/script/model/grocery-list.js</em></p>
+<pre><code><span class="hljs-pi">'use strict'</span>;
+
+module.exports = {
+  create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(<span class="hljs-literal">null</span>);
+  }
+};
+</code></pre><p>We have provided the minimal requirement to get our <em>Given</em> step to pass. We&#39;ll worry about the details as we approach the latter steps.</p>
+<p>Run that again, and <strong>CucumberJS</strong> enters in to the <em>When</em> step of each <strong>Scenario</strong> and aborts due to pending return.</p>
+<pre><code>$ ./node_modules/<span class="hljs-preprocessor">.bin</span>/cucumber-js
+
+<span class="hljs-preprocessor">.P</span>-<span class="hljs-preprocessor">.P</span>-
+
+<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> pending)
+<span class="hljs-number">6</span> steps (<span class="hljs-number">2</span> pending, <span class="hljs-number">2</span> skipped, <span class="hljs-number">2</span> passed)
+</code></pre><h3 id="when">When</h3>
+<p><hr/>
+In the previous section, to make the <em>Given</em> step pass on each <strong>Scenario</strong> we implemented the beginnings of a Grocery List model generated from a factory method, <code>create</code>, from the <code>grocery-list</code> module. I don&#39;t want to get into a debate of object creation, the <strong>new</strong> operator, classes and prototypes - at least not in this post - and will assume that you are familiar and comfortable (at least in reading code) with <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create</a> defined for ECMAScript 5.</p>
+<p>In reviewing the <em>When</em> step for the <strong>Scenarios</strong>:</p>
+<pre><code>When I <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> list
+</code></pre><p>we need to provide a way in which to add an item to the Grocery List instance created in the <em>Given</em> - and do so in as little code to make the step pass...</p>
+<p>First, we&#39;ll define our expectation of the make up and <code>add</code> signature of the Grocery List in the step definitions:</p>
+<p><em>/features/step_definitions/add-item.step.js</em></p>
+<pre><code><span class="hljs-keyword">...</span>
+module.exports = <span class="hljs-keyword">function</span>() {
+
+  var myList,
+      listItem = <span class="hljs-string">'apple'</span>;
+
+  this.Given(/^I have an empty grocery list$/, <span class="hljs-keyword">function</span>(callback) {
+    myList = GroceryList.create();
+    callback();
+  });
+
+  this.When(/^I add an item to the list$/, <span class="hljs-keyword">function</span>(callback) {
+    myList.add(listItem);
+    callback();
+  });
+  <span class="hljs-keyword">...</span>
+
+};
+</code></pre><p>If we run that again:</p>
+<pre><code>$ ./node_modules/.bin/cucumber-js
+
+.F-.F-
+
+(::) failed steps (::)
+
+TypeError: Object object <span class="hljs-keyword">has</span> no <span class="hljs-function"><span class="hljs-keyword">method</span> '<span class="hljs-title">add</span>'</span>
+</code></pre><p>Oooo-weee! Now we&#39;re talking. Big, bright <span style="color:red;">red F&#39;s</span>. :)</p>
+<p>To make that get back to passing, we&#39;ll modify <code>grocery-list</code> with as little code as possible:</p>
+<p><em>/script/model/grocery-list.js</em></p>
+<pre><code><span class="hljs-pi">'use strict'</span>;
+
+<span class="hljs-keyword">var</span> groceryList = {
+  add: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
+    <span class="hljs-comment">//</span>
+  }
+};
+
+module.exports = {
+  create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(groceryList);
+  }
+};
+</code></pre><p>Run again, and <strong>CucumberJS</strong> has progressed to the <em>Then</em> steps which are reporting a <code>pending</code> state.</p>
+<pre><code>$ ./node_modules/<span class="hljs-preprocessor">.bin</span>/cucumber-js
+
+.<span class="hljs-preprocessor">.P</span>.<span class="hljs-preprocessor">.P</span>
+
+<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> pending)
+<span class="hljs-number">6</span> steps (<span class="hljs-number">2</span> pending, <span class="hljs-number">4</span> passed)
+</code></pre><h3 id="then">Then</h3>
+<p><hr/>
+We progressed through our step implementations and have reached the step(s) at which we assert operations and properties that prove that our scenario provides its intended value. As mentioned previously, <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> does not provide an assertion library. My preference in assertion libraries is a combination of <a href="https://github.com/chaijs/chai">Chai</a>, <a href="http://github.com/cjohansen/Sinon.JS">Sinon</a> and <a href="http://github.com/domenic/sinon-chai">Sinon-Chai</a>, but for the examples in this post, I am just going to use the <code>assert</code> module that comes with <a href="http://nodejs.org">NodeJS</a>. I encourage you to check out other assertion libraries and leave a note if you have a favorite; perhaps one of these posts will address how I use <strong>Chai</strong> and <strong>Sinon</strong>.</p>
+<p><em>Note: This section will be a little example heavy as we quickly switch from modifying our code and run the spec runner frequently.</em></p>
+<h3 id="first-scenario">First Scenario</h3>
+<p>In reviewing the first <strong>Scenario</strong>&#39;s <em>Then</em> step:</p>
+<pre><code>Then The grocery list <span class="hljs-operator">contains</span> <span class="hljs-operator">a</span> single <span class="hljs-keyword">item</span>
+</code></pre><p>we will need to prove that the Grocery List instance grows by a factor of 1 for each new item added.</p>
+<p>Update the step to define how we expect that specification to be validated:</p>
+<p><em>/feature/step_definitions/add-item.step.js</em></p>
+<pre><code><span class="hljs-keyword">...</span>
+var assert = <span class="hljs-keyword">require</span>(<span class="hljs-string">'assert'</span>);
+<span class="hljs-keyword">...</span>
+module.exports = <span class="hljs-keyword">function</span>() {
+<span class="hljs-keyword">...</span>
+
+  this.Then(/^The grocery list contains a single item$/, <span class="hljs-keyword">function</span>(callback) {
+    assert.equal(myList.getAll().length, <span class="hljs-number">1</span>, <span class="hljs-string">'Grocery List should grow by one item.'</span>);
+    callback();
+  });
+
+<span class="hljs-keyword">...</span>
+};
+<span class="hljs-keyword">...</span>
+</code></pre><p>We&#39;ve pulled in the <code>assert</code> module and attempt to validate that the length of the Grocery List has grown by a value of 1 after having run the previous step - <em>When</em> - in adding the item.</p>
+<p>Run that and we&#39;ll get an exception:</p>
+<pre><code>$ ./node_modules/.bin/cucumber-js
+
+..F..P
+
+(::) failed steps (::)
+
+TypeError: Object #&lt;Object&gt; <span class="hljs-keyword">has</span> no <span class="hljs-function"><span class="hljs-keyword">method</span> '<span class="hljs-title">getAll</span>'</span>
+</code></pre><p>Let&#39;s add that method to our Grocery List model:</p>
+<p><em>/script/model/grocery-list.js</em></p>
+<pre><code><span class="hljs-pi">'use strict'</span>;
+
+<span class="hljs-keyword">var</span> groceryList = {
+  add: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
+    <span class="hljs-comment">//</span>
+  },
+  getAll: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-comment">//</span>
+  }
+};
+
+module.exports = {
+  create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(groceryList);
+  }
+};
+</code></pre><p>And back to running our specs:</p>
+<pre><code>$ .<span class="hljs-regexp">/node_modules/</span>.bin/cucumber-js
+
+..F..P
+
+(::) failed steps (::)
+
+<span class="hljs-attribute">TypeError</span>: Cannot read property <span class="hljs-string">'length'</span> <span class="hljs-keyword">of</span> <span class="hljs-literal">undefined</span>
+</code></pre><p>Seeing as the code is not returning anything from <code>getAll()</code>, we can&#39;t access a <code>length</code> property for our assertion test.</p>
+<p>If we modify the code to return an Array:</p>
+<p><em>/feature/step_definitions/add-item.step.js</em></p>
+<pre><code><span class="hljs-keyword">...</span>
+getAll: <span class="hljs-keyword">function</span>() {
+  <span class="hljs-keyword">return</span> [];
+}
+<span class="hljs-keyword">...</span>
+</code></pre><p>And run the specs again, we&#39;ll get the assertion error message we provided:</p>
+<pre><code>$ ./node_modules/<span class="hljs-preprocessor">.bin</span>/cucumber-js
+
+.<span class="hljs-preprocessor">.F</span>.<span class="hljs-preprocessor">.P</span>
+
+(::) failed steps (::)
+
+<span class="hljs-label">AssertionError:</span> Grocery List should grow by one item.
+</code></pre><p>Now, we have a proper <span style="color:red;">Fail</span> being reported to us from an assertion that causes the step to not pass. Hooray!</p>
+<h3 id="-take-a-breather-">-- take a breather --</h3>
+<p>Let&#39;s pause here for a second before adding more code to get this step to <span style="color:green;">pass</span>. The issue at hand is not actually adding an item to the array being returned, it is more about ensuring that an item is added through the <code>add</code> method and the result from <code>getAll</code> being a list extended with that item.</p>
+<p>Implementation details that are involved in making this test pass is where your team uses their architecture experience, but care is required that only the most essential code is added and not to go overboard in thinking about the internals of the Grocery List collection model. It&#39;s a slippery tight-rope that could easily fall down a rabbit hole - just like that poorly-worded metaphor :)</p>
+<h3 id="-get-back-to-work-">-- get back to work! --</h3>
+<p>For the purposes of this examples, we&#39;ll use the <code>propertiesObject</code> argument of <code>Object.create</code> to define a <code>list</code> getter that will serve as a mutable array for our grocery list items:</p>
+<p><em>/script/model/grocery-list.js</em></p>
+<pre><code><span class="hljs-pi">'use strict'</span>;
+
+<span class="hljs-keyword">var</span> groceryList = {
+  add: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
+    <span class="hljs-keyword">this</span>.list.push(item);
+  },
+  getAll: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.list;
+  }
+};
+
+module.exports = {
+  create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(groceryList, {
+      <span class="hljs-string">'list'</span>: {
+        value: [],
+        writable: <span class="hljs-literal">false</span>,
+        enumerable: <span class="hljs-literal">true</span>  
+      }
+    });
+  }
+};
+</code></pre><p>If we run that, we&#39;ll find that the first <strong>Scenario</strong> is now passing!</p>
+<pre><code>$ ./node_modules/<span class="hljs-preprocessor">.bin</span>/cucumber-js
+
+....<span class="hljs-preprocessor">.P</span>
+
+<span class="hljs-number">2</span> scenarios (<span class="hljs-number">1</span> pending, <span class="hljs-number">1</span> passed)
+<span class="hljs-number">6</span> steps (<span class="hljs-number">1</span> pending, <span class="hljs-number">5</span> passed)
+</code></pre><h3 id="second-scenario">Second Scenario</h3>
+<p>In reviewing the final step of our 2nd <strong>Scenario</strong>, the pending implementation is accessing the added item:</p>
+<pre><code>Then I can access <span class="hljs-keyword">that</span> <span class="hljs-property">item</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span>
+</code></pre><p>To make this step pass we need to verify that we can access the item appended to the Grocery List by invoking <code>add()</code> with an item. </p>
+<p>As with the implementation of accessing the length of the Grocery List, there are several ways in which we could make this test pass in the code. Again, I feel this is where software development experience and taste comes into play with regards to architecture, but I also do prefer <em>trying</em> to produce the least amount of code possible; and I will be the first to admit that sometimes I go a little absent-minded and create more code than is necessary... hence, <em>trying</em> :)</p>
+<p>That said, we also have to take into account language and environment specifications in how we address making the assertion pass - and the browser, with its history, has many to consider. That is not a slight, it is just a forethought in setting expectations for requirements.</p>
+<p>Specifically: suppose we were to say that the step can be verified using the <code>Array.indexOf()</code> method on the collection returned from &#39;getAll()&#39; on the Grocery List object? Without a polyfill, then we are limiting ourselves to passing assertions on <a href="http://kangax.github.io/es5-compat-table/#Array.prototype.indexOf">IE 9 and older</a>. Such considerations are just the tip of the iceberg when deciding about what to introduce into your codebase in order to have your tests pass, and really should be left up to a team discussion on what is considered necessary to get the product to production.</p>
+<p>I could go on and on, but let&#39;s just assume we want to cover all bases when it comes to browsers (IE 6 and up, shudder). In my opinion, to make this second <strong>Scenario</strong> turn green, we will add a <code>getItemIndex()</code> method with the following signature:</p>
+<pre><code>+ getItemIndex(itemValue):<span class="hljs-keyword">int</span>
+</code></pre><p>We&#39;ll first modify the step to fail:</p>
+<p><em>/feature/step_definitions/add-item.step.js</em></p>
+<pre><code>this.Then(/^I can access <span class="hljs-keyword">that</span> <span class="hljs-property">item</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span>$/, function(callback) {
+  assert.notEqual(myList.getItemIndex(listItem), -<span class="hljs-number">1</span>, 'Added <span class="hljs-property">item</span> should be found <span class="hljs-keyword">at</span> non-negative index.');
+  callback();
+});
+</code></pre><p>The acceptance in order for this test to pass is that the index at which the added item resides in the collection is non-negative. For this scenariom we are not trying to validate a specification as to <em>where</em> new item is added in a list (eg, prepended or appended), but simply that it is accessible.</p>
+<p>Running that will produce an exception:</p>
+<pre><code>$ ./node_modules/.bin/cucumber-js
+
+.....F
+
+(::) failed steps (::)
+
+TypeError: Object #&lt;Object&gt; <span class="hljs-keyword">has</span> no <span class="hljs-function"><span class="hljs-keyword">method</span> '<span class="hljs-title">getItemIndex</span>'</span>
+</code></pre><p>Let&#39;s modify our <strong>Grocery List</strong> object to support the <code>getItemIndex</code> method:</p>
+<p><em>/script/model/grocery-list.js</em></p>
+<pre><code><span class="hljs-pi">'use strict'</span>;
+
+<span class="hljs-keyword">var</span> groceryList = {
+  add: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
+    <span class="hljs-keyword">this</span>.list.push(item);
+  },
+  getAll: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.list;
+  },
+  getItemIndex: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value)</span> {</span>
+    <span class="hljs-keyword">var</span> index = <span class="hljs-keyword">this</span>.list.length;
+    <span class="hljs-keyword">while</span>(--index &gt; -<span class="hljs-number">1</span>) {
+      <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.list[index] === value) {
+        <span class="hljs-keyword">return</span> index;
+      }
+    }
+    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+  }
+};
+
+module.exports = {
+  create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(groceryList, {
+      <span class="hljs-string">'list'</span>: {
+        value: [],
+        writable: <span class="hljs-literal">false</span>,
+        enumerable: <span class="hljs-literal">true</span>  
+      }
+    });
+  }
+};
+</code></pre><p>In our implementation of <code>getItemIndex</code>, the list is traversed and, if item is found, the index is returned. Otherwise, a value of -1 is returned. Essentially, how the <code>Array.indexOf</code> method works of ECMAScript 5.</p>
+<p><em>Note: I know it seems silly to use Object.create from ECMAScript 5, but not Array.indexOf. The reason - mostly - being that I normally always include a polyfill for Object.create and not for Array.indexOf. I suppose habit.</em></p>
+<p>Now if we run the specs again under <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>:</p>
+<pre><code>$ <span class="hljs-built_in">.</span>/node_modules<span class="hljs-subst">/</span><span class="hljs-built_in">.</span>bin/cucumber<span class="hljs-attribute">-js</span>
+
+<span class="hljs-attribute">...</span><span class="hljs-attribute">...</span>
+
+<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> passed)
+<span class="hljs-number">6</span> steps (<span class="hljs-number">6</span> passed)
+</code></pre><p>Our cukes are <span style="color:green;">GREEN</span>! (This is the point you wipe your brow and slow clap).</p>
 <h2 id="conclusion">Conclusion</h2>
-<p>In a following post I want to address how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> to run tests that rely on browser integration - ie, <strong>window</strong> and <strong>document</strong> access.</p>
+<p>In this post, I introduce how I use the BDD tool <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in order to adhere to Test Driven Development in JavaScript. I went through using an example of a single <strong>Feature</strong> with two <strong>Scenarios</strong> and turning <span style="color:red;">failing</span> <strong>Steps</strong> to <span style="color:green;">green</span> cukes. If you are unfamiliar with the process with making tests fail first only to produce code to make the test pass, I hope you followed along; I may be wordy and the process could appear to take a lot of time, but development under such practices does start to move smoothly once you get in the groove. Additionally, I think there is a huge reward in having your code under a test harness when it comes to refactoring and bug fixing - both in developer health and business.</p>
+<h2 id="the-future">The Future</h2>
+<p>I was going to cover the following topics in this post but have decided to exclude with the hopes of re-addressing in a later post:</p>
+<ul>
+<li>The <a href="https://github.com/cucumber/cucumber-tck/blob/master/world.feature">World</a> support utility</li>
+<li>Build integration (<a href="http://gruntjs.com/">Grunt</a> and <a href="http://gulpjs.com/">Gulp</a>) and automation</li>
+<li>Report generation for Continuous Integration</li>
+</ul>
+<p>Additionally, in a following post I want to address how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> to run tests that rely on browser integration - ie, <strong>window</strong> and <strong>document</strong> access.</p>
 <p><em>In the past I have used <a href="http://zombie.labnotes.org/">ZombieJS</a> to much success, but <a href="https://twitter.com/s9tpepper">Oscar Gonzalez</a> has tipped me to him <a href="https://github.com/s9tpepper/karma-cucumberjs">Karma solution</a> that I am excited to test-drive.</em></p>
 ]]></description><link>http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[A slight obsession over page speed]]></title><description><![CDATA[<p>Lately, several projects (both personal and work-related) have ignited an increasing obsession over page load speed and performance. I wanted to highlight a few tools and resources I find useful in analyzing performance and delivering web pages in production with optimal load time.</p>
 <h2 id="where-d-this-hat-come-from-">Where&#39;d this hat come from?</h2>

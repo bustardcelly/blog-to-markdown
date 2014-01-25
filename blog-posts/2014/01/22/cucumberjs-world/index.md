@@ -146,7 +146,7 @@ If we were to run that now:
 ```
 $ node_modules/.bin/cucumber-js
 
-U&ndash;&ndash;&ndash;U&ndash;&ndash;&ndash;
+U-U-
 
 2 scenarios (2 undefined)
 8 steps (2 undefined, 6 skipped)
@@ -210,7 +210,7 @@ Running that will <span style="color:red;">fail</span> both or our scenarios due
 ```
 $ node_modules/.bin/cucumber-js
 
-F&ndash;&ndash;&ndash;F&ndash;&ndash;&ndash;
+F-F-
 
 (::) failed steps (::)
 
@@ -360,7 +360,7 @@ We have removed all references to the `myList` property that we added to __World
 ```
 $ node_modules/.bin/cucumber-js
 
-.F&ndash;&ndash;.F&ndash;&ndash;
+.F-.F-
 
 (::) failed steps (::)
 
@@ -398,7 +398,7 @@ Run that:
 ```
 $ node_modules/.bin/cucumber-js
 
-.F&ndash;&ndash;.F&ndash;&ndash;
+.F-.F-
 
 (::) failed steps (::)
 
@@ -493,7 +493,7 @@ module.exports.World = World;
 Woohoo!
 
 ## Conclusion
-I set out to address a few concepts associated with CucumberJS that I use regurlarly, but in doing so, I ended up modifying the current example :) That wasn't the original intent when I started this post, but I was having fun.
+I set out to address a few concepts associated with CucumberJS that I use regurlarly, but in doing so, I ended up modifying and refactoring the current example :) That wasn't the original intent when I started this post, but I was having fun.
 
 * The __World__ is useful in defining context for each __Scenario__. I often use it to also hold factory and general operation methods that may be called across many different __Scenarios__
 * __Background__ is useful in defining environment context across __Scenarios__ in separate __Features__. I often use it to assert that the proper environment is available before stepping into the __Scenarios__.

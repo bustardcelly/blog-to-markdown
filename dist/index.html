@@ -64,6 +64,8 @@
 <li>the World<del>, chico, and everything in it.</del></li>
 <li>Background</li>
 </ul>
+<h3 id="-gt-code">&gt; code</h3>
+<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
 <h2 id="world">World</h2>
 <p>The <strong>World</strong> brings context to your <strong>Scenarios</strong>.</p>
 <p>In the examples from <a href="http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">my previous post</a> variables were declared locally to the module export and available for reference within each <strong>Step</strong>. This may be suitable for some cases, but can cause issues or provide false results if you are not aware that those values last across the life cycle of <em>all</em> the <strong>Steps</strong> declared in that module. In other words, they are not reset for each <strong>Scenario</strong>.</p>
@@ -139,7 +141,7 @@ module.exports.World = World;
 <p>This example may seem a little superfluos in its demonstration of the benefits of a <strong>World</strong> context, but - for the sake of continuity - I wanted to show how I would modify the previous example to incorporate the <strong>World</strong>. As well, we will be building off of this structure when we approach incorporating tests within a browser context.</p>
 <h2 id="background">Background</h2>
 <p>The <strong>Background</strong> is part of the <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin DSL</a> that allows you to provide an overarching context for all <strong>Scenarios</strong> defined in a <strong>Feature</strong>. It is defined in your feature spec and details <strong>Steps</strong> to be run prior to each <strong>Scenario</strong> defined within the same spec. <em>It should be noted that if you use the Before Hooks the <strong>Background</strong> steps are run after those hook methods.</em></p>
-<p>I use <strong>Background</strong> mainly to provide an environmental context for my <strong>Feature</strong>. With the state of JavaScript today - and sometimes wearing the full-stack developer hat - it is not uncommon that I would be writing a <a href="http://nodejs.org">node</a> module for the server-side along with browser-based modules for the client-side within the same project. Additionally, with the various with module libraries and build tools available from the community today, I am sometimes on projects that provide a module for both the browser and <a href="http://nodejs.org">node</a>! Crazy mixed up world. But I digress...</p>
+<p>I use <strong>Background</strong> mainly to provide an environmental context for my <strong>Feature</strong>. With the state of JavaScript today - and sometimes wearing the full-stack developer hat - it is not uncommon that I would be writing a <a href="http://nodejs.org">node</a> module for the server-side along with browser-based modules for the client-side within the same project. Additionally, with the various module libraries and build tools available from the community today, I am sometimes developing libraries that provide a module for both the browser and <a href="http://nodejs.org">node</a>! Crazy mixed up world. But I digress...</p>
 <p>The point being: <strong>Background</strong> is useful, in my testing workflow, in setting up a <strong>Feature</strong> with the context of running the Tests under <a href="http://nodejs.org">node</a> or in a browser.</p>
 <p>We could modify the existing <strong>Feature</strong> created in the <a href="http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">previous post</a> to include a <strong>Background</strong> used in defining the environment:</p>
 <p><em>/features/add-item.feature</em></p>
@@ -178,7 +180,7 @@ You can implement step definitions <span class="hljs-keyword">for</span> <span c
 });
 </code></pre><p>We&#39;d see that neither of the <em>Scenarios</em> are entered and we are alerted to an undefined step definition.</p>
 <h3 id="background-step-definition">Background Step Definition</h3>
-<p>I have a tendency to separate my background step definitions from my scenario step definitions - in both separate files and file naming convention. In other words, I would not add this step to the <em>/features/step_definitions/add-item.steps.js</em>. The main reason being that I reuse the same background step definitions across many features. As such, I place these steps in a seperate file that is prefixed with <strong>background-</strong>:</p>
+<p>I have a tendency to separate my background step definitions from my scenario step definitions - in both separate files and file naming convention. In other words, I would not add this step to the <em>/features/step_definitions/add-item.steps.js</em>. The main reason being that I reuse the same background step definitions across many features. As such, I place these steps in a separate file that is prefixed with <strong>background-</strong>:</p>
 <p><em>/features/step_definitions/background-open-application.steps.js</em></p>
 <pre><code><span class="hljs-pi">'use strict'</span>;
 <span class="hljs-keyword">var</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'assert'</span>);
@@ -193,7 +195,7 @@ module.exports = <span class="hljs-function"><span class="hljs-keyword">function
   });
 
 };
-</code></pre><p>Similar to how we just modified the Add Item <strong>Feature</strong>, we are defining our world and we now a have pending <strong>Step</strong> to assert as passing. Now, technically I save the assertions for the <em>Then</em> <strong>Steps</strong>, but when I work with <strong>Background</strong>&#39;s I consider them pretty vital to the <strong>Scenarios</strong> environment. Therefore, most of my <strong>Background</strong>&#39;s have assertios, or in the very least, asynchronous request which invoke the callback on completion. <em>(A better example of this will be in a following post when I address testing under a browser)</em>.</p>
+</code></pre><p>Similar to how we just modified the Add Item <strong>Feature</strong>, we are defining our world and we now have a pending <strong>Step</strong> to assert as passing. Technically I save the assertions for the <em>Then</em> <strong>Steps</strong>, but when I work with <strong>Background</strong>&#39;s I consider them pretty vital to the <strong>Scenarios</strong> environment. Therefore, most of my <strong>Background</strong>&#39;s have assertions, or in the very least, asynchronous requests which invoke the callback on completion. <em>(A better example of this will be in a following post when I address testing under a browser)</em>.</p>
 <p>Let&#39;s define how we expect the application to be started in the <strong>World</strong> and what sort of validation we expect to assert that, in fact, we have opened the grocery list application so that we can edit its collection:</p>
 <p><em>/features/step_definitions/background-open-application.steps.js</em></p>
 <pre><code><span class="hljs-pi">'use strict'</span>;
@@ -286,7 +288,7 @@ module.exports = {
 <span class="hljs-number">8</span> steps (<span class="hljs-number">8</span> passed)
 </code></pre><p>We are back to <span style="color:green;">green</span>!</p>
 <h3 id="take-a-breather">take a breather</h3>
-<p>Alright, we just added some environment context to our tests using the <strong>Background</strong> and <em>Given</em> step(s), and are bringing more solidarity to the actual testing environment in so much as we have started to address the concept that the grocery list is to be interacted with from an application. This concept was known and assumed before, yet in our previous example, we did not address an actual <strong>User Role</strong> (<em>The Shopper</em>) in context - we simply made sure that our gorcery list collection model was able to receiev and retain an item.</p>
+<p>Alright, we just added some environment context to our tests using the <strong>Background</strong> and <em>Given</em> step(s), and are bringing more solidarity to the actual testing environment in so much as we have started to address the concept that the grocery list is to be interacted with from an application. This concept was known and assumed before, yet in our previous example, we did not address an actual <strong>User Role</strong> (<em>The Shopper</em>) in context - we simply made sure that our gorcery list collection model was able to receive and retain an item.</p>
 <p>That&#39;s fine, we were getting started; we had some tasks and we are not going to throw away our work.</p>
 <p>However, our previous example and step definitions should be modified to address the <strong>User</strong> interacting with the application, in so much as operations being acted upon in context to an open grocery list application.</p>
 <h3 id="get-back-to-work">get back to work</h3>
@@ -352,7 +354,7 @@ module.exports = {
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(application).init(newList);
   }
 };
-</code></pre><p>In modifying the <code>app</code> module, we have designed it so that wehn <code>newSession</code> is invoked, a new instance of <code>GroceryList</code> is passed in.</p>
+</code></pre><p>In modifying the <code>app</code> module, we have designed it so that when <code>newSession</code> is invoked, a new instance of <code>GroceryList</code> is passed in.</p>
 <p>Run that:</p>
 <pre><code>$ node_modules/.bin/cucumber-js
 
@@ -406,7 +408,7 @@ module.exports = {
 <span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> passed)
 <span class="hljs-number">8</span> steps (<span class="hljs-number">8</span> passed)
 </code></pre><p>And we are back to <span style="color:green;">green</span>! Successful reactor… so far :)</p>
-<p>We have carefully moved our collection model that is under test to the application, but we have some lingering unneccessary code in our <strong>World</strong>. <em>I love removing code.</em></p>
+<p>We have carefully moved our collection model that is under test to the application, but we have some lingering and unneccessary code in our <strong>World</strong>. <em>I love removing code.</em></p>
 <p>Here is our now cleaned up <strong>World</strong>:</p>
 <p><em>/features/support/world.js</em></p>
 <pre><code><span class="hljs-pi">'use strict'</span>;
@@ -437,6 +439,7 @@ module.exports.World = World;
 <li><strong>Background</strong> is useful in defining environment context across <strong>Scenarios</strong> in separate <strong>Features</strong>. I often use it to assert that the proper environment is available before stepping into the <strong>Scenarios</strong>.</li>
 </ul>
 <p>I think the work we went through in this post will be very beneficial when I introduce running tests under a browser. Stay tuned…</p>
+<p>Source for examples related to this post can be found in the <a href="https://github.com/bustardcelly/cucumberjs-examples/tree/0.2.0post">0.2.0.post tag on my Github account</a>.</p>
 
   </section>
   <section class="navigation">

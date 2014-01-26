@@ -11,6 +11,10 @@ There are a few topics that I didn't address in the previous post that I utilize
 * the World~~, chico, and everything in it.~~
 * Background
 
+### &gt; code
+Supported files related to this and any subsequent posts on this topic will be available at:  
+[https://github.com/bustardcelly/cucumberjs-examples](https://github.com/bustardcelly/cucumberjs-examples)
+
 ## World
 The __World__ brings context to your __Scenarios__.
 
@@ -109,7 +113,7 @@ This example may seem a little superfluos in its demonstration of the benefits o
 ## Background
 The __Background__ is part of the [Gherkin DSL](http://docs.behat.org/guides/1.gherkin.html) that allows you to provide an overarching context for all __Scenarios__ defined in a __Feature__. It is defined in your feature spec and details __Steps__ to be run prior to each __Scenario__ defined within the same spec. _It should be noted that if you use the Before Hooks the __Background__ steps are run after those hook methods._
 
-I use __Background__ mainly to provide an environmental context for my __Feature__. With the state of JavaScript today - and sometimes wearing the full-stack developer hat - it is not uncommon that I would be writing a [node](http://nodejs.org) module for the server-side along with browser-based modules for the client-side within the same project. Additionally, with the various with module libraries and build tools available from the community today, I am sometimes on projects that provide a module for both the browser and [node](http://nodejs.org)! Crazy mixed up world. But I digress...
+I use __Background__ mainly to provide an environmental context for my __Feature__. With the state of JavaScript today - and sometimes wearing the full-stack developer hat - it is not uncommon that I would be writing a [node](http://nodejs.org) module for the server-side along with browser-based modules for the client-side within the same project. Additionally, with the various module libraries and build tools available from the community today, I am sometimes developing libraries that provide a module for both the browser and [node](http://nodejs.org)! Crazy mixed up world. But I digress...
 
 The point being: __Background__ is useful, in my testing workflow, in setting up a __Feature__ with the context of running the Tests under [node](http://nodejs.org) or in a browser.
 
@@ -162,7 +166,7 @@ this.Given(/^I have opened the grocery list application$/, function(callback) {
 We'd see that neither of the _Scenarios_ are entered and we are alerted to an undefined step definition.
 
 ### Background Step Definition
-I have a tendency to separate my background step definitions from my scenario step definitions - in both separate files and file naming convention. In other words, I would not add this step to the _/features/step_definitions/add-item.steps.js_. The main reason being that I reuse the same background step definitions across many features. As such, I place these steps in a seperate file that is prefixed with __background-__:
+I have a tendency to separate my background step definitions from my scenario step definitions - in both separate files and file naming convention. In other words, I would not add this step to the _/features/step_definitions/add-item.steps.js_. The main reason being that I reuse the same background step definitions across many features. As such, I place these steps in a separate file that is prefixed with __background-__:
 
 _/features/step_definitions/background-open-application.steps.js_
 
@@ -182,7 +186,7 @@ module.exports = function() {
 };
 ```
 
-Similar to how we just modified the Add Item __Feature__, we are defining our world and we now a have pending __Step__ to assert as passing. Now, technically I save the assertions for the _Then_ __Steps__, but when I work with __Background__'s I consider them pretty vital to the __Scenarios__ environment. Therefore, most of my __Background__'s have assertios, or in the very least, asynchronous request which invoke the callback on completion. _(A better example of this will be in a following post when I address testing under a browser)_.
+Similar to how we just modified the Add Item __Feature__, we are defining our world and we now have a pending __Step__ to assert as passing. Technically I save the assertions for the _Then_ __Steps__, but when I work with __Background__'s I consider them pretty vital to the __Scenarios__ environment. Therefore, most of my __Background__'s have assertions, or in the very least, asynchronous requests which invoke the callback on completion. _(A better example of this will be in a following post when I address testing under a browser)_.
 
 Let's define how we expect the application to be started in the __World__ and what sort of validation we expect to assert that, in fact, we have opened the grocery list application so that we can edit its collection:
 
@@ -306,7 +310,7 @@ $ node_modules/.bin/cucumber-js
 We are back to <span style="color:green;">green</span>!
 
 ### take a breather
-Alright, we just added some environment context to our tests using the __Background__ and _Given_ step(s), and are bringing more solidarity to the actual testing environment in so much as we have started to address the concept that the grocery list is to be interacted with from an application. This concept was known and assumed before, yet in our previous example, we did not address an actual __User Role__ (_The Shopper_) in context - we simply made sure that our gorcery list collection model was able to receiev and retain an item.
+Alright, we just added some environment context to our tests using the __Background__ and _Given_ step(s), and are bringing more solidarity to the actual testing environment in so much as we have started to address the concept that the grocery list is to be interacted with from an application. This concept was known and assumed before, yet in our previous example, we did not address an actual __User Role__ (_The Shopper_) in context - we simply made sure that our gorcery list collection model was able to receive and retain an item.
 
 That's fine, we were getting started; we had some tasks and we are not going to throw away our work.
 
@@ -391,7 +395,7 @@ module.exports = {
 };
 ```
 
-In modifying the `app` module, we have designed it so that wehn `newSession` is invoked, a new instance of `GroceryList` is passed in.
+In modifying the `app` module, we have designed it so that when `newSession` is invoked, a new instance of `GroceryList` is passed in.
 
 Run that:
 
@@ -461,7 +465,7 @@ $ node_modules/.bin/cucumber-js
 
 And we are back to <span style="color:green;">green</span>! Successful reactor… so far :)
 
-We have carefully moved our collection model that is under test to the application, but we have some lingering unneccessary code in our __World__. _I love removing code._
+We have carefully moved our collection model that is under test to the application, but we have some lingering and unneccessary code in our __World__. _I love removing code._
 
 Here is our now cleaned up __World__:
 
@@ -499,3 +503,5 @@ I set out to address a few concepts associated with CucumberJS that I use regurl
 * __Background__ is useful in defining environment context across __Scenarios__ in separate __Features__. I often use it to assert that the proper environment is available before stepping into the __Scenarios__.
 
 I think the work we went through in this post will be very beneficial when I introduce running tests under a browser. Stay tuned…
+
+Source for examples related to this post can be found in the [0.2.0.post tag on my Github account](https://github.com/bustardcelly/cucumberjs-examples/tree/0.2.0post).

@@ -1,5 +1,196 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sun, 26 Jan 2014 01:49:27 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[BDD in JavaScript II: CucumberJS, the World and Background]]></title><description><![CDATA[<p>In <a href="http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">my previous post</a>, I demonstrated how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> - the JavaScript port of the <a href="http://cukes.info/">Cucumber</a> BDD testing tool - in developing Test-Driven code. I walked through going from a <span style="color:red;">failing</span> feature with two scenarios to a <span style="color:green;">passing</span> cuke, while taking care to only add enough code that would make the assertions pass and refactoring as I went along under the assurance of a test harness.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sat, 01 Feb 2014 19:35:46 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[BDD in JavaScript III: CucumberJS and Test Automation]]></title><description><![CDATA[<p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html">previous post</a> I addressed the concepts of the <strong>World</strong> context and <strong>Background</strong> scenario. I am going to pause in actually working with <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in delivering code in a BDD manner for this article and address another vital part of the development process: <strong>Automation</strong>.</p>
+<h3 id="-gt-code">&gt; code</h3>
+<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
+<h2 id="why-automate-">Why Automate?</h2>
+<p>The benefit of automation is in time saved. If we can pinpoint tasks that we do repetitively during development and automate them, we can save large amounts of time that could be put back into doing more coding, thinking, learning, laughing, beering - the list goes on.</p>
+<p>While going through the basics of <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in the previous articles, I was demonstrating how I use the tool to TDD from the outside-in and constantly hopping back and forth from my code editor to the terminal to run this simple command over and over:</p>
+<pre><code><span class="hljs-variable">$ </span>node node_modules/.bin/cucumber-js
+</code></pre><p>Now, I am pretty good at <code>CMD+TAB</code> - not to brag - but I would much prefer to get feedback on my tests instantly as I describe my asserts and modify my code. If we automate the running of <strong>Cucumber</strong> on file change, we can start seeing results quicker and we can take that time removed from manually switching between editor and terminal and running commands and put that time back into thinking how to design our code more cleanly :)</p>
+<p>This automation and instant feedback really shows its worth in the <strong>Refactor</strong> phase in which you have previously implemented code to pass the criteria in a <strong>Feature</strong>.</p>
+<h2 id="task-automation-and-javascript">Task Automation and JavaScript</h2>
+<p>When talking about build tools and task automation for JavaScript projects, there are roughly 3 types of task runners that are brought up:</p>
+<ol>
+<li><a href="http://gruntjs.com/">Grunt</a></li>
+<li><a href="http://gulpjs.com/">Gulp</a></li>
+<li><a href="http://substack.net/task_automation_with_npm_run">npm run</a></li>
+</ol>
+<p>There are additional tools that have been around for some time - particularly, in the past I have used <a href="http://ant.apache.org/">Ant</a> and <a href="http://www.gnu.org/software/make/">Make</a> for my build process - but, generally speaking, these are the prevelant tools of the trade in JavaScript as it stands today. </p>
+<p>Some people think that each oppose each other, but I lean toward utilizing one or the others based on its merits and the requirements of a project. I have several on-going projects, both professional and personal, and each project actually incorporates one of each of these. I will discuss my thoughts on the value of each tool within each section in which I set up automation for our <a href="https://github.com/cucumber/cucumber-js">Cucumber</a> tests.</p>
+<h2 id="npm-run">Npm run</h2>
+<p>I&#39;ll start off with the basics. By basics, I mean that there is no additonal tool required to install and get up and running with our test automation; we have everything already installed that we need: node &amp; npm.</p>
+<h3 id="benifits">Benifits</h3>
+<p><a href="https://twitter.com/substack">James Halliday</a> had previously written a <a href="http://substack.net/task_automation_with_npm_run">great post</a> addressing the use of <code>npm run</code> in task automation, and I agree in so far as keeping things simple. The benefits of defining tasks in the <code>scripts</code> tag of your <code>package.json</code> file are <strong>a) simplicity</strong> and <strong>b) no additional tooling</strong>. I do have the reservations that the &quot;simplicity&quot; vanishes if you have to eventually maintain dozens of tasks - some that may be similar with different arguments - and continually want to run series and parallels. </p>
+<p>When your build process becomes more complex, <a href="https://twitter.com/substack">James Halliday</a> does mention moving it to a bash file, but I would argue to perhaps look at a more robust solution with the tools described previously (and in more detail later in this article).</p>
+<h3 id="usage">Usage</h3>
+<p>If we were to simply take the process of running our tests as we have in previous articles, we can modify our <code>package.json</code> file by adding the following <code>scripts</code> tag and task:</p>
+<p><em>package.json</em></p>
+<pre><code>{
+  <span class="hljs-string">"name"</span>: <span class="hljs-string">"cucumberjs-examples"</span>,
+  <span class="hljs-keyword">...</span>
+  <span class="hljs-string">"scripts"</span>: {
+      <span class="hljs-string">"test"</span>: <span class="hljs-string">"node node_modules/.bin/cucumber-js"</span>
+  }
+  <span class="hljs-keyword">...</span>
+}
+</code></pre><p>Plain and simple. To run it, we&#39;d hop over to our terminal:</p>
+<pre><code>$ npm run test
+
+<span class="hljs-subst">&gt;</span> cucumberjs<span class="hljs-attribute">-examples</span>@<span class="hljs-number">0.1</span><span class="hljs-number">.0</span> test /Users/toddanderson/Documents/workspace/custardbelly/cucumberjs<span class="hljs-attribute">-example</span>
+<span class="hljs-subst">&gt;</span> node node_modules<span class="hljs-subst">/</span><span class="hljs-built_in">.</span>bin/cucumber<span class="hljs-attribute">-js</span>
+<span class="hljs-attribute">...</span><span class="hljs-attribute">...</span><span class="hljs-built_in">..</span>
+
+<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> passed)
+<span class="hljs-number">8</span> steps (<span class="hljs-number">8</span> passed)
+</code></pre><p>Same result. We get to type less now, so that&#39;s good. However, we are not really automating the process for running our tests. As mentioned previously, we are looking for the benefit of automating the running of our tests on change to <strong>Step Definitions</strong> and code.</p>
+<p>As such, we create a simple node script that will watch our <code>script</code> and <code>feature/step_definitions</code> and run the <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> CLI tool on each change:</p>
+<p><strong>cuke-watcher.js</strong></p>
+<pre><code>#!<span class="hljs-regexp">/usr/</span>bin/env node
+<span class="hljs-keyword">var</span> watch = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-watch'</span>);
+<span class="hljs-keyword">var</span> child_process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'child_process'</span>);
+<span class="hljs-keyword">var</span> running = <span class="hljs-literal">false</span>;
+<span class="hljs-keyword">var</span> cucumber;
+
+<span class="hljs-keyword">var</span> JS_EXT = <span class="hljs-regexp">/^.*\.js/i</span>;
+<span class="hljs-keyword">var</span> options = [<span class="hljs-string">'node_modules/.bin/cucumber-js'</span>, 
+               <span class="hljs-string">'features'</span>, 
+               <span class="hljs-string">'-r'</span>, <span class="hljs-string">'features/step_definitions'</span>,
+               <span class="hljs-string">'-f'</span>, <span class="hljs-string">'pretty'</span>];
+
+watch([<span class="hljs-string">'./features/step_definitions'</span>, <span class="hljs-string">'script'</span>], {recursive:<span class="hljs-literal">true</span>}, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(filename)</span> {</span>
+
+  <span class="hljs-keyword">if</span>(!running &amp;&amp; filename.match(JS_EXT)) {
+
+    running = <span class="hljs-literal">true</span>;
+
+    cucumber = child_process.spawn(<span class="hljs-string">'node'</span>, options)
+                    .on(<span class="hljs-string">'exit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+                      running = <span class="hljs-literal">false</span>;
+                    });
+
+    cucumber.stdout.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> {</span>
+      console.log(<span class="hljs-built_in">String</span>(d));
+    });
+
+    cucumber.stderr.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> {</span>
+      console.error(<span class="hljs-built_in">String</span>(d));
+    });
+
+  }
+
+});
+</code></pre><p>We are using the wonderful <a href="https://npmjs.org/package/node-watch">node-watch</a> module that is a convenient wrapper to <code>fs.watch</code>, and upon change, we spawn the <strong>Cucumber</strong> tool as a child process. Running <strong>Cucumber</strong> as a child process allows it to exit its own process without having to exit the <code>watch</code> process, which would kill all automation.</p>
+<p>Modify our <code>package.json</code> to invoke this script:</p>
+<p><em>package.json</em></p>
+<pre><code>{
+  <span class="hljs-string">"name"</span>: <span class="hljs-string">"cucumberjs-examples"</span>,
+  <span class="hljs-keyword">...</span>
+  <span class="hljs-string">"scripts"</span>: {
+      <span class="hljs-string">"test"</span>: <span class="hljs-string">"node node_modules/.bin/cucumber-js"</span>,
+      <span class="hljs-string">"watch"</span>: <span class="hljs-string">"node cuke-watcher.js"</span>
+  }
+  <span class="hljs-keyword">...</span>
+}
+</code></pre><p>And run it in the terminal:</p>
+<pre><code><span class="hljs-variable">$ </span>npm run watch
+</code></pre><p>And you will see the cursor flash with the <code>watch</code> process running. If you were to modify any of the <strong>Step Definition</strong> or source files of our current <a href="https://github.com/bustardcelly/cucumberjs-examples">Grocery List</a> example project, you would see <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> run and produce the same results as before - the only difference is that it is now waiting for you to modify them again so it can run again.</p>
+<p>It will continue to <code>watch</code> and run tests until you exit the process, most commonly done by focusing on the terminal and hitting <code>CTRL+C</code>.</p>
+<h2 id="grunt">Grunt</h2>
+<p>Up until a few years ago, I  stuck with what I knew best and preferred to maintain builds for my JavaScript projects using <a href="http://www.gnu.org/software/make/">Make</a>. After having the fortunate opportunity to hear <a href="http://benalman.com/">Ben Alman</a> speak and demonstrate <a href="http://gruntjs.com/">Grunt</a> at <a href="http://2013.texasjavascript.com/">TXJS</a> in 2012, I decided to give <strong>Grunt</strong> a real try - and I have, for the most part, not looked back.</p>
+<p><a href="http://gruntjs.com/">Grunt</a> is my go-to task automation tool for large projects that involve various complex tasks for developing, testing and deployment. For the most part, if my tasks are not solely based on files, I will incorporate <strong>Grunt</strong> into my project. </p>
+<p>Along with a solid history and great documentation, there is also a very active community that creates task plugins for <strong>Grunt</strong>: <a href="http://gruntjs.com/plugins"><a href="http://gruntjs.com/plugins">http://gruntjs.com/plugins</a></a>. You can find virtually anything you need, and if for some odd reason you can&#39;t, you can create one: <a href="http://gruntjs.com/creating-plugins">Creating Grunt Plugins Docs</a>.</p>
+<p><em>It is too much for this article to get into a discussion about <strong>Grunt</strong> and its concepts, so please read the <a href="http://gruntjs.com/getting-started">documentation</a> on their site for clarity. In this section I intend to address how to use <strong>Grunt</strong> to automate the tests we have been developing in this series.</em></p>
+<h3 id="usage">Usage</h3>
+<p>Just as we setup a watcher for our <strong>Step Definitions</strong> and scripts for our <code>npm run</code> example, we will be using 2 <a href="http://gruntjs.com/">Grunt</a> plugin tasks provided by the wonderful development community:</p>
+<ul>
+<li><a href="https://github.com/gruntjs/grunt-contrib-watch">grunt-contrib-watch</a> - maintained by the contributors for gruntjs</li>
+<li><a href="https://github.com/s9tpepper/grunt-cucumber-js">grunt-cucumber</a> - maintained by venerable developer <a href="https://twitter.com/s9tpepper">Oscar Gonzalez</a></li>
+</ul>
+<p>I will assume you have <a href="http://gruntjs.com/getting-started">Grunt installed properly</a> and start with the <code>Gruntfile</code>:</p>
+<p><em>Gruntfile.js</em></p>
+<pre><code>module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(grunt)</span> {</span>
+<span class="hljs-pi">  'use strict'</span>;
+
+  grunt.initConfig({
+    pkg: grunt.file.readJSON(<span class="hljs-string">'package.json'</span>),
+    watch: {
+      cucumber: {
+        files: [<span class="hljs-string">'features/**/*.js'</span>, <span class="hljs-string">'script/**/*.js'</span>],
+        tasks: [<span class="hljs-string">'cucumberjs'</span>]
+      }
+    },
+    cucumberjs: {
+      src: <span class="hljs-string">'features'</span>,
+      options: {
+        steps: <span class="hljs-string">'features/step_definitions'</span>,
+        format: <span class="hljs-string">'pretty'</span>
+      }
+    }
+  });
+
+  grunt.loadNpmTasks(<span class="hljs-string">'grunt-contrib-watch'</span>);
+  grunt.loadNpmTasks(<span class="hljs-string">'grunt-cucumber'</span>);
+
+  grunt.registerTask(<span class="hljs-string">'watch-tests'</span>, <span class="hljs-string">'Starts a watch for test automation.'</span>, [<span class="hljs-string">'watch:cucumber'</span>]);
+
+};
+</code></pre><p>Within the <code>Gruntfile</code> we have configured <code>cucumberjs</code> task with the same arguments we have been using in previous examples and configured a <code>watch</code> task to listen for changes to JavaScript files in the <em>features</em> and <em>script</em> directories.</p>
+<p>Additionally, we have defined a <code>watch-tests</code> task which we can invoke using <strong>Grunt</strong> from the command line:</p>
+<pre><code><span class="hljs-variable">$ </span>grunt watch-tests
+</code></pre><p>Running that will do, essentially, what we have done using <code>npm run</code> in the previous section: the <code>watch</code> process will be active and execute the <strong>Cucumber</strong> specs upon a change to JavaScript files in the target directories. To stop the task from running, focus on the terminal and <code>CTRL+C</code> to exit the process.</p>
+<h2 id="gulp">Gulp</h2>
+<p><a href="http://gulpjs.com/">Gulp</a> is a (relatively) new-comer to the JavaScript-based task runner ecosystem. Like <a href="http://gruntjs.com/">Grunt</a>, it is a task-based build tool that has <a href="https://github.com/gulpjs/gulp/blob/master/README.md">good documentation</a> and a lively community <a href="http://gratimax.github.io/search-gulp-plugins/">contributing plugins</a>. All good things.</p>
+<p><a href="http://gulpjs.com/">Gulp</a>&#39;s build system uses <a href="http://nodejs.org/api/stream.html">streams</a> which allows you to pipe multiple tasks together. As well, the tasks defined in the <code>gulpfile</code> are the code itself - as opposed to <strong>Grunt</strong> in which you provide a configuration for your tasks that are consumed by <strong>Grunt</strong> and provided to the targetted plugin through a task registry.</p>
+<p>There are <a href="http://blog.ponyfoo.com/2014/01/09/gulp-grunt-whatever">plenty</a> of <a href="http://www.100percentjs.com/just-like-grunt-gulp-browserify-now/">other articles</a> <a href="http://jaysoo.ca/2014/01/27/gruntjs-vs-gulpjs/">contrasting the two</a>, so I won&#39;t rehash them here. I will say that I choose <strong>Gulp</strong> over <strong>Grunt</strong> in projects where the build requirements are strictly focused on files - ie, take these files, do something to them (min, concat) and put them in this directory.</p>
+<p><strong>As a side note: I highly recommend <a href="https://twitter.com/substack">James Halliday</a>&#39;s excellent <a href="https://github.com/substack/stream-handbook">stream-handbook</a> to get a better understanding of streams in <a href="http://nodejs.org">node</a>.</strong></p>
+<h3 id="usage">Usage</h3>
+<p>The <a href="http://gratimax.github.io/search-gulp-plugins/">plugin community</a> for <a href="http://gulpjs.com/">Gulp</a> is fairly active, but as I mentioned previously <strong>Gulp</strong>&#39;s system is really based on streams. As such, I don&#39;t intend to see a plugin for running <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> tests specifically, as we have with <a href="https://github.com/s9tpepper/grunt-cucumber-js">grunt-cucumber</a> - nor do intend to make one or continue to look for one: I don&#39;t think such a plugin is well suited to <strong>Gulp</strong>.</p>
+<p>That&#39;s said, we can certainly set up a <code>watch</code> task on our <strong>Step Definitions</strong> and scripts just as we have in the previous examples!</p>
+<p><strong>gulpfile.js</strong></p>
+<pre><code><span class="hljs-keyword">var</span> gulp = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp'</span>);
+<span class="hljs-keyword">var</span> watch = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-watch'</span>);
+<span class="hljs-keyword">var</span> child_process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'child_process'</span>);
+
+<span class="hljs-keyword">var</span> cucumber;
+<span class="hljs-keyword">var</span> running = <span class="hljs-literal">false</span>;
+<span class="hljs-keyword">var</span> options = [<span class="hljs-string">'node_modules/.bin/cucumber-js'</span>,
+               <span class="hljs-string">'features'</span>, 
+               <span class="hljs-string">'-r'</span>, <span class="hljs-string">'features/step_definitions'</span>,
+               <span class="hljs-string">'-f'</span>, <span class="hljs-string">'pretty'</span>];
+
+gulp.task(<span class="hljs-string">'cucumber'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+  <span class="hljs-keyword">if</span>(!running) {
+    running = <span class="hljs-literal">true</span>;
+    cucumber = child_process.spawn(<span class="hljs-string">'node'</span>, options)
+                    .on(<span class="hljs-string">'exit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+                      running = <span class="hljs-literal">false</span>;
+                    });
+    cucumber.stdout.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> {</span>
+      console.log(<span class="hljs-built_in">String</span>(d));
+    });
+
+    cucumber.stderr.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> {</span>
+      console.error(<span class="hljs-built_in">String</span>(d));
+    });
+  }
+});
+
+gulp.task(<span class="hljs-string">'watch-tests'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+  gulp.src([<span class="hljs-string">'features/**/*.js'</span>, <span class="hljs-string">'script/**/*.js'</span>])
+      .pipe(watch(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        gulp.run(<span class="hljs-string">'cucumber'</span>);
+      }));
+});
+</code></pre><p>Running that is very similar to how we ran our <strong>Grunt</strong> task:</p>
+<pre><code><span class="hljs-variable">$ </span>gulp watch-tests
+</code></pre><p>As you may notice, this example fairly similar to the <code>npm run</code> example shown previously. The main difference is that we pipe the streams through the <code>gulp-watch</code> plugin which triggers <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> as a child process upon change to targetted files.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>So, which one should you use? Whichever! They each have their merits and it should be discussed with your team in alignment with the requirements for the current project.</p>
+<p>It was my intent to showcase how to incoporate automated testing with <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> using the three most popular task runner / build tools so we can devote more time to thinking about design instead of hopping from our code editor to the terminal for each change to our <strong>Step Definitions</strong>.</p>
+<p>I didn&#39;t introduce any new concepts related to <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>, itself, but felt it necessary to address automation at this stage within the series as I feel it is a vital part to Test-Driven Development and the Agile process and something that should be addressed in the early stages of a project.</p>
+<p>That said, I look forward to the next article where we get to write more tests and which I intend to introduce running tests in a browser environment :)</p>
+<p>Source for examples related to this post can be found in the <a href="https://github.com/bustardcelly/cucumberjs-examples/tree/0.3.0.post">0.3.0.post tag on my Github account</a>.</p>
+]]></description><link>http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript II: CucumberJS, the World and Background]]></title><description><![CDATA[<p>In <a href="http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">my previous post</a>, I demonstrated how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> - the JavaScript port of the <a href="http://cukes.info/">Cucumber</a> BDD testing tool - in developing Test-Driven code. I walked through going from a <span style="color:red;">failing</span> feature with two scenarios to a <span style="color:green;">passing</span> cuke, while taking care to only add enough code that would make the assertions pass and refactoring as I went along under the assurance of a test harness.</p>
 <p>There are a few topics that I didn&#39;t address in the previous post that I utilize in my testing process that I wanted to touch on in this post as any further articles I may write on the subject of <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> most likely will reference them. These are:</p>
 <ul>
 <li>the World<del>, chico, and everything in it.</del></li>
@@ -3838,437 +4029,4 @@ editableItemFragment    = <span class="hljs-comment">'<span class="hljs-xmlDocTa
 <h2 id="post-series">Post Series</h2>
 <p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[The Making of a Test-Driven Grocery List Application in JS: Part VI]]></title><description><![CDATA[<p><em>This is the sixth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
-<h2 id="introduction">Introduction</h2>
-<p>We left the <a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">previous post</a> with failing tests! </p>
-<p>I don’t necessarily condone leaving a master branch in such a state, so don’t give my name to your managers <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> I, however, have no problem with leaving a feature or developer branch at the end of the day with failing tests – within reason. As long as the errors are from unimplemented behavior and the branch is not being monitored by some CI server feeding reports to your client(s), I see no problem. Sometimes I will write out the tests I plan to resolve the following day at 5:30 just so I can get a refresher the next morning as to the task at hand.</p>
-<p>In the article I plan to get your tests all green again by modifying the <em>Mark Off Item</em> tests and possibly add a few new features.</p>
-<h2 id="mark-off-item-feature">Mark Off Item Feature</h2>
-<p>Way back in the <a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/">third article in this series</a>, we wrote up a story and some feature specs around the usability of marking off an item already existant in the list of item of the <strong>Grocery List</strong> application. In getting this feature implemented, we added a basic mark-item API to the <code>list-controller</code>, which allowed us to pass in a <code>grocery-ls-item</code> model to the <code>list-controller</code> which would then modify its state. </p>
-<p>In the previous couple posts, we have refactored <code>list-controller</code> to not be responsible for item state and to respond to changes on a collection model – this is what led us to failing tests. We still want to keep the <em>Mark Off Item</em> feature, but instead of having specs that tested the mark-item API of the <code>list-controller</code>, we’re going to change the specs to verify that the <code>grocery-ls-item</code> model that is being modified updates its state and is retained in the collection held by the <code>list-controller</code>.</p>
-<h3 id="tests">Tests</h3>
-<p>When I start creating the tests, I take some time in thinking about the <strong>Given</strong>s. Typically, the <strong>Given</strong>s are what make up the <code>beforeEach()</code> setup of a spec suite, but they can also lead to address some design concerns about components involved in getting the tests to pass. Such is the case in modifying our <em>Mark Off Item</em> feature specs.</p>
-<p>We are not necessarily going to test the UI changes related to the action of marking off an item from the <strong>Grocery List</strong>. We could, but it is more important to me to test that the <code>grocery-ls-item</code> model that holds that state value of being marked is properly retaining that value and accessible from not only the collection, but from the associated <code>list-item-controller</code> instance, as well – after all, it is the <code>list-item-controller</code> that is responsible for responding to changes to an item being marked-off; i want to ensure that, in the very least, it has the opportunity, not actually what it does with the opportunity. </p>
-<p>That statement may sound foolish, i’ll admit. If it was an expectation that the action of marking off an item was to trigger a reaction that defined another feature specification, then certainly I would write up tests accordingly. But as it stands, it changes a style on the <code>list-item-controller</code> view. I am not so concerned with that implementation at the moment – if it becomes a real business issue and it was a requirement to have the text shown with a strike-through, then yes.</p>
-<p>Let’s start with the setup and teardown for the <em>Mark Off Item</em> feature specs:</p>
-<p><em>/test/jasmine/spec/feature/markitem.spec.js</em></p>
-<pre><code>define([<span class="hljs-string">'jquery'</span>, <span class="hljs-string">'script/controller/list-controller'</span>, <span class="hljs-string">'script/controller/list-item-controller'</span>],
-
-        <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($, listController, itemControllerFactory)</span> {</span>
-
-
-
-  describe(<span class="hljs-string">'Existing item is marked-off'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-
-
-    <span class="hljs-keyword">var</span> item,
-
-        itemController,
-
-        getRendererStub;
-
-
-
-    beforeEach( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-      item = listController.createNewItem();
-
-
-
-      itemController = itemControllerFactory.create($(<span class="hljs-string">'&lt;li/&gt;'</span>), item);
-
-      getRendererStub = sinon.stub();
-
-      getRendererStub.returns(itemController);
-
-      listController.getRendererFromItem = getRendererStub;
-
-    });
-
-
-
-    afterEach( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-      item = <span class="hljs-literal">undefined</span>;
-
-      itemController = <span class="hljs-literal">undefined</span>;
-
-      getRendererStub = <span class="hljs-literal">undefined</span>;
-
-    });
-
-
-
-  });
-
-
-
-});
-</code></pre><p>In the <code>beforeEach()</code>, we’ve stubbed out a new method on <code>list-controller</code> that allows us to access the associated <code>list-item-controller</code> with a model: <code>getRendererFromItem()</code>.</p>
-<p>If you remember <a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">from the last article</a>, we also did some stubbing of methods before moving to implementation on <code>list-controller</code>. We are doing the same here and using the <a href="http://sinonjs.org">SinonJS</a> <code>stub</code> API to stub a method that currently does not exist on <code>list-controller</code>. To do so, and not have exceptions thrown in your tests regarding the existence of the method on the object being stubbed, you create an anonymous stub and assign it to the target object:</p>
-<p><em>/test/jasmine/spec/feature/markitem.spec.js</em></p>
-<pre><code>getRendererStub = sinon<span class="hljs-preprocessor">.stub</span>()<span class="hljs-comment">;</span>
-
-getRendererStub<span class="hljs-preprocessor">.returns</span>(itemController)<span class="hljs-comment">;</span>
-
-listController<span class="hljs-preprocessor">.getRendererFromItem</span> = getRendererStub<span class="hljs-comment">;</span>
-</code></pre><p>The stub is sort of a fub, seeing as it is not really accessing the <code>list-item-controller</code> created by the <code>list-controller</code> in response to change on the collection – but it does provide some basis of design in that <code>getRendererFromItem()</code> is expected to return a <code>list-item-controller</code> which in turn responds to the provided model. Anyway, once we remove the stub and implement the API on the <code>list-controller</code> itself, we’ll certainly have to write more tests for that integration as we are not necessarily concerned in this specification of <code>getRendererFromItem()</code> returning the correct <code>list-item-controller</code> instance… so you have that to look forward to <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Right now, we only care about the preservation of state and model existence within the application.</p>
-<p>First we’ll test that setting an item as marked is preserved in the model and held on the item controller:<br><em>/test/jasmine/spec/feature/markitem.spec.js</em></p>
-<pre><code><span class="hljs-function">it(<span class="hljs-string">'should denote item as being in possession'</span>, <span class="hljs-function">function()</span> {
-
-  var itemRenderer = listController.<span class="hljs-function">getRendererFromItem(item)</span>;
-
-      savedItemSpy = sinon.<span class="hljs-function">spy()</span>;
-
-
-
-  <span class="hljs-function">savedItemSpy(itemRenderer.model)</span>;
-
-  item.marked = true;
-
-
-
-  <span class="hljs-function">expect(item.marked)</span>.<span class="hljs-function">toEqual(true)</span>;
-
-  sinon.assert.<span class="hljs-function">calledWith(savedItemSpy, sinon.match.<span class="hljs-function">hasOwn(<span class="hljs-string">'marked'</span>, true)</span>)</span>;
-
-})</span>;
-</code></pre><p>Then, I want to ensure that marking off an item does not mean that it is removed from the overall collection:<br><em>/test/jasmine/spec/feature/markitem.spec.js</em></p>
-<pre><code><span class="hljs-keyword">it</span>('should retain <span class="hljs-keyword">the</span> <span class="hljs-property">item</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> collection', function() {
-
-  var itemIndex = listController.getItemList().getItemIndex(<span class="hljs-property">item</span>);
-
-
-
-  <span class="hljs-property">item</span>.marked = <span class="hljs-constant">true</span>;
-
-  expect(listController.getItemList().getItemIndex(<span class="hljs-property">item</span>)).toEqual(itemIndex);
-
-});
-</code></pre><p>And finally, just to be sure that we can safely toggle the marked off state and it be retained:<br><em>/test/jasmine/spec/feature/markitem.spec.js</em></p>
-<pre><code><span class="hljs-function">it(<span class="hljs-string">'should retain item in renderer listing regardless of marked-off status'</span>, <span class="hljs-function">function()</span> {
-
-  var itemRenderer = listController.<span class="hljs-function">getRendererFromItem(item)</span>,
-
-      itemIndex = listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">getItemIndex(item)</span>;
-
-
-
-  item.marked = true;
-
-  item.marked = false;
-
-
-
-  <span class="hljs-function">expect(itemRenderer.model.marked)</span>.<span class="hljs-function">toEqual(false)</span>;
-
-  <span class="hljs-function">expect(listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">getItemIndex(item)</span>)</span>.<span class="hljs-function">toEqual(itemIndex)</span>;
-
-})</span>;
-</code></pre><p>Perhaps the last one is out of a little paranoia, but it also describes the behavior of the <em>Mark Off Item</em> feature as being togglable from a User standpoint – meaning, marking off an item is not considered deleting it from the list. Also, a little paranoia sprinkled on some tests can save you from fret when working with the implementation code. </p>
-<p>Speaking of implementation…</p>
-<h3 id="list-controller-implementation">list-controller Implementation</h3>
-<p>Moving the <code>getRendererFromItem()</code> method over to the <code>list-controller</code> will involve holding and maintaining a list of <code>list-item-renderers</code>. We’ll use the <em>Collection</em> object we created previously for the models and place the job of curation between both collections on the <code>list-controller</code>:</p>
-<p><em>/script/controller/list-controller</em></p>
-<pre><code><span class="hljs-keyword">var</span> collection = collectionFactory.create(),
-
-    rendererList = collectionFactory.create(),
-
-    listController = {
-
-      $view: <span class="hljs-literal">undefined</span>,
-
-      getItemList: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-        <span class="hljs-keyword">return</span> collection;
-
-      },
-
-      getRendererFromItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
-
-        <span class="hljs-keyword">var</span> i = rendererList.itemLength();
-
-        <span class="hljs-keyword">while</span>( --i &gt; -<span class="hljs-number">1</span> ) {
-
-          <span class="hljs-keyword">if</span>(rendererList.getItemAt(i).model === item) {
-
-            <span class="hljs-keyword">return</span> rendererList.getItemAt(i);
-
-          }
-
-          <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
-
-        }
-
-      },
-
-      createNewItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-        <span class="hljs-keyword">var</span> model = modelFactory.create();
-
-        collection.addItem(model);
-
-        <span class="hljs-keyword">return</span> model;
-
-      },
-
-      setView: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(view)</span> {</span>
-
-        <span class="hljs-keyword">this</span>.$view = (view <span class="hljs-keyword">instanceof</span> $) ? view : $(view);
-
-      }
-
-    };
-</code></pre><p>If an associated <code>list-item-controller</code> cannot be found from the provided <code>grocery-ls-item</code> model, then undefined is returned. We will ensure this and other expectations in a new integration test for the <code>list-controller</code> in a bit, but for now we have a little more work to do in order for the list-controller to behave as described in the <em>Mark Off Item</em> feature specs.</p>
-<p>Next step is to have the tests fail by removing the stub for the <code>getRendererFromItem()</code> method now on the <code>list-controller</code>:<br><em>/test/jasmine/spec/feature/markitem.spec.js</em></p>
-<pre><code><span class="hljs-function">define([<span class="hljs-string">'jquery'</span>, <span class="hljs-string">'script/controller/list-controller'</span>],
-
-        <span class="hljs-function">function($, listController)</span> {
-
-
-
-  <span class="hljs-function">describe(<span class="hljs-string">'Existing item is marked-off'</span>, <span class="hljs-function">function()</span> {
-
-
-
-    var item;
-
-
-
-    <span class="hljs-function">beforeEach( <span class="hljs-function">function()</span> {
-
-      item = listController.<span class="hljs-function">createNewItem()</span>;
-
-    })</span>;
-
-
-
-    <span class="hljs-function">it(<span class="hljs-string">'should denote item as being in possession'</span>, <span class="hljs-function">function()</span> {
-
-      var itemRenderer = listController.<span class="hljs-function">getRendererFromItem(item)</span>;
-
-          savedItemSpy = sinon.<span class="hljs-function">spy()</span>;
-
-
-
-      <span class="hljs-function">savedItemSpy(itemRenderer.model)</span>;
-
-      item.marked = true;
-
-
-
-      <span class="hljs-function">expect(item.marked)</span>.<span class="hljs-function">toEqual(true)</span>;
-
-      sinon.assert.<span class="hljs-function">calledWith(savedItemSpy, sinon.match.<span class="hljs-function">hasOwn(<span class="hljs-string">'marked'</span>, true)</span>)</span>;
-
-    })</span>;
-
-
-
-    <span class="hljs-function">it(<span class="hljs-string">'should retain the item in the grocery list collection'</span>, <span class="hljs-function">function()</span> {
-
-      var itemIndex = listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">getItemIndex(item)</span>;
-
-
-
-      item.marked = true;
-
-      <span class="hljs-function">expect(listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">getItemIndex(item)</span>)</span>.<span class="hljs-function">toEqual(itemIndex)</span>;
-
-    })</span>;
-
-
-
-    <span class="hljs-function">it(<span class="hljs-string">'should retain item in renderer listing regardless of marked-off status'</span>, <span class="hljs-function">function()</span> {
-
-      var itemRenderer = listController.<span class="hljs-function">getRendererFromItem(item)</span>,
-
-          itemIndex = listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">getItemIndex(item)</span>;
-
-
-
-      item.marked = true;
-
-      item.marked = false;
-
-      <span class="hljs-function">expect(itemRenderer.model.marked)</span>.<span class="hljs-function">toEqual(false)</span>;
-
-      <span class="hljs-function">expect(listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">getItemIndex(item)</span>)</span>.<span class="hljs-function">toEqual(itemIndex)</span>;
-
-    })</span>;
-
-
-
-    <span class="hljs-function">afterEach( <span class="hljs-function">function()</span> {
-
-      item = undefined;
-
-    })</span>;
-
-
-
-  })</span>;
-
-
-
-})</span>;
-</code></pre><p>Run the tests, and we’ll get failures related to the <code>getRendererFromItem()</code> method returning undefined with each call:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vi_1.png" alt="Failing tests on getRendererFromItem invocation"></p>
-<p>Good. That sort of assures us that <code>getRendererFromItem()</code> works as expected. This little mid-implementation failure won’t save us from writing proper tests for <code>list-controller</code>, but it’s a warm feeling for now <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
-<p>The reason that <code>getRendererForItem()</code> is returning undefined on each call is that we have not modified <code>list-controller</code> to add the <code>list-item-controller</code> renderer to the underlying <code>rendererList</code> collection. Let’s add the maintenance to the <em>collection-change</em> response on the model collection:</p>
-<p><em>/script/controller/list-controller</em></p>
-<pre><code><span class="hljs-variable">$collection</span>.on(<span class="hljs-string">'collection-change'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
-
-  <span class="hljs-keyword">var</span> model, itemController, <span class="hljs-variable">$itemView</span>;
-
-  <span class="hljs-keyword">switch</span>( event.kind ) {
-
-    <span class="hljs-keyword">case</span> EventKindEnum.ADD:
-
-      <span class="hljs-variable">$itemView</span> = $(<span class="hljs-string">'&lt;li&gt;'</span>);
-
-      model = event.items.shift();
-
-      itemController = itemControllerFactory.create(<span class="hljs-variable">$itemView</span>, model);
-
-
-
-      <span class="hljs-variable">$itemView</span>.appendTo(listController.<span class="hljs-variable">$view</span>);
-
-      rendererList.addItem(itemController);
-
-      itemController.state = itemControllerFactory.state.EDITABLE;
-
-      <span class="hljs-keyword">break</span>;
-
-    <span class="hljs-keyword">case</span> EventKindEnum.REMOVE:
-
-      <span class="hljs-keyword">break</span>;
-
-    <span class="hljs-keyword">case</span> EventKindEnum.RESET:
-
-      <span class="hljs-keyword">break</span>;
-
-  }
-
-});
-</code></pre><p>We’ve moved the variable declarations out of the <em>switch..case</em> for the <code>ADD</code> event type; they are hoisted by the interpreter, anyway, but I like a little more clarity. More importantly, we are adding the newly created <code>list-item-controller</code> to he <code>renderList</code>.</p>
-<p>Run the tests and we’ll be back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vi_2.png" alt="Passing tests on getRendererFromItem implementation"></p>
-<p>Hold on! Before you run out the door and down the street singing my praises… you need pants. I don’t know why you are reading this article without pants, but you probably will get a fine. Plus, we really need to add some tests for the <code>list-controller</code>.</p>
-<h2 id="list-controller-tests">list-controller Tests</h2>
-<p>The <em>Mark Off Item</em> specs we just got to pass are great in describing that feature and the usability, but they don’t necessarily test all the expectations we have of the <code>list-controller</code> and its API. Perhaps we should have wrote up the tests for <code>list-controller</code> and, specifically, the <code>getRendererFromItem()</code> method prior to modifying the <em>Mark Off Item</em> specs and getting them to pass. I would agree with that, but I am also not a stickler… as long as we get some integration tests in for <code>list-controller</code>, I won’t hold it against myself <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
-<p>There are more tests regarding the <code>list-controller</code> API in the repository tagged later in this article, but for now I wanted to create a new spec suite for <code>list-controller</code> and test the expectations we had previously described for the <code>getRendererFromItem()</code> method:</p>
-<p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
-<pre><code><span class="hljs-function">define([<span class="hljs-string">'jquery'</span>, <span class="hljs-string">'script/controller/list-controller'</span>, <span class="hljs-string">'script/model/grocery-ls-item'</span>],
-
-        <span class="hljs-function">function($, listController, modelFactory)</span> {
-
-
-
-  <span class="hljs-function">describe(<span class="hljs-string">'Grocery List list-controller'</span>, <span class="hljs-function">function()</span> {
-
-
-
-    <span class="hljs-function">describe(<span class="hljs-string">'getRendererItem()'</span>, <span class="hljs-function">function()</span> {
-
-
-
-      <span class="hljs-function">it(<span class="hljs-string">'should return renderer associated with model'</span>, <span class="hljs-function">function()</span> {
-
-        var itemModel, renderer;
-
-
-
-        itemModel = listController.<span class="hljs-function">createNewItem()</span>;
-
-        renderer = listController.<span class="hljs-function">getRendererFromItem(itemModel)</span>;
-
-        <span class="hljs-function">expect(renderer)</span>.not.<span class="hljs-function">toBeUndefined()</span>;
-
-        <span class="hljs-function">expect(renderer.model)</span>.<span class="hljs-function">toBe(itemModel)</span>;
-
-      })</span>;
-
-
-
-      <span class="hljs-function">it(<span class="hljs-string">'should return undefined with no associated model'</span>, <span class="hljs-function">function()</span> {
-
-        var itemModel, renderer;
-
-
-
-        itemModel = modelFactory.<span class="hljs-function">create()</span>;
-
-        renderer = listController.<span class="hljs-function">getRendererFromItem(itemModel)</span>;
-
-        <span class="hljs-function">expect(renderer)</span>.<span class="hljs-function">toBeUndefined()</span>;
-
-      })</span>;
-
-
-
-    })</span>;
-
-
-
-  })</span>;
-
-
-
-})</span>;
-</code></pre><p>We have defined two tests for the <code>getRendererFromItem()</code> method on <code>list-controller</code> to ensure that it <strong>1)</strong> does return the associated renderer when available and <strong>2)</strong> does return undefined when an associated renderer is not available.</p>
-<p>Let’s add that to the specrunner:<br><em>/test/jasmine/specrunner.html</em></p>
-<pre><code><span class="hljs-keyword">require</span>( [<span class="hljs-string">'spec/feature/additem.spec.js'</span>, <span class="hljs-string">'spec/feature/markitem.spec.js'</span>,
-
-          <span class="hljs-string">'spec/list-controller.spec.js'</span>, <span class="hljs-string">'spec/list-item-controller.spec.js'</span>, <span class="hljs-string">'spec/grocery-ls-item.spec.js'</span>,
-
-          <span class="hljs-string">'spec/collection.spec.js'</span>], <span class="hljs-keyword">function</span>() {
-
-
-
-  var jasmineEnv = jasmine.getEnv(),
-
-      <span class="hljs-keyword">...</span>
-
-  jasmineEnv.execute();
-
-
-
-});
-</code></pre><h4 id="aside">aside</h4>
-<p>You may be wondering why it seems like I am doubling up on tests; after all, we have verified that the <code>getRendererFromItem()</code> method does as expected from within the <em>Mark Off Item</em> specs. This is true. However, I think of this spec suite, <em>list-controller.spec.js</em>, as more unit tests in that we are verifying how the component behaves. Within the <em>Mark Off Item</em> specs, I feel it is closer to how the component behaves in the system and reveals more of an expectation of the features of the <strong>Grocery List</strong> application. If I was to do further work in modifying the <code>list-controller</code>, I would start with this spec, and if it impacted the <em>Mark Off Item</em> feature, get that passing afterward. Not stuck in my way of thinking on this, but it my current workflow. Let me know if you have any better strategies.</p>
-<p>Actually, that brings up a good point. We should revisit the <em>Add Item</em> specs and add a test to ensure that the newly created item returned from <code>createNewItem()</code> will return an associated list-item-controller instance from <code>getRendererFromItem()</code>…</p>
-<h2 id="add-item-feature-update">Add Item Feature Update</h2>
-<p>We’ll add a spec to the current suite that verifies that the new created <code>grocery-ls-item</code> is properly paired with the <code>list-item-controller</code> and that they associated view is the one made available on the <strong>Grocery List</strong> UI:</p>
-<p><em>/test/jasmine/spec/feature/additem.spec.js</em></p>
-<pre><code><span class="hljs-function">it(<span class="hljs-string">'should enable associated item renderer as editable'</span>, <span class="hljs-function">function()</span> {
-
-  var newItem = listController.<span class="hljs-function">createNewItem()</span>,
-
-      itemRenderer = listController.<span class="hljs-function">getRendererFromItem(newItem)</span>;
-
-
-
-    <span class="hljs-function">expect(itemRenderer)</span>.not.<span class="hljs-function">toBeUndefined()</span>;
-
-    <span class="hljs-function">expect(itemRenderer.model)</span>.<span class="hljs-function">toBe(newItem)</span>;
-
-    <span class="hljs-function">expect(itemRenderer.state)</span>.<span class="hljs-function">toEqual(itemControllerFactory.state.EDITABLE)</span>;
-
-    <span class="hljs-function">expect($listView.<span class="hljs-function">children()</span>[<span class="hljs-number">0</span>])</span>.<span class="hljs-function">toBe(itemRenderer.parentView.<span class="hljs-function">get(<span class="hljs-number">0</span>)</span>)</span>;
-
-})</span>;
-</code></pre><p>The last expectation in there utilizes some of the access API from <a href="http://custardbelly.com/blog/jquery.org">jQuery</a>. If you are unfamiliar with it, it is basically testing that the first item in the parent list view is that of the <code>parentView</code> managed by the associated <code>list-item-controller</code>. If you take a look at the <a href="https://github.com/bustardcelly/grocery-ls/blob/0.1.8/test/jasmine/spec/feature/newitem.spec.js">previous spec</a>, we had already verified that the child list of the list view had been changed to include a new item; now we are ensuring that the new item is the correct one, accessible from <code>getRendererFromItem()</code>.</p>
-<p>I think that pretty much shores up the proper testing in describing the <em>Add Item</em> and <em>Mark Off Item</em> features. Run the tests and all are green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vi_3.png" alt="Passing tests for Add Item and Mark Off Item Features"></p>
-<p>Tagged <strong>0.1.9</strong> : <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.9"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.9">https://github.com/bustardcelly/grocery-ls/tree/0.1.9</a></a></p>
-<h2 id="conclusion">Conclusion</h2>
-<p>We got the <em>Mark Off Item</em> specs running green again after we had left the application in a failing state from the <a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">last article</a>. Hooray! But, we are still only addressing half of the usability features I envision for the <strong>Grocery List</strong> application. Sometimes it is easy to forget that we are still building an application. If you ran it, you would see that it still works as expected, which I think is rather cool; I mean, we have been busying ourselves ensuring that our code will support our understanding of the system, and at the end of the day, it actually does. We have been running the test runner much more than the actual application. That is not to say that we shouldn’t be doing more User testing…</p>
-<p>Anyway, in the next article I think we should address a new feature – Removal. Cheers for sticking around!</p>
-<p>—</p>
-<h1 id="link-dump">Link Dump</h1>
-<h2 id="reference">Reference</h2>
-<p><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a></p>
-<h2 id="post-series">Post Series</h2>
-<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>
+]]></description><link>http://custardbelly.com/blog/blog-posts/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>

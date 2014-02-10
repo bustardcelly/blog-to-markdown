@@ -155,7 +155,7 @@ _It is too much for this article to get into a discussion about __Grunt__ and it
 Just as we setup a watcher for our __Step Definitions__ and scripts for our `npm run` example, we will be using 2 [Grunt](http://gruntjs.com/) plugin tasks provided by the wonderful development community:
 
 * [grunt-contrib-watch](https://github.com/gruntjs/grunt-contrib-watch) - maintained by the contributors for gruntjs
-* [grunt-cucumber](https://github.com/s9tpepper/grunt-cucumber-js) - maintained by venerable developer [Oscar Gonzalez](https://twitter.com/s9tpepper)
+* [grunt-cucumber](https://github.com/s9tpepper/grunt-cucumber-js) - maintained by venerable developer [Omar Gonzalez](https://twitter.com/s9tpepper)
 
 I will assume you have [Grunt installed properly](http://gruntjs.com/getting-started) and start with the `Gruntfile`:
 

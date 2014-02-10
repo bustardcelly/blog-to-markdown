@@ -531,4 +531,4 @@ I was going to cover the following topics in this post but have decided to exclu
 
 Additionally, in a following post I want to address how I use [CucumberJS](https://github.com/cucumber/cucumber-js) to run tests that rely on browser integration - ie, __window__ and __document__ access.
 
-_In the past I have used [ZombieJS](http://zombie.labnotes.org/) to much success, but [Oscar Gonzalez](https://twitter.com/s9tpepper) has tipped me to him [Karma solution](https://github.com/s9tpepper/karma-cucumberjs) that I am excited to test-drive._
+_In the past I have used [ZombieJS](http://zombie.labnotes.org/) to much success, but [Omar Gonzalez](https://twitter.com/s9tpepper) has tipped me to him [Karma solution](https://github.com/s9tpepper/karma-cucumberjs) that I am excited to test-drive._

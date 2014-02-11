@@ -150,7 +150,7 @@ $ mkdir test/script && \
 
 With that command, we created the output directory for our main file - `app.js` - and bundled the _script/app.js_ file with any dependencies (which currently were only _script/model/grocery-list.js_). As well, our module is accessible on the `window` object as `grocerylist`.
 
-### Index File
+## Index File
 So we have our bundled scripts and an exposed entry to our application through `window.grocerylist`, and now we need a way to access and view the application - an html file.
 
 Because we will be using the [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) tool to bundle our features and specs to be run under a browser environment, we will copy and modify the default template shipped with that tool to suit our needs for our application.
@@ -236,10 +236,148 @@ We would see those same <span style="color:red;">failing</span> tests, but this 
 
 We have gone from failing on the command line to failing in the browser... isn't it glorious :)
 
-### Automate all the things
+## Automate all the things
 We had [previously automated out testing](http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html) under the node-based environment; it was a simple as setting up a file watcher and issuing a command to run the [CucumberJS](https://github.com/cucumber/cucumber-js) CLI tool on change.
 
-Our process has now become a little more involved, but not anything to complex that an automated build and test procedure couldn't be implemented. The only drawback, as it stands currently, is that feedback is more visual as it now resides in the DOM and/or Console of a browser - so instead of coding in an editor and watching it fail on the command line, we are now going to need to focus on failures reported in the browser as we TDD.
+Our process has now become a little more involved, but not anything too complex (_thanks to the wonderful [npm](https://www.npmjs.org/) community!_) that an automated build and test procedure couldn't be implemented. The only difference is that feedback will now reside in the DOM and/or Console of a browser - so instead of coding in an editor and watching it fail on the command line, we are now going to need to focus on failures reported in the browser as we TDD.
+
+### watch script
+Just as we had done in a [previous article](http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html), we are going to create a new `watch` script that will essentially do the following upon change to either our application source files or step definitions:
+
+1. start a livereload server
+2. start a local server to serve the testrunner
+3. launch the testrunner in a browser
+4. bundle the app and run the cucumberjs-browser tool
+5. reload the testrunner in the browser
+
+To accomplish this task, we are going to use a couple more npm modules; in particular:
+
+1. [tiny-lr](https://github.com/mklabs/tiny-lr)
+2. [connect](https://github.com/senchalabs/connect)
+3. [open](https://github.com/jjrdn/node-open)
+
+I invite you to go check each of those projects out as I won't go into much detail about each of them in this article. It should be noted, however, that you will need to install the [LiveReload](http://livereload.com/) [browser extension(s)](http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-) in order to properly use the `watch` script:
+
+_cuke-browser-watcher.js_
+
+```
+#!/usr/bin/env node
+var fs = require('fs');
+var path = require('path');
+var watch = require('node-watch');
+var child_process = require('child_process');
+var mkdirp = require('mkdirp');
+var browserify = require('browserify');
+
+var http = require('http');
+var tinylr = require('tiny-lr');
+var connect = require('connect');
+var open = require('open');
+var S = require('string');
+
+var outdir = 'test';
+var browserCukes;
+
+var livereloadPort = 35729;
+var connectPort = 8080;
+var JS_EXT = /^.*\.js/i;
+var options = ['-f', 'ui',
+               '-o', outdir,
+               '--tmpl', 'template/testrunner.html'];
+
+// 1. Recursive mkdir /test/script if not exist.
+mkdirp.sync(outdir + '/script');
+
+// 2. Create tiny-livereload server.
+var lr = tinylr();
+lr.listen(livereloadPort, function() {
+  console.log('livereload listening on ' + livereloadPort + '...');
+});
+
+// 3. Start server on localhost.
+var app = connect().use(connect.static(__dirname + '/test'));
+var server = http.createServer(app).listen(connectPort, function() {
+  console.log('local server started on ' + connectPort + '...');
+  console.log('Note: Remember to start the livereload browser extension!');
+  console.log('http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-');
+  open('http://localhost:' + connectPort + '/cucumber-testrunner.html');
+});
+
+// [TASKS]
+// a. re-bundle the app.
+var bundleApplication = function(f, resolver) {
+  return function(callback) {
+    browserify(__dirname + '/script/app.js')
+      .bundle({
+        standalone: 'app'
+      })
+      .pipe(fs.createWriteStream(path.resolve(outdir + '/script/app.js')))
+      .on('close', function() {
+        console.log('changed app.js...');
+        lr.changed({
+          body: {
+            files: ['script/app.js']
+          }
+        });
+        resolver();
+        if(callback) {
+          callback();
+        }
+      });
+  };
+};
+// b. rerun cucumberjs-browser tool.
+var cuke = function(f, resolver) {
+  return function(callback) {
+    var filename = S(path.basename(f, '.js').split('.').join('-')).camelize().s;
+    browserCukes = child_process.spawn('cucumberjs-browser', options)
+      .on('exit', function() {
+        console.log('changed ' + filename + '...');
+        lr.changed({
+          body: {
+            files: [filename]
+          }
+        });
+        resolver();
+        if(callback) {
+          callback();
+        }
+      });
+  };
+};
+
+// 4. Watch source and generate bundles.
+watch(['./features/step_definitions', './script'], {recursive:true}, function(filename) {
+  // Used to resolve when running operation(s) are complete.
+  var resolver;
+  var running = false;
+  var resolveWatch = function(limit) {
+    var count = 0;
+    running = true;
+    return function() {
+      if(++count === limit) {
+        count = 0;
+        running = false;
+      }
+      else {
+        running = true;
+      }
+    };
+  };
+
+  if(!running && filename.match(JS_EXT)) {
+    if(/^script?/i.test(filename)) {
+      resolver = resolveWatch(1);
+      bundleApplication(filename, resolver)();
+    }
+    else if(/^features?/i.test(filename)) {
+      resolver = resolveWatch(2);
+      cuke(filename, resolver)(bundleApplication(filename, resolver));
+    }
+  }
+
+});
+```
 
 ## Back to Passing
 

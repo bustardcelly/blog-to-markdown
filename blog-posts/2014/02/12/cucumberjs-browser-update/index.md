@@ -4,10 +4,36 @@ author:
   name: 'todd anderson'
 date: '2014-02-12'
 ---
-"Whoa. Whoa. Whoa.  
-You can't just use roman numerals all over the place in your post titles..."
+"Whoa. Whoa. Whoa. You can't just use roman numerals all over the place in your post titles..."
 
-I don't want to get into more wordy specifics without a good example, so without further ado...
+In the [previous article](http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html) I addressed the available libraries and practices to have your [CucumberJS](https://github.com/cucumber/cucumber-js) specs running in a browser environment, as well as introduced a new project begun by me: [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser).
+
+I had originally had the entirety of this post in the previous post, but felt that it was a little bit of information overload. As such, I decided to split them into two posts.
+
+The intent of this article is to address inforporating [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) into our current Grocery List Application example and continue developing features that involve User Interaction with the DOM.
+
+### &gt; code
+Supported files related to this and any subsequent posts on this topic will be available at:  
+[https://github.com/bustardcelly/cucumberjs-examples](https://github.com/bustardcelly/cucumberjs-examples)
+
+## cucumberjs-browser
+The [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) CLI tool was created to provide a means in which to write my __Features__, __Step Definitions__ and support files as I normally would for a project, and bundle them to be run in a browser and provide custom reporting.
+
+First order of business for incorporating the __cucumberjs-browser__ tool into the Grocery List applicaiton project we have been working through in this series is to install the tool:
+
+```
+$npm install -g cucumberjs-browser
+```
+
+(you may need to `sudo`) 
+
+That should install the tool and now be accessible from the command line. The [README](https://github.com/bustardcelly/cucumberjs-browser/blob/master/README.md) is the best place to find the most up-to-date infromation about the tool, but the general usage is as follows:
+
+```
+$ cucumberjs-browser [-o outdir] [-f format] [--tmpl template] [--features features]
+```
+
+We'll get into how we will use it with our project and the options in a bit, but before then...
 
 ## Fail first
 In a pervious article in this series, we added an `add-item` feature that detailed the scenarios of adding and accessible an item from a collection of the Grocery List application. This is still a valid logical feature that normally I would not modify to incorporate User Interaction when incorporating __Features__ related to the application being browser-based. Instead, I would create a new __Feature__ that details how a User can add and view new item in a browser environment.
@@ -203,6 +229,10 @@ $ cucumberjs-browser -o test --tmpl template/testrunner.html -f ui
 ```
 
 We would see those same <span style="color:red;">failing</span> tests, but this time on the DOM.
+
+<div style="width: 100%; overflow-x: scroll; background-color:#fff; text-align: center;">
+  <img src="http://custardbelly.com/blog/images/cucumberjs-browser-2.png" alt="cucumberjs in the browser">
+</div>
 
 We have gone from failing on the command line to failing in the browser... isn't it glorious :)
 

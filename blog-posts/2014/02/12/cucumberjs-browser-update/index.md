@@ -379,6 +379,35 @@ watch(['./features/step_definitions', './script'], {recursive:true}, function(fi
 });
 ```
 
+This `watch` script is very similar to the one we created previously. Aside from moving the bundler tasks outside of the `watch()`, the main difference is that we now start a `tiny-livereload` server and `http` server running on port 8080 before running starting the `watch` task.
+
+Running this will also automatically launch the testrunner in your default browser. It is important to note that, in order for the reload on file change to work, you must enable the [LiveReload](http://livereload.com/) [browser extension for that browser](http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-).
+
+As we have done before, we can add this to our package `scripts`:
+
+_package.json_
+
+```
+{
+  "name": "cucumberjs-examples",
+...
+  "scripts": {
+    "test": "node node_modules/.bin/cucumber-js",
+    "watch": "node cuke-watcher.js",
+    "watch-browser": "node cuke-browser-watcher"
+  }
+...
+}
+```
+
+Open up the terminal and enter the following command:
+
+```
+$ npm run watch-browser
+```
+
+... and we are all set to keep TDD'ing with an automated `watch` script that will reload the browser on change to our step definitions and application source files!
+
 ## Back to Passing
 
 ## Mocking in Node

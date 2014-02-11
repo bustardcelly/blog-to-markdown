@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sat, 01 Feb 2014 19:35:46 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[BDD in JavaScript III: CucumberJS and Test Automation]]></title><description><![CDATA[<p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html">previous post</a> I addressed the concepts of the <strong>World</strong> context and <strong>Background</strong> scenario. I am going to pause in actually working with <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in delivering code in a BDD manner for this article and address another vital part of the development process: <strong>Automation</strong>.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Tue, 11 Feb 2014 15:16:40 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[BDD in JavaScript IV: CucumberJS and The Browser]]></title><description><![CDATA[<p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">previous post</a> in this series detailing how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>, I addressed a few common bulid tools in JavaScript to automate the watching and running of tests. While beneficial to a proper agile workflow, I did not introduce any new concepts or development information directly associated with using CucumberJS, itself.</p>
+<p>In this article, I intend to take on a pretty meaty subject - running your cukes in the browser. It is a subject I have grappled with for some time and have tried different solutions, eventually <a href="https://github.com/bustardcelly/cucumberjs-browser">creating my own</a>. </p>
+<h3 id="-gt-code">&gt; code</h3>
+<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
+<p><em>Disclaimer: I did not start out this series to promote the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> tool. In fact, in came to life as a result of this series :)</em></p>
+<h2 id="why-the-browser">Why The Browser</h2>
+<p><a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> is built on <a href="http://nodejs.org">Node</a>. As such, the CLI tool that we have been running to verify our tests in previous articles is living in that environment. </p>
+<p>This is well and good if we were creating an application that was intended to live within Node. However, what if we are building an application that is to live inside the browser, which is often the case for me as a, primarily, Front End Developer? How do we go from <strong>Features</strong> detailing DOM interaction to passing <strong>Step Definitions</strong> that require a browser environment using <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>?</p>
+<h2 id="options">Options</h2>
+<p>The following options are those I have found or been alerted to by the community. I have used a few of them to much benefit, but felt there was always one or two things that kept me from truly embracing them as a good solution. I hope to showcase their strengths and weaknesses to allow you to make a more informed decision on what may be the best for your team.</p>
+<h3 id="writing-specs-in-the-dom">Writing Specs in the DOM</h3>
+<p>Example: <a href="https://github.com/cucumber/cucumber-js/blob/master/example/index.html"><a href="https://github.com/cucumber/cucumber-js/blob/master/example/index.html">https://github.com/cucumber/cucumber-js/blob/master/example/index.html</a></a>.</p>
+<p>This is an example from the <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> team that demonstrates how to define <strong>Features</strong> and <strong>Step Definitions</strong> in <code>textarea</code> elements. These are read and evaluated at runtime by the bundled browser-based CucumberJS library, with the assertions being printed to the DOM as well.</p>
+<p>A reasonable approach, and much of its implementation was an inspiration for my <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> tool (addressed later). My main issue with incorporating this into my development and testing workflow is the break in having my <strong>Features</strong>, <strong>Step Definitions</strong> and test support as entities residing in separate files as we have done in the examples of previous articles in this series. Instead of curating <strong>Features</strong> in a much more organized way involving the file system, I would need to maintain them in the textual values defined for <code>textarea</code>s in a web page. My workflow just seemed interrupted in doing so; I could not directly relate a Ticket in our Issue Tracker with a <strong>Feature</strong> file and its associated <strong>Step</strong> file(s).</p>
+<h3 id="zombiejs">ZombieJS</h3>
+<p>There are small examples on the landing page for <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> repo that are fairly easy to follow and there is a great example <a href="http://www.antonydenyer.co.uk/">Antony Denyer</a> as well: <a href="https://github.com/antonydenyer/zombiejsplayground"><a href="https://github.com/antonydenyer/zombiejsplayground">https://github.com/antonydenyer/zombiejsplayground</a></a>.</p>
+<p>The <a href="http://zombie.labnotes.org/">ZombieJS</a> API is actually quite easy to understand and use and have incorporated using Zombie in a couple of my projects. The main issue I have in using Zombie in all my projects is &quot;trust&quot;. Not trust in Zombie as a good tool, trust in that the assertions are cross-browser; under the covers, it is a mixture of the DOM library <a href="http://jsdom.org/">JSDom</a>, <a href="https://github.com/brianmcd/contextify">Contextify</a> for V8 execution and various other - very excellent, I should say - libraries that are used to &#39;emulate&#39; a browser in a headless manner.</p>
+<p>Again, I don&#39;t want that explanation to take away from the excellent tool that <a href="http://zombie.labnotes.org/">ZombieJS</a> is and its usefulness and benefits it has provided me in previous (and future) projects. Infact, while I was <a href="https://twitter.com/_toddanderson_/status/414210165001699328">extolling its virtues over twitter</a>, <a href="https://twitter.com/s9tpepper">Omar Gonzalez</a> reminded me that it is best to run tests in browsers and tipped me to his project <a href="https://github.com/s9tpepper/karma-cucumberjs">karma-cucumberjs</a>.</p>
+<p>Omar was right. While it has a nice API and is quick and easy to get working, it is not a real browser. In the end, I may have false positives and if I was to go to production with my application that requires cross-browser support, issues may arise that the tests did not catch under Zombie.</p>
+<h3 id="karma-cucumberjs">karma-cucumberjs</h3>
+<p>As mentioned in the previous section, respected TDD&#39;er <a href="https://twitter.com/s9tpepper">Omar Gonzalez</a> has a project - <a href="https://github.com/s9tpepper/karma-cucumberjs">karma-cucumberjs</a> - that allows you to define Cucumber specs for the browser and provides an adapter for the <a href="http://karma-runner.github.io/0.10/index.html">Karma</a> testrunner.</p>
+<p>Now, I have not personally tried it (apologies, Omar!), nor do I use <a href="http://karma-runner.github.io/0.10/index.html">Karma</a>. Both are filed under <code>Things to Look Into</code>. I will say, what kept me from jumping in and testing the waters was similar to the reason for not using the <a href="https://github.com/cucumber/cucumber-js/blob/master/example/index.html">DOM example</a> provided by the <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> team: I had to write my <strong>Step Definitions</strong> differently than I normally would - specifically, I would have to wrap them in a <code>addStepDefinitions</code> function.</p>
+<p>Again, a viable solution from a venerable developer whom I trust, but I have not personally used because I wanted to keep my workflow relatively the same as I would in defining <strong>Features</strong> and <strong>Step Definitions</strong> for specs don&#39;t need to know about or run under a browser environment.</p>
+<h3 id="cucumberjs-browser">cucumberjs-browser</h3>
+<p>Not finding a solution that afforded me to simply deploy my <strong>Features</strong>, <strong>Steps Definitions</strong> and subsequent support files to be run in the browser, I decided to make one that would allow me to; and so <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> was born.</p>
+<p>In basic terms, what <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> does is bundle the <strong>Features</strong>, <strong>Step Definitions</strong> and any support files into standalone modules (using <a href="http://browserify.org/">browserify</a>) and defines them for a page using a <a href="http://lodash.com/docs">lodash</a> template. Included, as well, is the bundled library from <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. </p>
+<p>When the page is loaded in any browser, the specs are run just as they normally would be from the command line. Through the CLI options, you have the ability to define a listener that will handle the passing and failing of steps. <em>Current support for <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> in console and basic UI. More to come...</em></p>
+<p>The <a href="https://github.com/bustardcelly/cucumberjs-browser/blob/master/README.md">README</a> is probably the best place to start as it will be kept more up to date than this post in the future, but here is a quick rundown:</p>
+<h4 id="installation">Installation</h4>
+<p>You install <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> globally through npm:</p>
+<pre><code>$ npm install <span class="hljs-attribute">-g</span> cucumberjs<span class="hljs-attribute">-browser</span>
+</code></pre><h4 id="usage">Usage</h4>
+<p>To run the tool, you can use the following options:</p>
+<pre><code>$ <span class="hljs-tag">cucumberjs-browser</span> <span class="hljs-attr_selector">[-o outdir]</span> <span class="hljs-attr_selector">[-f format]</span> <span class="hljs-attr_selector">[--tmpl template]</span> <span class="hljs-attr_selector">[--features features]</span>
+</code></pre><p>There are defaults for each of these options and you most likely will only really need to provide a custom template to be used based on the requirements of your project. The basic one that ships with the tool does nothing but load and run your specs: <a href="https://github.com/bustardcelly/cucumberjs-browser/blob/master/template/cucumber-testrunner.template">cucumber-testrunner.template</a>. This should be a jumping off point in which you add your css and scripts and anything else required to get your tests passing. Again, it uses <a href="http://lodash.com/docs">lodash</a> to generate the page, so bear that in mind.</p>
+<h4 id="output">Output</h4>
+<p>If we were to run <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> against the current work we have been doing in this series and then open any browser, we would be presented with something like the following:</p>
+<div style="width: 100%; overflow-x: scroll; background-color:#fff; text-align: center;">
+  <img src="http://custardbelly.com/blog/images/cucumberjs-browser-1.png" alt="cucumberjs in the browser">
+</div>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>For this post, I had originally started updating the example we have been working through in this series to incoprate User Interaction with the application in a browser with <span style="color: red;">failing</span> tests everywhere... it made me smile :) But, I felt it was extending the length of this post to a point in which it was becoming information overload.</p>
+<p>As such, I am in the middle of a follow up post in how to utilize <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> for our current Grocery List Application example in delivering a test-driven browser-based application supported by <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs.</p>
+<p>At the very least, I hope this post highlighted some possible solutions for testing in the browser and will draw you back to the following post where i go more in depth about working with <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a>. &#39;Til then...</p>
+]]></description><link>http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript III: CucumberJS and Test Automation]]></title><description><![CDATA[<p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html">previous post</a> I addressed the concepts of the <strong>World</strong> context and <strong>Background</strong> scenario. I am going to pause in actually working with <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in delivering code in a BDD manner for this article and address another vital part of the development process: <strong>Automation</strong>.</p>
 <h3 id="-gt-code">&gt; code</h3>
 <p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
 <h2 id="why-automate-">Why Automate?</h2>
@@ -104,7 +149,7 @@ watch([<span class="hljs-string">'./features/step_definitions'</span>, <span cla
 <p>Just as we setup a watcher for our <strong>Step Definitions</strong> and scripts for our <code>npm run</code> example, we will be using 2 <a href="http://gruntjs.com/">Grunt</a> plugin tasks provided by the wonderful development community:</p>
 <ul>
 <li><a href="https://github.com/gruntjs/grunt-contrib-watch">grunt-contrib-watch</a> - maintained by the contributors for gruntjs</li>
-<li><a href="https://github.com/s9tpepper/grunt-cucumber-js">grunt-cucumber</a> - maintained by venerable developer <a href="https://twitter.com/s9tpepper">Oscar Gonzalez</a></li>
+<li><a href="https://github.com/s9tpepper/grunt-cucumber-js">grunt-cucumber</a> - maintained by venerable developer <a href="https://twitter.com/s9tpepper">Omar Gonzalez</a></li>
 </ul>
 <p>I will assume you have <a href="http://gruntjs.com/getting-started">Grunt installed properly</a> and start with the <code>Gruntfile</code>:</p>
 <p><em>Gruntfile.js</em></p>
@@ -968,7 +1013,7 @@ module.exports = {
 <li>Report generation for Continuous Integration</li>
 </ul>
 <p>Additionally, in a following post I want to address how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> to run tests that rely on browser integration - ie, <strong>window</strong> and <strong>document</strong> access.</p>
-<p><em>In the past I have used <a href="http://zombie.labnotes.org/">ZombieJS</a> to much success, but <a href="https://twitter.com/s9tpepper">Oscar Gonzalez</a> has tipped me to him <a href="https://github.com/s9tpepper/karma-cucumberjs">Karma solution</a> that I am excited to test-drive.</em></p>
+<p><em>In the past I have used <a href="http://zombie.labnotes.org/">ZombieJS</a> to much success, but <a href="https://twitter.com/s9tpepper">Omar Gonzalez</a> has tipped me to him <a href="https://github.com/s9tpepper/karma-cucumberjs">Karma solution</a> that I am excited to test-drive.</em></p>
 ]]></description><link>http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[A slight obsession over page speed]]></title><description><![CDATA[<p>Lately, several projects (both personal and work-related) have ignited an increasing obsession over page load speed and performance. I wanted to highlight a few tools and resources I find useful in analyzing performance and delivering web pages in production with optimal load time.</p>
 <h2 id="where-d-this-hat-come-from-">Where&#39;d this hat come from?</h2>
 <p>Over the past decade I primarily have been a client-side application developer. Sometimes my business card changes or personal introductions are made that get &#39;engineer&#39; and &#39;architect&#39; thrown in there, but truthfully I spend my days coding applications, regardless of language. I enjoy writing and shipping code under certain practices and methodologies and ocassionally pause to assess my current workflow and modify where bottlenecks are prevelant.</p>
@@ -3600,433 +3645,4 @@ async.it(<span class="hljs-string">'should add a valid item to list view upon ch
 <h2 id="post-series">Post Series</h2>
 <p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[The Making of a Test-Driven Grocery List Application in JS: Part VII]]></title><description><![CDATA[<p><em>This is the seventh installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
-<h2 id="introduction">Introduction</h2>
-<p>In the <a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">previous article</a> we resolved tests for the <em>Mark Off Item</em> feature that were left in a failing state after refactoring the list-controller. The test are all green now and the application usable, but we are not done with implementing the required features. In this article I plan to address another – the <em>Remove Item</em> feature.</p>
-<p>Before we begin, let’s drum up a quick story and scenario(s) for the <em>Remove Item</em> feature. I know the feature seems a little simple – just remove an item from the list – and going through and adding stories and scenarios may appear like adding complexity to the situation, but since I have begun to incorporate such a workflow, I feel like it actually gives me more time to think about not only the necessity of the feature but the design; in result, <em>hopefully*</em> cutting down on the complexity of the code.</p>
-<p><em>// story</em><br><strong>Feature:</strong> remove item from grocery list</p>
-<p><strong>In order to</strong> not buy an item previous on a grocery list<br><strong>As a</strong> grocery shopper<br><strong>I want to</strong> remove the existence of the item on the grocery list<br>—</p>
-<p>That may be worded rather harshly, but I shop angry. It’s how I keep the cantelope in check. <em>‘I see you looking at me, you lousy melon.’</em> All kidding aside, I tend to be a little more terse in describing stories so as not to mince words (no pun intended) and leave as little vagueness as possible. Sometimes, I’ll admit, there is no avoiding having the story lead to a lot of assumptions – but that is where scenarios come in.</p>
-<p><em>// spec</em><br><strong>Scenario 1:</strong> Item removed from grocery list<br><strong>Given</strong> an item has been added to the list<br><strong>When</strong> a user requests to remove the item<br><strong>Then</strong> the list decreases in size by one</p>
-<p>Hmm. Pretty straight forward. Well, it all seems rather easy going to implement this feature. Looks like it might be a short blog post, for once; we’ll see how much rambling I can pack in. At least we have something to show somebody who doesn’t want/need to read code when they ask, <em>‘But, what does it do?’</em>.</p>
-<h2 id="tests">Tests</h2>
-<p>As always, before we get into adding code to the components of the application to implement the new feature, let’s get some failing tests to pass. We’ll start of with defining a new spec suite for the <em>Remove Item</em> feature, with the setup (<code>beforeEach()</code>) being the <strong>Given</strong> describe above:</p>
-<p><em>/test/jasmine/spec/feature/removeitem.spec.js</em></p>
-<pre><code>define([<span class="hljs-string">'jquery'</span>, <span class="hljs-string">'script/controller/list-controller'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($, listController)</span> {</span>
-
-
-
-  describe(<span class="hljs-string">'Remove item'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-
-
-    <span class="hljs-keyword">var</span> $listView = $(<span class="hljs-string">'&lt;ul/&gt;'</span>),
-
-        groceryItem;
-
-
-
-    beforeEach( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-      listController.setView($listView);
-
-      groceryItem = listController.createNewItem();
-
-    });
-
-
-
-    it(<span class="hljs-string">'should remove existing item from the collection'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-      expect(<span class="hljs-literal">false</span>).toEqual(<span class="hljs-literal">true</span>);
-
-    });
-
-
-
-    afterEach( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-      groceryItem = <span class="hljs-literal">undefined</span>;
-
-    });
-
-
-
-  });
-
-
-
-});
-</code></pre><p>Don’t mind the expectation declared in the spec. <a href="http://pivotal.github.com/jasmine/">Jasmine</a> does not check empty specs and automatically fail them. In fact, if we ran it without any expectations defined, it would be all green. So, I usually drop a failing expectation in quickly when creating new specs in cases where someone/thing comes and interrupts me, I know where to pick back up when i come back. It’s habit. Maybe a little paranoia. Don’t know if it’s right or wrong <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)">  </p>
-<p>If you have been following along in the articles of this series, I typically do my implementation in the tests then move them to their respective modules. It’s a nice workflow for me, and in most cases I feel it gets me more focused on design. In this case, I am just going to declare my expectations, see them fail and move over to implementing the code right in the module, running the spec runner as we go until we see green.  </p>
-<p>Anyway, first on the agenda is to verify that the Remove API from <code>list-controller</code> is expected to remove the item from the underlying collection of grocery list items:</p>
-<p><em>/test/jasmine/spec/feature/removeitem.spec.js</em></p>
-<pre><code><span class="hljs-function">it(<span class="hljs-string">'should remove existing item from the collection'</span>, <span class="hljs-function">function()</span> {
-
-  var collection = listController.<span class="hljs-function">getItemList()</span>,
-
-      removedItem;
-
-
-
-  removedItem = listController.<span class="hljs-function">removeItem(groceryItem)</span>;
-
-
-
-  <span class="hljs-function">expect(removedItem)</span>.<span class="hljs-function">toBe(groceryItem)</span>;
-
-  <span class="hljs-function">expect(collection.<span class="hljs-function">getItemIndex(groceryItem)</span>)</span>.<span class="hljs-function">toBe(-<span class="hljs-number">1</span>)</span>;
-
-})</span>;
-</code></pre><p>Add the new spec to the spec runner:<br><em>/test/jasmine/specrunner.html</em></p>
-<pre><code><span class="hljs-keyword">require</span>( [<span class="hljs-string">'spec/feature/additem.spec.js'</span>, <span class="hljs-string">'spec/feature/markitem.spec.js'</span>, <span class="hljs-string">'spec/feature/removeitem.spec.js'</span>,
-
-          <span class="hljs-string">'spec/list-controller.spec.js'</span>, <span class="hljs-string">'spec/list-item-controller.spec.js'</span>, <span class="hljs-string">'spec/grocery-ls-item.spec.js'</span>,
-
-          <span class="hljs-string">'spec/collection.spec.js'</span>], <span class="hljs-keyword">function</span>() {
-
-
-
-  var jasmineEnv = jasmine.getEnv(),
-
-      <span class="hljs-keyword">...</span>
-
-  jasmineEnv.execute();
-
-
-
-});
-</code></pre><p>Run that, and we have a big honking failure:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_1.png" alt="Failing remove spec on collection."><br>Good!</p>
-<p>In looking at the expectations of the <code>removeItem()</code> method on <code>list-controller</code>, we are expecting that the item is removed from the collection and returned on invocation. Let’s implement <code>removeItem</code> on <code>list-controller</code> with this understanding:</p>
-<p><em>/script/controller/list-controller.js</em></p>
-<pre><code>listController = {
-
-  $view: <span class="hljs-literal">undefined</span>,
-
-  getItemList: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-    <span class="hljs-keyword">return</span> collection;
-
-  },
-
-  getRendererFromItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
-
-    <span class="hljs-keyword">var</span> i = rendererList.itemLength();
-
-    <span class="hljs-keyword">while</span>( --i &gt; -<span class="hljs-number">1</span> ) {
-
-      <span class="hljs-keyword">if</span>(rendererList.getItemAt(i).model === item) {
-
-        <span class="hljs-keyword">return</span> rendererList.getItemAt(i);
-
-      }
-
-      <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
-
-    }
-
-  },
-
-  createNewItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-    <span class="hljs-keyword">var</span> model = modelFactory.create();
-
-    collection.addItem(model);
-
-    <span class="hljs-keyword">return</span> model;
-
-  },
-
-  removeItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
-
-    <span class="hljs-keyword">return</span> collection.removeItem(item);
-
-  },
-
-  setView: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(view)</span> {</span>
-
-    <span class="hljs-keyword">this</span>.$view = (view <span class="hljs-keyword">instanceof</span> $) ? view : $(view);
-
-  }
-
-};
-</code></pre><p>Run it, and we pass!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_2.png" alt="Passing tests on remove from collection."><br>Well, that was sort of easy and anti-climatic. No drama. A little boring, if I may say so.</p>
-<p>But… there’s more! The <code>list-controller</code> isn’t just some dumb facade to the underlying <strong>Grocery List</strong> collection – it also manages the associated renderers to the <code>grocery-ls-item</code> models. Let’s get back to our tests and add a new spec:</p>
-<p><em>/test/jasmine/spec/feature/removeitem.spec.js</em></p>
-<pre><code><span class="hljs-function">it(<span class="hljs-string">'should remove item renderer from view'</span>, <span class="hljs-function">function()</span> {
-
-  listController.<span class="hljs-function">removeItem(groceryItem)</span>;
-
-
-
-  <span class="hljs-function">expect($listView.<span class="hljs-function">children()</span>.length)</span>.<span class="hljs-function">toEqual(<span class="hljs-number">0</span>)</span>;
-
-})</span>;
-</code></pre><p>Just as we had done for the <em>Add Item</em> feature specification, we are inspecting the view reference held by list-controller that is updated based on change to the model. In this case, we are expecting that the list item renderer is removed upon <code>removeItem()</code> as well.</p>
-<p>Run that, and failure!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_3.png" alt="Failure of test on removl of item views."><br>It might be important to note the actual print out from the failing expectation. It says that the length of children on the list view is 2 – that is because we now have 2 specs that are defining the expectations of <code>removeItem()</code> that are failing to remove the item view from the list.</p>
-<p>Let’s switch over the list-controller and get this sorted and back to green. But before we do, let’s think about the relationship of the <code>list-controller</code> and its underlying collection. The <code>list-controller</code> responds to collection event for <code>EventKindEnum.ADD</code> in order to modify the view. So, we will respond to <code>EventKindEnum.REMOVE</code> accordingly to modify the view on removal of an item as well, instead of adding more logic to the <code>removeItem()</code> method on <code>list-controller</code>:</p>
-<p><em>/script/controller/list-controller.js</em></p>
-<pre><code><span class="hljs-variable">$collection</span>.on(<span class="hljs-string">'collection-change'</span>, function(<span class="hljs-keyword">event</span>) {
-
-  var model, itemController, <span class="hljs-variable">$itemView</span>;
-
-  <span class="hljs-keyword">switch</span>( <span class="hljs-keyword">event</span>.kind ) {
-
-    <span class="hljs-keyword">case</span> EventKindEnum.ADD:
-
-      <span class="hljs-variable">$itemView</span> = <span class="hljs-variable">$(</span><span class="hljs-string">'&lt;li&gt;'</span>);
-
-      model = <span class="hljs-keyword">event</span>.items.shift();
-
-      itemController = itemControllerFactory.create(<span class="hljs-variable">$itemView</span>, model);
-
-
-
-      <span class="hljs-variable">$itemView</span>.appendTo(listController.<span class="hljs-variable">$view</span>);
-
-      rendererList.addItem(itemController);
-
-      itemController.state = itemControllerFactory.state.EDITABLE;
-
-      <span class="hljs-keyword">break</span>;
-
-    <span class="hljs-keyword">case</span> EventKindEnum.REMOVE:
-
-      model = <span class="hljs-keyword">event</span>.items.shift();
-
-      itemController = listController.getRendererFromItem(model);
-
-
-
-      <span class="hljs-keyword">if</span>(itemController) {
-
-        <span class="hljs-variable">$itemView</span> = itemController.parentView;
-
-        <span class="hljs-variable">$itemView</span>.remove();
-
-        rendererList.removeItem(itemController);
-
-      }
-
-      <span class="hljs-keyword">break</span>;
-
-    <span class="hljs-keyword">case</span> EventKindEnum.RESET:
-
-      <span class="hljs-keyword">break</span>;
-
-  }
-
-});
-</code></pre><p>In the <code>EventKindEnum.REMOVE</code> case, we are grabbing the model provided on the event, using it to access the associated <code>list-item-controller</code> instance, and – if defined – removing the list item renderer view from the DOM and the controller from the renderer collection.</p>
-<p>Run that, and we are back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_4.png" alt="Passing tests on removal of item from view."></p>
-<p>Tagged <strong>0.1.10</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.10"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.10">https://github.com/bustardcelly/grocery-ls/tree/0.1.10</a></a></p>
-<h2 id="back-to-reality">Back to Reality</h2>
-<p>We’ve got test for the removal of a grocery list item working. We are currently feature complete. Let’s ship it! But hold up, does the <strong>Grocery List</strong> application – the thing we are actually building for someone like myself to Use in real life – actually use the new Remove API. We defined a business feature that was a requirement to have, and met that expectation, but we really didn’t address how an item is removed, or under what circumstances…</p>
-<p>Without getting to crazy on discussing how to handle swipe gestures and implementing press-and-hold menu actions, let’s just start with saying that the <code>list-item-controller</code> will dispatch a new event – <code>remove</code>. How we decide on the usability of an item being deleted could easily be another whole discussion on User Experience. For now, we want to verify that when a <code>list-item-controller</code> dispatches a <code>remove</code> event, that it is handled properly.</p>
-<h3 id="tests">Tests</h3>
-<p>We’ll start with the specs for the <code>list-controller</code>. We are not going to be adding any new specs to the <em>Remove Item</em> feature to accomplish the implementation of <code>list-item-controller</code> notifying of a <code>remove</code> event; it seems a little odd to me as well, but we have already established that the <em>Remove</em> API performs as expected. We need to verify that the <code>list-controller</code> uses that API in response to a <code>list-item-controller</code> – less of a feature and more of an integration point.</p>
-<p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
-<pre><code><span class="hljs-function">describe(<span class="hljs-string">'list-item-controller remove event response'</span>, <span class="hljs-function">function()</span> {
-
-
-
-  <span class="hljs-function">it(<span class="hljs-string">'should invoke list-controller:removeItem()'</span>, <span class="hljs-function">function()</span> {
-
-    var newItem = listController.<span class="hljs-function">createNewItem()</span>,
-
-        itemRenderer = listController.<span class="hljs-function">getRendererFromItem(newItem)</span>;
-
-
-
-    <span class="hljs-function">spyOn(listController, <span class="hljs-string">'removeItem'</span>)</span>;
-
-    $(itemRenderer)</span>.<span class="hljs-function">trigger(<span class="hljs-string">'remove'</span>)</span>;
-
-    <span class="hljs-function">expect(listController.removeItem)</span>.<span class="hljs-function">toHaveBeenCalledWith(newItem)</span>;
-
-  })</span>;
-
-
-
-});
-</code></pre><p>In this spec, we set up a <a href="https://github.com/pivotal/jasmine/wiki/Spies">spy</a> to verify that the <code>removeItem()</code> method is invoked upon dispatch of <code>remove</code> from a <code>list-item-controller</code> instance.</p>
-<p>Run that and we are back to red, with a message letting us know that <code>removeItem()</code> was never called.<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_5.png" alt="Failing implementation of remove event."><br>Good. Let’s open up <code>list-controller</code> and implement a <code>remove</code> event response:</p>
-<p>/script/controller/list-controller.js</p>
-<pre><code><span class="hljs-variable">$collection</span>.on(<span class="hljs-string">'collection-change'</span>, function(<span class="hljs-keyword">event</span>) {
-
-  var model, itemController, <span class="hljs-variable">$itemView</span>;
-
-  <span class="hljs-keyword">switch</span>( <span class="hljs-keyword">event</span>.kind ) {
-
-    <span class="hljs-keyword">case</span> EventKindEnum.ADD:
-
-      <span class="hljs-variable">$itemView</span> = <span class="hljs-variable">$(</span><span class="hljs-string">'&lt;li&gt;'</span>);
-
-      model = <span class="hljs-keyword">event</span>.items.shift();
-
-      itemController = itemControllerFactory.create(<span class="hljs-variable">$itemView</span>, model);
-
-
-
-      <span class="hljs-variable">$itemView</span>.appendTo(listController.<span class="hljs-variable">$view</span>);
-
-      rendererList.addItem(itemController);
-
-      itemController.state = itemControllerFactory.state.EDITABLE;
-
-      <span class="hljs-variable">$(</span>itemController).on(<span class="hljs-string">'remove'</span>, function(<span class="hljs-keyword">event</span>) {
-
-        listController.removeItem(model);
-
-      });
-
-      <span class="hljs-keyword">break</span>;
-
-    <span class="hljs-keyword">case</span> EventKindEnum.REMOVE:
-
-      model = <span class="hljs-keyword">event</span>.items.shift();
-
-      itemController = listController.getRendererFromItem(model);
-
-
-
-      <span class="hljs-keyword">if</span>(itemController) {
-
-        <span class="hljs-variable">$itemView</span> = itemController.parentView;
-
-        <span class="hljs-variable">$itemView</span>.remove();
-
-        itemController.dispose();
-
-        <span class="hljs-variable">$(</span>itemController).off(<span class="hljs-string">'remove'</span>);
-
-        rendererList.removeItem(itemController);
-
-      }
-
-      <span class="hljs-keyword">break</span>;
-
-    <span class="hljs-keyword">case</span> EventKindEnum.RESET:
-
-      <span class="hljs-keyword">break</span>;
-
-  }
-
-});
-</code></pre><p>We added the remove handler delegation in the <code>ADD</code> case when the collection changes, along with the other implementation of item renderer establishment. And, for good measure and memory management, we are sure to remove the event handler in the <code>REMOVE</code> case from the collection change, as well.</p>
-<p>Run the test now and we are back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_6.png" alt="Passing remove event response."></p>
-<h3 id="list-item-controller-modification">list-item-controller Modification</h3>
-<p>That’s great, but we are still glazing over the usability aspect: <em>How does a User delete an item?</em></p>
-<p>Again, we could go into a lengthy discussion of UX and code implementations, but to save yourself from scrolling just to read me ramble off topic, we’ll keep it simple: <em>add a delete button</em>! I don’t know why I got excited there. I’ll show the implementation in piecemeal just to see how it all comes together. First we’ll start with the markup we declared for the <code>list-item-controller</code> views:</p>
-<p><em>/script/controller/list-item-controller.js</em></p>
-<pre><code>uneditableItemFragment  = <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;p class="grocery-item"&gt;</span>' +</span>
-
-                                             <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;span class="grocery-item-label" /&gt;</span>' +</span>
-
-                                             <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;button class="delete-item-button"&gt;</span>delete<span class="hljs-xmlDocTag">&lt;/button&gt;</span>' +</span>
-
-                                           <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;/p&gt;</span>',</span>
-
-editableItemFragment    = <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;p class="editable-grocery-item"&gt;</span>' +</span>
-
-                                            <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;input name="editableItem" ' +
-
-                                              'class="editable-item" placeholder="Enter item name..."&gt;</span>' +</span>
-
-                                            <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;/input&gt;</span>' +</span>
-
-                                         <span class="hljs-comment">'<span class="hljs-xmlDocTag">&lt;/p&gt;</span>'</span>
-</code></pre><p>The <code>uneditableItemFragment</code> markup has changed slightly to support a label and a button. It was previously just a <code>p</code> element all by its lonesome, but with several references for modification and event <code>click</code> event handling. We’ll need to update those, as well as add another event handler for the <code>button</code> element:</p>
-<p><em>/script/controller/list-item-controller.js</em></p>
-<pre><code>init: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-  <span class="hljs-keyword">this</span>.$editableView = $(editableItemFragment);
-
-  <span class="hljs-keyword">this</span>.$uneditableView = $(uneditableItemFragment);
-
-
-
-  <span class="hljs-comment">// view handlers.</span>
-
-  $(<span class="hljs-string">'span.grocery-item-label'</span>, <span class="hljs-keyword">this</span>.$uneditableView).on(<span class="hljs-string">'click'</span>, (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(controller)</span> {</span>
-
-    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
-
-      <span class="hljs-keyword">var</span> toggled = $(<span class="hljs-keyword">this</span>).css(<span class="hljs-string">'text-decoration'</span>) === <span class="hljs-string">'line-through'</span>;
-
-      controller.model.marked = !toggled;
-
-    };
-
-  }(<span class="hljs-keyword">this</span>)));
-
-  $(<span class="hljs-string">'button.delete-item-button'</span>, <span class="hljs-keyword">this</span>.$uneditableView).on(<span class="hljs-string">'click'</span>, (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(controller)</span> {</span>
-
-    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
-
-      $(controller).trigger(createRemoveEvent(controller));
-
-    };
-
-  }(<span class="hljs-keyword">this</span>)));
-
-  ...
-
-}
-</code></pre><p>As seen previously, we are using <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a>s here as a factory method in order to pass in a reference to the <code>list-item-controller</code> instance instead of declaring the old:</p>
-<pre><code><span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
-</code></pre><p>and then passing <code>self</code> around which always makes me cringe. In any event (no pun intended), we have transferred the <em>click</em> handling previously assigned to the <code>p</code> element over the <code>span</code> element in order to support the usability of marking off an item. As well, we added handling of delete <code>button</code> <em>click</em> to trigger a new event:</p>
-<p><em>/script/controller/list-item-controller.js</em></p>
-<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createRemoveEvent</span><span class="hljs-params">(controller)</span> {</span>
-
-  <span class="hljs-keyword">var</span> event = $.Event(<span class="hljs-string">'remove'</span>);
-
-  event.controller = controller;
-
-  <span class="hljs-keyword">return</span> event;
-
-}
-</code></pre><p>Pretty straight forward in how we have create factory methods for our <a href="http://jquery.org">jQuery</a> events previously in this series. Next we need to modify the references that respond to model changes, such as the <code>marked</code> property value:</p>
-<p><em>/script/controller/list-item-controller.js</em></p>
-<pre><code>function handlePropertyChange(controller, <span class="hljs-keyword">event</span>) {
-
-  <span class="hljs-keyword">if</span>(<span class="hljs-keyword">event</span>.property === <span class="hljs-string">"name"</span>) {
-
-    <span class="hljs-comment">// update view based on model change.</span>
-
-    <span class="hljs-variable">$(</span><span class="hljs-string">'input'</span>, controller.<span class="hljs-variable">$editableView</span>).val(controller.model.name);
-
-    <span class="hljs-variable">$(</span><span class="hljs-string">'span.grocery-item-label'</span>, controller.<span class="hljs-variable">$uneditableView</span>).<span class="hljs-keyword">text</span>(<span class="hljs-keyword">event</span>.newValue);
-
-  }
-
-  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-keyword">event</span>.property === <span class="hljs-string">"marked"</span>) {
-
-    <span class="hljs-comment">// update view based on model change.</span>
-
-    <span class="hljs-variable">$(</span><span class="hljs-string">'span.grocery-item-label'</span>, controller.<span class="hljs-variable">$uneditableView</span>)
-
-        .css(<span class="hljs-string">'text-decoration'</span>, ( <span class="hljs-keyword">event</span>.newValue ) ? <span class="hljs-string">'line-through'</span> : <span class="hljs-string">'none'</span>);
-
-  }
-
-}
-</code></pre><p>Alright. That should just about do it. Now you may be saying to yourself, <em>‘Why haven’t we modified any tests in order to support this change in UI and event handling?’</em> To which I will respond, <em>‘Stop bringing that up!’</em> In all seriousness, we perhaps should be writing tests to support these changes, however those will get pretty fine grained on the UI design aspect of the application. As you can see, it is constantly changing at this time and we are more concerned with the logical points of how the <strong>Grocery List</strong> application should behave. </p>
-<p>Like with most of my code, future me may look back and shake his head at past me for such a statement – but for right now, present me will live with it <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
-<h3 id="using-the-grocery-list-application">Using the Grocery List Application</h3>
-<p>Let’s actually <em>run</em> the application and use it. We spend all this time making our tests turn red and green, we barely get to use what we are building.<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_7.png" alt="Grocery list application"></p>
-<p>Oh my… that is ugly to look at. But it works! And it’s backed by tests!</p>
-<p>Because I can’t leave well enough alone, I added some quick styling just to make it a little more pleasant on the eyes. I am not designer, so it might not be any more pleasant to you <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> I won’t go into the styling of the application as that could be a whole ‘nother article and discussion of box model, but feel free to mess around with the styling on your own…<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_8.png" alt="Prettier Grocery List application"></p>
-<p>Tagged <strong>0.1.11</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.11"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.11">https://github.com/bustardcelly/grocery-ls/tree/0.1.11</a></a></p>
-<h2 id="conclusion">Conclusion</h2>
-<p>In this article of the series, we took more of a traditional approach to <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a> and went along making things turn red before they turn green, one spec at a time, and all the while implementing the <em>Remove Item</em> feature. </p>
-<p>The <strong>Grocery List</strong> application is also coming along pretty nicely and, as always, is easy and ready to use. But I can’t leave well enough alone and there are a few more items on my list (no pun intended) that I wish to address before ending this series, most importantly persistence. Our grocery list only last within the session of the page – once closed, our list is gone. We’ll get to that, but there might be some other things to address beforehand.</p>
-<p>Cheers for sticking around!</p>
-<p>—</p>
-<h1 id="link-dump">Link Dump</h1>
-<h2 id="reference">Reference</h2>
-<p><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a></p>
-<h2 id="post-series">Post Series</h2>
-<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>
+]]></description><link>http://custardbelly.com/blog/blog-posts/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>

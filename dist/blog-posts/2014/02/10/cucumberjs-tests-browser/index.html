@@ -58,11 +58,11 @@
     </p>
   </div>
   <section>
-    <p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">previous post</a> in this series detailing how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>, I addressed a few common bulid tools in JavaScript to automate the watching and running of tests. While beneficial to a proper agile workflow, I did not introduce any new concepts or development information directly associated with using CucumberJS, itself.</p>
+    <p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">previous post</a> in this series detailing how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>, I addressed a few common build tools in JavaScript to automate the watching and running of tests. While beneficial to a proper agile workflow, I did not introduce any new concepts or development information directly associated with using CucumberJS, itself.</p>
 <p>In this article, I intend to take on a pretty meaty subject - running your cukes in the browser. It is a subject I have grappled with for some time and have tried different solutions, eventually <a href="https://github.com/bustardcelly/cucumberjs-browser">creating my own</a>. </p>
 <h3 id="-gt-code">&gt; code</h3>
 <p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
-<p><em>Disclaimer: I did not start out this series to promote the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> tool. In fact, in came to life as a result of this series :)</em></p>
+<p><em>Disclaimer: I did not start out this series to promote the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> tool. In fact, it came to life as a result of this series :)</em></p>
 <h2 id="why-the-browser">Why The Browser</h2>
 <p><a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> is built on <a href="http://nodejs.org">Node</a>. As such, the CLI tool that we have been running to verify our tests in previous articles is living in that environment. </p>
 <p>This is well and good if we were creating an application that was intended to live within Node. However, what if we are building an application that is to live inside the browser, which is often the case for me as a, primarily, Front End Developer? How do we go from <strong>Features</strong> detailing DOM interaction to passing <strong>Step Definitions</strong> that require a browser environment using <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>?</p>
@@ -106,6 +106,8 @@
 
   </section>
   <section class="navigation">
+      
+        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html">&#8672;&nbsp;newer</a></span>
       
       
         <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">older&nbsp;&#8674;</a></span>

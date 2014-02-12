@@ -4,13 +4,13 @@ author:
   name: 'todd anderson'
 date: '2014-02-12'
 ---
-"Whoa. Whoa. Whoa. You can't just use roman numerals all over the place in your post titles..."
+_"Whoa. Whoa. Whoa. You can't just use roman numerals all over the place in your post titles..."_
 
 In the [previous article](http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html) I addressed the available libraries and practices to have your [CucumberJS](https://github.com/cucumber/cucumber-js) specs running in a browser environment, as well as introduced a new project begun by me: [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser).
 
 I had originally had the entirety of this post in the previous post, but felt that it was a little bit of information overload. As such, I decided to split them into two posts.
 
-The intent of this article is to address inforporating [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) into our current Grocery List Application example and continue developing features that involve User Interaction with the DOM.
+The intent of this article is to address incorporating [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) into our current Grocery List Application example and continue developing features that involve User Interaction with the DOM.
 
 ### &gt; code
 Supported files related to this and any subsequent posts on this topic will be available at:  
@@ -38,7 +38,7 @@ We'll get into how we will use it with our project and the options in a bit, but
 ## Fail first
 In a pervious article in this series, we added an `add-item` feature that detailed the scenarios of adding and accessible an item from a collection of the Grocery List application. This is still a valid logical feature that normally I would not modify to incorporate User Interaction when incorporating __Features__ related to the application being browser-based. Instead, I would create a new __Feature__ that details how a User can add and view new item in a browser environment.
 
-Let's define out spec:
+Let's define our spec:
 
 _/features/add-item-view.feature_
 
@@ -51,25 +51,20 @@ Feature: Shopper can add and view new item in Grocery List
   Background: Grocery List Application is Open
     Given I have opened the grocery list application
 
-  Scenario: Select of Add Item opens input
-    Given I have an empty grocery list view
-    When I select to add an item
-    Then I can provide a name for the grocery list item
-
   Scenario: Submit of valid item adds item to list
     Given I have an empty grocery list view
-    When I select to add an item
-    And I provide a valid grocery list item name
+    When I provide a valid grocery list item name
+    And I select to add an item
     Then The item is added to the grocery list view
 
   Scenario: Submit of valid item adds item to collection
     Given I have an empty grocery list view
-    When I select to add an item
-    And I provide a valid grocery list item name
+    When I provide a valid grocery list item name
+    And I select to add an item
     Then The item is accessible from the grocery list collection
 ```
 
-We have declared three __Scenarios__ that define the __Feature__ criteria in which a User interacts with DOM elements to add and view a new item to the Grocery List application.
+We have declared two __Scenarios__ that define the __Feature__ criteria in which a User interacts with DOM elements to add and view a new item to the Grocery List application.
 
 Running that produces the expected `undefined` steps notification:
 
@@ -77,9 +72,11 @@ Running that produces the expected `undefined` steps notification:
 $ npm run test
 .UUU.UUUU.UUUU........
 
-5 scenarios (3 undefined, 2 passed)
-22 steps (11 undefined, 11 passed)
+4 scenarios (2 undefined, 2 passed)
+21 steps (10 undefined, 11 passed)
 ```
+
+### Given I have an empty grocery list view
 
 We have a few things we need to address, but before we get into the nitty-gritty, let's turn this <span style="color:red;">red</span> in true TDD fashion while filling out our API expectation of the _Given_ in each of the __Scenarios__
 
@@ -95,7 +92,7 @@ module.exports = function() {
 
   this.Given(/^I have an empty grocery list view$/, function(callback) {
     this.emptyGroceryListView();
-    assert.equal(this.groceryListView.childNodes.length, 0);
+    assert.equal(this.getGroceryListView().childNodes.length, 0);
     callback();
   });
 
@@ -210,7 +207,7 @@ _template/testrunner.html_
 </html>
 ```
 
-Most of what is in this page tmeplate is copied from the [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) project. The only addition - at this point - is the script appended within the `body` that will load our app bundle.
+Most of what is in this page template is copied from the [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) project. The only addition - at this point - is the script appended within the `body` that will load our app bundle.
 
 If we were to run the [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) tool and generate our bundled app, specs and template:
 
@@ -218,7 +215,7 @@ If we were to run the [cucumberjs-browser](https://github.com/bustardcelly/cucum
 $ cucumberjs-browser -o test --tmpl template/testrunner.html -f tap
 ```
 
-That will generate the JavaScript bundle files for the __Features__, __Step Definitions__ and support files we have been creating and curating in this series, along with the templated HTML file with our resources defined.
+That will generate the JavaScript bundle files for the __Features__, __Step Definitions__ and support files we have been creating and curating in this series, along with the templated HTML file with our resources defined and place them in a _/test_ directory.
 
 If we were to open that HTML file - _/test/cucumberjs-testrunner.html_ - and opened the Console of our developer tools, we would see a [TAP](http://en.wikipedia.org/wiki/Test_Anything_Protocol) report of our test... <span style="color: red;">failing</span> :)
 
@@ -231,24 +228,24 @@ $ cucumberjs-browser -o test --tmpl template/testrunner.html -f ui
 We would see those same <span style="color:red;">failing</span> tests, but this time on the DOM.
 
 <div style="width: 100%; overflow-x: scroll; background-color:#fff; text-align: center;">
-  <img src="http://custardbelly.com/blog/images/cucumberjs-browser-2.png" alt="cucumberjs in the browser">
+  <img src="http://custardbelly.com/blog/images/cucumberjs-browser-2.png" alt="cucumberjs in the browser, failing">
 </div>
 
 We have gone from failing on the command line to failing in the browser... isn't it glorious :)
 
 ## Automate all the things
-We had [previously automated out testing](http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html) under the node-based environment; it was a simple as setting up a file watcher and issuing a command to run the [CucumberJS](https://github.com/cucumber/cucumber-js) CLI tool on change.
+We had [previously automated our testing](http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html) under the node-based environment; it was a simple as setting up a file watcher and issuing a command to run the [CucumberJS](https://github.com/cucumber/cucumber-js) CLI tool on change.
 
 Our process has now become a little more involved, but not anything too complex (_thanks to the wonderful [npm](https://www.npmjs.org/) community!_) that an automated build and test procedure couldn't be implemented. The only difference is that feedback will now reside in the DOM and/or Console of a browser - so instead of coding in an editor and watching it fail on the command line, we are now going to need to focus on failures reported in the browser as we TDD.
 
 ### watch script
-Just as we had done in a [previous article](http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html), we are going to create a new `watch` script that will essentially do the following upon change to either our application source files or step definitions:
+Just as we had done in a [previous article](http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html), we are going to create a new script that will essentially do the following:
 
 1. start a livereload server
 2. start a local server to serve the testrunner
 3. launch the testrunner in a browser
 4. bundle the app and run the cucumberjs-browser tool
-5. reload the testrunner in the browser
+5. watch and reload the testrunner in the browser on change to source files
 
 To accomplish this task, we are going to use a couple more npm modules; in particular:
 
@@ -285,6 +282,37 @@ var options = ['-f', 'ui',
                '-o', outdir,
                '--tmpl', 'template/testrunner.html'];
 
+// [TASKS]
+// a. re-bundle the app.
+var bundleApplication = function(f, callback) {
+  return function() {
+    browserify(__dirname + '/script/app.js')
+      .bundle({
+        standalone: 'app'
+      })
+      .pipe(fs.createWriteStream(path.resolve(outdir + '/script/app.js')))
+      .on('close', function() {
+        console.log('changed app.js...');
+        if(callback) {
+          callback();
+        }
+      });
+  };
+};
+// b. rerun cucumberjs-browser tool.
+var cuke = function(f, callback) {
+  return function() {
+    var filename = S(path.basename(f, '.js').split('.').join('-')).camelize().s;
+    browserCukes = child_process.spawn('cucumberjs-browser', options)
+      .on('exit', function() {
+        console.log('changed ' + filename + '...');
+        if(callback) {
+          callback();
+        }
+      });
+  };
+};
+
 // 1. Recursive mkdir /test/script if not exist.
 mkdirp.sync(outdir + '/script');
 
@@ -300,54 +328,15 @@ var server = http.createServer(app).listen(connectPort, function() {
   console.log('local server started on ' + connectPort + '...');
   console.log('Note: Remember to start the livereload browser extension!');
   console.log('http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-');
-  open('http://localhost:' + connectPort + '/cucumber-testrunner.html');
+  cuke('./features/support/world', function() {
+    bundleApplication('./script/app.js', function() {
+      open('http://localhost:' + connectPort + '/cucumber-testrunner.html');  
+    })();
+  })();
 });
 
-// [TASKS]
-// a. re-bundle the app.
-var bundleApplication = function(f, resolver) {
-  return function(callback) {
-    browserify(__dirname + '/script/app.js')
-      .bundle({
-        standalone: 'app'
-      })
-      .pipe(fs.createWriteStream(path.resolve(outdir + '/script/app.js')))
-      .on('close', function() {
-        console.log('changed app.js...');
-        lr.changed({
-          body: {
-            files: ['script/app.js']
-          }
-        });
-        resolver();
-        if(callback) {
-          callback();
-        }
-      });
-  };
-};
-// b. rerun cucumberjs-browser tool.
-var cuke = function(f, resolver) {
-  return function(callback) {
-    var filename = S(path.basename(f, '.js').split('.').join('-')).camelize().s;
-    browserCukes = child_process.spawn('cucumberjs-browser', options)
-      .on('exit', function() {
-        console.log('changed ' + filename + '...');
-        lr.changed({
-          body: {
-            files: [filename]
-          }
-        });
-        resolver();
-        if(callback) {
-          callback();
-        }
-      });
-  };
-};
-
 // 4. Watch source and generate bundles.
-watch(['./features/step_definitions', './script'], {recursive:true}, function(filename) {
+watch(['./features', './script'], {recursive:true}, function(filename) {
   // Used to resolve when running operation(s) are complete.
   var resolver;
   var running = false;
@@ -366,20 +355,36 @@ watch(['./features/step_definitions', './script'], {recursive:true}, function(fi
   };
 
   if(!running && filename.match(JS_EXT)) {
+    var bundleAppInvoke = bundleApplication(filename, function() {
+      lr.changed({
+        body: {
+          files: ['script/app']
+        }
+      });
+      resolver();
+    });
     if(/^script?/i.test(filename)) {
       resolver = resolveWatch(1);
-      bundleApplication(filename, resolver)();
+      bundleAppInvoke();
     }
     else if(/^features?/i.test(filename)) {
       resolver = resolveWatch(2);
-      cuke(filename, resolver)(bundleApplication(filename, resolver));
+      cuke(filename, function() {
+        lr.changed({
+          body: {
+            files: [filename]
+          }
+        });
+        resolver();
+        bundleAppInvoke();
+      })();
     }
   }
 
 });
 ```
 
-This `watch` script is very similar to the one we created previously. Aside from moving the bundler tasks outside of the `watch()`, the main difference is that we now start a `tiny-livereload` server and `http` server running on port 8080 before running starting the `watch` task.
+This `watch` script is very similar to the one we created previously. Aside from moving the bundler tasks outside of the `watch()`, the main difference is that we now start a `tiny-livereload` server and `http` server running on port 8080 before starting the `watch` task.
 
 Running this will also automatically launch the testrunner in your default browser. It is important to note that, in order for the reload on file change to work, you must enable the [LiveReload](http://livereload.com/) [browser extension for that browser](http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-).
 
@@ -409,7 +414,609 @@ $ npm run watch-browser
 ... and we are all set to keep TDD'ing with an automated `watch` script that will reload the browser on change to our step definitions and application source files!
 
 ## Back to Passing
+We side-stepped our development to address a few key issues: bundling scripts for the browser and automating tests against [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser). With our `watch` script up and running, we can see we are in the <span style="color:red;">red</span> still - let's start turning steps <span style="color:green">green</span> :)
 
-## Mocking in Node
+First order of business is that our first __Given__ step for the Add Item View __Feature__ is interfacing with a currently non-existant API on the __World__. We eschewed the need for an additional Web Driver library which would provide a conventient API through a browser facade. At this stage, I think we can reasonably have our __World__ provide that API and not need to include more external libraries. 
 
-## The cucumberjs-browser tool
+_It might even be a reasonable discussion that such Web Drivers are not needed at all in such circumstances, but I won't go there for the moment as that gets into a discussion about integration testing vs unit testing and BDD practice - ie, a can of worms ;)_
+
+### Modifying Our World
+Now that we know we are running our tests in the browser, we have access to the global `window` and can reference the DOM without restriction to running [CucumberJS](https://github.com/cucumber/cucumber-js) under [node](http://nodejs.org).
+
+Let's modify our __World__ to expose the API we are invoking from our __Given__ in the Add Item View __Feature:
+
+_/features/support/world.js_
+
+```
+'use strict';
+
+var World = function World(callback) {
+
+  this.window = window;
+  this.app = window.app;
+  this.groceryListApplication = undefined;
+
+  this.openGroceryList = function() {
+    return this.app.newSession();
+  };
+  this.createGroceryItem = function() {
+    return 'apple';
+  };
+
+  this.emptyGroceryListView = function() {
+    this.app.empty();
+  };
+
+  callback();
+
+};
+
+module.exports.World = World;
+```
+
+There is actually a quite bit changed from our previous __World__:
+
+1. Removed `require()` of app module
+2. Added access to `app` reference on `window` from our browserified bundle
+3. Changed reference to `app` that creates a new session
+4. Added `emptyGroceryListView` method to World
+
+So we took the __World__ into a browser environment with its referencing the app, but we are still (as expected) failing - this time alerting us to:
+
+<p><span style="color:red;">- Cannot call method 'newSession' of undefined at World.openGroceryList</span></p>
+
+which is stemming from our previously defined __Background__ step definition:
+
+```
+Background: Grocery List Application is Open
+  Given I have opened the grocery list application
+```
+
+This actually stems from a much larger problem: accessing the the application module on the `window` before it has finished being loaded by the browser. As such, we will need to modify this step definition to ensure that the DOM has completed load before we can move forward in interactinf with the __World__ API that now exposes communication to the DOM.
+
+_/features/step_definitions/background-open-application.step.js_
+
+```
+'use strict';
+var assert = require('assert');
+
+module.exports = function() {
+  
+  this.World = require('../support/world').World;
+
+  this.Given(/^I have opened the grocery list application$/, function(callback) {
+    (function(world) {
+      world.domload(function() {
+        world.groceryListApplication = world.openGroceryList();
+        assert(world.groceryListApplication, 'Grocery List Application is required to be open for editability.');
+        callback();
+      });
+    }(this));
+  });
+
+};
+```
+
+Now we are offloading our assertion and callback to the complete of DOM load through the __World__ to ensure that we have successfully loaded the application.
+
+This will now fail on <span style="color: red;">- Object #<World> has no method 'domload'</span>, so let's get that fixed up:
+
+_/features/support/world.js_
+
+```
+'use strict';
+
+var World = function World(callback) {
+
+  this.window = process.browser ? window : {};
+  this.app = undefined;
+  this.groceryListApplication = undefined;
+
+  var defineGlobals = function(w, doc) {
+    this.app = w.app;
+  };
+
+  this.domload = function(callback) {
+    (function(world) {
+      if(document.readyState === 'complete') {
+        defineGlobals.call(world, window, document);
+        callback();  
+      }
+      else {
+        var delegate = document.addEventListener ? 'addEventListener' : 'attachEvent';
+        var eventType = document.addEventListener ? 'load' : 'onload';
+        window[delegate](eventType, function() {
+          defineGlobals.call(world, window, document);
+          callback();
+        });
+      }
+    }(this));
+  };
+
+  this.openGroceryList = function() {
+    return this.app.newSession();
+  };
+  this.createGroceryItem = function() {
+    return 'apple';
+  };
+
+  callback();
+
+};
+
+module.exports.World = World;
+```
+
+Woohoo! Now we are back with the exception <span style="color: red;">Object #<World> has no method 'emptyGroceryListView'</span> that got us in this mess... _BUT_ the previous tests we had <span style="color: green;">passing</span> are now passing again :)
+
+For the sake of getting too "noisy" with code and explanations, for the following edits - unless an explanation is deemed worthy - I will just roll along with modifications to the test and source and show the series of <span style="color: red;">failures</span>.
+
+_/features/support/world.js_
+
+```
+'use strict';
+
+var World = function World(callback) {
+
+  this.window = process.browser ? window : {};
+  this.app = undefined;
+  this.groceryListApplication = undefined;
+
+...
+
+  this.emptyGroceryListView = function() {
+    this.groceryListApplication.empty();
+  };
+
+  callback();
+
+};
+
+module.exports.World = World;
+```
+
+<p><span style="color: red;">- Object #<Object> has no method 'empty' at World.emptyGroceryListView</span></p>
+
+_/script/app.js_
+
+```
+...
+
+var application = {
+  init: function(list) {
+    this.list = list;
+    return this;
+  },
+  empty: function() {
+    this.list.empty();
+  }
+};
+
+...
+```
+
+<p><span style="color: red;">- Object #<World> has no method 'getGroceryListView' at World</span></p>
+
+_/features/support/world.js_
+
+```
+'use strict';
+
+var World = function World(callback) {
+
+  this.window = process.browser ? window : {};
+  this.app = undefined;
+  this.groceryListApplication = undefined;
+
+...
+
+  this.getGroceryListView = function() {
+    this.groceryListApplication.$listview;
+  };
+
+  callback();
+
+};
+
+module.exports.World = World;
+```
+
+<p><span style="color: red;">- Cannot read property 'childNodes' of undefined at World</span></p>
+
+_/script/app.js_
+
+```
+...
+
+var application = {
+  init: function(list) {
+    this.list = list;
+    this.$listview = document.querySelector('#grocery-list');
+    return this;
+  },
+  empty: function() {
+    var gl = this.$listview;
+    while (gl.hasChildNodes()) {
+      gl.removeChild(gl.lastChild);
+    }
+    this.list.empty();
+  }
+};
+
+...
+```
+
+<p><span style="color: red;">- Cannot read property 'childNodes' of null at World</span></p>
+
+_/template/testrunner.html_
+
+```
+<!doctype html>
+<html>
+  <body>
+    ...
+    <ul id="grocery-list"></ul>
+    <script src="./script/app.js"></script>
+  </body>
+</html>
+```
+
+And we are back to <span style="color: green;">green</span>!... and <span style="color: beige">pending</span>. Let's move on to our next step definition:
+
+### When I provide a valid grocery list item name
+
+_/features/step_definitions/add-item-view.steps.js_
+
+```
+...
+
+var enteredItem;
+
+this.Given(/^I have an empty grocery list view$/, function(callback) {
+  this.emptyGroceryListView();
+  assert.equal(this.getGroceryListView().childNodes.length, 0);
+  callback();
+});
+
+this.When(/^I provide a valid grocery list item name$/, function(callback) {
+  enteredItem = this.createGroceryItem();
+  this.enterNewGorceryListItem(enteredItem);
+  callback();
+});
+
+...
+```
+
+Back in the <span style="color: red;">red</span>!  
+<p><span style="color: red;">- Object #<World> has no method 'enterNewGorceryListItem' at World</span></p>
+
+_/features/support/world.js_
+
+```
+var World = function World(callback) {
+
+  this.window = process.browser ? window : {};
+  this.app = undefined;
+  this.groceryListApplication = undefined;
+
+  var defineGlobals = function(w, doc) {
+    this.app = w.app;
+  };
+
+...
+
+  this.enterNewGorceryListItem = function(item) {
+    this.groceryListApplication.enterNewItem(item);
+  };
+
+  callback();
+
+};
+
+module.exports.World = World;
+```
+
+<p><span style="color: red;">- Object #<Object> has no method 'enterNewItem' at World.enterNewGorceryListItem</span></p>
+
+_/script/app.js_
+
+```
+...
+
+var application = {
+  init: function(list) {
+    this.list = list;
+    this.$listview = document.querySelector('#grocery-list');
+    this.$itemInputView = document.querySelector('#item-input');
+    return this;
+  },
+  empty: function() {
+    var gl = this.$listview;
+    while (gl.hasChildNodes()) {
+      gl.removeChild(gl.lastChild);
+    }
+    this.list.empty();
+  },
+  enterNewItem: function(item) {
+    this.$itemInputView.value = item;
+  }
+};
+
+...
+```
+
+<p><span style="color: red;">- Cannot set property 'value' of null at Object.application.enterNewItem</span></p>
+
+_/template/testrunner.html_
+
+```
+<!doctype html>
+<html>
+  <body>
+    ...
+    <ul id="grocery-list"></ul>
+    <form>
+      <label for="itemInput">Item name:</label>
+      <input id="item-input" name="itemInput" type="text"></item>
+    </form>
+    <script src="./script/app.js"></script>
+  </body>
+</html>
+```
+
+Back to <span style="color: beige;">pending</span>! Next step:
+
+### And I select to add an item
+
+_/features/step_definitions/add-item-view.steps.js_
+
+```
+...
+
+this.When(/^I select to add an item$/, function(callback) {
+  this.clickAddGroceryListItem();
+  callback();
+});
+
+...
+```
+
+<p><span style="color: red;">- Object #<World> has no method 'clickAddGroceryListItem' at World.</span></p>
+
+_/features/support/world.js_
+
+```
+var World = function World(callback) {
+
+  this.window = process.browser ? window : {};
+  this.app = undefined;
+  this.groceryListApplication = undefined;
+
+  var defineGlobals = function(w, doc) {
+    this.app = w.app;
+  };
+
+...
+
+  this.createClickEvent = function() {
+    var event = document.createEvent('MouseEvents');
+    event.initEvent('click', true, false);
+    return event;
+  };
+
+  this.clickAddGroceryListItem = function() {
+    var clickevent = this.createClickEvent();
+    this.groceryListApplication.$addbutton.dispatchEvent(clickevent);
+  };
+
+...
+
+  callback();
+
+};
+
+module.exports.World = World;
+```
+
+<p><span style="color: red;">- Cannot call method 'dispatchEvent' of undefined at World.clickAddGroceryListItem</span></p>
+
+_/script/app.js_
+
+```
+var application = {
+  init: function(list) {
+    this.list = list;
+    this.$listview = document.querySelector('#grocery-list');
+    this.$itemInputView = document.querySelector('#item-input');
+    this.$addbutton = document.querySelector('#add-button');
+    return this;
+  },
+  empty: function() {
+    var gl = this.$listview;
+    while (gl.hasChildNodes()) {
+      gl.removeChild(gl.lastChild);
+    }
+    this.list.empty();
+  },
+  enterNewItem: function(item) {
+    this.$itemInputView.value = item;
+  }
+};
+```
+
+<p><span style="color: red;">- Cannot call method 'dispatchEvent' of null at World.clickAddGroceryListItem</span></p>
+
+_/template/testrunner.html_
+
+```
+<!doctype html>
+<html>
+  <body>
+    ...
+    <ul id="grocery-list"></ul>
+    <form>
+      <label for="itemInput">Item name:</label>
+      <input id="item-input" name="itemInput" type="text"></item>
+      <button id="add-button" type="button">add</button>
+    </form>
+    <script src="./script/app.js"></script>
+  </body>
+</html>
+```
+
+Back to <span style="color: beige;">pending</span>! We're getting into assertion territory :) Next step:
+
+### Then The item is added to the grocery list view
+
+_/features/step_definitions/add-item-view.steps.js_
+
+```
+...
+
+this.Then(/^The item is added to the grocery list view$/, function(callback) {
+  assert.equal(this.getGroceryListViewItemAtIndex(0), enteredItem, 'Entered item should be first in empty list.');
+  callback();
+});
+
+...
+```
+
+<p><span style="color: red;">- Object #<World> has no method 'getGroceryListViewItemAtIndex' at World</span></p>
+
+_/features/support/world.js_
+
+```
+var World = function World(callback) {
+
+  this.window = process.browser ? window : {};
+  this.app = undefined;
+  this.groceryListApplication = undefined;
+
+  var defineGlobals = function(w, doc) {
+    this.app = w.app;
+  };
+
+...
+
+  this.getGroceryListViewItemAtIndex = function(index) {
+    return this.groceryListApplication.$listview.childNodes[index].textContent;
+  }
+
+...
+
+  callback();
+
+};
+
+module.exports.World = World;
+```
+
+<p><span style="color: red;">- Cannot read property 'textContent' of undefined at World.getGroceryListViewItemAtIndex</span></p>
+
+_/script/app.js_
+
+```
+...
+
+var application = {
+  init: function(list) {
+    this.list = list;
+    this.$listview = document.querySelector('#grocery-list');
+    this.$itemInputView = document.querySelector('#item-input');
+    this.$addbutton = document.querySelector('#add-button');
+    (function(app) {
+      app.$addbutton.addEventListener('click', function(event) {
+        var item = app.$itemInputView.value;
+        app.addItemToView(item);
+      });
+    }(this));
+    return this;
+  },
+  empty: function() {
+    var gl = this.$listview;
+    while (gl.hasChildNodes()) {
+      gl.removeChild(gl.lastChild);
+    }
+    this.list.empty();
+  },
+  enterNewItem: function(item) {
+    this.$itemInputView.value = item;
+  },
+  addItemToView: function(item) {
+    var li = document.createElement('li');
+    var text = document.createTextNode(item);
+    li.appendChild(text);
+    this.$listview.appendChild(li);
+  }
+};
+
+...
+
+```
+
+By adding a `click` handler to the `button`, we are updating the view by adding a `li` element to the list view.
+
+And we're back to <span style="color: beige;">pending</span>! One last step:
+
+### Then The item is accessible from the grocery list collection
+
+_/features/step_definitions/add-item-view.steps.js_
+
+```
+...
+
+this.Then(/^The item is accessible from the grocery list collection$/, function(callback) {
+  assert.equal(this.groceryListApplication.list.getItemIndex(enteredItem), 0, 'Added item should be found at first index.');
+  callback();
+});
+
+...
+```
+
+Utilizing the `getItemIndex()` method we created in passing the collection features from a previous article, we get back to failing.  <span style="color: red;">Added item should be found at first index. at World</span>
+
+_/script/app.js_
+
+```
+...
+
+var application = {
+  init: function(list) {
+    this.list = list;
+    this.$listview = document.querySelector('#grocery-list');
+    this.$itemInputView = document.querySelector('#item-input');
+    this.$addbutton = document.querySelector('#add-button');
+    (function(app) {
+      app.$addbutton.addEventListener('click', function(event) {
+        var item = app.$itemInputView.value;
+        app.addItemToView(item);
+        app.list.add(item);
+      });
+    }(this));
+    return this;
+  },
+  ...
+};
+
+...
+```
+
+In adding a call to `list.add()` in the button handler within we just defined an update to the view, we bring ourselves to full <span style="color: green;">green</span>!
+
+<div style="width: 100%; overflow-x: scroll; background-color:#fff; text-align: center;">
+  <img src="http://custardbelly.com/blog/images/cucumberjs-browser-3.png" alt="cucumberjs in the browser, passing">
+</div>
+
+## Considerations
+If you have following along in getting these new browser-based __Features__ to pass in that environment, I have taken some liberties with regards to architecture and process with the hopes to not add noise to the task at hand.
+
+In reality, we should consider the next phase as a _Refactor_. The particular areas in which I see issues that I would address and.or discuss with my team are:
+
+* Implementing view update based on collection events
+* Templatize-ing the main view to be wrapped in production and injecting as a partial to the testrunner template
+* Building the application to be deployed as a web-based application and User Tested
+
+I am sure there are more, and that you have a few ideas as well, but these are at least three aspects of the architecture of the project and product that can be tackled with assurance now that we have a test harness for the features criteria :)
+
+## Conclusion
+If you made it down this far, I do appreciate you taking the time to follow along - I know this was a bit of a long one.

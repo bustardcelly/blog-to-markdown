@@ -4,7 +4,7 @@ author:
   name: 'todd anderson'
 date: '2014-02-10'
 ---
-In my [previous post](http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html) in this series detailing how I use [CucumberJS](https://github.com/cucumber/cucumber-js), I addressed a few common bulid tools in JavaScript to automate the watching and running of tests. While beneficial to a proper agile workflow, I did not introduce any new concepts or development information directly associated with using CucumberJS, itself.
+In my [previous post](http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html) in this series detailing how I use [CucumberJS](https://github.com/cucumber/cucumber-js), I addressed a few common build tools in JavaScript to automate the watching and running of tests. While beneficial to a proper agile workflow, I did not introduce any new concepts or development information directly associated with using CucumberJS, itself.
 
 In this article, I intend to take on a pretty meaty subject - running your cukes in the browser. It is a subject I have grappled with for some time and have tried different solutions, eventually [creating my own](https://github.com/bustardcelly/cucumberjs-browser). 
 
@@ -12,7 +12,7 @@ In this article, I intend to take on a pretty meaty subject - running your cukes
 Supported files related to this and any subsequent posts on this topic will be available at:  
 [https://github.com/bustardcelly/cucumberjs-examples](https://github.com/bustardcelly/cucumberjs-examples)
 
-_Disclaimer: I did not start out this series to promote the [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) tool. In fact, in came to life as a result of this series :)_
+_Disclaimer: I did not start out this series to promote the [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) tool. In fact, it came to life as a result of this series :)_
 
 ## Why The Browser
 [CucumberJS](https://github.com/cucumber/cucumber-js) is built on [Node](http://nodejs.org). As such, the CLI tool that we have been running to verify our tests in previous articles is living in that environment. 

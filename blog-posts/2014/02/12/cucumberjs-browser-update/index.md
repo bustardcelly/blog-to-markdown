@@ -499,7 +499,7 @@ module.exports = function() {
 
 Now we are offloading our assertion and callback to the complete of DOM load through the __World__ to ensure that we have successfully loaded the application.
 
-This will now fail on <span style="color: red;">- Object #<World> has no method 'domload'</span>, so let's get that fixed up:
+This will now fail on <span style="color: red;">- Object #&lt;World&gt; has no method 'domload'</span>, so let's get that fixed up:
 
 _/features/support/world.js_
 
@@ -547,7 +547,7 @@ var World = function World(callback) {
 module.exports.World = World;
 ```
 
-Woohoo! Now we are back with the exception <span style="color: red;">Object #<World> has no method 'emptyGroceryListView'</span> that got us in this mess... _BUT_ the previous tests we had <span style="color: green;">passing</span> are now passing again :)
+Woohoo! Now we are back with the exception <span style="color: red;">Object #&lt;World&gt; has no method 'emptyGroceryListView'</span> that got us in this mess... _BUT_ the previous tests we had <span style="color: green;">passing</span> are now passing again :)
 
 For the sake of getting too "noisy" with code and explanations, for the following edits - unless an explanation is deemed worthy - I will just roll along with modifications to the test and source and show the series of <span style="color: red;">failures</span>.
 
@@ -575,7 +575,7 @@ var World = function World(callback) {
 module.exports.World = World;
 ```
 
-<p><span style="color: red;">- Object #<Object> has no method 'empty' at World.emptyGroceryListView</span></p>
+<p><span style="color: red;">- Object #&lt;World&gt; has no method 'empty' at World.emptyGroceryListView</span></p>
 
 _/script/app.js_
 
@@ -595,7 +595,7 @@ var application = {
 ...
 ```
 
-<p><span style="color: red;">- Object #<World> has no method 'getGroceryListView' at World</span></p>
+<p><span style="color: red;">- Object #&lt;World&gt; has no method 'getGroceryListView' at World</span></p>
 
 _/features/support/world.js_
 
@@ -661,7 +661,7 @@ _/template/testrunner.html_
 </html>
 ```
 
-And we are back to <span style="color: green;">green</span>!... and <span style="color: beige">pending</span>. Let's move on to our next step definition:
+And we are back to <span style="color: green;">green</span>!... and <span style="color: rgb(117, 117, 37);">pending</span>. Let's move on to our next step definition:
 
 ### When I provide a valid grocery list item name
 
@@ -688,7 +688,7 @@ this.When(/^I provide a valid grocery list item name$/, function(callback) {
 ```
 
 Back in the <span style="color: red;">red</span>!  
-<p><span style="color: red;">- Object #<World> has no method 'enterNewGorceryListItem' at World</span></p>
+<p><span style="color: red;">- Object #&lt;World&gt; has no method 'enterNewGorceryListItem' at World</span></p>
 
 _/features/support/world.js_
 
@@ -716,7 +716,7 @@ var World = function World(callback) {
 module.exports.World = World;
 ```
 
-<p><span style="color: red;">- Object #<Object> has no method 'enterNewItem' at World.enterNewGorceryListItem</span></p>
+<p><span style="color: red;">- Object #&lt;Object&gt; has no method 'enterNewItem' at World.enterNewGorceryListItem</span></p>
 
 _/script/app.js_
 
@@ -764,7 +764,7 @@ _/template/testrunner.html_
 </html>
 ```
 
-Back to <span style="color: beige;">pending</span>! Next step:
+Back to <span style="color: rgb(117, 117, 37);">pending</span>! Next step:
 
 ### And I select to add an item
 
@@ -781,7 +781,7 @@ this.When(/^I select to add an item$/, function(callback) {
 ...
 ```
 
-<p><span style="color: red;">- Object #<World> has no method 'clickAddGroceryListItem' at World.</span></p>
+<p><span style="color: red;">- Object #&lt;World&gt; has no method 'clickAddGroceryListItem' at World.</span></p>
 
 _/features/support/world.js_
 
@@ -864,7 +864,7 @@ _/template/testrunner.html_
 </html>
 ```
 
-Back to <span style="color: beige;">pending</span>! We're getting into assertion territory :) Next step:
+Back to <span style="color: rgb(117, 117, 37);">pending</span>! We're getting into assertion territory :) Next step:
 
 ### Then The item is added to the grocery list view
 
@@ -881,7 +881,7 @@ this.Then(/^The item is added to the grocery list view$/, function(callback) {
 ...
 ```
 
-<p><span style="color: red;">- Object #<World> has no method 'getGroceryListViewItemAtIndex' at World</span></p>
+<p><span style="color: red;">- Object #&lt;World&gt; has no method 'getGroceryListViewItemAtIndex' at World</span></p>
 
 _/features/support/world.js_
 
@@ -956,7 +956,7 @@ var application = {
 
 By adding a `click` handler to the `button`, we are updating the view by adding a `li` element to the list view.
 
-And we're back to <span style="color: beige;">pending</span>! One last step:
+And we're back to <span style="color: rgb(117, 117, 37);">pending</span>! One last step:
 
 ### Then The item is accessible from the grocery list collection
 
@@ -973,7 +973,9 @@ this.Then(/^The item is accessible from the grocery list collection$/, function(
 ...
 ```
 
-Utilizing the `getItemIndex()` method we created in passing the collection features from a previous article, we get back to failing.  <span style="color: red;">Added item should be found at first index. at World</span>
+Utilizing the `getItemIndex()` method we created in passing the collection features from a previous article, we get back to failing.
+
+<span style="color: red;">- Added item should be found at first index. at World</span>
 
 _/script/app.js_
 
@@ -1020,3 +1022,14 @@ I am sure there are more, and that you have a few ideas as well, but these are a
 
 ## Conclusion
 If you made it down this far, I do appreciate you taking the time to follow along - I know this was a bit of a long one.
+
+I hoped to have demonstrated the process of going from __Features__ to __Step Definitions__ to implementation code to pass criteria all while living in a real browser environment using the [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) and test automation. On the surface, it may seem like quite a process, but my personal experience is that BDD forces you into thinking about minimilistic design while putting your code under a test harness from which you can maintain and add new features with assurance.
+
+## To Come
+There are a few extra productivity tidbits I have picked up while working with the wondeful [CucumberJS](https://github.com/cucumber/cucumber-js) tool in developing several applications for both the web and server.
+
+Who knows... I have had a blast going through the articles in this series demonstrating TDD using the BDD tool, [CucumberJS](https://github.com/cucumber/cucumber-js). I might just continue to evolve the example to a fully-functional application just as I had done in the [Making of a Test-Driven Grocery List Application](http://custardbelly.com/blog/blog-pages/category/grocery-ls.html) series which focused on the [Jasmine](http://jasmine.github.io/2.0/introduction.html) library.
+
+Additionally, I am invested in the [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) I created during (and as a result) of this series and hope to write some more articles on its structure, usage and any additions/fixes that are made and I welcome you to help me in making [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) a great tool in being able run your specs in a real browser environment without having to change your current workflow in defining __Features__, __Step Definitions__ and support files.
+
+Cheers!

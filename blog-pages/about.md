@@ -9,7 +9,7 @@ I am an application developer with a passion for architecture, development workf
 
 Over the past 12 years, I have helped deliver web, mobile and desktop solutions with numerous companies in the enterprise and entertainment industries including Adobe, THQ, Condé Nast Publications and Motorola.
 
-I write frequently about software and technology on my [blog](http://custardbelly.com/blog) and give back to the development community by releasing Open Source Software on [GitHub](https://github.com/bustardcelly). I am also a co-author on [several titles]((http://www.amazon.com/Todd-Anderson/e/B0037FMULM/ref=ntt_athr_dp_pel_2) from O'Reilly Media and Wiley Wrox publishing.
+I write frequently about software and technology on my [blog](http://custardbelly.com/blog) and give back to the development community by releasing Open Source Software on [GitHub](https://github.com/bustardcelly). I am also a co-author on [several titles](http://www.amazon.com/Todd-Anderson/e/B0037FMULM/ref=ntt_athr_dp_pel_2) from O'Reilly Media and Wiley Wrox publishing.
 
 **Have some crazy ideas or exciting new opportunities? I'd love to hear about them!**    
 [toddanderson [at] taanderson.com](mailto:toddanderson@taanderson.com)

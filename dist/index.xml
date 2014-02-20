@@ -1,5 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Wed, 12 Feb 2014 16:18:35 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[BDD in JavaScript V: CucumberJS and The Browser, II]]></title><description><![CDATA[<p><em>&quot;Whoa. Whoa. Whoa. You can&#39;t just use roman numerals all over the place in your post titles...&quot;</em></p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Tue, 18 Feb 2014 03:18:59 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[Running Browser-Based CucumberJS Specs in Testling]]></title><description><![CDATA[<p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous</a> <a href="http://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html">posts</a> I discuss bringing <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs to the browser using the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool. In this post I intend to address how to use the format reporting options of the <strong>cucumberjs-browser</strong> tool to enable integration with the <a href="https://ci.testling.com/">testling</a> automated cross-browser testing tool to run your specs in various browser environment targets that you may not have installed on your own system.</p>
+<h2 id="requirements">Requirements</h2>
+<p>For the purposes of this article, it is assumed that you are knowledgable of <a href="http://nodejs.org">node</a> and <a href="http://npmjs.org">npm</a> and familiar with creating feature specs for <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. </p>
+<p>To view examples of features and step definitions for a browser-based application, please visit the <a href="https://github.com/bustardcelly/cucumberjs-examples">cucumberjs-examples</a> repo, from which this post will use to demonstrate integrating the generated testrunner from <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> with <a href="https://ci.testling.com/">testling</a>.</p>
+<h2 id="cucumberjs-browser">cucumberjs-browser</h2>
+<p>The <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool provides the ability to run your feature specs in the browser by bundling your features, steps and support files - written in the usual way you would - to be run and evaluated at runtime by the browser-based <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> testrunner</p>
+<p>To install <strong>cucumberjs-browser</strong>:</p>
+<pre><code>$ npm install <span class="hljs-attribute">-g</span> cucumberjs<span class="hljs-attribute">-browser</span>
+</code></pre><p><em>you may need to <code>sudo</code></em></p>
+<p>After installation, the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> will be accessible on the command-line using <code>cucumberjs-browser</code> and can be run within any directory that has <strong>Features</strong> and <strong>Step Definitions</strong> (along with optional support files) that can be consumed by <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>.</p>
+<p>The <strong>cucumberjs-browser</strong> CLI tool can be run with the following options:</p>
+<pre><code>$ <span class="hljs-tag">cucumberjs-browser</span> <span class="hljs-attr_selector">[-o outdir]</span> <span class="hljs-attr_selector">[-f format]</span> <span class="hljs-attr_selector">[--tmpl template]</span> <span class="hljs-attr_selector">[--features features]</span>
+</code></pre><p>Though it is strongly encouraged to provide a custom template using the <code>--tmpl</code> option, for the purpose of this article, we will focus on the format (<code>-f</code>) option. As of the writing of this article, the following format options are available:</p>
+<ul>
+<li>ui</li>
+<li>tap</li>
+<li>testem</li>
+<li>saucelabs</li>
+</ul>
+<p>For the purpose of this article, we will be discussing the <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> format option value.</p>
+<p><em>For more infromation about other format options, please visit the latest <a href="https://github.com/bustardcelly/cucumberjs-browser/wiki/Formats">documentation regarding formats</a> on the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a>.</em></p>
+<h2 id="tap">TAP</h2>
+<p>The <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">Test Anything Protocol</a> is a specification for reporting test information. The benefit of using such a specification is that it can be consumed by any test harness that recognizes it.</p>
+<p>You can output <strong>TAP</strong> reports from <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> using the <code>tap</code> value for the foromat option:</p>
+<pre><code>$ cucumberjs<span class="hljs-attribute">-browser</span> <span class="hljs-attribute">-f</span> tap
+</code></pre><p>Running this command will generate the necessary files to print <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> test results in the console when loaded by a browser.</p>
+<p>If you were to open the generated testrunner file in a browser using the example from <a href="https://github.com/bustardcelly/cucumberjs-examples">cucumberjs-examples</a>, you would see something like the following if you were to open the browser console:</p>
+<pre><code>TAP <span class="hljs-property">version</span> <span class="hljs-number">13</span>
+<span class="hljs-comment"># Submit of valid item adds item to list</span>
+ok <span class="hljs-number">1</span> I have opened <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> <span class="hljs-type">application</span>
+ok <span class="hljs-number">2</span> I have an empty grocery <span class="hljs-type">list</span> view
+ok <span class="hljs-number">3</span> I provide a valid grocery <span class="hljs-type">list</span> <span class="hljs-property">item</span> <span class="hljs-property">name</span>
+ok <span class="hljs-number">4</span> I select <span class="hljs-keyword">to</span> add an <span class="hljs-property">item</span>
+ok <span class="hljs-number">5</span> The <span class="hljs-property">item</span> <span class="hljs-keyword">is</span> added <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> view
+<span class="hljs-comment"># Submit of valid item adds item to collection</span>
+ok <span class="hljs-number">6</span> I have opened <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> <span class="hljs-type">application</span>
+ok <span class="hljs-number">7</span> I have an empty grocery <span class="hljs-type">list</span> view
+ok <span class="hljs-number">8</span> I provide a valid grocery <span class="hljs-type">list</span> <span class="hljs-property">item</span> <span class="hljs-property">name</span>
+ok <span class="hljs-number">9</span> I select <span class="hljs-keyword">to</span> add an <span class="hljs-property">item</span>
+ok <span class="hljs-number">10</span> The <span class="hljs-property">item</span> <span class="hljs-keyword">is</span> accessible <span class="hljs-keyword">from</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> collection
+<span class="hljs-comment"># Item added to grocery list</span>
+ok <span class="hljs-number">11</span> I have opened <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> <span class="hljs-type">application</span>
+ok <span class="hljs-number">12</span> I have an empty grocery <span class="hljs-type">list</span>
+ok <span class="hljs-number">13</span> I add an <span class="hljs-property">item</span> <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> <span class="hljs-type">list</span>
+ok <span class="hljs-number">14</span> The grocery <span class="hljs-type">list</span> <span class="hljs-keyword">contains</span> a single <span class="hljs-property">item</span>
+<span class="hljs-comment"># Item accessible from grocery list</span>
+ok <span class="hljs-number">15</span> I have opened <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> <span class="hljs-type">application</span>
+ok <span class="hljs-number">16</span> I have an empty grocery <span class="hljs-type">list</span>
+ok <span class="hljs-number">17</span> I add an <span class="hljs-property">item</span> <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> <span class="hljs-type">list</span>
+ok <span class="hljs-number">18</span> I can access <span class="hljs-keyword">that</span> <span class="hljs-property">item</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span>
+
+<span class="hljs-number">1.</span><span class="hljs-number">.18</span>
+<span class="hljs-comment"># tests 18</span>
+<span class="hljs-comment"># pass  18</span>
+
+<span class="hljs-comment"># ok</span>
+</code></pre><p>It should be noted that the <code>tap</code> listener for <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> uses the excellent <a href="https://github.com/substack/tape">tape</a> module.</p>
+<h2 id="testling">testling</h2>
+<p>I can&#39;t say enough how much I appreciate <a href="https://ci.testling.com/">testling</a>. You can install <strong>testling</strong> locally to run tests on the browsers installed on your system or use their remote service to run tests against various browsers that may not be available to you, yet are required as targets for your current project.</p>
+<h3 id="local">local</h3>
+<p>You can install <a href="https://ci.testling.com/">testling</a> to be run locally:</p>
+<pre><code><span class="hljs-variable">$ </span>npm install -g testling
+</code></pre><p>To run it, change directories into the generated files from <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> and run the following command:</p>
+<pre><code><span class="hljs-variable">$ </span>cd browser-test
+<span class="hljs-variable">$ </span>testling
+</code></pre><p>That will consume a local <code>package.json</code> file and read a <code>testling</code> entry with options associated with running the generated html file againsta installed browsers on your system:</p>
+<p><em>/browser-test/package.json</em></p>
+<pre><code>{
+<span class="hljs-keyword">...</span>
+
+  <span class="hljs-string">"testling"</span> : {
+    <span class="hljs-string">"html"</span> : <span class="hljs-string">"cucumber-testrunner.html"</span>,
+    <span class="hljs-string">"browsers"</span> : [
+        <span class="hljs-string">"chrome/latest"</span>,
+        <span class="hljs-string">"firefox/latest"</span>,
+        <span class="hljs-string">"safari/latest"</span>
+    ]
+  },
+
+<span class="hljs-keyword">...</span>
+}
+<span class="hljs-keyword">...</span>
+</code></pre><p>Truthfully, I never run <a href="https://ci.testling.com/">testling</a> locally. The main reasons being </p>
+<p><strong>a)</strong> I can automate the running of specs on locally installed browsers easier with other tools (this is for another post :) )<br><strong>b)</strong> Testling provides a bigger benefit in providing tests against browsers I would otherwise have to install VMs for.</p>
+<p>That said, I don&#39;t want ot pursuade you from using <strong>testling</strong> locally if it provides benefit in your workflow.</p>
+<h3 id="remote">remote</h3>
+<p>To use the remote service that <a href="https://ci.testling.com/">testling</a> provides, you still define the <code>testling</code> property in your <code>package.json</code> for the project as described above, but you additionally have to provide a webhook for your <strong>git</strong> repo in order to invoke the test harness. Upon a <code>PUSH</code> to your repository, <a href="https://ci.testling.com/">testling</a> will run the specified HTML file under the listed target browsers and report results based on the <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">Test Anything Protocol</a> output printed to <code>console</code>.</p>
+<p>In addition to providing a great service, you also get the option of adding a nice looking badge to your project.</p>
+<p><img src="http://custardbelly.com/blog/images/testling-1.png" alt="testling harness output"></p>
+<p>This badge was produced by pushing an update to the <a href="https://github.com/bustardcelly/cucumberjs-examples">cucumberjs-examples</a> exampe repo with a defined webhook. (If you followed along in the previous articles, you will note that the failing IE tests are due to the use of <code>Object.create</code> in source without a polyfill).</p>
+<p><em>The process of adding a webhook to your project is described in better detail in the <a href="https://ci.testling.com/guide/quick_start">testling documentation</a>.</em></p>
+<h3 id="donate">donate</h3>
+<p>If you do use <a href="https://ci.testling.com/">testling</a> in any fashion, I implore you to <a href="https://ci.testling.com/donate">donate to the cause</a> :)</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this article I introduced how the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool can be used to generate a browser-based testrunner to report tests in <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> format and integrate the invaluable <a href="https://ci.testling.com/">testling</a> service to run the tests on various browsers that may not be at your disposal otherwise.</p>
+<p>While <a href="https://ci.testling.com/">testling</a> provides one consumer endpoint, using the <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> specification in reporting test results can easily be consumed by another test harness of your choice.</p>
+<p>For more information on running <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in the browser and/or to report any issues, please visit the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> repository.</p>
+]]></description><link>http://custardbelly.com/blog/blog-posts/2014/02/18/cucumberjs-testling/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/02/18/cucumberjs-testling/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript V: CucumberJS and The Browser, II]]></title><description><![CDATA[<p><em>&quot;Whoa. Whoa. Whoa. You can&#39;t just use roman numerals all over the place in your post titles...&quot;</em></p>
 <p>In the <a href="http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous article</a> I addressed the available libraries and practices to have your <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs running in a browser environment, as well as introduced a new project begun by me: <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a>.</p>
 <p>I had originally had the entirety of this post in the previous post, but felt that it was a little bit of information overload. As such, I decided to split them into two posts.</p>
 <p>The intent of this article is to address incorporating <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> into our current Grocery List Application example and continue developing features that involve User Interaction with the DOM.</p>
@@ -4009,9 +4106,4 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 <h2 id="post-series">Post Series</h2>
 <p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[madmin: for ease of creating and documenting RESTful service URIs]]></title><description><![CDATA[<p>My company, <a href="http://infrared5.com">Infrared5</a>, recently released an Open Source project called <a href="https://github.com/infrared5/madmin">madmin</a>, which I had the great pleasure of being a main part of. </p>
-<p><strong>madmin</strong> is a node-based application that allows for generating immediately accessible RESTful URIs. Though it is possible to communicate with command line tools like cURL, <strong>madmin</strong> also provides a client-side console to easily create the URIs and structure of JSON response(s). It was originally intended to solve a front-end development problem in maintaining two sets of code – a <em>fake</em> service layer and <em>production-level</em> service layer – during development, but has grown to be a proven way to facilitate communication between the server-side and client-side teams in discussing the requirements of the services for a project. It also proved to be pretty handy documentation, to boot, which could be easily discussed with clients.</p>
-<p>Anyway, you can read a more detailed description of the project and how it came to fruition over at the <a href="http://blog.infrared5.com">Infrared5 blog</a>: <a href="http://blog.infrared5.com/2013/01/introducing-madmin-an-admin-console-for-generating-mock-services-with-restful-uris/"><a href="http://blog.infrared5.com/2013/01/introducing-madmin-an-admin-console-for-generating-mock-services-with-restful-uris/">http://blog.infrared5.com/2013/01/introducing-madmin-an-admin-console-for-generating-mock-services-with-restful-uris/</a></a></p>
-<p>If you check it out, I hope you find it useful in any way and please log issues for requests or fork it to add features! I intend to get more basic instructions up on the wiki at its <a href="https://github.com/infrared5/madmin">github location</a> and perhaps write a few blog posts as well.</p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/infrared5/">Infrared5</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/madmin/">madmin</a>, <a href="http://custardbelly.com/blog/category/node/">node</a>.</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2013/02/04/madmin-for-ease-of-creating-and-documenting-restful-service-uris/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2013/02/04/madmin-for-ease-of-creating-and-documenting-restful-service-uris/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>
+]]></description><link>http://custardbelly.com/blog/blog-posts/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>

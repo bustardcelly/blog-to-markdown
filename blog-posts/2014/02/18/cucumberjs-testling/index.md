@@ -42,7 +42,7 @@ For the purpose of this article, we will be discussing the [TAP](http://en.wikip
 _For more infromation about other format options, please visit the latest [documentation regarding formats](https://github.com/bustardcelly/cucumberjs-browser/wiki/Formats) on the [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser)._
 
 ## TAP
-The [Test Anything Protocol](http://en.wikipedia.org/wiki/Test_Anything_Protocol) is a specification for reporting test information. The value of the sepcification is that it can be consumed by any test harness that recognizes it.
+The [Test Anything Protocol](http://en.wikipedia.org/wiki/Test_Anything_Protocol) is a specification for reporting test information. The benefit of using such a specification is that it can be consumed by any test harness that recognizes it.
 
 You can output __TAP__ reports from [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) using the `tap` value for the foromat option:
 
@@ -50,7 +50,7 @@ You can output __TAP__ reports from [cucumberjs-browser](https://github.com/bust
 $ cucumberjs-browser -f tap
 ```
 
-Running this command will generate the necessary files to print [Test Anything Protocol](http://en.wikipedia.org/wiki/Test_Anything_Protocol) test results in the console when loaded by a browser.
+Running this command will generate the necessary files to print [TAP](http://en.wikipedia.org/wiki/Test_Anything_Protocol) test results in the console when loaded by a browser.
 
 If you were to open the generated testrunner file in a browser using the example from [cucumberjs-examples](https://github.com/bustardcelly/cucumberjs-examples), you would see something like the following if you were to open the browser console:
 
@@ -86,10 +86,10 @@ ok 18 I can access that item from the grocery list
 # ok
 ```
 
-It should be noted that the `tap` listener for [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) uese the [tape](https://github.com/substack/tape) module.
+It should be noted that the `tap` listener for [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) uses the excellent [tape](https://github.com/substack/tape) module.
 
 ## testling
-I can't say enough how much I appreciate [testling](https://ci.testling.com/). You can install __testling__ locally to run tests on the browsers installed on your system or use their remote service to run tests against various browsers that may not be available to you, yet required as targets for your current project.
+I can't say enough how much I appreciate [testling](https://ci.testling.com/). You can install __testling__ locally to run tests on the browsers installed on your system or use their remote service to run tests against various browsers that may not be available to you, yet are required as targets for your current project.
 
 ### local
 You can install [testling](https://ci.testling.com/) to be run locally:
@@ -127,7 +127,12 @@ _/browser-test/package.json_
 ...
 ```
 
-Truthfully, I never run [testling](https://ci.testling.com/) locally. The main reasons being that __a)__ I can automate the running of specs using other tools (this is for another post :)) and __b)__ it is largely beneficial to be able to run against browsers that are a requirement target for my project that there is no way to check on my current system (withut setting up aVM with the OS - and let's face it, 'automation' starts to fail in such conditions, though great for User Testing).
+Truthfully, I never run [testling](https://ci.testling.com/) locally. The main reasons being 
+
+__a)__ I can automate the running of specs on locally installed browsers easier with other tools (this is for another post :) )  
+__b)__ Testling provides a bigger benefit in providing tests against browsers I would otherwise have to install VMs for.
+
+That said, I don't want ot pursuade you from using __testling__ locally if it provides benefit in your workflow.
 
 ### remote
 To use the remote service that [testling](https://ci.testling.com/) provides, you still define the `testling` property in your `package.json` for the project as described above, but you additionally have to provide a webhook for your __git__ repo in order to invoke the test harness. Upon a `PUSH` to your repository, [testling](https://ci.testling.com/) will run the specified HTML file under the listed target browsers and report results based on the [Test Anything Protocol](http://en.wikipedia.org/wiki/Test_Anything_Protocol) output printed to `console`.
@@ -135,6 +140,8 @@ To use the remote service that [testling](https://ci.testling.com/) provides, yo
 In addition to providing a great service, you also get the option of adding a nice looking badge to your project.
 
 ![testling harness output](http://custardbelly.com/blog/images/testling-1.png)
+
+This badge was produced by pushing an update to the [cucumberjs-examples](https://github.com/bustardcelly/cucumberjs-examples) exampe repo with a defined webhook. (If you followed along in the previous articles, you will note that the failing IE tests are due to the use of `Object.create` in source without a polyfill).
 
 _The process of adding a webhook to your project is described in better detail in the [testling documentation](https://ci.testling.com/guide/quick_start)._
 

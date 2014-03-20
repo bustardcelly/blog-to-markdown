@@ -10,6 +10,10 @@ var fs = require('fs'),
     RSS = require('rss'),
     highlight = require('highlight.js');
 
+
+var Orchestrator = require('orchestrator');
+var orcha = new Orchestrator();
+
 var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     markdown = require('gulp-markdown'),
@@ -272,13 +276,34 @@ gulp.task('build-rss', function() {
 });
 
 gulp.task('build', function() {
-  // mkdirp('dryrun');
-  gulp.run('build-posts', function() {
-    gulp.run('build-archive');
-    gulp.run('build-rss');
-    gulp.run('build-copy');
-    gulp.run('build-index');
+  orcha.start('build', function(err) {
+    if(err) {
+      console.log('Error in build: ' + err);
+    }
   });
+});
+
+orcha.add('build-posts', function() {
+  return gulp.src(['blog-posts/**/*.md'])
+      .pipe(stripheader({post:true}))
+      .pipe(markdown({
+          highlight: function (code, lang) {
+            if(lang && highlight.LANGUAGES[lang]) {
+              return highlight.highlight(lang, code, true).value;
+            }
+            return highlight.highlightAuto(code).value;
+          }
+      }))
+      .pipe(template('app/templates/post.us'))
+      .pipe(wrap('app/templates/wrapper.us'))
+      .pipe(gulp.dest(deployDest + '/blog-posts'));
+});
+
+orcha.add('build', ['build-posts'], function() {
+  gulp.run('build-archive');
+  gulp.run('build-rss');
+  gulp.run('build-copy');
+  gulp.run('build-index');
   gulp.run('build-pages');
 });
 

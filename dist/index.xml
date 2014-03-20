@@ -1,5 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Wed, 26 Feb 2014 01:36:17 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[Caddis: The On-The-Fly JSON RESTful Server]]></title><description><![CDATA[<p>Recently I released a new node-based CLI tool called <a href="https://github.com/bustardcelly/caddis">caddis</a>. It allows you to start a server - as a daemon - on localhost and dynamically add routes and JSON responses. Once stopped, any work is wiped; it is purely in-memory, session based. </p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Thu, 20 Mar 2014 14:19:01 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[gulp-rev-append: simple cache-busting plugin]]></title><description><![CDATA[<p>I just released <a href="https://www.npmjs.org/package/gulp-rev-append">gulp-rev-append</a>, a simple cache-busting plugin for <a href="http://gulpjs.org">gulp</a> that appends a query-string file hash to script and stylesheet dependencies in HTML files.</p>
+<p>There are <a href="https://www.npmjs.org/search?q=gulp-rev">several other cache-busting plugins</a> currently available by some awesome developers and I suggest you look at those to fit your project&#39;s need.</p>
+<p>For my particular project in which I decided to create the <a href="https://www.npmjs.org/package/gulp-rev-append">gulp-rev-append</a> plugin, I was looking to:</p>
+<ul>
+<li>enable cache-busting by appending a file hash on query string</li>
+<li>not require additionally markup commenting to declare dependencies to be modified</li>
+<li>not generate an additional manifest to be a dependency in file access for production-level application</li>
+</ul>
+<p>I was trying to develop a simple web-based mobile site on a desktop while testing on devices and cache-ing was giving me a headache. I did not want to modify my workflow and build to accommodate an addition cache-manifest, nor did I foresee my work requirng a more robust cache-busting technique that the other plugins provided. </p>
+<p><em>If this project was to be in millions of hands out in production, I would certainly use a file revving solution such as <a href="https://www.npmjs.org/package/gulp-rev"><a href="https://www.npmjs.org/package/gulp-rev">https://www.npmjs.org/package/gulp-rev</a></a>.</em></p>
+<h2 id="usage">Usage</h2>
+<p>The <a href="https://github.com/bustardcelly/gulp-rev-append">gulp-rev-append</a> plugins allows for appending a query-string file hash to dependencies declared in html files defined using the following regex: <code>(?:href|src)=&quot;(.*)[\?]rev=(.*)[\&quot;]</code></p>
+<p>That&#39;s fancy talk for any stylesheet or script declarations that are declared in an html file such as the following:</p>
+<pre><code><span class="hljs-doctype">&lt;!doctype html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/style-one.css?rev=@@hash"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-one.js?rev=@@hash"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-two.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>hello, world!<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-three.js?rev=@@hash"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre><p>will turn into something similar as the following after running <code>gulp-rev-append</code>:</p>
+<pre><code><span class="hljs-doctype">&lt;!doctype html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/style-one.css?rev=d65aaba987e9c1eefeb4be9cfd34e0de"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-one.js?rev=17a5da6c8a2d875cf48aefb722eefa07"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-two.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>hello, world!<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-three.js?rev=5cadf43edba6a97980d42331f9fffd17"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre><p>Any subsequent runs of the <code>gulp-rev-append</code> file will change the output <em>only</em> if the target file(s) declared have been modified. This is because the revision hash is computed using the target file contents.</p>
+<p>The only requirement is that the dependency to be appended with the hash be declared using <code>?rev=</code>. The <code>@@hash</code> is not required, and any value will be overriden as the dependency file contents change.</p>
+<h3 id="installation">Installation</h3>
+<pre><code>$ npm install gulp<span class="hljs-attribute">-rev</span><span class="hljs-attribute">-append</span> <span class="hljs-subst">--</span>save<span class="hljs-attribute">-dev</span>
+</code></pre><h3 id="declaration">Declaration</h3>
+<p><em>gulpfile.js</em></p>
+<pre><code><span class="hljs-keyword">var</span> rev = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-rev-append'</span>);
+
+gulp.task(<span class="hljs-string">'rev'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+  gulp.src(<span class="hljs-string">'./index.html'</span>)
+    .pipe(rev())
+    .pipe(gulp.dest(<span class="hljs-string">'.'</span>));
+});
+</code></pre><h3 id="execution">Execution</h3>
+<pre><code><span class="hljs-variable">$ </span>gulp rev
+</code></pre><h2 id="a-word-of-warning">A word of warning</h2>
+<p>Using query strings to cache-bust dependencies isn&#39;t fool proof. These are some great articles that explain why:</p>
+<p><a href="https://developers.google.com/speed/docs/best-practices/caching?csw=1#LeverageProxyCaching">Google | Leverage Proxy Cache Article</a><br><a href="http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/">Steve Souders | Revving Filenames: don&#39;t use querystring</a></p>
+<p>As mentioned previously, file revving is a more robust cache-busting technique and there is already a great <a href="http://gulpjs.org">gulp</a> plugin out there called <a href="https://www.npmjs.org/package/gulp-rev"><a href="https://www.npmjs.org/package/gulp-rev">https://www.npmjs.org/package/gulp-rev</a></a> to fit your development needs.</p>
+<h2 id="project">project</h2>
+<p><a href="https://github.com/bustardcelly/gulp-rev-append">gulp-rev-append</a></p>
+<p>Cheers.</p>
+]]></description><link>http://custardbelly.com/blog/blog-posts/2014/03/18/gulp-rev-append/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/03/18/gulp-rev-append/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[Caddis: The On-The-Fly JSON RESTful Server]]></title><description><![CDATA[<p>Recently I released a new node-based CLI tool called <a href="https://github.com/bustardcelly/caddis">caddis</a>. It allows you to start a server - as a daemon - on localhost and dynamically add routes and JSON responses. Once stopped, any work is wiped; it is purely in-memory, session based. </p>
 <p>The impetus for its creation was a requirement to easily mock service APIs to be called in a test environment without regards to libraries or languages in which the environment is run. </p>
 <p>To be more specific, for a recent project I am using the wonderful <a href="http://calaba.sh/">calabash-ios</a> framework to define <a href="http://cukes.info/">cucumber</a> specs in <a href="https://www.ruby-lang.org/en/">Ruby</a> that drive automated integration tests for an <strong>iOS</strong> project in the simulator. Creating <a href="https://github.com/bustardcelly/caddis">caddis</a> allows me to easily mock service requests that the <strong>iOS</strong> application will make and validate the expected result of scenarios in <a href="http://cukes.info/">cucumber</a>.</p>
 <h2 id="installation-usage">Installation &amp; Usage</h2>
@@ -2085,618 +2145,4 @@ grunt.registerTask(<span class="hljs-string">'dryrun'</span>, <span class="hljs-
 <p>I am free of WordPress :)</p>
 <p>I do want to state that WordPress is not bad or evil - far from it. It had just become a burden for me; I much prefer just writing thoughts out in markdown and then issuing a command to generate and deploy new, static content.</p>
 <p>If you are interested in all the details, you can checkout the Github repo I have set up to store my tools and blog content:<br><a href="https://github.com/bustardcelly/blog-to-markdown"><a href="https://github.com/bustardcelly/blog-to-markdown">https://github.com/bustardcelly/blog-to-markdown</a></a></p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2014/01/03/so-long-wordpress/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/01/03/so-long-wordpress/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[The Making of a Test-Driven Grocery List Application in JS: Part X]]></title><description><![CDATA[<p><em>This is the tenth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
-<h2 id="introduction">Introduction</h2>
-<p>When we last left, we properly modified <code>list-controller</code> to support event notification upon change to its collection as well as created a <code>storage-service</code> communication layer with <code>localStorage</code>. That gave us some great passing tests, but nothing to show off as the service was not integrated into the <strong>Grocery List</strong> application. In this article, we’ll do just that, but…</p>
-<h2 id="before-we-hook-up-list-controller-events-to-storage-service-operations-">Before we hook up list-controller events to storage-service operations…</h2>
-<p>We need a way to supply the <code>list-controller</code> with the stored items. The <code>list-controller</code> has a <code>createNewItem()</code> method, but no methods to provide a previously created item. Since we are not burdening the <code>list-controller</code> in communicating with the <code>storage-service</code> directly, we’ll need to open up the API to allow items to be added – at least at the onset.</p>
-<h3 id="tests">Tests</h3>
-<p>First we’ll include all our tests in our <em>specrunner</em> again as changes to <code>list-controller</code> may impact tests across multiple specs. And while we are poking around, let’s add a spec suite for <code>setItems()</code> on the <code>list-controller</code> and watch it fail:</p>
-<p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
-<pre><code><span class="hljs-function">describe(<span class="hljs-string">'setItems()'</span>, <span class="hljs-function">function()</span> {
-
-
-
-  var itemOne = modelFactory.<span class="hljs-function">create()</span>,
-
-      itemTwo = modelFactory.<span class="hljs-function">create()</span>;
-
-
-
-  <span class="hljs-function">beforeEach( <span class="hljs-function">function()</span> {
-
-    itemOne.name = <span class="hljs-string">'apples'</span>;
-
-    itemTwo.name = <span class="hljs-string">'oranges'</span>;
-
-    listController.<span class="hljs-function">setItems([itemOne, itemTwo])</span>;
-
-  })</span>;
-
-
-
-  <span class="hljs-function">afterEach( <span class="hljs-function">function()</span> {
-
-    listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">removeAll()</span>;
-
-  })</span>;
-
-
-
-  <span class="hljs-function">it(<span class="hljs-string">'should fill list with provided items'</span>, <span class="hljs-function">function()</span> {
-
-    var items = listController.<span class="hljs-function">getItemList()</span>;
-
-    <span class="hljs-function">expect(items.<span class="hljs-function">itemLength()</span>)</span>.<span class="hljs-function">toEqual(<span class="hljs-number">2</span>)</span>;
-
-    <span class="hljs-function">expect(items.<span class="hljs-function">getItemAt(<span class="hljs-number">0</span>)</span>)</span>.<span class="hljs-function">toBe(itemOne)</span>;
-
-    <span class="hljs-function">expect(items.<span class="hljs-function">getItemAt(<span class="hljs-number">1</span>)</span>)</span>.<span class="hljs-function">toBe(itemTwo)</span>;
-
-  })</span>;
-
-
-
-})</span>;
-</code></pre><p>This simple first spec tells us that an array of items can be provided to the <code>list-controller</code> using <code>setItems()</code> and should be accessible by its collection. And we fail with no surprises:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_17.png" alt="Failing on setItems of list-controller"></p>
-<h3 id="list-controller-modification">list-controller modification</h3>
-<p>Throughout this series I have employed a quasi-<a href="http://coderetreat.org/facilitating/activities/tdd-as-if-you-meant-it"><em>“TDD as if you mean it”</em></a> approach when creating new components and modifying the API on existing ones. With this modification to the <code>list-controller</code>, I am going to stick to getting the tests to pass by modifying the <code>list-controller</code> directly as I feel it is going to get a little more involved and will require some refactoring that would be better suited by focusing on true implementation.</p>
-<p>With that said, let’s modify <code>list-controller</code> to get that new spec passing:</p>
-<p><em>/script/controller/list-controller.js</em></p>
-<pre><code>listController = {
-
-  $view: <span class="hljs-literal">undefined</span>,
-
-  getItemList: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-    <span class="hljs-keyword">return</span> collection;
-
-  },
-
-  getRendererFromItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
-
-    <span class="hljs-keyword">var</span> i = rendererList.itemLength(),
-
-        renderer;
-
-    <span class="hljs-keyword">while</span>( --i &gt; -<span class="hljs-number">1</span> ) {
-
-      renderer = rendererList.getItemAt(i);
-
-      <span class="hljs-keyword">if</span>(renderer.model === item) {
-
-        <span class="hljs-keyword">return</span> renderer;
-
-      }
-
-    }
-
-    <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
-
-  },
-
-  createNewItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-    <span class="hljs-keyword">var</span> model = modelFactory.create();
-
-    collection.addItem(model);
-
-    <span class="hljs-keyword">return</span> model;
-
-  },
-
-  removeItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
-
-    <span class="hljs-keyword">return</span> collection.removeItem(item);
-
-  },
-
-  setView: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(view)</span> {</span>
-
-    <span class="hljs-keyword">this</span>.$view = (view <span class="hljs-keyword">instanceof</span> $) ? view : $(view);
-
-  },
-
-  setItems: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(items)</span> {</span>
-
-    collection = collectionFactory.create(items);
-
-  }
-
-};
-</code></pre><p>Well, that was easy enough!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_18.png" alt="Passing on setItems() of list-controller"></p>
-<h3 id="tests">Tests</h3>
-<p>Not so fast… I think our single spec may be deceiving our expectations. Let’s add a few more and make sure we are on the right path. To start, we expect changes to these new models to propagate events when it is modified – such as in the work we have done previously.</p>
-<p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
-<pre><code>async.it(<span class="hljs-string">'should dispatch events of property-change from provided items'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
-
-  <span class="hljs-keyword">var</span> items = listController.getItemList(),
-
-      itemOne = items.getItemAt(<span class="hljs-number">0</span>);
-
-  $(listController).on(<span class="hljs-string">'save-item'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
-
-    $(listController).off(<span class="hljs-string">'save-item'</span>);
-
-    expect(event.item).toBe(itemOne);
-
-    done();
-
-  });
-
-  itemOne.marked = <span class="hljs-literal">true</span>;
-
-});
-</code></pre><p>This spec tells us that changes to an item should be notified through the <code>list-controller</code> – basically the work we had done previously in getting the <code>list-controller</code> to dispatch events related to its underlying collection so as to be captured by observing parties.<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_19.png" alt="Failing on async timeout of event from item"></p>
-<p>This test actually reveals some refactoring that is required within the <code>list-controller</code>. In essence, creating a new collection from the provided items in <code>setItems()</code> is not enough to have the application work as expected – each individual item needs to be managed by a <code>list-item-controller</code> which responds and notifies of changes accordingly. We had previously paired an item with a item controller within the <code>collection-change</code> event handler of the collection in <code>list-controller</code>:</p>
-<p><em>/script/controller/list-controller.js</em></p>
-<pre><code><span class="hljs-list">(<span class="hljs-title">function</span> assignCollectionHandlers<span class="hljs-list">($collection)</span> {
-
-
-
-  var EventKindEnum = collectionFactory.collectionEventKind,
-
-      isValidValue = function<span class="hljs-list">(<span class="hljs-title">value</span>)</span> {
-
-        return value <span class="hljs-keyword">&amp;&amp;</span> <span class="hljs-list">(<span class="hljs-title">value</span>.hasOwnProperty<span class="hljs-list">('length')</span> <span class="hljs-keyword">&amp;&amp;</span> value.length &gt; <span class="hljs-number">0</span>)</span><span class="hljs-comment">;</span>
-
-      }<span class="hljs-comment">;</span>
-
-
-
-  $collection.on<span class="hljs-list">('collection-change', function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> {
-
-    var model,
-
-        itemController,
-
-        $itemController,
-
-        $itemView<span class="hljs-comment">;</span>
-
-    switch<span class="hljs-list">( event.kind )</span> {
-
-      case EventKindEnum.ADD:
-
-        $itemView = $<span class="hljs-list">('&lt;li&gt;')</span><span class="hljs-comment">;</span>
-
-        model = event.items.shift<span class="hljs-list">()</span><span class="hljs-comment">;</span>
-
-        itemController = itemControllerFactory.create<span class="hljs-list">($itemView, model)</span><span class="hljs-comment">;</span>
-
-        $itemController = $<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span><span class="hljs-comment">;</span>
-
-
-
-        $itemView.appendTo<span class="hljs-list">(<span class="hljs-title">listController</span>.$view)</span><span class="hljs-comment">;</span>
-
-        rendererList.addItem<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span><span class="hljs-comment">;</span>
-
-        $<span class="hljs-list">(<span class="hljs-title">listController</span>)</span>.trigger<span class="hljs-list">(<span class="hljs-title">createSaveEvent</span><span class="hljs-list">(<span class="hljs-title">model</span>)</span>)</span><span class="hljs-comment">;</span>
-
-        itemController.state = itemControllerFactory.state.EDITABLE<span class="hljs-comment">;</span>
-
-
-
-        $itemController.on<span class="hljs-list">('remove', function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> {
-
-          listController.removeItem<span class="hljs-list">(<span class="hljs-title">model</span>)</span><span class="hljs-comment">;</span>
-
-        })</span><span class="hljs-comment">;</span>
-
-        $itemController.on<span class="hljs-list">('commit', function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> {
-
-          if<span class="hljs-list">(!isValidValue<span class="hljs-list">(<span class="hljs-title">model</span>.name)</span>)</span> {
-
-            listController.removeItem<span class="hljs-list">(<span class="hljs-title">model</span>)</span><span class="hljs-comment">;</span>
-
-          }
-
-          else {
-
-            $<span class="hljs-list">(<span class="hljs-title">listController</span>)</span>.trigger<span class="hljs-list">(<span class="hljs-title">createSaveEvent</span><span class="hljs-list">(<span class="hljs-title">model</span>)</span>)</span><span class="hljs-comment">;</span>
-
-          }
-
-        })</span><span class="hljs-comment">;</span>
-
-        break<span class="hljs-comment">;</span>
-
-      case EventKindEnum.REMOVE:
-
-        model = event.items.shift<span class="hljs-list">()</span><span class="hljs-comment">;</span>
-
-        itemController = listController.getRendererFromItem<span class="hljs-list">(<span class="hljs-title">model</span>)</span>,
-
-        $itemController = $<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span><span class="hljs-comment">;</span>
-
-
-
-        if<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span> {
-
-          $itemView = itemController.parentView<span class="hljs-comment">;</span>
-
-          $itemView.remove<span class="hljs-list">()</span><span class="hljs-comment">;</span>
-
-          itemController.dispose<span class="hljs-list">()</span><span class="hljs-comment">;</span>
-
-          $itemController.off<span class="hljs-list">('remove')</span><span class="hljs-comment">;</span>
-
-          $itemController.off<span class="hljs-list">('commit')</span><span class="hljs-comment">;</span>
-
-          rendererList.removeItem<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span><span class="hljs-comment">;</span>
-
-          $<span class="hljs-list">(<span class="hljs-title">listController</span>)</span>.trigger<span class="hljs-list">(<span class="hljs-title">createRemoveEvent</span><span class="hljs-list">(<span class="hljs-title">model</span>)</span>)</span><span class="hljs-comment">;</span>
-
-        }
-
-        break<span class="hljs-comment">;</span>
-
-      case EventKindEnum.RESET:
-
-        break<span class="hljs-comment">;</span>
-
-    }
-
-  })</span><span class="hljs-comment">;</span>
-
-
-
-}<span class="hljs-list">($<span class="hljs-list">(<span class="hljs-title">collection</span>)</span>)</span>)</span><span class="hljs-comment">;</span>
-</code></pre><p>That <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a> was run in the module prior to returning the <code>list-controller</code> instance. Now, we could just copy that code from the <code>EventKindEnum.ADD</code> case and shove it into <code>setItems()</code>, applying it to each item in a loop, but that wouldn’t be very efficient, not to mention a cry-inducing solution for anyone (including yourself) which need to revisit your code.</p>
-<h3 id="list-controller-refactor">list-controller refactor</h3>
-<p>I think we are going to have to get rid of this <strong>IIFE</strong>, but let’s do that modification in piecemeal; first, let’s strip out the item management when added to a collection:</p>
-<p><em>/script/controller/list-controller.js</em></p>
-<pre><code><span class="hljs-keyword">var</span> collection = collectionFactory.create(),
-
-    rendererList = collectionFactory.create(),
-
-    manageItemInList = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item, listController)</span> {</span>
-
-      <span class="hljs-keyword">var</span> <span class="hljs-variable">$itemView</span> = $(<span class="hljs-string">'&lt;li&gt;'</span>),
-
-          itemController = itemControllerFactory.create(<span class="hljs-variable">$itemView</span>, item),
-
-          <span class="hljs-variable">$itemController</span> = $(itemController),
-
-          isValidValue = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value)</span> {</span>
-
-            <span class="hljs-keyword">return</span> value &amp;&amp; (value.hasOwnProperty(<span class="hljs-string">'length'</span>) &amp;&amp; value.length &gt; <span class="hljs-number">0</span>);
-
-          };
-
-
-
-      <span class="hljs-variable">$itemView</span>.appendTo(listController.<span class="hljs-variable">$view</span>);
-
-      rendererList.addItem(itemController);
-
-
-
-      <span class="hljs-variable">$itemController</span>.on(<span class="hljs-string">'remove'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
-
-        listController.removeItem(item);
-
-      });
-
-      <span class="hljs-variable">$itemController</span>.on(<span class="hljs-string">'commit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
-
-        <span class="hljs-keyword">if</span>(!isValidValue(item.name)) {
-
-          listController.removeItem(item);
-
-        }
-
-        <span class="hljs-keyword">else</span> {
-
-          $(listController).trigger(createSaveEvent(item));
-
-        }
-
-      });
-
-      <span class="hljs-keyword">return</span> itemController;
-
-    },
-
-    listController = {
-
-      <span class="hljs-variable">$view</span>: undefined,
-
-      ...
-
-    };
-</code></pre><p>Most of what was held in the <code>EventKindEnum.ADD</code> case of the <code>collection-change</code> handler has been moved to its own function expression – <code>manageItemInList()</code>. If we look at how this case is modified we see that we have left state initialization and event dispatching:</p>
-<p><em>/script/controller/list-controller.js</em></p>
-<pre><code>case EventKindEnum<span class="hljs-preprocessor">.ADD</span>:
-
-  model = event<span class="hljs-preprocessor">.items</span><span class="hljs-preprocessor">.shift</span>()<span class="hljs-comment">;</span>
-
-  itemController = manageItemInList(model, listController)<span class="hljs-comment">;</span>
-
-  itemController<span class="hljs-preprocessor">.state</span> = itemControllerFactory<span class="hljs-preprocessor">.state</span><span class="hljs-preprocessor">.EDITABLE</span><span class="hljs-comment">;</span>
-
-  $(listController)<span class="hljs-preprocessor">.trigger</span>(createSaveEvent(model))<span class="hljs-comment">;</span>
-
-  <span class="hljs-keyword">break</span><span class="hljs-comment">;</span>
-</code></pre><p>When an item is added to the collection and the list-controller is notified, it creates a new <code>list-item-controller</code> using <code>manageItemInList()</code>, sets the controller’s state to <code>EDITABLE</code> and notifies of its addition. The last two operations are of note, as they only pertain to <em>new</em> additions to the collection – we don’t want such things for existing items being added to the list from <code>setItems()</code>.</p>
-<p><em>/script/controller/list-controller.js</em></p>
-<pre><code><span class="hljs-attribute">setItems</span>: <span class="hljs-string">function(items) {</span>
-
-<span class="matlab">  var <span class="hljs-built_in">i</span>, <span class="hljs-built_in">length</span> = <span class="hljs-transposed_variable">items.</span><span class="hljs-built_in">length</span>;
-
-  collection = <span class="hljs-transposed_variable">collectionFactory.</span>create();
-
-  <span class="hljs-keyword">for</span>( <span class="hljs-built_in">i</span> = <span class="hljs-number">0</span>; <span class="hljs-built_in">i</span> &lt; <span class="hljs-built_in">length</span>; <span class="hljs-built_in">i</span>++ ) <span class="hljs-cell">{
-
-    manageItemInList(items[i], this);
-
-    collection.addItem(items[i]);
-
-  }</span>
-
-}</span>
-</code></pre><p>Now if we run the tests again:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_20.png" alt="Passing on modifications to item management in list-controller"></p>
-<p>Passing! </p>
-<h3 id="tests">Tests</h3>
-<p>I don’t think we are out of the woods yet, however… Let’s continue to add more expectations about setting the collection through <code>setItems()</code>on <code>list-controller</code>:</p>
-<p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
-<pre><code>async.it(<span class="hljs-string">'should dispatch event of remove-item from collection'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
-
-  $(listController).on(<span class="hljs-string">'remove-item'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
-
-    $(listController).off(<span class="hljs-string">'remove-item'</span>);
-
-    expect(event.item).toBe(itemOne);
-
-    done();
-
-  });
-
-  listController.removeItem(itemOne);
-
-});
-</code></pre><p>This test ensures that the <code>list-controller</code> should still be responding to and notifying of changes to the new collection created through <code>setItems()</code> just as it should if the <code>list-controller</code> was only being instructed to modify the collection through calls to <code>createNewItem()</code>.</p>
-<h3 id="list-controller-refactoring">list-controller refactoring</h3>
-<p>To save you some time in downloading more images, believe me when I tell you I just put us back in red <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> The reason being that dang <code>assignCollectionHandlers</code> <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a>. The collection that is created in <code>setItems()</code> is not being observed. The <strong>IIFE</strong> to assign events handlers is only run upon load of the module and only targets the collection instantiated in its declaration. In other words, any new collections will not be observed.</p>
-<p>I say we move that <strong>IIFE</strong> out into its own expression:</p>
-<p><em>/script/controller/list-controller.js</em></p>
-<pre><code><span class="hljs-keyword">var</span> collection = collectionFactory.create(),
-
-    rendererList = collectionFactory.create(),
-
-    assignCollectionHandlers = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(<span class="hljs-variable">$collection</span>)</span> {</span>
-
-      <span class="hljs-keyword">var</span> EventKindEnum = collectionFactory.collectionEventKind;
-
-      <span class="hljs-variable">$collection</span>.on(<span class="hljs-string">'collection-change'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
-
-        <span class="hljs-keyword">var</span> model,
-
-            itemController,
-
-            <span class="hljs-variable">$itemController</span>,
-
-            <span class="hljs-variable">$itemView</span>;
-
-        <span class="hljs-keyword">switch</span>( event.kind ) {
-
-          <span class="hljs-keyword">case</span> EventKindEnum.ADD:
-
-            model = event.items.shift();
-
-            itemController = manageItemInList(model, listController);
-
-            itemController.state = itemControllerFactory.state.EDITABLE;
-
-            $(listController).trigger(createSaveEvent(model));
-
-            <span class="hljs-keyword">break</span>;
-
-          <span class="hljs-keyword">case</span> EventKindEnum.REMOVE:
-
-            model = event.items.shift();
-
-            itemController = listController.getRendererFromItem(model),
-
-            <span class="hljs-variable">$itemController</span> = $(itemController);
-
-
-
-            <span class="hljs-keyword">if</span>(itemController) {
-
-              <span class="hljs-variable">$itemView</span> = itemController.parentView;
-
-              <span class="hljs-variable">$itemView</span>.remove();
-
-              itemController.dispose();
-
-              <span class="hljs-variable">$itemController</span>.off(<span class="hljs-string">'remove'</span>);
-
-              <span class="hljs-variable">$itemController</span>.off(<span class="hljs-string">'commit'</span>);
-
-              rendererList.removeItem(itemController);
-
-              $(listController).trigger(createRemoveEvent(model));
-
-            }
-
-            <span class="hljs-keyword">break</span>;
-
-          <span class="hljs-keyword">case</span> EventKindEnum.RESET:
-
-            <span class="hljs-keyword">break</span>;
-
-        }
-
-      });
-
-    },
-
-    manageItemInList = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item, listController)</span> {</span>
-
-      <span class="hljs-comment">// implementation removed to reduce noise</span>
-
-    },
-
-    listController = {
-
-      <span class="hljs-comment">// implementation removed to reduce noise</span>
-
-    }
-</code></pre><p>We basically took what was the named <code>assignCollectionHandlers</code> <strong>IIFE</strong> and added it to the variable declarations within the <code>list-controller</code> module. That changes the code between those declarations and the return of the <code>listController</code> instance to:</p>
-<p><em>/script/controller/list-controller.js</em></p>
-<pre><code><span class="hljs-keyword">var</span> collection = collectionFactory.create(),
-
-    rendererList = collectionFactory.create(),
-
-    assignCollectionHandlers = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($collection)</span> {</span>
-
-      <span class="hljs-comment">// implementation removed to reduce noise</span>
-
-    },
-
-    manageItemInList = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item, listController)</span> {</span>
-
-      <span class="hljs-comment">// implementation removed to reduce noise</span>
-
-    },
-
-    listController = {
-
-      <span class="hljs-comment">// implementation removed to reduce noise</span>
-
-    };
-
-
-
-assignCollectionHandlers($(collection));
-
-
-
-<span class="hljs-keyword">return</span> listController;
-</code></pre><p>With those changes we are still failing on the last spec we created, but more importantly we have not caused any other tests to fail!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_21.png" alt="Still failing, but failing well!"></p>
-<p>Let’s get that last spec to pass:</p>
-<p><em>/script/controller/list-controller.js</em></p>
-<pre><code><span class="hljs-attribute">setItems</span>: <span class="hljs-string">function(items) {</span>
-
-<span class="matlab">  var <span class="hljs-built_in">i</span>, <span class="hljs-built_in">length</span> = <span class="hljs-transposed_variable">items.</span><span class="hljs-built_in">length</span>;
-
-  collection = <span class="hljs-transposed_variable">collectionFactory.</span>create();
-
-  <span class="hljs-keyword">for</span>( <span class="hljs-built_in">i</span> = <span class="hljs-number">0</span>; <span class="hljs-built_in">i</span> &lt; <span class="hljs-built_in">length</span>; <span class="hljs-built_in">i</span>++ ) <span class="hljs-cell">{
-
-    manageItemInList(items[i], this);
-
-    collection.addItem(items[i]);
-
-  }</span>
-
-  assignCollectionHandlers($(collection));
-
-}</span>
-</code></pre><p>Hurrah!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_22.png" alt="Passing again!"></p>
-<p>Tagged <strong>0.1.13</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.13"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.13">https://github.com/bustardcelly/grocery-ls/tree/0.1.13</a></a></p>
-<h2 id="hooking-it-all-together">Hooking it all together</h2>
-<p>We have created our <code>storage-service</code> to communicate with <code>localStorage</code>, modified <code>list-controller</code> to dispatch events and accept initial items for its collection and all our tests are still passing! It’s a wonderous feeling. Now let’s get to actually hooking them up so that the <code>storage-service</code> is told how to handle changes to the list by responding to <code>list-controller</code> events.</p>
-<p>Normally, in such situations I would create another component to the application that would serve as an mediator for such integration, receiving events from <code>list-controller</code> and invoking the <code>storage-service</code>. Naturally, that would also call for more tests in assuring that the mediator did its job correctly. I am not going to do that here. This is a small application meant for our own personal use and this series has gotten quite long; I don’t want to scare you away by adding more dependencies, but I would encourage you to do so on your own if you feel so…. just don’t forget the tests!</p>
-<p>I think modifying the main JavaScript file (<em>/script/grocery-ls.js</em>) that defines the module dependencies and initializes the <strong>Grocery List</strong> application is fine enough for the task at hand:</p>
-<p><em>/script/grocery-ls.js</em></p>
-<pre><code><span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">window</span>, require)</span> <span class="hljs-collection">{
-
-
-
-  require.config<span class="hljs-list">(<span class="hljs-collection">{
-
-    baseUrl: <span class="hljs-string">"."</span>,
-
-    paths: <span class="hljs-collection">{
-
-      <span class="hljs-string">"lib"</span>: <span class="hljs-string">"./lib"</span>,
-
-      <span class="hljs-string">"script"</span>: <span class="hljs-string">"./script"</span>,
-
-      <span class="hljs-string">"jquery"</span>: <span class="hljs-string">"./lib/jquery-1.8.3.min"</span>
-
-    }</span>
-
-  }</span>)</span><span class="hljs-comment">;</span>
-
-
-
-  require<span class="hljs-list">( <span class="hljs-collection">['jquery', 'script/controller/list-controller', 'script/service/storage-service']</span>,
-
-            function<span class="hljs-list">(<span class="hljs-title">$</span>, listController, storageService)</span> <span class="hljs-collection">{
-
-
-
-    var $listController = $<span class="hljs-list">(<span class="hljs-title">listController</span>)</span><span class="hljs-comment">;</span>
-
-    listController.setView<span class="hljs-list">(<span class="hljs-title">$</span><span class="hljs-list">(<span class="hljs-title">'section.groceries</span> ul')</span>)</span><span class="hljs-comment">;</span>
-
-
-
-    storageService.getItems<span class="hljs-list">()</span>.then<span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">items</span>)</span> <span class="hljs-collection">{
-
-      listController.setItems<span class="hljs-list">(<span class="hljs-title">items</span>)</span><span class="hljs-comment">;</span>
-
-    }</span>)</span><span class="hljs-comment">;</span>
-
-    $listController.on<span class="hljs-list">(<span class="hljs-title">'save-item'</span>, function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> <span class="hljs-collection">{
-
-      storageService.saveItem<span class="hljs-list">(<span class="hljs-title">event.item</span>)</span>.then<span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">item</span>)</span> <span class="hljs-collection">{
-
-        console.log<span class="hljs-list">(<span class="hljs-title">'Item</span> saved! ' + item.name)</span><span class="hljs-comment">;</span>
-
-      }</span>, function<span class="hljs-list">(<span class="hljs-title">error</span>)</span> <span class="hljs-collection">{
-
-        console.log<span class="hljs-list">(<span class="hljs-title">'Item</span> not saved: ' + error)</span>
-
-      }</span>)</span><span class="hljs-comment">;</span>
-
-    }</span>)</span><span class="hljs-comment">;</span>
-
-    $listController.on<span class="hljs-list">(<span class="hljs-title">'remove-item'</span>, function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> <span class="hljs-collection">{
-
-      storageService.removeItem<span class="hljs-list">(<span class="hljs-title">event.item</span>)</span>.then<span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">item</span>)</span> <span class="hljs-collection">{
-
-        console.log<span class="hljs-list">(<span class="hljs-title">'Item</span> removed! ' + item.name)</span><span class="hljs-comment">;</span>
-
-      }</span>, function<span class="hljs-list">(<span class="hljs-title">error</span>)</span> <span class="hljs-collection">{
-
-        console.log<span class="hljs-list">(<span class="hljs-title">'Item</span> not removed: ' + error)</span><span class="hljs-comment">;</span>
-
-      }</span>)</span><span class="hljs-comment">;</span>
-
-    }</span>)</span><span class="hljs-comment">;</span>
-
-    $<span class="hljs-list">(<span class="hljs-title">'#add-item-button'</span>)</span>.on<span class="hljs-list">(<span class="hljs-title">'click'</span>, function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> <span class="hljs-collection">{
-
-      listController.createNewItem<span class="hljs-list">()</span><span class="hljs-comment">;</span>
-
-    }</span>)</span><span class="hljs-comment">;</span>
-
-
-
-  }</span>)</span><span class="hljs-comment">;</span>
-
-
-
-}</span><span class="hljs-list">(<span class="hljs-title">window</span>, requirejs)</span>)</span><span class="hljs-comment">;</span>
-</code></pre><p>Just a slight modification to the main file. We added <code>storage-service</code> as an initial dependency, request and supply stored items to the list-controller and respond to <code>save-item</code> and <code>remove-item</code> events, forwarding actions along to the <code>storage-service</code> appropriately.</p>
-<p>If we run the application now, we can add, mark-off, remove items from the list. Same as before, but now, if we refresh the page, items and their state a persisted!</p>
-<p><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_27.png" alt="Grocery list application"></p>
-<p>It may look a little different than your if you have been following along in the code. I added some nice styling and committed it to the repo.</p>
-<p>Tagged <strong>0.2.0</strong> : <a href="https://github.com/bustardcelly/grocery-ls/tree/0.2.0"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.2.0">https://github.com/bustardcelly/grocery-ls/tree/0.2.0</a></a></p>
-<h2 id="conclusion">Conclusion</h2>
-<p>We have completed our <strong>Grocery List</strong> application and have it fully tested (well, hopefully <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ). We now have a grocery list that we can curate and is persisted in the browser. It should be noted that it is not persistent across browser<strong>s</strong>, plural – so make sure to open it in the same browser on your mobile device when creating the list and shopping. I am most likely going to whip up a little server to persist the list remotely, but am not going to document that in this series. It may end up in the <a href="https://github.com/bustardcelly/grocery-ls">github repo</a> eventually, however, so keep an eye out.</p>
-<p>Thanks for sticking around in this long series (<em>ten parts!</em>) of building an application by trying to adhere to <strong>TDD</strong>. I may have gone off course here and there, but I hope it was informative in any way.</p>
-<p>Cheers!</p>
-<p>—-</p>
-<h1 id="link-dump">Link Dump</h1>
-<h2 id="reference">Reference</h2>
-<p><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://cumulative-hypotheses.org/2011/08/30/tdd-as-if-you-meant-it/">TDD as if you Meant it by Keith Braithwaite</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a></p>
-<h2 id="post-series">Post Series</h2>
-<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>.</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>
+]]></description><link>http://custardbelly.com/blog/blog-posts/2014/01/03/so-long-wordpress/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/01/03/so-long-wordpress/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>

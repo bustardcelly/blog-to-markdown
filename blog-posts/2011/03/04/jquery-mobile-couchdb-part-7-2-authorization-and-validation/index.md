@@ -1,6 +1,6 @@
 ---
 title: 'jQuery Mobile + CouchDB: Part 7.2 – Authorization and Validation'
-url: 'http://custardbelly.com/blog/2011/03/04/jquery-mobile-couchdb-part-7-2-%e2%80%93-authorization-and-validation/'
+url: 'http://custardbelly.com/blog/2011/03/04/jquery-mobile-couchdb-part-7-2-authorization-and-validation/'
 author:
   name: 'todd anderson'
 date: '2011-03-04'

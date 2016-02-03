@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - Micro-Library Facades and Dependency Management using RequireJS</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2012/03/06/facaded-micro-libraries-and-dependency-management-using-requirejs/index.html">Micro-Library Facades and Dependency Management using RequireJS</a></h1>
+    <h1><a href="/blog-posts/2012/03/06/facaded-micro-libraries-and-dependency-management-using-requirejs/index.html">Micro-Library Facades and Dependency Management using RequireJS</a></h1>
     <p>
       2012 March 6th
       
@@ -64,7 +64,7 @@
 <h2 id="the-problem">The Problem</h2>
 <p>While test-driving some micro-libraries it quickly became apparent how inefficient my process was. I would start creating a new project to test out a library and copy over numerous files or <em>worse</em> just fill up a directory with files targeting and named after the library I was including. This grew out of control and weakened a proper evaluation of a library with all the clutter; <em>which one was it? where did i use it? why am i so hungry?</em></p>
 <p>Out of a desire to mitigate this confusion, I settled on an approach to provide a consistent API for development of an application through facades that affords the ability to test-drive different micro-libraries with similar responsibilities. The basic premise is to define a common API that I can develop against contextually, and define and swap out abstracted adaptations of different micro-libraries. As such, I can amass a directory of modules that define this API and declare the library I am currently working within a require statement using <a href="http://requirejs.org/">RequireJS</a>. I believe it is more of a poor-man’s, less-robust and perhaps not production ready approach that <a href="http://addyosmani.com/blog/">Addy Osmani</a> is working on with <a href="https://github.com/addyosmani/backbone-aura">Aura</a> – a library I am very excited to checkout.</p>
-<p>I have some basic examples of the solution I am using at <a href="http://github.com/bustardcelly/requirejs-microlib-facade"><a href="http://github.com/bustardcelly/requirejs-microlib-facade">http://github.com/bustardcelly/requirejs-microlib-facade</a></a>.</p>
+<p>I have some basic examples of the solution I am using at <a href="http://github.com/bustardcelly/requirejs-microlib-facade">http://github.com/bustardcelly/requirejs-microlib-facade</a>.</p>
 <h2 id="facades">Facades</h2>
 <p>As mentioned previously, the largest part of this solution is to provide a common API to develop against. I want to have my scripts that interact with an API to pass tests regardless of the dependency passed in – with the dependence being the facade module that is adapted to the target micro-library. This area is possibly the crux of the whole argument. Which API do you adapt to? Or rather, which implementation of a micro-library should you favor in exposing an API for multiple micro-libraries? A lot of them have similar methods, but the delegate response signatures can vary. It’s all at the whim of the developer of the micro-library and their vision of the cleanest solution. I don’t have an answer to this, by the way <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Just bringing it up. I lean towards providing an API that is similar to the most widely-used solution.</p>
 <p>Recently I have been evaluating client-side routing libraries that fit perfectly into this modularized facading concept. Particularly, the first library I wanted to test was <a href="https://github.com/mtrpcic/pathjs">PathJS</a> which provided support for <a href="http://diveintohtml5.info/history.html">HTML5 history</a> as well as fall-back to hash tags (plus niceties like parameterized routes, roots, and others). However, as it provided these capabilities, it also provided two different APIs for them. We could go into a discussion of whether this is good practice and whether it should be abstracted away from the front-end developer, but that isn’t my biggest concern at the moment – especially as we can mitigate that concern by abstracting each approach into facades that share a common API. The following are examples of the implementations that adapt to the hash tag implementation and the History implementation respectively:</p>
@@ -258,7 +258,7 @@
 
 });
 </code></pre><p>Now I can swap out the preferred facade at any time during the development cycle of my project and not have to change any application code that depends on the one chosen.</p>
-<p>You can checkout the code and an example at <a href="https://github.com/bustardcelly/requirejs-microlib-facade"><a href="https://github.com/bustardcelly/requirejs-microlib-facade">https://github.com/bustardcelly/requirejs-microlib-facade</a></a>.</p>
+<p>You can checkout the code and an example at <a href="https://github.com/bustardcelly/requirejs-microlib-facade">https://github.com/bustardcelly/requirejs-microlib-facade</a>.</p>
 <h2 id="evaluation">Evaluation</h2>
 <p>This isn’t going to be an evaluation of the micro-libraries I am currently testing. Perhaps I will do that in another post, but usually I reserve stating my preference on libraries through <a href="http://twitter.com/_toddanderson_">annoying tweets</a>. Rather, I wanted to provide my running list of Pro’s and Con’s with regards to this approach of developing an application against a common API that is defined in AMD modules that provide access similarly to underlying micro-libraries that implement the same contextual task differently. I like starting with Con’s.</p>
 <p><strong>Cons:</strong></p>
@@ -296,10 +296,10 @@
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2012/02/07/current-workflow-developing-linting-testing-and-distributing-javascript/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2012/02/07/current-workflow-developing-linting-testing-and-distributing-javascript/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -317,11 +317,11 @@
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

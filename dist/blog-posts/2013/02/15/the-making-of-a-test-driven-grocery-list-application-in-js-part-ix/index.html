@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - The Making of a Test-Driven Grocery List Application in JS: Part IX</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/index.html">The Making of a Test-Driven Grocery List Application in JS: Part IX</a></h1>
+    <h1><a href="/blog-posts/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/index.html">The Making of a Test-Driven Grocery List Application in JS: Part IX</a></h1>
     <p>
       2013 February 15th
       
@@ -305,7 +305,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 });
 </code></pre><p><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_6.png" alt="Passing on model property update"></p>
 <p>We’re green!</p>
-<p>Tagged <strong>0.1.13</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.13"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.13">https://github.com/bustardcelly/grocery-ls/tree/0.1.13</a></a></p>
+<p>Tagged <strong>0.1.13</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.13">https://github.com/bustardcelly/grocery-ls/tree/0.1.13</a></p>
 <h3 id="settle-down">Settle Down</h3>
 <p>We have verified our expectations of <code>save-item</code> and <code>remove-item</code> events being dispatched from <code>list-controller</code> – new and model updates issuing the former, removal issuing the later. The work we have done was to separate concerns and not burden the <code>list-controller</code> itself with service communication for persisting the <strong>Grocery List</strong> items across browser sessions, but we have yet to address the actual service layer implementation that will take all these notifications.</p>
 <h2 id="storage-service">Storage Service</h2>
@@ -1158,7 +1158,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 })</span>;
 </code></pre><p>I had begun to add these expectations for multiple items in the list to the <code>saveItem()</code> spec suite, but I saw a similar setup for them both that differed from the origin setup for the <code>saveItem()</code> suite. As such, I moved these expectations to their own spec suite and particular setup.</p>
 <p>Without any new modification to <code>storage-service</code> implementation, run that and we are still green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_16.png" alt="Passing with new expectations for saveItem()"></p>
-<p>Tagged <strong>0.1.14</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.14"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.14">https://github.com/bustardcelly/grocery-ls/tree/0.1.14</a></a></p>
+<p>Tagged <strong>0.1.14</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.14">https://github.com/bustardcelly/grocery-ls/tree/0.1.14</a></p>
 <h2 id="this-is-all-great-but-we-still-haven-t-done-anything">This Is All Great But We Still Haven’t Done Anything</h2>
 <p>In other words, what this subsection header is trying to say, the <code>storage-service</code> – even after we hook up communication to it from <code>list-controller</code> events – will do <em>nothing</em> but keep a session-cache of items: <strong>there still is no persistence across sessions</strong>.</p>
 <p>Seeing as this is the case, let’s start integrating communication with <code>localStorage</code> into our <code>storage-service</code>. I am not going to modify the tests in order to verify the utilization of <code>localStorage</code> in relation to the operations available on <code>storage-service</code> – I am simply going to modify the <code>storage-service</code> and posible change expectations. The reason being that I do not really care about whether the storage-service relies on <code>localStorage</code> or a remote resource to read and write items to storage; I am only concerned with communication to <code>storage-service</code> being supported. </p>
@@ -1514,7 +1514,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 <p>Run those tests again, and we are back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_25.png" alt="Passing storage-service tests after modification!"></p>
 <p>… at least for our <code>storage-service</code>. Let’s turn on all our tests again and see if our previous expectations are met:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_26.png" alt="Passing tests!"></p>
 <p>Whoopie!</p>
-<p>Tagged <strong>0.1.15</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.15"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.15">https://github.com/bustardcelly/grocery-ls/tree/0.1.15</a></a></p>
+<p>Tagged <strong>0.1.15</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.15">https://github.com/bustardcelly/grocery-ls/tree/0.1.15</a></p>
 <p>We’re not done yet: we have still to hook up <code>list-controller</code> notification to <code>storage-service</code> operations. However, I want to end this article here on a good note <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <h2 id="conclusion">Conclusion</h2>
 <p>We have yet to reach our goal of incorporating session persistence within our <strong>Grocery List</strong> application – but that is not to say we have gotten nowhere. We implemented our <code>storage-service</code> layer for <code>localStorage</code> communication and modified the <code>list-controller</code> to notify of change events to its collection related to <code>grocery-ls-item</code> existence. Not to shabby. </p>
@@ -1531,10 +1531,10 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2013/02/04/madmin-for-ease-of-creating-and-documenting-restful-service-uris/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2013/02/04/madmin-for-ease-of-creating-and-documenting-restful-service-uris/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -1552,11 +1552,11 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

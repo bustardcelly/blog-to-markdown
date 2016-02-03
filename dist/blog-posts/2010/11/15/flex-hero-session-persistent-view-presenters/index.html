@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - Flex 4.5 (Hero) – Session-Persistent View Presenters</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2010/11/15/flex-hero-session-persistent-view-presenters/index.html">Flex 4.5 (Hero) – Session-Persistent View Presenters</a></h1>
+    <h1><a href="/blog-posts/2010/11/15/flex-hero-session-persistent-view-presenters/index.html">Flex 4.5 (Hero) – Session-Persistent View Presenters</a></h1>
     <p>
       2010 November 15th
       
@@ -58,12 +58,12 @@
     </p>
   </div>
   <section>
-    <p>As I had hinted at in my <a href="http://custardbelly.com/blog/?p=220">previous post</a>, before i went down the rabbit-hole of state data with regards to the life-cycle of a <strong>View</strong> object, I had intended to write about persisting <a href="http://martinfowler.com/eaaDev/SupervisingPresenter.html">Supervising Presenters</a> for <strong>View</strong>s within an application session. Before I go much farther, i do want to note that <a href="http://blogs.adobe.com/paulw/">Paul Williams</a> has some excellent posts up on different presenter patterns within the context of a Flex application which can be found at <a href="http://blogs.adobe.com/paulw/"><a href="http://blogs.adobe.com/paulw/">http://blogs.adobe.com/paulw/</a></a>. Specifically, I am taken by the <a href="http://blogs.adobe.com/paulw/archives/2007/10/presentation_pa_2.html">Supervising Presenter</a>, though i am not totally sold… which I hope to address in this post, but my main intent here is to show how I re-use a presenter for a View object to cut down on memory within an application session.</p>
+    <p>As I had hinted at in my <a href="http://custardbelly.com/blog/?p=220">previous post</a>, before i went down the rabbit-hole of state data with regards to the life-cycle of a <strong>View</strong> object, I had intended to write about persisting <a href="http://martinfowler.com/eaaDev/SupervisingPresenter.html">Supervising Presenters</a> for <strong>View</strong>s within an application session. Before I go much farther, i do want to note that <a href="http://blogs.adobe.com/paulw/">Paul Williams</a> has some excellent posts up on different presenter patterns within the context of a Flex application which can be found at <a href="http://blogs.adobe.com/paulw/">http://blogs.adobe.com/paulw/</a>. Specifically, I am taken by the <a href="http://blogs.adobe.com/paulw/archives/2007/10/presentation_pa_2.html">Supervising Presenter</a>, though i am not totally sold… which I hope to address in this post, but my main intent here is to show how I re-use a presenter for a View object to cut down on memory within an application session.</p>
 <p>I may touch upon the life-cycle of a <strong>View</strong> and how state data is maintained in this post, but not to the extent in my <a href="http://custardbelly.com/blog/?p=220">previous article</a>. I want to talk more about moving away from “<em>code behind</em>” in Flex-based mobile applications and implementing session-persistent presenters for <strong>View</strong>s.</p>
 <p>If you want to skip the yammering, you can view the source of an example here: <a href="http://www.custardbelly.com/downloads/hero/supervisor/">Mobile (Hero) Supervising Presenter Example</a></p>
 <h3 id="new-view-instance-on-each-request">New View instance on each request</h3>
 <p>Due to the instantiation of a new <strong>View</strong> instance upon each request from the <strong>ViewNavigator</strong> within a <strong>MobileApplication</strong> as discussed in my <a href="http://custardbelly.com/blog/?p=220">previous post</a>, I started really considering my choice to always use what is loosely called <a href="http://ted.onflash.org/2007/02/code-behind-in-flex-2.php">“<em>code behind</em>” in Flex</a>. I’ve always had somewhat of a problem with the implementation but just kept at it because it worked – separated logic into AS file from view mark-up in MXML – and (not always a fast and hard rule) don’t utilize another micro-architecture framework in projects. I’m not going to get into an argument about frameworks, but let’s leave it that i don’t always agree on their necessity when weighed against project requirements, deadlines and multi-developer teams.</p>
-<p>So “<em>code behind</em>” always was a minor sore point, but it got the job done and got it done in an organized fashion. But I am really taking it into consideration when optimizing applications for the mobile paradigm, mainly inheritance chain. To extend <strong>View</strong> for logic and then extend that view-controller for display again just seems like the wrong choice, especially when <strong>View</strong> is an nth extension of <strong>UIComponent</strong> already and taking in the inheritance memory point described here: <a href="http://help.adobe.com/en_US/flash/cs/using/WSD7F8E1A9-680A-4000-9BA9-D7B01FDD7ECD.html"><a href="http://help.adobe.com/en_US/flash/cs/using/WSD7F8E1A9-680A-4000-9BA9-D7B01FDD7ECD.html">http://help.adobe.com/en_US/flash/cs/using/WSD7F8E1A9-680A-4000-9BA9-D7B01FDD7ECD.html</a></a></p>
+<p>So “<em>code behind</em>” always was a minor sore point, but it got the job done and got it done in an organized fashion. But I am really taking it into consideration when optimizing applications for the mobile paradigm, mainly inheritance chain. To extend <strong>View</strong> for logic and then extend that view-controller for display again just seems like the wrong choice, especially when <strong>View</strong> is an nth extension of <strong>UIComponent</strong> already and taking in the inheritance memory point described here: <a href="http://help.adobe.com/en_US/flash/cs/using/WSD7F8E1A9-680A-4000-9BA9-D7B01FDD7ECD.html">http://help.adobe.com/en_US/flash/cs/using/WSD7F8E1A9-680A-4000-9BA9-D7B01FDD7ECD.html</a></p>
 <p>I started shopping around for <strong>Presenter</strong> patterns that i felt were the least intrusive (as i mentioned before Paul Williams has some great posts up <a href="http://blogs.adobe.com/paulw/">here</a>) and settled on the <strong>Supervising Presenter</strong> at the moment.</p>
 <p>Yet, seeing as a <strong>View</strong> is instantiated upon each request from <strong>ViewNavigator</strong>, I wanted to keep the overhead low and ensure that only one <strong>Presenter</strong> was created and associated with a view. In other words, upon the first instantiation of a <strong>View</strong> object, a <strong>Presenter</strong> is created and associated with the view. Upon destruction of the view, the <strong>Presenter</strong> reference is notified to stop supervising and is stored in the state data for that <strong>View</strong> object. When another instance of the <strong>View</strong> is instantiated, that data is read in and the <strong>Presenter</strong> is notified to start supervising again. So now we not only have the logic (depends on <em>how</em> much logic you determine necessary) separated from the view, but are re-using the same <strong>Presenter</strong> without having to create a new instance each time a user navigates to that View.</p>
 <p>Here are some examples:</p>
@@ -234,7 +234,7 @@
     &lt;s :TextInput id=<span class="hljs-string">"usernameField"</span> width=<span class="hljs-string">"100%"</span> /&gt;
     &lt;s :TextInput id=<span class="hljs-string">"passwordField"</span> width=<span class="hljs-string">"100%"</span> displayAsPassword=<span class="hljs-string">"true"</span> /&gt;
     &lt;s :Button id=<span class="hljs-string">"logInButton"</span> label=<span class="hljs-string">"log in"</span> /&gt;
-</code></pre><p>In essence, upon first creation of this <strong>View</strong> instance, the <strong>Supervising Presenter</strong> is created and assigned through a call to the <em>data</em> property setter (invoked by the <strong>ViewNavigator</strong> upon creation of the view). When the view is deactivated (by the <strong>ViewNavigator</strong> before destruction) the view-local <em>_data</em> property is updated to hold a reference to the associated supervising presenter for this view. Upon creation of a new instance, it is read in though the <em>data</em> setter and instructed to begin supervising again.</p>
+</code></pre><p>In essence, upon first creation of this <strong>View</strong> instance, the <strong>Supervising Presenter</strong> is created and assigned through a call to the <em>data</em> property setter (invoked by the <strong>ViewNavigator</strong> upon creation of the view). When the view is deactivated (by the <strong>ViewNavigator</strong> before destruction) the view-local _<em>data</em> property is updated to hold a reference to the associated supervising presenter for this view. Upon creation of a new instance, it is read in though the <em>data</em> setter and instructed to begin supervising again.</p>
 <p>The <strong>Supervising Presenter</strong> reference is persisted through the current session of the application and re-used upon each new instance of the <strong>View</strong>. Though i do hate using <strong>Script</strong> in MXML, this code does address my concerns in re-use, inheritance and separation of logic while utilizing the session-persistent hook-ins now present in the <strong>View</strong> API in Flex Hero.</p>
 <p><a href="http://www.custardbelly.com/downloads/hero/supervisor/">Mobile (Hero) Supervising Presenter Example</a></p>
 <p>Now… i gotta think about getting that <strong>Script</strong> outta my MXML <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
@@ -243,10 +243,10 @@
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2010/11/17/flex-hero-pausing-session-restoration/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2010/11/17/flex-hero-pausing-session-restoration/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2010/11/15/flex-hero-persistant-data-in-mobileapplication/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2010/11/15/flex-hero-persistant-data-in-mobileapplication/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -264,11 +264,11 @@
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

@@ -27,7 +27,7 @@ var ENV_LOCAL = 'local',
     DEPLOY_DEV = 'dryrun',
     DEPLOY_DIST = 'dist',
     LOCAL_LOCATION = '',
-    REMOTE_LOCATION = 'http://custardbelly.com/blog';
+    REMOTE_LOCATION = 'https://www.custardbelly.com/blog';
 
 var environment = ENV_REMOTE;
 var deployDest = DEPLOY_DIST;

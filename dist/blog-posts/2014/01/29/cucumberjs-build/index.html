@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - BDD in JavaScript III: CucumberJS and Test Automation</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">BDD in JavaScript III: CucumberJS and Test Automation</a></h1>
+    <h1><a href="/blog-posts/2014/01/29/cucumberjs-build/index.html">BDD in JavaScript III: CucumberJS and Test Automation</a></h1>
     <p>
       2014 January 29th
       
@@ -60,7 +60,7 @@
   <section>
     <p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html">previous post</a> I addressed the concepts of the <strong>World</strong> context and <strong>Background</strong> scenario. I am going to pause in actually working with <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in delivering code in a BDD manner for this article and address another vital part of the development process: <strong>Automation</strong>.</p>
 <h3 id="-gt-code">&gt; code</h3>
-<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
+<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></p>
 <h2 id="why-automate-">Why Automate?</h2>
 <p>The benefit of automation is in time saved. If we can pinpoint tasks that we do repetitively during development and automate them, we can save large amounts of time that could be put back into doing more coding, thinking, learning, laughing, beering - the list goes on.</p>
 <p>While going through the basics of <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in the previous articles, I was demonstrating how I use the tool to TDD from the outside-in and constantly hopping back and forth from my code editor to the terminal to run this simple command over and over:</p>
@@ -157,7 +157,7 @@ watch([<span class="hljs-string">'./features/step_definitions'</span>, <span cla
 <h2 id="grunt">Grunt</h2>
 <p>Up until a few years ago, I  stuck with what I knew best and preferred to maintain builds for my JavaScript projects using <a href="http://www.gnu.org/software/make/">Make</a>. After having the fortunate opportunity to hear <a href="http://benalman.com/">Ben Alman</a> speak and demonstrate <a href="http://gruntjs.com/">Grunt</a> at <a href="http://2013.texasjavascript.com/">TXJS</a> in 2012, I decided to give <strong>Grunt</strong> a real try - and I have, for the most part, not looked back.</p>
 <p><a href="http://gruntjs.com/">Grunt</a> is my go-to task automation tool for large projects that involve various complex tasks for developing, testing and deployment. For the most part, if my tasks are not solely based on files, I will incorporate <strong>Grunt</strong> into my project. </p>
-<p>Along with a solid history and great documentation, there is also a very active community that creates task plugins for <strong>Grunt</strong>: <a href="http://gruntjs.com/plugins"><a href="http://gruntjs.com/plugins">http://gruntjs.com/plugins</a></a>. You can find virtually anything you need, and if for some odd reason you can&#39;t, you can create one: <a href="http://gruntjs.com/creating-plugins">Creating Grunt Plugins Docs</a>.</p>
+<p>Along with a solid history and great documentation, there is also a very active community that creates task plugins for <strong>Grunt</strong>: <a href="http://gruntjs.com/plugins">http://gruntjs.com/plugins</a>. You can find virtually anything you need, and if for some odd reason you can&#39;t, you can create one: <a href="http://gruntjs.com/creating-plugins">Creating Grunt Plugins Docs</a>.</p>
 <p><em>It is too much for this article to get into a discussion about <strong>Grunt</strong> and its concepts, so please read the <a href="http://gruntjs.com/getting-started">documentation</a> on their site for clarity. In this section I intend to address how to use <strong>Grunt</strong> to automate the tests we have been developing in this series.</em></p>
 <h3 id="usage">Usage</h3>
 <p>Just as we setup a watcher for our <strong>Step Definitions</strong> and scripts for our <code>npm run</code> example, we will be using 2 <a href="http://gruntjs.com/">Grunt</a> plugin tasks provided by the wonderful development community:</p>
@@ -253,10 +253,10 @@ gulp.task(<span class="hljs-string">'watch-tests'</span>, <span class="hljs-func
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2014/03/18/gulp-rev-append/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2014/01/22/cucumberjs-world/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -274,11 +274,11 @@ gulp.task(<span class="hljs-string">'watch-tests'</span>, <span class="hljs-func
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

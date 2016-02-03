@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - Flex 4: Suspending the first frame</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2010/10/22/flex-4-suspending-the-first-frame/index.html">Flex 4: Suspending the first frame</a></h1>
+    <h1><a href="/blog-posts/2010/10/22/flex-4-suspending-the-first-frame/index.html">Flex 4: Suspending the first frame</a></h1>
     <p>
       2010 October 22nd
       
@@ -59,16 +59,16 @@
   </div>
   <section>
     <p>Have you ever wanted to add some extra loading process to the first frame so you can utilize the same <strong>download progress bar</strong> for other things beside <strong>RSL</strong> loading and initialization? Take for instance the desire to append the loading of a <a href="http://www.springactionscript.org/">Spring ActionScript</a> application context to the end of the initial loading process. Well, you can. Or rather, until someone tells me i am a fool, you can.</p>
-<p>You can quickly check out the source files for how to do this up on <strong>github</strong> at <a href="http://github.com/bustardcelly/custom-system-manager"><a href="http://github.com/bustardcelly/custom-system-manager">http://github.com/bustardcelly/custom-system-manager</a></a> and/or you can keep reading to find out more…</p>
+<p>You can quickly check out the source files for how to do this up on <strong>github</strong> at <a href="http://github.com/bustardcelly/custom-system-manager">http://github.com/bustardcelly/custom-system-manager</a> and/or you can keep reading to find out more…</p>
 <p>The main reason i started looking in to suspending the first frame in <strong>SystemManager</strong> in order to perform some other essential loading tasks is generally my dislike for seeing the download progress bar AND THEN seeing another loading bar once the application is initialized and on the display. Say for instance, your application needed to load some extra configurations or assets or what have you. It always bothered me that, as a user, i see the initial download progress bar of the Flex Application and, when complete, i see another one. The second one is usually designed differently, which is incongruent with my experience BUT if both loaders were designed the same, i am presented <em>TWO</em>. I see one, it goes away. I see another. Not a good user experience.</p>
 <p>I wanted to hook into that first frame in <strong>SystemManager</strong> and keep loading what was essential for my application to run. From start up.</p>
 <p><strong>Why do you keep talking about frames?</strong></p>
 <p>If you are unfamiliar about the <a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/mx/managers/SystemManager.html"><strong>SystemManager</strong></a> and the loading and initialization of a <strong>Flex Application</strong>, there is some really <a href="http://flexblog.faratasystems.com/2006/08/02/systemmanager-and-application-initialization">great stuff</a> out there that describes it. Particularly <a href="http://iamdeepa.com/blog/?p=11">this post</a> from <a href="http://iamdeepa.com/blog">Deepa Subramaniam</a>. But basically, a <strong>Flex Application</strong> is a two-frame SWF. The first frame is ruled by the <strong>SystemManager</strong> which goes about, among other things, tracking the load progress of the framework <strong>RSL</strong>s and the application code and presenting that (<em>at least the application code loading by default</em>) visually in a <strong>SparkDownloadProgressBar</strong> (if using <strong>Spark Application</strong> from Flex 4).</p>
 <p>The API allows for customizing the <strong>download progress bar</strong>, and if you are unfamiliar with how that can be done, there are also great articles out there about that. In particular, i will point you to <a href="http://jessewarden.com/2007/07/making-a-cooler-preloader-in-flex-part-1-of-3.html">Jesse Warden’s post</a>, this one by <a href="http://renaun.com/blog/2010/08/using-flex-hero-rsl-enhancements/">Renaun Erickson</a>, and this one by <a href="http://www.developmentarc.com/site/2010/09/rsl-calculations-new-flex-4-preloader">James Polanco</a>. All great stuff and informative reading. And <em>please, please, please</em> make sure you update your custom progress bar to display progress on loading the <strong>RSL</strong>s.</p>
 <p>The problem is that i don’t care about customizing the preloader (well actually, I DO, and you should too. Or i will come over there personally and give you the sad-face). The problem is that there are no hooks available to pause the preloader to perform other tasks. Meaning all the protected methods opened up in the <strong>DownloadProgressBar</strong> of the Flex 4 SDK have no way of suspending the first frame by preventing the default action. You can call <strong>event.preventDefault()</strong> and <strong>event.stopPropegation()</strong> all you want in the protected event handlers available, but they won’t keep the <strong>SystemManager</strong> from moving forward when it has finished loading the application code. (At least, i haven’t been able to).</p>
-<p>But fear not, there is a way to suspend that frame. The code to do it is up on github at <a href="http://github.com/bustardcelly/custom-system-manager"><a href="http://github.com/bustardcelly/custom-system-manager">http://github.com/bustardcelly/custom-system-manager</a></a>. </p>
+<p>But fear not, there is a way to suspend that frame. The code to do it is up on github at <a href="http://github.com/bustardcelly/custom-system-manager">http://github.com/bustardcelly/custom-system-manager</a>. </p>
 <p><strong>The basics?</strong></p>
-<p>I created a subclass of <strong>SystemManager</strong> and overrode the <strong>mx_internal</strong> event handler <em>preloader_completeHandler()</em>. This method is generally called after all the <strong>RSL</strong>s and framework code is loaded in to the SWF. Within <strong>SystemManager</strong>, this would move on towards initializing all the other goodies available from <strong>SystemManager</strong> (including all the <strong>[Mixin] init()</strong> calls if you defined them in you application) by invoking <em>kickOff()</em>. By extending <strong>SystemManager</strong> and overriding <em>preloader_completeHandler()</em> we can suspend that call to <em>kickOff()</em> and notify our custom downloader that the frame is now suspended and we can do some custom loading:</p>
+<p>I created a subclass of <strong>SystemManager</strong> and overrode the <strong>mx_internal</strong> event handler _preloader<em>completeHandler()</em>. This method is generally called after all the <strong>RSL</strong>s and framework code is loaded in to the SWF. Within <strong>SystemManager</strong>, this would move on towards initializing all the other goodies available from <strong>SystemManager</strong> (including all the <strong>[Mixin] init()</strong> calls if you defined them in you application) by invoking <em>kickOff()</em>. By extending <strong>SystemManager</strong> and overriding _preloader<em>completeHandler()</em> we can suspend that call to <em>kickOff()</em> and notify our custom downloader that the frame is now suspended and we can do some custom loading:</p>
 <pre><code>[Event(name=<span class="hljs-string">"frameSuspended"</span>, type=<span class="hljs-string">"com.custardbelly.application.event.CustomSystemManagerEvent"</span>)]
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CustomSystemManager</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SystemManager</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ICustomSystemManager</span>
 {</span>
@@ -180,21 +180,21 @@
     xmlns:mx<span class="hljs-subst">=</span><span class="hljs-string">"library://ns.adobe.com/flex/mx"</span>
     preloader<span class="hljs-subst">=</span><span class="hljs-string">"com.custardbelly.manager.example.CustomContextPreloader"</span><span class="hljs-subst">&amp;</span><span class="hljs-literal">gt</span>;
 </code></pre><p>There you go, you are all set. <strong>CustomSystemManager</strong> is now your stand-in for the initialization process and suspends the first frame, notifying the <em>concrete</em> <strong>CustomPreloader</strong> to perform some extra tasks, which in turn tells the <strong>CustomSystemManager</strong> that is okay to continue onto the next frame once it has finished its task(s).</p>
-<p>I would have posted an example SWF here, but it would have been a moot point as it would have loaded already by the time you arrived all the way down here <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> So one is available here: <a href="http://www.custardbelly.com/examples/csm/index.html"><a href="http://www.custardbelly.com/examples/csm/index.html">http://www.custardbelly.com/examples/csm/index.html</a></a> with source view here: <a href="http://www.custardbelly.com/examples/csm/srcview/"><a href="http://www.custardbelly.com/examples/csm/srcview/">http://www.custardbelly.com/examples/csm/srcview/</a></a>.</p>
+<p>I would have posted an example SWF here, but it would have been a moot point as it would have loaded already by the time you arrived all the way down here <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> So one is available here: <a href="http://www.custardbelly.com/examples/csm/index.html">http://www.custardbelly.com/examples/csm/index.html</a> with source view here: <a href="http://www.custardbelly.com/examples/csm/srcview/">http://www.custardbelly.com/examples/csm/srcview/</a>.</p>
 <p>It’s not terribly exciting, but in that example i am basically loading a <a href="http://www.springactionscript.org/">Spring ActionScript</a> application context file. I wanted to hook into the initial load progress as the<strong> IoC container</strong> was an essential part of my application. And, as i said before, i hate seeing the initial progress bar and then another progress bar after application create. I just want one.</p>
-<p>Once the application code is loaded and the <strong>Flex Application</strong> receives a <em>CREATION_COMPLETE</em> event, a custom style manager defined in the application context is accessed from the <strong>IoC container</strong> and a <a href="http://github.com/bustardcelly/flex-runtime-css">Runtime CSS SWF</a> is loaded, after which the font-size is updated on the <strong>Label</strong> field. Incredible, no? Not really, but you can see where this example can go, hopefully.</p>
+<p>Once the application code is loaded and the <strong>Flex Application</strong> receives a _CREATION<em>COMPLETE</em> event, a custom style manager defined in the application context is accessed from the <strong>IoC container</strong> and a <a href="http://github.com/bustardcelly/flex-runtime-css">Runtime CSS SWF</a> is loaded, after which the font-size is updated on the <strong>Label</strong> field. Incredible, no? Not really, but you can see where this example can go, hopefully.</p>
 <p>One thing to note, if you will use this to load a <a href="http://www.springactionscript.org/">Spring ActionScript</a> application context file as i have done, you MUST use the <strong>XMLApplicationContext</strong> class and NOT the <strong>FlexXMLApplicationContext</strong> class from <a href="http://www.springactionscript.org/">Spring ActionScript</a>. The reason is that <strong>FlexXMLApplicationContext</strong> accesses a reference to Application upon initialization. Since we haven’t finished loading the Application code in the <strong>CustomSystemManager</strong>, this access will throw a null pointer exception.</p>
 <p>Also, if i am totally off-base on all this, please leave a comment and let me know.</p>
-<p>The files for all this, including the example, can be found on github: <a href="http://github.com/bustardcelly/custom-system-manager"><a href="http://github.com/bustardcelly/custom-system-manager">http://github.com/bustardcelly/custom-system-manager</a></a></p>
+<p>The files for all this, including the example, can be found on github: <a href="http://github.com/bustardcelly/custom-system-manager">http://github.com/bustardcelly/custom-system-manager</a></p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/flex-4/">Flex 4</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2010/10/25/as3flobile-update-now-using-as3-signals/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2010/10/25/as3flobile-update-now-using-as3-signals/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2010/10/20/flex-4-and-runtime-style-sheets/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2010/10/20/flex-4-and-runtime-style-sheets/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -212,11 +212,11 @@
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

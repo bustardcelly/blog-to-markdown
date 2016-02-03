@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jQuery Mobile + CouchDB: Part 4 – Editing Documents</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2011/01/04/jquery-mobile-couchdb-part-4-editing-documents/index.html">jQuery Mobile + CouchDB: Part 4 – Editing Documents</a></h1>
+    <h1><a href="/blog-posts/2011/01/04/jquery-mobile-couchdb-part-4-editing-documents/index.html">jQuery Mobile + CouchDB: Part 4 – Editing Documents</a></h1>
     <p>
       2011 January 4th
       
@@ -242,19 +242,19 @@
     <span class="hljs-keyword">return</span> Mustache.to_html(<span class="hljs-keyword">this</span>.templates.albumedit, stash, <span class="hljs-keyword">this</span>.templates.partials.albumedit);
 
 }
-</code></pre><p>Again, if you have been following along with previous posts, this would look relatively familiar. Essentially, we are using the <a href="https://github.com/janl/mustache.js">mustache.js</a> template plugin to deliver <strong>HTML</strong> mark-up of the previously created <em>albumedit.html</em> <a href="http://jquerymobile.com/">jQuery Mobile</a> page. The associated document is retrieved from the <a href="http://couchdb.apache.org/">CouchDB</a> database by passing the <strong>_id</strong> of the document in the request (eg. <a href="http://127.0.0.1:5984/albums/_design/albums/_show/album-edit/db04eb7e5c845ee0aa791ae1ed001e4d"><a href="http://127.0.0.1:5984/albums/_design/albums/_show/">http://127.0.0.1:5984/albums/_design/albums/_show/</a><br>album-edit/db04eb7e5c845ee0aa791ae1ed001e4d</a>). </p>
-<p>The previously created <em>/templates/albumedit.html</em> will be used as the template and is supplied as the first argument in <strong>Mustache</strong>.<em>to_html()</em>. The <strong>stash</strong> object (second argument) is used to dynamically filled the values of the fields upon load and the specified properties of the <strong>album document</strong> are available for editing: <strong>artist name</strong>, <strong>album title</strong> and <strong>personal description</strong>. The third argument is the <strong>Partial</strong> includes directory that will be substituted in the <strong>{{&gt;}}</strong> declarations of the <em>/templates/albumedit.html</em> document. There is only one <strong>Partial</strong> defined in <em>albumedit.html</em> – <strong>{{&gt;scripts}}</strong> – which will essentially declare a <strong>JavaScript</strong> file with actions associated with the <em>album edit</em> page.</p>
+</code></pre><p>Again, if you have been following along with previous posts, this would look relatively familiar. Essentially, we are using the <a href="https://github.com/janl/mustache.js">mustache.js</a> template plugin to deliver <strong>HTML</strong> mark-up of the previously created <em>albumedit.html</em> <a href="http://jquerymobile.com/">jQuery Mobile</a> page. The associated document is retrieved from the <a href="http://couchdb.apache.org/">CouchDB</a> database by passing the <strong>_id</strong> of the document in the request (eg. <a href="http://127.0.0.1:5984/albums/_design/albums/_show/album-edit/db04eb7e5c845ee0aa791ae1ed001e4d">http://127.0.0.1:5984/albums/_design/albums/_show/<br>album-edit/db04eb7e5c845ee0aa791ae1ed001e4d</a>). </p>
+<p>The previously created <em>/templates/albumedit.html</em> will be used as the template and is supplied as the first argument in <strong>Mustache</strong>._to<em>html()</em>. The <strong>stash</strong> object (second argument) is used to dynamically filled the values of the fields upon load and the specified properties of the <strong>album document</strong> are available for editing: <strong>artist name</strong>, <strong>album title</strong> and <strong>personal description</strong>. The third argument is the <strong>Partial</strong> includes directory that will be substituted in the <strong>{{&gt;}}</strong> declarations of the <em>/templates/albumedit.html</em> document. There is only one <strong>Partial</strong> defined in <em>albumedit.html</em> – <strong>{{&gt;scripts}}</strong> – which will essentially declare a <strong>JavaScript</strong> file with actions associated with the <em>album edit</em> page.</p>
 <h2 id="scripts-partial">Scripts Partial</h2>
 <p>Open up your favorite text editor and save the following snippet as <em>scripts.html</em> in <em>/templates/partials/albumedit</em>:</p>
 <p><em>/templates/partials/albumedit/scripts.html</em></p>
 <pre><code><span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"../../script/album-edit-page.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-</code></pre><p>If you have followed along with create the <strong>show function</strong>, template and partial for the <em>album view</em> page, this again will look similar. We are essentially loading an associated <strong>JavaScript</strong> file for the <em>album edit</em> page. As explained in the <a href="http://custardbelly.com/blog/?p=297">previous post</a>, the script could be included here and not redirected to a <strong>js</strong> file, but for my own organizational habits I create a separate <strong>JavaScript</strong> file and have it residing in the <em>/_attachments/script/</em> directory of my <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> (eg. <em>/Documents/workspace/custardbelly/couchdb/albums/<br>_attachments/script/album-edit-page.js</em>).</p>
+</code></pre><p>If you have followed along with create the <strong>show function</strong>, template and partial for the <em>album view</em> page, this again will look similar. We are essentially loading an associated <strong>JavaScript</strong> file for the <em>album edit</em> page. As explained in the <a href="http://custardbelly.com/blog/?p=297">previous post</a>, the script could be included here and not redirected to a <strong>js</strong> file, but for my own organizational habits I create a separate <strong>JavaScript</strong> file and have it residing in the _/<em>attachments/script/</em> directory of my <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> (eg. _/Documents/workspace/custardbelly/couchdb/albums/<br><em>attachments/script/album-edit-page.js</em>).</p>
 <h2 id="album-edit-page-js">album-edit-page.js</h2>
 <p>If we think about the role of our <em>album edit</em> page in the scheme of the application, we want to present the user with the ability to edit the album document from the <a href="http://couchdb.apache.org/">CouchDB</a> <strong>albums</strong> database. The form will initially be filled with the latest editable values and the user has the ability to either submit changes or cancel any pending changes. A <strong>Cancel</strong> action will return the fields back to the original values and return the user to the <em>album view</em> page. To ensure that the user is presented with the latest changes to the document from the database, we will also need to clear the page from the page cache just as we have done with the <em>album view</em> page. With these requirements in mind, let’s start creating the associated script for the album edit <a href="http://jquerymobile.com/">jQuery Mobile</a> page served up from the <em>album-edit</em> <strong>show function</strong>.</p>
 <h3 id="albumeditpagecontroller">AlbumEditPageController</h3>
 <p>We’ll start by creating a quasi-view-controller for the <em>album edit</em> page in the similar fashion as the one used for the <em>album view</em> page (created in the <a href="http://custardbelly.com/blog/?p=297">previous post</a>). Initially, it will handle recognizing once the <a href="http://jquerymobile.com/">jQuery Mobile</a> page <strong>div</strong> is shown and remove it from the page cache once it is hidden (by navigating away from the page).</p>
-<p>Open your favorite text editor and save the following snippet as <em>album-edit-page.js</em> in the <em>/_attachments/script/</em> directory:</p>
-<p><em>/_attachments/script/album-edit-page.js</em></p>
+<p>Open your favorite text editor and save the following snippet as <em>album-edit-page.js</em> in the _/<em>attachments/script/</em> directory:</p>
+<p>_/<em>attachments/script/album-edit-page.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> AlbumEditPageController = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
@@ -322,10 +322,10 @@
 }
 
 $().ready( handleEditPageReady )
-</code></pre><p>Once the page is loaded, the <strong>AlbumEditPageController</strong> is initialized an a <em>pageshow</em> event handler is assigned to recognize when the <em>albumedit</em> <a href="http://jquerymobile.com/">jQuery Mobile</a> page is shown. We access the page in the <strong>DOM</strong> using the standard <strong>data-role</strong> attribute value for a <strong>jQuery Mobile</strong> page. I stumbled upon this solution from these two forum posts – <a href="http://forum.jquery.com/topic/force-page-update"><a href="http://forum.jquery.com/topic/force-page-update">http://forum.jquery.com/topic/force-page-update</a></a> and <a href="http://forum.jquery.com/topic/binding-events-to-buttons-in-a-dialog"><a href="http://forum.jquery.com/topic/binding-events-to-buttons-in-a-dialog">http://forum.jquery.com/topic/binding-events-to-buttons-in-a-dialog</a></a> – and seem to be the current agreed upon solution for accessing a loading <strong>jQuery Mobile</strong> page. In the <em>handleEditView()</em> handler, the page in the <strong>DOM</strong> is accessed using <strong>document</strong>.<em>getElementById()</em> and assigned an event handler for <em>pagehide</em> to clear it from the page (ie. <strong>DOM</strong>) cache. Aside from the external page <strong>id</strong> used to access the element, this is pretty much identical to the solution from the previous post.</p>
+</code></pre><p>Once the page is loaded, the <strong>AlbumEditPageController</strong> is initialized an a <em>pageshow</em> event handler is assigned to recognize when the <em>albumedit</em> <a href="http://jquerymobile.com/">jQuery Mobile</a> page is shown. We access the page in the <strong>DOM</strong> using the standard <strong>data-role</strong> attribute value for a <strong>jQuery Mobile</strong> page. I stumbled upon this solution from these two forum posts – <a href="http://forum.jquery.com/topic/force-page-update">http://forum.jquery.com/topic/force-page-update</a> and <a href="http://forum.jquery.com/topic/binding-events-to-buttons-in-a-dialog">http://forum.jquery.com/topic/binding-events-to-buttons-in-a-dialog</a> – and seem to be the current agreed upon solution for accessing a loading <strong>jQuery Mobile</strong> page. In the <em>handleEditView()</em> handler, the page in the <strong>DOM</strong> is accessed using <strong>document</strong>.<em>getElementById()</em> and assigned an event handler for <em>pagehide</em> to clear it from the page (ie. <strong>DOM</strong>) cache. Aside from the external page <strong>id</strong> used to access the element, this is pretty much identical to the solution from the previous post.</p>
 <p>One of the requirements for the <em>album edit</em> page is the ability to cancel and clear any edited fields by the user. In order to do so, we will stored a local object with the provided name/value pairs so the fields can be easily reverted.</p>
 <p>With <em>album-edit-page.js</em> open in your favorite text editor, make the following modifications and save the file:</p>
-<p><em>/_attachments/script/album-edit-page.js</em></p>
+<p>_/<em>attachments/script/album-edit-page.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> AlbumEditPageController = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
@@ -423,7 +423,7 @@ $().ready( handleEditPageReady )
 $().ready( handleEditPageReady )
 </code></pre><p>An <strong>editableAlbum</strong> member is declared and updated upon <em>pageshow</em> in the <em>storeUneditedDocument()</em> method. With the original values stored in this externally-immutable we can ensure that whenever a user decides to cancel the editing of the <strong>album document</strong> we can revert the field values to the original document values. Let’s hook up the <strong>cancelBackButton</strong> and <strong>cancelButton</strong> elements declared in the <em>albumedit.html</em> template with <em>click</em> event handlers in order to handle the revert action back to the original values.</p>
 <p>Save the following modifications to <em>album-edit-page.js</em>:</p>
-<p><em>/_attachments/script/album-edit-page.js</em></p>
+<p>_/<em>attachments/script/album-edit-page.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> AlbumEditPageController = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
@@ -563,7 +563,7 @@ $().ready( handleEditPageReady )
 <h3 id="submit">Submit</h3>
 <p>To submit changes to the target album document form the album edit page we will use the database API provided in the<em> jquery.couchdb</em> library plugin. That library is automatically loaded from the <strong>loader</strong> script created by <a href="http://couchapp.org/page/index">couchapp</a> if remember back to the first post where we accessed the list of available <strong>album documents</strong> from the <strong>albums</strong> database in our <a href="http://couchdb.apache.org/">CouchDB</a> instance. We resolved the <strong>$db</strong> member in the <em>index.html</em> to the <strong>albums</strong> database when the page is loaded. When submitting from the <em>album edit</em> page, we will just use that instance to load, modify and save the target document back to the database.</p>
 <p>Make the following modifications to <em>album-edit-page.js</em> and save:</p>
-<p><em>/_attachments/script/album-edit-page.js</em></p>
+<p>_/<em>attachments/script/album-edit-page.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> AlbumEditPageController = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
@@ -769,7 +769,7 @@ $().ready( handleEditPageReady )
 $().ready( handleEditPageReady )
 </code></pre><p>A click event handler is assigned to the <strong>submitButton</strong> element, from which the document is loaded and assigned the associated field values. Upon update to the new values, <strong>$db</strong>.<em>saveDoc()</em> is invoked with a <strong>success</strong> handler that updates the privately held <strong>editableAlbum</strong> object. This ensures that the values are properly restored back to any saved changes if the user decides to cancel at any time after the successful save.<br>Almost there. We will just finish off our controller by navigating the user to the <em>album view</em> page upon <strong>Cancel</strong> or <strong>Submit</strong>.</p>
 <p>The following is the full <em>album-edit-page.js</em> file with the last modifications highlighted. Save the following changes to <em>album-edit-page.js</em>:</p>
-<p><em>/_attachments/script/album-edit-page.js</em></p>
+<p>_/<em>attachments/script/album-edit-page.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> AlbumEditPageController = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
@@ -992,7 +992,7 @@ $().ready( handleEditPageReady )
 </code></pre><p>In <em>navigateToAlbumPage()</em> we use <strong>$.mobile</strong>.<em>changePage()</em> to navigate the user to the external <em>album view</em> page using the <strong>show function</strong> of our <a href="http://couchdb.apache.org/">CouchDB</a> application based on the <strong>_id</strong> of the target document that is loaded in the <em>album edit</em> page.</p>
 <p>That should be it… aside from one thing. Although (once we push our changes) we can access the page using the <strong>#_show/album-edit/${id}</strong> location, as the application currently stands, there is no way to access the <em>album edit</em> page from any other page in the application. To remedy that, we will make some modifications to the <em>album.html</em> template and the <em>album-page.js</em> script to navigate the user to the <em>album edit</em> page.</p>
 <h2 id="accessing-the-album-edit-page">Accessing the Album Edit Page</h2>
-<p>I am going to assume that you have been following along with <a href="http://custardbelly.com/blog/?p=297">previous posts</a> here and that you already have the <em>/templates/album.html</em> and <em>/_attachments/script/album-page.js</em> files. We are going to make modifications to them to include an <strong>edit button</strong> in the <em>album view</em> page and assign a <em>click</em> handler to navigate to the <em>album edit</em> page.</p>
+<p>I am going to assume that you have been following along with <a href="http://custardbelly.com/blog/?p=297">previous posts</a> here and that you already have the <em>/templates/album.html</em> and _/<em>attachments/script/album-page.js</em> files. We are going to make modifications to them to include an <strong>edit button</strong> in the <em>album view</em> page and assign a <em>click</em> handler to navigate to the <em>album edit</em> page.</p>
 <h3 id="album-html">album.html</h3>
 <p>Open up the <em>/templates/album.html</em> file in your favorite text editor and save the following modifications:</p>
 <p><em>/templates/album.html</em></p>
@@ -1025,8 +1025,8 @@ $().ready( handleEditPageReady )
 </span><span class="hljs-expression">{{&gt;<span class="hljs-variable">scripts</span>}}</span><span class="xml"></span>
 </code></pre><p>The only modification to the <em>album.html</em> template e have made is the inclusion of an <strong>Edit</strong> button which is a <strong>p</strong> element attributed with the <strong>data-role</strong> of <em>button</em>. The <a href="http://jquerymobile.com/">jQuery Mobile</a> framework will handle styling the <strong>Edit</strong> button to have consistency in look-and-feel with the other buttons throughout the application. Now let’s hook up a <em>click</em> event listener for that button element to take the user to the <em>album edit</em> page.</p>
 <h3 id="album-page-js">album-page.js</h3>
-<p>Open up <em>/_attachments/script/album-page.js</em> in your favorite text editor and save the following modifications:</p>
-<p><em>/_attachments/script/album-page.js</em></p>
+<p>Open up _/<em>attachments/script/album-page.js</em> in your favorite text editor and save the following modifications:</p>
+<p>_/<em>attachments/script/album-page.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> AlbumPageController = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
@@ -1129,7 +1129,7 @@ $().ready( handlePageViewReady );
 <h2 id="deployment">Deployment</h2>
 <p>Our <strong>Albums</strong> application has been modified to allow a user to modify properties of an <strong>album document</strong> from an <em>album edit</em> page. That page can be accessed by clicking an <strong>Edit</strong> button from the <em>album view</em> page accessible from a selection of an album from the list presented on the landing <em>index.html</em>. With these modifications saved, we can now push to the <a href="http://couchdb.apache.org/">CouchDB</a> database using the <a href="http://couchapp.org/page/index">couchapp</a> utility. Open a terminal and navigate to the directory where you create your <strong>CouchApp</strong> applications (for me that is <em>/Documents/workspace/custardbelly/couchdb</em> and in there i have a folder named <em>albums</em> which is the <strong>CouchApp</strong> application directory for these examples). Enter the following command to push the changes to the <strong>CouchDB</strong> instance:</p>
 <pre><code>couchapp push albums http:<span class="hljs-comment">//127.0.0.1:5984/albums</span>
-</code></pre><p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>, click on an album from the list and select to edit that document. From the <em>album edit</em> page you are able to either cancel any edits or submit the changes to the target <strong>album document</strong>. What a thing of beauty <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Let’s take a look at the current state of the application:</p>
+</code></pre><p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>, click on an album from the list and select to edit that document. From the <em>album edit</em> page you are able to either cancel any edits or submit the changes to the target <strong>album document</strong>. What a thing of beauty <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Let’s take a look at the current state of the application:</p>
 <p><em>index.html (aka #home)</em>:<br><img src="http://www.custardbelly.com/blog/images/couchapp_six.png" alt="index.html"></p>
 <p><em>album view page</em>:<br><img src="http://www.custardbelly.com/blog/images/couchapp_seven.png" alt="album view page"></p>
 <p><em>album edit page</em>:<br><img src="http://www.custardbelly.com/blog/images/couchapp_eight.png" alt="album edit page"></p>
@@ -1153,10 +1153,10 @@ $().ready( handlePageViewReady );
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2011/01/12/jquery-mobile-couchdb-part-5-adding-documents/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2011/01/12/jquery-mobile-couchdb-part-5-adding-documents/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2010/12/28/jquery-mobile-couchdb-part-3-templates-and-mustache-js/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2010/11/17/flex-hero-pausing-session-restoration/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -1174,11 +1174,11 @@ $().ready( handlePageViewReady );
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

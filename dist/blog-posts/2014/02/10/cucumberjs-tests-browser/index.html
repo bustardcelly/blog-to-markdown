@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - BDD in JavaScript IV: CucumberJS and The Browser</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">BDD in JavaScript IV: CucumberJS and The Browser</a></h1>
+    <h1><a href="/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">BDD in JavaScript IV: CucumberJS and The Browser</a></h1>
     <p>
       2014 February 10th
       
@@ -61,7 +61,7 @@
     <p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">previous post</a> in this series detailing how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>, I addressed a few common build tools in JavaScript to automate the watching and running of tests. While beneficial to a proper agile workflow, I did not introduce any new concepts or development information directly associated with using CucumberJS, itself.</p>
 <p>In this article, I intend to take on a pretty meaty subject - running your cukes in the browser. It is a subject I have grappled with for some time and have tried different solutions, eventually <a href="https://github.com/bustardcelly/cucumberjs-browser">creating my own</a>. </p>
 <h3 id="-gt-code">&gt; code</h3>
-<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
+<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></p>
 <p><em>Disclaimer: I did not start out this series to promote the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> tool. In fact, it came to life as a result of this series :)</em></p>
 <h2 id="why-the-browser">Why The Browser</h2>
 <p><a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> is built on <a href="http://nodejs.org">Node</a>. As such, the CLI tool that we have been running to verify our tests in previous articles is living in that environment. </p>
@@ -69,11 +69,11 @@
 <h2 id="options">Options</h2>
 <p>The following options are those I have found or been alerted to by the community. I have used a few of them to much benefit, but felt there was always one or two things that kept me from truly embracing them as a good solution. I hope to showcase their strengths and weaknesses to allow you to make a more informed decision on what may be the best for your team.</p>
 <h3 id="writing-specs-in-the-dom">Writing Specs in the DOM</h3>
-<p>Example: <a href="https://github.com/cucumber/cucumber-js/blob/master/example/index.html"><a href="https://github.com/cucumber/cucumber-js/blob/master/example/index.html">https://github.com/cucumber/cucumber-js/blob/master/example/index.html</a></a>.</p>
+<p>Example: <a href="https://github.com/cucumber/cucumber-js/blob/master/example/index.html">https://github.com/cucumber/cucumber-js/blob/master/example/index.html</a>.</p>
 <p>This is an example from the <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> team that demonstrates how to define <strong>Features</strong> and <strong>Step Definitions</strong> in <code>textarea</code> elements. These are read and evaluated at runtime by the bundled browser-based CucumberJS library, with the assertions being printed to the DOM as well.</p>
 <p>A reasonable approach, and much of its implementation was an inspiration for my <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> tool (addressed later). My main issue with incorporating this into my development and testing workflow is the break in having my <strong>Features</strong>, <strong>Step Definitions</strong> and test support as entities residing in separate files as we have done in the examples of previous articles in this series. Instead of curating <strong>Features</strong> in a much more organized way involving the file system, I would need to maintain them in the textual values defined for <code>textarea</code>s in a web page. My workflow just seemed interrupted in doing so; I could not directly relate a Ticket in our Issue Tracker with a <strong>Feature</strong> file and its associated <strong>Step</strong> file(s).</p>
 <h3 id="zombiejs">ZombieJS</h3>
-<p>There are small examples on the landing page for <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> repo that are fairly easy to follow and there is a great example <a href="http://www.antonydenyer.co.uk/">Antony Denyer</a> as well: <a href="https://github.com/antonydenyer/zombiejsplayground"><a href="https://github.com/antonydenyer/zombiejsplayground">https://github.com/antonydenyer/zombiejsplayground</a></a>.</p>
+<p>There are small examples on the landing page for <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> repo that are fairly easy to follow and there is a great example <a href="http://www.antonydenyer.co.uk/">Antony Denyer</a> as well: <a href="https://github.com/antonydenyer/zombiejsplayground">https://github.com/antonydenyer/zombiejsplayground</a>.</p>
 <p>The <a href="http://zombie.labnotes.org/">ZombieJS</a> API is actually quite easy to understand and use and have incorporated using Zombie in a couple of my projects. The main issue I have in using Zombie in all my projects is &quot;trust&quot;. Not trust in Zombie as a good tool, trust in that the assertions are cross-browser; under the covers, it is a mixture of the DOM library <a href="http://jsdom.org/">JSDom</a>, <a href="https://github.com/brianmcd/contextify">Contextify</a> for V8 execution and various other - very excellent, I should say - libraries that are used to &#39;emulate&#39; a browser in a headless manner.</p>
 <p>Again, I don&#39;t want that explanation to take away from the excellent tool that <a href="http://zombie.labnotes.org/">ZombieJS</a> is and its usefulness and benefits it has provided me in previous (and future) projects. Infact, while I was <a href="https://twitter.com/_toddanderson_/status/414210165001699328">extolling its virtues over twitter</a>, <a href="https://twitter.com/s9tpepper">Omar Gonzalez</a> reminded me that it is best to run tests in browsers and tipped me to his project <a href="https://github.com/s9tpepper/karma-cucumberjs">karma-cucumberjs</a>.</p>
 <p>Omar was right. While it has a nice API and is quick and easy to get working, it is not a real browser. In the end, I may have false positives and if I was to go to production with my application that requires cross-browser support, issues may arise that the tests did not catch under Zombie.</p>
@@ -84,7 +84,7 @@
 <h3 id="cucumberjs-browser">cucumberjs-browser</h3>
 <p>Not finding a solution that afforded me to simply deploy my <strong>Features</strong>, <strong>Steps Definitions</strong> and subsequent support files to be run in the browser, I decided to make one that would allow me to; and so <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> was born.</p>
 <p>In basic terms, what <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> does is bundle the <strong>Features</strong>, <strong>Step Definitions</strong> and any support files into standalone modules (using <a href="http://browserify.org/">browserify</a>) and defines them for a page using a <a href="http://lodash.com/docs">lodash</a> template. Included, as well, is the bundled library from <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. </p>
-<p>When the page is loaded in any browser, the specs are run just as they normally would be from the command line. Through the CLI options, you have the ability to define a listener that will handle the passing and failing of steps. <em>Current support for <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> in console and basic UI. More to come...</em></p>
+<p>When the page is loaded in any browser, the specs are run just as they normally would be from the command line. Through the CLI options, you have the ability to define a listener that will handle the passing and failing of steps. _Current support for <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> in console and basic UI. More to come..._</p>
 <p>The <a href="https://github.com/bustardcelly/cucumberjs-browser/blob/master/README.md">README</a> is probably the best place to start as it will be kept more up to date than this post in the future, but here is a quick rundown:</p>
 <h4 id="installation">Installation</h4>
 <p>You install <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> globally through npm:</p>
@@ -107,10 +107,10 @@
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2014/02/12/cucumberjs-browser-update/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2014/03/18/gulp-rev-append/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -128,11 +128,11 @@
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - AIR Native Extension Example: iBattery for iOS</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2011/09/21/air-native-extension-example-ibattery-for-ios/index.html">AIR Native Extension Example: iBattery for iOS</a></h1>
+    <h1><a href="/blog-posts/2011/09/21/air-native-extension-example-ibattery-for-ios/index.html">AIR Native Extension Example: iBattery for iOS</a></h1>
     <p>
       2011 September 21st
       
@@ -324,7 +324,7 @@ console<span class="hljs-preprocessor">.appendText</span>( <span class="hljs-str
 </code></pre><p>To generate my AIR application for iOS, was a two step process. First, I generated the application SWF targeting AIR mobile:</p>
 <pre><code>&gt; /Users/todd/SDKs/flex_4<span class="hljs-number">.5</span>_air_3rc1/bin/mxmlc +configname=airmobile -output build/iBatteryExample<span class="hljs-preprocessor">.swf</span> src/iBatteryExample<span class="hljs-preprocessor">.mxml</span> -load-config+=battery_app<span class="hljs-preprocessor">.config</span>
 </code></pre><p>Again i used the <strong>+configname=airmobile</strong> directive to include the mobile SWC from the Adobe AIR SDK without defining the dependencies in an additional config file. I did, however, have an additional config file that defined the <strong>Native Extension</strong> (.ane file) to compile against as an external library:</p>
-<p><em>battery_app.config</em></p>
+<p>_battery<em>app.config</em></p>
 <pre><code><span class="hljs-pi">&lt;?xml version="1.0"?&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-title">flex-config</span> <span class="hljs-attribute">xmlns</span>=<span class="hljs-value">"[http://www.adobe.com/2006/flex-config](http://www.adobe.com/2006/flex-config)"</span>&gt;</span>
@@ -347,16 +347,16 @@ console<span class="hljs-preprocessor">.appendText</span>( <span class="hljs-str
 <h2 id="conclusion">Conclusion</h2>
 <p>The addition of <strong>Native Extensions for Adobe AIR</strong> to the AIR SDK opens a lot of doors not only for native device integration but also to the experience you can provide in a mobile AIR application – with the biggest takeaway (as a developer) being that we no longer have to wait and see what gets exposed to us at the device-level in future <strong>AIR SDK</strong> releases. We can just write our own native extension now.</p>
 <p>Hopefully this article provided some insight on how to quickly get up and running in creating your own Native Extensions and how to incorporate them into your mobile AIR application. And it should be noted that though this example was iOS specific, the native library for an <strong>Native Extension for Adobe AIR</strong> is in no way restricted to that platform and you should really check out <a href="http://www.adobe.com/devnet/air/articles/extending-air.html#articlecontentAdobe_numberedheader_4">Oliver Goldman’s excellent article, Extending Adobe AIR on the Adobe DevNet</a>.</p>
-<p>The source discussed in this article can be found on <strong>github</strong> at <a href="https://github.com/bustardcelly/iBattery"><a href="http://github.com/bustardcelly/iBattery">http://github.com/bustardcelly/iBattery</a></a> and the <a href="http://www.custardbelly.com/downloads/air/ane/ibatteryextension.ane.zip">ibatteryextension.ane</a> itself (if you’d like to use it in your application) can be downloaded from this link.</p>
+<p>The source discussed in this article can be found on <strong>github</strong> at <a href="https://github.com/bustardcelly/iBattery">http://github.com/bustardcelly/iBattery</a> and the <a href="http://www.custardbelly.com/downloads/air/ane/ibatteryextension.ane.zip">ibatteryextension.ane</a> itself (if you’d like to use it in your application) can be downloaded from this link.</p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/air/">AIR</a>, <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/flex-4-5/">Flex 4.5</a>, <a href="http://custardbelly.com/blog/category/native-extension-for-adobe-air/">Native Extension for Adobe AIR</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2011/09/27/new-github-repo-massroute-js/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2011/09/27/new-github-repo-massroute-js/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2011/07/15/flex-4-5-hidden-additions/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2011/07/15/flex-4-5-hidden-additions/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -374,11 +374,11 @@ console<span class="hljs-preprocessor">.appendText</span>( <span class="hljs-str
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

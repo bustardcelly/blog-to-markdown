@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Thu, 04 Dec 2014 15:26:20 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[flood-pi: Flood detection on Raspberry Pi]]></title><description><![CDATA[<p>A lot has happened over the course current year. Among the biggest changes, we left Boston for Vermont! We have begun to settle in here in the beatuiful Champlain Valley and, of course, my oldest is enrolled in hockey lessons - a sport i know very little about, but am excited to learn from him.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Wed, 03 Feb 2016 20:01:35 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[flood-pi: Flood detection on Raspberry Pi]]></title><description><![CDATA[<p>A lot has happened over the course current year. Among the biggest changes, we left Boston for Vermont! We have begun to settle in here in the beatuiful Champlain Valley and, of course, my oldest is enrolled in hockey lessons - a sport i know very little about, but am excited to learn from him.</p>
 <p>As is expected from a big move, we have found outselves in different surroundings and different living spaces. We are no longer 4 people cramped in a tiny 2-bedroom condo along the train line in Brighton, MA; we are now 4 people in a ranch house with noone above or below us to complain about taking off their loud shoes when the baby is sleeping. </p>
 <p>While the extra space of a house is wonderful, tit comes with additional maintenance and care over renting an apartment. For instance, we never had a basement in our previous apartments and never had to worry about flooding or failures in a sump pump. Now we do. And we have had a handful of instances when it has occurred. While it is true that we have and will continue to have qualified people locate the source of the problem, I thought - in the meantime - it would be a fun little project to setup something that could alert me to possible water starting to accumulate in the basement.</p>
 <p><img src="http://custardbelly.com/images/flood_pi_flood.jpg" alt="a flood!"></p>
@@ -43,67 +43,7 @@
 <p>If you have occasional water in your basement and have an interest in <a href="http://www.raspberrypi.org/">Raspberry Pi</a>, i hope you check out the <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> program and install it. And if you have yourself a VPS, feel free to also setup the <a href="https://github.com/bustardcelly/flood-pi-admin">flood-pi-admin</a> on it to access level reading data.</p>
 <p>Now, onto the next little pet project i have in mind:)</p>
 <p>Cheers!</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2014/12/4/flood-pi/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/12/4/flood-pi/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[gulp-rev-append: simple cache-busting plugin]]></title><description><![CDATA[<p>I just released <a href="https://www.npmjs.org/package/gulp-rev-append">gulp-rev-append</a>, a simple cache-busting plugin for <a href="http://gulpjs.org">gulp</a> that appends a query-string file hash to script and stylesheet dependencies in HTML files.</p>
-<p>There are <a href="https://www.npmjs.org/search?q=gulp-rev">several other cache-busting plugins</a> currently available by some awesome developers and I suggest you look at those to fit your project&#39;s need.</p>
-<p>For my particular project in which I decided to create the <a href="https://www.npmjs.org/package/gulp-rev-append">gulp-rev-append</a> plugin, I was looking to:</p>
-<ul>
-<li>enable cache-busting by appending a file hash on query string</li>
-<li>not require additionally markup commenting to declare dependencies to be modified</li>
-<li>not generate an additional manifest to be a dependency in file access for production-level application</li>
-</ul>
-<p>I was trying to develop a simple web-based mobile site on a desktop while testing on devices and cache-ing was giving me a headache. I did not want to modify my workflow and build to accommodate an addition cache-manifest, nor did I foresee my work requirng a more robust cache-busting technique that the other plugins provided. </p>
-<p><em>If this project was to be in millions of hands out in production, I would certainly use a file revving solution such as <a href="https://www.npmjs.org/package/gulp-rev"><a href="https://www.npmjs.org/package/gulp-rev">https://www.npmjs.org/package/gulp-rev</a></a>.</em></p>
-<h2 id="usage">Usage</h2>
-<p>The <a href="https://github.com/bustardcelly/gulp-rev-append">gulp-rev-append</a> plugins allows for appending a query-string file hash to dependencies declared in html files defined using the following regex: <code>(?:href|src)=&quot;(.*)[\?]rev=(.*)[\&quot;]</code></p>
-<p>That&#39;s fancy talk for any stylesheet or script declarations that are declared in an html file such as the following:</p>
-<pre><code><span class="hljs-doctype">&lt;!doctype html&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/style-one.css?rev=@@hash"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-one.js?rev=@@hash"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-two.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>hello, world!<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-three.js?rev=@@hash"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
-</code></pre><p>will turn into something similar as the following after running <code>gulp-rev-append</code>:</p>
-<pre><code><span class="hljs-doctype">&lt;!doctype html&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/style-one.css?rev=d65aaba987e9c1eefeb4be9cfd34e0de"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-one.js?rev=17a5da6c8a2d875cf48aefb722eefa07"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-two.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>hello, world!<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-three.js?rev=5cadf43edba6a97980d42331f9fffd17"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
-</code></pre><p>Any subsequent runs of the <code>gulp-rev-append</code> file will change the output <em>only</em> if the target file(s) declared have been modified. This is because the revision hash is computed using the target file contents.</p>
-<p>The only requirement is that the dependency to be appended with the hash be declared using <code>?rev=</code>. The <code>@@hash</code> is not required, and any value will be overriden as the dependency file contents change.</p>
-<h3 id="installation">Installation</h3>
-<pre><code>$ npm install gulp<span class="hljs-attribute">-rev</span><span class="hljs-attribute">-append</span> <span class="hljs-subst">--</span>save<span class="hljs-attribute">-dev</span>
-</code></pre><h3 id="declaration">Declaration</h3>
-<p><em>gulpfile.js</em></p>
-<pre><code><span class="hljs-keyword">var</span> rev = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-rev-append'</span>);
-
-gulp.task(<span class="hljs-string">'rev'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-  gulp.src(<span class="hljs-string">'./index.html'</span>)
-    .pipe(rev())
-    .pipe(gulp.dest(<span class="hljs-string">'.'</span>));
-});
-</code></pre><h3 id="execution">Execution</h3>
-<pre><code><span class="hljs-variable">$ </span>gulp rev
-</code></pre><h2 id="a-word-of-warning">A word of warning</h2>
-<p>Using query strings to cache-bust dependencies isn&#39;t fool proof. These are some great articles that explain why:</p>
-<p><a href="https://developers.google.com/speed/docs/best-practices/caching?csw=1#LeverageProxyCaching">Google | Leverage Proxy Cache Article</a><br><a href="http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/">Steve Souders | Revving Filenames: don&#39;t use querystring</a></p>
-<p>As mentioned previously, file revving is a more robust cache-busting technique and there is already a great <a href="http://gulpjs.org">gulp</a> plugin out there called <a href="https://www.npmjs.org/package/gulp-rev"><a href="https://www.npmjs.org/package/gulp-rev">https://www.npmjs.org/package/gulp-rev</a></a> to fit your development needs.</p>
-<h2 id="project">project</h2>
-<p><a href="https://github.com/bustardcelly/gulp-rev-append">gulp-rev-append</a></p>
-<p>Cheers.</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2014/03/18/gulp-rev-append/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/03/18/gulp-rev-append/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[Caddis: The On-The-Fly JSON RESTful Server]]></title><description><![CDATA[<p>Recently I released a new node-based CLI tool called <a href="https://github.com/bustardcelly/caddis">caddis</a>. It allows you to start a server - as a daemon - on localhost and dynamically add routes and JSON responses. Once stopped, any work is wiped; it is purely in-memory, session based. </p>
+]]></description><link>/blog-posts/2014/12/4/flood-pi/index.html</link><guid isPermaLink="true">/blog-posts/2014/12/4/flood-pi/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[Caddis: The On-The-Fly JSON RESTful Server]]></title><description><![CDATA[<p>Recently I released a new node-based CLI tool called <a href="https://github.com/bustardcelly/caddis">caddis</a>. It allows you to start a server - as a daemon - on localhost and dynamically add routes and JSON responses. Once stopped, any work is wiped; it is purely in-memory, session based. </p>
 <p>The impetus for its creation was a requirement to easily mock service APIs to be called in a test environment without regards to libraries or languages in which the environment is run. </p>
 <p>To be more specific, for a recent project I am using the wonderful <a href="http://calaba.sh/">calabash-ios</a> framework to define <a href="http://cukes.info/">cucumber</a> specs in <a href="https://www.ruby-lang.org/en/">Ruby</a> that drive automated integration tests for an <strong>iOS</strong> project in the simulator. Creating <a href="https://github.com/bustardcelly/caddis">caddis</a> allows me to easily mock service requests that the <strong>iOS</strong> application will make and validate the expected result of scenarios in <a href="http://cukes.info/">cucumber</a>.</p>
 <h2 id="installation-usage">Installation &amp; Usage</h2>
@@ -113,12 +53,12 @@ gulp.task(<span class="hljs-string">'rev'</span>, <span class="hljs-function"><s
 <p>To use <a href="https://github.com/bustardcelly/caddis">caddis</a> </p>
 <pre><code>$ caddis start
 $ curl -X POST -d <span class="hljs-string">'{"</span>method<span class="hljs-string">":"</span>GET<span class="hljs-string">", "</span>uri<span class="hljs-string">":"</span>/foo<span class="hljs-string">", "</span>response<span class="hljs-string">":{"</span>bar<span class="hljs-string">":"</span>baz<span class="hljs-string">"}}'</span> http:<span class="hljs-comment">//localhost:3001/api --header "Content-Type:application/json"</span>
-</code></pre><p>Visit <a href="http://localhost:3001/foo"><a href="http://localhost:3001/foo">http://localhost:3001/foo</a></a>, prints:</p>
+</code></pre><p>Visit <a href="http://localhost:3001/foo">http://localhost:3001/foo</a>, prints:</p>
 <pre><code><span class="hljs-rules">{
   <span class="hljs-rule"><span class="hljs-attribute">bar</span>:<span class="hljs-value"> <span class="hljs-string">'baz'</span>
 </span></span></span>}
 </code></pre><pre><code><span class="hljs-variable">$ </span>caddis stop
-</code></pre><p>Visit <a href="http://localhost:3001/foo"><a href="http://localhost:3001/foo">http://localhost:3001/foo</a></a>, Not Found.</p>
+</code></pre><p>Visit <a href="http://localhost:3001/foo">http://localhost:3001/foo</a>, Not Found.</p>
 <h3 id="options">Options</h3>
 <pre><code>$ caddis -h
 
@@ -151,7 +91,7 @@ options:
 <p>As mentioned briefly above, <a href="https://github.com/bustardcelly/caddis">caddis</a> is a CLI tool. It is recommended to install globally:</p>
 <pre><code><span class="hljs-variable">$ </span>npm install -g caddis
 </code></pre><p><em>&gt; you may need to <code>sudo</code></em></p>
-<p>Once installed, you can start the service (currently defaults to <a href="http://localhost:3001"><a href="http://localhost:3001">http://localhost:3001</a></a>) and begin POSTing route configurations in JSON. Here is an example using cUrl that dynamically adds a GET route at <code>/foo</code> with a simple JSON payload of <code>{&quot;bar&quot;:&quot;baz&quot;}</code>:</p>
+<p>Once installed, you can start the service (currently defaults to <a href="http://localhost:3001">http://localhost:3001</a>) and begin POSTing route configurations in JSON. Here is an example using cUrl that dynamically adds a GET route at <code>/foo</code> with a simple JSON payload of <code>{&quot;bar&quot;:&quot;baz&quot;}</code>:</p>
 <pre><code>$ curl -X POST -d <span class="hljs-string">'{"</span>method<span class="hljs-string">":"</span>GET<span class="hljs-string">", "</span>uri<span class="hljs-string">":"</span>/foo<span class="hljs-string">", "</span>response<span class="hljs-string">":{"</span>bar<span class="hljs-string">":"</span>baz<span class="hljs-string">"}}'</span> http:<span class="hljs-comment">//localhost:3001/api --header "Content-Type:application/json"</span>
 </code></pre><p>You are not confiuned to cUrl - you can use whatever networking library in whatever language you are writing your tests in and the server can handle all modern RESTful methods:</p>
 <ul>
@@ -164,8 +104,8 @@ options:
 <pre><code><span class="hljs-variable">$ </span>caddis stop
 </code></pre><h2 id="conclusion">Conclusion</h2>
 <p>I hope this was a useful introduction to what <a href="https://github.com/bustardcelly/caddis">caddis</a> has to offer and that you may find it beneficial in your testing in some way.</p>
-<p>You can visit the project on github at: <a href="https://github.com/bustardcelly/caddis"><a href="https://github.com/bustardcelly/caddis">https://github.com/bustardcelly/caddis</a></a></p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2014/02/25/introducing-caddis/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/02/25/introducing-caddis/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[Running Browser-Based CucumberJS Specs in Testling]]></title><description><![CDATA[<p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous</a> <a href="http://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html">posts</a> I discuss bringing <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs to the browser using the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool. In this post I intend to address how to use the format reporting options of the <strong>cucumberjs-browser</strong> tool to enable integration with the <a href="https://ci.testling.com/">testling</a> automated cross-browser testing tool to run your specs in various browser environment targets that you may not have installed on your own system.</p>
+<p>You can visit the project on github at: <a href="https://github.com/bustardcelly/caddis">https://github.com/bustardcelly/caddis</a></p>
+]]></description><link>/blog-posts/2014/02/25/introducing-caddis/index.html</link><guid isPermaLink="true">/blog-posts/2014/02/25/introducing-caddis/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[Running Browser-Based CucumberJS Specs in Testling]]></title><description><![CDATA[<p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous</a> <a href="http://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html">posts</a> I discuss bringing <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs to the browser using the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool. In this post I intend to address how to use the format reporting options of the <strong>cucumberjs-browser</strong> tool to enable integration with the <a href="https://ci.testling.com/">testling</a> automated cross-browser testing tool to run your specs in various browser environment targets that you may not have installed on your own system.</p>
 <h2 id="requirements">Requirements</h2>
 <p>For the purposes of this article, it is assumed that you are knowledgable of <a href="http://nodejs.org">node</a> and <a href="http://npmjs.org">npm</a> and familiar with creating feature specs for <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. </p>
 <p>To view examples of features and step definitions for a browser-based application, please visit the <a href="https://github.com/bustardcelly/cucumberjs-examples">cucumberjs-examples</a> repo, from which this post will use to demonstrate integrating the generated testrunner from <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> with <a href="https://ci.testling.com/">testling</a>.</p>
@@ -255,19 +195,19 @@ ok <span class="hljs-number">18</span> I can access <span class="hljs-keyword">t
 <p>In addition to providing a great service, you also get the option of adding a nice looking badge to your project.</p>
 <p><img src="http://custardbelly.com/blog/images/testling-1.png" alt="testling harness output"></p>
 <p>This badge was produced by pushing an update to the <a href="https://github.com/bustardcelly/cucumberjs-examples">cucumberjs-examples</a> exampe repo with a defined webhook. (If you followed along in the previous articles, you will note that the failing IE tests are due to the use of <code>Object.create</code> in source without a polyfill).</p>
-<p><em>The process of adding a webhook to your project is described in better detail in the <a href="https://ci.testling.com/guide/quick_start">testling documentation</a>.</em></p>
+<p>_The process of adding a webhook to your project is described in better detail in the <a href="https://ci.testling.com/guide/quick_start">testling documentation</a>._</p>
 <h3 id="donate">donate</h3>
 <p>If you do use <a href="https://ci.testling.com/">testling</a> in any fashion, I implore you to <a href="https://ci.testling.com/donate">donate to the cause</a> :)</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>In this article I introduced how the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool can be used to generate a browser-based testrunner to report tests in <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> format and integrate the invaluable <a href="https://ci.testling.com/">testling</a> service to run the tests on various browsers that may not be at your disposal otherwise.</p>
 <p>While <a href="https://ci.testling.com/">testling</a> provides one consumer endpoint, using the <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> specification in reporting test results can easily be consumed by another test harness of your choice.</p>
 <p>For more information on running <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in the browser and/or to report any issues, please visit the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> repository.</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2014/02/18/cucumberjs-testling/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/02/18/cucumberjs-testling/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript V: CucumberJS and The Browser, II]]></title><description><![CDATA[<p><em>&quot;Whoa. Whoa. Whoa. You can&#39;t just use roman numerals all over the place in your post titles...&quot;</em></p>
+]]></description><link>/blog-posts/2014/02/18/cucumberjs-testling/index.html</link><guid isPermaLink="true">/blog-posts/2014/02/18/cucumberjs-testling/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript V: CucumberJS and The Browser, II]]></title><description><![CDATA[<p><em>&quot;Whoa. Whoa. Whoa. You can&#39;t just use roman numerals all over the place in your post titles...&quot;</em></p>
 <p>In the <a href="http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous article</a> I addressed the available libraries and practices to have your <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs running in a browser environment, as well as introduced a new project begun by me: <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a>.</p>
 <p>I had originally had the entirety of this post in the previous post, but felt that it was a little bit of information overload. As such, I decided to split them into two posts.</p>
 <p>The intent of this article is to address incorporating <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> into our current Grocery List Application example and continue developing features that involve User Interaction with the DOM.</p>
 <h3 id="-gt-code">&gt; code</h3>
-<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
+<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></p>
 <h2 id="cucumberjs-browser">cucumberjs-browser</h2>
 <p>The <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool was created to provide a means in which to write my <strong>Features</strong>, <strong>Step Definitions</strong> and support files as I normally would for a project, and bundle them to be run in a browser and provide custom reporting.</p>
 <p>First order of business for incorporating the <strong>cucumberjs-browser</strong> tool into the Grocery List applicaiton project we have been working through in this series is to install the tool:</p>
@@ -308,7 +248,7 @@ ok <span class="hljs-number">18</span> I can access <span class="hljs-keyword">t
 <span class="hljs-number">21</span> steps (<span class="hljs-number">10</span> undefined, <span class="hljs-number">11</span> passed)
 </code></pre><h3 id="given-i-have-an-empty-grocery-list-view">Given I have an empty grocery list view</h3>
 <p>We have a few things we need to address, but before we get into the nitty-gritty, let&#39;s turn this <span style="color:red;">red</span> in true TDD fashion while filling out our API expectation of the <em>Given</em> in each of the <strong>Scenarios</strong></p>
-<p><em>/features/step_definitions/add-item-view.steps.js</em></p>
+<p>_/features/step<em>definitions/add-item-view.steps.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'assert'</span>);
 
 module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
@@ -624,7 +564,7 @@ module.exports.World = World;
 <pre><code><span class="hljs-keyword">Background</span>: Grocery <span class="hljs-keyword">List</span> Application is <span class="hljs-keyword">Open</span>
   Given <span class="hljs-keyword">I</span> have opened the grocery list application
 </code></pre><p>This actually stems from a much larger problem: accessing the the application module on the <code>window</code> before it has finished being loaded by the browser. As such, we will need to modify this step definition to ensure that the DOM has completed load before we can move forward in interactinf with the <strong>World</strong> API that now exposes communication to the DOM.</p>
-<p><em>/features/step_definitions/background-open-application.step.js</em></p>
+<p>_/features/step<em>definitions/background-open-application.step.js</em></p>
 <pre><code><span class="hljs-pi">'use strict'</span>;
 <span class="hljs-keyword">var</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'assert'</span>);
 
@@ -781,7 +721,7 @@ var application = {
 <span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
 </code></pre><p>And we are back to <span style="color: green;">green</span>!... and <span style="color: rgb(117, 117, 37);">pending</span>. Let&#39;s move on to our next step definition:</p>
 <h3 id="when-i-provide-a-valid-grocery-list-item-name">When I provide a valid grocery list item name</h3>
-<p><em>/features/step_definitions/add-item-view.steps.js</em></p>
+<p>_/features/step<em>definitions/add-item-view.steps.js</em></p>
 <pre><code><span class="hljs-keyword">...</span>
 
 var enteredItem;
@@ -866,7 +806,7 @@ var application = {
 <span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
 </code></pre><p>Back to <span style="color: rgb(117, 117, 37);">pending</span>! Next step:</p>
 <h3 id="and-i-select-to-add-an-item">And I select to add an item</h3>
-<p><em>/features/step_definitions/add-item-view.steps.js</em></p>
+<p>_/features/step<em>definitions/add-item-view.steps.js</em></p>
 <pre><code><span class="hljs-keyword">...</span>
 
 this.When(/^I select to add an item$/, <span class="hljs-keyword">function</span>(callback) {
@@ -948,7 +888,7 @@ module.exports.World = World;
 <span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
 </code></pre><p>Back to <span style="color: rgb(117, 117, 37);">pending</span>! We&#39;re getting into assertion territory :) Next step:</p>
 <h3 id="then-the-item-is-added-to-the-grocery-list-view">Then The item is added to the grocery list view</h3>
-<p><em>/features/step_definitions/add-item-view.steps.js</em></p>
+<p>_/features/step<em>definitions/add-item-view.steps.js</em></p>
 <pre><code><span class="hljs-keyword">...</span>
 
 this.Then(/^The item is added to the grocery list view$/, <span class="hljs-keyword">function</span>(callback) {
@@ -1024,7 +964,7 @@ module.exports.World = World;
 </code></pre><p>By adding a <code>click</code> handler to the <code>button</code>, we are updating the view by adding a <code>li</code> element to the list view.</p>
 <p>And we&#39;re back to <span style="color: rgb(117, 117, 37);">pending</span>! One last step:</p>
 <h3 id="then-the-item-is-accessible-from-the-grocery-list-collection">Then The item is accessible from the grocery list collection</h3>
-<p><em>/features/step_definitions/add-item-view.steps.js</em></p>
+<p>_/features/step<em>definitions/add-item-view.steps.js</em></p>
 <pre><code><span class="hljs-keyword">...</span>
 
 this.Then(/^The item is accessible from the grocery list collection$/, <span class="hljs-keyword">function</span>(callback) {
@@ -1080,10 +1020,10 @@ var application = {
 <p>Who knows... I have had a blast going through the articles in this series demonstrating TDD using the BDD tool, <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. I might just continue to evolve the example to a fully-functional application just as I had done in the <a href="http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">Making of a Test-Driven Grocery List Application</a> series which focused on the <a href="http://jasmine.github.io/2.0/introduction.html">Jasmine</a> library.</p>
 <p>Additionally, I am invested in the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> I created during (and as a result) of this series and hope to write some more articles on its structure, usage and any additions/fixes that are made and I welcome you to help me in making <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> a great tool in being able run your specs in a real browser environment without having to change your current workflow in defining <strong>Features</strong>, <strong>Step Definitions</strong> and support files.</p>
 <p>Cheers!</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript IV: CucumberJS and The Browser]]></title><description><![CDATA[<p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">previous post</a> in this series detailing how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>, I addressed a few common build tools in JavaScript to automate the watching and running of tests. While beneficial to a proper agile workflow, I did not introduce any new concepts or development information directly associated with using CucumberJS, itself.</p>
+]]></description><link>/blog-posts/2014/02/12/cucumberjs-browser-update/index.html</link><guid isPermaLink="true">/blog-posts/2014/02/12/cucumberjs-browser-update/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript IV: CucumberJS and The Browser]]></title><description><![CDATA[<p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">previous post</a> in this series detailing how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>, I addressed a few common build tools in JavaScript to automate the watching and running of tests. While beneficial to a proper agile workflow, I did not introduce any new concepts or development information directly associated with using CucumberJS, itself.</p>
 <p>In this article, I intend to take on a pretty meaty subject - running your cukes in the browser. It is a subject I have grappled with for some time and have tried different solutions, eventually <a href="https://github.com/bustardcelly/cucumberjs-browser">creating my own</a>. </p>
 <h3 id="-gt-code">&gt; code</h3>
-<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
+<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></p>
 <p><em>Disclaimer: I did not start out this series to promote the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> tool. In fact, it came to life as a result of this series :)</em></p>
 <h2 id="why-the-browser">Why The Browser</h2>
 <p><a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> is built on <a href="http://nodejs.org">Node</a>. As such, the CLI tool that we have been running to verify our tests in previous articles is living in that environment. </p>
@@ -1091,11 +1031,11 @@ var application = {
 <h2 id="options">Options</h2>
 <p>The following options are those I have found or been alerted to by the community. I have used a few of them to much benefit, but felt there was always one or two things that kept me from truly embracing them as a good solution. I hope to showcase their strengths and weaknesses to allow you to make a more informed decision on what may be the best for your team.</p>
 <h3 id="writing-specs-in-the-dom">Writing Specs in the DOM</h3>
-<p>Example: <a href="https://github.com/cucumber/cucumber-js/blob/master/example/index.html"><a href="https://github.com/cucumber/cucumber-js/blob/master/example/index.html">https://github.com/cucumber/cucumber-js/blob/master/example/index.html</a></a>.</p>
+<p>Example: <a href="https://github.com/cucumber/cucumber-js/blob/master/example/index.html">https://github.com/cucumber/cucumber-js/blob/master/example/index.html</a>.</p>
 <p>This is an example from the <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> team that demonstrates how to define <strong>Features</strong> and <strong>Step Definitions</strong> in <code>textarea</code> elements. These are read and evaluated at runtime by the bundled browser-based CucumberJS library, with the assertions being printed to the DOM as well.</p>
 <p>A reasonable approach, and much of its implementation was an inspiration for my <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> tool (addressed later). My main issue with incorporating this into my development and testing workflow is the break in having my <strong>Features</strong>, <strong>Step Definitions</strong> and test support as entities residing in separate files as we have done in the examples of previous articles in this series. Instead of curating <strong>Features</strong> in a much more organized way involving the file system, I would need to maintain them in the textual values defined for <code>textarea</code>s in a web page. My workflow just seemed interrupted in doing so; I could not directly relate a Ticket in our Issue Tracker with a <strong>Feature</strong> file and its associated <strong>Step</strong> file(s).</p>
 <h3 id="zombiejs">ZombieJS</h3>
-<p>There are small examples on the landing page for <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> repo that are fairly easy to follow and there is a great example <a href="http://www.antonydenyer.co.uk/">Antony Denyer</a> as well: <a href="https://github.com/antonydenyer/zombiejsplayground"><a href="https://github.com/antonydenyer/zombiejsplayground">https://github.com/antonydenyer/zombiejsplayground</a></a>.</p>
+<p>There are small examples on the landing page for <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> repo that are fairly easy to follow and there is a great example <a href="http://www.antonydenyer.co.uk/">Antony Denyer</a> as well: <a href="https://github.com/antonydenyer/zombiejsplayground">https://github.com/antonydenyer/zombiejsplayground</a>.</p>
 <p>The <a href="http://zombie.labnotes.org/">ZombieJS</a> API is actually quite easy to understand and use and have incorporated using Zombie in a couple of my projects. The main issue I have in using Zombie in all my projects is &quot;trust&quot;. Not trust in Zombie as a good tool, trust in that the assertions are cross-browser; under the covers, it is a mixture of the DOM library <a href="http://jsdom.org/">JSDom</a>, <a href="https://github.com/brianmcd/contextify">Contextify</a> for V8 execution and various other - very excellent, I should say - libraries that are used to &#39;emulate&#39; a browser in a headless manner.</p>
 <p>Again, I don&#39;t want that explanation to take away from the excellent tool that <a href="http://zombie.labnotes.org/">ZombieJS</a> is and its usefulness and benefits it has provided me in previous (and future) projects. Infact, while I was <a href="https://twitter.com/_toddanderson_/status/414210165001699328">extolling its virtues over twitter</a>, <a href="https://twitter.com/s9tpepper">Omar Gonzalez</a> reminded me that it is best to run tests in browsers and tipped me to his project <a href="https://github.com/s9tpepper/karma-cucumberjs">karma-cucumberjs</a>.</p>
 <p>Omar was right. While it has a nice API and is quick and easy to get working, it is not a real browser. In the end, I may have false positives and if I was to go to production with my application that requires cross-browser support, issues may arise that the tests did not catch under Zombie.</p>
@@ -1106,7 +1046,7 @@ var application = {
 <h3 id="cucumberjs-browser">cucumberjs-browser</h3>
 <p>Not finding a solution that afforded me to simply deploy my <strong>Features</strong>, <strong>Steps Definitions</strong> and subsequent support files to be run in the browser, I decided to make one that would allow me to; and so <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> was born.</p>
 <p>In basic terms, what <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> does is bundle the <strong>Features</strong>, <strong>Step Definitions</strong> and any support files into standalone modules (using <a href="http://browserify.org/">browserify</a>) and defines them for a page using a <a href="http://lodash.com/docs">lodash</a> template. Included, as well, is the bundled library from <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. </p>
-<p>When the page is loaded in any browser, the specs are run just as they normally would be from the command line. Through the CLI options, you have the ability to define a listener that will handle the passing and failing of steps. <em>Current support for <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> in console and basic UI. More to come...</em></p>
+<p>When the page is loaded in any browser, the specs are run just as they normally would be from the command line. Through the CLI options, you have the ability to define a listener that will handle the passing and failing of steps. _Current support for <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> in console and basic UI. More to come..._</p>
 <p>The <a href="https://github.com/bustardcelly/cucumberjs-browser/blob/master/README.md">README</a> is probably the best place to start as it will be kept more up to date than this post in the future, but here is a quick rundown:</p>
 <h4 id="installation">Installation</h4>
 <p>You install <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> globally through npm:</p>
@@ -1125,9 +1065,69 @@ var application = {
 <p>For this post, I had originally started updating the example we have been working through in this series to incoprate User Interaction with the application in a browser with <span style="color: red;">failing</span> tests everywhere... it made me smile :) But, I felt it was extending the length of this post to a point in which it was becoming information overload.</p>
 <p>As such, I am in the middle of a follow up post in how to utilize <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> for our current Grocery List Application example in delivering a test-driven browser-based application supported by <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs.</p>
 <p>At the very least, I hope this post highlighted some possible solutions for testing in the browser and will draw you back to the following post where i go more in depth about working with <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a>. &#39;Til then...</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript III: CucumberJS and Test Automation]]></title><description><![CDATA[<p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html">previous post</a> I addressed the concepts of the <strong>World</strong> context and <strong>Background</strong> scenario. I am going to pause in actually working with <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in delivering code in a BDD manner for this article and address another vital part of the development process: <strong>Automation</strong>.</p>
+]]></description><link>/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html</link><guid isPermaLink="true">/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[gulp-rev-append: simple cache-busting plugin]]></title><description><![CDATA[<p>I just released <a href="https://www.npmjs.org/package/gulp-rev-append">gulp-rev-append</a>, a simple cache-busting plugin for <a href="http://gulpjs.org">gulp</a> that appends a query-string file hash to script and stylesheet dependencies in HTML files.</p>
+<p>There are <a href="https://www.npmjs.org/search?q=gulp-rev">several other cache-busting plugins</a> currently available by some awesome developers and I suggest you look at those to fit your project&#39;s need.</p>
+<p>For my particular project in which I decided to create the <a href="https://www.npmjs.org/package/gulp-rev-append">gulp-rev-append</a> plugin, I was looking to:</p>
+<ul>
+<li>enable cache-busting by appending a file hash on query string</li>
+<li>not require additionally markup commenting to declare dependencies to be modified</li>
+<li>not generate an additional manifest to be a dependency in file access for production-level application</li>
+</ul>
+<p>I was trying to develop a simple web-based mobile site on a desktop while testing on devices and cache-ing was giving me a headache. I did not want to modify my workflow and build to accommodate an addition cache-manifest, nor did I foresee my work requirng a more robust cache-busting technique that the other plugins provided. </p>
+<p><em>If this project was to be in millions of hands out in production, I would certainly use a file revving solution such as <a href="https://www.npmjs.org/package/gulp-rev">https://www.npmjs.org/package/gulp-rev</a>.</em></p>
+<h2 id="usage">Usage</h2>
+<p>The <a href="https://github.com/bustardcelly/gulp-rev-append">gulp-rev-append</a> plugins allows for appending a query-string file hash to dependencies declared in html files defined using the following regex: <code>(?:href|src)=&quot;(.*)[\?]rev=(.*)[\&quot;]</code></p>
+<p>That&#39;s fancy talk for any stylesheet or script declarations that are declared in an html file such as the following:</p>
+<pre><code><span class="hljs-doctype">&lt;!doctype html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/style-one.css?rev=@@hash"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-one.js?rev=@@hash"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-two.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>hello, world!<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-three.js?rev=@@hash"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre><p>will turn into something similar as the following after running <code>gulp-rev-append</code>:</p>
+<pre><code><span class="hljs-doctype">&lt;!doctype html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"style/style-one.css?rev=d65aaba987e9c1eefeb4be9cfd34e0de"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-one.js?rev=17a5da6c8a2d875cf48aefb722eefa07"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-two.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>hello, world!<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"script/script-three.js?rev=5cadf43edba6a97980d42331f9fffd17"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre><p>Any subsequent runs of the <code>gulp-rev-append</code> file will change the output <em>only</em> if the target file(s) declared have been modified. This is because the revision hash is computed using the target file contents.</p>
+<p>The only requirement is that the dependency to be appended with the hash be declared using <code>?rev=</code>. The <code>@@hash</code> is not required, and any value will be overriden as the dependency file contents change.</p>
+<h3 id="installation">Installation</h3>
+<pre><code>$ npm install gulp<span class="hljs-attribute">-rev</span><span class="hljs-attribute">-append</span> <span class="hljs-subst">--</span>save<span class="hljs-attribute">-dev</span>
+</code></pre><h3 id="declaration">Declaration</h3>
+<p><em>gulpfile.js</em></p>
+<pre><code><span class="hljs-keyword">var</span> rev = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-rev-append'</span>);
+
+gulp.task(<span class="hljs-string">'rev'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+  gulp.src(<span class="hljs-string">'./index.html'</span>)
+    .pipe(rev())
+    .pipe(gulp.dest(<span class="hljs-string">'.'</span>));
+});
+</code></pre><h3 id="execution">Execution</h3>
+<pre><code><span class="hljs-variable">$ </span>gulp rev
+</code></pre><h2 id="a-word-of-warning">A word of warning</h2>
+<p>Using query strings to cache-bust dependencies isn&#39;t fool proof. These are some great articles that explain why:</p>
+<p><a href="https://developers.google.com/speed/docs/best-practices/caching?csw=1#LeverageProxyCaching">Google | Leverage Proxy Cache Article</a><br><a href="http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/">Steve Souders | Revving Filenames: don&#39;t use querystring</a></p>
+<p>As mentioned previously, file revving is a more robust cache-busting technique and there is already a great <a href="http://gulpjs.org">gulp</a> plugin out there called <a href="https://www.npmjs.org/package/gulp-rev">https://www.npmjs.org/package/gulp-rev</a> to fit your development needs.</p>
+<h2 id="project">project</h2>
+<p><a href="https://github.com/bustardcelly/gulp-rev-append">gulp-rev-append</a></p>
+<p>Cheers.</p>
+]]></description><link>/blog-posts/2014/03/18/gulp-rev-append/index.html</link><guid isPermaLink="true">/blog-posts/2014/03/18/gulp-rev-append/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript III: CucumberJS and Test Automation]]></title><description><![CDATA[<p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html">previous post</a> I addressed the concepts of the <strong>World</strong> context and <strong>Background</strong> scenario. I am going to pause in actually working with <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in delivering code in a BDD manner for this article and address another vital part of the development process: <strong>Automation</strong>.</p>
 <h3 id="-gt-code">&gt; code</h3>
-<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
+<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></p>
 <h2 id="why-automate-">Why Automate?</h2>
 <p>The benefit of automation is in time saved. If we can pinpoint tasks that we do repetitively during development and automate them, we can save large amounts of time that could be put back into doing more coding, thinking, learning, laughing, beering - the list goes on.</p>
 <p>While going through the basics of <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in the previous articles, I was demonstrating how I use the tool to TDD from the outside-in and constantly hopping back and forth from my code editor to the terminal to run this simple command over and over:</p>
@@ -1224,7 +1224,7 @@ watch([<span class="hljs-string">'./features/step_definitions'</span>, <span cla
 <h2 id="grunt">Grunt</h2>
 <p>Up until a few years ago, I  stuck with what I knew best and preferred to maintain builds for my JavaScript projects using <a href="http://www.gnu.org/software/make/">Make</a>. After having the fortunate opportunity to hear <a href="http://benalman.com/">Ben Alman</a> speak and demonstrate <a href="http://gruntjs.com/">Grunt</a> at <a href="http://2013.texasjavascript.com/">TXJS</a> in 2012, I decided to give <strong>Grunt</strong> a real try - and I have, for the most part, not looked back.</p>
 <p><a href="http://gruntjs.com/">Grunt</a> is my go-to task automation tool for large projects that involve various complex tasks for developing, testing and deployment. For the most part, if my tasks are not solely based on files, I will incorporate <strong>Grunt</strong> into my project. </p>
-<p>Along with a solid history and great documentation, there is also a very active community that creates task plugins for <strong>Grunt</strong>: <a href="http://gruntjs.com/plugins"><a href="http://gruntjs.com/plugins">http://gruntjs.com/plugins</a></a>. You can find virtually anything you need, and if for some odd reason you can&#39;t, you can create one: <a href="http://gruntjs.com/creating-plugins">Creating Grunt Plugins Docs</a>.</p>
+<p>Along with a solid history and great documentation, there is also a very active community that creates task plugins for <strong>Grunt</strong>: <a href="http://gruntjs.com/plugins">http://gruntjs.com/plugins</a>. You can find virtually anything you need, and if for some odd reason you can&#39;t, you can create one: <a href="http://gruntjs.com/creating-plugins">Creating Grunt Plugins Docs</a>.</p>
 <p><em>It is too much for this article to get into a discussion about <strong>Grunt</strong> and its concepts, so please read the <a href="http://gruntjs.com/getting-started">documentation</a> on their site for clarity. In this section I intend to address how to use <strong>Grunt</strong> to automate the tests we have been developing in this series.</em></p>
 <h3 id="usage">Usage</h3>
 <p>Just as we setup a watcher for our <strong>Step Definitions</strong> and scripts for our <code>npm run</code> example, we will be using 2 <a href="http://gruntjs.com/">Grunt</a> plugin tasks provided by the wonderful development community:</p>
@@ -1316,21 +1316,21 @@ gulp.task(<span class="hljs-string">'watch-tests'</span>, <span class="hljs-func
 <p>I didn&#39;t introduce any new concepts related to <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>, itself, but felt it necessary to address automation at this stage within the series as I feel it is a vital part to Test-Driven Development and the Agile process and something that should be addressed in the early stages of a project.</p>
 <p>That said, I look forward to the next article where we get to write more tests and which I intend to introduce running tests in a browser environment :)</p>
 <p>Source for examples related to this post can be found in the <a href="https://github.com/bustardcelly/cucumberjs-examples/tree/0.3.0.post">0.3.0.post tag on my Github account</a>.</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript II: CucumberJS, the World and Background]]></title><description><![CDATA[<p>In <a href="http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">my previous post</a>, I demonstrated how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> - the JavaScript port of the <a href="http://cukes.info/">Cucumber</a> BDD testing tool - in developing Test-Driven code. I walked through going from a <span style="color:red;">failing</span> feature with two scenarios to a <span style="color:green;">passing</span> cuke, while taking care to only add enough code that would make the assertions pass and refactoring as I went along under the assurance of a test harness.</p>
+]]></description><link>/blog-posts/2014/01/29/cucumberjs-build/index.html</link><guid isPermaLink="true">/blog-posts/2014/01/29/cucumberjs-build/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript II: CucumberJS, the World and Background]]></title><description><![CDATA[<p>In <a href="http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">my previous post</a>, I demonstrated how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> - the JavaScript port of the <a href="http://cukes.info/">Cucumber</a> BDD testing tool - in developing Test-Driven code. I walked through going from a <span style="color:red;">failing</span> feature with two scenarios to a <span style="color:green;">passing</span> cuke, while taking care to only add enough code that would make the assertions pass and refactoring as I went along under the assurance of a test harness.</p>
 <p>There are a few topics that I didn&#39;t address in the previous post that I utilize in my testing process that I wanted to touch on in this post as any further articles I may write on the subject of <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> most likely will reference them. These are:</p>
 <ul>
 <li>the World<del>, chico, and everything in it.</del></li>
 <li>Background</li>
 </ul>
 <h3 id="-gt-code">&gt; code</h3>
-<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
+<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></p>
 <h2 id="world">World</h2>
 <p>The <strong>World</strong> brings context to your <strong>Scenarios</strong>.</p>
 <p>In the examples from <a href="http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">my previous post</a> variables were declared locally to the module export and available for reference within each <strong>Step</strong>. This may be suitable for some cases, but can cause issues or provide false results if you are not aware that those values last across the life cycle of <em>all</em> the <strong>Steps</strong> declared in that module. In other words, they are not reset for each <strong>Scenario</strong>.</p>
 <p>To bring context to each <strong>Scenario</strong>, you can use the <strong>World</strong> constructor within which you can define various properties and methods that may be relevant in setting up the environment under test for each <strong>Scenario</strong>. Additonally, you access the defined <strong>World</strong> within each <strong>Step</strong> using the <code>this</code> keyword - just as you are familiar to in referencing context scope within JavaScript.</p>
 <h3 id="example">Example</h3>
 <p>If I were to take the complete steps module for the <em>Add Item</em> <strong>Feature</strong> from the <a href="https://github.com/bustardcelly/cucumberjs-examples/blob/0.1.0.post/features/step_definitions/add-item.steps.js">previous example</a> and modify it to incorporate a <strong>World</strong> context, it would look something like the following:</p>
-<p><em>/features/step_definitions/add-item.steps.js</em></p>
+<p>_/features/step<em>definitions/add-item.steps.js</em></p>
 <pre><code><span class="hljs-pi">'use strict'</span>;
 <span class="hljs-keyword">var</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'assert'</span>);
 
@@ -1438,8 +1438,8 @@ You can implement step definitions <span class="hljs-keyword">for</span> <span c
 });
 </code></pre><p>We&#39;d see that neither of the <em>Scenarios</em> are entered and we are alerted to an undefined step definition.</p>
 <h3 id="background-step-definition">Background Step Definition</h3>
-<p>I have a tendency to separate my background step definitions from my scenario step definitions - in both separate files and file naming convention. In other words, I would not add this step to the <em>/features/step_definitions/add-item.steps.js</em>. The main reason being that I reuse the same background step definitions across many features. As such, I place these steps in a separate file that is prefixed with <strong>background-</strong>:</p>
-<p><em>/features/step_definitions/background-open-application.steps.js</em></p>
+<p>I have a tendency to separate my background step definitions from my scenario step definitions - in both separate files and file naming convention. In other words, I would not add this step to the _/features/step<em>definitions/add-item.steps.js</em>. The main reason being that I reuse the same background step definitions across many features. As such, I place these steps in a separate file that is prefixed with <strong>background-</strong>:</p>
+<p>_/features/step<em>definitions/background-open-application.steps.js</em></p>
 <pre><code><span class="hljs-pi">'use strict'</span>;
 <span class="hljs-keyword">var</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'assert'</span>);
 
@@ -1455,7 +1455,7 @@ module.exports = <span class="hljs-function"><span class="hljs-keyword">function
 };
 </code></pre><p>Similar to how we just modified the Add Item <strong>Feature</strong>, we are defining our world and we now have a pending <strong>Step</strong> to assert as passing. Technically I save the assertions for the <em>Then</em> <strong>Steps</strong>, but when I work with <strong>Background</strong>&#39;s I consider them pretty vital to the <strong>Scenarios</strong> environment. Therefore, most of my <strong>Background</strong>&#39;s have assertions, or in the very least, asynchronous requests which invoke the callback on completion. <em>(A better example of this will be in a following post when I address testing under a browser)</em>.</p>
 <p>Let&#39;s define how we expect the application to be started in the <strong>World</strong> and what sort of validation we expect to assert that, in fact, we have opened the grocery list application so that we can edit its collection:</p>
-<p><em>/features/step_definitions/background-open-application.steps.js</em></p>
+<p>_/features/step<em>definitions/background-open-application.steps.js</em></p>
 <pre><code><span class="hljs-pi">'use strict'</span>;
 <span class="hljs-keyword">var</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'assert'</span>);
 
@@ -1553,7 +1553,7 @@ module.exports = {
 <p>That last section was all very wordy. Basically the whole <code>myList</code> business that is going on the <strong>World</strong> and references in the Add Item <strong>Feature</strong> steps that we just did previously in this article, I want that to go away. I want to interact with a list instance held on the application.</p>
 <h3 id="refactorying">Refactorying</h3>
 <p>The first modification is in the Add Item <strong>Feature</strong> steps:</p>
-<p><em>/features/step_definitions/add-item.steps.js</em></p>
+<p>_/features/step<em>definitions/add-item.steps.js</em></p>
 <pre><code><span class="hljs-pi">'use strict'</span>;
 <span class="hljs-keyword">var</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'assert'</span>);
 
@@ -1698,11 +1698,11 @@ module.exports.World = World;
 </ul>
 <p>I think the work we went through in this post will be very beneficial when I introduce running tests under a browser. Stay tuned…</p>
 <p>Source for examples related to this post can be found in the <a href="https://github.com/bustardcelly/cucumberjs-examples/tree/0.2.0post">0.2.0.post tag on my Github account</a>.</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript: CucumberJS]]></title><description><![CDATA[<p>I have previously written about <strong>TDD</strong> in JavaScript, most notably using the BDD-style library <a href="https://github.com/pivotal/jasmine">Jasmine</a> in a series on <a href="http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">building a Test-Driven Grocery List Application</a>. In that posts series I went through thinking of User Stories for Features and Scenarios as actual development tasks, and - reading back on it - it&#39;s all very green (no pun intended) in my finding a way to deliver test-driven code. Nothing wrong with that and I will most likely look upon this and subsequent posts in the same manner. That said, I still hold true that TDD is the best way to deliver concise, tested and well thought-out code.</p>
+]]></description><link>/blog-posts/2014/01/22/cucumberjs-world/index.html</link><guid isPermaLink="true">/blog-posts/2014/01/22/cucumberjs-world/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript: CucumberJS]]></title><description><![CDATA[<p>I have previously written about <strong>TDD</strong> in JavaScript, most notably using the BDD-style library <a href="https://github.com/pivotal/jasmine">Jasmine</a> in a series on <a href="http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">building a Test-Driven Grocery List Application</a>. In that posts series I went through thinking of User Stories for Features and Scenarios as actual development tasks, and - reading back on it - it&#39;s all very green (no pun intended) in my finding a way to deliver test-driven code. Nothing wrong with that and I will most likely look upon this and subsequent posts in the same manner. That said, I still hold true that TDD is the best way to deliver concise, tested and well thought-out code.</p>
 <p>Since that time, however, I have incorporated a different tool into my <strong>TDD</strong> workflow for JavaScript-based projects that affords me the integration of Feature specs more closely to my development and truly encompasses my current ideal of <strong>Behaviour Driven Development</strong>: <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. Essentially, it allows me to truly adhere to <strong>TDD</strong> while developing from the outside in - running automated tests that fail until I have written code that supports a feature.</p>
 <h3 id="-gt-assumptions-and-notes">&gt; assumptions and notes</h3>
 <p>For the examples in this post, it is assumed that you are familiar with <a href="http://nodejs.org">NodeJS</a>, <a href="https://npmjs.org/">npm</a>, developing node modules and common unit testing practices as these topics too large to discuss in this post.</p>
-<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
+<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></p>
 <h2 id="cucumberjs">CucumberJS</h2>
 <p><a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> is a JavaScript port of the popular BDD tool <a href="http://cukes.info/">Cucumber</a> (which itself was a rewrite of RSpec). It allows you to define Feature Specs in a Domain-Specific-Language (DSL) - called <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin</a> - and run your specs using a command line tool which will report the passing and/or failing of scenarios and the steps they are comprised of.</p>
 <p>It is important to note that <strong>Cucumber</strong> itself does not provide a default assertion library. It is a testing framework providing a command line tool that consumes defined Features and validates Scenarios by running Steps that are written in JavaScript. It is the developers choice to include the desired assertion library used in order to make those steps <span style="color:green;">pass</span> or <span style="color:red;">fail</span>. It is my intent to clarify the process by example through a single Feature with multiple Scenarios in this post.</p>
@@ -1769,7 +1769,7 @@ You can implement step definitions <span class="hljs-keyword">for</span> <span c
 <p>In the previous section, we saw that running <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> against our Add Item Feature alerted us that we have undefined (and, though not printed in <span style="color:red;">red</span>, failing) scenarios to support the feature. By default <strong>CucumberJS</strong> reads in all features from the <strong>/features</strong> directory relative to where the command was run, but it could not locate the supported step files in which these methods are defined.</p>
 <p>As mentioned previously, <strong>CucumberJS</strong> does not provide an assertion library. The only assumption at this point - since the <strong>CucumberJS</strong> tool is run under <a href="http://nodejs.org/">NodeJS</a> - is that the supported steps will be loaded as node modules with an exported function to be executed. As we start implementing the steps, we will need to decide on the assertion library to use in validating our logic. We&#39;ll put that decision on the shelf at the moment and get the barebones setup to fail :)</p>
 <p>To start, let&#39;s take those step definitions provided by the <strong>CucumberJS</strong> ci tool and drop them into a node module:</p>
-<p><em>/features/step_definitions/add-item.steps.js</em></p>
+<p>_/features/step<em>definitions/add-item.steps.js</em></p>
 <pre><code><span class="hljs-pi">'use strict'</span>;
 
 module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
@@ -1803,7 +1803,7 @@ module.exports = <span class="hljs-function"><span class="hljs-keyword">function
 <h3 id="given">Given</h3>
 <p><hr/>
 To get closer to <span style="color:green;">green</span>, we&#39;ll tackle the <strong>Given</strong> step first:</p>
-<p><em>/features/step_definitions/add-item.step.js</em></p>
+<p>_/features/step<em>definitions/add-item.step.js</em></p>
 <pre><code><span class="hljs-pi">'use strict'</span>;
 
 <span class="hljs-keyword">var</span> GroceryList = <span class="hljs-built_in">require</span>(process.cwd() + <span class="hljs-string">'/script/model/grocery-list'</span>);
@@ -1856,7 +1856,7 @@ In the previous section, to make the <em>Given</em> step pass on each <strong>Sc
 <pre><code>When I <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> list
 </code></pre><p>we need to provide a way in which to add an item to the Grocery List instance created in the <em>Given</em> - and do so in as little code to make the step pass...</p>
 <p>First, we&#39;ll define our expectation of the make up and <code>add</code> signature of the Grocery List in the step definitions:</p>
-<p><em>/features/step_definitions/add-item.step.js</em></p>
+<p>_/features/step<em>definitions/add-item.step.js</em></p>
 <pre><code><span class="hljs-keyword">...</span>
 module.exports = <span class="hljs-keyword">function</span>() {
 
@@ -1915,7 +1915,7 @@ We progressed through our step implementations and have reached the step(s) at w
 <pre><code>Then The grocery list <span class="hljs-operator">contains</span> <span class="hljs-operator">a</span> single <span class="hljs-keyword">item</span>
 </code></pre><p>we will need to prove that the Grocery List instance grows by a factor of 1 for each new item added.</p>
 <p>Update the step to define how we expect that specification to be validated:</p>
-<p><em>/feature/step_definitions/add-item.step.js</em></p>
+<p>_/feature/step<em>definitions/add-item.step.js</em></p>
 <pre><code><span class="hljs-keyword">...</span>
 var assert = <span class="hljs-keyword">require</span>(<span class="hljs-string">'assert'</span>);
 <span class="hljs-keyword">...</span>
@@ -1967,7 +1967,7 @@ module.exports = {
 <span class="hljs-attribute">TypeError</span>: Cannot read property <span class="hljs-string">'length'</span> <span class="hljs-keyword">of</span> <span class="hljs-literal">undefined</span>
 </code></pre><p>Seeing as the code is not returning anything from <code>getAll()</code>, we can&#39;t access a <code>length</code> property for our assertion test.</p>
 <p>If we modify the code to return an Array:</p>
-<p><em>/feature/step_definitions/add-item.step.js</em></p>
+<p>_/feature/step<em>definitions/add-item.step.js</em></p>
 <pre><code><span class="hljs-keyword">...</span>
 getAll: <span class="hljs-keyword">function</span>() {
   <span class="hljs-keyword">return</span> [];
@@ -2027,7 +2027,7 @@ module.exports = {
 <p>I could go on and on, but let&#39;s just assume we want to cover all bases when it comes to browsers (IE 6 and up, shudder). In my opinion, to make this second <strong>Scenario</strong> turn green, we will add a <code>getItemIndex()</code> method with the following signature:</p>
 <pre><code>+ getItemIndex(itemValue):<span class="hljs-keyword">int</span>
 </code></pre><p>We&#39;ll first modify the step to fail:</p>
-<p><em>/feature/step_definitions/add-item.step.js</em></p>
+<p>_/feature/step<em>definitions/add-item.step.js</em></p>
 <pre><code>this.Then(/^I can access <span class="hljs-keyword">that</span> <span class="hljs-property">item</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span>$/, function(callback) {
   assert.notEqual(myList.getItemIndex(listItem), -<span class="hljs-number">1</span>, 'Added <span class="hljs-property">item</span> should be found <span class="hljs-keyword">at</span> non-negative index.');
   callback();
@@ -2095,7 +2095,7 @@ module.exports = {
 </ul>
 <p>Additionally, in a following post I want to address how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> to run tests that rely on browser integration - ie, <strong>window</strong> and <strong>document</strong> access.</p>
 <p><em>In the past I have used <a href="http://zombie.labnotes.org/">ZombieJS</a> to much success, but <a href="https://twitter.com/s9tpepper">Omar Gonzalez</a> has tipped me to him <a href="https://github.com/s9tpepper/karma-cucumberjs">Karma solution</a> that I am excited to test-drive.</em></p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[A slight obsession over page speed]]></title><description><![CDATA[<p>Lately, several projects (both personal and work-related) have ignited an increasing obsession over page load speed and performance. I wanted to highlight a few tools and resources I find useful in analyzing performance and delivering web pages in production with optimal load time.</p>
+]]></description><link>/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html</link><guid isPermaLink="true">/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[A slight obsession over page speed]]></title><description><![CDATA[<p>Lately, several projects (both personal and work-related) have ignited an increasing obsession over page load speed and performance. I wanted to highlight a few tools and resources I find useful in analyzing performance and delivering web pages in production with optimal load time.</p>
 <h2 id="where-d-this-hat-come-from-">Where&#39;d this hat come from?</h2>
 <p>Over the past decade I primarily have been a client-side application developer. Sometimes my business card changes or personal introductions are made that get &#39;engineer&#39; and &#39;architect&#39; thrown in there, but truthfully I spend my days coding applications, regardless of language. I enjoy writing and shipping code under certain practices and methodologies and ocassionally pause to assess my current workflow and modify where bottlenecks are prevelant.</p>
 <p>Up until recent years I was primarily concerned with code performance; rendering pipelines and element lifecycles, user-perceived performance cases for remote or off-loaded operations, optimizing algorithms for sorting, mapping, analyzing data, etc. I still am, but I also have become increasingly focused on delivery and load perfomance - especially in today&#39;s climate of people viewing web content on handheld devices without WiFi available. </p>
@@ -2152,4 +2152,4 @@ grunt.registerTask(<span class="hljs-string">'dryrun'</span>, <span class="hljs-
 <p>Sometimes, especially when working with 3rd party libraries, web fonts, etc, it is unrealistic to hit 100 for your performance grading - who am I kidding, it is damn near impossible. I try to stay above 90 and feel satisfied. </p>
 <p>As well, it should be stated that the final test is actually physically visiting the sites on handheld devices over a data plan. As I mentioned previously, I usually do some perceived perfomance testing while on the bus ride home, ensuring that I don&#39;t get frustrated with the load time on my own work (and I hope I am more critical of my own stuff than others are ;)).</p>
 <p>This is just the tip of the iceberg when it comes to analyzing load performance and with developments coming out of Google, such as <a href="http://www.chromium.org/spdy/spdy-whitepaper">SPDY</a> and <a href="https://code.google.com/p/modpagespeed/">mod_pagespeed</a>, an exciting space to keep an eye on in order to deliver your content faster and keep end-users happily enjoying your sites and applications.</p>
-]]></description><link>http://custardbelly.com/blog/blog-posts/2014/01/06/obsession-over-page-speed/index.html</link><guid isPermaLink="true">http://custardbelly.com/blog/blog-posts/2014/01/06/obsession-over-page-speed/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>
+]]></description><link>/blog-posts/2014/01/06/obsession-over-page-speed/index.html</link><guid isPermaLink="true">/blog-posts/2014/01/06/obsession-over-page-speed/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>

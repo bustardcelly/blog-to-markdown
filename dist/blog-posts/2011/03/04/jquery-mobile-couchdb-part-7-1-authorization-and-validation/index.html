@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jQuery Mobile + CouchDB: Part 7.1 – Authorization and Validation</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-1-authorization-and-validation/index.html">jQuery Mobile + CouchDB: Part 7.1 – Authorization and Validation</a></h1>
+    <h1><a href="/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-1-authorization-and-validation/index.html">jQuery Mobile + CouchDB: Part 7.1 – Authorization and Validation</a></h1>
     <p>
       2011 March 4th
       
@@ -67,7 +67,7 @@
 <p>While those articles are an excellent resource for the task at hand, the sites themselves have a wealth of information which I highly suggest perusing, as well. Alright, armed with a little knowledge, lets dig in.</p>
 <h2 id="fix-this">Fix This</h2>
 <p><em>If you have already taken your <a href="http://couchdb.apache.org/">CouchDB</a> instance out of admin party, you can skip this section or read on.</em></p>
-<p>If you have been following along in this series and have only been using the command line to interact with <a href="http://couchdb.apache.org/">CouchDB</a>, there is a utility application called <a href="http://wiki.apache.org/couchdb/Getting_started_with_Futon">Futon</a> that ships with <a href="http://couchdb.apache.org/">CouchDB</a>. I actually browse my <a href="http://couchdb.apache.org/">CouchDB</a> instance using <a href="http://wiki.apache.org/couchdb/Getting_started_with_Futon">Futon</a> in <a href="http://www.couchone.com/get">CouchOne (neé CouchDBX for Mac)</a>. If you have ever visited <a href="http://127.0.0.1:5984/_utils"><a href="http://127.0.0.1:5984/_utils">http://127.0.0.1:5984/_utils</a></a>, that’s <strong>Futon</strong>. If you have a version of <a href="http://www.couchone.com/get">CouchOne</a> running on your machine, that shows <strong>Futon</strong> within the browse window. I recommend using <a href="http://www.couchone.com/get">CouchOne</a> for local development as it makes it easier to start and stop the service as well as pretty prints out the http calls (not as verbose as i would like, but still useful).</p>
+<p>If you have been following along in this series and have only been using the command line to interact with <a href="http://couchdb.apache.org/">CouchDB</a>, there is a utility application called <a href="http://wiki.apache.org/couchdb/Getting_started_with_Futon">Futon</a> that ships with <a href="http://couchdb.apache.org/">CouchDB</a>. I actually browse my <a href="http://couchdb.apache.org/">CouchDB</a> instance using <a href="http://wiki.apache.org/couchdb/Getting_started_with_Futon">Futon</a> in <a href="http://www.couchone.com/get">CouchOne (neé CouchDBX for Mac)</a>. If you have ever visited <a href="http://127.0.0.1:5984/_utils">http://127.0.0.1:5984/_utils</a>, that’s <strong>Futon</strong>. If you have a version of <a href="http://www.couchone.com/get">CouchOne</a> running on your machine, that shows <strong>Futon</strong> within the browse window. I recommend using <a href="http://www.couchone.com/get">CouchOne</a> for local development as it makes it easier to start and stop the service as well as pretty prints out the http calls (not as verbose as i would like, but still useful).</p>
 <p>So if you’ve visited <a href="http://127.0.0.1:5984/_utils">Futon</a> and have been running our application that we have built along in the series under <strong>admin party</strong> (ie. all access), then you may see something of the sort on the right hand side of <a href="http://127.0.0.1:5984/_utils">Futon</a>. Notice the bottom portion:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_1_1.png" alt="Futon side panel"><br><em>[Futon side panel]</em></p>
 <p>We intend to Fix this.</p>
@@ -80,17 +80,17 @@
 </code></pre><p>Click <em>Create</em> to create the <strong>admin</strong> user and relax. What just happened is that you created an <strong>admin</strong> that can now do everything everybody used to be able to do. That <strong>username</strong> and <strong>hashed password</strong> are now saved in <em>/etc/couchdb/local.ini</em> of your <a href="http://couchdb.apache.org/">CouchDB</a> instance and is viewable in <a href="http://127.0.0.1:5984/_utils">Futon</a> when you go to <strong>Configuration</strong>:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_1_3.png" alt="Configuration Panel"><br><em>[Configuration panel]</em></p>
 <p>I have to admit, I am doing this all backtracking. Meaning I took my <a href="http://couchdb.apache.org/">CouchDB</a> instance off of <strong>admin party</strong> some time ago. So I am trusting this is still the way to go about it. And I am hoping that since <a href="http://couchdb.apache.org/">CouchDB</a> 1.0+ there has been a <strong>users_ database. To check if there is within <a href="http://127.0.0.1:5984/_utils">Futon</a>, go to <strong>Overview</strong> and one of the first databases listed should be </strong>users_. If its there, great! It should probably even have its authentication validation view included so we are all set, and the <strong>admin</strong> you just created may or may not be automatically entered as a user (i have on mine).</p>
-<p>If <em>_users</em> is not available for you… leave a comment and we can work something out.</p>
+<p>If _<em>users</em> is not available for you… leave a comment and we can work something out.</p>
 <h2 id="creating-users">Creating Users</h2>
 <p>Remember that rush of power you had when <a href="http://couchdb.apache.org/">CouchDB</a> was running under <strong>admin party</strong>? That light may have gone out once you created an <strong>admin</strong>… but think of it – now you possess the control to create/update/delete as many users as you want. Isn’t it glorious. Now we are going to reign it in a bit and create a new user.</p>
 <p>The easiest way to set up a new user is through <a href="http://127.0.0.1:5984/_utils">Futon</a>. If you are still logged in as the <strong>admin</strong> you just created, log out from the right hand panel and use the <strong>Signup</strong> link:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_1_4.png" alt="Futon Sign Up"><br><em>[FutonSign Up]</em></p>
 <p>That will open up the <strong>Sign Up</strong> dialog allowing you to enter a <strong>username</strong> and <strong>password</strong>:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_1_5.png" alt="Create User Dialog"><br><em>[Create User Dialog]</em></p>
-<p>I am creating a new user named <em>custardbelly</em> with a super-secret password that will be salted using <strong>sha1</strong>. That is all handled by the<em> jquery.couch</em> plugin (the same one we have been using in the examples in this series) employed by <a href="http://127.0.0.1:5984/_utils">Futon</a>. If we open up the new user from the <em>_users</em> database we should see the following:</p>
+<p>I am creating a new user named <em>custardbelly</em> with a super-secret password that will be salted using <strong>sha1</strong>. That is all handled by the<em> jquery.couch</em> plugin (the same one we have been using in the examples in this series) employed by <a href="http://127.0.0.1:5984/_utils">Futon</a>. If we open up the new user from the _<em>users</em> database we should see the following:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_1_6.png" alt="User Entry"><br><em>[User Entry]</em></p>
 <p>There are a couple things to note here. First off, I took that screen shot after i already assigned a role (<em>“albums-user”</em>) to it. My bad. To do that for you new user, just click on the roles value field and enter <em>“albums-user”</em> (with quotes). That role assignment will be used later when validating documents, so don’t think too hard about it right now.</p>
-<p>The other things of note are the auto-generated <strong>type</strong> field with a value of <em>“user”</em>, and the <strong>password_sha</strong> and <strong>salt</strong> fields – auto-generated and populated with values created through the <em>jquery.couch</em> plugin during signup. The <strong>_id</strong> for a user also has to have the form of reverse-domain for a couchdb user: <em>org.couchdb.user:custardbelly</em>. It must be in that format to be a valid user id so if you ever go about creating a new User manually, either from the <em>_user</em> database <strong>New Document</strong> option or from the command line, keep that in mind. Last, but not least, the <strong>name</strong> field is populated with the value of the <em>username</em> (the one entered in the <strong>Sign Up</strong> dialog through <a href="http://127.0.0.1:5984/_utils">Futon</a> and the value at the end of the <strong>_id</strong> property). The name property is commonly used in validating documents against a user context which we will get into a little later.</p>
+<p>The other things of note are the auto-generated <strong>type</strong> field with a value of <em>“user”</em>, and the <strong>password_sha</strong> and <strong>salt</strong> fields – auto-generated and populated with values created through the <em>jquery.couch</em> plugin during signup. The <strong>_id</strong> for a user also has to have the form of reverse-domain for a couchdb user: <em>org.couchdb.user:custardbelly</em>. It must be in that format to be a valid user id so if you ever go about creating a new User manually, either from the _<em>user</em> database <strong>New Document</strong> option or from the command line, keep that in mind. Last, but not least, the <strong>name</strong> field is populated with the value of the <em>username</em> (the one entered in the <strong>Sign Up</strong> dialog through <a href="http://127.0.0.1:5984/_utils">Futon</a> and the value at the end of the <strong>_id</strong> property). The name property is commonly used in validating documents against a user context which we will get into a little later.</p>
 <p>That said, you could create a new user using the database controls in <a href="http://127.0.0.1:5984/_utils">Futon</a> or the command line, but some extra work would be needed to create that <strong>sha1</strong> encrypted password. It would be neat to have a script that would do that and output a <strong>json</strong> file that can be passed in the command line creation of a User, but i won’t go into that right now. Just so you can see what that would look like, the following is an example of how to create a user using the command line:</p>
 <pre><code>curl -v<span class="hljs-variable">X</span> <span class="hljs-variable">PUT</span> http://toddanderson:admin123@<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">5984</span>/<span class="hljs-variable">_</span>users/org.couchdb.user:custardbelly -d '<span class="hljs-tuple">{<span class="hljs-string">"name"</span>:<span class="hljs-string">"custardbelly"</span>, <span class="hljs-string">"roles"</span>:[<span class="hljs-string">"albums-user"</span>], <span class="hljs-string">"type"</span>:<span class="hljs-string">"user"</span>, <span class="hljs-string">"password-sha"</span>:<span class="hljs-string">"39bc3d994b6a0ce19cb60726b630237d494ae928"</span>, <span class="hljs-string">"salt"</span>:<span class="hljs-string">"312b9eb84105e322eb508a559b0000d3"</span>}</span>'
 </code></pre><p>The <strong>-d</strong> argument takes a valid <strong>json</strong> string and you could alternatively point to a file using:</p>
@@ -99,18 +99,18 @@
 <h2 id="adding-user-to-documents">Adding User to Documents</h2>
 <p>Great. Now we have to associate a user with each album in the <strong>albums</strong> database. Technically, becaaue we are working with a document-based DMS, we don’t have to go and add a <strong>user</strong> field to all the <strong>album</strong> documents we currently have entered. Not having a <strong>user</strong> field on an <strong>album</strong> document – though we will include on in all future creates and updates to albums – will not break either party: client or server. But it will be needed for validation on operations. And because we are working with a lovely document-based DMS, its not pulling teeth. For the <strong>album</strong> documents i currently have in my <strong>albums</strong> database, i have gone and added a <strong>user</strong> field with the value of the user <em>name</em> previously created:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_1_7.png" alt="Document Update"><br><em>[Document Update]</em></p>
-<p>It is important to not that the <strong>user</strong> field value of an <strong>album</strong> document must match a <strong>name</strong> field value from a <em>_user</em> database document. This property will be assigned to the <em>user</em> attribute of a <strong>user context</strong> and be used for comparison on validation. So… human error and misspelling are high at stake in this case when done manually, unfortunately – i’ve definitely been guilty of it and spent hours cursing and pointing at mouses and monitors when only to finally say, “<em>oh… missed the ‘t’ in there. huh</em>“.</p>
-<p>Alright. Now we have our album(s) associated with user(s) from the <em>_user</em> database. Let’s take a peek at how validation will occur when performing operations on albums with our client-side <a href="http://jquerymobile.com/">jQuery Mobile</a> application. <em>(ah, <a href="http://jquerymobile.com/">jQuery Mobile</a>. not much of it in this article of the series, unfortunately. But hold on to your hats… there’s a ton of it in the next!)</em></p>
+<p>It is important to not that the <strong>user</strong> field value of an <strong>album</strong> document must match a <strong>name</strong> field value from a _<em>user</em> database document. This property will be assigned to the <em>user</em> attribute of a <strong>user context</strong> and be used for comparison on validation. So… human error and misspelling are high at stake in this case when done manually, unfortunately – i’ve definitely been guilty of it and spent hours cursing and pointing at mouses and monitors when only to finally say, “<em>oh… missed the ‘t’ in there. huh</em>“.</p>
+<p>Alright. Now we have our album(s) associated with user(s) from the _<em>user</em> database. Let’s take a peek at how validation will occur when performing operations on albums with our client-side <a href="http://jquerymobile.com/">jQuery Mobile</a> application. <em>(ah, <a href="http://jquerymobile.com/">jQuery Mobile</a>. not much of it in this article of the series, unfortunately. But hold on to your hats… there’s a ton of it in the next!)</em></p>
 <h2 id="validation">Validation</h2>
-<p>When operations to a document are requested, <a href="http://couchdb.apache.org/">CouchDB</a> performs, or rather invokes, validation based on the presence of a <strong>validate_doc_update</strong> script in each <em>/_design</em> document of a database. If the script is not present, there is no validation and anyone (barring the security level assigned to the database) can do whatever they want. So we took <a href="http://couchdb.apache.org/">CouchDB</a> out of <strong>admin party</strong>, but that only puts restrictions on operations that require admin credentials once an <strong>admin</strong> is stored – operations like user creation, user role assignment, database creation, etc, essentially administrative tasks for your <a href="http://couchdb.apache.org/">CouchDB</a> instance. However, without a <strong>validate_doc_updates</strong> script in the <em>/_design</em> of our <strong>albums</strong> <a href="http://couchapp.org/page/index">CouchApp</a>, anyone can still update an <strong>album</strong> document however they see fit.</p>
+<p>When operations to a document are requested, <a href="http://couchdb.apache.org/">CouchDB</a> performs, or rather invokes, validation based on the presence of a <strong>validate_doc_update</strong> script in each _/<em>design</em> document of a database. If the script is not present, there is no validation and anyone (barring the security level assigned to the database) can do whatever they want. So we took <a href="http://couchdb.apache.org/">CouchDB</a> out of <strong>admin party</strong>, but that only puts restrictions on operations that require admin credentials once an <strong>admin</strong> is stored – operations like user creation, user role assignment, database creation, etc, essentially administrative tasks for your <a href="http://couchdb.apache.org/">CouchDB</a> instance. However, without a <strong>validate_doc_updates</strong> script in the _/<em>design</em> of our <strong>albums</strong> <a href="http://couchapp.org/page/index">CouchApp</a>, anyone can still update an <strong>album</strong> document however they see fit.</p>
 <p>Truthfully, i spend my days as a client-side architect/developer. So i can’t speak well enough about how <a href="http://couchdb.apache.org/">CouchDB</a> invokes the <strong>validate_doc_update</strong> and why we are allowed to use <strong>JavaScript</strong>. There is some type of interpreter that intercepts a create or update (/delete) operation and invokes the <strong>validate_update_doc</strong> script. If no exception is thrown from that script, it continues along with the operation. Easy concept to grasp and a beautiful design by the <a href="http://couchdb.apache.org/">CouchDB</a> team… someday i will dig more into how all this comes to happen…</p>
 <p>So, we can use good ol’ familiar <strong>JavaScript</strong> for our validation. When the <strong>validate_doc_update</strong> is invoked, it is passed two document objects – the “if-all-goes-well” new document and old document – and the <strong>user context</strong>. The <strong>user context</strong> object is representative of the current user logged into a session and has property values that can be used for validation on document operations.</p>
 <p>To keep you even further from creating the <strong>validate_update_doc</strong> <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> , let’s take a look at what is returned when you create a session:</p>
 <pre><code>&gt; curl http:<span class="hljs-comment">//toddanderson:6s0jo772c0kcnwg@127.0.0.1:5984/_session</span>
 
 &gt; {<span class="hljs-string">"ok"</span>:<span class="hljs-keyword">true</span>,<span class="hljs-string">"userCtx"</span>:{<span class="hljs-string">"name"</span>:<span class="hljs-string">"toddanderson"</span>,<span class="hljs-string">"roles"</span>:[<span class="hljs-string">"_admin"</span>,<span class="hljs-string">"admin"</span>]},<span class="hljs-string">"info"</span>:{<span class="hljs-string">"authentication_db"</span>:<span class="hljs-string">"_users"</span>,<span class="hljs-string">"authentication_handlers"</span>:[<span class="hljs-string">"oauth"</span>,<span class="hljs-string">"cookie"</span>,<span class="hljs-string">"default"</span>],<span class="hljs-string">"authenticated"</span>:<span class="hljs-string">"default"</span>}}
-</code></pre><p>So that <strong>userCtx</strong> object is essentially what is passed during invocation of <strong>validation_doc_update</strong>. On to the code! Open up your favorite text editor, add the following script and save the file as <em>validate_doc_update.js</em> in the root of your <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> directory (for me, in following with this series, is: <em>/Documents/workspace/custardbelly/couchdb/albums/</em>):</p>
-<p><em>/validate_doc_update.js</em></p>
+</code></pre><p>So that <strong>userCtx</strong> object is essentially what is passed during invocation of <strong>validation_doc_update</strong>. On to the code! Open up your favorite text editor, add the following script and save the file as _validate_doc<em>update.js</em> in the root of your <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> directory (for me, in following with this series, is: <em>/Documents/workspace/custardbelly/couchdb/albums/</em>):</p>
+<p>_/validate_doc<em>update.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( newDoc, oldDoc, userCtx )</span> {</span>
 
   <span class="hljs-comment">// Load validation script.</span>
@@ -188,16 +188,16 @@
   }
 
 }
-</code></pre><p>First off, when you create a <a href="http://couchapp.org/page/index">CouchApp</a>, you get a bunch of scripts available to you in the <em>/vendor</em> directory. We seen and used some of these, most notably in the <em>loader.js</em> from <em>/vender/couchapp/_attachments</em> that is loaded by the <em>index.html</em> document of our <a href="http://jquerymobile.com/">jQuery Mobile</a> application. In the first line of our <strong>validate_doc_update</strong> we require another <strong>JavaScript</strong> provided through <a href="http://couchapp.org/page/index">CouchApp</a> – the <em>validate.js</em>. The <em>validate.js</em> script essentially exposes helper methods for determining user roles and validating document updates as well as convenience methods for throwing exceptions (as forbidden or unauthorized). The <em>init</em>() method is a utility method to access a new instance of this validation object and call these methods against the <strong>newDoc</strong>, <strong>oldDoc</strong> and <strong>userCtx</strong> objects.</p>
+</code></pre><p>First off, when you create a <a href="http://couchapp.org/page/index">CouchApp</a>, you get a bunch of scripts available to you in the <em>/vendor</em> directory. We seen and used some of these, most notably in the <em>loader.js</em> from _/vender/couchapp/<em>attachments</em> that is loaded by the <em>index.html</em> document of our <a href="http://jquerymobile.com/">jQuery Mobile</a> application. In the first line of our <strong>validate_doc_update</strong> we require another <strong>JavaScript</strong> provided through <a href="http://couchapp.org/page/index">CouchApp</a> – the <em>validate.js</em>. The <em>validate.js</em> script essentially exposes helper methods for determining user roles and validating document updates as well as convenience methods for throwing exceptions (as forbidden or unauthorized). The <em>init</em>() method is a utility method to access a new instance of this validation object and call these methods against the <strong>newDoc</strong>, <strong>oldDoc</strong> and <strong>userCtx</strong> objects.</p>
 <p>We add a new method to our validation object to check if the user has a role of is an <em>“albums-user”</em> or is an <strong>admin</strong>:</p>
-<p><em>/validate_doc_update.js</em></p>
+<p>_/validate_doc<em>update.js</em></p>
 <pre><code>v.isAlbumsUser = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
   <span class="hljs-keyword">return</span> v.isAdmin() || userCtx.roles.indexOf(<span class="hljs-string">"albums-user"</span>) != -<span class="hljs-number">1</span>;
 
 }
-</code></pre><p>That is then used to verify that we can go forward in our validation of the document based on the <strong>userCtx</strong> and documents. It is important to note that a document that is in the process of being deleted is assigned a <em>_deleted</em> property before being passed to the <strong>validate_doc_update</strong>. That is important to our validation as it will not necessarily be filled with a <em>“user”</em> property, nor is the <em>“user”</em> property necessary on the <strong>newDoc</strong> to validate the operation. We need to check if a delete operation is valid by comparing the <strong>oldDoc</strong> to the <strong>userCtx</strong>:</p>
-<p><em>/validate_doc_update.js</em></p>
+</code></pre><p>That is then used to verify that we can go forward in our validation of the document based on the <strong>userCtx</strong> and documents. It is important to note that a document that is in the process of being deleted is assigned a _<em>deleted</em> property before being passed to the <strong>validate_doc_update</strong>. That is important to our validation as it will not necessarily be filled with a <em>“user”</em> property, nor is the <em>“user”</em> property necessary on the <strong>newDoc</strong> to validate the operation. We need to check if a delete operation is valid by comparing the <strong>oldDoc</strong> to the <strong>userCtx</strong>:</p>
+<p>_/validate_doc<em>update.js</em></p>
 <pre><code>var isDeletingWithoutPermission = ( newDoc._deleted &amp;&amp; ( oldDoc<span class="hljs-preprocessor">.user</span> != userCtx<span class="hljs-preprocessor">.name</span> ) )<span class="hljs-comment">;</span>
 
 var isUpdatingWithoutPermission = ( newDoc<span class="hljs-preprocessor">.user</span> != userCtx<span class="hljs-preprocessor">.name</span> ) || ( oldDoc &amp;&amp; ( newDoc<span class="hljs-preprocessor">.user</span> != oldDoc<span class="hljs-preprocessor">.user</span> ) )<span class="hljs-comment">;</span>
@@ -251,7 +251,7 @@ else if( !v<span class="hljs-preprocessor">.isAdmin</span> &amp;&amp; ( !newDoc.
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_1_9.png" alt="Security Dialog"><br><em>[Security Dialog]</em></p>
 <p>If you save that and logout of Futon then try to access the <strong>albums</strong> database, you will get the following alert:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_1_10.png" alt="Security Alert"><br><em>[Security Alert]</em></p>
-<p>Likewise, if we now browse to our application at <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a> you’ll be presented with this page on landing:</p>
+<p>Likewise, if we now browse to our application at <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a> you’ll be presented with this page on landing:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_1_11.png" alt="Application Landing"><br><em>[Application Landing]</em></p>
 <p>That is the <em>session.html</em> shipped with <a href="http://couchdb.apache.org/">CouchDB</a> that provides an easy way to present a login or signup gateway page for your application. We don’t want that. It breaks the User Experience for our <strong>albums</strong> application. We are going to present a login/signup only when a user tries to perform an operation that requires session validation. So, if you went ahead and added security, go and roll that back be emptying the fields… just wanted to show you a little more about security.</p>
 <h2 id="now-your-stuck">Now Your Stuck</h2>
@@ -280,10 +280,10 @@ http://jquerymobile.com/http://jquerymobile.com/">jQuery Mobile</a> application 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-2-authorization-and-validation/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-2-authorization-and-validation/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2011/02/16/as3flobile-scrollviewport-and-flex-4-containers-from-yeah-to-eh/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2010/12/28/jquery-mobile-couchdb-part-3-templates-and-mustache-js/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -301,11 +301,11 @@ http://jquerymobile.com/http://jquerymobile.com/">jQuery Mobile</a> application 
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

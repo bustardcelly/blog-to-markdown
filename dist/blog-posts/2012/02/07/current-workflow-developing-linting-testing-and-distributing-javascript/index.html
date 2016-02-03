@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - Current Workflow: Developing, Linting, Testing and Distributing JavaScript</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2012/02/07/current-workflow-developing-linting-testing-and-distributing-javascript/index.html">Current Workflow: Developing, Linting, Testing and Distributing JavaScript</a></h1>
+    <h1><a href="/blog-posts/2012/02/07/current-workflow-developing-linting-testing-and-distributing-javascript/index.html">Current Workflow: Developing, Linting, Testing and Distributing JavaScript</a></h1>
     <p>
       2012 February 7th
       
@@ -68,13 +68,13 @@
 <li>Build / Deploy</li>
 </ul>
 <p>I intend to address each of these topics in this article and the tools/libraries I found and those I had chosen for my workflow. It should be noted that I was not considered with development and deployment of the other two piece of the webstack – <strong>HTML</strong> and <strong>CSS</strong>. It is vital to have a good workflow when working with those technologies as well, and especially if all three are part of your job. There are some great tools and libraries out there for developing and shipping <strong>HTML</strong> and <strong>CSS</strong> and perhaps I will dive into that at a later date.</p>
-<p>For now, I have created a common library in the <a href="https://github.com/bustardcelly/massroute-js">massroute_js</a> repo to develop what was turning out to be common pieces of the application I was developing against various <strong>JavaScript</strong> libraries out there. In there are the tools and libraries I will discuss in this post along with a simple build script: <a href="https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/common"><a href="https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/common">https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/common</a></a></p>
+<p>For now, I have created a common library in the <a href="https://github.com/bustardcelly/massroute-js">massroute_js</a> repo to develop what was turning out to be common pieces of the application I was developing against various <strong>JavaScript</strong> libraries out there. In there are the tools and libraries I will discuss in this post along with a simple build script: <a href="https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/common">https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/common</a></p>
 <p>I will do my best to explain the history and usage behind each tool and library, but will try to not get too in depth as I may get lost in the actual meaning of this post – which is to highlight the tools and the workflow in which they can be used together. </p>
 <h2 id="amd">AMD</h2>
 <p>The <strong>Asynchronous Module Definition</strong> – commonly referred to as <strong>AMD</strong> – is a specification that defines how modules and their dependencies can be defined and loaded asynchronously. The asynchronous part of <strong>AMD</strong> fits nicely in a browser environment so as to not block rendering and script execution while loading modules, but the bigger take away for my development purposes is really the modularization of code and dependency management.</p>
 <p>There is a larger history behind <a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a> and its fruition from <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS</a> which I will not go into, not only as I do not have enough personal involvement to speak intelligently about such matters, but that <a href="http://tagneto.blogspot.com/?m=1">James Burke</a> and <a href="http://addyosmani.com/blog/">Addy Osmani</a> already have some extremely insightful articles already out there on the webs:</p>
 <p><a href="http://tagneto.blogspot.com/2012/01/simplicity-and-javascript-modules.html?m=1">James Burke: Simplicity and JavaScript modules</a><br><a href="http://addyosmani.com/writing-modular-js/">Addy Osmani: Writing Modular JavaScript with AMD, CommonJS and ES Harmony</a></p>
-<p>I started dabbling and really getting interested in the idea of modular JavaScript when <a href="http://custardbelly.com/blog/2011/10/04/massroute-js-dojo-example/">I began using the Dojo toolkit</a>. That was back at 1.6.1 release and the use of <em>dojo.provide</em>, <em>dojo.require</em> and <em>dojo.declare</em>. Now at 1.7, <a href="http://custardbelly.com/blog/dojotoolkit.com">Dojo</a> is fully compliant with <strong>AMD</strong>. Here is an article discussing <strong>Dojo</strong>’s move to <strong>AMD</strong> compatibility: <a href="http://dojotoolkit.org/features/1.6/async-modules"><a href="http://dojotoolkit.org/features/1.6/async-modules">http://dojotoolkit.org/features/1.6/async-modules</a></a>. <em>Just as an aside – you really should check out <a href="http://dojotoolkit.org/">Dojo</a>, particularly if you come from a <strong>Flex</strong> background and have happened upon this post.</em></p>
+<p>I started dabbling and really getting interested in the idea of modular JavaScript when <a href="http://custardbelly.com/blog/2011/10/04/massroute-js-dojo-example/">I began using the Dojo toolkit</a>. That was back at 1.6.1 release and the use of <em>dojo.provide</em>, <em>dojo.require</em> and <em>dojo.declare</em>. Now at 1.7, <a href="http://custardbelly.com/blog/dojotoolkit.com">Dojo</a> is fully compliant with <strong>AMD</strong>. Here is an article discussing <strong>Dojo</strong>’s move to <strong>AMD</strong> compatibility: <a href="http://dojotoolkit.org/features/1.6/async-modules">http://dojotoolkit.org/features/1.6/async-modules</a>. <em>Just as an aside – you really should check out <a href="http://dojotoolkit.org/">Dojo</a>, particularly if you come from a <strong>Flex</strong> background and have happened upon this post.</em></p>
 <p>So, with some familiarity and a strong interest to incorporate modular development, I set out to find a library that would fit nicely in my workflow. There are a handful of <strong>AMD</strong>-compatible libraries, most notably <a href="https://github.com/unscriptable/curl">curl</a> from <a href="http://unscriptable.com">John Hann</a>, <a href="http://bdframework.org/bdLoad/">Backdraft</a>, and <a href="http://requirejs.org/">RequireJS</a> from <a href="http://tagneto.blogspot.com/">James Burke</a>. I settled on the last <strong>RequireJS</strong> as, not only because of its ease of use and the cleanest, most concise documentation, but because of its <a href="http://requirejs.org/docs/history.html">author and his history</a> and <a href="https://twitter.com/#!/jrburke">active role in the community</a>; not to mention that the related optimization tool – <a href="http://requirejs.org/docs/optimization.html">r.js</a> – was also a good selling point.</p>
 <h3 id="requirejs">RequireJS</h3>
 <p>The <a href="http://requirejs.org/docs/api.html">RequireJS API</a> defines how to define a module as well as how to load modules with dependencies. Along with other niceties, it also provides the ability to define dependency load order and loading of <strong>text</strong> files (including <strong>CSS</strong>).<br>Just taking some stripped down and generalized examples from the common lib of my <a href="https://github.com/bustardcelly/massroute-js">massroute_js repo</a>, a module is defined as such:</p>
@@ -176,7 +176,7 @@
 })( this );
 </code></pre><p>What is happening under the hood, loading and reference-wise, is that <strong>RequireJS</strong> (now <em>require</em> on the <strong>window</strong> Object) holds a list of file references in its own <em>contexts.urlMap</em> property – the key being the normalized string of the module based on configuration and the value being the actual url for that module file. As dependency requests are made, a lookup is made on <strong>require</strong>’s <em>contexts.loaded</em> property which maps the normalized module string to a flag of already loaded and available. A script tag is actually written and attached to the <strong>DOM</strong> to begin loading of the script just as most script loaders do. What sets it apart is the use of async and datasets. If we take a look at what is appended for the <em>Request</em> module from a previous example:</p>
 <pre><code><span class="hljs-subst">&lt;</span>script <span class="hljs-keyword">type</span><span class="hljs-subst">=</span><span class="hljs-string">"text/javascript"</span> charset<span class="hljs-subst">=</span><span class="hljs-string">"utf-8"</span> async<span class="hljs-subst">=</span><span class="hljs-string">""</span> <span class="hljs-built_in">data</span><span class="hljs-attribute">-requirecontext</span><span class="hljs-subst">=</span><span class="hljs-string">"_"</span> <span class="hljs-built_in">data</span><span class="hljs-attribute">-requiremodule</span><span class="hljs-subst">=</span><span class="hljs-string">"com/custardbelly/js/Request"</span> src<span class="hljs-subst">=</span><span class="hljs-string">"./../script/com/custardbelly/js/Request.js"</span><span class="hljs-subst">&gt;&lt;</span>/script<span class="hljs-subst">&gt;</span>
-</code></pre><p>We can see that the values on the datasets directly correspond to those of the key/value pairs in <em>require.context.urlMap</em> for your application. So as these are loaded, the flag in <em>require.context.loaded</em> is flipped. Pretty elegant, and if you are interested in more about <strong>RequireJS</strong>’s design and the requirements it adheres to, this is a great article: <a href="http://requirejs.org/docs/requirements.html"><a href="http://requirejs.org/docs/requirements.html">http://requirejs.org/docs/requirements.html</a></a>. Now… back to looking at code.</p>
+</code></pre><p>We can see that the values on the datasets directly correspond to those of the key/value pairs in <em>require.context.urlMap</em> for your application. So as these are loaded, the flag in <em>require.context.loaded</em> is flipped. Pretty elegant, and if you are interested in more about <strong>RequireJS</strong>’s design and the requirements it adheres to, this is a great article: <a href="http://requirejs.org/docs/requirements.html">http://requirejs.org/docs/requirements.html</a>. Now… back to looking at code.</p>
 <p>When it came time to employ these modules, I would <em>require</em>() where my application is responsible for making a request. Let’s just take on start-up in a main file as an example:</p>
 <p><em>/app/main.js</em></p>
 <pre><code><span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">( require )</span> <span class="hljs-collection">{
@@ -240,7 +240,7 @@
 <li>Easy and already available source/docs for integration with headless test runners (<a href="http://code.google.com/p/js-test-driver/wiki/QUnitAdapter">JSTestDriver</a>, <a href="http://code.google.com/p/phantomjs/wiki/TestFrameworkIntegration">PhantomJS</a> – more on this later).</li>
 </ol>
 <p>All of those are important. That list is really more representative of the order the contact states of a 3-way bulb where it eventually all came together. It was imperative that I could keep developing without choosing a <strong>Unit Testing</strong> framework that influenced the <strong>AMD</strong> library I chose and (as I will go into in a bit) it was necessary for my deployment needs to run the tests in a headless environment; during development, i want to write my tests (hopefully using “<a href="http://www.markhneedham.com/blog/2009/04/30/coding-dojo-13-tdd-as-if-you-meant-it/"><em>TDD-like-you-mean-it</em></a>“) and run them quickly and visually, but I also was looking forward to take that work in unit testing unmodified and provide it to a headless test runner when it came to run a full deployment. So <a href="http://docs.jquery.com/QUnit">QUnit</a> fit in nicely… for now at least. The familiarity and ease of use is a nice initial draw, but the other two are really the weighing factors and I would not mind giving <a href="http://pivotal.github.com/jasmine/">Jasmine</a> more of a go at a later date if i can ensure those two points.</p>
-<p>In any event, using <a href="http://requirejs.org/">RequireJS</a> and <a href="http://docs.jquery.com/QUnit">QUnit</a> together is rather straight-forward, especially after finding this <a href="https://gist.github.com/920405">nice gist from drewwells: <a href="https://gist.github.com/920405">https://gist.github.com/920405</a></a>. The main rule to remember is to set <em>autostart</em> to false on <strong>QUnit</strong>, and only invoke :<em>start()</em> once you have required all tests:</p>
+<p>In any event, using <a href="http://requirejs.org/">RequireJS</a> and <a href="http://docs.jquery.com/QUnit">QUnit</a> together is rather straight-forward, especially after finding this <a href="https://gist.github.com/920405">nice gist from drewwells: https://gist.github.com/920405</a>. The main rule to remember is to set <em>autostart</em> to false on <strong>QUnit</strong>, and only invoke :<em>start()</em> once you have required all tests:</p>
 <p><em>/test/index.html</em></p>
 <pre><code><span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"../lib/require-1.0.4.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
@@ -305,11 +305,11 @@
 <p>As I mentioned in the previous part of this section, it is a requirement for my deployment process to be able to run my unit tests in a headless environment. As well, it is preferable to not modify the set-up for unit testing in the development environment to run the tests later in deployment. I originally checked out <a href="http://code.google.com/p/js-test-driver/">JsTestDriver</a> for my headless environment as it is undoubtably the most widely known – and for good reason. It even has an <a href="http://code.google.com/p/js-test-driver/wiki/QUnitAdapter">adapter for QUnit</a>, and I spent a great deal of time to get it working with my <strong>QUnit</strong> + <strong>RequireJS</strong> setup. To no available, however, as <a href="http://groups.google.com/group/requirejs/browse_thread/thread/5113a89cf5f5dc52">this discussion reveals</a> in which script loading is not really supported by <strong>JsTestDriver</strong>, which is required (no pun) as we saw earlier in this article that <strong>RequireJS</strong> writes <em>async</em> <em><script></em> tags to the <strong>DOM</strong>.</p>
 <p>That discovery led me to <a href="http://www.phantomjs.org/">PhantomJS</a> which I am pretty happy out. As the site states:</p>
 <p>“PhantomJS is a headless WebKit with JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.<br>PhantomJS is created by <a href="https://twitter.com/AriyaHidayat">Ariya Hidayat</a>.”</p>
-<p>What that basically means is that it is nothing short of awesome, and by executing the <strong>QUnit</strong> adapter script provided at <a href="http://code.google.com/p/phantomjs/wiki/TestFrameworkIntegration"><a href="http://code.google.com/p/phantomjs/wiki/TestFrameworkIntegration">http://code.google.com/p/phantomjs/wiki/TestFrameworkIntegration</a></a> I could point to my local main file that I use for running unit tests during development and run <strong>PhantomJS</strong> during deployment to stop and report back any failures encountered. Here is an example of that command:</p>
+<p>What that basically means is that it is nothing short of awesome, and by executing the <strong>QUnit</strong> adapter script provided at <a href="http://code.google.com/p/phantomjs/wiki/TestFrameworkIntegration">http://code.google.com/p/phantomjs/wiki/TestFrameworkIntegration</a> I could point to my local main file that I use for running unit tests during development and run <strong>PhantomJS</strong> during deployment to stop and report back any failures encountered. Here is an example of that command:</p>
 <pre><code>./bin/phantomjs run-qunit<span class="hljs-preprocessor">.js</span> file://localhost/Users/todd/massroute_js/massroute-examples/common/test/index<span class="hljs-preprocessor">.html</span>
-</code></pre><p>I actually played around with <a href="http://www.phantomjs.org/">PhantomJS</a> farther beyond just trying to integrate with my <a href="http://requirejs.org/">RequireJS</a> and <a href="http://docs.jquery.com/QUnit">QUnit</a> set up for deployment, and the <strong>API</strong> it provides is exceptional and proves its use in a variety of automated tasks: <a href="http://code.google.com/p/phantomjs/wiki/Interface"><a href="http://code.google.com/p/phantomjs/wiki/Interface">http://code.google.com/p/phantomjs/wiki/Interface</a></a>.</p>
+</code></pre><p>I actually played around with <a href="http://www.phantomjs.org/">PhantomJS</a> farther beyond just trying to integrate with my <a href="http://requirejs.org/">RequireJS</a> and <a href="http://docs.jquery.com/QUnit">QUnit</a> set up for deployment, and the <strong>API</strong> it provides is exceptional and proves its use in a variety of automated tasks: <a href="http://code.google.com/p/phantomjs/wiki/Interface">http://code.google.com/p/phantomjs/wiki/Interface</a>.</p>
 <ul>
-<li><em>If you are interested in how you can hook up additional logging/output for PhantomJS+QUnit, <a href="https://twitter.com/gavincoop">@gavincoop</a> tweeted this gist to me that incorporates output of JUnit XML, which I hadn’t incorporated into my workflow: <a href="https://gist.github.com/1588423"><a href="https://gist.github.com/1588423">https://gist.github.com/1588423</a></a></em></li>
+<li><em>If you are interested in how you can hook up additional logging/output for PhantomJS+QUnit, <a href="https://twitter.com/gavincoop">@gavincoop</a> tweeted this gist to me that incorporates output of JUnit XML, which I hadn’t incorporated into my workflow: <a href="https://gist.github.com/1588423">https://gist.github.com/1588423</a></em></li>
 </ul>
 <h3 id="unit-testing-link-dump-">Unit Testing link dump:</h3>
 <p><a href="http://en.wikipedia.org/wiki/Test-driven_development">Test Driven Development</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://hirojs.com/">Hiro</a><br><a href="http://docs.jquery.com/QUnit">QUnit</a><br><a href="http://code.google.com/p/js-test-driver/">JsTestDriver</a><br><a href="http://www.phantomjs.org/">PhantomJS</a><br><a href="http://www.amazon.com/Test-Driven-JavaScript-Development-Developers-Library/dp/0321683919">Test-Driven JavaScript Development</a> by Christian Johansen.</p>
@@ -326,7 +326,7 @@
 </ul>
 <p>In one way or another, most open-source build systems I have come across use one or a coupling of these. Each have their own strengths and compiler options, but I can not speak at length on the benefits outweighing one or the other. The reason that I didn’t delve into which incorporated better into my workflow was due to my want of modular development and <strong>RequireJS</strong>. So for obvious reasons that lead me to the supported optimizer tool from <strong>RequireJS</strong> – <a href="http://requirejs.org/docs/optimization.html">r.js</a>.</p>
 <p><a href="https://github.com/jrburke/r.js">r.js</a> is an optimizer for JavaScript source files that use the AMD API. It can be configured to use either <strong>UglifyJS</strong>(default) or the <strong>Closure Compiler</strong> and can be run under <a href="http://nodejs.org/">node.js</a> and <a href="http://www.mozilla.org/rhino/">Rhino</a>. It is a minifier and concatenator rolled into one and does so with respect to AMD loaders.</p>
-<p>When using <strong>r.js</strong>, you provide a build file that defines your desired configuration in optimization. There is a good base example up in github: <a href="https://github.com/jrburke/r.js/blob/master/build/example.build.js"><a href="https://github.com/jrburke/r.js/blob/master/build/example.build.js">https://github.com/jrburke/r.js/blob/master/build/example.build.js</a></a>, and just as a quick example of what I have for a build file for the custom script in <a href="https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/common">massroute-js/common</a>:</p>
+<p>When using <strong>r.js</strong>, you provide a build file that defines your desired configuration in optimization. There is a good base example up in github: <a href="https://github.com/jrburke/r.js/blob/master/build/example.build.js">https://github.com/jrburke/r.js/blob/master/build/example.build.js</a>, and just as a quick example of what I have for a build file for the custom script in <a href="https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/common">massroute-js/common</a>:</p>
 <pre><code>(<span class="hljs-rules">{
 
     <span class="hljs-rule"><span class="hljs-attribute">baseUrl</span>:<span class="hljs-value"> <span class="hljs-string">'../../script'</span>,
@@ -470,10 +470,10 @@ optimize:
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2012/03/06/facaded-micro-libraries-and-dependency-management-using-requirejs/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2012/03/06/facaded-micro-libraries-and-dependency-management-using-requirejs/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2011/11/14/massroute-js-knockout-example/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2011/11/14/massroute-js-knockout-example/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -491,11 +491,11 @@ optimize:
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

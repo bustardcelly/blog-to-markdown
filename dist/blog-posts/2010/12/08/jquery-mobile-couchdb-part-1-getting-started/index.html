@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jquery Mobile + CouchDB: Part 1 – Getting Started</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2010/12/08/jquery-mobile-couchdb-part-1-getting-started/index.html">jquery Mobile + CouchDB: Part 1 – Getting Started</a></h1>
+    <h1><a href="/blog-posts/2010/12/08/jquery-mobile-couchdb-part-1-getting-started/index.html">jquery Mobile + CouchDB: Part 1 – Getting Started</a></h1>
     <p>
       2010 December 8th
       
@@ -65,13 +65,13 @@
 <p>This happens to be the first in a series of posts that document building a “simple” <strong>DHTML</strong> application using the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework and a <a href="http://couchdb.apache.org/">CouchDB</a> back-end. <em>Here’s to hoping the intro for subsequent posts are not as long.</em></p>
 <h2 id="couchdb">CouchDB</h2>
 <p><a href="http://couchdb.apache.org/">CouchDB</a> is a schema-free document-oriented database HTTP server. If you have not heard the term <a href="http://en.wikipedia.org/wiki/NoSQL">NoSQL</a>, it is used to refer to a database management system (<strong>DBMS</strong>) that differs from the widely-used relational model; started out as meaning a <strong>DBMS</strong> that does not providing a <strong>SQL</strong> interface, but became a term to refer to any non-relational <strong>DBMS</strong>, of which <strong>CouchDB</strong> is often grouped with when talking about <strong>NoSQL</strong>. I won’t go into a lengthy discussion of <strong>CouchDB</strong> – so I will say, in basic terms, <strong>CouchDB</strong> is a document-based <strong>DBMS</strong>. This will make more sense once we start looking at the API for the <strong>CouchDB</strong> <strong>jQuery</strong> plugin.</p>
-<p>Before we get into building a front-end for our application, we need to set up a database to play around with. I am assuming here that you have installed <strong>CouchDB</strong> on your local machine and have it running and accessible at <a href="http://127.0.0.1:5984"><a href="http://127.0.0.1:5984">http://127.0.0.1:5984</a></a>. If you don’t and want to set it up, <a href="http://couchdb.apache.org/downloads.html">download CouchDB</a> and peruse the appendix on this link – <a href="http://guide.couchdb.org/draft"><a href="http://guide.couchdb.org/draft">http://guide.couchdb.org/draft</a></a> – or install from source from this link -<a href="http://guide.couchdb.org/draft/source.html"><a href="http://guide.couchdb.org/draft/source.html">http://guide.couchdb.org/draft/source.html</a></a></p>
+<p>Before we get into building a front-end for our application, we need to set up a database to play around with. I am assuming here that you have installed <strong>CouchDB</strong> on your local machine and have it running and accessible at <a href="http://127.0.0.1:5984">http://127.0.0.1:5984</a>. If you don’t and want to set it up, <a href="http://couchdb.apache.org/downloads.html">download CouchDB</a> and peruse the appendix on this link – <a href="http://guide.couchdb.org/draft">http://guide.couchdb.org/draft</a> – or install from source from this link -<a href="http://guide.couchdb.org/draft/source.html">http://guide.couchdb.org/draft/source.html</a></p>
 <h2 id="couchapp">CouchApp</h2>
 <p>Though it is not necessary in creating and modifying views and <strong>DHTML</strong> pages served up from <strong>CouchDB</strong>, i tend to use the <a href="http://couchapp.org/page/index">CouchApp</a> command line tool when working with and managing a <strong>CouchDB</strong> database. </p>
 <p>You can read more about <strong>CouchApp</strong> on their <a href="http://couchapp.org/page/index">main wiki</a> and checkout the project at <a href="https://github.com/couchapp/couchapp">/couchapp/couchapp on github</a>. <strong>CouchApp</strong> is basically a set of utilities that makes creating and modifying views of a <strong>CouchDB</strong> database instance easy (or i should say <em>easier</em>). Not to mention (the best part), you can create all your views, etc locally, make sure you got it right then push replication remotely and you are all set. Beauty.</p>
 <p>When pushing design documents to a <strong>CouchDB</strong> database in this and following example posts, I will be using the <strong>couchapp</strong> command line tool as it is quick and easy and a great little utility, but everything done with it can be easily done using <a href="http://curl.haxx.se/docs/manpage.html">curl</a> if you wish.</p>
 <h2 id="our-album-database">Our Album Database</h2>
-<p>First things first, let’s set up a database we can start working with. I use <a href="http://janl.github.com/couchdbx/">CouchDBX</a>, which i recommend if you are on a <strong>Mac</strong>. Don’t know if there is an equivalent for <strong>Windows</strong> or <strong>Linux</strong>, so if you do know, leave a comment please. Otherwise, just hitting up <a href="http://127.0.0.1:5984/_utils"><a href="http://127.0.0.1:5984/_utils">http://127.0.0.1:5984/_utils</a></a>, the <strong>Futon</strong> app, should work in getting started.</p>
+<p>First things first, let’s set up a database we can start working with. I use <a href="http://janl.github.com/couchdbx/">CouchDBX</a>, which i recommend if you are on a <strong>Mac</strong>. Don’t know if there is an equivalent for <strong>Windows</strong> or <strong>Linux</strong>, so if you do know, leave a comment please. Otherwise, just hitting up <a href="http://127.0.0.1:5984/_utils">http://127.0.0.1:5984/_utils</a>, the <strong>Futon</strong> app, should work in getting started.</p>
 <p>Create a new database called <em>albums</em>… or whatever you want to call it. I will be building <em>album</em> views in these examples but you could easily make them something else. Once we have our <em>albums</em> database created, lets create a couple <em>album</em> documents since we are going to have a view that shows a list of albums. The make up of an <em>album</em> document is as such:</p>
 <pre><code>{
 
@@ -107,13 +107,13 @@
 </code></pre><p>If all goes well, a new folder named <em>albums</em> will be in the target directory and will contain files such as the following:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_one.png" alt="couch app application diretory"></p>
 <p>I won’t cover all of what those files pertain to, but basically those files will be pushed to the <em>albums</em> database and stored based on the <strong>id_ file value – <strong>CouchApp</strong> defaults to </strong>design/${application}<em> and for this example will be __design/albums</em>.</p>
-<p>Now, if we were to push this application to our <strong>CouchDB</strong> database as it stands now and visited <a href="http://127.0.0.1:5984/albums/_all_docs"><a href="http://127.0.0.1:5984/albums/_all_docs">http://127.0.0.1:5984/albums/_all_docs</a></a> we would get returned a page that shows the <strong>JSON</strong> object of rows of available documents with the default key/values. Maybe useful to some, but not a good user experience for looking at documents in our database. To do this we can create a view using <strong>CouchApp</strong> that will help in presenting a page that lists the available documents in a nice readable manner.</p>
+<p>Now, if we were to push this application to our <strong>CouchDB</strong> database as it stands now and visited <a href="http://127.0.0.1:5984/albums/_all_docs">http://127.0.0.1:5984/albums/_all_docs</a> we would get returned a page that shows the <strong>JSON</strong> object of rows of available documents with the default key/values. Maybe useful to some, but not a good user experience for looking at documents in our database. To do this we can create a view using <strong>CouchApp</strong> that will help in presenting a page that lists the available documents in a nice readable manner.</p>
 <h3 id="view">View</h3>
 <p>In the terminal, enter the following command to generate a view for all albums in the database:</p>
 <pre><code>couchapp <span class="hljs-keyword">generate</span> view albums albums
 </code></pre><p>With that command, we have used <strong>CouchApp</strong> to create a view named <em>albums</em> (the last argument) in the database <em>albums</em> (argument after <strong>view</strong>). If you take a look at the views directory in the <em>albums application</em> folder, you will see that a new folder called <em>albums</em> has been created containing the <em>map.js</em> and <em>reduce.js</em> files. </p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_two.png" alt="couch app application diretory"></p>
-<p>I won’t go over all that is involved in map/reduce in <strong>CouchDB</strong>, so this is some good information if you are interested: <a href="http://wiki.apache.org/couchdb/Introduction_to_CouchDB_views"><a href="http://wiki.apache.org/couchdb/Introduction_to_CouchDB_views">http://wiki.apache.org/couchdb/Introduction_to_CouchDB_views</a></a>. For now, we are just going to modify the<em> map.js</em> file and delete the <em>reduce.js</em> file so it returns a list of the album documents in the database.</p>
+<p>I won’t go over all that is involved in map/reduce in <strong>CouchDB</strong>, so this is some good information if you are interested: <a href="http://wiki.apache.org/couchdb/Introduction_to_CouchDB_views">http://wiki.apache.org/couchdb/Introduction_to_CouchDB_views</a>. For now, we are just going to modify the<em> map.js</em> file and delete the <em>reduce.js</em> file so it returns a list of the album documents in the database.</p>
 <h3 id="map-js">map.js</h3>
 <p>Open up the <em>/albums/views/albums/map.js</em> file in you favorite text editor and add the following line within the <em>function()</em> statement:</p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">( doc )</span> {</span>
@@ -121,15 +121,15 @@
     emit( doc._id, doc );
 
 }
-</code></pre><p>When you visit <a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums"><a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums">http://127.0.0.1:5984/albums/_design/albums/_view/albums</a></a> a <strong>JSON</strong> object will be returned with a key/value pairing for each document in the database with the key being the <em>_id</em> assigned to the document and the value being the full document object. In essence, when you create a view, you are creating a rule of how you want documents from the database returned to you. For this simple example, we are just going to return all the documents trusting that they will all be albums. You can create more views (and more applications) as you see fit. For now, we’ll just work with all the documents and wire up a page to view them.</p>
+</code></pre><p>When you visit <a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums">http://127.0.0.1:5984/albums/_design/albums/_view/albums</a> a <strong>JSON</strong> object will be returned with a key/value pairing for each document in the database with the key being the _<em>id</em> assigned to the document and the value being the full document object. In essence, when you create a view, you are creating a rule of how you want documents from the database returned to you. For this simple example, we are just going to return all the documents trusting that they will all be albums. You can create more views (and more applications) as you see fit. For now, we’ll just work with all the documents and wire up a page to view them.</p>
 <p>Let’s go ahead and push the <em>albums</em> application to our albums database:</p>
 <pre><code>couchapp push albums http:<span class="hljs-comment">//127.0.0.1:5984/albums</span>
 </code></pre><p>If successful, that should return:</p>
 <pre><code><span class="hljs-number">2010</span>-<span class="hljs-number">12</span>-<span class="hljs-number">06</span> <span class="hljs-number">17</span><span class="hljs-symbol">:</span><span class="hljs-number">37</span><span class="hljs-symbol">:</span><span class="hljs-number">24</span> [<span class="hljs-constant">INFO</span>] <span class="hljs-constant">Visit</span> your <span class="hljs-constant">CouchApp</span> <span class="hljs-symbol">here:</span>
 
 <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/127.0.0.1:5984/albums</span><span class="hljs-regexp">/_design/albums</span><span class="hljs-regexp">/index.html</span>
-</code></pre><p>If you go and visit <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>, you will notice that shows absolutely no relevance to our application or our database <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> If you go to <a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums"><a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums">http://127.0.0.1:5984/albums/_design/albums/_view/albums</a></a> you will now see our full <strong>JSON</strong> object that we will use when we modify that <em>index.html</em>. </p>
-<p>The index file that you were originally directed to is the <em>index.html</em> file in the <em>/albums/_attachments</em> directory. If you open that file up in a text editor, you will see that it is using the <strong>couch.app</strong> <strong>jQuery</strong> plugin to construct the elements on the default page. We can modify this <strong>HTML</strong> document now and use the <strong>jQuery Mobile</strong> plugin to present our list of albums beautifully (no guarantees on the beautiful part:)).</p>
+</code></pre><p>If you go and visit <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>, you will notice that shows absolutely no relevance to our application or our database <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> If you go to <a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums">http://127.0.0.1:5984/albums/_design/albums/_view/albums</a> you will now see our full <strong>JSON</strong> object that we will use when we modify that <em>index.html</em>. </p>
+<p>The index file that you were originally directed to is the <em>index.html</em> file in the _/albums/<em>attachments</em> directory. If you open that file up in a text editor, you will see that it is using the <strong>couch.app</strong> <strong>jQuery</strong> plugin to construct the elements on the default page. We can modify this <strong>HTML</strong> document now and use the <strong>jQuery Mobile</strong> plugin to present our list of albums beautifully (no guarantees on the beautiful part:)).</p>
 <h2 id="albums-application-user-interface">Albums Application User Interface</h2>
 <p><a href="http://couchdb.apache.org/">CouchDB</a> ships with a version of <a href="http://jquery.com/">jQuery</a> and a plugin to interact with a <strong>CouchDB</strong> instance. They (and other scripts for serialization and <strong>futon</strong>) can be found in your installation, which on my make is in the following location:</p>
 <pre><code>/opt/<span class="hljs-keyword">local</span>/share/couchdb/www/<span class="hljs-keyword">script</span>
@@ -189,7 +189,7 @@
   </span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
 <span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
-</code></pre><p>That <em>loader.js</em> file can be found in the <em>/albums/vendor/couchapp/_attachments</em> directory and looks like the following:</p>
+</code></pre><p>That <em>loader.js</em> file can be found in the _/albums/vendor/couchapp/<em>attachments</em> directory and looks like the following:</p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">couchapp_load</span><span class="hljs-params">(scripts)</span> {</span>
 
   <span class="hljs-keyword">for</span> (var i=<span class="hljs-number">0</span>; i &lt; <span class="hljs-transposed_variable">scripts.</span><span class="hljs-built_in">length</span>; i++) {
@@ -228,7 +228,7 @@ couchapp_load(<span class="hljs-matrix">[
 <li>jQuery-1.4.4.js </li>
 <li>jQuery.mobile-1.0a2.js </li>
 </ol>
-<p>Copy those files from wherever you downloaded them to into the <em>/albums/vendor/couchapp/_attachments/</em> directory.</p>
+<p>Copy those files from wherever you downloaded them to into the _/albums/vendor/couchapp/<em>attachments/</em> directory.</p>
 <p>Open up <em>loader.js</em> from that same directory in you favorite text editor and make the following changes:</p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">couchapp_load</span><span class="hljs-params">(scripts)</span> {</span>
 
@@ -267,8 +267,8 @@ couchapp_load(<span class="hljs-matrix">[
 <p>Now that we have our loader loading the proper scripts to display a <strong>jQuery Mobile</strong> interface, we need to modify the <em>index.html</em> file to display the list of <em>album</em> documents from our <strong>CouchDB</strong> database.</p>
 <h3 id="modifying-index-html">Modifying index.html</h3>
 <p>Firstly, we’ll need to add the necessary css and image files that came with the <strong>jQuery Mobile</strong> download so we get the default look-and-feel. </p>
-<p>Copy the <em>jquery.mobile-1.0.a2.css</em> file and the <em>images/</em> directory from your <strong>jQuery Mobile</strong> download into the <em>/albums/_attachments/style/</em> folder (residing along with the default <em>main.css</em> file generated using <strong>CouchApp</strong>).</p>
-<p>Open up the <em>index.html</em> file in the <em>/albums/_attachments</em> directory with your favorite text editor, and start off with a clean slate by removing the inline <strong>JavaScript</strong> and <em>div</em> tags in the body of the <strong>HTML</strong> document. Also declare the <em>jquery.mobile-1.0a2.css</em> file in your stylesheets. The <em>index.html</em> file should now look somewhat like the following:</p>
+<p>Copy the <em>jquery.mobile-1.0.a2.css</em> file and the <em>images/</em> directory from your <strong>jQuery Mobile</strong> download into the _/albums/<em>attachments/style/</em> folder (residing along with the default <em>main.css</em> file generated using <strong>CouchApp</strong>).</p>
+<p>Open up the <em>index.html</em> file in the _/albums/<em>attachments</em> directory with your favorite text editor, and start off with a clean slate by removing the inline <strong>JavaScript</strong> and <em>div</em> tags in the body of the <strong>HTML</strong> document. Also declare the <em>jquery.mobile-1.0a2.css</em> file in your stylesheets. The <em>index.html</em> file should now look somewhat like the following:</p>
 <pre><code><span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
 
   <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
@@ -626,7 +626,7 @@ couchapp_load(<span class="hljs-matrix">[
 <pre><code><span class="hljs-number">2010</span>-<span class="hljs-number">12</span>-<span class="hljs-number">07</span> <span class="hljs-number">11</span><span class="hljs-symbol">:</span><span class="hljs-number">46</span><span class="hljs-symbol">:</span><span class="hljs-number">55</span> [<span class="hljs-constant">INFO</span>] <span class="hljs-constant">Visit</span> your <span class="hljs-constant">CouchApp</span> <span class="hljs-symbol">here:</span>
 
 <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/127.0.0.1:5984/albums</span><span class="hljs-regexp">/_design/albums</span><span class="hljs-regexp">/index.html</span>
-</code></pre><p>Now, if you do visit that link, it should redirect you to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a> and you should see something like the following:</p>
+</code></pre><p>Now, if you do visit that link, it should redirect you to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a> and you should see something like the following:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_three.png" alt="couch app mobile application"></p>
 <p>Pretty, no? No. But maybe in later posts we can modify that. For now its up and running. yay!</p>
 <h2 id="conclusion">Conclusion</h2>
@@ -651,10 +651,10 @@ couchapp_load(<span class="hljs-matrix">[
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2010/12/13/jquery-mobile-couchdb-part-2-document-view/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2010/12/13/jquery-mobile-couchdb-part-2-document-view/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2010/11/17/flex-hero-pausing-session-restoration/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2011/01/21/jquery-mobile-couchdb-part-6-deleting-documents/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -672,11 +672,11 @@ couchapp_load(<span class="hljs-matrix">[
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

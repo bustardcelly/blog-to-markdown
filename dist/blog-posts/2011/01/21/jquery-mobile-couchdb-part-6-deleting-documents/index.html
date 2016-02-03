@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jQuery Mobile + CouchDB: Part 6 – Deleting Documents</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2011/01/21/jquery-mobile-couchdb-part-6-deleting-documents/index.html">jQuery Mobile + CouchDB: Part 6 – Deleting Documents</a></h1>
+    <h1><a href="/blog-posts/2011/01/21/jquery-mobile-couchdb-part-6-deleting-documents/index.html">jQuery Mobile + CouchDB: Part 6 – Deleting Documents</a></h1>
     <p>
       2011 January 21st
       
@@ -104,7 +104,7 @@
     <span class="hljs-keyword">return</span> Mustache.to_html(<span class="hljs-keyword">this</span>.templates.albumdelete, stash, <span class="hljs-keyword">this</span>.templates.partials.albumdelete);
 
 }
-</code></pre><p>Very similar to our other <strong>show function</strong>s for the view and edit pages, with just a little less information about the document in the <strong>stash</strong>. We’ve also got our template and partials declared in the <a href="https://github.com/janl/mustache.js/">Mustache</a> <em>to_html</em>() call, so let’s go ahead and create those.</p>
+</code></pre><p>Very similar to our other <strong>show function</strong>s for the view and edit pages, with just a little less information about the document in the <strong>stash</strong>. We’ve also got our template and partials declared in the <a href="https://github.com/janl/mustache.js/">Mustache</a> _to<em>html</em>() call, so let’s go ahead and create those.</p>
 <h3 id="delete-dialog-template">Delete Dialog template</h3>
 <p>As I mentioned earlier, since our dialog is external and will be presented using <strong>$.mobile</strong>.<em>changePage</em>( ) we loose some niceties of styling pages as dialogs within the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework. As such, we are going to roll-up our sleeves and apply some classes and styles directly inline to fake the appearance of the delete album page as a dialog.</p>
 <p>With you favorite text editor open, create and save the following mark-up as <em>albumdelete.html</em> in the <em>/templates</em> directory:</p>
@@ -146,8 +146,8 @@
 <p>OK. With that set, let’s get on to creating the <em>view-controller</em> for the <em>delete dialog page</em>.</p>
 <h3 id="delete-dialog-view-controller">Delete Dialog View-Controller</h3>
 <p>Before we jump in and create the script, let’s just make sure we are on the same page for the functionality of our <em>delete dialog page</em>. Like most dialogs, it presents the ability to confirm an action or cancel out of that action. So those are two pieces of functionality we need to implement in our <em>view-controller</em> for the page, with the confirmation being a <a href="http://couchdb.apache.org/">CouchDB</a> transaction. Actually… i think that is about it. Aside from some custom styling we will do in order for the page to be in full, it should be some smooth sailing. I am going to assume that you have been following along in the series and won’t go into the breadth of how the <em>view-controller</em> behaves, but rather the methods which we will implement on it.</p>
-<p>With your favorite text editor open, create a new file called <em>album-delete-dialog.js</em>, add the following <strong>JavaScript</strong> and save in <em>/_attachments/script</em>:</p>
-<p><em>/_attachments/script/album-delete-dialog.js</em></p>
+<p>With your favorite text editor open, create a new file called <em>album-delete-dialog.js</em>, add the following <strong>JavaScript</strong> and save in _/<em>attachments/script</em>:</p>
+<p>_/<em>attachments/script/album-delete-dialog.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> AlbumDeleteDialogController = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
@@ -316,7 +316,7 @@
 
 $().ready( handleDialogReady )
 </code></pre><p>That might be a lot to digest all at once, but it has the same functionality as the other <em>view-controllers</em> we have created in this series. Essentially, It manages the removal of the page from the <strong>DOM</strong> on navigation away. A user will be navigated to the previous – <em>album view</em> – page on cancel/close or be taken to the <strong>#home</strong> page with the updated list of albums after confirmation of delete and success of the transaction from the <a href="http://couchdb.apache.org/">CouchDB</a> instance. Let’s take a closer look on how that is done:</p>
-<p><em>/_attachments/script/album-delete-dialog.js</em></p>
+<p>_/<em>attachments/script/album-delete-dialog.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleDelete</span><span class="hljs-params">( event )</span>
 
 {</span>
@@ -364,7 +364,7 @@ $().ready( handleDialogReady )
 }
 </code></pre><p>We first grab the document id assigned to the <strong>data-identity</strong> attribute of the content <strong>div</strong> and use that to open the document from the <a href="http://couchdb.apache.org/">CouchDB</a> database using the declared <strong>$db</strong> instance on the <em>index.html</em> (of which this page is loaded into). On success of opening the document, we make a request to remove it from the database using the <em>removeDoc</em>() method from the <em>jquery.couch</em> plugin. Upon success of removal from the <a href="http://couchdb.apache.org/">CouchDB</a> database, we then navigate back to the <strong>#home</strong> page where the list is updated accordingly to reflect the removal of the album document.</p>
 <p>Now the fun part! In order to have the original <strong>div</strong> (assigned the <strong>data-role</strong> of <em>page</em> in our <strong>template</strong>) fill its background to its wrapping parent (assigned by <a href="http://jquerymobile.com/">jQuery Mobile</a> upon load of external page) we need to do some <a href="http://jquery.com/">jQuery</a> to grab the dimensions of the wrapping page <strong>div</strong> and the assigned styles on the dialog to reset the dimensions of the dialog to fill its background to the page.</p>
-<p><em>/_attachments/script/album-delete-dialog.js</em></p>
+<p>_/<em>attachments/script/album-delete-dialog.js</em></p>
 <pre><code><span class="hljs-comment">// Do pagebefore so when it is shown, it is filled correctly.</span>
 
 $(<span class="hljs-string">"div[data-role='page']"</span>).live( <span class="hljs-string">"pagebeforeshow"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
@@ -440,8 +440,8 @@ $(<span class="hljs-string">"div[data-role='page']"</span>).live( <span class="h
 <p>Now, we needed to leave the <strong>footer</strong> tag in this template because, you guessed it, a bug in <a href="http://jquerymobile.com/">jQuery Mobile</a>. If we omitted that <strong>footer</strong> on an external document, the <em>ready</em> event is never fired – bad news. So we threw it in with a <strong>data-position</strong> of <em>fixed</em> so it is always at the bottom. Woohoo! Our page has been updated. Let’s wired up some operations so we can show our <em>delete album dialog</em>.</p>
 <h3 id="modifying-album-view-controller">Modifying Album View-Controller</h3>
 <p>Before we get into this, i must profess that we are going to do something gross. I don’t particularly like it, but it is a fast and cheap way to get the result we want. Let’s get into it and see if i can dig myself out…</p>
-<p>In your favorite text editor, open the <em>/_attachments/script/album-page.js</em> document and make the following modifications:</p>
-<p><em>/_attachments/script/album-page.js</em></p>
+<p>In your favorite text editor, open the _/<em>attachments/script/album-page.js</em> document and make the following modifications:</p>
+<p>_/<em>attachments/script/album-page.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> AlbumPageController = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
@@ -659,7 +659,7 @@ $().ready( handlePageViewReady );
 <h3 id="deployment">Deployment</h3>
 <p>We modified our application to have the ability to delete an album document from the database by adding a new <em>delete dialog</em> page and updating the UI of the album view page. With these changes saved, we can now push to the <a href="http://couchdb.apache.org/">CouchDB</a> database using the <a href="http://couchapp.org/page/index">couchapp</a> utility. Open a terminal and navigate to the directory where you create your <strong>CouchApp</strong> applications (for me that is <em>/Documents/workspace/custardbelly/couchdb</em> and in there i have a folder named <em>albums</em> which is the <strong>CouchApp</strong> application directory for these examples). Enter the following command to push the changes to the <strong>CouchDB</strong> instance:</p>
 <pre><code>couchapp push albums http:<span class="hljs-comment">//127.0.0.1:5984/albums</span>
-</code></pre><p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>. Select an album from the the list on the landing page, and click the <strong>Delete</strong> button from the <em>album view</em> page. Choose to delete, cancel or close and you should be navigated to the correct page: <strong>#home</strong> if delete, album view if cancel/close. These updated and new pages should look somewhat like the following:</p>
+</code></pre><p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>. Select an album from the the list on the landing page, and click the <strong>Delete</strong> button from the <em>album view</em> page. Choose to delete, cancel or close and you should be navigated to the correct page: <strong>#home</strong> if delete, album view if cancel/close. These updated and new pages should look somewhat like the following:</p>
 <p><em>updated album view</em><br><img src="http://www.custardbelly.com/blog/images/couchapp_album_view2.png" alt=""></p>
 <p><em>delete album dialog</em><br><img src="http://www.custardbelly.com/blog/images/couchapp_delete_dialog.png" alt=""></p>
 <h3 id="conclusion">Conclusion</h3>
@@ -683,10 +683,10 @@ $().ready( handlePageViewReady );
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2011/02/16/as3flobile-scrollviewport-and-flex-4-containers-from-yeah-to-eh/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2010/12/08/jquery-mobile-couchdb-part-1-getting-started/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2011/01/12/jquery-mobile-couchdb-part-5-adding-documents/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2011/01/12/jquery-mobile-couchdb-part-5-adding-documents/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -704,11 +704,11 @@ $().ready( handlePageViewReady );
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

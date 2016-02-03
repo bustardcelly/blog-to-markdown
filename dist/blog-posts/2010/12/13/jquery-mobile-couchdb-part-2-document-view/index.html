@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jQuery Mobile + CouchDB: Part 2 – Document View</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2010/12/13/jquery-mobile-couchdb-part-2-document-view/index.html">jQuery Mobile + CouchDB: Part 2 – Document View</a></h1>
+    <h1><a href="/blog-posts/2010/12/13/jquery-mobile-couchdb-part-2-document-view/index.html">jQuery Mobile + CouchDB: Part 2 – Document View</a></h1>
     <p>
       2010 December 13th
       
@@ -62,7 +62,7 @@
 <h2 id="introduction">Introduction</h2>
 <p>Looking at the current state of the client-side application created for communicating with a <a href="http://couchdb.apache.org/">CouchDB</a> instance, the landing page loads all the documents from a target database and displays them in a <a href="http://jquerymobile.com/">jQuery Mobile</a> list.</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_three.png" alt=""></p>
-<p>The database for the application holds <em>album</em> documents and a simple view was created that would return every document in the database. Currently the <strong>URL</strong> for viewing that list of documents from the albums view is <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>.</p>
+<p>The database for the application holds <em>album</em> documents and a simple view was created that would return every document in the database. Currently the <strong>URL</strong> for viewing that list of documents from the albums view is <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>.</p>
 <p>Now i can peruse the list just fine, but what if the list items do not show all the fields pertaining to a document? (<em>* they do now, but that is the beauty of CouchDB… the album document schema can change without having me curl up and start crying under my desk!</em>) Good question, me. The application should direct the user to a detail page which shows a single document upon selection from an item in the list. Nice answer, you.</p>
 <p>In this post, I will be covering how to create and navigate to a detail page for a single document from the list for our <strong>jQuery Mobile</strong> + <strong>CouchDB</strong> application. I’ll hope to address the benefits of local and external pages in the <strong>jQuery Mobile</strong> framework and how to go about displaying pages using the show functions available in the design for a <strong>CouchDB</strong> database.</p>
 <h2 id="decisions-decisions">Decisions, Decisions</h2>
@@ -158,7 +158,7 @@
 <p>I would choose external most of the time, mainly because it adds the ability to view a page without being in the flow of a whole page set in a single document. Sure, the <strong>URL</strong> is way uglier (ie <em>index.html#pages/signup.html</em> as opposed to <em>index.html#signup</em>) but hopefully i could then bug someone smarter than me to pretty up the <strong>URL</strong>s with some rewrites.</p>
 <p>So, in conclusion, I lean toward external pages… but i will offer up both solutions so you can see how each would work.</p>
 <h2 id="local-album-page-view">Local Album Page View</h2>
-<p>First things first, fire up your favorite text editor and open the <em>/_attachments/index.html</em> page from your <a href="http://couchapp.org/page/index">CouchApp</a> directory for the albums application. We are going to add another page <em>div</em> to the document and display the album detail locally:</p>
+<p>First things first, fire up your favorite text editor and open the _/<em>attachments/index.html</em> page from your <a href="http://couchapp.org/page/index">CouchApp</a> directory for the albums application. We are going to add another page <em>div</em> to the document and display the album detail locally:</p>
 <pre><code><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
@@ -631,14 +631,14 @@
 <h3 id="deployment">Deployment</h3>
 <p>We can now push our changes to the <a href="http://couchdb.apache.org/">CouchDB</a> database using the <a href="http://couchapp.org/page/index">couchapp</a> utliity. Open a terminal and navigate to the directory where you create your <strong>CouchApp</strong> applications (for me that is <em>/Documents/workspace/custardbelly/couchdb</em> and in there i have a folder named albums which is my <strong>CouchApp</strong> application directory). Enter the following command to push the changes to the <strong>CouchDB</strong> instance:</p>
 <pre><code>couchapp push albums http:<span class="hljs-comment">//127.0.0.1:5984/albums</span>
-</code></pre><p>If that was successful and you now visit <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>, you will be presented with the list of albums. Click on a list item, and you should be navigated to the <em>albumview</em> page which will display the detail of the document selected from the list. It may look something like the following:</p>
+</code></pre><p>If that was successful and you now visit <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>, you will be presented with the list of albums. Click on a list item, and you should be navigated to the <em>albumview</em> page which will display the detail of the document selected from the list. It may look something like the following:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_four.png" alt=""></p>
-<p>I intentionally left the browser wide (and not the simulated size of a mobile device) so you can how see the hash is added to the <strong>URL</strong> once on the <em>albumview</em> page: <a href="http://127.0.0.1:5984/albums/_design/albums/index.html#albumview"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html#albumview">http://127.0.0.1:5984/albums/_design/albums/index.html#albumview</a></a>.</p>
-<p>This is all well and good, but it leads to a problem (in my opinion) as to directly sending a user to the <em>albumview</em> with a populated document. As it stands, an album detail can only be seen once a user has clicked on an item from the list. If you just pasted the <a href="http://127.0.0.1:5984/albums/_design/albums/index.html#albumview"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html#albumview">http://127.0.0.1:5984/albums/_design/albums/index.html#albumview</a></a> <strong>URL</strong> in a new browser window, the content would be empty. Not good User Experience.</p>
+<p>I intentionally left the browser wide (and not the simulated size of a mobile device) so you can how see the hash is added to the <strong>URL</strong> once on the <em>albumview</em> page: <a href="http://127.0.0.1:5984/albums/_design/albums/index.html#albumview">http://127.0.0.1:5984/albums/_design/albums/index.html#albumview</a>.</p>
+<p>This is all well and good, but it leads to a problem (in my opinion) as to directly sending a user to the <em>albumview</em> with a populated document. As it stands, an album detail can only be seen once a user has clicked on an item from the list. If you just pasted the <a href="http://127.0.0.1:5984/albums/_design/albums/index.html#albumview">http://127.0.0.1:5984/albums/_design/albums/index.html#albumview</a> <strong>URL</strong> in a new browser window, the content would be empty. Not good User Experience.</p>
 <p>Fortunately, there is an alternative. We can add a <em>show</em> function to our application in <strong>CouchDB</strong> to navigate to an external page that has a (somewhat) uglier URI but allows for you to land on a detail page without going through the landing page of the application. yay!</p>
 <h2 id="external-album-page-view">External Album Page View</h2>
-<p>In the browser, up to this point through the series, we have seen pages that return the JSON object representing rows of documents (ie. <a href="http://127.0.0.1:5984/albums/_all_docs"><a href="http://127.0.0.1:5984/albums/_all_docs">http://127.0.0.1:5984/albums/_all_docs</a></a>) and used design views to create a default landing page to interact with the albums database (<a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>). But there is more to <a href="http://couchdb.apache.org/">CouchDB</a>. Using <strong>shows and lists</strong>, you can serve up a document in any type of representation, including <strong>HTML</strong>. They are restricted to only <em>GET</em> requests, so you can’t save a document in a different format, but you can certainly return a document in another format.</p>
-<p>If you look within the <em>/albums</em> directory we created using <a href="http://couchapp.org/page/index">CouchApp</a>, you may notice a couple folders we have largely been ignoring while we toiled away in <em>/_attachments</em> and <em>/vendor</em> – <em>shows</em> and <em>lists</em>. We are not going to look into lists at the moment, but we will create a <strong>show</strong> function in our application design to return the <strong>HTML</strong> representation of a document marked-up as a <a href="http://jquerymobile.com/">jquery Mobile</a> page. With this scenario, we can treat the <em>show</em> function as an external page view and have a ugl(ier)y URL, but one we can send to anyone and not have to go through list item selection from the main page.</p>
+<p>In the browser, up to this point through the series, we have seen pages that return the JSON object representing rows of documents (ie. <a href="http://127.0.0.1:5984/albums/_all_docs">http://127.0.0.1:5984/albums/_all_docs</a>) and used design views to create a default landing page to interact with the albums database (<a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>). But there is more to <a href="http://couchdb.apache.org/">CouchDB</a>. Using <strong>shows and lists</strong>, you can serve up a document in any type of representation, including <strong>HTML</strong>. They are restricted to only <em>GET</em> requests, so you can’t save a document in a different format, but you can certainly return a document in another format.</p>
+<p>If you look within the <em>/albums</em> directory we created using <a href="http://couchapp.org/page/index">CouchApp</a>, you may notice a couple folders we have largely been ignoring while we toiled away in _/<em>attachments</em> and <em>/vendor</em> – <em>shows</em> and <em>lists</em>. We are not going to look into lists at the moment, but we will create a <strong>show</strong> function in our application design to return the <strong>HTML</strong> representation of a document marked-up as a <a href="http://jquerymobile.com/">jquery Mobile</a> page. With this scenario, we can treat the <em>show</em> function as an external page view and have a ugl(ier)y URL, but one we can send to anyone and not have to go through list item selection from the main page.</p>
 <h3 id="show-function">Show Function</h3>
 <p>As we are moving away from internal pages to external pages for our application, we are going to have each page returned in a <strong>show function</strong> of our design. The first order of business to return a album detail page upon selection from the list, is to move the <strong>HTML</strong> markup for <em>albumview</em> into a show design document in the <em>/shows</em> directory of our <em>albums</em> <a href="http://couchapp.org/page/index">CouchApp</a> application.</p>
 <p>Open up your favorite text editor and create a new <strong>JavaScript</strong> document. Enter in the following function and save it as <em>album.js</em> in the <em>/shows</em> folder:</p>
@@ -669,10 +669,10 @@
   return html;
 
 <span class="hljs-special">}</span>
-</code></pre><p>Each <strong>show document</strong> must declare the <em>function(doc, reg)</em> method. This is the standard function of a <em>show document</em> which is invoked on a request through <em><a href="http://127.0.0.1:5984/albums/_design/albums/_show/album/${_id}">http://127.0.0.1:5984/albums/_design/albums/_show/album/${_id}</a></em> and handed the full corresponding document from the database and the <strong>HTTP</strong> request object.</p>
+</code></pre><p>Each <strong>show document</strong> must declare the <em>function(doc, reg)</em> method. This is the standard function of a <em>show document</em> which is invoked on a request through _<a href="http://127.0.0.1:5984/albums/_design/albums/_show/album/${_id}_">http://127.0.0.1:5984/albums/_design/albums/_show/album/${_id}_</a> and handed the full corresponding document from the database and the <strong>HTTP</strong> request object.</p>
 <p>If we look at the <em>index.html</em> page we worked on in the previous section (<strong>Local Album Page View</strong>), we’ll see that what is returned from this <strong>show function</strong> is really just a mixture of the mark-up for the <em>albumview</em> page and the <em>openAlbum()</em> method. You may notice that we are not sending back a full <strong>HTML</strong> document from this <em>show</em> function. That is alright for now. This mark-up will be treated as a page and housed and styled by our <em>index.html</em> page. We can probably do some fancy string assembly based on the <em>request</em> path, but for now we are just gonna leave it as an insertion into the <a href="http://jquerymobile.com/">jquery Mobile</a> application.</p>
 <h3 id="modifying-index-html">Modifying index.html</h3>
-<p>Now that we have a <strong>show function</strong> serving up our <em>abumview</em> pages, we need to clean up our <em>index.html</em> document and change our <em>albumview</em> link from internal to external. Open up the <em>/_attachments/index.html</em> document in your favorite editor and make the following modifications:</p>
+<p>Now that we have a <strong>show function</strong> serving up our <em>abumview</em> pages, we need to clean up our <em>index.html</em> document and change our <em>albumview</em> link from internal to external. Open up the _/<em>attachments/index.html</em> document in your favorite editor and make the following modifications:</p>
 <pre><code><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
@@ -798,13 +798,13 @@
   </span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
 <span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
-</code></pre><p>There’s no highlighting for what we removed in that snippet, but we took out the <em>albumview</em> page declaration from the <em>body</em> and removed the <em>openAlbum()</em> method (as well as its binding on “<em>pagebeforeshow</em>“). The <em>listItem</em> is now back to an <strong>HTML</strong> string that is appending to the albums <em>listview</em>. Instead of adding a <em>click</em> handler to a link, the <strong>href</strong> is attributed as an external <a href="http://jquerymobile.com/">jQuery Mobile</a> page which is is a query to show the associated document with the <em>_id</em>. Simple, clean.</p>
+</code></pre><p>There’s no highlighting for what we removed in that snippet, but we took out the <em>albumview</em> page declaration from the <em>body</em> and removed the <em>openAlbum()</em> method (as well as its binding on “<em>pagebeforeshow</em>“). The <em>listItem</em> is now back to an <strong>HTML</strong> string that is appending to the albums <em>listview</em>. Instead of adding a <em>click</em> handler to a link, the <strong>href</strong> is attributed as an external <a href="http://jquerymobile.com/">jQuery Mobile</a> page which is is a query to show the associated document with the _<em>id</em>. Simple, clean.</p>
 <h3 id="deployment">Deployment</h3>
 <p>We modified our application to utilize a <strong>show function</strong> to serve the <em>albumview</em> page up within a <a href="http://jquerymobile.com/">jquery Mobile</a> application. With these changes saved, we can now push to the <a href="http://couchdb.apache.org/">CouchDB</a> database using the <a href="http://couchapp.org/page/index">couchapp</a> utility. Open a terminal and navigate to the directory where you create your <strong>CouchApp</strong> applications (for me that is <em>/Documents/workspace/custardbelly/couchdb</em> and in there i have a folder named <em>albums</em> which is the <strong>CouchApp</strong> application directory for these examples). Enter the following command to push the changes to the <strong>CouchDB</strong> instance:</p>
 <pre><code>couchapp push albums http:<span class="hljs-comment">//127.0.0.1:5984/albums</span>
-</code></pre><p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>, we’ll still have our old familiar list. Click on an item, and we should be navigated to a detail (or <em>albumview</em>) page somewhat like the following:</p>
+</code></pre><p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>, we’ll still have our old familiar list. Click on an item, and we should be navigated to a detail (or <em>albumview</em>) page somewhat like the following:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_five.png" alt=""></p>
-<p>I left the browser wide again so you can see the new <strong>URL</strong> for viewing a single <em>album</em> document: <a href="http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/">http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/</a></a>${doc.<em>id}. Pretty neat. Now you can even copy that <strong>#show</strong> page <strong>URL</strong> and paste it in another window and you should be taken directly to that detail page. You may notice that we still get the back button in the upper left of the header. That is because of the hash (#) in the <strong>URL</strong> which the <a href="http://jquerymobile.com/">jquery Mobile</a> framework interprets as being a page linked from another. So a false history. If you clicked <strong>Back</strong> from the page, it would not go to the _index.html</em> page. A minor flaw in our design that we are going to let go for now <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Hey, we just got all this neat stuff working… we’ll work out the kinks later. There’s more fun stuff to work on.</p>
+<p>I left the browser wide again so you can see the new <strong>URL</strong> for viewing a single <em>album</em> document: <a href="http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/">http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/</a>${doc._id}. Pretty neat. Now you can even copy that <strong>#show</strong> page <strong>URL</strong> and paste it in another window and you should be taken directly to that detail page. You may notice that we still get the back button in the upper left of the header. That is because of the hash (#) in the <strong>URL</strong> which the <a href="http://jquerymobile.com/">jquery Mobile</a> framework interprets as being a page linked from another. So a false history. If you clicked <strong>Back</strong> from the page, it would not go to the <em>index.html</em> page. A minor flaw in our design that we are going to let go for now <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Hey, we just got all this neat stuff working… we’ll work out the kinks later. There’s more fun stuff to work on.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>Well, i said the subsequent posts after the initial <a href="http://custardbelly.com/blog/?p=244">Getting Started</a> would be shorter… i lied <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> In any event, we created a detail page for a single document and offloaded the page loading to an external <a href="http://jquerymobile.com/">jquery Mobile</a> page utilizing the <strong>show function</strong> of the albums design. A nice solution with an ugly<strong>URL</strong> (we can address that later) that can be passed to other people so they can land on that single page without going through the whole application from the beginning. Since I prefer the external page solution, any continuing posts on this example will utilize the <strong>show function</strong> to serve, at least, the album detail page.</p>
 <p>Now what if we wanted to edit the fields of that document… I am on the edge of my seat as i write this. Literally. Someone stacked a bunch of wrapping stuff on this chair and left me little room. I could have moved it, but i was just too excited to talk about forms…</p>
@@ -826,10 +826,10 @@
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2010/12/28/jquery-mobile-couchdb-part-3-templates-and-mustache-js/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2011/02/16/as3flobile-scrollviewport-and-flex-4-containers-from-yeah-to-eh/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2010/12/08/jquery-mobile-couchdb-part-1-getting-started/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2010/12/08/jquery-mobile-couchdb-part-1-getting-started/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -847,11 +847,11 @@
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - The Making of a Test-Driven Grocery List Application in JS: Part VII</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/index.html">The Making of a Test-Driven Grocery List Application in JS: Part VII</a></h1>
+    <h1><a href="/blog-posts/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/index.html">The Making of a Test-Driven Grocery List Application in JS: Part VII</a></h1>
     <p>
       2013 January 17th
       
@@ -277,7 +277,7 @@
 });
 </code></pre><p>In the <code>EventKindEnum.REMOVE</code> case, we are grabbing the model provided on the event, using it to access the associated <code>list-item-controller</code> instance, and – if defined – removing the list item renderer view from the DOM and the controller from the renderer collection.</p>
 <p>Run that, and we are back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_4.png" alt="Passing tests on removal of item from view."></p>
-<p>Tagged <strong>0.1.10</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.10"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.10">https://github.com/bustardcelly/grocery-ls/tree/0.1.10</a></a></p>
+<p>Tagged <strong>0.1.10</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.10">https://github.com/bustardcelly/grocery-ls/tree/0.1.10</a></p>
 <h2 id="back-to-reality">Back to Reality</h2>
 <p>We’ve got test for the removal of a grocery list item working. We are currently feature complete. Let’s ship it! But hold up, does the <strong>Grocery List</strong> application – the thing we are actually building for someone like myself to Use in real life – actually use the new Remove API. We defined a business feature that was a requirement to have, and met that expectation, but we really didn’t address how an item is removed, or under what circumstances…</p>
 <p>Without getting to crazy on discussing how to handle swipe gestures and implementing press-and-hold menu actions, let’s just start with saying that the <code>list-item-controller</code> will dispatch a new event – <code>remove</code>. How we decide on the usability of an item being deleted could easily be another whole discussion on User Experience. For now, we want to verify that when a <code>list-item-controller</code> dispatches a <code>remove</code> event, that it is handled properly.</p>
@@ -475,7 +475,7 @@ editableItemFragment    = <span class="hljs-comment">'<span class="hljs-xmlDocTa
 <p>Let’s actually <em>run</em> the application and use it. We spend all this time making our tests turn red and green, we barely get to use what we are building.<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_7.png" alt="Grocery list application"></p>
 <p>Oh my… that is ugly to look at. But it works! And it’s backed by tests!</p>
 <p>Because I can’t leave well enough alone, I added some quick styling just to make it a little more pleasant on the eyes. I am not designer, so it might not be any more pleasant to you <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> I won’t go into the styling of the application as that could be a whole ‘nother article and discussion of box model, but feel free to mess around with the styling on your own…<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_8.png" alt="Prettier Grocery List application"></p>
-<p>Tagged <strong>0.1.11</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.11"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.11">https://github.com/bustardcelly/grocery-ls/tree/0.1.11</a></a></p>
+<p>Tagged <strong>0.1.11</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.11">https://github.com/bustardcelly/grocery-ls/tree/0.1.11</a></p>
 <h2 id="conclusion">Conclusion</h2>
 <p>In this article of the series, we took more of a traditional approach to <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a> and went along making things turn red before they turn green, one spec at a time, and all the while implementing the <em>Remove Item</em> feature. </p>
 <p>The <strong>Grocery List</strong> application is also coming along pretty nicely and, as always, is easy and ready to use. But I can’t leave well enough alone and there are a few more items on my list (no pun intended) that I wish to address before ending this series, most importantly persistence. Our grocery list only last within the session of the page – once closed, our list is gone. We’ll get to that, but there might be some other things to address beforehand.</p>
@@ -491,10 +491,10 @@ editableItemFragment    = <span class="hljs-comment">'<span class="hljs-xmlDocTa
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -512,11 +512,11 @@ editableItemFragment    = <span class="hljs-comment">'<span class="hljs-xmlDocTa
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

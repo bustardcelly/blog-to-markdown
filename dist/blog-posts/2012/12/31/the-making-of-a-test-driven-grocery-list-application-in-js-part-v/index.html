@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - The Making of a Test-Driven Grocery List Application in JS: Part V</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/index.html">The Making of a Test-Driven Grocery List Application in JS: Part V</a></h1>
+    <h1><a href="/blog-posts/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/index.html">The Making of a Test-Driven Grocery List Application in JS: Part V</a></h1>
     <p>
       2012 December 31st
       
@@ -439,7 +439,7 @@
 </code></pre><p>Run it and all is green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_v_1.png" alt="Passing collection suite"></p>
 <p>Whoa. Settle down… we’re not done yet <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <h4 id="collection-events">Collection Events</h4>
-<p>If we think back to why we even started down this path of creating a Collection object, we’ll remember that its role in the <strong>Grocery List</strong> application is to serve as the model for the <em>list-controller</em>. It is the intention to eventually modify the <em>list-controller</em> to not only offload the responsibility of managing the relationship and interaction between individual <em>grocery-ls-item</em> models to their views, but also to respond to changes on the collection of <em>grocery-ls-item_s accordingly. As such, we will incorporate event notification into our _Collection</em> object, from which the <em>list-controller</em> can assign response delegates to changes on the collection.</p>
+<p>If we think back to why we even started down this path of creating a Collection object, we’ll remember that its role in the <strong>Grocery List</strong> application is to serve as the model for the <em>list-controller</em>. It is the intention to eventually modify the <em>list-controller</em> to not only offload the responsibility of managing the relationship and interaction between individual <em>grocery-ls-item</em> models to their views, but also to respond to changes on the collection of _grocery-ls-item_s accordingly. As such, we will incorporate event notification into our <em>Collection</em> object, from which the <em>list-controller</em> can assign response delegates to changes on the collection.</p>
 <p>Using <a href="http://api.jquery.com/category/Events/?rdfrom=http%3A%2F%2Fdocs.jquery.com%2Fmw%2Findex.php%3Ftitle%3DAPI%2F1.3%2FEvents%26redirect%3Dno">jQuery Event</a> as we have previously in the development of this application throughout this series, we’ll create a factory method that returns an event object based provided arguments. If you are familiar with collections from the <a href="http://www.adobe.com/devnet/flex/flex-sdk-download.html">Flex SDK</a>, you might notice something similar <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> :</p>
 <p><em>/test/jasmine/spec/collection.spec.js</em></p>
 <pre><code>function createEvent(kind, items) {
@@ -758,7 +758,7 @@ describe(<span class="hljs-string">'collection item removal'</span>, <span class
 
 });
 </code></pre><p><img src="http://custardbelly.com/blog/images/tdd_js/part_v_2.png" alt="Passing collection tests on AMD module"></p>
-<p>Tagged: <strong>0.1.6</strong> <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.6"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.6">https://github.com/bustardcelly/grocery-ls/tree/0.1.6</a></a></p>
+<p>Tagged: <strong>0.1.6</strong> <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.6">https://github.com/bustardcelly/grocery-ls/tree/0.1.6</a></p>
 <h2 id="list-controller-refactoring">list-controller Refactoring</h2>
 <p>Passing tests are great! But currently, they are lying to us. Well… not <em>really</em>, but we have gone about all these new additions to our application and have yet still to refactor <em>list-controller</em> to utilize them. However, before we just start chopping out and inserting code from <em>list-controller</em>, I want to go over the API and specs currently defined and see if they still hold water – meaning we might be able to cut some tests out. We might not. We might even add more. Let’s see…</p>
 <h3 id="newitem-spec">newitem.spec</h3>
@@ -951,7 +951,7 @@ listController.getItemList = sinon.stub().returns(itemCollection);
 
 });
 </code></pre><p>And all is green! <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
-<p>Tagged <strong>0.1.7</strong> – <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.7"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.7">https://github.com/bustardcelly/grocery-ls/tree/0.1.7</a></a></p>
+<p>Tagged <strong>0.1.7</strong> – <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.7">https://github.com/bustardcelly/grocery-ls/tree/0.1.7</a></p>
 <h3 id="list-controller-revisted">list-controller Revisted</h3>
 <p>It’s great that the tests still pass, but we have yet to <strong>still</strong> modify <em>list-controller</em>. I can’t put it off any longer. If you have put up with the last couple posts and promises to get somewhere, you are very kind. The wait is over! … but it is also just the tip of the iceberg. sorry to be a downer <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>In looking at the API on <em>list-controller</em> we stubbed out from the <em>beforeEach()</em> of the <em>newitem.spec</em> and the expectations of its functionality verified in the specs, we are basically boiling down the responsibilities of the <em>list-controller</em> to:</p>
@@ -1226,7 +1226,7 @@ listController.getItemList = sinon.stub().returns(itemCollection);
 <p><img src="http://custardbelly.com/blog/images/tdd_js/part_v_4.png" alt="Mark-Off Item failure on list-controller refactor"></p>
 <p>However, run the application and it will be just as usable as it was before – no change will be perceived by the end-user. The only thing that will change is now I have a nagging feeling knowing my tests are failing. Some naysayers may interject here and half-heartedly tell me to get rid of the tests, then. To them I say, ‘<em>pfffft</em>‘ <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>I hate to see the tests in such a state, but this post is rather long as it is. Also, I like to joke that sometimes having failing tests to look at first thing in the morning is the best way to pick up from where you left off. I promise we’ll get these to go green in the next article of this series, and invite you to get them to pass if you are for it.</p>
-<p>Tagged <strong>0.1.8</strong> – <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.8"><a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.8">https://github.com/bustardcelly/grocery-ls/tree/0.1.8</a></a></p>
+<p>Tagged <strong>0.1.8</strong> – <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.8">https://github.com/bustardcelly/grocery-ls/tree/0.1.8</a></p>
 <h2 id="conclusion">Conclusion</h2>
 <p>We finally got around to refactoring the <em>list-controller</em> to relieve it of item model management and state. In the course of doing so, we created a <em>Collection</em> object that will serve as the model for the <em>list-controller</em>. </p>
 <p>This post was a lengthy one, and I appreciate you sticking through my yackity-yack. I think we are in fine shape now to approach previously defined and new features, get our tests passing again, and finalize the <strong>Grocery List</strong> application… in as far as first iteration deliverables go <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
@@ -1242,10 +1242,10 @@ listController.getItemList = sinon.stub().returns(itemCollection);
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -1263,11 +1263,11 @@ listController.getItemList = sinon.stub().returns(itemCollection);
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

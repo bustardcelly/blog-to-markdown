@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jQuery Mobile + CouchDB: Part 7.2 – Authorization and Validation</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-2-authorization-and-validation/index.html">jQuery Mobile + CouchDB: Part 7.2 – Authorization and Validation</a></h1>
+    <h1><a href="/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-2-authorization-and-validation/index.html">jQuery Mobile + CouchDB: Part 7.2 – Authorization and Validation</a></h1>
     <p>
       2011 March 4th
       
@@ -65,9 +65,9 @@
 <p><em>*guarantees not included.</em></p>
 <h2 id="template">Template</h2>
 <p>We are going to create a <strong>login dialog</strong> pretty much as your standard form with the option to either “<em>log in</em>” or “<em>sign up</em>” (if i ever don’t use the space in those and it bothers you, i apologize. its become a little habit). In our planning, we currently want the dialog to appear in at least 3 places based on an operation that requires session and user validation – <strong>Add</strong>, <strong>Edit</strong> and <strong>Delete</strong>. Down the road, there could be more. We could add a login button to some or every page to allow to login at any time within the application. We’ll stick to the 3 operations for now, but in knowing that the same visual piece will be used in multiple places throughout the application, it makes for a good case to use a template for the UI of our login dialog.</p>
-<p>We learned about templates on the <a href="http://couchdb.apache.org/">CouchDB</a> side previously – using <a href="https://github.com/janl/mustache.js/">Mustache</a> and <strong>Partials</strong> to create our views. Same concept. We want to be able to declare some mark-up in one place that will be rendered in the <strong>DOM</strong> upon request from anywhere in the application. To do that, we’ll use the <a href="http://github.com/jquery/jquery-tmpl">jquery.tmpl</a> plugin available at: <a href="http://github.com/jquery/jquery-tmpl"><a href="http://github.com/jquery/jquery-tmpl">http://github.com/jquery/jquery-tmpl</a></a>. Why jquery.tmpl? It is simple to use and – though still in beta – is considered an <a href="http://www.borismoore.com/2010/10/jquery-templates-is-now-official-jquery.html">official jQuery plugin</a>, so documentation can be found on the <a href="http://jquery.com/">jQuery</a> site at: <a href="http://api.jquery.com/jquery.tmpl/"><a href="http://api.jquery.com/jquery.tmpl/">http://api.jquery.com/jquery.tmpl/</a></a>. In any event, make sure to download the jquery.tmpl plugin from <a href="http://github.com/jquery/jquery-tmpl"><a href="http://github.com/jquery/jquery-tmpl">http://github.com/jquery/jquery-tmpl</a></a> as we are going to use it for our login dialog.</p>
-<p>With <em>jquery.tmpl</em> downloaded and added to the <em>/vendor/couchapp/_attachments/</em> folder of our <strong>albums</strong> <a href="http://couchapp.org/page/index">coucapp</a> directory (in following the examples within this series, for me that directory is <em>/Documents/workspace/custardbelly/couchdb/albums</em>), open up the <em>loader.js</em> file from that same directory and save the following modification to include the <em>jquery.tmpl</em>:</p>
-<p><em>/vendor/couchapp/_attachments/loader.js</em></p>
+<p>We learned about templates on the <a href="http://couchdb.apache.org/">CouchDB</a> side previously – using <a href="https://github.com/janl/mustache.js/">Mustache</a> and <strong>Partials</strong> to create our views. Same concept. We want to be able to declare some mark-up in one place that will be rendered in the <strong>DOM</strong> upon request from anywhere in the application. To do that, we’ll use the <a href="http://github.com/jquery/jquery-tmpl">jquery.tmpl</a> plugin available at: <a href="http://github.com/jquery/jquery-tmpl">http://github.com/jquery/jquery-tmpl</a>. Why jquery.tmpl? It is simple to use and – though still in beta – is considered an <a href="http://www.borismoore.com/2010/10/jquery-templates-is-now-official-jquery.html">official jQuery plugin</a>, so documentation can be found on the <a href="http://jquery.com/">jQuery</a> site at: <a href="http://api.jquery.com/jquery.tmpl/">http://api.jquery.com/jquery.tmpl/</a>. In any event, make sure to download the jquery.tmpl plugin from <a href="http://github.com/jquery/jquery-tmpl">http://github.com/jquery/jquery-tmpl</a> as we are going to use it for our login dialog.</p>
+<p>With <em>jquery.tmpl</em> downloaded and added to the _/vendor/couchapp/<em>attachments/</em> folder of our <strong>albums</strong> <a href="http://couchapp.org/page/index">coucapp</a> directory (in following the examples within this series, for me that directory is <em>/Documents/workspace/custardbelly/couchdb/albums</em>), open up the <em>loader.js</em> file from that same directory and save the following modification to include the <em>jquery.tmpl</em>:</p>
+<p>_/vendor/couchapp/<em>attachments/loader.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">couchapp_load</span><span class="hljs-params">(scripts)</span> {</span>
 
   <span class="hljs-keyword">for</span> (var i=<span class="hljs-number">0</span>; i &lt; <span class="hljs-transposed_variable">scripts.</span><span class="hljs-built_in">length</span>; i++) {
@@ -103,7 +103,7 @@ couchapp_load(<span class="hljs-matrix">[
   <span class="hljs-string">"vendor/couchapp/jquery.tmpl.js"</span>
 
 ]</span>);
-</code></pre><p>Pretty straight forward; just adding the <em>jquery.tmpl</em> <strong>plugin</strong> to be loaded into the <strong>DOM</strong>. Now we need to declare the mark-up for our <strong>login dialog</strong>. We’ll just add it to our main page and its usage will be revealed later. For now, open up the <em>/_attachments/index.html</em> file and save the following script tag and content between the previously declared script tags for the <em>loader.js</em> and our application script:</p>
+</code></pre><p>Pretty straight forward; just adding the <em>jquery.tmpl</em> <strong>plugin</strong> to be loaded into the <strong>DOM</strong>. Now we need to declare the mark-up for our <strong>login dialog</strong>. We’ll just add it to our main page and its usage will be revealed later. For now, open up the _/<em>attachments/index.html</em> file and save the following script tag and content between the previously declared script tags for the <em>loader.js</em> and our application script:</p>
 <pre><code>&lt;<span class="hljs-keyword">script</span> src=<span class="hljs-string">"vendor/couchapp/loader.js"</span>&gt;&lt;/<span class="hljs-keyword">script</span>&gt;
 
 &lt;<span class="hljs-keyword">script</span> <span class="hljs-property">id</span>=<span class="hljs-string">"loginSignupDialog"</span> type=<span class="hljs-string">"text/x-jquery-tmpl"</span>&gt;
@@ -170,9 +170,9 @@ couchapp_load(<span class="hljs-matrix">[
 <p>Before we dive right in to some code, I wanted to touch on some finer points so when we take a look at how our <strong>login dialog widget</strong> is created we might have a clearer understanding of its construction. <strong>$.widget</strong> is considered a factory method to create custom widgets and is an extension of <strong>$.Widget</strong> (capital W). <strong>$.Widget</strong> itself acts as sort of a builder. Upon widget-ization of an element, <strong>init_() and </strong>create<em>() hook methods are invoked and available for override in our custom <strong>widget</strong>. There are also some methods for options, enablement, and for triggering events (__trigger</em>()) to name a few. But most importantly, there is a <em>destroy</em>() method. To squash any memory leaks, we must tidy up our mess. </p>
 <p>So, to break it down, <strong>$.Widget</strong> provides a lifecycle method template and is the builder of our <strong>widget</strong>. <strong>$.widget</strong> is a factory method for creating custom widgets and allows us to widget-ize elements based on the name of our widget. <em>What the hell does that mean?</em> If we create a widget using the <strong>$.widget</strong> factory and provide it a name of “<em>albums.loginDialog</em>“, we can widget-ize our template as such:</p>
 <pre><code>$(<span class="hljs-string">"#loginSignupDialog"</span>)<span class="hljs-preprocessor">.tmpl</span>()<span class="hljs-preprocessor">.loginDialog</span>()
-</code></pre><p>In fact, that is essentially what we are going to do… but we first lets cover how we’re going to do it. For some extra reading, this is a great article form <a href="http://jqueryui.com/">jQuery UI</a> explaining the widget factory: <a href="http://jqueryui.com/docs/Developer_Guide"><a href="http://jqueryui.com/docs/Developer_Guide">http://jqueryui.com/docs/Developer_Guide</a></a>. There is also this excellent write up i found by <a href="http://www.erichynds.com">Eric Hynds</a>: <a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/"><a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/">http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/</a></a>.</p>
-<p>Less talk. More code. Open up your favorite editor and save the following snippet as <em>jquery.albums.loginDialog.js</em> in the <em>/_attachments/script</em> directory of the <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> (for me that directory is <em>/Documents/workspace/custardbelly/couchdb/albums</em>):</p>
-<p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
+</code></pre><p>In fact, that is essentially what we are going to do… but we first lets cover how we’re going to do it. For some extra reading, this is a great article form <a href="http://jqueryui.com/">jQuery UI</a> explaining the widget factory: <a href="http://jqueryui.com/docs/Developer_Guide">http://jqueryui.com/docs/Developer_Guide</a>. There is also this excellent write up i found by <a href="http://www.erichynds.com">Eric Hynds</a>: <a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/">http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/</a>.</p>
+<p>Less talk. More code. Open up your favorite editor and save the following snippet as <em>jquery.albums.loginDialog.js</em> in the _/<em>attachments/script</em> directory of the <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> (for me that directory is <em>/Documents/workspace/custardbelly/couchdb/albums</em>):</p>
+<p>_/<em>attachments/script/jquery.albums.loginDialog.js</em></p>
 <pre><code><span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">( $ )</span> {
 
 
@@ -432,7 +432,7 @@ couchapp_load(<span class="hljs-matrix">[
 
 
 })</span><span class="hljs-list">(<span class="hljs-title">jQuery</span>)</span>
-</code></pre><p>You wanted code? You got it <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> I am not going to go into explaining the under-workings of <strong>$.widget</strong> or <strong>$.Widget</strong> but more the work we have here that relates to <a href="http://jquerymobile.com/">jQuery Mobile</a> and our application. Again, if you are curious, <a href="http://jqueryui.com/">jQuery UI</a> has some great documentation at <a href="http://jqueryui.com/docs/Developer_Guide"><a href="http://jqueryui.com/docs/Developer_Guide">http://jqueryui.com/docs/Developer_Guide</a></a> and you can also look at the <strong>JavaScript</strong> source for <a href="http://jquerymobile.com/">jQuery Mobile</a>. That is chock full of widgets. And then there is this awesome write up by <a href="http://www.erichynds.com">Eric Hynds</a>: <a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/"><a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/">http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/</a></a>.</p>
+</code></pre><p>You wanted code? You got it <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> I am not going to go into explaining the under-workings of <strong>$.widget</strong> or <strong>$.Widget</strong> but more the work we have here that relates to <a href="http://jquerymobile.com/">jQuery Mobile</a> and our application. Again, if you are curious, <a href="http://jqueryui.com/">jQuery UI</a> has some great documentation at <a href="http://jqueryui.com/docs/Developer_Guide">http://jqueryui.com/docs/Developer_Guide</a> and you can also look at the <strong>JavaScript</strong> source for <a href="http://jquerymobile.com/">jQuery Mobile</a>. That is chock full of widgets. And then there is this awesome write up by <a href="http://www.erichynds.com">Eric Hynds</a>: <a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/">http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/</a>.</p>
 <p>Now, let’s step through it… If you are being introduced to <a href="http://jquery.com/">jQuery</a> by this article series: <strong>a)</strong> i hope i have not mislead you in my explanations and <strong>b)</strong> this might be the first time you have seen this anonymous function declaration:</p>
 <pre><code>(<span class="hljs-keyword">function</span>( $ ) {
 
@@ -440,14 +440,14 @@ couchapp_load(<span class="hljs-matrix">[
 
 })(jQuery)
 </code></pre><p>There is more going on here (conflict resolution) than i will explain, but in essence this is a self-executing method that has a reference to <a href="http://jquery.com/">jQuery</a>. Basically, upon load any code within this anonymous function will be run and have access to <a href="http://jquery.com/">jQuery</a> using the <strong>$</strong> token; once <em>jquery.albums.loginDialog.js</em> is loaded, we invoke the <strong>$.widget</strong> factory method to create a <strong>widget</strong> accessible via <em>loginDialog</em>() on an element reference:</p>
-<p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
+<p>_/<em>attachments/script/jquery.albums.loginDialog.js</em></p>
 <pre><code>$.widget( <span class="hljs-string">"albums.loginDialog"</span>, {
 
 <span class="hljs-keyword">...</span>
 
 } );
 </code></pre><p>The second argument to <strong>$.widget</strong> – the whole big object – is basically the meat of our <strong>widget</strong>; its got some declared default options, overidden inherited methods and some other private and public methods to make our <strong>loginDialog</strong> work. Our options are just some default values to set the initial state (either to <em>login</em> or <em>signup</em>) and the textual content associated with the state. Our <strong>login dialog</strong> isn’t going to be very pretty or contain much content other than a form and a way to switch between <em>login</em> and <em>signup</em>.</p>
-<p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
+<p>_/<em>attachments/script/jquery.albums.loginDialog.js</em></p>
 <pre><code><span class="hljs-attribute">options</span>: <span class="hljs-string">{</span>
 
 <span class="http">  <span class="hljs-attribute">state</span>: <span class="hljs-string">0, // 0 - log in state. 1 - sign up state.</span>
@@ -457,8 +457,8 @@ couchapp_load(<span class="hljs-matrix">[
 <span class="http">  <span class="hljs-attribute">signUpText</span>: <span class="hljs-string">"Sign Up"</span>
 
 <span class="undefined">},</span></span></span></span>
-</code></pre><p>When it enters <em>_create</em>() (inheritance call from <strong>$.Widget</strong>), is when we do some real magic:</p>
-<p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
+</code></pre><p>When it enters _<em>create</em>() (inheritance call from <strong>$.Widget</strong>), is when we do some real magic:</p>
+<p>_/<em>attachments/script/jquery.albums.loginDialog.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> <span class="hljs-variable">$element</span> = this.element;
 
 
@@ -482,7 +482,7 @@ couchapp_load(<span class="hljs-matrix">[
 <span class="hljs-variable">$element</span>.data(<span class="hljs-string">"previous"</span>, pageLink );
 </code></pre><p>The target element (the one widget-ized by calling <strong>$(”#myElement”)</strong>.<em>loginDialog</em>()) is accessed using the this keyword and is available through the life of the <strong>widget</strong>. In order to get a reference to the current page prior to opening the <strong>loginDialog</strong>, we access the id value of <strong>$.mobile</strong>.<em>activePage</em> and determine if it is an external or internal page. We then pass that as the href value for the close button on the <strong>loginDialog</strong> and add a <strong>data-previous</strong> attribute to the target element. </p>
 <p>After the previous page has been determined to return to after login or signup, we then wrap the <strong>dialog template</strong> element in a page <strong>div</strong> listen for events, change the state to the default defined in options and change the page to the <strong>loginDialog</strong>:</p>
-<p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
+<p>_/<em>attachments/script/jquery.albums.loginDialog.js</em></p>
 <pre><code><span class="hljs-comment">// Wrap the content in a dialog page.</span>
 
 <span class="hljs-keyword">var</span> wrapper = <span class="hljs-keyword">this</span>._wrapDialog( $element );
@@ -499,11 +499,11 @@ $(<span class="hljs-string">"body[class*=\"ui-mobile-viewport\"]"</span>).append
 
 $.mobile.changePage( [currentPage, wrapper], <span class="hljs-string">"pop"</span>, <span class="hljs-literal">false</span> );
 </code></pre><p>You see that funky append before <strong>$.mobile</strong>.<em>changePage</em>()?</p>
-<p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
+<p>_/<em>attachments/script/jquery.albums.loginDialog.js</em></p>
 <pre><code><span class="hljs-char">$(</span><span class="hljs-comment">"body[class*=\"</span>ui-mobile-viewport\<span class="hljs-comment">"]"</span>).append(wrapper);
 </code></pre><p>The comment above that line explains it, but for some reason i couldn’t just switch to this dynamically created page. Instead i had to add it quickly at the end of the body (accessed by the <em>ui-mobile-viewport</em> class) and then was able to switch from the previous page to show a <strong>loginDialog</strong>. No big deal, just something to look out for. </p>
 <p>Most of what is in <em>jquery.albums.loginDialog</em>, if you have been following along, may be pretty familiar to you. We do the same sizing on <em>pagebeforeshow</em> and emptying on <em>pagehide</em>, and change values based on state using <a href="http://jquery.com/">jQuery</a>. Your basic fanfare. I just wanted to touch on two more methods in <em>jquery.albums.loginDialog</em>: <em>close</em> and <em>destroy</em>:</p>
-<p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
+<p>_/<em>attachments/script/jquery.albums.loginDialog.js</em></p>
 <pre><code>close: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 <span class="hljs-keyword">var</span> $element = <span class="hljs-keyword">this</span>.element;
@@ -539,7 +539,7 @@ destroy: <span class="hljs-function"><span class="hljs-keyword">function</span><
   <span class="hljs-keyword">this</span>.element = <span class="hljs-literal">null</span>;
 
 }
-</code></pre><p>The <em>close</em>() method we have exposed and is not part of <strong>$.Widget</strong>. That just allows access to anyone with a reference to the created <strong>loginDialog</strong> to directly close it (as opposed to explicitly closing it within the dialog). You can see that we change the page by using the previous data value set on the element within <strong>create<em>(). We also dispatch a “_close</em>” event using </strong>trigger<em>(). The __trigger</em>() method is part of <strong>$.Widget</strong> and can be bound to like other events, yet the type is slightly different within the context of a <strong>widget</strong>. The type value is actually appended to the <strong>widget</strong> name, so if you were to listen for close on this:</p>
+</code></pre><p>The <em>close</em>() method we have exposed and is not part of <strong>$.Widget</strong>. That just allows access to anyone with a reference to the created <strong>loginDialog</strong> to directly close it (as opposed to explicitly closing it within the dialog). You can see that we change the page by using the previous data value set on the element within <strong>create_(). We also dispatch a “<em>close</em>” event using </strong>trigger<em>(). The __trigger</em>() method is part of <strong>$.Widget</strong> and can be bound to like other events, yet the type is slightly different within the context of a <strong>widget</strong>. The type value is actually appended to the <strong>widget</strong> name, so if you were to listen for close on this:</p>
 <pre><code>$(<span class="hljs-string">"#loginSignupDialog"</span>)<span class="hljs-preprocessor">.tmpl</span>()<span class="hljs-preprocessor">.loginDialog</span>()<span class="hljs-preprocessor">.bind</span>( <span class="hljs-string">"logindialogclose"</span>, handleLoginDialogClose )<span class="hljs-comment">;</span>
 </code></pre><p>That’s one way to do it, though i often assign handlers by passing in a <strong>callback</strong> object like so:</p>
 <pre><code>$(<span class="hljs-string">"#loginSignupDialog"</span>).tmpl().loginDialog( {
@@ -552,7 +552,7 @@ destroy: <span class="hljs-function"><span class="hljs-keyword">function</span><
 
 });
 </code></pre><p>We actually trigger two other events within our <strong>loginDialog</strong> – “<em>login</em>” and “<em>signup</em>” – which are dispatched upon submit based on current state. We’ll see how all this is handled a little later on in more code, but i quickly wanted to touch on something that looks odd in the <em>destroy</em>() override:</p>
-<p><em>/_attachments/script/jquery.albums.loginDialog.js</em></p>
+<p>_/<em>attachments/script/jquery.albums.loginDialog.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> <span class="hljs-variable">$element</span> = this.element;
 
 <span class="hljs-keyword">var</span> page = <span class="hljs-variable">$element</span>.find( <span class="hljs-string">"div[data-role='content']"</span> );
@@ -565,9 +565,9 @@ submitButton.remove();
 <h2 id="plugin">Plugin</h2>
 <p>So you thought introducing two new concepts (<a href="http://jquery.com/">jQuery</a> <strong>templates</strong> and <strong>widgets</strong>) was enough for one article? Well, in the words of television’s <strong>Emeril</strong>, ‘<em>We’re going to kick it up a notch!</em>‘ That’s actually probably a paraphrase. I don’t know the exact words he said and i don’t feel like googling it. I was just pandering to the developer crowd who enjoys watching cooking shows… Its a low point in this article and i am not proud of it. Let’s keep going.</p>
 <p>If we step back and remember why we started doing all this business in this mini-series, we wanted to use validation on operations to our database documents. In the previous article we spoke of <strong>user context</strong>s, and updated our <strong>album</strong> document to require a user field. So, our main intent with this <strong>loginDialog</strong> is to verify a current session and then either login or signup a user. If the session is valid (user previously logged in) then, the user reference is stored and – dependent on the action – used in further transactions.</p>
-<p>Now, we could just open the <strong>loginDialog</strong> all willy-nilly, here and there, and try to track down the persisted user across actions, but a saner approach (for me at least) is to encapsulate this logic in a <strong>plugin</strong>. You may be familiar with <a href="http://jquery.com/">jQuery</a> <strong>plugins</strong>… actually we have been using them throughout this whole series. We just haven’t directly looked at how they are made or work. Like I did with our <strong>widget</strong> example, I am not going to go into a discussion of <a href="http://jquery.com/">jQuery</a> <strong>plugins</strong> per se – I am going to try and focus on the task at hand and provide explanations as to how it pertains to our application as a whole. That said, to read more about <a href="http://jquery.com/">jQuery</a> <strong>plugins</strong>, this is always a great place to start: <a href="http://docs.jquery.com/Plugins/Authoring"><a href="http://docs.jquery.com/Plugins/Authoring">http://docs.jquery.com/Plugins/Authoring</a></a>.</p>
-<p>Alright, we are going to take a little piecemeal approach to fleshing out our <strong>plugin</strong>, explaining as we go along, and I’ll provide it in its entirety afterward. To start, open up your favorite editor, create a file named <em>jquery.albums.app.js</em> and save it in the <em>/_attachments/script</em> folder of our <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> directory. Add the following:</p>
-<p><em>/_attachments/script/jquery.albums.app.js</em></p>
+<p>Now, we could just open the <strong>loginDialog</strong> all willy-nilly, here and there, and try to track down the persisted user across actions, but a saner approach (for me at least) is to encapsulate this logic in a <strong>plugin</strong>. You may be familiar with <a href="http://jquery.com/">jQuery</a> <strong>plugins</strong>… actually we have been using them throughout this whole series. We just haven’t directly looked at how they are made or work. Like I did with our <strong>widget</strong> example, I am not going to go into a discussion of <a href="http://jquery.com/">jQuery</a> <strong>plugins</strong> per se – I am going to try and focus on the task at hand and provide explanations as to how it pertains to our application as a whole. That said, to read more about <a href="http://jquery.com/">jQuery</a> <strong>plugins</strong>, this is always a great place to start: <a href="http://docs.jquery.com/Plugins/Authoring">http://docs.jquery.com/Plugins/Authoring</a>.</p>
+<p>Alright, we are going to take a little piecemeal approach to fleshing out our <strong>plugin</strong>, explaining as we go along, and I’ll provide it in its entirety afterward. To start, open up your favorite editor, create a file named <em>jquery.albums.app.js</em> and save it in the _/<em>attachments/script</em> folder of our <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> directory. Add the following:</p>
+<p>_/<em>attachments/script/jquery.albums.app.js</em></p>
 <pre><code><span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">$</span>)</span> <span class="hljs-collection">{
 
 
@@ -589,7 +589,7 @@ submitButton.remove();
 <li>Delete Document – Request to Delete a document.</li>
 </ul>
 <p>The <strong>Log In</strong> and <strong>Log Out</strong> methods mainly interface directly with <strong>$.couch</strong> and won’t deal with any UI. They are just facades to track the logged in user so we can properly send user data when creating or updating documents. The <strong>Save Document</strong> and <strong>Delete Document</strong> methods are more adaptors for <strong>$.couch</strong> communication – checking session and presenting the <strong>loginDialog</strong> if necessary. Update the <em>jquery.albums.app.js</em> with the following:</p>
-<p><em>/_attachments/script/jquery.albums.app.js</em></p>
+<p>_/<em>attachments/script/jquery.albums.app.js</em></p>
 <pre><code><span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">$</span>)</span> <span class="hljs-collection">{
 
 
@@ -674,7 +674,7 @@ submitButton.remove();
 
 }</span>)</span><span class="hljs-list">(<span class="hljs-title">jQuery</span>)</span>
 </code></pre><p>So there we have our 4 public methods of <strong>$.albums</strong>. We have also added to public properties: <strong>dialog</strong> and <strong>database</strong>. These two will be the targets to the <strong>loginDialog</strong> template and a reference to our <strong>albums</strong> database, respectively. This is so we don’t rely so heavily on globally declared variables to do what we need in our nice little encapsulated <strong>plugin</strong>. In any event, if you have looked at the contents of these methods, they all call other functions that we haven’t declared yet. Lets start with <em>checkSession</em>() in <strong>saveDocument</strong> and <strong>deleteDocument</strong>. Add the following after the <strong>$.extend</strong> declaration and prior to close of <em>function</em>():</p>
-<p><em>/_attachments/script/jquery.albums.app.js</em></p>
+<p>_/<em>attachments/script/jquery.albums.app.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkSession</span><span class="hljs-params">( options )</span> {</span>
 
     options = options || {};
@@ -713,7 +713,7 @@ submitButton.remove();
 
 &lt; {<span class="hljs-string">"ok"</span><span class="hljs-symbol">:true</span>,<span class="hljs-string">"userCtx"</span><span class="hljs-symbol">:</span>{<span class="hljs-string">"name"</span><span class="hljs-symbol">:null</span>,<span class="hljs-string">"roles"</span><span class="hljs-symbol">:[]</span>},<span class="hljs-string">"info"</span><span class="hljs-symbol">:</span>{<span class="hljs-string">"authentication_db"</span><span class="hljs-symbol">:<span class="hljs-string">"_users"</span></span>,<span class="hljs-string">"authentication_handlers"</span><span class="hljs-symbol">:</span>[<span class="hljs-string">"oauth"</span>,<span class="hljs-string">"cookie"</span>,<span class="hljs-string">"default"</span>]}}
 </code></pre><p>Depending on the value of <strong>userCtx</strong>, <em>checkSession</em>() will invoke an <em>available</em>() or <em>unavailable</em>() <strong>callback</strong> method on the anonymous options argument. The available responder on <em>saveDocument</em>() and <em>deleteDocument</em>() is different – one saves, the other deletes – but if unavailable is entered, they both call <em>showDialog</em>(). Append the following script to <em>jquery.albums.app.js</em> after the <em>checkSession</em>() declaration:</p>
-<p><em>/_attachments/script/jquery.albums.app.js</em></p>
+<p>_/<em>attachments/script/jquery.albums.app.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showDialog</span><span class="hljs-params">( options )</span></span> {
 
     $.albums.dialog.loginDialog( {
@@ -774,8 +774,8 @@ submitButton.remove();
 
 }</span>
 </code></pre><p>If we have passed being logged in/signed up, we close the <strong>loginDialog</strong>. We exposed the <em>close</em>() method in <em>jquery.albums.loginDialog.js</em>, but its important to note that you cannot call <em>close</em>() using dot-notation like a property. The reason is that we are not holding a reference to the <strong>loginDialog</strong>. Calling <strong>$(”#myElement”)</strong>.<em>loginDialog</em>() just decorates the target element on the <strong>DOM</strong>. We can still interface with <strong>$(”#myElement”)</strong> but those methods associated with the <strong>widget</strong> are not then accessible on the target element. So we call a public method through <em>loginDialog</em>().</p>
-<p>OK. So <em>doLogin</em>(), <em>doLogout</em>() and <em>doSignUp</em>() are yet to be covered. For some reason i have this convention where if it is considered an internal response to a public invocation i prepend ‘<em>d<em>o’ to the public method name. Some people prefer “_</em></em>“. To each his own. Just if you are wondering… Let’s tackle the login and logout first, as they are easy. Add the following script to <em>jquery.albums.app.js</em> somewhere after the <strong>$.extend</strong> declaration and prior to the end of the <em>function</em>() block:</p>
-<p><em>/_attachments/script/jquery.albums.app.js</em></p>
+<p>OK. So <em>doLogin</em>(), <em>doLogout</em>() and <em>doSignUp</em>() are yet to be covered. For some reason i have this convention where if it is considered an internal response to a public invocation i prepend ‘_d<em>o’ to the public method name. Some people prefer “__</em>“. To each his own. Just if you are wondering… Let’s tackle the login and logout first, as they are easy. Add the following script to <em>jquery.albums.app.js</em> somewhere after the <strong>$.extend</strong> declaration and prior to the end of the <em>function</em>() block:</p>
+<p>_/<em>attachments/script/jquery.albums.app.js</em></p>
 <pre><code>var user; /* _user &gt; document.name */
 
 
@@ -847,8 +847,8 @@ submitButton.remove();
 <li>Log In as new User</li>
 </ol>
 <p>Maybe the <em>jquery.couch</em> plugin has changed since the last revision i checked out, but that is the order of things to <em>signup</em> and <em>login</em> a new user as far as i understand. The signature for <strong>$.couch</strong>.<em>signUp</em>() method has no arguments for administration to do this more streamlined, so we are going to create a chain of commands to signup a new user a little more efficiently. Now, in actuality, i would turn to a server-side developer and ask pretty-please that they implement a proxy in whatever language to do this and not handle it all in <strong>JavaScript</strong> (especially since we are going to expose our admin credentials – <em>HIDE YOUR CHILDREN</em>!), but we’re having fun and not going to production with this, right? We’re taking some liberties to explore what we have…</p>
-<p>Now, if you have not figured out yet in following these articles, i can get a little anal. But it isn’t about everything. I seem to get focused on one thing that really irks me. And one of those things is deeply nested anonymous <strong>callbacks</strong>. Sure i am guilty of doing it and when i do it i feel dirty, but i usually let it go if its not nesting too deep. This sequence of actions for <strong>Sign Up</strong>, however, i can foresee being really ugly if we just went with anonymous <strong>callback</strong> objects down the line. So what i did was create <strong>Queue</strong> and <strong>Command</strong> “classes” to keep my sanity. The following is the script for that. Open a new document in your favorite editor (we’ll get back to <em>jquery.albums.app.js</em> in a bit) and save the following script as <em>command_queue.js</em> in <em>/_attachments/script</em>:</p>
-<p><em>/_attachments/script/command_queue.js</em></p>
+<p>Now, if you have not figured out yet in following these articles, i can get a little anal. But it isn’t about everything. I seem to get focused on one thing that really irks me. And one of those things is deeply nested anonymous <strong>callbacks</strong>. Sure i am guilty of doing it and when i do it i feel dirty, but i usually let it go if its not nesting too deep. This sequence of actions for <strong>Sign Up</strong>, however, i can foresee being really ugly if we just went with anonymous <strong>callback</strong> objects down the line. So what i did was create <strong>Queue</strong> and <strong>Command</strong> “classes” to keep my sanity. The following is the script for that. Open a new document in your favorite editor (we’ll get back to <em>jquery.albums.app.js</em> in a bit) and save the following script as _command<em>queue.js</em> in _/<em>attachments/script</em>:</p>
+<p>_/_attachments/script/command<em>queue.js</em></p>
 <pre><code>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(window)</span> {</span>
 
 
@@ -985,7 +985,7 @@ window.Command = Command;
 
 }(window));
 </code></pre><p>I’m not going to say it’s sophisticated by any means, but this is a simple implementation to allow us to chain commands together. That is done by adding <strong>Commands</strong> to the <strong>Queue</strong> using <em>addCommand</em>(), which then appends a command using the <em>nextCommand</em> property of the previous (if available) <strong>Command</strong>. Both <strong>Queue</strong> and <strong>Command</strong> have a method called <em>execute</em>() (as extensions of <strong>Commandable</strong>). Executing a <strong>Queue</strong> will start the chain of commands; executing a <strong>Command</strong> will invoke whatever <strong>target</strong> method supplied in the constructor. If this needs more explanation, please leave a comment. We’ll see how we use this by implementing our <em>doSignUp</em>() method in <em>jquery.albums.app.js</em>. Open up <em>jquery.albums.app.js</em> in your favorite editor and add the following script somewhere after the <strong>$.execute</strong> declaration and before the end of the <em>function</em>() block:</p>
-<p><em>/_attachments/script/jquery.albums.app.js</em></p>
+<p>_/<em>attachments/script/jquery.albums.app.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSignUp</span><span class="hljs-params">( name, password, options )</span> {</span>
 
     options = options || {};
@@ -1017,8 +1017,8 @@ window.Command = Command;
     queue.execute();
 
 }
-</code></pre><p>There we have our sequence of command described earlier. You can see how we pass the target method and arguments to the <strong>Command</strong> to be executed and the queue of commands is assembled using <strong>Queue</strong>:<em>addCommand</em>(). Again, our admin credentials are exposed and available to all – I do not recommend this practice in real life. Its just us here. So, there are two commands there in the middle that we haven’t discussed and aren’t declared in <em>command_queue.js</em>. They are specific to our <strong>albums</strong> application, so we will define them in <em>jquery.albums.app.js</em>. With the file still open, add the following script after (or before) the <em>doSignUp</em>() declaration:</p>
-<p><em>/_attachments/script/jquery.albums.app.js</em></p>
+</code></pre><p>There we have our sequence of command described earlier. You can see how we pass the target method and arguments to the <strong>Command</strong> to be executed and the queue of commands is assembled using <strong>Queue</strong>:<em>addCommand</em>(). Again, our admin credentials are exposed and available to all – I do not recommend this practice in real life. Its just us here. So, there are two commands there in the middle that we haven’t discussed and aren’t declared in _command<em>queue.js</em>. They are specific to our <strong>albums</strong> application, so we will define them in <em>jquery.albums.app.js</em>. With the file still open, add the following script after (or before) the <em>doSignUp</em>() declaration:</p>
+<p>_/<em>attachments/script/jquery.albums.app.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">OpenUserDocCommand</span><span class="hljs-params">( target, args, options )</span> {</span>}
 
 OpenUserDocCommand.prototype = <span class="hljs-keyword">new</span> Command();
@@ -1048,7 +1048,7 @@ AssignRoleCommand.prototype.execute = <span class="hljs-function"><span class="h
 }
 </code></pre><p>Nothing too crazy going on in <strong>OpenUserDocCommand</strong> or <strong>AssignRoleCommand</strong>, just needed to do some work with the <strong>_users</strong> database of our <a href="http://couchdb.apache.org/">CouchDB</a> instance as an admin.</p>
 <p>Guess what? That’s it! We’re done with <em>jquery.albums.app.js</em>. Whew! If you have stuck around, i am quite humbled. Seriously. A lot of code and rambling on. I don’t know if i would have made it. Anyway, here is <em>jquery.albums.app.js</em> in full:</p>
-<p><em>/_attachments/script/jquery.albums.app.js</em></p>
+<p>_/<em>attachments/script/jquery.albums.app.js</em></p>
 <pre><code><span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">$</span>)</span> <span class="hljs-collection">{
 
 
@@ -1346,8 +1346,8 @@ AssignRoleCommand.prototype.execute = <span class="hljs-function"><span class="h
 }</span>)</span><span class="hljs-list">(<span class="hljs-title">jQuery</span>)</span>
 </code></pre><p>Now before you run off, kiss your significant other and tell him/her that you will soon be billionaires, we have a little more work to do to get this up and running in our <strong>Albums</strong> application.</p>
 <h2 id="loader-and-index">Loader and Index</h2>
-<p>We kind of went off the deep-end there and dove right into code that code stand on its own outside of our current design of the <strong>Albums</strong> application. That’s good, but now we gotta reel it back in and wire it up. To start, lets add our new scripts in the <em>loader</em>. Open up <em>/vendor/couchapp/_attachments/loader.js</em> and save the following modifications:</p>
-<p><em>/vendor/couchapp/_attachments/loader.js</em></p>
+<p>We kind of went off the deep-end there and dove right into code that code stand on its own outside of our current design of the <strong>Albums</strong> application. That’s good, but now we gotta reel it back in and wire it up. To start, lets add our new scripts in the <em>loader</em>. Open up _/vendor/couchapp/<em>attachments/loader.js</em> and save the following modifications:</p>
+<p>_/vendor/couchapp/<em>attachments/loader.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">couchapp_load</span><span class="hljs-params">(scripts)</span> {</span>
 
   <span class="hljs-keyword">for</span> (var i=<span class="hljs-number">0</span>; i &lt; <span class="hljs-transposed_variable">scripts.</span><span class="hljs-built_in">length</span>; i++) {
@@ -1389,7 +1389,7 @@ couchapp_load(<span class="hljs-matrix">[
   <span class="hljs-string">"script/jquery.albums.loginDialog.js"</span>
 
 ]</span>);
-</code></pre><p>We’ve just added the last three files we have been working on: the <em>command_queue</em> script and our <strong>$.albums</strong> plugin and <strong>loginDialog</strong> widget. Now we’re going to make some modifications to the inline script on our <em>index.html</em> document. In a <a href="http://custardbelly.com/blog/?p=332">previous article</a> we hooked up the saving of a new album document to the internal <a href="http://jquerymobile.com/">jQuery Mobile</a> <strong>addAlbum</strong> page, and were using the <em>jquery.couch</em> plugin directly to save the document. Now we are just going to go through our <strong>$.albums</strong> plugin to perform that action which will open the <strong>loginDialog</strong> if a session is currently not available on our client. Open the <em>/_attachments/index.html</em> file in your favorite editor and save the following modifications in the <em>handleDocumentReady</em>() function:</p>
+</code></pre><p>We’ve just added the last three files we have been working on: the _command<em>queue</em> script and our <strong>$.albums</strong> plugin and <strong>loginDialog</strong> widget. Now we’re going to make some modifications to the inline script on our <em>index.html</em> document. In a <a href="http://custardbelly.com/blog/?p=332">previous article</a> we hooked up the saving of a new album document to the internal <a href="http://jquerymobile.com/">jQuery Mobile</a> <strong>addAlbum</strong> page, and were using the <em>jquery.couch</em> plugin directly to save the document. Now we are just going to go through our <strong>$.albums</strong> plugin to perform that action which will open the <strong>loginDialog</strong> if a session is currently not available on our client. Open the _/<em>attachments/index.html</em> file in your favorite editor and save the following modifications in the <em>handleDocumentReady</em>() function:</p>
 <p><em>/attachments/index.html</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleDocumentReady</span><span class="hljs-params">()</span>
 
@@ -1465,9 +1465,9 @@ couchapp_load(<span class="hljs-matrix">[
 <p><em>Oh nos! There are tons of albums that i entered in late at night in a different state of mind! I am second guessing my decision on wanting <strong>Hall &amp; Oates</strong>‘</em> War Babies! </p>
 <p>These are the type of exclamations i am assuming are going through your head… because i would never…</p>
 <h2 id="album-delete-and-album-edit">album-delete and album-edit</h2>
-<p>If you go way back in this article series and have been following along, you may remember that we create quasi-view controllers for our <a href="http://couchapp.org/page/index">couchapp</a> <strong>template</strong> pages and included the as <strong>partials</strong> in the <strong>show function</strong>. There are two that we need to modify with our recent changes to using the <strong>$.albums</strong> plugin to verify session: <em>/_attachments/script/album-delete-dialog.js</em> and <em>/_attachments/script/album-edit-page.js</em>. They will be small changes, but once deployed will give our application a little more security on who can perform modifications on <strong>album</strong> documents.</p>
-<p>Open up <em>/_attachments/script/album-delete-dialog.js</em> in your favorite editor and save the following change to the <em>handleDelete</em>() function:</p>
-<p><em>/_attachments/script/album-delete-dialog.js</em></p>
+<p>If you go way back in this article series and have been following along, you may remember that we create quasi-view controllers for our <a href="http://couchapp.org/page/index">couchapp</a> <strong>template</strong> pages and included the as <strong>partials</strong> in the <strong>show function</strong>. There are two that we need to modify with our recent changes to using the <strong>$.albums</strong> plugin to verify session: _/<em>attachments/script/album-delete-dialog.js</em> and _/<em>attachments/script/album-edit-page.js</em>. They will be small changes, but once deployed will give our application a little more security on who can perform modifications on <strong>album</strong> documents.</p>
+<p>Open up _/<em>attachments/script/album-delete-dialog.js</em> in your favorite editor and save the following change to the <em>handleDelete</em>() function:</p>
+<p>_/<em>attachments/script/album-delete-dialog.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleDelete</span><span class="hljs-params">( event )</span>
 
 {</span>
@@ -1513,8 +1513,8 @@ couchapp_load(<span class="hljs-matrix">[
     <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 
 }
-</code></pre><p>Open up <em>/_attachments/script/album-edit-page.js</em> in your favorite editor and save the following change to <em>saveDocument</em>():</p>
-<p><em>/_attachments/script/album-edit-page.js</em></p>
+</code></pre><p>Open up _/<em>attachments/script/album-edit-page.js</em> in your favorite editor and save the following change to <em>saveDocument</em>():</p>
+<p>_/<em>attachments/script/album-edit-page.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">saveDocument</span><span class="hljs-params">( document )</span>
 
 {</span>
@@ -1542,7 +1542,7 @@ couchapp_load(<span class="hljs-matrix">[
 <h2 id="deployment">Deployment</h2>
 <p>If you remember from the last article when we introduced authorization, we need to pass our credentials when we push our couchapp to the <a href="http://couchdb.apache.org/">CouchDB</a> instance:</p>
 <pre><code>couchapp <span class="hljs-keyword">push</span> albums http:<span class="hljs-regexp">//toddanderson</span>:admin123<span class="hljs-variable">@127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>:<span class="hljs-number">5984</span>/albums
-</code></pre><p>You’ll will have to replace to username and password, but once we have pushed we can now checkout our application at <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>. If you visit your application and try to either add, edit or delete a document and have not previously logged in, you will see something on the following:</p>
+</code></pre><p>You’ll will have to replace to username and password, but once we have pushed we can now checkout our application at <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>. If you visit your application and try to either add, edit or delete a document and have not previously logged in, you will see something on the following:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_2_2.png" alt="Log In"><br><em>[Log In]</em></p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_7_2_1.png" alt="Log In"><br><em>[Sign Up]</em></p>
 <h2 id="conclusion">Conclusion</h2>
@@ -1568,10 +1568,10 @@ couchapp_load(<span class="hljs-matrix">[
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2011/06/15/flash-and-the-city-jquery-mobile/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2011/06/15/flash-and-the-city-jquery-mobile/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-1-authorization-and-validation/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-1-authorization-and-validation/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -1589,11 +1589,11 @@ couchapp_load(<span class="hljs-matrix">[
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

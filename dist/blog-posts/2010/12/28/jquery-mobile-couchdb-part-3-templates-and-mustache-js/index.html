@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jQuery Mobile + CouchDB: Part 3 – Templates and Mustache.js</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2010/12/28/jquery-mobile-couchdb-part-3-templates-and-mustache-js/index.html">jQuery Mobile + CouchDB: Part 3 – Templates and Mustache.js</a></h1>
+    <h1><a href="/blog-posts/2010/12/28/jquery-mobile-couchdb-part-3-templates-and-mustache-js/index.html">jQuery Mobile + CouchDB: Part 3 – Templates and Mustache.js</a></h1>
     <p>
       2010 December 28th
       
@@ -64,7 +64,7 @@
 <p>In the previous post, I covered using <strong>show function</strong>s to deliver <strong>HTML</strong> content as a <a href="http://jquerymobile.com/">jQuery Mobile</a> page from a <a href="http://couchdb.apache.org/">CouchDB</a> instance. From the previous <strong>show function</strong> example for the <strong>Albums</strong> application, I basically constructed a string that would be interpreted as <strong>HTML</strong> mark-up using the values from the document. While this is a perfectly valid solution, its probably not the best if we want to reuse parts of that <strong>HTML</strong> or if the mark-up gets a little too unwieldy for string manipulation based on the request. To provide a little sanity as we start making more page documents for the application, we going to start using <strong>templates</strong> to stub out the mark-up of an <strong>HTML</strong> document and fill content dynamically from the <strong>show function</strong>s.</p>
 <h3 id="-mustache-js-https-github-com-janl-mustache-js-"><a href="https://github.com/janl/mustache.js">mustache.js</a></h3>
 <p>If you have been following along in the tutorials, you may remember that in the <em>loader.js</em> script there were a few <strong>JavaScript</strong> files being loaded that were not being referenced within the current application. One of those was <em>mustache.js</em>. I didn’t talk about it at the time and I said we could probably get rid of it for now, but might as well leave it in… hopefully you left it in. If not, you’re screwed. Kidding <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
-<p>I don’t want to go into a <a href="https://github.com/janl/mustache.js">mustache</a> explanation as there are already some great articles out there – especially this one from <a href="http://blog.couchone.com/post/622014913/mustache-js">CouchOne</a> – but I will say that <em>mustache.js</em> is a templating engine for rendering any type of content. For our purposes, we are going to use the <em>to_html</em>() function of <strong>Mustache</strong> to marry our dynamic album document values with an <strong>HTML</strong> template and deliver pages from our respective <strong>show function</strong>s from the <a href="http://couchdb.apache.org/">CouchDB</a> database.</p>
+<p>I don’t want to go into a <a href="https://github.com/janl/mustache.js">mustache</a> explanation as there are already some great articles out there – especially this one from <a href="http://blog.couchone.com/post/622014913/mustache-js">CouchOne</a> – but I will say that <em>mustache.js</em> is a templating engine for rendering any type of content. For our purposes, we are going to use the _to<em>html</em>() function of <strong>Mustache</strong> to marry our dynamic album document values with an <strong>HTML</strong> template and deliver pages from our respective <strong>show function</strong>s from the <a href="http://couchdb.apache.org/">CouchDB</a> database.</p>
 <h3 id="album-page-template">Album Page Template</h3>
 <p>Our previous version of <em>album.js</em> from the <em>/show</em> directory of our <strong>Albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> looked like the following:</p>
 <p><em>/show/album.js</em></p>
@@ -125,7 +125,7 @@
 <p>Some added <a href="http://jquerymobile.com/">jQuery Mobile</a> element content has been added to the new <em>album</em> page document, as well. We added the <strong>data-position</strong> and <strong>data-back</strong> attributes to the <em>page</em> <strong>div</strong> in order to preserve the back button and add a <strong>Home</strong> page button to the header. This will allow us to always be able to get back to the <em>index.html</em> <strong>Home</strong> page from an <em>album page</em>.</p>
 <pre><code><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#home"</span> <span class="hljs-attribute">data-icon</span>=<span class="hljs-value">"grid"</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"ui-btn-right"</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
 </code></pre><p>We will need to modify the <em>page</em> <strong>div</strong> in <em>index.html</em> to have an <strong>id</strong> value of “home”, but setting that hash as the <strong>href</strong> for the <strong>Home</strong> button in the header of our <em>album page</em> will, essentially, enable that link to direct the user back to the page content of the parenting document -<em>index.html</em>.</p>
-<p>In <em>album.html</em> we have also declared a <strong>data-identity</strong> for the content <strong>div</strong> and provided a <em>{{document}}</em> value. This will be the <em>document._id</em> from the <em>album.js</em> <strong>show function</strong> and we will later see how it will be used. Back to our <em>album.js</em> document…</p>
+<p>In <em>album.html</em> we have also declared a <strong>data-identity</strong> for the content <strong>div</strong> and provided a <em>{{document}}</em> value. This will be the _document.<em>id</em> from the <em>album.js</em> <strong>show function</strong> and we will later see how it will be used. Back to our <em>album.js</em> document…</p>
 <h3 id="album-page-show-function">Album Page Show Function</h3>
 <p>Open up the <em>/show/album.js</em> document in your favorite text editor and make replace the current content with the following:</p>
 <p><em>/show/album.js</em></p>
@@ -148,8 +148,8 @@
     <span class="hljs-keyword">return</span> Mustache.to_html(<span class="hljs-keyword">this</span>.templates.album, stash);
 
 }
-</code></pre><p>As mentioned previously, <a href="http://couchapp.org/page/index">CouchApp</a> includes the <a href="https://github.com/janl/mustache.js">Mustache</a> <strong>JavaScript</strong> file automatically when generating a new <strong>couchapp</strong> application. In this example we first assign a reference to the <strong>Mustache</strong> module through a <em>require()</em> call for the file in the <em>vendor/couchapp/lib</em> directory. A generic <em>stash</em> object is created to assign property values that are dynamically populated into the <em>album.html</em> template (previous snippet) using the <strong>Mustache</strong>:<em>to_html</em> method.</p>
-<p>I am not entirely clear on how it is possible to reference files and directories with the <strong>this</strong> keyword in a <strong>show function</strong>, but i can only assume that <a href="http://couchapp.org/page/index">couchapp</a> has generated an object tree based on the file structure from which one can access values. If you do know, please leave a comment. In any event, the template file and the defining object are the first two arguments for <strong>Mustache</strong>:<em>to_html</em>. Upon request for an <em>album</em> document, this will return the <em>album.html</em> page dynamically populated with the values for the document related to the <em>id</em> in the request <strong>URL</strong> (eg. <a href="http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/db04eb7e5c845ee0aa791ae1ed000fe8"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html#_show">http://127.0.0.1:5984/albums/_design/albums/index.html#_show</a><br>/album/db04eb7e5c845ee0aa791ae1ed000fe8</a>).</p>
+</code></pre><p>As mentioned previously, <a href="http://couchapp.org/page/index">CouchApp</a> includes the <a href="https://github.com/janl/mustache.js">Mustache</a> <strong>JavaScript</strong> file automatically when generating a new <strong>couchapp</strong> application. In this example we first assign a reference to the <strong>Mustache</strong> module through a <em>require()</em> call for the file in the <em>vendor/couchapp/lib</em> directory. A generic <em>stash</em> object is created to assign property values that are dynamically populated into the <em>album.html</em> template (previous snippet) using the <strong>Mustache</strong>:_to<em>html</em> method.</p>
+<p>I am not entirely clear on how it is possible to reference files and directories with the <strong>this</strong> keyword in a <strong>show function</strong>, but i can only assume that <a href="http://couchapp.org/page/index">couchapp</a> has generated an object tree based on the file structure from which one can access values. If you do know, please leave a comment. In any event, the template file and the defining object are the first two arguments for <strong>Mustache</strong>:_to<em>html</em>. Upon request for an <em>album</em> document, this will return the <em>album.html</em> page dynamically populated with the values for the document related to the <em>id</em> in the request <strong>URL</strong> (eg. <a href="http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/db04eb7e5c845ee0aa791ae1ed000fe8">http://127.0.0.1:5984/albums/_design/albums/index.html#_show<br>/album/db04eb7e5c845ee0aa791ae1ed000fe8</a>).</p>
 <h3 id="hiccup">Hiccup</h3>
 <p>There may be a slight problem in this solution however…. Though <a href="http://couchdb.apache.org/">CouchDB</a> does request-cacheing based on header <strong>ETag</strong>s on documents, <a href="http://jquerymobile.com/">jQuery Mobile</a> also does cacheing of pages (or rather it accesses ‘pages’ already loaded into the <strong>DOM</strong>). So there may be a time that an album has been edited during the application session and <strong>jQuery Mobile</strong> serves up old information as it never went back out the make a <strong>GET</strong> request to <strong>CouchDB</strong>, utilizing this <strong>show function</strong>. We could make a request for the document each time the page is shown in the <strong>DOM</strong> using the <em>jquery.couch</em> library, but that may be unnecessary overhead; not to mention a waste of the templating engine.</p>
 <p>Another solution, and one I think is viable and worth consideration, is to remove the page from the <a href="http://jquerymobile.com/">jquery Mobile</a> page cache when this page is hidden in the view (when you navigate to another page). In order to do so, we will need to access the cached page in the <strong>DOM</strong> using <strong>JavaScript</strong>. Instead of adding this <strong>JavaScript</strong> directly in the <strong>HTML</strong> template file, we will use another templating feature available in <a href="https://github.com/janl/mustache.js">Mustache</a> – <strong>Partials</strong>.</p>
@@ -161,9 +161,9 @@
 </code></pre><p><em>[<strong>02-06-2010</strong>: Thank you to Steve and Stacy Braxton for leaving a comment noting that the filepath to scripts.html for the album page was incorrectly shown in italics. The correct filepath is now displayed. Thanks!]</em></p>
 <p>Real boring stuff and not using the full breath of what <strong>Partials</strong> can do. Basically we are just loading in an associated <strong>JavaScript</strong> file with our page from the <strong>show function</strong>. Great. Now we have to create another file. I know, I know. It may appear convoluted, but in my head it is much cleaner and organized. The script we are about to create, could be included in this <strong>partial</strong> or in the <strong>template</strong>, but i prefer to work with another separate <strong>JavaScript</strong> file whose purpose I know based on its extension – its got script in it.</p>
 <h3 id="album-page-js">album-page.js</h3>
-<p>You may have looked at the path in the <strong>src</strong> attribute value from the <strong>Partial</strong> we just created and noticed that it is a relative path that goes out a couple directories. That is going back to the <strong>attachments<em> directory to access the _album-page.js</em> file from the <em>script</em> folder. The </strong>attachments_ directory also houses the style folder in which we added the <a href="http://jquerymobile.com/">jQuery Mobile</a> styles in the first post.</p>
-<p>We’re going to create an add the <em>album-page.js</em> file to the <em>/_attachments/script</em> directory and it will provide the ability to access and clear the page from the page cache of <strong>jQuery Mobile</strong> so as to always serve up a the page from <a href="http://couchdb.apache.org/">CouchDB</a> (based on its own cacheing mechanism) using the show function. Open up your favorite text editor and save the following snippet as <em>album-page.js</em> in <em>/_attachments/script</em>:</p>
-<p><em>/_attachments/script/album-page.js</em></p>
+<p>You may have looked at the path in the <strong>src</strong> attribute value from the <strong>Partial</strong> we just created and noticed that it is a relative path that goes out a couple directories. That is going back to the <strong>attachments_ directory to access the <em>album-page.js</em> file from the <em>script</em> folder. The </strong>attachments_ directory also houses the style folder in which we added the <a href="http://jquerymobile.com/">jQuery Mobile</a> styles in the first post.</p>
+<p>We’re going to create an add the <em>album-page.js</em> file to the _/<em>attachments/script</em> directory and it will provide the ability to access and clear the page from the page cache of <strong>jQuery Mobile</strong> so as to always serve up a the page from <a href="http://couchdb.apache.org/">CouchDB</a> (based on its own cacheing mechanism) using the show function. Open up your favorite text editor and save the following snippet as <em>album-page.js</em> in _/<em>attachments/script</em>:</p>
+<p>_/<em>attachments/script/album-page.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> AlbumPageController = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
 
@@ -231,9 +231,9 @@
 }
 
 $().ready( handlePageViewReady );
-</code></pre><p>In essence, we are just creating a view controller for our <a href="http://jquerymobile.com/">jQuery Mobile</a> page served up from the <strong>show function</strong>. Once the page is recognized as part of the <strong>DOM</strong>, the controller is initialized and an event handler is assigned to the <em>pageshow</em> event for the current page – the <em>album.html</em> served up. We access the page in the <strong>DOM</strong> using the standard <strong>data-role</strong> attribute value for a <strong>jQuery Mobile</strong> page. I stumbled upon this solution from these two forum posts – <a href="http://forum.jquery.com/topic/force-page-update"><a href="http://forum.jquery.com/topic/force-page-update">http://forum.jquery.com/topic/force-page-update</a></a> and <a href="http://forum.jquery.com/topic/binding-events-to-buttons-in-a-dialog"><a href="http://forum.jquery.com/topic/binding-events-to-buttons-in-a-dialog">http://forum.jquery.com/topic/binding-events-to-buttons-in-a-dialog</a></a> – and seem to be the current agreed upon solution for accessing a loading <strong>jQuery Mobile</strong> page. </p>
+</code></pre><p>In essence, we are just creating a view controller for our <a href="http://jquerymobile.com/">jQuery Mobile</a> page served up from the <strong>show function</strong>. Once the page is recognized as part of the <strong>DOM</strong>, the controller is initialized and an event handler is assigned to the <em>pageshow</em> event for the current page – the <em>album.html</em> served up. We access the page in the <strong>DOM</strong> using the standard <strong>data-role</strong> attribute value for a <strong>jQuery Mobile</strong> page. I stumbled upon this solution from these two forum posts – <a href="http://forum.jquery.com/topic/force-page-update">http://forum.jquery.com/topic/force-page-update</a> and <a href="http://forum.jquery.com/topic/binding-events-to-buttons-in-a-dialog">http://forum.jquery.com/topic/binding-events-to-buttons-in-a-dialog</a> – and seem to be the current agreed upon solution for accessing a loading <strong>jQuery Mobile</strong> page. </p>
 <p>Now, it should be noted that setting that handler will actually set a handler on all <strong>div</strong>s with the <strong>data-role</strong> attributed as “page”. But since we are only concerned with the <em>pageshow</em> event, we know that the current target is the <em>album page</em>. Once that event is captured, we remove the handler and assign a <em>pagehide</em> event handler to clear the page from the <a href="http://jquerymobile.com/">jQuery Mobile</a> (ie. <strong>DOM</strong>) cache and remove the elements from the <strong>DOM</strong>.</p>
-<p>Since the <em>album page</em> is an external page (defined in the script in <em>index.html</em> when building the list items), its registered in the <strong>DOM</strong> and accessed using the <em>_show</em> path based on the document ID. So, when the page is fully loaded we access that page recognized in the <strong>DOM</strong> using the <em>getElementById</em>() method:</p>
+<p>Since the <em>album page</em> is an external page (defined in the script in <em>index.html</em> when building the list items), its registered in the <strong>DOM</strong> and accessed using the _<em>show</em> path based on the document ID. So, when the page is fully loaded we access that page recognized in the <strong>DOM</strong> using the <em>getElementById</em>() method:</p>
 <pre><code><span class="hljs-keyword">var</span> docId = $(<span class="hljs-string">"#albumcontent"</span>).data(<span class="hljs-string">"identity"</span>);
 
 <span class="hljs-keyword">var</span> albumPage = $(document.getElementById(<span class="hljs-string">"_show/album/"</span> + docId));
@@ -250,7 +250,7 @@ albumPageCache<span class="hljs-preprocessor">.remove</span>()<span class="hljs-
 </code></pre><p>That essentially will make a request each time to <a href="http://couchdb.apache.org/">CouchDB</a> for the album document page and not rely on the cacheing of pages within <a href="http://jquerymobile.com/">jQuery Mobile</a>. This will also open up the ability to assign and manage handlers for other events, such a requesting pages for editing a document… but we’ll broach that subject in another post <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif" alt=";)"> For now, let’s go back and update our <em>album.js</em> and <em>album.html</em> documents to include the <strong>partial</strong>.</p>
 <p><em>[<strong>01-28-2010</strong>: Thank you to IR for leaving a comment alerting me to the fact that i totally missed out on updating the neccessary files after creating the partial]</em></p>
 <h3 id="modifying-album-js-and-album-html">Modifying album.js and album.html</h3>
-<p>Open up <em>/shows/album.js</em> in your favorite text editor and make the following modification to pass the <strong>partial</strong> directory in <strong>Mustache</strong>.<em>to_html</em>():</p>
+<p>Open up <em>/shows/album.js</em> in your favorite text editor and make the following modification to pass the <strong>partial</strong> directory in <strong>Mustache</strong>._to<em>html</em>():</p>
 <p><em>/shows/album.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(doc, req)</span> {</span>
 
@@ -271,7 +271,7 @@ albumPageCache<span class="hljs-preprocessor">.remove</span>()<span class="hljs-
     <span class="hljs-keyword">return</span> Mustache.to_html(<span class="hljs-keyword">this</span>.templates.album, stash, <span class="hljs-keyword">this</span>.templates.partials.album);
 
 }
-</code></pre><p>That last argument in <em>to_html</em>() will allow you to stub out the documents included in the <em>/album</em> folder of the <strong>partials</strong> directory in the <em>album.html</em> template. We’ll need to update that document as well for our <em>scripts</em> <strong>partial</strong> to be included.</p>
+</code></pre><p>That last argument in _to<em>html</em>() will allow you to stub out the documents included in the <em>/album</em> folder of the <strong>partials</strong> directory in the <em>album.html</em> template. We’ll need to update that document as well for our <em>scripts</em> <strong>partial</strong> to be included.</p>
 <p>Open up <em>/templates/album.html</em> and make the following modification:</p>
 <p><em>/templates/album.html</em></p>
 <pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"page"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"albumview"</span> <span class="hljs-attribute">data-position</span>=<span class="hljs-value">"inline"</span> <span class="hljs-attribute">data-back</span>=<span class="hljs-value">"true"</span>&gt;</span>
@@ -303,8 +303,8 @@ albumPageCache<span class="hljs-preprocessor">.remove</span>()<span class="hljs-
 <p>Now we just need to make a small modification to the <em>index.html</em> file and then deploy our modified application to the <strong>CouchDB</strong> instance so we can view our wonderful changes (which won’t look like we changed a thing).</p>
 <h3 id="modifying-index-html">Modifying index.html</h3>
 <p>We added a <strong>Home</strong> button to the header bar of the <em>album page</em> so we could always navigate back to the <strong>Home</strong> page. Currently the <em>album page</em> is accessible from the album list on the <strong>Home</strong> page, but who knows, maybe that won’t always be the case in the future. In any event, we made the change and assigned the <strong>href</strong> value for the <strong>Home</strong> page button with the <em>#home</em> anchor. Currently that will go nowhere. We’ll set that as the div id on the main <a href="http://jquerymobile.com/">jQuery Mobile</a> page in <em>index.html</em>.</p>
-<p>Open up the <em>/_attachments/index.html</em> file in your favorite text editor and make the following modifications the #home <strong>page div</strong>:</p>
-<p><em>/_attachments/index.html</em></p>
+<p>Open up the _/<em>attachments/index.html</em> file in your favorite text editor and make the following modifications the #home <strong>page div</strong>:</p>
+<p>_/<em>attachments/index.html</em></p>
 <pre><code><span class="hljs-subst">&lt;</span>div id<span class="hljs-subst">=</span><span class="hljs-string">"home"</span> <span class="hljs-built_in">data</span><span class="hljs-attribute">-role</span><span class="hljs-subst">=</span><span class="hljs-string">"page"</span><span class="hljs-subst">&gt;</span>
 
     <span class="hljs-subst">&lt;</span>div <span class="hljs-built_in">data</span><span class="hljs-attribute">-role</span><span class="hljs-subst">=</span><span class="hljs-string">"header"</span><span class="hljs-subst">&gt;&lt;</span>h1<span class="hljs-subst">&gt;</span>Albums<span class="hljs-subst">&lt;</span>/h1<span class="hljs-subst">&gt;&lt;</span>/div<span class="hljs-subst">&gt;</span>
@@ -330,7 +330,7 @@ albumPageCache<span class="hljs-preprocessor">.remove</span>()<span class="hljs-
 <h2 id="deployment">Deployment</h2>
 <p>We modified our show function to use templates and created a script to empty the page and its elements from the <strong>DOM</strong> upon hide within the <a href="http://jquerymobile.com/">jQuery Mobile</a> context and are assured that each access of an album document will contain the latest changes. With these modifications saved, we can now push to the <a href="http://couchdb.apache.org/">CouchDB</a> database using the <a href="http://couchapp.org/page/index">couchapp</a> utility. Open a terminal and navigate to the directory where you create your <strong>CouchApp</strong> applications (for me that is <em>/Documents/workspace/custardbelly/couchdb</em> and in there i have a folder named <em>albums</em> which is the <strong>CouchApp</strong> application directory for these examples). Enter the following command to push the changes to the <strong>CouchDB</strong> instance:</p>
 <pre><code>couchapp push albums http:<span class="hljs-comment">//127.0.0.1:5984/albums</span>
-</code></pre><p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html"><a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a></a>, we’ll still have our old familiar list and still access each album by clicking on a list item. Basically it performs exactly as it had before, but we cleaned up a little on our end… a benefit to us as the developer and a benefit to the user though not visually noticeable… it still looks rather ugly <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+</code></pre><p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>, we’ll still have our old familiar list and still access each album by clicking on a list item. Basically it performs exactly as it had before, but we cleaned up a little on our end… a benefit to us as the developer and a benefit to the user though not visually noticeable… it still looks rather ugly <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <h2 id="conclusion">Conclusion</h2>
 <p>We delved a little deeper into how to serve up pages from <a href="http://couchdb.apache.org/">CouchDB</a> using <strong>templates</strong> and <strong>partials</strong> (thanks to <a href="https://github.com/janl/mustache.js">Mustache</a>!) and also touched on accessing pages from <strong>DOM</strong> cache in the context of <a href="http://jquerymobile.com/">jQuery Mobile</a> framework. All nice stuff, but nothing really has changed in how the application worked for the end user. We ensured that _album page_s always had the correct and latest content, but we haven’t opened up the possibility to edit the document and commit changes. That’s to come <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Just wanted to lay the groundwork for easing into adding more pages to our application. Hopefully you found some of this useful.</p>
 <p><em>[Note] This post was written against the following software versions:</em><br><strong>CouchDB </strong>– 1.0.1<br><strong>CouchApp</strong> – 0.7.2<br><strong>jQuery</strong> – 1.4.4<br><strong>jQuery Mobile</strong> – 1.0a2<br><em>If you have found this post and any piece has moved forward, hopefully the examples are still viable/useful. I will not be updating the examples in this post in parellel with updates to any of the previously mentioned software, unless explicitly noted.</em></p>
@@ -351,10 +351,10 @@ albumPageCache<span class="hljs-preprocessor">.remove</span>()<span class="hljs-
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2011/01/04/jquery-mobile-couchdb-part-4-editing-documents/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-1-authorization-and-validation/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2010/12/13/jquery-mobile-couchdb-part-2-document-view/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2011/02/16/as3flobile-scrollviewport-and-flex-4-containers-from-yeah-to-eh/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -372,11 +372,11 @@ albumPageCache<span class="hljs-preprocessor">.remove</span>()<span class="hljs-
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

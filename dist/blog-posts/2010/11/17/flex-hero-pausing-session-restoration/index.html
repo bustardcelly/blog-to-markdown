@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - Flex 4.5 (Hero) – Pausing Session Restoration</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2010/11/17/flex-hero-pausing-session-restoration/index.html">Flex 4.5 (Hero) – Pausing Session Restoration</a></h1>
+    <h1><a href="/blog-posts/2010/11/17/flex-hero-pausing-session-restoration/index.html">Flex 4.5 (Hero) – Pausing Session Restoration</a></h1>
     <p>
       2010 November 17th
       
@@ -59,7 +59,7 @@
   </div>
   <section>
     <p>While<a href="http://labs.adobe.com/technologies/flashbuilder_burrito/"> Flex 4.5 (Hero)</a> provides an API for persisting session data within <strong>View</strong> objects, as discussed in my <a href="http://custardbelly.com/blog/?p=228">previous post</a>, <strong>MobileApplication</strong> dispatches events at the initialization and deactivation of the application that allow for you to perform any subsequent custom handling of persistent data – such as re-logging a user back into a service on relaunch of the application.</p>
-<p>[<strong>[NOTE]</strong> <em>It should be noted that this post will be discussing some of the finer points of the persistant data API available, as of this writing, with the free trial download of <a href="http://labs.adobe.com/technologies/flashbuilder_burrito/">Flash Builder “Burrito”</a> and the included Flex SDK Version 4.5.0 build 17689</em>]</p>
+<p>[<strong>[NOTE]</strong> _It should be noted that this post will be discussing some of the finer points of the persistant data API available, as of this writing, with the free trial download of <a href="http://labs.adobe.com/technologies/flashbuilder_burrito/">Flash Builder “Burrito”</a> and the included Flex SDK Version 4.5.0 build 17689_]</p>
 <p>When the <em>sessionCachingEnabled</em> property of <strong>MobileApplication</strong> is declared as true, the following events are broadcast:</p>
 <pre><code><span class="hljs-comment">/* dispatched in MobileApplication +initialize() */</span>
 FlexEvent<span class="hljs-preprocessor">.APPLICATION</span>_RESTORING
@@ -85,7 +85,7 @@ FlexEvent<span class="hljs-preprocessor">.APPLICATION</span>_PERSIST
     stream.writeObject( user );
     stream.close();
 }
-</code></pre><p>Pretty familiar if you have worked with the <strong>File</strong> API. Nothing actually new in regards to 4.5, just writing the serializable <strong>CustomUser</strong> object to the application storage directory. It’s another topic on how to maintain the reference to <strong>currentUser<em>, so for the purposes of this example we’ll just say that object is available and managed here. If you are familiar with the <strong>File</strong> API, you probably are aware that <strong>CustomUser</strong> needs to be registered with a class alias in order to be properly written to and read back in from the file system as that ActionScript object. That can be achieved by wither declaring a <strong>[RemoteClass]</strong> meta-tag or the _registerClassAlias</em>() method. _[<em>Fun fact</em>: MobileApplication registers the ViewNavigator and NavigationStack classes upon initialization in the </strong>registerPersistenceClassAliases_() method]. Here’s a quick exmaple of using the <strong>[RemoteClass]</strong> meta:</p>
+</code></pre><p>Pretty familiar if you have worked with the <strong>File</strong> API. Nothing actually new in regards to 4.5, just writing the serializable <strong>CustomUser</strong> object to the application storage directory. It’s another topic on how to maintain the reference to <strong>currentUser_, so for the purposes of this example we’ll just say that object is available and managed here. If you are familiar with the <strong>File</strong> API, you probably are aware that <strong>CustomUser</strong> needs to be registered with a class alias in order to be properly written to and read back in from the file system as that ActionScript object. That can be achieved by wither declaring a <strong>[RemoteClass]</strong> meta-tag or the <em>registerClassAlias</em>() method. _[<em>Fun fact</em>: MobileApplication registers the ViewNavigator and NavigationStack classes upon initialization in the </strong>registerPersistenceClassAliases_() method]. Here’s a quick exmaple of using the <strong>[RemoteClass]</strong> meta:</p>
 <pre><code>package com.custardbelly.examples.model
 {
     [RemoteClass(alias=<span class="hljs-string">"com.custardbelly.examples.model.CustomUser"</span>)]
@@ -163,7 +163,7 @@ FlexEvent<span class="hljs-preprocessor">.APPLICATION</span>_PERSIST
 }
 </code></pre><p>One point to grasp is that the event object dispatched for <strong>FlexEvent.APPLICATION_RESTORING</strong> needs to be halted so we can do some work before the <strong>MobileApplication</strong> proceeds with business as usual. That is done by calling <strong>event</strong>.<em>preventDefault</em>(). That actually flips a flag in the -<em>initialize</em>() method of <strong>MobileApplication</strong>, telling it to not proceed with restoring.</p>
 <p>The other point, is that, once halted, <strong>MobileApplication</strong>:<em>restoreApplicationState</em>() must be called at a later time in order to proceed with initialization. In this example, if it is determined that the user is being brought to the “log in” <strong>View</strong> on re-launch, then the stored user is not logged back in and <em>restoreApplicationState</em>() is invoked to proceed. If it is determined that the user will be taken to another <strong>View</strong>, then log in to the service must be done and, upon success, then invoke <em>restoreApplicationState</em>().</p>
-<p>[<strong>Tip</strong>: <em>If you start working with persistent data and you just want to clear it from time to time while developing in order to know that you are working with it properly, call persistenceManager.clear() in your FlexEvent.APPLICATION_RESTORING handler and all your wishes will come true.</em>]</p>
+<p>[<strong>Tip</strong>: _If you start working with persistent data and you just want to clear it from time to time while developing in order to know that you are working with it properly, call persistenceManager.clear() in your FlexEvent.APPLICATION<em>RESTORING handler and all your wishes will come true.</em>]</p>
 <p>Since Flex 4.5 is beta, you can’t have an example without seeing use namespace <strong>mx_internal</strong> <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Half-kidding, but for those unfamiliar with that namespace, some methods and properties in the SDK are declared with the <strong>mx_internal</strong> <em>access specifier</em> to denote that they are in limbo of being given the proper access. So in a later version of the SDK, they may be changed to <em>public</em>, <em>private</em>, <em>protected</em> or any other custom specifier. For this example, in order to access the <em>source</em> property of <strong>NavigationStack</strong> we needed to resolve to <strong>mx_internal</strong>. Hopefully it will be opened up at a later date, or at least a public accessor for that list.</p>
 <p>So there you have it. The best practice on notifying the user that you are logging them back into a service upon relaunch? I haven’t found the best solution that meets my needs yet, but I do not recommend pushing a <strong>View</strong> to the stack of the <strong>ViewNavigator</strong> during that restore suspension. It caused some weird UI glitches. Probably the best bet is to use the <strong>PopUpManager</strong> – but do not use the <strong>ProgressBar</strong> in that… bad things happen. Hopefully a new <strong>ProgressBar</strong> is on the horizon for Flex 4.5.</p>
 <p>Posted in <a href="http://custardbelly.com/blog/category/air/">AIR</a>, <a href="http://custardbelly.com/blog/category/burrito/">Burrito</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/flex-4-5/">Flex 4.5</a>.</p>
@@ -171,10 +171,10 @@ FlexEvent<span class="hljs-preprocessor">.APPLICATION</span>_PERSIST
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2010/12/08/jquery-mobile-couchdb-part-1-getting-started/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2011/01/04/jquery-mobile-couchdb-part-4-editing-documents/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2010/11/15/flex-hero-session-persistent-view-presenters/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2010/11/15/flex-hero-session-persistent-view-presenters/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -192,11 +192,11 @@ FlexEvent<span class="hljs-preprocessor">.APPLICATION</span>_PERSIST
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

@@ -5,51 +5,51 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Todd Anderson makes things for web, mobile, desktop and land with a passion of application architecture and development workflows.">
     <meta name="keywords" content="todd anderson, anderson, programmer, developer, architect, engineer, software, software development, programming, application, ria, architecture, javascript, html5, css, web, mobile, desktop, arduino, actionscript, flex, flash, python">
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/style/main.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="http://custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="http://custardbelly.com/blog/index.xml" />
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - BDD in JavaScript: CucumberJS</title>
   </head>
   <body>
     <header>
-      <h1><a class="header-link" href="http://custardbelly.com/blog/">Todd Anderson</a></h1>
+      <h1><a class="header-link" href="/">Todd Anderson</a></h1>
       <h2>I make things for the web, mobile, desktop and land.</h2>
       <ul id="media-list">
         <li>
-          <a href="http://custardbelly.com/blog/index.xml">
-            <img src="http://custardbelly.com/blog/asset/social70.svg" onerror="this.src=http://custardbelly.com/blog/asset/social70.png" width="32" height="32">
+          <a href="/index.xml">
+            <img src="/asset/social70.svg" onerror="this.src=/asset/social70.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://twitter.com/_toddanderson_">
-            <img src="http://custardbelly.com/blog/asset/twitter12.svg" onerror="this.src=http://custardbelly.com/blog/asset/twitter12.png" width="32" height="32">
+            <img src="/asset/twitter12.svg" onerror="this.src=/asset/twitter12.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://github.com/bustardcelly">
-            <img src="http://custardbelly.com/blog/asset/github7.svg" onerror="this.src=http://custardbelly.com/blog/asset/github7.png" width="32" height="32">
+            <img src="/asset/github7.svg" onerror="this.src=/asset/github7.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="https://plus.google.com/113716114429928674625/posts">
-            <img src="http://custardbelly.com/blog/asset/google21.svg" onerror="this.src=http://custardbelly.com/blog/asset/google21.png" width="32" height="32">
+            <img src="/asset/google21.svg" onerror="this.src=/asset/google21.png" width="32" height="32">
           </a>
         </li>
         <li>
           <a href="http://lnkd.in/6GCvvR">
-            <img src="http://custardbelly.com/blog/asset/linkedin2.svg" onerror="this.src=http://custardbelly.com/blog/asset/linkedin2.png" width="32" height="32">
+            <img src="/asset/linkedin2.svg" onerror="this.src=/asset/linkedin2.png" width="32" height="32">
           </a>
         </li>
       </ul>
     </header>
     <nav>
-      <a href="http://custardbelly.com/blog/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://custardbelly.com/blog/blog-pages/about.html">about</a>
+      <a href="/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/archive.html">archives</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/blog-pages/about.html">about</a>
     </nav>
 
     <article class="post">
   <div class="title">
-    <h1><a href="http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">BDD in JavaScript: CucumberJS</a></h1>
+    <h1><a href="/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">BDD in JavaScript: CucumberJS</a></h1>
     <p>
       2014 January 19th
       
@@ -62,7 +62,7 @@
 <p>Since that time, however, I have incorporated a different tool into my <strong>TDD</strong> workflow for JavaScript-based projects that affords me the integration of Feature specs more closely to my development and truly encompasses my current ideal of <strong>Behaviour Driven Development</strong>: <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. Essentially, it allows me to truly adhere to <strong>TDD</strong> while developing from the outside in - running automated tests that fail until I have written code that supports a feature.</p>
 <h3 id="-gt-assumptions-and-notes">&gt; assumptions and notes</h3>
 <p>For the examples in this post, it is assumed that you are familiar with <a href="http://nodejs.org">NodeJS</a>, <a href="https://npmjs.org/">npm</a>, developing node modules and common unit testing practices as these topics too large to discuss in this post.</p>
-<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples"><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></a></p>
+<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></p>
 <h2 id="cucumberjs">CucumberJS</h2>
 <p><a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> is a JavaScript port of the popular BDD tool <a href="http://cukes.info/">Cucumber</a> (which itself was a rewrite of RSpec). It allows you to define Feature Specs in a Domain-Specific-Language (DSL) - called <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin</a> - and run your specs using a command line tool which will report the passing and/or failing of scenarios and the steps they are comprised of.</p>
 <p>It is important to note that <strong>Cucumber</strong> itself does not provide a default assertion library. It is a testing framework providing a command line tool that consumes defined Features and validates Scenarios by running Steps that are written in JavaScript. It is the developers choice to include the desired assertion library used in order to make those steps <span style="color:green;">pass</span> or <span style="color:red;">fail</span>. It is my intent to clarify the process by example through a single Feature with multiple Scenarios in this post.</p>
@@ -129,7 +129,7 @@ You can implement step definitions <span class="hljs-keyword">for</span> <span c
 <p>In the previous section, we saw that running <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> against our Add Item Feature alerted us that we have undefined (and, though not printed in <span style="color:red;">red</span>, failing) scenarios to support the feature. By default <strong>CucumberJS</strong> reads in all features from the <strong>/features</strong> directory relative to where the command was run, but it could not locate the supported step files in which these methods are defined.</p>
 <p>As mentioned previously, <strong>CucumberJS</strong> does not provide an assertion library. The only assumption at this point - since the <strong>CucumberJS</strong> tool is run under <a href="http://nodejs.org/">NodeJS</a> - is that the supported steps will be loaded as node modules with an exported function to be executed. As we start implementing the steps, we will need to decide on the assertion library to use in validating our logic. We&#39;ll put that decision on the shelf at the moment and get the barebones setup to fail :)</p>
 <p>To start, let&#39;s take those step definitions provided by the <strong>CucumberJS</strong> ci tool and drop them into a node module:</p>
-<p><em>/features/step_definitions/add-item.steps.js</em></p>
+<p>_/features/step<em>definitions/add-item.steps.js</em></p>
 <pre><code><span class="hljs-pi">'use strict'</span>;
 
 module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
@@ -163,7 +163,7 @@ module.exports = <span class="hljs-function"><span class="hljs-keyword">function
 <h3 id="given">Given</h3>
 <p><hr/>
 To get closer to <span style="color:green;">green</span>, we&#39;ll tackle the <strong>Given</strong> step first:</p>
-<p><em>/features/step_definitions/add-item.step.js</em></p>
+<p>_/features/step<em>definitions/add-item.step.js</em></p>
 <pre><code><span class="hljs-pi">'use strict'</span>;
 
 <span class="hljs-keyword">var</span> GroceryList = <span class="hljs-built_in">require</span>(process.cwd() + <span class="hljs-string">'/script/model/grocery-list'</span>);
@@ -216,7 +216,7 @@ In the previous section, to make the <em>Given</em> step pass on each <strong>Sc
 <pre><code>When I <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> list
 </code></pre><p>we need to provide a way in which to add an item to the Grocery List instance created in the <em>Given</em> - and do so in as little code to make the step pass...</p>
 <p>First, we&#39;ll define our expectation of the make up and <code>add</code> signature of the Grocery List in the step definitions:</p>
-<p><em>/features/step_definitions/add-item.step.js</em></p>
+<p>_/features/step<em>definitions/add-item.step.js</em></p>
 <pre><code><span class="hljs-keyword">...</span>
 module.exports = <span class="hljs-keyword">function</span>() {
 
@@ -275,7 +275,7 @@ We progressed through our step implementations and have reached the step(s) at w
 <pre><code>Then The grocery list <span class="hljs-operator">contains</span> <span class="hljs-operator">a</span> single <span class="hljs-keyword">item</span>
 </code></pre><p>we will need to prove that the Grocery List instance grows by a factor of 1 for each new item added.</p>
 <p>Update the step to define how we expect that specification to be validated:</p>
-<p><em>/feature/step_definitions/add-item.step.js</em></p>
+<p>_/feature/step<em>definitions/add-item.step.js</em></p>
 <pre><code><span class="hljs-keyword">...</span>
 var assert = <span class="hljs-keyword">require</span>(<span class="hljs-string">'assert'</span>);
 <span class="hljs-keyword">...</span>
@@ -327,7 +327,7 @@ module.exports = {
 <span class="hljs-attribute">TypeError</span>: Cannot read property <span class="hljs-string">'length'</span> <span class="hljs-keyword">of</span> <span class="hljs-literal">undefined</span>
 </code></pre><p>Seeing as the code is not returning anything from <code>getAll()</code>, we can&#39;t access a <code>length</code> property for our assertion test.</p>
 <p>If we modify the code to return an Array:</p>
-<p><em>/feature/step_definitions/add-item.step.js</em></p>
+<p>_/feature/step<em>definitions/add-item.step.js</em></p>
 <pre><code><span class="hljs-keyword">...</span>
 getAll: <span class="hljs-keyword">function</span>() {
   <span class="hljs-keyword">return</span> [];
@@ -387,7 +387,7 @@ module.exports = {
 <p>I could go on and on, but let&#39;s just assume we want to cover all bases when it comes to browsers (IE 6 and up, shudder). In my opinion, to make this second <strong>Scenario</strong> turn green, we will add a <code>getItemIndex()</code> method with the following signature:</p>
 <pre><code>+ getItemIndex(itemValue):<span class="hljs-keyword">int</span>
 </code></pre><p>We&#39;ll first modify the step to fail:</p>
-<p><em>/feature/step_definitions/add-item.step.js</em></p>
+<p>_/feature/step<em>definitions/add-item.step.js</em></p>
 <pre><code>this.Then(/^I can access <span class="hljs-keyword">that</span> <span class="hljs-property">item</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span>$/, function(callback) {
   assert.notEqual(myList.getItemIndex(listItem), -<span class="hljs-number">1</span>, 'Added <span class="hljs-property">item</span> should be found <span class="hljs-keyword">at</span> non-negative index.');
   callback();
@@ -459,10 +459,10 @@ module.exports = {
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="http://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="/blog-posts/2014/01/22/cucumberjs-world/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="http://custardbelly.com/blog/blog-posts/2014/01/06/obsession-over-page-speed/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="/blog-posts/2014/01/06/obsession-over-page-speed/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -480,11 +480,11 @@ module.exports = {
 </article>
 
     <footer>
-      Copyright Todd Anderson, 2014.
+      Copyright Todd Anderson, 2016.
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/google-plus-symbol-in-a-circle_24171" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
       <div>Icon made by <a href="http://www.flaticon.com/free-icon/social-rss-circle-internet_10010" title="Elegant Themes">Elegant Themes</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></div>
     </footer>
-    <script src="http://custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-29061897-1']);

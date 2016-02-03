@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - Particle Policies</title>
   </head>
   <body>
@@ -62,18 +62,18 @@
 <p>Lately i’ve been obsessed with particle systems and developing life and action policies – mainly from <a href="http://blog.je2050.de/?p=50">Joa Ebert’s</a> discussion of particles in AS3. I was busy having fun watching different effects with a click of the mouse, when i thought it would be a good time to see what part of my code would break if i took away the emission controls from onMouseDown and applied it to a sort of state-conroller of a moving sprite.</p>
 <p>If you click on the above pic you’ll see a little test of this. After setting this up i started thinking, what’s stopping me from adding action policies to the sprite, since it’s essentially just a single particle? Have a little registry of actions and replace them based on type and their time limits. I started something along these lines recently, but wasn’t thinking clearly enough on how to set it up… so i ended up re-thinking my ideas of what a user-controlled sprite is, and stripped out a lot off useless code i had around. much happier. Hopefully i’ll get an example up soon of the actions registry i incoherently just mentioned.</p>
 <ul>
-<li>I also wanted to alert anyone who had previously downloaded the <a href="http://custardbelly.com/blog/?p=27">ImagesLoader</a> classes (the zip there has the updated classes). I made some minor changes to a few of the classes and how things are stored for a strip image.<br><em>The change</em>: The way i was cycling through the states was switching copies of a chopped up bitmap – so say if there were seven states of a sprite, i was holding seven different BitmapData objects and switching copies based on the frame count. I decided that that was not the best solution, and switched to holding onto the strip bitmap offscreen and just cycling through Rectangle objects that described the dimension and location of what i wanted to copy from that strip. If you view the movie above, you’ll see what i’m talking about.</li>
+<li>I also wanted to alert anyone who had previously downloaded the <a href="https://custardbelly.com/blog/?p=27">ImagesLoader</a> classes (the zip there has the updated classes). I made some minor changes to a few of the classes and how things are stored for a strip image.<br><em>The change</em>: The way i was cycling through the states was switching copies of a chopped up bitmap – so say if there were seven states of a sprite, i was holding seven different BitmapData objects and switching copies based on the frame count. I decided that that was not the best solution, and switched to holding onto the strip bitmap offscreen and just cycling through Rectangle objects that described the dimension and location of what i wanted to copy from that strip. If you view the movie above, you’ll see what i’m talking about.</li>
 </ul>
 <p>..and of course there’s this <a href="http://www.dsfanboy.com/2006/03/13/dont-look-at-these-new-super-mario-screenshots/">awesome news</a>… might have to actually go and buy a DS.</p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/flash/">Flash</a>, <a href="https://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2005/11/09/pixel-perfect-collision-detection-in-flash8/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2006/05/05/programmatic-barberpole/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2006/02/01/offloading-rendering-in-a-3d-engine/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2006/03/26/particle-pixel-collision/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -84,7 +84,7 @@
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2006/03/20/particle-policies/index.html";
         window.disqus_title="Particle Policies";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

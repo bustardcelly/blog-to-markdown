@@ -1,25 +1,25 @@
 ---
 title: 'The Making of a Test-Driven Grocery List Application in JS: Part VI'
-url: 'http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/'
+url: 'https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/'
 author:
   name: 'todd anderson'
 date: '2013-01-08'
 ---
 
-_This is the sixth installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
+_This is the sixth installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
 —
 
 ## Introduction
 
-We left the [previous post](http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/) with failing tests! 
+We left the [previous post](https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/) with failing tests! 
 
-I don’t necessarily condone leaving a master branch in such a state, so don’t give my name to your managers ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) I, however, have no problem with leaving a feature or developer branch at the end of the day with failing tests – within reason. As long as the errors are from unimplemented behavior and the branch is not being monitored by some CI server feeding reports to your client(s), I see no problem. Sometimes I will write out the tests I plan to resolve the following day at 5:30 just so I can get a refresher the next morning as to the task at hand.
+I don’t necessarily condone leaving a master branch in such a state, so don’t give my name to your managers ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) I, however, have no problem with leaving a feature or developer branch at the end of the day with failing tests – within reason. As long as the errors are from unimplemented behavior and the branch is not being monitored by some CI server feeding reports to your client(s), I see no problem. Sometimes I will write out the tests I plan to resolve the following day at 5:30 just so I can get a refresher the next morning as to the task at hand.
 
 In the article I plan to get your tests all green again by modifying the _Mark Off Item_ tests and possibly add a few new features.
 
 ## Mark Off Item Feature
 
-Way back in the [third article in this series](http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/), we wrote up a story and some feature specs around the usability of marking off an item already existant in the list of item of the **Grocery List** application. In getting this feature implemented, we added a basic mark-item API to the `list-controller`, which allowed us to pass in a `grocery-ls-item` model to the `list-controller` which would then modify its state. 
+Way back in the [third article in this series](https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/), we wrote up a story and some feature specs around the usability of marking off an item already existant in the list of item of the **Grocery List** application. In getting this feature implemented, we added a basic mark-item API to the `list-controller`, which allowed us to pass in a `grocery-ls-item` model to the `list-controller` which would then modify its state. 
 
 In the previous couple posts, we have refactored `list-controller` to not be responsible for item state and to respond to changes on a collection model – this is what led us to failing tests. We still want to keep the _Mark Off Item_ feature, but instead of having specs that tested the mark-item API of the `list-controller`, we’re going to change the specs to verify that the `grocery-ls-item` model that is being modified updates its state and is retained in the collection held by the `list-controller`.
 
@@ -91,7 +91,7 @@ _/test/jasmine/spec/feature/markitem.spec.js_
 
 In the `beforeEach()`, we’ve stubbed out a new method on `list-controller` that allows us to access the associated `list-item-controller` with a model: `getRendererFromItem()`.
 
-If you remember [from the last article](http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/), we also did some stubbing of methods before moving to implementation on `list-controller`. We are doing the same here and using the [SinonJS](http://sinonjs.org) `stub` API to stub a method that currently does not exist on `list-controller`. To do so, and not have exceptions thrown in your tests regarding the existence of the method on the object being stubbed, you create an anonymous stub and assign it to the target object:
+If you remember [from the last article](https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/), we also did some stubbing of methods before moving to implementation on `list-controller`. We are doing the same here and using the [SinonJS](http://sinonjs.org) `stub` API to stub a method that currently does not exist on `list-controller`. To do so, and not have exceptions thrown in your tests regarding the existence of the method on the object being stubbed, you create an anonymous stub and assign it to the target object:
 
 _/test/jasmine/spec/feature/markitem.spec.js_
     
@@ -101,7 +101,7 @@ _/test/jasmine/spec/feature/markitem.spec.js_
     
     listController.getRendererFromItem = getRendererStub;
 
-The stub is sort of a fub, seeing as it is not really accessing the `list-item-controller` created by the `list-controller` in response to change on the collection – but it does provide some basis of design in that `getRendererFromItem()` is expected to return a `list-item-controller` which in turn responds to the provided model. Anyway, once we remove the stub and implement the API on the `list-controller` itself, we’ll certainly have to write more tests for that integration as we are not necessarily concerned in this specification of `getRendererFromItem()` returning the correct `list-item-controller` instance… so you have that to look forward to ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) Right now, we only care about the preservation of state and model existence within the application.
+The stub is sort of a fub, seeing as it is not really accessing the `list-item-controller` created by the `list-controller` in response to change on the collection – but it does provide some basis of design in that `getRendererFromItem()` is expected to return a `list-item-controller` which in turn responds to the provided model. Anyway, once we remove the stub and implement the API on the `list-controller` itself, we’ll certainly have to write more tests for that integration as we are not necessarily concerned in this specification of `getRendererFromItem()` returning the correct `list-item-controller` instance… so you have that to look forward to ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) Right now, we only care about the preservation of state and model existence within the application.
 
 First we’ll test that setting an item as marked is preserved in the model and held on the item controller:  
 _/test/jasmine/spec/feature/markitem.spec.js_
@@ -322,9 +322,9 @@ _/test/jasmine/spec/feature/markitem.spec.js_
     });
 
 Run the tests, and we’ll get failures related to the `getRendererFromItem()` method returning undefined with each call:  
-![Failing tests on getRendererFromItem invocation](http://custardbelly.com/blog/images/tdd_js/part_vi_1.png)
+![Failing tests on getRendererFromItem invocation](https://custardbelly.com/blog/images/tdd_js/part_vi_1.png)
 
-Good. That sort of assures us that `getRendererFromItem()` works as expected. This little mid-implementation failure won’t save us from writing proper tests for `list-controller`, but it’s a warm feeling for now ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+Good. That sort of assures us that `getRendererFromItem()` works as expected. This little mid-implementation failure won’t save us from writing proper tests for `list-controller`, but it’s a warm feeling for now ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 The reason that `getRendererForItem()` is returning undefined on each call is that we have not modified `list-controller` to add the `list-item-controller` renderer to the underlying `rendererList` collection. Let’s add the maintenance to the _collection-change_ response on the model collection:
 
@@ -369,13 +369,13 @@ _/script/controller/list-controller_
 We’ve moved the variable declarations out of the _switch..case_ for the `ADD` event type; they are hoisted by the interpreter, anyway, but I like a little more clarity. More importantly, we are adding the newly created `list-item-controller` to he `renderList`.
 
 Run the tests and we’ll be back to green!  
-![Passing tests on getRendererFromItem implementation](http://custardbelly.com/blog/images/tdd_js/part_vi_2.png)
+![Passing tests on getRendererFromItem implementation](https://custardbelly.com/blog/images/tdd_js/part_vi_2.png)
 
 Hold on! Before you run out the door and down the street singing my praises… you need pants. I don’t know why you are reading this article without pants, but you probably will get a fine. Plus, we really need to add some tests for the `list-controller`.
 
 ## list-controller Tests
 
-The _Mark Off Item_ specs we just got to pass are great in describing that feature and the usability, but they don’t necessarily test all the expectations we have of the `list-controller` and its API. Perhaps we should have wrote up the tests for `list-controller` and, specifically, the `getRendererFromItem()` method prior to modifying the _Mark Off Item_ specs and getting them to pass. I would agree with that, but I am also not a stickler… as long as we get some integration tests in for `list-controller`, I won’t hold it against myself ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+The _Mark Off Item_ specs we just got to pass are great in describing that feature and the usability, but they don’t necessarily test all the expectations we have of the `list-controller` and its API. Perhaps we should have wrote up the tests for `list-controller` and, specifically, the `getRendererFromItem()` method prior to modifying the _Mark Off Item_ specs and getting them to pass. I would agree with that, but I am also not a stickler… as long as we get some integration tests in for `list-controller`, I won’t hold it against myself ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 There are more tests regarding the `list-controller` API in the repository tagged later in this article, but for now I wanted to create a new spec suite for `list-controller` and test the expectations we had previously described for the `getRendererFromItem()` method:
 
@@ -492,16 +492,16 @@ _/test/jasmine/spec/feature/additem.spec.js_
     
     });
 
-The last expectation in there utilizes some of the access API from [jQuery](http://custardbelly.com/blog/jquery.org). If you are unfamiliar with it, it is basically testing that the first item in the parent list view is that of the `parentView` managed by the associated `list-item-controller`. If you take a look at the [previous spec](https://github.com/bustardcelly/grocery-ls/blob/0.1.8/test/jasmine/spec/feature/newitem.spec.js), we had already verified that the child list of the list view had been changed to include a new item; now we are ensuring that the new item is the correct one, accessible from `getRendererFromItem()`.
+The last expectation in there utilizes some of the access API from [jQuery](https://custardbelly.com/blog/jquery.org). If you are unfamiliar with it, it is basically testing that the first item in the parent list view is that of the `parentView` managed by the associated `list-item-controller`. If you take a look at the [previous spec](https://github.com/bustardcelly/grocery-ls/blob/0.1.8/test/jasmine/spec/feature/newitem.spec.js), we had already verified that the child list of the list view had been changed to include a new item; now we are ensuring that the new item is the correct one, accessible from `getRendererFromItem()`.
 
 I think that pretty much shores up the proper testing in describing the _Add Item_ and _Mark Off Item_ features. Run the tests and all are green!  
-![Passing tests for Add Item and Mark Off Item Features](http://custardbelly.com/blog/images/tdd_js/part_vi_3.png)
+![Passing tests for Add Item and Mark Off Item Features](https://custardbelly.com/blog/images/tdd_js/part_vi_3.png)
 
 Tagged **0.1.9** : [https://github.com/bustardcelly/grocery-ls/tree/0.1.9](https://github.com/bustardcelly/grocery-ls/tree/0.1.9)
 
 ## Conclusion
 
-We got the _Mark Off Item_ specs running green again after we had left the application in a failing state from the [last article](http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/). Hooray! But, we are still only addressing half of the usability features I envision for the **Grocery List** application. Sometimes it is easy to forget that we are still building an application. If you ran it, you would see that it still works as expected, which I think is rather cool; I mean, we have been busying ourselves ensuring that our code will support our understanding of the system, and at the end of the day, it actually does. We have been running the test runner much more than the actual application. That is not to say that we shouldn’t be doing more User testing…
+We got the _Mark Off Item_ specs running green again after we had left the application in a failing state from the [last article](https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/). Hooray! But, we are still only addressing half of the usability features I envision for the **Grocery List** application. Sometimes it is easy to forget that we are still building an application. If you ran it, you would see that it still works as expected, which I think is rather cool; I mean, we have been busying ourselves ensuring that our code will support our understanding of the system, and at the end of the day, it actually does. We have been running the test runner much more than the actual application. That is not to say that we shouldn’t be doing more User testing…
 
 Anyway, in the next article I think we should address a new feature – Removal. Cheers for sticking around!
 
@@ -522,15 +522,15 @@ Anyway, in the next article I think we should address a new feature – Removal.
 ## Post Series
 
 [grocery-ls github repo](https://github.com/bustardcelly/grocery-ls)  
-[Part I – Introduction](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i)  
-[Part II – Feature: Add Item](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii)  
-[Part III – Feature: Mark-Off Item](http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii)  
-[Part IV – Feature: List-Item-Controller](http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv)  
-[Part V – Feature: List-Controller Refactoring](http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/)  
-[Part VI – Back to Passing](http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/)  
-[Part VII – Remove Item](http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)  
-[Part VIII – Bug Fixing](http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)  
-[Part IX – Persistence](http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/)  
-[Part X – It Lives!](http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
+[Part I – Introduction](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i)  
+[Part II – Feature: Add Item](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii)  
+[Part III – Feature: Mark-Off Item](https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii)  
+[Part IV – Feature: List-Item-Controller](https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv)  
+[Part V – Feature: List-Controller Refactoring](https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/)  
+[Part VI – Back to Passing](https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/)  
+[Part VII – Remove Item](https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)  
+[Part VIII – Bug Fixing](https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)  
+[Part IX – Persistence](https://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/)  
+[Part X – It Lives!](https://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
 
-Posted in [AMD](http://custardbelly.com/blog/category/amd/), [JavaScript](http://custardbelly.com/blog/category/javascript/), [RequireJS](http://custardbelly.com/blog/category/requirejs/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/), [unit-testing](http://custardbelly.com/blog/category/unit-testing/).
+Posted in [AMD](https://custardbelly.com/blog/category/amd/), [JavaScript](https://custardbelly.com/blog/category/javascript/), [RequireJS](https://custardbelly.com/blog/category/requirejs/), [grocery-ls](https://custardbelly.com/blog/category/grocery-ls/), [jasmine](https://custardbelly.com/blog/category/jasmine/), [unit-testing](https://custardbelly.com/blog/category/unit-testing/).

@@ -1,12 +1,12 @@
 ---
 title: 'jQuery Mobile + CouchDB: Part 3 – Templates and Mustache.js'
-url: 'http://custardbelly.com/blog/2010/12/28/jquery-mobile-couchdb-part-3-templates-and-mustache-js/'
+url: 'https://custardbelly.com/blog/2010/12/28/jquery-mobile-couchdb-part-3-templates-and-mustache-js/'
 author:
   name: 'todd anderson'
 date: '2010-12-28'
 ---
 
-In the [previous post](http://custardbelly.com/blog/?p=278), I covered displaying a document from a [CouchDB](http://couchdb.apache.org/) database in the context of a [jQuery Mobile](http://jquerymobile.com/) page. A difference between **local** vs **external** [jQuery Mobile](http://jquerymobile.com/) pages was discussed, and it was concluded that external pages was beneficial for the client-side application. In finding this happy medium, I also talked about _show functions_ in **CouchDB** and how they serve up documents upon request.
+In the [previous post](https://custardbelly.com/blog/?p=278), I covered displaying a document from a [CouchDB](http://couchdb.apache.org/) database in the context of a [jQuery Mobile](http://jquerymobile.com/) page. A difference between **local** vs **external** [jQuery Mobile](http://jquerymobile.com/) pages was discussed, and it was concluded that external pages was beneficial for the client-side application. In finding this happy medium, I also talked about _show functions_ in **CouchDB** and how they serve up documents upon request.
 
 In this article, I am going to cover another aspect of delivering **HTML** content from **CouchDB** – _templates_. While doing so, I will modify the current document views to provide a cleaner solution (imo) for delivering and rendering document-based [jQuery Mobile](http://jquerymobile.com/) pages. Hopefully, this will set the basis for creating additional views for the application…
 
@@ -16,7 +16,7 @@ In the previous post, I covered using **show function**s to deliver **HTML** con
 
 ### [mustache.js](https://github.com/janl/mustache.js)
 
-If you have been following along in the tutorials, you may remember that in the _loader.js_ script there were a few **JavaScript** files being loaded that were not being referenced within the current application. One of those was _mustache.js_. I didn’t talk about it at the time and I said we could probably get rid of it for now, but might as well leave it in… hopefully you left it in. If not, you’re screwed. Kidding ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+If you have been following along in the tutorials, you may remember that in the _loader.js_ script there were a few **JavaScript** files being loaded that were not being referenced within the current application. One of those was _mustache.js_. I didn’t talk about it at the time and I said we could probably get rid of it for now, but might as well leave it in… hopefully you left it in. If not, you’re screwed. Kidding ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 I don’t want to go into a [mustache](https://github.com/janl/mustache.js) explanation as there are already some great articles out there – especially this one from [CouchOne](http://blog.couchone.com/post/622014913/mustache-js) – but I will say that _mustache.js_ is a templating engine for rendering any type of content. For our purposes, we are going to use the _to_html_() function of **Mustache** to marry our dynamic album document values with an **HTML** template and deliver pages from our respective **show function**s from the [CouchDB](http://couchdb.apache.org/) database.
 
@@ -54,7 +54,7 @@ _/show/album.js_
     
     }
 
-That served our purpose at the time, but such string manipulation for each page we are going to serve up makes my eyes bleed ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) As such, we will use _mustache.js_ to populate document values in an **HTML** template. First order of business: Remove that string construct from _/shows/album.js_ and put it into a **template**, replacing the values with **{{mustache}}** directives.
+That served our purpose at the time, but such string manipulation for each page we are going to serve up makes my eyes bleed ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) As such, we will use _mustache.js_ to populate document values in an **HTML** template. First order of business: Remove that string construct from _/shows/album.js_ and put it into a **template**, replacing the values with **{{mustache}}** directives.
 
 Create a new directory called _templates_ in your [couchapp](http://couchapp.org/page/index) directory for the **Albums** application (for me that is at _/Documents/workspace/custardbelly/couchdb/albums_). Create a new **HTML** document in your favorite text editor and save the following as _album.html_ in the _/templates_ directory:
 
@@ -243,7 +243,7 @@ Accessing the page as such, we can empty all its elements and remove it once the
     
     albumPageCache.remove();
 
-That essentially will make a request each time to [CouchDB](http://couchdb.apache.org/) for the album document page and not rely on the cacheing of pages within [jQuery Mobile](http://jquerymobile.com/). This will also open up the ability to assign and manage handlers for other events, such a requesting pages for editing a document… but we’ll broach that subject in another post ![;)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif) For now, let’s go back and update our _album.js_ and _album.html_ documents to include the **partial**.
+That essentially will make a request each time to [CouchDB](http://couchdb.apache.org/) for the album document page and not rely on the cacheing of pages within [jQuery Mobile](http://jquerymobile.com/). This will also open up the ability to assign and manage handlers for other events, such a requesting pages for editing a document… but we’ll broach that subject in another post ![;)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif) For now, let’s go back and update our _album.js_ and _album.html_ documents to include the **partial**.
 
 _[**01-28-2010**: Thank you to IR for leaving a comment alerting me to the fact that i totally missed out on updating the neccessary files after creating the partial]_
 
@@ -350,11 +350,11 @@ We modified our show function to use templates and created a script to empty the
     
     couchapp push albums http://127.0.0.1:5984/albums
 
-If all was successful and you now go to [http://127.0.0.1:5984/albums/_design/albums/index.html](http://127.0.0.1:5984/albums/_design/albums/index.html), we’ll still have our old familiar list and still access each album by clicking on a list item. Basically it performs exactly as it had before, but we cleaned up a little on our end… a benefit to us as the developer and a benefit to the user though not visually noticeable… it still looks rather ugly ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+If all was successful and you now go to [http://127.0.0.1:5984/albums/_design/albums/index.html](http://127.0.0.1:5984/albums/_design/albums/index.html), we’ll still have our old familiar list and still access each album by clicking on a list item. Basically it performs exactly as it had before, but we cleaned up a little on our end… a benefit to us as the developer and a benefit to the user though not visually noticeable… it still looks rather ugly ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 ## Conclusion
 
-We delved a little deeper into how to serve up pages from [CouchDB](http://couchdb.apache.org/) using **templates** and **partials** (thanks to [Mustache](https://github.com/janl/mustache.js)!) and also touched on accessing pages from **DOM** cache in the context of [jQuery Mobile](http://jquerymobile.com/) framework. All nice stuff, but nothing really has changed in how the application worked for the end user. We ensured that _album page_s always had the correct and latest content, but we haven’t opened up the possibility to edit the document and commit changes. That’s to come ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) Just wanted to lay the groundwork for easing into adding more pages to our application. Hopefully you found some of this useful.
+We delved a little deeper into how to serve up pages from [CouchDB](http://couchdb.apache.org/) using **templates** and **partials** (thanks to [Mustache](https://github.com/janl/mustache.js)!) and also touched on accessing pages from **DOM** cache in the context of [jQuery Mobile](http://jquerymobile.com/) framework. All nice stuff, but nothing really has changed in how the application worked for the end user. We ensured that _album page_s always had the correct and latest content, but we haven’t opened up the possibility to edit the document and commit changes. That’s to come ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) Just wanted to lay the groundwork for easing into adding more pages to our application. Hopefully you found some of this useful.
 
 _[Note] This post was written against the following software versions:_  
 **CouchDB **– 1.0.1  
@@ -365,15 +365,15 @@ _If you have found this post and any piece has moved forward, hopefully the exam
 
 **Articles in this series:**
 
-  1. [Getting Started](http://custardbelly.com/blog/?p=244)
-  2. [Displaying a page detail of a single album.](http://custardbelly.com/blog/?p=278)
-  3. [Templates and Mustache](http://custardbelly.com/blog/?p=297)
-  4. [Displaying an editable page of an album.](http://custardbelly.com/blog/?p=318)
-  5. [Creating and Adding an album document.](http://custardbelly.com/blog/?p=332)
-  6. [Deleting an album document](http://custardbelly.com/blog/?p=344)
-  7. [Authorization and Validation – Part 1](http://custardbelly.com/blog/?p=360)
-  8. [Authorization and Validation – Part 2](http://custardbelly.com/blog/?p=394)
+  1. [Getting Started](https://custardbelly.com/blog/?p=244)
+  2. [Displaying a page detail of a single album.](https://custardbelly.com/blog/?p=278)
+  3. [Templates and Mustache](https://custardbelly.com/blog/?p=297)
+  4. [Displaying an editable page of an album.](https://custardbelly.com/blog/?p=318)
+  5. [Creating and Adding an album document.](https://custardbelly.com/blog/?p=332)
+  6. [Deleting an album document](https://custardbelly.com/blog/?p=344)
+  7. [Authorization and Validation – Part 1](https://custardbelly.com/blog/?p=360)
+  8. [Authorization and Validation – Part 2](https://custardbelly.com/blog/?p=394)
 
-[Full source for albums couchapp here.](http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
+[Full source for albums couchapp here.](https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
 
-Posted in [CouchDB](http://custardbelly.com/blog/category/couchdb/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
+Posted in [CouchDB](https://custardbelly.com/blog/category/couchdb/), [jquery](https://custardbelly.com/blog/category/jquery/), [jquery-mobile](https://custardbelly.com/blog/category/jquery-mobile/).

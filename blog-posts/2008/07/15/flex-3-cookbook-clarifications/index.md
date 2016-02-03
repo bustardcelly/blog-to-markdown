@@ -1,6 +1,6 @@
 ---
 title: 'Flex 3 Cookbook clarifications'
-url: 'http://custardbelly.com/blog/2008/07/15/flex-3-cookbook-clarifications/'
+url: 'https://custardbelly.com/blog/2008/07/15/flex-3-cookbook-clarifications/'
 author:
   name: 'todd anderson'
 date: '2008-07-15'
@@ -14,4 +14,4 @@ We hope people are enjoying the book at what any level developer you are. Cheers
 
 [read Josh’s post](http://thefactoryfactory.com/wordpress/?p=435)
 
-Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Books](http://custardbelly.com/blog/category/books/), [Flex](http://custardbelly.com/blog/category/flex/).
+Posted in [AS3](https://custardbelly.com/blog/category/as3/), [Books](https://custardbelly.com/blog/category/books/), [Flex](https://custardbelly.com/blog/category/flex/).

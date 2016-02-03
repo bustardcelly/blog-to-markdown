@@ -1,6 +1,6 @@
 ---
 title: 'writeln and Keith Peters’ debugger'
-url: 'http://custardbelly.com/blog/2005/07/28/writeln-and-keith-peters-debugger/'
+url: 'https://custardbelly.com/blog/2005/07/28/writeln-and-keith-peters-debugger/'
 author:
   name: 'todd anderson'
 date: '2005-07-28'
@@ -84,4 +84,4 @@ i'd like to do something with that if(clear), i just don't like it... but for no
 
 thanks again [Keith and ](http://bit-101.com)[Tim](http://www.timwalling.com/)
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/).

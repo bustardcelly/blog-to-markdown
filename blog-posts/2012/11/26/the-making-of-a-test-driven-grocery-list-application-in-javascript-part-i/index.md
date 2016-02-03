@@ -1,6 +1,6 @@
 ---
 title: 'The Making of a Test-Driven Grocery List Application in JavaScript: Part I'
-url: 'http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/'
+url: 'https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/'
 author:
   name: 'todd anderson'
 date: '2012-11-26'
@@ -16,7 +16,7 @@ In any event, I still consider myself an early convert and haven’t figured eve
 
 # Introduction
 
-If you sat through that jabbering about why i think unit testing brings value to application development, you are very kind, but now I want to address the real intent of this post: I thought it would be interesting to lay it out on the line and build a test-driven application over a series of posts. Writing something that is publicly accessible always drives me to question my knowledge ([ps. buy my books](http://www.amazon.com/Todd-Anderson/e/B0037FMULM)!), but I would also like this series to invite criticism from readers so I can (selfishly) better myself. As well, perhaps I can impart some tidbit of wisdom to anyone following along – no guarantees ![;)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif)
+If you sat through that jabbering about why i think unit testing brings value to application development, you are very kind, but now I want to address the real intent of this post: I thought it would be interesting to lay it out on the line and build a test-driven application over a series of posts. Writing something that is publicly accessible always drives me to question my knowledge ([ps. buy my books](http://www.amazon.com/Todd-Anderson/e/B0037FMULM)!), but I would also like this series to invite criticism from readers so I can (selfishly) better myself. As well, perhaps I can impart some tidbit of wisdom to anyone following along – no guarantees ![;)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif)
 
 # Grocery List Application
 
@@ -36,7 +36,7 @@ The following is a list of libraries that will be used in developing the Grocery
 
 #### RequireJS
 
-I am a huge proponent of [AMD](http://wiki.commonjs.org/wiki/Modules/AsynchronousDefinition) as part of application structure, with [RequireJS](http://requirejs.org/) as my library of choice. I have discussed it in more length in [previous](http://custardbelly.com/blog/2012/03/06/facaded-micro-libraries-and-dependency-management-using-requirejs/) [posts](http://custardbelly.com/blog/2012/02/07/current-workflow-developing-linting-testing-and-distributing-javascript/). I will not really cover the usage of [RequireJS](http://requirejs.org/) or concept of [AMD](https://github.com/amdjs/amdjs-api/wiki/AMD) much (if at all) in this series, so if you are unfamiliar I implore you to check them out; I will state that it provides a very convenient mechanism to separate responsibilities and dependencies (ie, modular development).
+I am a huge proponent of [AMD](http://wiki.commonjs.org/wiki/Modules/AsynchronousDefinition) as part of application structure, with [RequireJS](http://requirejs.org/) as my library of choice. I have discussed it in more length in [previous](https://custardbelly.com/blog/2012/03/06/facaded-micro-libraries-and-dependency-management-using-requirejs/) [posts](https://custardbelly.com/blog/2012/02/07/current-workflow-developing-linting-testing-and-distributing-javascript/). I will not really cover the usage of [RequireJS](http://requirejs.org/) or concept of [AMD](https://github.com/amdjs/amdjs-api/wiki/AMD) much (if at all) in this series, so if you are unfamiliar I implore you to check them out; I will state that it provides a very convenient mechanism to separate responsibilities and dependencies (ie, modular development).
 
 #### Jasmine
 
@@ -67,7 +67,7 @@ Alright, now that we have the pleasantries of intent and libraries used out of t
 **[edit] **  
 I had originally included working through the first story and suite of specifications for the **Grocery List** application in this post, but it got rather lengthy and though it started taking away some of the value (if any) the previous sections in this post provided. As such, I moved it out to the second installment of this series:
 
-[The Making of a Test-Driven Grocery List Application in JavaScript: Part II](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/)
+[The Making of a Test-Driven Grocery List Application in JavaScript: Part II](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/)
 
 —-
 
@@ -86,15 +86,15 @@ I had originally included working through the first story and suite of specifica
 ## Post Series
 
 [grocery-ls github repo](https://github.com/bustardcelly/grocery-ls)  
-[Part I – Introduction](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i)  
-[Part II – Feature: Add Item](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii)  
-[Part III – Feature: Mark-Off Item](http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii)  
-[Part IV – Feature: List-Item-Controller](http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv)  
-[Part V – Feature: List-Controller Refactoring](http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/)  
-[Part VI – Back to Passing](http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/)  
-[Part VII – Remove Item](http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)  
-[Part VIII – Bug Fixing](http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)  
-[Part IX – Persistence](http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/)  
-[Part X – It Lives!](http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
+[Part I – Introduction](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i)  
+[Part II – Feature: Add Item](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii)  
+[Part III – Feature: Mark-Off Item](https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii)  
+[Part IV – Feature: List-Item-Controller](https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv)  
+[Part V – Feature: List-Controller Refactoring](https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/)  
+[Part VI – Back to Passing](https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/)  
+[Part VII – Remove Item](https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)  
+[Part VIII – Bug Fixing](https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)  
+[Part IX – Persistence](https://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/)  
+[Part X – It Lives!](https://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
 
-Posted in [JavaScript](http://custardbelly.com/blog/category/javascript/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/), [unit-testing](http://custardbelly.com/blog/category/unit-testing/).
+Posted in [JavaScript](https://custardbelly.com/blog/category/javascript/), [grocery-ls](https://custardbelly.com/blog/category/grocery-ls/), [jasmine](https://custardbelly.com/blog/category/jasmine/), [unit-testing](https://custardbelly.com/blog/category/unit-testing/).

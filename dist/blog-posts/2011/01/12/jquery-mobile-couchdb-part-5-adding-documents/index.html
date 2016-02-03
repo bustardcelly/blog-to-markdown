@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jQuery Mobile + CouchDB: Part 5 – Adding Documents</title>
   </head>
   <body>
@@ -58,7 +58,7 @@
     </p>
   </div>
   <section>
-    <p>In my <a href="http://custardbelly.com/blog/?p=318">previous post</a>, I addressed editing documents using a form in <a href="http://jquerymobile.com/">jQuery Mobile</a> and updating the document in the <a href="http://couchdb.apache.org/">CouchDB</a> database using the <em>jquery.couch</em> plugin. So far, if you have been following along, the posts have only addressed the <em>RU</em> of <strong>CRUD</strong> (<strong>C</strong>reate <strong>R</strong>ead <strong>U</strong>pdate <strong>D</strong>elete) from the client application aspect. The list of albums are read upon launch, with a single album read on detail, and last post addressed updating a target document. Its high-time we start throwing <strong>C</strong> &amp; <strong>D</strong> into that mix… but hold on. One at a time. First one will be fun. The second one will make you cry. That’s not true.</p>
+    <p>In my <a href="https://custardbelly.com/blog/?p=318">previous post</a>, I addressed editing documents using a form in <a href="http://jquerymobile.com/">jQuery Mobile</a> and updating the document in the <a href="http://couchdb.apache.org/">CouchDB</a> database using the <em>jquery.couch</em> plugin. So far, if you have been following along, the posts have only addressed the <em>RU</em> of <strong>CRUD</strong> (<strong>C</strong>reate <strong>R</strong>ead <strong>U</strong>pdate <strong>D</strong>elete) from the client application aspect. The list of albums are read upon launch, with a single album read on detail, and last post addressed updating a target document. Its high-time we start throwing <strong>C</strong> &amp; <strong>D</strong> into that mix… but hold on. One at a time. First one will be fun. The second one will make you cry. That’s not true.</p>
 <p>In this article I am going to address the ability to create a new album document, which in and of itself is not entirely different from editing. While doing so, I will address adding a button bar as a <strong>footer</strong> using <a href="http://jquerymobile.com/">jQuery Mobile</a> grid layout and a few tidbits here and there to get things to work, as well as continue to gush over the beauty of using a document-oriented database system… because there’s changes ahead!</p>
 <p><strong>In the following examples, I will assume that you have been following along from previous posts and present updates to existing code</strong>.</p>
 <h2 id="adding-documents">Adding Documents</h2>
@@ -192,7 +192,7 @@
 </code></pre><p>Essentially, we add a <em>click</em> event handler to the <strong>submit button</strong>, create a new document object, fill in the proper fields then use the <strong>$db</strong> instance (established on load as the albums databased from the <a href="http://couchdb.apache.org/">CouchDB</a> instance) to save the new document. You may notice that saving a new document and updating an existing document are both done using the same function from the <strong>jquery.couch</strong> plugin: <em>saveDoc</em>(). That function will check for an <strong>_id</strong> on the document object (first argument) and determine if a <strong>POST</strong> or <strong>PUT</strong> is required. That is all handled internally in <em>saveDoc</em>() so you don’t have to worry.</p>
 <h3 id="creation_date">creation_date</h3>
 <p>You may have also noticed that i said “proper fields” and the document object has a property that was not on the previous documents we created from the first post. Where did this <strong>creation_date</strong> property come from? And why won’t it throw an error on save? Short answer: we are working with a document-oriented database, so we are not tied to a schema and a pre-defined set of fields in a table. So anything can be added to any document?! Isn’t that a little wild-west?! Maybe, but we are making a pretty focused client application here where we know what fields we want to present to the user; but it is a good point and a solid argument to not keep your <a href="http://couchdb.apache.org/">CouchDB</a> instance in <a href="http://guide.couchdb.org/draft/security.html">admin-party</a> and to create good <a href="http://guide.couchdb.org/draft/validation.html">validation functions</a>. For now, we are not concerned about security or validation and are having some fun.</p>
-<p>OK, so why did we add <strong>creation_date</strong>? The reason is related to the <strong>map function</strong> for <em>/views/albums</em>. If you remember way back to the <a href="http://custardbelly.com/blog/?p=244">first article</a>, we created a <strong>map function</strong> for our <strong>albums view</strong> that basically returned a key and value. The key being the <strong>_id</strong> of each document. That key is used to sort the returned array of documents. That key is also automatically generated for us when we create a new document. Hence, a case could be made that the order of added documents will not correlate to the descending order of the sorted key list (<strong>_id</strong> of each document in the database). In order to be able to properly present the list of albums in the order that they were added to the database, the <strong>creation_date</strong> property is now being added to each new document. I use the time in milliseconds as the value for <strong>creation_date</strong> because i feel that most (if not all) client-side languages will know how to use that number and format the date as required.</p>
+<p>OK, so why did we add <strong>creation_date</strong>? The reason is related to the <strong>map function</strong> for <em>/views/albums</em>. If you remember way back to the <a href="https://custardbelly.com/blog/?p=244">first article</a>, we created a <strong>map function</strong> for our <strong>albums view</strong> that basically returned a key and value. The key being the <strong>_id</strong> of each document. That key is used to sort the returned array of documents. That key is also automatically generated for us when we create a new document. Hence, a case could be made that the order of added documents will not correlate to the descending order of the sorted key list (<strong>_id</strong> of each document in the database). In order to be able to properly present the list of albums in the order that they were added to the database, the <strong>creation_date</strong> property is now being added to each new document. I use the time in milliseconds as the value for <strong>creation_date</strong> because i feel that most (if not all) client-side languages will know how to use that number and format the date as required.</p>
 <h3 id="updating-albums-view">Updating albums view</h3>
 <p>Well… now there is the issue of returning and displaying album documents sorted by <strong>creation_date</strong>. Fortunately it is an easy issue to resolve: we are going to update the key value returned from the <strong>map function</strong> of the <strong>albums view</strong>.</p>
 <p>Open up <em>/views/albums/map.js</em> in your favorite text editor and change the previously-saved <em>emit</em>() invocation to the following:</p>
@@ -305,8 +305,8 @@
 
 <span class="hljs-subst">&lt;</span>/div<span class="hljs-subst">&gt;</span>
 </code></pre><p>The first thing you may notice is that we have added a <strong>data-position</strong> attribute to the <strong>header</strong> and <strong>footer</strong>. With a value of “<em>fixed</em>“, the<a href="http://jquerymobile.com/"> jQuery Mobile</a> framework will ensure that they are always in place (<strong>header</strong> at top, <strong>footer</strong> at bottom) without regards to scrolling. This will treat the content list as the scrollable area, so when our list grows with all the new album documents that we create a user will always see and be able to access the <strong>header</strong> and <strong>footer</strong> (with the <strong>add button</strong>).</p>
-<p>Aside from the <strong>data-position</strong> attribution, we added a <strong>navbar</strong> as the content for the <strong>footer</strong>. The content of the <strong>navbar</strong> is a list with a single item with its navigational reference to the <strong>addAlbum</strong> <a href="http://jquerymobile.com/">jQuery Mobile</a> page we created previously. Assigning a <a href="http://jquerymobile.com/demos/1.0a2/#docs/content/content-grids.html">grid</a> class to the list will layout its items in a sequently manner. We set the <strong>width</strong> style rule directly for the list item because styling of list items for a <strong>navbar</strong> are limited to at least 2 items in the <a href="http://jquerymobile.com/">jQuery Mobile</a>. To get around that and have a single button, we just set it to have the width of the <strong>navbar</strong>. Then we also got all fancy with transitions and icons on the link within the list item <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
-<p>The only drawback to this solution is that we dynamically fill our list upon load. Unfortunately this updates the y position of the <strong>footer</strong> by (<em>n*list item height</em>). So if we kept our page like this, we’d lose the <strong>footer</strong> off the page once the list is filled <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_sad.gif" alt=":("> Wait, don’t leave… we can easily fix that!</p>
+<p>Aside from the <strong>data-position</strong> attribution, we added a <strong>navbar</strong> as the content for the <strong>footer</strong>. The content of the <strong>navbar</strong> is a list with a single item with its navigational reference to the <strong>addAlbum</strong> <a href="http://jquerymobile.com/">jQuery Mobile</a> page we created previously. Assigning a <a href="http://jquerymobile.com/demos/1.0a2/#docs/content/content-grids.html">grid</a> class to the list will layout its items in a sequently manner. We set the <strong>width</strong> style rule directly for the list item because styling of list items for a <strong>navbar</strong> are limited to at least 2 items in the <a href="http://jquerymobile.com/">jQuery Mobile</a>. To get around that and have a single button, we just set it to have the width of the <strong>navbar</strong>. Then we also got all fancy with transitions and icons on the link within the list item <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>The only drawback to this solution is that we dynamically fill our list upon load. Unfortunately this updates the y position of the <strong>footer</strong> by (<em>n*list item height</em>). So if we kept our page like this, we’d lose the <strong>footer</strong> off the page once the list is filled <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_sad.gif" alt=":("> Wait, don’t leave… we can easily fix that!</p>
 <p>With the _/<em>attachments/index.html</em> file still open in your favorite text editor, add the following line after the list <em>refresh</em>():</p>
 <p>_/<em>attachments/index.html</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">refreshAlbums</span><span class="hljs-params">()</span>
@@ -380,7 +380,7 @@
     });
 
 }
-</code></pre><p>The <strong>fixedToolbars</strong> controller is available from <a href="http://jquerymobile.com/">jQuery Mobile</a> with several public methods exposed for dealing with the <strong>header</strong> and <strong>footer</strong> toolbars. We are using <em>show</em>() to force an update in placement once the list has been refreshed. This will affectively put the <strong>footer</strong> (with its add button) back to the bottom where it belongs and is accessible. Hack? Maybe. But it works for now (see versions at end of post <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ).</p>
+</code></pre><p>The <strong>fixedToolbars</strong> controller is available from <a href="http://jquerymobile.com/">jQuery Mobile</a> with several public methods exposed for dealing with the <strong>header</strong> and <strong>footer</strong> toolbars. We are using <em>show</em>() to force an update in placement once the list has been refreshed. This will affectively put the <strong>footer</strong> (with its add button) back to the bottom where it belongs and is accessible. Hack? Maybe. But it works for now (see versions at end of post <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ).</p>
 <p>So that is it… except for one thing. </p>
 <h3 id="finishing-up">Finishing Up</h3>
 <p>I can be a stickler. The <strong>addAlbum</strong> page is not removed from the <strong>DOM</strong> once navigated away from like the other pages we have created. We did that previously to ensure we were getting the correct returns from the <strong>show function</strong> based on document <strong>_id</strong>; <a href="http://jquerymobile.com/">jQuery Mobile</a> was caching those pages in the <strong>DOM</strong> so it never went back out with the update <strong>_id</strong>. However, our case here is a little different. </p>
@@ -707,17 +707,17 @@
 <p><em>[Note] This post was written against the following software versions:</em><br><strong>CouchDB </strong>– 1.0.1<br><strong>CouchApp</strong> – 0.7.2<br><strong>jQuery</strong> – 1.4.4<br><strong>jQuery Mobile</strong> – 1.0a2<br><em>If you have found this post and any piece has moved forward, hopefully the examples are still viable/useful. I will not be updating the examples in this post in parellel with updates to any of the previously mentioned software, unless explicitly noted.</em></p>
 <p><strong>Articles in this series:</strong></p>
 <ol>
-<li><a href="http://custardbelly.com/blog/?p=244">Getting Started</a></li>
-<li><a href="http://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
-<li><a href="http://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
-<li><a href="http://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
-<li><a href="http://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
+<li><a href="https://custardbelly.com/blog/?p=244">Getting Started</a></li>
+<li><a href="https://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
+<li><a href="https://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
+<li><a href="https://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
+<li><a href="https://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
 </ol>
-<p><a href="http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="http://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="http://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
+<p><a href="https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="https://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="https://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
 
   </section>
   <section class="navigation">
@@ -725,7 +725,7 @@
         <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2011/01/21/jquery-mobile-couchdb-part-6-deleting-documents/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2011/01/04/jquery-mobile-couchdb-part-4-editing-documents/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2011/02/16/as3flobile-scrollviewport-and-flex-4-containers-from-yeah-to-eh/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -736,7 +736,7 @@
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2011/01/12/jquery-mobile-couchdb-part-5-adding-documents/index.html";
         window.disqus_title="jQuery Mobile + CouchDB: Part 5 – Adding Documents";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

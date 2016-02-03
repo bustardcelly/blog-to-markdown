@@ -1,13 +1,13 @@
 ---
 title: 'How do you manage your filters?'
-url: 'http://custardbelly.com/blog/2006/01/11/how-do-you-manage-your-filters/'
+url: 'https://custardbelly.com/blog/2006/01/11/how-do-you-manage-your-filters/'
 author:
   name: 'todd anderson'
 date: '2006-01-11'
 ---
 
 **[Update: 2/24/2006]**  
-I’ve updated my workings of a management system for a movieclip’s filters after Lars Schwarz brought up some interesting thoughts. [Here are the new files.](http://custardbelly.com/downloads/ManagedFilterMap.zip) I basically pushed some management methods through a Singleton (McFilterManager), that registers/unregisters managed clips ( FilterManagedClip ). It’s not that necessary and the FilterManagedClip class can be used by itself, but if you want to hold references for all the clips that have filters, then it could be useful and expanded upon.
+I’ve updated my workings of a management system for a movieclip’s filters after Lars Schwarz brought up some interesting thoughts. [Here are the new files.](https://custardbelly.com/downloads/ManagedFilterMap.zip) I basically pushed some management methods through a Singleton (McFilterManager), that registers/unregisters managed clips ( FilterManagedClip ). It’s not that necessary and the FilterManagedClip class can be used by itself, but if you want to hold references for all the clips that have filters, then it could be useful and expanded upon.
 
 FilterManagedClip really does all the managing, and as Lars suggested, it now holds a reference to a unique id supplied, instead of using a instanceof check on the filter list.
 
@@ -31,4 +31,4 @@ suggestions?
 
 feel free to use the [McFilterMap class](http://www.custardbelly.com/downloads/McFilterMap.as).
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/), [Flash8](https://custardbelly.com/blog/category/flash8/).

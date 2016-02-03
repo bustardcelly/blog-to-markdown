@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jQuery Mobile + CouchDB: Part 3 – Templates and Mustache.js</title>
   </head>
   <body>
@@ -58,12 +58,12 @@
     </p>
   </div>
   <section>
-    <p>In the <a href="http://custardbelly.com/blog/?p=278">previous post</a>, I covered displaying a document from a <a href="http://couchdb.apache.org/">CouchDB</a> database in the context of a <a href="http://jquerymobile.com/">jQuery Mobile</a> page. A difference between <strong>local</strong> vs <strong>external</strong> <a href="http://jquerymobile.com/">jQuery Mobile</a> pages was discussed, and it was concluded that external pages was beneficial for the client-side application. In finding this happy medium, I also talked about <em>show functions</em> in <strong>CouchDB</strong> and how they serve up documents upon request.</p>
+    <p>In the <a href="https://custardbelly.com/blog/?p=278">previous post</a>, I covered displaying a document from a <a href="http://couchdb.apache.org/">CouchDB</a> database in the context of a <a href="http://jquerymobile.com/">jQuery Mobile</a> page. A difference between <strong>local</strong> vs <strong>external</strong> <a href="http://jquerymobile.com/">jQuery Mobile</a> pages was discussed, and it was concluded that external pages was beneficial for the client-side application. In finding this happy medium, I also talked about <em>show functions</em> in <strong>CouchDB</strong> and how they serve up documents upon request.</p>
 <p>In this article, I am going to cover another aspect of delivering <strong>HTML</strong> content from <strong>CouchDB</strong> – <em>templates</em>. While doing so, I will modify the current document views to provide a cleaner solution (imo) for delivering and rendering document-based <a href="http://jquerymobile.com/">jQuery Mobile</a> pages. Hopefully, this will set the basis for creating additional views for the application…</p>
 <h2 id="templates">Templates</h2>
 <p>In the previous post, I covered using <strong>show function</strong>s to deliver <strong>HTML</strong> content as a <a href="http://jquerymobile.com/">jQuery Mobile</a> page from a <a href="http://couchdb.apache.org/">CouchDB</a> instance. From the previous <strong>show function</strong> example for the <strong>Albums</strong> application, I basically constructed a string that would be interpreted as <strong>HTML</strong> mark-up using the values from the document. While this is a perfectly valid solution, its probably not the best if we want to reuse parts of that <strong>HTML</strong> or if the mark-up gets a little too unwieldy for string manipulation based on the request. To provide a little sanity as we start making more page documents for the application, we going to start using <strong>templates</strong> to stub out the mark-up of an <strong>HTML</strong> document and fill content dynamically from the <strong>show function</strong>s.</p>
 <h3 id="-mustache-js-https-github-com-janl-mustache-js-"><a href="https://github.com/janl/mustache.js">mustache.js</a></h3>
-<p>If you have been following along in the tutorials, you may remember that in the <em>loader.js</em> script there were a few <strong>JavaScript</strong> files being loaded that were not being referenced within the current application. One of those was <em>mustache.js</em>. I didn’t talk about it at the time and I said we could probably get rid of it for now, but might as well leave it in… hopefully you left it in. If not, you’re screwed. Kidding <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>If you have been following along in the tutorials, you may remember that in the <em>loader.js</em> script there were a few <strong>JavaScript</strong> files being loaded that were not being referenced within the current application. One of those was <em>mustache.js</em>. I didn’t talk about it at the time and I said we could probably get rid of it for now, but might as well leave it in… hopefully you left it in. If not, you’re screwed. Kidding <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>I don’t want to go into a <a href="https://github.com/janl/mustache.js">mustache</a> explanation as there are already some great articles out there – especially this one from <a href="http://blog.couchone.com/post/622014913/mustache-js">CouchOne</a> – but I will say that <em>mustache.js</em> is a templating engine for rendering any type of content. For our purposes, we are going to use the _to<em>html</em>() function of <strong>Mustache</strong> to marry our dynamic album document values with an <strong>HTML</strong> template and deliver pages from our respective <strong>show function</strong>s from the <a href="http://couchdb.apache.org/">CouchDB</a> database.</p>
 <h3 id="album-page-template">Album Page Template</h3>
 <p>Our previous version of <em>album.js</em> from the <em>/show</em> directory of our <strong>Albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> looked like the following:</p>
@@ -95,7 +95,7 @@
   return html;
 
 <span class="hljs-special">}</span>
-</code></pre><p>That served our purpose at the time, but such string manipulation for each page we are going to serve up makes my eyes bleed <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> As such, we will use <em>mustache.js</em> to populate document values in an <strong>HTML</strong> template. First order of business: Remove that string construct from <em>/shows/album.js</em> and put it into a <strong>template</strong>, replacing the values with <strong>{{mustache}}</strong> directives.</p>
+</code></pre><p>That served our purpose at the time, but such string manipulation for each page we are going to serve up makes my eyes bleed <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> As such, we will use <em>mustache.js</em> to populate document values in an <strong>HTML</strong> template. First order of business: Remove that string construct from <em>/shows/album.js</em> and put it into a <strong>template</strong>, replacing the values with <strong>{{mustache}}</strong> directives.</p>
 <p>Create a new directory called <em>templates</em> in your <a href="http://couchapp.org/page/index">couchapp</a> directory for the <strong>Albums</strong> application (for me that is at <em>/Documents/workspace/custardbelly/couchdb/albums</em>). Create a new <strong>HTML</strong> document in your favorite text editor and save the following as <em>album.html</em> in the <em>/templates</em> directory:</p>
 <p><em>/templates/album.html</em></p>
 <pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"page"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"albumview"</span> <span class="hljs-attribute">data-position</span>=<span class="hljs-value">"inline"</span> <span class="hljs-attribute">data-back</span>=<span class="hljs-value">"true"</span>&gt;</span>
@@ -247,7 +247,7 @@ albumPageCache<span class="hljs-preprocessor">.unbind</span>( <span class="hljs-
 albumPageCache<span class="hljs-preprocessor">.empty</span>()<span class="hljs-comment">;</span>
 
 albumPageCache<span class="hljs-preprocessor">.remove</span>()<span class="hljs-comment">;</span>
-</code></pre><p>That essentially will make a request each time to <a href="http://couchdb.apache.org/">CouchDB</a> for the album document page and not rely on the cacheing of pages within <a href="http://jquerymobile.com/">jQuery Mobile</a>. This will also open up the ability to assign and manage handlers for other events, such a requesting pages for editing a document… but we’ll broach that subject in another post <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif" alt=";)"> For now, let’s go back and update our <em>album.js</em> and <em>album.html</em> documents to include the <strong>partial</strong>.</p>
+</code></pre><p>That essentially will make a request each time to <a href="http://couchdb.apache.org/">CouchDB</a> for the album document page and not rely on the cacheing of pages within <a href="http://jquerymobile.com/">jQuery Mobile</a>. This will also open up the ability to assign and manage handlers for other events, such a requesting pages for editing a document… but we’ll broach that subject in another post <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif" alt=";)"> For now, let’s go back and update our <em>album.js</em> and <em>album.html</em> documents to include the <strong>partial</strong>.</p>
 <p><em>[<strong>01-28-2010</strong>: Thank you to IR for leaving a comment alerting me to the fact that i totally missed out on updating the neccessary files after creating the partial]</em></p>
 <h3 id="modifying-album-js-and-album-html">Modifying album.js and album.html</h3>
 <p>Open up <em>/shows/album.js</em> in your favorite text editor and make the following modification to pass the <strong>partial</strong> directory in <strong>Mustache</strong>._to<em>html</em>():</p>
@@ -330,28 +330,28 @@ albumPageCache<span class="hljs-preprocessor">.remove</span>()<span class="hljs-
 <h2 id="deployment">Deployment</h2>
 <p>We modified our show function to use templates and created a script to empty the page and its elements from the <strong>DOM</strong> upon hide within the <a href="http://jquerymobile.com/">jQuery Mobile</a> context and are assured that each access of an album document will contain the latest changes. With these modifications saved, we can now push to the <a href="http://couchdb.apache.org/">CouchDB</a> database using the <a href="http://couchapp.org/page/index">couchapp</a> utility. Open a terminal and navigate to the directory where you create your <strong>CouchApp</strong> applications (for me that is <em>/Documents/workspace/custardbelly/couchdb</em> and in there i have a folder named <em>albums</em> which is the <strong>CouchApp</strong> application directory for these examples). Enter the following command to push the changes to the <strong>CouchDB</strong> instance:</p>
 <pre><code>couchapp push albums http:<span class="hljs-comment">//127.0.0.1:5984/albums</span>
-</code></pre><p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>, we’ll still have our old familiar list and still access each album by clicking on a list item. Basically it performs exactly as it had before, but we cleaned up a little on our end… a benefit to us as the developer and a benefit to the user though not visually noticeable… it still looks rather ugly <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+</code></pre><p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>, we’ll still have our old familiar list and still access each album by clicking on a list item. Basically it performs exactly as it had before, but we cleaned up a little on our end… a benefit to us as the developer and a benefit to the user though not visually noticeable… it still looks rather ugly <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <h2 id="conclusion">Conclusion</h2>
-<p>We delved a little deeper into how to serve up pages from <a href="http://couchdb.apache.org/">CouchDB</a> using <strong>templates</strong> and <strong>partials</strong> (thanks to <a href="https://github.com/janl/mustache.js">Mustache</a>!) and also touched on accessing pages from <strong>DOM</strong> cache in the context of <a href="http://jquerymobile.com/">jQuery Mobile</a> framework. All nice stuff, but nothing really has changed in how the application worked for the end user. We ensured that _album page_s always had the correct and latest content, but we haven’t opened up the possibility to edit the document and commit changes. That’s to come <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Just wanted to lay the groundwork for easing into adding more pages to our application. Hopefully you found some of this useful.</p>
+<p>We delved a little deeper into how to serve up pages from <a href="http://couchdb.apache.org/">CouchDB</a> using <strong>templates</strong> and <strong>partials</strong> (thanks to <a href="https://github.com/janl/mustache.js">Mustache</a>!) and also touched on accessing pages from <strong>DOM</strong> cache in the context of <a href="http://jquerymobile.com/">jQuery Mobile</a> framework. All nice stuff, but nothing really has changed in how the application worked for the end user. We ensured that _album page_s always had the correct and latest content, but we haven’t opened up the possibility to edit the document and commit changes. That’s to come <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Just wanted to lay the groundwork for easing into adding more pages to our application. Hopefully you found some of this useful.</p>
 <p><em>[Note] This post was written against the following software versions:</em><br><strong>CouchDB </strong>– 1.0.1<br><strong>CouchApp</strong> – 0.7.2<br><strong>jQuery</strong> – 1.4.4<br><strong>jQuery Mobile</strong> – 1.0a2<br><em>If you have found this post and any piece has moved forward, hopefully the examples are still viable/useful. I will not be updating the examples in this post in parellel with updates to any of the previously mentioned software, unless explicitly noted.</em></p>
 <p><strong>Articles in this series:</strong></p>
 <ol>
-<li><a href="http://custardbelly.com/blog/?p=244">Getting Started</a></li>
-<li><a href="http://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
-<li><a href="http://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
-<li><a href="http://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
-<li><a href="http://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
+<li><a href="https://custardbelly.com/blog/?p=244">Getting Started</a></li>
+<li><a href="https://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
+<li><a href="https://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
+<li><a href="https://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
+<li><a href="https://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
 </ol>
-<p><a href="http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="http://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="http://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
+<p><a href="https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="https://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="https://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2010/11/15/flex-hero-persistant-data-in-mobileapplication/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2011/11/11/deferred-content-for-flex-4-group-using-defaultproperty/index.html">&#8672;&nbsp;newer</a></span>
       
       
         <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2010/12/13/jquery-mobile-couchdb-part-2-document-view/index.html">older&nbsp;&#8674;</a></span>
@@ -365,7 +365,7 @@ albumPageCache<span class="hljs-preprocessor">.remove</span>()<span class="hljs-
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2010/12/28/jquery-mobile-couchdb-part-3-templates-and-mustache-js/index.html";
         window.disqus_title="jQuery Mobile + CouchDB: Part 3 – Templates and Mustache.js";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

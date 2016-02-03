@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - The Making of a Test-Driven Grocery List Application in JS: Part X</title>
   </head>
   <body>
@@ -58,7 +58,7 @@
     </p>
   </div>
   <section>
-    <p><em>This is the tenth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
+    <p><em>This is the tenth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
 <h2 id="introduction">Introduction</h2>
 <p>When we last left, we properly modified <code>list-controller</code> to support event notification upon change to its collection as well as created a <code>storage-service</code> communication layer with <code>localStorage</code>. That gave us some great passing tests, but nothing to show off as the service was not integrated into the <strong>Grocery List</strong> application. In this article, we’ll do just that, but…</p>
 <h2 id="before-we-hook-up-list-controller-events-to-storage-service-operations-">Before we hook up list-controller events to storage-service operations…</h2>
@@ -111,7 +111,7 @@
 
 
 })</span>;
-</code></pre><p>This simple first spec tells us that an array of items can be provided to the <code>list-controller</code> using <code>setItems()</code> and should be accessible by its collection. And we fail with no surprises:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_17.png" alt="Failing on setItems of list-controller"></p>
+</code></pre><p>This simple first spec tells us that an array of items can be provided to the <code>list-controller</code> using <code>setItems()</code> and should be accessible by its collection. And we fail with no surprises:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_17.png" alt="Failing on setItems of list-controller"></p>
 <h3 id="list-controller-modification">list-controller modification</h3>
 <p>Throughout this series I have employed a quasi-<a href="http://coderetreat.org/facilitating/activities/tdd-as-if-you-meant-it"><em>“TDD as if you mean it”</em></a> approach when creating new components and modifying the API on existing ones. With this modification to the <code>list-controller</code>, I am going to stick to getting the tests to pass by modifying the <code>list-controller</code> directly as I feel it is going to get a little more involved and will require some refactoring that would be better suited by focusing on true implementation.</p>
 <p>With that said, let’s modify <code>list-controller</code> to get that new spec passing:</p>
@@ -177,7 +177,7 @@
   }
 
 };
-</code></pre><p>Well, that was easy enough!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_18.png" alt="Passing on setItems() of list-controller"></p>
+</code></pre><p>Well, that was easy enough!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_18.png" alt="Passing on setItems() of list-controller"></p>
 <h3 id="tests">Tests</h3>
 <p>Not so fast… I think our single spec may be deceiving our expectations. Let’s add a few more and make sure we are on the right path. To start, we expect changes to these new models to propagate events when it is modified – such as in the work we have done previously.</p>
 <p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
@@ -200,7 +200,7 @@
   itemOne.marked = <span class="hljs-literal">true</span>;
 
 });
-</code></pre><p>This spec tells us that changes to an item should be notified through the <code>list-controller</code> – basically the work we had done previously in getting the <code>list-controller</code> to dispatch events related to its underlying collection so as to be captured by observing parties.<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_19.png" alt="Failing on async timeout of event from item"></p>
+</code></pre><p>This spec tells us that changes to an item should be notified through the <code>list-controller</code> – basically the work we had done previously in getting the <code>list-controller</code> to dispatch events related to its underlying collection so as to be captured by observing parties.<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_19.png" alt="Failing on async timeout of event from item"></p>
 <p>This test actually reveals some refactoring that is required within the <code>list-controller</code>. In essence, creating a new collection from the provided items in <code>setItems()</code> is not enough to have the application work as expected – each individual item needs to be managed by a <code>list-item-controller</code> which responds and notifies of changes accordingly. We had previously paired an item with a item controller within the <code>collection-change</code> event handler of the collection in <code>list-controller</code>:</p>
 <p><em>/script/controller/list-controller.js</em></p>
 <pre><code><span class="hljs-list">(<span class="hljs-title">function</span> assignCollectionHandlers<span class="hljs-list">($collection)</span> {
@@ -409,7 +409,7 @@
   }</span>
 
 }</span>
-</code></pre><p>Now if we run the tests again:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_20.png" alt="Passing on modifications to item management in list-controller"></p>
+</code></pre><p>Now if we run the tests again:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_20.png" alt="Passing on modifications to item management in list-controller"></p>
 <p>Passing! </p>
 <h3 id="tests">Tests</h3>
 <p>I don’t think we are out of the woods yet, however… Let’s continue to add more expectations about setting the collection through <code>setItems()</code>on <code>list-controller</code>:</p>
@@ -431,7 +431,7 @@
 });
 </code></pre><p>This test ensures that the <code>list-controller</code> should still be responding to and notifying of changes to the new collection created through <code>setItems()</code> just as it should if the <code>list-controller</code> was only being instructed to modify the collection through calls to <code>createNewItem()</code>.</p>
 <h3 id="list-controller-refactoring">list-controller refactoring</h3>
-<p>To save you some time in downloading more images, believe me when I tell you I just put us back in red <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> The reason being that dang <code>assignCollectionHandlers</code> <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a>. The collection that is created in <code>setItems()</code> is not being observed. The <strong>IIFE</strong> to assign events handlers is only run upon load of the module and only targets the collection instantiated in its declaration. In other words, any new collections will not be observed.</p>
+<p>To save you some time in downloading more images, believe me when I tell you I just put us back in red <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> The reason being that dang <code>assignCollectionHandlers</code> <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a>. The collection that is created in <code>setItems()</code> is not being observed. The <strong>IIFE</strong> to assign events handlers is only run upon load of the module and only targets the collection instantiated in its declaration. In other words, any new collections will not be observed.</p>
 <p>I say we move that <strong>IIFE</strong> out into its own expression:</p>
 <p><em>/script/controller/list-controller.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> collection = collectionFactory.create(),
@@ -548,7 +548,7 @@ assignCollectionHandlers($(collection));
 
 
 <span class="hljs-keyword">return</span> listController;
-</code></pre><p>With those changes we are still failing on the last spec we created, but more importantly we have not caused any other tests to fail!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_21.png" alt="Still failing, but failing well!"></p>
+</code></pre><p>With those changes we are still failing on the last spec we created, but more importantly we have not caused any other tests to fail!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_21.png" alt="Still failing, but failing well!"></p>
 <p>Let’s get that last spec to pass:</p>
 <p><em>/script/controller/list-controller.js</em></p>
 <pre><code><span class="hljs-attribute">setItems</span>: <span class="hljs-string">function(items) {</span>
@@ -568,7 +568,7 @@ assignCollectionHandlers($(collection));
   assignCollectionHandlers($(collection));
 
 }</span>
-</code></pre><p>Hurrah!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_22.png" alt="Passing again!"></p>
+</code></pre><p>Hurrah!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_22.png" alt="Passing again!"></p>
 <p>Tagged <strong>0.1.13</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.13">https://github.com/bustardcelly/grocery-ls/tree/0.1.13</a></p>
 <h2 id="hooking-it-all-together">Hooking it all together</h2>
 <p>We have created our <code>storage-service</code> to communicate with <code>localStorage</code>, modified <code>list-controller</code> to dispatch events and accept initial items for its collection and all our tests are still passing! It’s a wonderous feeling. Now let’s get to actually hooking them up so that the <code>storage-service</code> is told how to handle changes to the list by responding to <code>list-controller</code> events.</p>
@@ -658,11 +658,11 @@ assignCollectionHandlers($(collection));
 }</span><span class="hljs-list">(<span class="hljs-title">window</span>, requirejs)</span>)</span><span class="hljs-comment">;</span>
 </code></pre><p>Just a slight modification to the main file. We added <code>storage-service</code> as an initial dependency, request and supply stored items to the list-controller and respond to <code>save-item</code> and <code>remove-item</code> events, forwarding actions along to the <code>storage-service</code> appropriately.</p>
 <p>If we run the application now, we can add, mark-off, remove items from the list. Same as before, but now, if we refresh the page, items and their state a persisted!</p>
-<p><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_27.png" alt="Grocery list application"></p>
+<p><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_27.png" alt="Grocery list application"></p>
 <p>It may look a little different than your if you have been following along in the code. I added some nice styling and committed it to the repo.</p>
 <p>Tagged <strong>0.2.0</strong> : <a href="https://github.com/bustardcelly/grocery-ls/tree/0.2.0">https://github.com/bustardcelly/grocery-ls/tree/0.2.0</a></p>
 <h2 id="conclusion">Conclusion</h2>
-<p>We have completed our <strong>Grocery List</strong> application and have it fully tested (well, hopefully <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ). We now have a grocery list that we can curate and is persisted in the browser. It should be noted that it is not persistent across browser<strong>s</strong>, plural – so make sure to open it in the same browser on your mobile device when creating the list and shopping. I am most likely going to whip up a little server to persist the list remotely, but am not going to document that in this series. It may end up in the <a href="https://github.com/bustardcelly/grocery-ls">github repo</a> eventually, however, so keep an eye out.</p>
+<p>We have completed our <strong>Grocery List</strong> application and have it fully tested (well, hopefully <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ). We now have a grocery list that we can curate and is persisted in the browser. It should be noted that it is not persistent across browser<strong>s</strong>, plural – so make sure to open it in the same browser on your mobile device when creating the list and shopping. I am most likely going to whip up a little server to persist the list remotely, but am not going to document that in this series. It may end up in the <a href="https://github.com/bustardcelly/grocery-ls">github repo</a> eventually, however, so keep an eye out.</p>
 <p>Thanks for sticking around in this long series (<em>ten parts!</em>) of building an application by trying to adhere to <strong>TDD</strong>. I may have gone off course here and there, but I hope it was informative in any way.</p>
 <p>Cheers!</p>
 <p>—-</p>
@@ -670,13 +670,11 @@ assignCollectionHandlers($(collection));
 <h2 id="reference">Reference</h2>
 <p><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://cumulative-hypotheses.org/2011/08/30/tdd-as-if-you-meant-it/">TDD as if you Meant it by Keith Braithwaite</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a></p>
 <h2 id="post-series">Post Series</h2>
-<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>.</p>
+<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="https://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="https://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/amd/">AMD</a>, <a href="https://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="https://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="https://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="https://custardbelly.com/blog/category/jasmine/">jasmine</a>.</p>
 
   </section>
   <section class="navigation">
-      
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2014/01/03/so-long-wordpress/index.html">&#8672;&nbsp;newer</a></span>
       
       
         <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/index.html">older&nbsp;&#8674;</a></span>
@@ -690,7 +688,7 @@ assignCollectionHandlers($(collection));
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/index.html";
         window.disqus_title="The Making of a Test-Driven Grocery List Application in JS: Part X";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

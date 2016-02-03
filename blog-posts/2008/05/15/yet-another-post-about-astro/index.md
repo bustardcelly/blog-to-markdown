@@ -1,6 +1,6 @@
 ---
 title: 'Yet another post about Astro'
-url: 'http://custardbelly.com/blog/2008/05/15/yet-another-post-about-astro/'
+url: 'https://custardbelly.com/blog/2008/05/15/yet-another-post-about-astro/'
 author:
   name: 'todd anderson'
 date: '2008-05-15'
@@ -24,7 +24,7 @@ The following is the process i took to only mess with the files from the nightly
 **9.** Navigate to the installation of your nightly build. (ie. /Applications/flex_sdk_3.0.1.1728)  
 **10**. Add a new name for the SDK… you should see something like so:
 
-![Flex Builder Astro set up](http://custardbelly.com/blog/images/astro.jpg)””””””””””””””””””””””””””””””””””””””””””””””””””””””’ 
+![Flex Builder Astro set up](https://custardbelly.com/blog/images/astro.jpg)””””””””””””””””””””””””””””””””””””””””””””””””””””””’ 
 
 **11**. Click OK, Then tick the checkbox next to the newly added sdk in the Installed Flex SDKs window.  
 **12**. Click Apply, then OK.  
@@ -44,4 +44,4 @@ Tinic Uro – [Adobe Is Making Noise series](http://www.kaourantin.net/)
 Keith Peters – [Astro Dynamic Sound!](http://www.bit-101.com/blog/?p=1264)  
 Josh Tynjala – [Gratuitous Text Effects](http://www.zeuslabs.us/2008/05/15/gratuitous-text-effects-courtesy-of-flash-player-10/)
 
-Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Astro](http://custardbelly.com/blog/category/astro/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/).
+Posted in [AS3](https://custardbelly.com/blog/category/as3/), [Astro](https://custardbelly.com/blog/category/astro/), [Flash](https://custardbelly.com/blog/category/flash/), [Flex](https://custardbelly.com/blog/category/flex/).

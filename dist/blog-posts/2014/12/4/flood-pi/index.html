@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - flood-pi: Flood detection on Raspberry Pi</title>
   </head>
   <body>
@@ -61,7 +61,7 @@
     <p>A lot has happened over the course current year. Among the biggest changes, we left Boston for Vermont! We have begun to settle in here in the beatuiful Champlain Valley and, of course, my oldest is enrolled in hockey lessons - a sport i know very little about, but am excited to learn from him.</p>
 <p>As is expected from a big move, we have found outselves in different surroundings and different living spaces. We are no longer 4 people cramped in a tiny 2-bedroom condo along the train line in Brighton, MA; we are now 4 people in a ranch house with noone above or below us to complain about taking off their loud shoes when the baby is sleeping. </p>
 <p>While the extra space of a house is wonderful, tit comes with additional maintenance and care over renting an apartment. For instance, we never had a basement in our previous apartments and never had to worry about flooding or failures in a sump pump. Now we do. And we have had a handful of instances when it has occurred. While it is true that we have and will continue to have qualified people locate the source of the problem, I thought - in the meantime - it would be a fun little project to setup something that could alert me to possible water starting to accumulate in the basement.</p>
-<p><img src="http://custardbelly.com/images/flood_pi_flood.jpg" alt="a flood!"></p>
+<p><img src="https://custardbelly.com/images/flood_pi_flood.jpg" alt="a flood!"></p>
 <p>And from that <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> was born!</p>
 <h2 id="flood-pi">flood-pi</h2>
 <p><strong>flood-pi</strong> is an open source Python project meant to be run on a <a href="http://www.raspberrypi.org/">Raspberry Pi</a>. The Github repo for <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> has some more technical details, but essential <strong>flood-pi</strong> detects a &quot;flood&quot; by reading an analog value from a circuit completed by water.</p>
@@ -71,16 +71,16 @@
 <h3 id="project">project</h3>
 <p>Here&#39;s some pictures of the project:</p>
 <p>The leads.</p>
-<p><img src="http://custardbelly.com/images/flood_pi_leads.jpg" alt="leads"></p>
+<p><img src="https://custardbelly.com/images/flood_pi_leads.jpg" alt="leads"></p>
 <p><a href="http://www.raspberrypi.org/">Raspberry Pi</a>, running <a href="http://www.raspberrypi.org/downloads/">Debian-Wheezy</a> with the <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> program running as a daemon. <a href="http://www.edimax.com/edimax/merchandise/merchandise_detail/data/edimax/global/wireless_adapters_n150/ew-7811un">Edimax WiFi adapter</a> for the interweb-bings and email-ery.</p>
-<p><img src="http://custardbelly.com/images/flood_pi_rasp.jpg" alt="pi"></p>
+<p><img src="https://custardbelly.com/images/flood_pi_rasp.jpg" alt="pi"></p>
 <p>The mcp3008 on its own breakout. (<strong>i soldered it up all by myself!</strong>)</p>
-<p><img src="http://custardbelly.com/images/flood_pi_mcp3008.jpg" alt="mcp3008"></p>
+<p><img src="https://custardbelly.com/images/flood_pi_mcp3008.jpg" alt="mcp3008"></p>
 <h3 id="installation">installation</h3>
 <p>Here&#39;s some pictures of its installation in the basement:</p>
-<p><img src="http://custardbelly.com/images/flood_pi_install3.jpg" alt="full install"></p>
-<p><img src="http://custardbelly.com/images/flood_pi_install1.jpg" alt="module install"></p>
-<p><img src="http://custardbelly.com/images/flood_pi_install2.jpg" alt="lead install"></p>
+<p><img src="https://custardbelly.com/images/flood_pi_install3.jpg" alt="full install"></p>
+<p><img src="https://custardbelly.com/images/flood_pi_install1.jpg" alt="module install"></p>
+<p><img src="https://custardbelly.com/images/flood_pi_install2.jpg" alt="lead install"></p>
 <p>We, thankfully, haven&#39;t been able to get a <em>true</em> &quot;positive&quot; reading since its installation, but I have submersed the leads in water for a short time to ensure i was being sent emails :)</p>
 <h2 id="flood-pi-admin">flood-pi-admin</h2>
 <p>I couldn&#39;t just stop at getting emails. I am empoyed as a software developer by trade, so I <em>had</em> to keep writing software.</p>
@@ -91,11 +91,11 @@
 <p><strong>It&#39;s pretty bare-bones at the moment, but i plan to add new features as they are required (or requested).</strong></p>
 <h3 id="charts">charts</h3>
 <p>The landing page and <em>/level?range=(day|week|year|all)</em> provide chart data with the level readings:</p>
-<p><img src="http://custardbelly.com/images/flood_pi_chart.png" alt="chart data"></p>
+<p><img src="https://custardbelly.com/images/flood_pi_chart.png" alt="chart data"></p>
 <p>The red band across the middle of the chart is the &quot;positive&quot; value range provided from the <strong>flood-pi</strong> and should be considered possible flood detection. As mentioned previously, lower values may come in but not high enough to be considered &quot;positive&quot;; additionally, high values may come in which may actually mean that the leads have somehow started touching each other rather than completing the circuit with water.</p>
 <h3 id="isitflooded">isitflooded</h3>
 <p>There is also a direct page at <em>/isitflooded</em> that will let you know if it is currently considered flooded or not:</p>
-<p><img src="http://custardbelly.com/images/flood_pi_no.png" alt="current detection"></p>
+<p><img src="https://custardbelly.com/images/flood_pi_no.png" alt="current detection"></p>
 <p>It also reports last reporting time and whether or not it should alert you to the <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> no longer reporting information.</p>
 <h2 id="conclusion">conclusion</h2>
 <p>I had a lot of fun taking a small idea of being notified the nextr time their is water in the basement and transferring it to an actual physical devices that can send out emails upon completion of a circuit. Plus, i got better at soldering - i know the ADC breakout is a small assembly, but it made me happy the way it turned out.</p>
@@ -106,8 +106,10 @@
   </section>
   <section class="navigation">
       
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/index.html">&#8672;&nbsp;newer</a></span>
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2014/03/18/gulp-rev-append/index.html">older&nbsp;&#8674;</a></span>
+      
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -118,7 +120,7 @@
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2014/12/4/flood-pi/index.html";
         window.disqus_title="flood-pi: Flood detection on Raspberry Pi";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

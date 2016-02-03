@@ -1,6 +1,6 @@
 ---
 title: 'flash8'
-url: 'http://custardbelly.com/blog/2005/08/12/flash8/'
+url: 'https://custardbelly.com/blog/2005/08/12/flash8/'
 author:
   name: 'todd anderson'
 date: '2005-08-12'
@@ -24,4 +24,4 @@ This new Bitmap API just sets my mind reeling… as i’ve confessed to many, my
 
 i can’t wait.
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/).

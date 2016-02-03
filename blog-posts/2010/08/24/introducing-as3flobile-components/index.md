@@ -1,6 +1,6 @@
 ---
 title: 'Introducing as3flobile components'
-url: 'http://custardbelly.com/blog/2010/08/24/introducing-as3flobile-components/'
+url: 'https://custardbelly.com/blog/2010/08/24/introducing-as3flobile-components/'
 author:
   name: 'todd anderson'
 date: '2010-08-24'
@@ -16,7 +16,7 @@ You can view the components here: [http://www.custardbelly.com/android/froyo/as3
 
 A full list of the current components is available on the [project’s wiki](http://wiki.github.com/bustardcelly/as3flobile/) in [github](http://github.com/bustardcelly/as3flobile). The main intent of creating these controls was to start thinking about user gesture as recognition and navigation within a control. My first task was to forget about scrollbars. They have essentially become useless on touch-devices in the context of navigating through content of a defined area. Though **as3flobile** does provide scrollbars in a sense (they are called **Sliders**) they are meant for selecting a value within a range, not as a handrail to hold onto to traverse items in a list. As a visual clue, the scrollbar still makes sense. As a user-input model, it is slowly not.
 
-In any event, scrolling was the first gesture tackled. So I mainly started out making a **ScrollViewport** and then went crazy making all these other controls i know i would need _**if i ever got back to the original task at hand**_ ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) I could talk more in depth on how i tackled scrolling and how i kept the API open for you to create your own scrolling contexts and plug them in in later posts if you’d like.
+In any event, scrolling was the first gesture tackled. So I mainly started out making a **ScrollViewport** and then went crazy making all these other controls i know i would need _**if i ever got back to the original task at hand**_ ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) I could talk more in depth on how i tackled scrolling and how i kept the API open for you to create your own scrolling contexts and plug them in in later posts if you’d like.
 
 There is some tap recognition, such as when selecting a list item or a **RadioButton**, but most of the focus is on swipe gesture for scrolling. I would like to start diving into other gestures (ie. zoom) which would probably make me rethink the architecture of a custom component for a touch-device, not only in its gesture recognition but also how you interact to access information. For instance, does a drop down really make any sense any more? (though there is a **DropDown** in **as3flobile**) I don’t know if i am the only one, but it really feels antiquated to me. I wonder if there will come a time when we are old and we look at old pictures of the online forms we used to fill out with there funny old clunky controls… how much time was wasted.
 
@@ -28,4 +28,4 @@ However, if you look at the default skins within **as3flobile**, in **com.custar
 
 In any event, i hope you check out the **as3flobile** [project in github](http://wiki.github.com/bustardcelly/as3flobile/) and/or [get down to business as Gary always seems to do](http://30.media.tumblr.com/tumblr_l7foigmQIN1qzzw5do1_500.jpg). If you do check out the **as3flobile** project, suggestions, comments and questions are always appreciated. I am sure there are some bugs and some aspects of the controls that i just didn’t think of that may be needed.
 
-Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Android](http://custardbelly.com/blog/category/android/), [Flash](http://custardbelly.com/blog/category/flash/), [as3flobile](http://custardbelly.com/blog/category/as3flobile/).
+Posted in [AS3](https://custardbelly.com/blog/category/as3/), [Android](https://custardbelly.com/blog/category/android/), [Flash](https://custardbelly.com/blog/category/flash/), [as3flobile](https://custardbelly.com/blog/category/as3flobile/).

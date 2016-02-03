@@ -1,6 +1,6 @@
 ---
 title: 'Deferred content for Flex 4 Group using [DefaultProperty]'
-url: 'http://custardbelly.com/blog/2011/11/11/deferred-content-for-flex-4-group-using-defaultproperty/'
+url: 'https://custardbelly.com/blog/2011/11/11/deferred-content-for-flex-4-group-using-defaultproperty/'
 author:
   name: 'todd anderson'
 date: '2011-11-11'
@@ -316,4 +316,4 @@ This post got rather long as far as just wanting to show off how to defer child 
 
 See the whole gist here: [https://gist.github.com/1340472](https://gist.github.com/1340472).
 
-Posted in [AIR](http://custardbelly.com/blog/category/air/), [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4](http://custardbelly.com/blog/category/flex-4/), [Flex 4.5](http://custardbelly.com/blog/category/flex-4-5/).
+Posted in [AIR](https://custardbelly.com/blog/category/air/), [AS3](https://custardbelly.com/blog/category/as3/), [Flash](https://custardbelly.com/blog/category/flash/), [Flex](https://custardbelly.com/blog/category/flex/), [Flex 4](https://custardbelly.com/blog/category/flex-4/), [Flex 4.5](https://custardbelly.com/blog/category/flex-4-5/).

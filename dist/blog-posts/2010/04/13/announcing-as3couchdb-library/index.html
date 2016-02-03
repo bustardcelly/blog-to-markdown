@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - Announcing as3couchdb Library</title>
   </head>
   <body>
@@ -59,7 +59,7 @@
   </div>
   <section>
     <p><em>The library is available on github at <a href="http://github.com/bustardcelly/as3couchdb">bustardcelly/as3couchdb</a>. You can read more detailed information on <a href="http://wiki.github.com/bustardcelly/as3couchdb/">the wiki</a>. Continue reading to hear me blab on and on.</em></p>
-<p>When the new year came and i had finally got in <a href="http://custardbelly.com/blog/?p=132">my last chapter</a> for <a href="http://www.amazon.com/Flex-Cookbook-Real-world-developing-Applications/dp/0596805616/ref=sr_1_1?ie=UTF8&amp;s=books&amp;qid=1271029122&amp;sr=8-1">Flex 4 Cookbook</a>, it was time to return to my list of things to learn. I started looking into <strong>Capuccino</strong> and <strong>Closure</strong> and bought a book on <strong>Python</strong>. Somewhere along the way i just clicked on some tweet about 5 emerging trends that <em>i must know about</em>. Usually i find these lists are a grain-of-salt bandwagon of buzzery – maybe some truth but can’t cut through the true meaning of why this person is writing about them. But one did stick – <strong>NoSQL</strong>. I looked into the different implementations and right away i took a fancy to <strong><a href="http://couchdb.apache.org/">CouchDB</a></strong>. I don’t know why. It seemed quite simple. Working with a database using <strong>REST</strong> calls. Sounds good. And i could write my own map-reduce views in Javascript. Sign me up.</p>
+<p>When the new year came and i had finally got in <a href="https://custardbelly.com/blog/?p=132">my last chapter</a> for <a href="http://www.amazon.com/Flex-Cookbook-Real-world-developing-Applications/dp/0596805616/ref=sr_1_1?ie=UTF8&amp;s=books&amp;qid=1271029122&amp;sr=8-1">Flex 4 Cookbook</a>, it was time to return to my list of things to learn. I started looking into <strong>Capuccino</strong> and <strong>Closure</strong> and bought a book on <strong>Python</strong>. Somewhere along the way i just clicked on some tweet about 5 emerging trends that <em>i must know about</em>. Usually i find these lists are a grain-of-salt bandwagon of buzzery – maybe some truth but can’t cut through the true meaning of why this person is writing about them. But one did stick – <strong>NoSQL</strong>. I looked into the different implementations and right away i took a fancy to <strong><a href="http://couchdb.apache.org/">CouchDB</a></strong>. I don’t know why. It seemed quite simple. Working with a database using <strong>REST</strong> calls. Sounds good. And i could write my own map-reduce views in Javascript. Sign me up.</p>
 <p>What also was a big draw to me was the concept of document revisions in <strong>CouchDB</strong>. I had worked on a couple projects that required <strong>online/offline synchronization</strong> and it was quite a pain to keep track of last modified entries and cleanup of deleted entries in a SQL database. The revisioning system for documents (entries) is built into <strong>CouchDB</strong> and what is more is that you are not locked into a rigid data structure and ensure your table relations are scalable. That’s not to say that building relational databases isn’t a fine art. It is. And there are many smarter people than me that get paid more money that have that craft. I don’t. The concept of revisions is familiar to me and i am greatly intrigued by the concept of <strong>NoSQL</strong>.</p>
 <p>Anyway, i started digging into <strong><a href="http://couchdb.apache.org/">CouchDB</a></strong> and figured the one way for me to see the whole picture was to hook up a client side end to make these requests. See if what i was reading about was something i could use as a different approach to <strong>online/offline synchronization</strong> in my applications. What came out was a whole library for working with databases and documents of a <strong>CouchDB</strong> instance – a library which is now available on <strong>github</strong> at <a href="http://github.com/bustardcelly/as3couchdb">http://github.com/bustardcelly/as3couchdb</a>.</p>
 <p>Took me long enough to get talking about the <strong>as3couchdb</strong> library mentioned in the title, didn’t it? Well, you can read more long-winded explanations about the make-up of the library from <a href="http://wiki.github.com/bustardcelly/as3couchdb/">the wiki on github</a>, and browse <a href="http://github.com/bustardcelly/as3couchdb/tree/master/examples/flex/">some examples that use the library</a> (currently all Flex examples, but AS3 examples are coming soon).</p>
@@ -82,12 +82,12 @@ contact.read( $uid );</code></p>
 <p>If you made it this far, thank you for reading all this. Wow. You are a trooper. Tell your boss i said it is okay and you can bill that time.</p>
 <p>Link-link time!<br>CouchDB – <a href="http://couchdb.apache.org/">http://couchdb.apache.org/</a><br>CouchDB: The Definitive Guide – <a href="http://books.couchdb.org/relax/">http://books.couchdb.org/relax/</a><br>CouchDB: Wiki – <a href="http://wiki.apache.org/couchdb/FrontPage">http://wiki.apache.org/couchdb/FrontPage</a><br>Planet CouchDB – <a href="http://planet.couchdb.org/">http://planet.couchdb.org/</a><br>MongoDB, CouchDB and MySQL Compare Grid – <a href="http://www.mongodb.org/display/DOCS/MongoDB,+CouchDB,+MySQL+Compare+Grid">http://www.mongodb.org/display/DOCS/MongoDB,+CouchDB,+MySQL+Compare+Grid</a><br>as3httpclientlib – <a href="http://github.com/gabriel/as3httpclient">http://github.com/gabriel/as3httpclient</a></p>
 <p>More information about the custom metadata, and the inner workings of as3couchdb can be found <a href="http://wiki.github.com/bustardcelly/as3couchdb/">on the wiki</a> for the <a href="http://github.com/bustardcelly/as3couchdb">project in github</a>.</p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/as3couchdb/">as3couchdb</a>.</p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/as3/">AS3</a>, <a href="https://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="https://custardbelly.com/blog/category/flash/">Flash</a>, <a href="https://custardbelly.com/blog/category/flex/">Flex</a>, <a href="https://custardbelly.com/blog/category/as3couchdb/">as3couchdb</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2010/08/24/introducing-as3flobile-components/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2010/05/26/listen-ma-im-on-riaradio/index.html">&#8672;&nbsp;newer</a></span>
       
       
         <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2010/03/24/flex-4-cookbook-coming-soon/index.html">older&nbsp;&#8674;</a></span>
@@ -101,7 +101,7 @@ contact.read( $uid );</code></p>
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2010/04/13/announcing-as3couchdb-library/index.html";
         window.disqus_title="Announcing as3couchdb Library";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

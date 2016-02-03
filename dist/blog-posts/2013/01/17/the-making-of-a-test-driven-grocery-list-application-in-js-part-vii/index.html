@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - The Making of a Test-Driven Grocery List Application in JS: Part VII</title>
   </head>
   <body>
@@ -58,9 +58,9 @@
     </p>
   </div>
   <section>
-    <p><em>This is the seventh installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
+    <p><em>This is the seventh installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
 <h2 id="introduction">Introduction</h2>
-<p>In the <a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">previous article</a> we resolved tests for the <em>Mark Off Item</em> feature that were left in a failing state after refactoring the list-controller. The test are all green now and the application usable, but we are not done with implementing the required features. In this article I plan to address another – the <em>Remove Item</em> feature.</p>
+<p>In the <a href="https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">previous article</a> we resolved tests for the <em>Mark Off Item</em> feature that were left in a failing state after refactoring the list-controller. The test are all green now and the application usable, but we are not done with implementing the required features. In this article I plan to address another – the <em>Remove Item</em> feature.</p>
 <p>Before we begin, let’s drum up a quick story and scenario(s) for the <em>Remove Item</em> feature. I know the feature seems a little simple – just remove an item from the list – and going through and adding stories and scenarios may appear like adding complexity to the situation, but since I have begun to incorporate such a workflow, I feel like it actually gives me more time to think about not only the necessity of the feature but the design; in result, <em>hopefully*</em> cutting down on the complexity of the code.</p>
 <p><em>// story</em><br><strong>Feature:</strong> remove item from grocery list</p>
 <p><strong>In order to</strong> not buy an item previous on a grocery list<br><strong>As a</strong> grocery shopper<br><strong>I want to</strong> remove the existence of the item on the grocery list<br>—</p>
@@ -115,7 +115,7 @@
 
 
 });
-</code></pre><p>Don’t mind the expectation declared in the spec. <a href="http://pivotal.github.com/jasmine/">Jasmine</a> does not check empty specs and automatically fail them. In fact, if we ran it without any expectations defined, it would be all green. So, I usually drop a failing expectation in quickly when creating new specs in cases where someone/thing comes and interrupts me, I know where to pick back up when i come back. It’s habit. Maybe a little paranoia. Don’t know if it’s right or wrong <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)">  </p>
+</code></pre><p>Don’t mind the expectation declared in the spec. <a href="http://pivotal.github.com/jasmine/">Jasmine</a> does not check empty specs and automatically fail them. In fact, if we ran it without any expectations defined, it would be all green. So, I usually drop a failing expectation in quickly when creating new specs in cases where someone/thing comes and interrupts me, I know where to pick back up when i come back. It’s habit. Maybe a little paranoia. Don’t know if it’s right or wrong <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)">  </p>
 <p>If you have been following along in the articles of this series, I typically do my implementation in the tests then move them to their respective modules. It’s a nice workflow for me, and in most cases I feel it gets me more focused on design. In this case, I am just going to declare my expectations, see them fail and move over to implementing the code right in the module, running the spec runner as we go until we see green.  </p>
 <p>Anyway, first on the agenda is to verify that the Remove API from <code>list-controller</code> is expected to remove the item from the underlying collection of grocery list items:</p>
 <p><em>/test/jasmine/spec/feature/removeitem.spec.js</em></p>
@@ -154,7 +154,7 @@
 
 
 });
-</code></pre><p>Run that, and we have a big honking failure:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_1.png" alt="Failing remove spec on collection."><br>Good!</p>
+</code></pre><p>Run that, and we have a big honking failure:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_vii_1.png" alt="Failing remove spec on collection."><br>Good!</p>
 <p>In looking at the expectations of the <code>removeItem()</code> method on <code>list-controller</code>, we are expecting that the item is removed from the collection and returned on invocation. Let’s implement <code>removeItem</code> on <code>list-controller</code> with this understanding:</p>
 <p><em>/script/controller/list-controller.js</em></p>
 <pre><code>listController = {
@@ -208,7 +208,7 @@
   }
 
 };
-</code></pre><p>Run it, and we pass!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_2.png" alt="Passing tests on remove from collection."><br>Well, that was sort of easy and anti-climatic. No drama. A little boring, if I may say so.</p>
+</code></pre><p>Run it, and we pass!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_vii_2.png" alt="Passing tests on remove from collection."><br>Well, that was sort of easy and anti-climatic. No drama. A little boring, if I may say so.</p>
 <p>But… there’s more! The <code>list-controller</code> isn’t just some dumb facade to the underlying <strong>Grocery List</strong> collection – it also manages the associated renderers to the <code>grocery-ls-item</code> models. Let’s get back to our tests and add a new spec:</p>
 <p><em>/test/jasmine/spec/feature/removeitem.spec.js</em></p>
 <pre><code><span class="hljs-function">it(<span class="hljs-string">'should remove item renderer from view'</span>, <span class="hljs-function">function()</span> {
@@ -221,7 +221,7 @@
 
 })</span>;
 </code></pre><p>Just as we had done for the <em>Add Item</em> feature specification, we are inspecting the view reference held by list-controller that is updated based on change to the model. In this case, we are expecting that the list item renderer is removed upon <code>removeItem()</code> as well.</p>
-<p>Run that, and failure!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_3.png" alt="Failure of test on removl of item views."><br>It might be important to note the actual print out from the failing expectation. It says that the length of children on the list view is 2 – that is because we now have 2 specs that are defining the expectations of <code>removeItem()</code> that are failing to remove the item view from the list.</p>
+<p>Run that, and failure!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_vii_3.png" alt="Failure of test on removl of item views."><br>It might be important to note the actual print out from the failing expectation. It says that the length of children on the list view is 2 – that is because we now have 2 specs that are defining the expectations of <code>removeItem()</code> that are failing to remove the item view from the list.</p>
 <p>Let’s switch over the list-controller and get this sorted and back to green. But before we do, let’s think about the relationship of the <code>list-controller</code> and its underlying collection. The <code>list-controller</code> responds to collection event for <code>EventKindEnum.ADD</code> in order to modify the view. So, we will respond to <code>EventKindEnum.REMOVE</code> accordingly to modify the view on removal of an item as well, instead of adding more logic to the <code>removeItem()</code> method on <code>list-controller</code>:</p>
 <p><em>/script/controller/list-controller.js</em></p>
 <pre><code><span class="hljs-variable">$collection</span>.on(<span class="hljs-string">'collection-change'</span>, function(<span class="hljs-keyword">event</span>) {
@@ -276,7 +276,7 @@
 
 });
 </code></pre><p>In the <code>EventKindEnum.REMOVE</code> case, we are grabbing the model provided on the event, using it to access the associated <code>list-item-controller</code> instance, and – if defined – removing the list item renderer view from the DOM and the controller from the renderer collection.</p>
-<p>Run that, and we are back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_4.png" alt="Passing tests on removal of item from view."></p>
+<p>Run that, and we are back to green!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_vii_4.png" alt="Passing tests on removal of item from view."></p>
 <p>Tagged <strong>0.1.10</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.10">https://github.com/bustardcelly/grocery-ls/tree/0.1.10</a></p>
 <h2 id="back-to-reality">Back to Reality</h2>
 <p>We’ve got test for the removal of a grocery list item working. We are currently feature complete. Let’s ship it! But hold up, does the <strong>Grocery List</strong> application – the thing we are actually building for someone like myself to Use in real life – actually use the new Remove API. We defined a business feature that was a requirement to have, and met that expectation, but we really didn’t address how an item is removed, or under what circumstances…</p>
@@ -308,7 +308,7 @@
 
 });
 </code></pre><p>In this spec, we set up a <a href="https://github.com/pivotal/jasmine/wiki/Spies">spy</a> to verify that the <code>removeItem()</code> method is invoked upon dispatch of <code>remove</code> from a <code>list-item-controller</code> instance.</p>
-<p>Run that and we are back to red, with a message letting us know that <code>removeItem()</code> was never called.<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_5.png" alt="Failing implementation of remove event."><br>Good. Let’s open up <code>list-controller</code> and implement a <code>remove</code> event response:</p>
+<p>Run that and we are back to red, with a message letting us know that <code>removeItem()</code> was never called.<br><img src="https://custardbelly.com/blog/images/tdd_js/part_vii_5.png" alt="Failing implementation of remove event."><br>Good. Let’s open up <code>list-controller</code> and implement a <code>remove</code> event response:</p>
 <p>/script/controller/list-controller.js</p>
 <pre><code><span class="hljs-variable">$collection</span>.on(<span class="hljs-string">'collection-change'</span>, function(<span class="hljs-keyword">event</span>) {
 
@@ -372,7 +372,7 @@
 
 });
 </code></pre><p>We added the remove handler delegation in the <code>ADD</code> case when the collection changes, along with the other implementation of item renderer establishment. And, for good measure and memory management, we are sure to remove the event handler in the <code>REMOVE</code> case from the collection change, as well.</p>
-<p>Run the test now and we are back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_6.png" alt="Passing remove event response."></p>
+<p>Run the test now and we are back to green!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_vii_6.png" alt="Passing remove event response."></p>
 <h3 id="list-item-controller-modification">list-item-controller Modification</h3>
 <p>That’s great, but we are still glazing over the usability aspect: <em>How does a User delete an item?</em></p>
 <p>Again, we could go into a lengthy discussion of UX and code implementations, but to save yourself from scrolling just to read me ramble off topic, we’ll keep it simple: <em>add a delete button</em>! I don’t know why I got excited there. I’ll show the implementation in piecemeal just to see how it all comes together. First we’ll start with the markup we declared for the <code>list-item-controller</code> views:</p>
@@ -470,11 +470,11 @@ editableItemFragment    = <span class="hljs-comment">'<span class="hljs-xmlDocTa
 
 }
 </code></pre><p>Alright. That should just about do it. Now you may be saying to yourself, <em>‘Why haven’t we modified any tests in order to support this change in UI and event handling?’</em> To which I will respond, <em>‘Stop bringing that up!’</em> In all seriousness, we perhaps should be writing tests to support these changes, however those will get pretty fine grained on the UI design aspect of the application. As you can see, it is constantly changing at this time and we are more concerned with the logical points of how the <strong>Grocery List</strong> application should behave. </p>
-<p>Like with most of my code, future me may look back and shake his head at past me for such a statement – but for right now, present me will live with it <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>Like with most of my code, future me may look back and shake his head at past me for such a statement – but for right now, present me will live with it <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <h3 id="using-the-grocery-list-application">Using the Grocery List Application</h3>
-<p>Let’s actually <em>run</em> the application and use it. We spend all this time making our tests turn red and green, we barely get to use what we are building.<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_7.png" alt="Grocery list application"></p>
+<p>Let’s actually <em>run</em> the application and use it. We spend all this time making our tests turn red and green, we barely get to use what we are building.<br><img src="https://custardbelly.com/blog/images/tdd_js/part_vii_7.png" alt="Grocery list application"></p>
 <p>Oh my… that is ugly to look at. But it works! And it’s backed by tests!</p>
-<p>Because I can’t leave well enough alone, I added some quick styling just to make it a little more pleasant on the eyes. I am not designer, so it might not be any more pleasant to you <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> I won’t go into the styling of the application as that could be a whole ‘nother article and discussion of box model, but feel free to mess around with the styling on your own…<br><img src="http://custardbelly.com/blog/images/tdd_js/part_vii_8.png" alt="Prettier Grocery List application"></p>
+<p>Because I can’t leave well enough alone, I added some quick styling just to make it a little more pleasant on the eyes. I am not designer, so it might not be any more pleasant to you <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> I won’t go into the styling of the application as that could be a whole ‘nother article and discussion of box model, but feel free to mess around with the styling on your own…<br><img src="https://custardbelly.com/blog/images/tdd_js/part_vii_8.png" alt="Prettier Grocery List application"></p>
 <p>Tagged <strong>0.1.11</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.11">https://github.com/bustardcelly/grocery-ls/tree/0.1.11</a></p>
 <h2 id="conclusion">Conclusion</h2>
 <p>In this article of the series, we took more of a traditional approach to <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a> and went along making things turn red before they turn green, one spec at a time, and all the while implementing the <em>Remove Item</em> feature. </p>
@@ -485,16 +485,16 @@ editableItemFragment    = <span class="hljs-comment">'<span class="hljs-xmlDocTa
 <h2 id="reference">Reference</h2>
 <p><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a></p>
 <h2 id="post-series">Post Series</h2>
-<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
+<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="https://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="https://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/amd/">AMD</a>, <a href="https://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="https://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="https://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="https://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="https://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2013/02/04/madmin-for-ease-of-creating-and-documenting-restful-service-uris/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -505,7 +505,7 @@ editableItemFragment    = <span class="hljs-comment">'<span class="hljs-xmlDocTa
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/index.html";
         window.disqus_title="The Making of a Test-Driven Grocery List Application in JS: Part VII";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

@@ -1,6 +1,6 @@
 ---
 title: 'Flash on Tap : Boston'
-url: 'http://custardbelly.com/blog/2008/08/07/flash-on-tap-boston/'
+url: 'https://custardbelly.com/blog/2008/08/07/flash-on-tap-boston/'
 author:
   name: 'todd anderson'
 date: '2008-08-07'
@@ -14,4 +14,4 @@ Now, i plead guilty to introducing the two from time to time … and sometimes m
 
 [Flash on Tap](http://flashontap.com/fot/index.html) is in Boston from October 7th until the 9th. [Get you tickets](http://flashontap.com/fot/index.html#/tickets/) while the[ super early and early bird special](http://flashontap.com/fot/index.html#/tickets/early%20bird/) last!
 
-Posted in [Beer!](http://custardbelly.com/blog/category/beer/), [Conferences](http://custardbelly.com/blog/category/conferences/), [Flash](http://custardbelly.com/blog/category/flash/).
+Posted in [Beer!](https://custardbelly.com/blog/category/beer/), [Conferences](https://custardbelly.com/blog/category/conferences/), [Flash](https://custardbelly.com/blog/category/flash/).

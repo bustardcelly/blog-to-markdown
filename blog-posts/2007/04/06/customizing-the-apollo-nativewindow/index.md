@@ -1,6 +1,6 @@
 ---
 title: 'Customizing the Apollo NativeWindow'
-url: 'http://custardbelly.com/blog/2007/04/06/customizing-the-apollo-nativewindow/'
+url: 'https://custardbelly.com/blog/2007/04/06/customizing-the-apollo-nativewindow/'
 author:
   name: 'todd anderson'
 date: '2007-04-06'
@@ -10,7 +10,7 @@ date: '2007-04-06'
 
 I don’t pretend to know enough about the architecture (so someone speak up if i am off track), but adding components to NativeWindows – without Daniel’s or the proceeding example- fails due to the reference to your main ApolloApplication’s stage when displaying components within the Flex framework. You can add all the displays existent in the AS3 library (Sprite, TextField, etc.) to the stage of your NativeWindow instance, but any in the Flex framework need a little push. Adding MXML components to your NativeWindows will still have to follow the formula Daniel laid out using the addChild/removeChild methods, yet there is a workaround to this for ActionScript components by adding an ADDED_TO_STAGE event listener within its constructor.
 
-I have a tendency to try and word things right and it comes out all mush, so i’ll just show some code. _You can alternatively look at[ source view](http://custardbelly.com/downloads/apollo/NativeWindowExample)_. 
+I have a tendency to try and word things right and it comes out all mush, so i’ll just show some code. _You can alternatively look at[ source view](https://custardbelly.com/downloads/apollo/NativeWindowExample)_. 
 
 The CustomLabel (CustomLabel.as) component that will be added to our NativeWindow:
     
@@ -108,7 +108,7 @@ The CustomLabel (CustomLabel.as) component that will be added to our NativeWindo
     		click="openCustomWindow( event );">
     	</mx>
 
-**NOTE:** _the preceding code has some major problems due to mx tags in wordpress, so disregard all affending close tags ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) _
+**NOTE:** _the preceding code has some major problems due to mx tags in wordpress, so disregard all affending close tags ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) _
 
 — As well, you could extend NativeWindow and add the AS components to its stage to bypass adding them in the main app. –
 
@@ -117,10 +117,10 @@ In the main app file we are just creating a new NativeWindow instance and adding
     _customWindow.stage.addChild( new CustomLabel() );
 
 What is happening in the constructor of the CustomLabel is of importance in this example, as it listens for its event of being added to a clients stage. From there we can call the override of UIComponent:createChildren, and add whatever we want to the display. When creating AS components NOT to be added to the NativeWindow, that method (createChildren) would be called as long as you call the super constructor. That is not the case when adding components extending the Flex framework in NativeWindow. Again, if i am missing something crucial or if you have more insight, please leave a comment. So that’s it. Once it has been added to the stage, we can go about our business. Of course, when using ActionScript components you lose the inherent layout capabilities within MXML components, but that is why we’ve added the override of #updateDisplayList.  
-Until Flex came around, i know i spent more than my fair share nailing down layouts for applications- so this is like going back home… ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+Until Flex came around, i know i spent more than my fair share nailing down layouts for applications- so this is like going back home… ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 To find out more about extending ActionScript components, visit[ this post](http://blog.flashgen.com/2006/11/08/base-component-methods-actionscript-20-to-30/) on FlashGen and [this doc](http://download.macromedia.com/pub/documentation/en/flex/2/flex2_createextendcomponents.pdf) from [the labs](http://labs.adobe.com/).
 
 PS. I’ve been a little lacking in the post area, and though i have the usual excuses- family, work, beer… – i could be more on top of it and you should be seeing more Flex and Apollo thoughts in the near future, but no promises because i love those excuses. I also am working on something that i hope to announce here a little later if all goes well…
 
-Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Apollo](http://custardbelly.com/blog/category/apollo/), [Flex](http://custardbelly.com/blog/category/flex/).
+Posted in [AS3](https://custardbelly.com/blog/category/as3/), [Apollo](https://custardbelly.com/blog/category/apollo/), [Flex](https://custardbelly.com/blog/category/flex/).

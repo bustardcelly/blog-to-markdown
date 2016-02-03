@@ -1,6 +1,6 @@
 ---
 title: 'Prana and compiled classes'
-url: 'http://custardbelly.com/blog/2008/05/10/prana-and-compiled-classes/'
+url: 'https://custardbelly.com/blog/2008/05/10/prana-and-compiled-classes/'
 author:
   name: 'todd anderson'
 date: '2008-05-10'
@@ -14,7 +14,7 @@ Christophe’s blog: [http://www.herrodius.com/blog/](http://www.herrodius.com/b
 Martin Fowler’s [Inversion of Control Containers and the Dependency injection pattern](http://martinfowler.com/articles/injection.html)  
 [the hollywood principle](http://en.wikipedia.org/wiki/Hollywood_Principle)
 
-What i did want to bring up is that i had a small problem with the workflow and how i develop. Which is my problem, of course ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) but nonetheless…
+What i did want to bring up is that i had a small problem with the workflow and how i develop. Which is my problem, of course ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) but nonetheless…
 
 One important thing to remember is that the context file is an external file that is loaded by the application at runtime. This means you will need to have all the possible classes your application _may_ use already compiled into the SWF in order for the objects to be instantiated and your application to work. If you are typing to interfaces, this could prove to be a bit of a problem. You could create a reference for each class that may be needed in another class that is known to be compiled into the SWF – as Christophe explains [in this post](http://www.herrodius.com/blog/65) – but that always seemed dirty to me. 
 
@@ -56,4 +56,4 @@ From there, i could change the context as i see fit, update the prana.config fil
 The best part is that [Prana is truthfully AS3 compliant](http://www.herrodius.com/blog/64)! Meaning you can use it in your Flex _AND_ AS3 projects, which cannot be said for some frameworks that claim to be AS3 and actually use class from the mx package… (looking at you [as3lib](http://code.google.com/p/as3lib/)). _A huge pet-peeve of mine._  
 *Last i checked, the source under version control doesn’t seem to reflect the current changes [Christophe](http://www.herrodius.com/blog/) has made, but they are included in the downloads.
 
-Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Prana](http://custardbelly.com/blog/category/prana/).
+Posted in [AS3](https://custardbelly.com/blog/category/as3/), [Flash](https://custardbelly.com/blog/category/flash/), [Flex](https://custardbelly.com/blog/category/flex/), [Prana](https://custardbelly.com/blog/category/prana/).

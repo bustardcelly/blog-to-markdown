@@ -1,12 +1,12 @@
 ---
 title: 'jQuery Mobile + CouchDB: Part 7.1 – Authorization and Validation'
-url: 'http://custardbelly.com/blog/2011/03/04/jquery-mobile-couchdb-part-7-1-authorization-and-validation/'
+url: 'https://custardbelly.com/blog/2011/03/04/jquery-mobile-couchdb-part-7-1-authorization-and-validation/'
 author:
   name: 'todd anderson'
 date: '2011-03-04'
 ---
 
-In my [previous article](http://custardbelly.com/blog/?p=344) I addressed deleting documents from the **albums** database within [CouchDB](http://couchdb.apache.org/) using the _jquery.couch_ plugin and hacked around [jQuery Mobile](http://jquerymobile.com/) a bit to get an external page to act as a dialog without updating the hash location. All great stuff, and we ended off having an application that provided the basics when working with documents – **C**reate **R**ead **U**pdate and **D**elete. After that post, I decided it was high time to throw a wrench into the mix and lock down the **admin party** we have been having. It’s been a good run…
+In my [previous article](https://custardbelly.com/blog/?p=344) I addressed deleting documents from the **albums** database within [CouchDB](http://couchdb.apache.org/) using the _jquery.couch_ plugin and hacked around [jQuery Mobile](http://jquerymobile.com/) a bit to get an external page to act as a dialog without updating the hash location. All great stuff, and we ended off having an application that provided the basics when working with documents – **C**reate **R**ead **U**pdate and **D**elete. After that post, I decided it was high time to throw a wrench into the mix and lock down the **admin party** we have been having. It’s been a good run…
 
 _Wait… so what’s with the versioning of **Part 7** in the title?! Its a multipart article of an article series. Barring i don’t break the space-time continuum for breaking up an article into sections, introducing authorization and validation will be spread over a couple posts. There is a lot of information involving set-up and development, plus we will jump into some new concepts – such as **jQuery widgets and plugins** – that may be a little too much information to digest in a single article._
 
@@ -106,7 +106,7 @@ Truthfully, i spend my days as a client-side architect/developer. So i can’t s
 
 So, we can use good ol’ familiar **JavaScript** for our validation. When the **validate_doc_update** is invoked, it is passed two document objects – the “if-all-goes-well” new document and old document – and the **user context**. The **user context** object is representative of the current user logged into a session and has property values that can be used for validation on document operations.
 
-To keep you even further from creating the **validate_update_doc** ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) , let’s take a look at what is returned when you create a session:
+To keep you even further from creating the **validate_update_doc** ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) , let’s take a look at what is returned when you create a session:
     
     > curl http://toddanderson:6s0jo772c0kcnwg@127.0.0.1:5984/_session
     
@@ -315,15 +315,15 @@ _If you have found this post and any piece has moved forward, hopefully the exam
 
 **Articles in this series:**
 
-  1. [Getting Started](http://custardbelly.com/blog/?p=244)
-  2. [Displaying a page detail of a single album.](http://custardbelly.com/blog/?p=278)
-  3. [Templates and Mustache](http://custardbelly.com/blog/?p=297)
-  4. [Displaying an editable page of an album.](http://custardbelly.com/blog/?p=318)
-  5. [Creating and Adding an album document.](http://custardbelly.com/blog/?p=332)
-  6. [Deleting an album document](http://custardbelly.com/blog/?p=344)
-  7. [Authorization and Validation – Part 1](http://custardbelly.com/blog/?p=360)
-  8. [Authorization and Validation – Part 2](http://custardbelly.com/blog/?p=394)
+  1. [Getting Started](https://custardbelly.com/blog/?p=244)
+  2. [Displaying a page detail of a single album.](https://custardbelly.com/blog/?p=278)
+  3. [Templates and Mustache](https://custardbelly.com/blog/?p=297)
+  4. [Displaying an editable page of an album.](https://custardbelly.com/blog/?p=318)
+  5. [Creating and Adding an album document.](https://custardbelly.com/blog/?p=332)
+  6. [Deleting an album document](https://custardbelly.com/blog/?p=344)
+  7. [Authorization and Validation – Part 1](https://custardbelly.com/blog/?p=360)
+  8. [Authorization and Validation – Part 2](https://custardbelly.com/blog/?p=394)
 
-[Full source for albums couchapp here.](http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
+[Full source for albums couchapp here.](https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
 
-Posted in [CouchDB](http://custardbelly.com/blog/category/couchdb/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
+Posted in [CouchDB](https://custardbelly.com/blog/category/couchdb/), [jquery](https://custardbelly.com/blog/category/jquery/), [jquery-mobile](https://custardbelly.com/blog/category/jquery-mobile/).

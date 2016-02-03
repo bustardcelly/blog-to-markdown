@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - AS3 LCD Donkee Kong Jr</title>
   </head>
   <body>
@@ -59,20 +59,20 @@
   </div>
   <section>
     <p>click to play. <a href="http://www.adobe.com/products/flashplayer/">Flash Player 9</a> required.<br><a href="javascript:MM_openBrWindow(&#39;http://www.custardbelly.com/dev/junior/index.html&#39;," title="dk_jr&#39;,&#39;resizable=no,width=340,height=280"><img src="http://www.custardbelly.com/blog/images/dkjr.gif" alt="click me"></a>)</p>
-<p>After i brought those old Game&amp;Watch <a href="http://custardbelly.com/blog/?p=49">handhelds home</a>, i started playing them heavily. After being beat into submission hundreds of times i began thinking ‘these games are too damn hard’ – so i put them down and decided to try and recreate one in <a href="http://livedocs.macromedia.com/flex/2/langref/index.html">Actionscript3</a>… here’s the first one i came out with – a remake of Donkey Kong Jr from the widescreen <a href="http://gameandwatch.com/">Game&amp;Watch</a> series.</p>
+<p>After i brought those old Game&amp;Watch <a href="https://custardbelly.com/blog/?p=49">handhelds home</a>, i started playing them heavily. After being beat into submission hundreds of times i began thinking ‘these games are too damn hard’ – so i put them down and decided to try and recreate one in <a href="http://livedocs.macromedia.com/flex/2/langref/index.html">Actionscript3</a>… here’s the first one i came out with – a remake of Donkey Kong Jr from the widescreen <a href="http://gameandwatch.com/">Game&amp;Watch</a> series.</p>
 <p>With the previous games i have worked on, i employed a pixel collision detection system to drive game play- but when thinking about LCD games, spaces on the screen are reserved and there is no real overlap of pixels to detected when an enemy runs into a hero, an enemy connects with a projectile, etc. Instead i had to employ a sort-of ‘mother may i’ management system where a call is made from every ‘object’ prior to it’s bitmap update to see if anything is in between where what block it’s in and what block needs to be rendered next. The development was based mainly on <a href="http://electronics.howstuffworks.com/lcd7.htm">Passive Matrix LCDs</a>. </p>
 <p>Ultimately how it is put together is by loading a graphics sheet with all the states for each ‘player’ and then basing it’s rendered state upon game interaction and a list of state ‘matrices’. On each ‘allowance’ of movement the bitmapdata is cleared and redrawn with a new state. And in the case of the enemies, based on your progression through the game, the ‘allowance’ timing is sped up.</p>
 <p>The biggest thing i have gained from working this through is the beauty of the new <a href="http://livedocs.macromedia.com/flex/2/langref/index.html">Timer class</a>. With the introduction of BitmapData in Flash8 As2 i began rethinking how i was developing, and now with the Timer class i’m doing it again. I loved onEnterFrame for so long, but that just wasn’t gonna hack it for this project… and i’m glad it didn’t.</p>
-<p>I kept the architecture pretty open for easy adaptation and extension so that i could make more of these LCD games with ease, but i think i have to step away for a bit. Sound would be a good addition to this and i plan to do a little work on that, but i’m getting pretty busy.<br>Enough talk, enjoy the game and keep in mind that this is a rough prototype, so you may encounter a bug or two <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif" alt=";)"></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>.</p>
+<p>I kept the architecture pretty open for easy adaptation and extension so that i could make more of these LCD games with ease, but i think i have to step away for a bit. Sound would be a good addition to this and i plan to do a little work on that, but i’m getting pretty busy.<br>Enough talk, enjoy the game and keep in mind that this is a rough prototype, so you may encounter a bug or two <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif" alt=";)"></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/as3/">AS3</a>, <a href="https://custardbelly.com/blog/category/flash/">Flash</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2006/08/27/back-from-a-pennsy-wedding-and-alaskan-honeymoon/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2006/08/28/asdoc-and-keith-peters-flashdevelop-templates/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2006/05/31/as3-2d-tilescroller/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2006/08/27/back-from-a-pennsy-wedding-and-alaskan-honeymoon/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -83,7 +83,7 @@
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2006/07/05/as3-lcd-donkee-kong-jr/index.html";
         window.disqus_title="AS3 LCD Donkee Kong Jr";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

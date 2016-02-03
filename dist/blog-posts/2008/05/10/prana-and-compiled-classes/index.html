@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - Prana and compiled classes</title>
   </head>
   <body>
@@ -61,7 +61,7 @@
     <p>I have recently gotten into incorporating <a href="http://www.pranaframework.org/">Prana – the Inversion of Control framework of AS3</a> created by <a href="http://www.herrodius.com/blog/">Christophe Herreman</a>- into my projects. I gotta say, it’s beautiful piece of work and makes me rethink my approach to the architecture of applications again.</p>
 <p>I don’t want to go into IoC and dependency injection and how your applications can truly benefit by using the <a href="http://www.pranaframework.org/">Prana</a> framework, as this post may get pretty long and these references are much better reading than my rambling:</p>
 <p>Christophe’s blog: <a href="http://www.herrodius.com/blog/">http://www.herrodius.com/blog/</a><br>Martin Fowler’s <a href="http://martinfowler.com/articles/injection.html">Inversion of Control Containers and the Dependency injection pattern</a><br><a href="http://en.wikipedia.org/wiki/Hollywood_Principle">the hollywood principle</a></p>
-<p>What i did want to bring up is that i had a small problem with the workflow and how i develop. Which is my problem, of course <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> but nonetheless…</p>
+<p>What i did want to bring up is that i had a small problem with the workflow and how i develop. Which is my problem, of course <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> but nonetheless…</p>
 <p>One important thing to remember is that the context file is an external file that is loaded by the application at runtime. This means you will need to have all the possible classes your application <em>may</em> use already compiled into the SWF in order for the objects to be instantiated and your application to work. If you are typing to interfaces, this could prove to be a bit of a problem. You could create a reference for each class that may be needed in another class that is known to be compiled into the SWF – as Christophe explains <a href="http://www.herrodius.com/blog/65">in this post</a> – but that always seemed dirty to me. </p>
 <p>As is mentioned in the comments to that <a href="http://www.herrodius.com/blog/65">post</a>, you can also go about adding each class using the -includes compiler option. Adding all possible classes using the -includes option makes for an excellent case on when to use additional compiler configurations, and presents the option to really just change the application context file and the additional configuration file as the project sees fit, without having to open up the source and tack on or remove dummy references to classes.</p>
 <p>As an example, take for instance this application context file:</p>
@@ -90,7 +90,7 @@
 <pre><code><span class="hljs-attribute">-load</span><span class="hljs-attribute">-config</span><span class="hljs-subst">+=</span>prana<span class="hljs-built_in">.</span>config
 </code></pre><p>From there, i could change the context as i see fit, update the prana.config file to reflect my preferences and just recompile the application without having to go into the source and muck about. It’s a little more clean for me and allows me to happily go about using the <a href="http://www.pranaframework.org/">Prana</a> framework.</p>
 <p>The best part is that <a href="http://www.herrodius.com/blog/64">Prana is truthfully AS3 compliant</a>! Meaning you can use it in your Flex <em>AND</em> AS3 projects, which cannot be said for some frameworks that claim to be AS3 and actually use class from the mx package… (looking at you <a href="http://code.google.com/p/as3lib/">as3lib</a>). <em>A huge pet-peeve of mine.</em><br>*Last i checked, the source under version control doesn’t seem to reflect the current changes <a href="http://www.herrodius.com/blog/">Christophe</a> has made, but they are included in the downloads.</p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/prana/">Prana</a>.</p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/as3/">AS3</a>, <a href="https://custardbelly.com/blog/category/flash/">Flash</a>, <a href="https://custardbelly.com/blog/category/flex/">Flex</a>, <a href="https://custardbelly.com/blog/category/prana/">Prana</a>.</p>
 
   </section>
   <section class="navigation">
@@ -98,7 +98,7 @@
         <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2008/05/15/yet-another-post-about-astro/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2008/02/24/looking-back-and-looking-forward/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2008/04/16/styling-the-whitebox-of-a-flex-container/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -109,7 +109,7 @@
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2008/05/10/prana-and-compiled-classes/index.html";
         window.disqus_title="Prana and compiled classes";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

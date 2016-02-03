@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - Running Browser-Based CucumberJS Specs in Testling</title>
   </head>
   <body>
@@ -58,7 +58,7 @@
     </p>
   </div>
   <section>
-    <p>In my <a href="http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous</a> <a href="http://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html">posts</a> I discuss bringing <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs to the browser using the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool. In this post I intend to address how to use the format reporting options of the <strong>cucumberjs-browser</strong> tool to enable integration with the <a href="https://ci.testling.com/">testling</a> automated cross-browser testing tool to run your specs in various browser environment targets that you may not have installed on your own system.</p>
+    <p>In my <a href="https://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous</a> <a href="https://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html">posts</a> I discuss bringing <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs to the browser using the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool. In this post I intend to address how to use the format reporting options of the <strong>cucumberjs-browser</strong> tool to enable integration with the <a href="https://ci.testling.com/">testling</a> automated cross-browser testing tool to run your specs in various browser environment targets that you may not have installed on your own system.</p>
 <h2 id="requirements">Requirements</h2>
 <p>For the purposes of this article, it is assumed that you are knowledgable of <a href="http://nodejs.org">node</a> and <a href="http://npmjs.org">npm</a> and familiar with creating feature specs for <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. </p>
 <p>To view examples of features and step definitions for a browser-based application, please visit the <a href="https://github.com/bustardcelly/cucumberjs-examples">cucumberjs-examples</a> repo, from which this post will use to demonstrate integrating the generated testrunner from <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> with <a href="https://ci.testling.com/">testling</a>.</p>
@@ -146,7 +146,7 @@ ok <span class="hljs-number">18</span> I can access <span class="hljs-keyword">t
 <h3 id="remote">remote</h3>
 <p>To use the remote service that <a href="https://ci.testling.com/">testling</a> provides, you still define the <code>testling</code> property in your <code>package.json</code> for the project as described above, but you additionally have to provide a webhook for your <strong>git</strong> repo in order to invoke the test harness. Upon a <code>PUSH</code> to your repository, <a href="https://ci.testling.com/">testling</a> will run the specified HTML file under the listed target browsers and report results based on the <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">Test Anything Protocol</a> output printed to <code>console</code>.</p>
 <p>In addition to providing a great service, you also get the option of adding a nice looking badge to your project.</p>
-<p><img src="http://custardbelly.com/blog/images/testling-1.png" alt="testling harness output"></p>
+<p><img src="https://custardbelly.com/blog/images/testling-1.png" alt="testling harness output"></p>
 <p>This badge was produced by pushing an update to the <a href="https://github.com/bustardcelly/cucumberjs-examples">cucumberjs-examples</a> exampe repo with a defined webhook. (If you followed along in the previous articles, you will note that the failing IE tests are due to the use of <code>Object.create</code> in source without a polyfill).</p>
 <p>_The process of adding a webhook to your project is described in better detail in the <a href="https://ci.testling.com/guide/quick_start">testling documentation</a>._</p>
 <h3 id="donate">donate</h3>
@@ -159,10 +159,10 @@ ok <span class="hljs-number">18</span> I can access <span class="hljs-keyword">t
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2014/02/25/introducing-caddis/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2012/02/07/current-workflow-developing-linting-testing-and-distributing-javascript/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -173,7 +173,7 @@ ok <span class="hljs-number">18</span> I can access <span class="hljs-keyword">t
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2014/02/18/cucumberjs-testling/index.html";
         window.disqus_title="Running Browser-Based CucumberJS Specs in Testling";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

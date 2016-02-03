@@ -1,12 +1,12 @@
 ---
 title: 'Flex 4.5 (Hero) – Pausing Session Restoration'
-url: 'http://custardbelly.com/blog/2010/11/17/flex-hero-pausing-session-restoration/'
+url: 'https://custardbelly.com/blog/2010/11/17/flex-hero-pausing-session-restoration/'
 author:
   name: 'todd anderson'
 date: '2010-11-17'
 ---
 
-While[ Flex 4.5 (Hero)](http://labs.adobe.com/technologies/flashbuilder_burrito/) provides an API for persisting session data within **View** objects, as discussed in my [previous post](http://custardbelly.com/blog/?p=228), **MobileApplication** dispatches events at the initialization and deactivation of the application that allow for you to perform any subsequent custom handling of persistent data – such as re-logging a user back into a service on relaunch of the application.
+While[ Flex 4.5 (Hero)](http://labs.adobe.com/technologies/flashbuilder_burrito/) provides an API for persisting session data within **View** objects, as discussed in my [previous post](https://custardbelly.com/blog/?p=228), **MobileApplication** dispatches events at the initialization and deactivation of the application that allow for you to perform any subsequent custom handling of persistent data – such as re-logging a user back into a service on relaunch of the application.
 
 [**[NOTE]** _It should be noted that this post will be discussing some of the finer points of the persistant data API available, as of this writing, with the free trial download of [Flash Builder “Burrito”](http://labs.adobe.com/technologies/flashbuilder_burrito/) and the included Flex SDK Version 4.5.0 build 17689_]
 
@@ -23,7 +23,7 @@ In responding to these events, a client can serialize any other custom data to t
 
 When working with persisted data between **View** objects, what essentially is happening is the serialization of the **NavigationStack**. The **NavigationStack** is, in rough terms, a history manager. It holds a list of **ViewHistoryData** objects that pertain to the progression of **View** requests; popping and pushing the **ViewHistoryData** objects from the stack as the user progresses through the application.
 
-When responding to the session-persistent events, you most likely will not be modifying that stack that is being serialized between **View** objects already for you (using the _data_ property and_ serializeData_() and _deserializePersistedData_() methods discuss in my [previous post](http://custardbelly.com/blog/?p=228)). Though you could, you could hijack that **Shared Object** from the **PersistenceManager** and overwrite the work it had previously done, but most likely the serialized **NavigationStack** will be left untouched or at the very least only inspected.
+When responding to the session-persistent events, you most likely will not be modifying that stack that is being serialized between **View** objects already for you (using the _data_ property and_ serializeData_() and _deserializePersistedData_() methods discuss in my [previous post](https://custardbelly.com/blog/?p=228)). Though you could, you could hijack that **Shared Object** from the **PersistenceManager** and overwrite the work it had previously done, but most likely the serialized **NavigationStack** will be left untouched or at the very least only inspected.
 
 What had originally got me looking into working with these session-persistent events was to have the ability to re-log in a user who had previously been logged into a service in a prior session. It is a common practice and user experience and one the user rarely thinks about. Think about every time you open a [Twitter](http://twitter.com/#!/bustardcelly) client on your device. The session is most-likely not kept alive while you have it closed and are playing [Falling Balls](http://itunes.apple.com/us/app/falling-balls/id301545989?mt=8). But when you re-launch it, you don’t (typically) have to log back in. You can begin sending tweets again. Right away.
 
@@ -130,8 +130,8 @@ The other point, is that, once halted, **MobileApplication**:_restoreApplication
 
 [**Tip**: _If you start working with persistent data and you just want to clear it from time to time while developing in order to know that you are working with it properly, call persistenceManager.clear() in your FlexEvent.APPLICATION_RESTORING handler and all your wishes will come true._]
 
-Since Flex 4.5 is beta, you can’t have an example without seeing use namespace **mx_internal** ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) Half-kidding, but for those unfamiliar with that namespace, some methods and properties in the SDK are declared with the **mx_internal** _access specifier_ to denote that they are in limbo of being given the proper access. So in a later version of the SDK, they may be changed to _public_, _private_, _protected_ or any other custom specifier. For this example, in order to access the _source_ property of **NavigationStack** we needed to resolve to **mx_internal**. Hopefully it will be opened up at a later date, or at least a public accessor for that list.
+Since Flex 4.5 is beta, you can’t have an example without seeing use namespace **mx_internal** ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) Half-kidding, but for those unfamiliar with that namespace, some methods and properties in the SDK are declared with the **mx_internal** _access specifier_ to denote that they are in limbo of being given the proper access. So in a later version of the SDK, they may be changed to _public_, _private_, _protected_ or any other custom specifier. For this example, in order to access the _source_ property of **NavigationStack** we needed to resolve to **mx_internal**. Hopefully it will be opened up at a later date, or at least a public accessor for that list.
 
 So there you have it. The best practice on notifying the user that you are logging them back into a service upon relaunch? I haven’t found the best solution that meets my needs yet, but I do not recommend pushing a **View** to the stack of the **ViewNavigator** during that restore suspension. It caused some weird UI glitches. Probably the best bet is to use the **PopUpManager** – but do not use the **ProgressBar** in that… bad things happen. Hopefully a new **ProgressBar** is on the horizon for Flex 4.5.
 
-Posted in [AIR](http://custardbelly.com/blog/category/air/), [Burrito](http://custardbelly.com/blog/category/burrito/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4.5](http://custardbelly.com/blog/category/flex-4-5/).
+Posted in [AIR](https://custardbelly.com/blog/category/air/), [Burrito](https://custardbelly.com/blog/category/burrito/), [Flex](https://custardbelly.com/blog/category/flex/), [Flex 4.5](https://custardbelly.com/blog/category/flex-4-5/).

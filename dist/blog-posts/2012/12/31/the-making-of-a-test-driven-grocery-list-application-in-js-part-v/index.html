@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - The Making of a Test-Driven Grocery List Application in JS: Part V</title>
   </head>
   <body>
@@ -58,9 +58,9 @@
     </p>
   </div>
   <section>
-    <p><em>This is the fifth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
+    <p><em>This is the fifth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
 <h2 id="introduction">Introduction</h2>
-<p>The <a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">previous article</a> was prefaced to be a refactoring effort to remove responsibilities of item management from the <em>list-controller</em> to instances of a <em>list-item-controller</em>. We designed the list-item-controller through specs, moved the factory to its own AMD and modified not only the <em>grocery-ls-item</em> model, but how the <em>list-item-controller</em> responded to changes of it.</p>
+<p>The <a href="https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">previous article</a> was prefaced to be a refactoring effort to remove responsibilities of item management from the <em>list-controller</em> to instances of a <em>list-item-controller</em>. We designed the list-item-controller through specs, moved the factory to its own AMD and modified not only the <em>grocery-ls-item</em> model, but how the <em>list-item-controller</em> responded to changes of it.</p>
 <p>All important and – in my view – much needed changes. However, we fell short on our goal. Sure, the tests still passed, but we modified nothing within the <em>list-controller</em> to reflect this transfer of responsibility. Part of the reason for this is my attempt at not overloading each article in this series with information. The other part is that I wanted a little time to stew over how I actually saw the revision of <em>list-controller</em>.</p>
 <p>We still want to keep our feature specs of <em>Add Item</em> and <em>Mark Item</em> (and we have a few more features still to address), but I begin to question if it is really necessary to expose that functionality on the API of the <em>list-controller</em>. I am starting to see that those features are really part of a collection of <em>grocery-ls-item</em> models, and the controllers are just responders to changes on the collection and models themselves – the basis of MVC design.</p>
 <p>Just as we implemented <em>list-item-controller</em> in the previous article with a design to respond to changes on a provided <em>grocery-ls-item</em> model and update its state accordingly, I propose so should we refactor the <em>list-controller</em> to respond to changes on a collection of <em>grocery-ls-item</em> models.</p>
@@ -182,7 +182,7 @@
 
 <span class="hljs-keyword">var</span> instance = collectionImpl([]);
 </code></pre><p>That would ‘<em>conveniently</em>‘ make the underlying array ‘private’, but there are an arguable list of pros and cons to this approach – the biggest con is the creation of a new object with new functions and new properties each call, rather then a shared inheritance. In essence, each new instance of collection created using this pattern could then modify, add and/or remove methods so that the API is not the same across all ‘instances’ of the collection – that’s a big con for me.</p>
-<p>For our implementation, let’s just take it with a grain of salt that we don’t expect anyone to maliciously access the source array of the collection and use the API we are defining in our tests <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>For our implementation, let’s just take it with a grain of salt that we don’t expect anyone to maliciously access the source array of the collection and use the API we are defining in our tests <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <h4 id="end-aside">end aside</h4>
 <p>Even though in the last spec, we aren’t concerned with the underlying list being strictly equal to the provided source, we should probably check that the list has the correct items and is in the correct order:</p>
 <p><em>/test/jasmine/spec/collection.spec.js</em></p>
@@ -436,11 +436,11 @@
 
 
 });
-</code></pre><p>Run it and all is green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_v_1.png" alt="Passing collection suite"></p>
-<p>Whoa. Settle down… we’re not done yet <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+</code></pre><p>Run it and all is green!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_v_1.png" alt="Passing collection suite"></p>
+<p>Whoa. Settle down… we’re not done yet <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <h4 id="collection-events">Collection Events</h4>
 <p>If we think back to why we even started down this path of creating a Collection object, we’ll remember that its role in the <strong>Grocery List</strong> application is to serve as the model for the <em>list-controller</em>. It is the intention to eventually modify the <em>list-controller</em> to not only offload the responsibility of managing the relationship and interaction between individual <em>grocery-ls-item</em> models to their views, but also to respond to changes on the collection of _grocery-ls-item_s accordingly. As such, we will incorporate event notification into our <em>Collection</em> object, from which the <em>list-controller</em> can assign response delegates to changes on the collection.</p>
-<p>Using <a href="http://api.jquery.com/category/Events/?rdfrom=http%3A%2F%2Fdocs.jquery.com%2Fmw%2Findex.php%3Ftitle%3DAPI%2F1.3%2FEvents%26redirect%3Dno">jQuery Event</a> as we have previously in the development of this application throughout this series, we’ll create a factory method that returns an event object based provided arguments. If you are familiar with collections from the <a href="http://www.adobe.com/devnet/flex/flex-sdk-download.html">Flex SDK</a>, you might notice something similar <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> :</p>
+<p>Using <a href="http://api.jquery.com/category/Events/?rdfrom=http%3A%2F%2Fdocs.jquery.com%2Fmw%2Findex.php%3Ftitle%3DAPI%2F1.3%2FEvents%26redirect%3Dno">jQuery Event</a> as we have previously in the development of this application throughout this series, we’ll create a factory method that returns an event object based provided arguments. If you are familiar with collections from the <a href="http://www.adobe.com/devnet/flex/flex-sdk-download.html">Flex SDK</a>, you might notice something similar <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> :</p>
 <p><em>/test/jasmine/spec/collection.spec.js</em></p>
 <pre><code>function createEvent(kind, items) {
 
@@ -551,7 +551,7 @@ describe(<span class="hljs-string">'collection item removal'</span>, <span class
 <span class="hljs-keyword">...</span>
 
 });
-</code></pre><p>If you were to run the tests now, you would see a couple execute then hang intermittently as it waits for the async tests to timeout… because we haven’t implemented the dispatching of events from the collection yet <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+</code></pre><p>If you were to run the tests now, you would see a couple execute then hang intermittently as it waits for the async tests to timeout… because we haven’t implemented the dispatching of events from the collection yet <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p><em>/test/jasmine/spec/collection.spec.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> collectionImpl = {
 
@@ -612,7 +612,7 @@ describe(<span class="hljs-string">'collection item removal'</span>, <span class
 }
 </code></pre><p>Now, if you were to run the tests, all should be happy.</p>
 <h3 id="collection-module-implementation">Collection Module Implementation</h3>
-<p>Just as we have done with the <em>list-item-controller</em> from the <a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv/">previous article</a>, we are going to take the work we had done in implementing the collection object within our tests and move it to an AMD module. This way, if we <em>ever</em> get around to refactoring the <em>list-controller</em>, we’ll be able to utilize the collection module:</p>
+<p>Just as we have done with the <em>list-item-controller</em> from the <a href="https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv/">previous article</a>, we are going to take the work we had done in implementing the collection object within our tests and move it to an AMD module. This way, if we <em>ever</em> get around to refactoring the <em>list-controller</em>, we’ll be able to utilize the collection module:</p>
 <p><em>/script/collection/collection.js</em></p>
 <pre><code>define([<span class="hljs-string">'jquery'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($)</span> {</span>
 
@@ -757,14 +757,14 @@ describe(<span class="hljs-string">'collection item removal'</span>, <span class
 
 
 });
-</code></pre><p><img src="http://custardbelly.com/blog/images/tdd_js/part_v_2.png" alt="Passing collection tests on AMD module"></p>
+</code></pre><p><img src="https://custardbelly.com/blog/images/tdd_js/part_v_2.png" alt="Passing collection tests on AMD module"></p>
 <p>Tagged: <strong>0.1.6</strong> <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.6">https://github.com/bustardcelly/grocery-ls/tree/0.1.6</a></p>
 <h2 id="list-controller-refactoring">list-controller Refactoring</h2>
 <p>Passing tests are great! But currently, they are lying to us. Well… not <em>really</em>, but we have gone about all these new additions to our application and have yet still to refactor <em>list-controller</em> to utilize them. However, before we just start chopping out and inserting code from <em>list-controller</em>, I want to go over the API and specs currently defined and see if they still hold water – meaning we might be able to cut some tests out. We might not. We might even add more. Let’s see…</p>
 <h3 id="newitem-spec">newitem.spec</h3>
-<p>As we designed the <a href="https://github.com/bustardcelly/grocery-ls/blob/0.1.3/script/controller/list-controller.js"><em>list-controller</em></a> from a <a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">previous article</a>, it oversaw the state of list items, list item views, and sort of supported a quasi-state of <em>‘editability’</em>. While this provided an API to create a new item, it was forced into exposing an <em>editableItem</em> that was then mutable based on other parts of its API – ie, <em>editFocusedItem()</em> and <em>saveFocusedItem()</em>. All well and good to support the feature requirements at the time, but we have now moved the item and item view management – as well as the editable state – to the latest <em>list-item-controller</em> as can be seen in the repo <a href="https://github.com/bustardcelly/grocery-ls/blob/0.1.5/script/controller/list-item-controller.js">tagged at 0.1.5</a>. As such, I feel not only the <em>list-controller</em>, itself, should change to reflect these modifications, but also its API.</p>
+<p>As we designed the <a href="https://github.com/bustardcelly/grocery-ls/blob/0.1.3/script/controller/list-controller.js"><em>list-controller</em></a> from a <a href="https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">previous article</a>, it oversaw the state of list items, list item views, and sort of supported a quasi-state of <em>‘editability’</em>. While this provided an API to create a new item, it was forced into exposing an <em>editableItem</em> that was then mutable based on other parts of its API – ie, <em>editFocusedItem()</em> and <em>saveFocusedItem()</em>. All well and good to support the feature requirements at the time, but we have now moved the item and item view management – as well as the editable state – to the latest <em>list-item-controller</em> as can be seen in the repo <a href="https://github.com/bustardcelly/grocery-ls/blob/0.1.5/script/controller/list-item-controller.js">tagged at 0.1.5</a>. As such, I feel not only the <em>list-controller</em>, itself, should change to reflect these modifications, but also its API.</p>
 <p>We are going to stick with our feature request to be able to add a new item to the <strong>Grocery List</strong> application through the <em>list-controller</em>, but will revisit how that is done in accordance to the new functionality of both the <em>list-item-controller</em> and <em>list-controller</em>; mainly we want to keep in mind that both should be driven by their respective model: <em>grocery-ls-item</em> and <em>collection</em>.</p>
-<p>Let’s first revisit the specs we defined for new item feature from <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/">the second post</a> in this series:</p>
+<p>Let’s first revisit the specs we defined for new item feature from <a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/">the second post</a> in this series:</p>
 <p><em>// spec</em><br>—<br><strong>Scenario 1:</strong> Item added to list<br><strong>Given</strong> a user requests to add an item to the list<br><strong>And</strong> has provided a name for the item<br><strong>When</strong> she requests to save the item<br><strong>Then</strong> the list has grown by one item<br><strong>And</strong> the list contains the item appended at the end<br>—</p>
 <p><em>// spec</em><br>—<br><strong>Scenario 2:</strong> Item not added to list<br><strong>Given</strong> the list has a single item<br><strong>And</strong> a user requests to add an item to the list<br><strong>And</strong> has not provided a name for the item<br><strong>When</strong> she requests to save the item<br><strong>Then</strong> the list has the same items as stored previously<br><strong>And</strong> the list does not add an empty-named item<br>—</p>
 <p>In looking at them now, I feel that the actual <em>Add Item</em> feature is hidden in the <strong>Given</strong>s. A slight oversight now that we have progressed – perhaps one at the time as well, but we were delivering to features using TDD, so I have no qualms with features and implementations revisited and revised as the functionality of the application is fleshed out. In any event, I feel like these feature specs are more for a <em>Save Item</em> story, especially seeing as a User can edit an existing item. We’ll tackle the <em>Save Item</em> specifications for a later post, for now I want to revise the specifications for the <em>Add Item</em> feature.</p>
@@ -950,10 +950,10 @@ listController.getItemList = sinon.stub().returns(itemCollection);
 
 
 });
-</code></pre><p>And all is green! <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+</code></pre><p>And all is green! <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>Tagged <strong>0.1.7</strong> – <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.7">https://github.com/bustardcelly/grocery-ls/tree/0.1.7</a></p>
 <h3 id="list-controller-revisted">list-controller Revisted</h3>
-<p>It’s great that the tests still pass, but we have yet to <strong>still</strong> modify <em>list-controller</em>. I can’t put it off any longer. If you have put up with the last couple posts and promises to get somewhere, you are very kind. The wait is over! … but it is also just the tip of the iceberg. sorry to be a downer <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>It’s great that the tests still pass, but we have yet to <strong>still</strong> modify <em>list-controller</em>. I can’t put it off any longer. If you have put up with the last couple posts and promises to get somewhere, you are very kind. The wait is over! … but it is also just the tip of the iceberg. sorry to be a downer <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>In looking at the API on <em>list-controller</em> we stubbed out from the <em>beforeEach()</em> of the <em>newitem.spec</em> and the expectations of its functionality verified in the specs, we are basically boiling down the responsibilities of the <em>list-controller</em> to:</p>
 <ul>
 <li>Create a new item</li>
@@ -1220,32 +1220,32 @@ listController.getItemList = sinon.stub().returns(itemCollection);
 
 
 }</span><span class="hljs-list">(<span class="hljs-title">window</span>, requirejs)</span>)</span><span class="hljs-comment">;</span>
-</code></pre><p>Run the tests… and it will fail! Yay!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_v_3.png" alt="Failing tests on list-controller refactor"></p>
+</code></pre><p>Run the tests… and it will fail! Yay!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_v_3.png" alt="Failing tests on list-controller refactor"></p>
 <p><em>wait, what?!</em></p>
 <p>Actually, most will pass – including the <em>newitem.spec</em> tests. It is the <em>markitem.spec</em> tests that will fail. We have modified the <em>list-controller</em> to accomodate the changes to the <em>Add Item</em> feature, but have not addressed the <em>Mark Off Item</em> feature in our refactoring.</p>
-<p><img src="http://custardbelly.com/blog/images/tdd_js/part_v_4.png" alt="Mark-Off Item failure on list-controller refactor"></p>
-<p>However, run the application and it will be just as usable as it was before – no change will be perceived by the end-user. The only thing that will change is now I have a nagging feeling knowing my tests are failing. Some naysayers may interject here and half-heartedly tell me to get rid of the tests, then. To them I say, ‘<em>pfffft</em>‘ <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p><img src="https://custardbelly.com/blog/images/tdd_js/part_v_4.png" alt="Mark-Off Item failure on list-controller refactor"></p>
+<p>However, run the application and it will be just as usable as it was before – no change will be perceived by the end-user. The only thing that will change is now I have a nagging feeling knowing my tests are failing. Some naysayers may interject here and half-heartedly tell me to get rid of the tests, then. To them I say, ‘<em>pfffft</em>‘ <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>I hate to see the tests in such a state, but this post is rather long as it is. Also, I like to joke that sometimes having failing tests to look at first thing in the morning is the best way to pick up from where you left off. I promise we’ll get these to go green in the next article of this series, and invite you to get them to pass if you are for it.</p>
 <p>Tagged <strong>0.1.8</strong> – <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.8">https://github.com/bustardcelly/grocery-ls/tree/0.1.8</a></p>
 <h2 id="conclusion">Conclusion</h2>
 <p>We finally got around to refactoring the <em>list-controller</em> to relieve it of item model management and state. In the course of doing so, we created a <em>Collection</em> object that will serve as the model for the <em>list-controller</em>. </p>
-<p>This post was a lengthy one, and I appreciate you sticking through my yackity-yack. I think we are in fine shape now to approach previously defined and new features, get our tests passing again, and finalize the <strong>Grocery List</strong> application… in as far as first iteration deliverables go <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>This post was a lengthy one, and I appreciate you sticking through my yackity-yack. I think we are in fine shape now to approach previously defined and new features, get our tests passing again, and finalize the <strong>Grocery List</strong> application… in as far as first iteration deliverables go <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>‘Til next time…</p>
 <p>—</p>
 <h1 id="link-dump">Link Dump</h1>
 <h2 id="reference">Reference</h2>
 <p><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a></p>
 <h2 id="post-series">Post Series</h2>
-<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
+<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="https://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="https://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/amd/">AMD</a>, <a href="https://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="https://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="https://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="https://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="https://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2014/01/03/so-long-wordpress/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2014/03/18/gulp-rev-append/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -1256,7 +1256,7 @@ listController.getItemList = sinon.stub().returns(itemCollection);
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/index.html";
         window.disqus_title="The Making of a Test-Driven Grocery List Application in JS: Part V";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

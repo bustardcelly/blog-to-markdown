@@ -1,12 +1,12 @@
 ---
 title: 'jQuery Mobile + CouchDB: Part 7.2 – Authorization and Validation'
-url: 'http://custardbelly.com/blog/2011/03/04/jquery-mobile-couchdb-part-7-2-authorization-and-validation/'
+url: 'https://custardbelly.com/blog/2011/03/04/jquery-mobile-couchdb-part-7-2-authorization-and-validation/'
 author:
   name: 'todd anderson'
 date: '2011-03-04'
 ---
 
-In my [previous post](http://custardbelly.com/blog/?p=360), I covered authorization and validation on the [CouchDB](http://couchdb.apache.org/) side. We set up an administrator, created a user or two and established a **user-role** for our **albums** database that will be used in validation on document operations based on the user context of a session. We got to write some code – our **validate_doc_update** – but mainly it was all clicking around and filling in fields in [Futon](http://127.0.0.1:5984/_utils/). Necessary stuff, mind you… but let’s get back to code. More importantly, let’s get back to our [jQuery Mobile](http://jquerymobile.com/) application. We didn’t even touch it in the last mini-series in a series.
+In my [previous post](https://custardbelly.com/blog/?p=360), I covered authorization and validation on the [CouchDB](http://couchdb.apache.org/) side. We set up an administrator, created a user or two and established a **user-role** for our **albums** database that will be used in validation on document operations based on the user context of a session. We got to write some code – our **validate_doc_update** – but mainly it was all clicking around and filling in fields in [Futon](http://127.0.0.1:5984/_utils/). Necessary stuff, mind you… but let’s get back to code. More importantly, let’s get back to our [jQuery Mobile](http://jquerymobile.com/) application. We didn’t even touch it in the last mini-series in a series.
 
 In this article I am going to address showing a **Log In/Sign Up** dialog in our [jQuery Mobile](http://jquerymobile.com/) application. Instead of forcing a user to log in upon first landing on our application (as we saw when setting up **Security** on our database in the past article), we are going to present the dialog when a user tries to perform an operation that requires session and user validation. The way we have set up the **albums** database in [CouchDB](http://couchdb.apache.org/) is that everyone can view all the **album** documents, but only users of the **albums** database (those assigned with a **user-role** of “_albums-user_“) are allowed to add new **album** documents and only those associated users of a document are allowed to edit and delete their **album** document. So, from a client-side perspective, the dialog will be shown on **Add**, **Edit** and **Delete** if a previous session for the user has not been established.
 
@@ -416,7 +416,7 @@ _/_attachments/script/jquery.albums.loginDialog.js_
     
     })(jQuery)
 
-You wanted code? You got it ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) I am not going to go into explaining the under-workings of **$.widget** or **$.Widget** but more the work we have here that relates to [jQuery Mobile](http://jquerymobile.com/) and our application. Again, if you are curious, [jQuery UI](http://jqueryui.com/) has some great documentation at [http://jqueryui.com/docs/Developer_Guide](http://jqueryui.com/docs/Developer_Guide) and you can also look at the **JavaScript** source for [jQuery Mobile](http://jquerymobile.com/). That is chock full of widgets. And then there is this awesome write up by [Eric Hynds](http://www.erichynds.com): [http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/](http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/).
+You wanted code? You got it ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) I am not going to go into explaining the under-workings of **$.widget** or **$.Widget** but more the work we have here that relates to [jQuery Mobile](http://jquerymobile.com/) and our application. Again, if you are curious, [jQuery UI](http://jqueryui.com/) has some great documentation at [http://jqueryui.com/docs/Developer_Guide](http://jqueryui.com/docs/Developer_Guide) and you can also look at the **JavaScript** source for [jQuery Mobile](http://jquerymobile.com/). That is chock full of widgets. And then there is this awesome write up by [Eric Hynds](http://www.erichynds.com): [http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/](http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/).
 
 Now, let’s step through it… If you are being introduced to [jQuery](http://jquery.com/) by this article series: **a)** i hope i have not mislead you in my explanations and **b)** this might be the first time you have seen this anonymous function declaration:
     
@@ -1452,7 +1452,7 @@ _/vendor/couchapp/_attachments/loader.js_
     
     ]);
 
-We’ve just added the last three files we have been working on: the _command_queue_ script and our **$.albums** plugin and **loginDialog** widget. Now we’re going to make some modifications to the inline script on our _index.html_ document. In a [previous article](http://custardbelly.com/blog/?p=332) we hooked up the saving of a new album document to the internal [jQuery Mobile](http://jquerymobile.com/) **addAlbum** page, and were using the _jquery.couch_ plugin directly to save the document. Now we are just going to go through our **$.albums** plugin to perform that action which will open the **loginDialog** if a session is currently not available on our client. Open the _/_attachments/index.html_ file in your favorite editor and save the following modifications in the _handleDocumentReady_() function:
+We’ve just added the last three files we have been working on: the _command_queue_ script and our **$.albums** plugin and **loginDialog** widget. Now we’re going to make some modifications to the inline script on our _index.html_ document. In a [previous article](https://custardbelly.com/blog/?p=332) we hooked up the saving of a new album document to the internal [jQuery Mobile](http://jquerymobile.com/) **addAlbum** page, and were using the _jquery.couch_ plugin directly to save the document. Now we are just going to go through our **$.albums** plugin to perform that action which will open the **loginDialog** if a session is currently not available on our client. Open the _/_attachments/index.html_ file in your favorite editor and save the following modifications in the _handleDocumentReady_() function:
 
 _/attachments/index.html_
     
@@ -1652,15 +1652,15 @@ _If you have found this post and any piece has moved forward, hopefully the exam
 
 **Articles in this series:**
 
-  1. [Getting Started](http://custardbelly.com/blog/?p=244)
-  2. [Displaying a page detail of a single album.](http://custardbelly.com/blog/?p=278)
-  3. [Templates and Mustache](http://custardbelly.com/blog/?p=297)
-  4. [Displaying an editable page of an album.](http://custardbelly.com/blog/?p=318)
-  5. [Creating and Adding an album document.](http://custardbelly.com/blog/?p=332)
-  6. [Deleting an album document](http://custardbelly.com/blog/?p=344)
-  7. [Authorization and Validation – Part 1](http://custardbelly.com/blog/?p=360)
-  8. [Authorization and Validation – Part 2](http://custardbelly.com/blog/?p=394)
+  1. [Getting Started](https://custardbelly.com/blog/?p=244)
+  2. [Displaying a page detail of a single album.](https://custardbelly.com/blog/?p=278)
+  3. [Templates and Mustache](https://custardbelly.com/blog/?p=297)
+  4. [Displaying an editable page of an album.](https://custardbelly.com/blog/?p=318)
+  5. [Creating and Adding an album document.](https://custardbelly.com/blog/?p=332)
+  6. [Deleting an album document](https://custardbelly.com/blog/?p=344)
+  7. [Authorization and Validation – Part 1](https://custardbelly.com/blog/?p=360)
+  8. [Authorization and Validation – Part 2](https://custardbelly.com/blog/?p=394)
 
-[Full source for albums couchapp available here](http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
+[Full source for albums couchapp available here](https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
 
-Posted in [CouchDB](http://custardbelly.com/blog/category/couchdb/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
+Posted in [CouchDB](https://custardbelly.com/blog/category/couchdb/), [jquery](https://custardbelly.com/blog/category/jquery/), [jquery-mobile](https://custardbelly.com/blog/category/jquery-mobile/).

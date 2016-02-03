@@ -1,6 +1,6 @@
 ---
 title: 'Listen, Ma! I’m on RIARadio'
-url: 'http://custardbelly.com/blog/2010/05/26/listen-ma-im-on-riaradio/'
+url: 'https://custardbelly.com/blog/2010/05/26/listen-ma-im-on-riaradio/'
 author:
   name: 'todd anderson'
 date: '2010-05-26'
@@ -16,4 +16,4 @@ That’s him on the shark… obviously, someone shopped in the grenade launcher 
 
 **pps.** [**Flex 4 Cookbook** is dropping soon!](http://oreilly.com/catalog/9780596805623) go pick up a copy and read it with a loved one on Memorial Day.
 
-Posted in [General](http://custardbelly.com/blog/category/general/).
+Posted in [General](https://custardbelly.com/blog/category/general/).

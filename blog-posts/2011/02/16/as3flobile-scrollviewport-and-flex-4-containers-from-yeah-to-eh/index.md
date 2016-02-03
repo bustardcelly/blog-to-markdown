@@ -1,6 +1,6 @@
 ---
 title: 'as3flobile ScrollViewport and Flex 4 containers? from yeah to eh.'
-url: 'http://custardbelly.com/blog/2011/02/16/as3flobile-scrollviewport-and-flex-4-containers-from-yeah-to-eh/'
+url: 'https://custardbelly.com/blog/2011/02/16/as3flobile-scrollviewport-and-flex-4-containers-from-yeah-to-eh/'
 author:
   name: 'todd anderson'
 date: '2011-02-16'
@@ -368,6 +368,6 @@ The examples use the [Hi-ReS-Stats component](https://github.com/mrdoob/Hi-ReS-S
 
 as3flobile uses the [as3-signals](https://github.com/robertpenner/as3-signals) library created by [Robert Penner](http://flashblog.robertpenner.com/).
 
-_[as3flobile](https://github.com/bustardcelly/as3flobile) is a set of ActionScript 3 components targeting the Flash Player on mobile devices. [You can read more about the project here](http://custardbelly.com/blog/?page_id=180). To see working examples, visit [http://www.custardbelly.com/android/froyo/as3flobile/](http://www.custardbelly.com/android/froyo/as3flobile/)_
+_[as3flobile](https://github.com/bustardcelly/as3flobile) is a set of ActionScript 3 components targeting the Flash Player on mobile devices. [You can read more about the project here](https://custardbelly.com/blog/?page_id=180). To see working examples, visit [http://www.custardbelly.com/android/froyo/as3flobile/](http://www.custardbelly.com/android/froyo/as3flobile/)_
 
-Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4](http://custardbelly.com/blog/category/flex-4/), [as3flobile](http://custardbelly.com/blog/category/as3flobile/).
+Posted in [AS3](https://custardbelly.com/blog/category/as3/), [Flash](https://custardbelly.com/blog/category/flash/), [Flex](https://custardbelly.com/blog/category/flex/), [Flex 4](https://custardbelly.com/blog/category/flex-4/), [as3flobile](https://custardbelly.com/blog/category/as3flobile/).

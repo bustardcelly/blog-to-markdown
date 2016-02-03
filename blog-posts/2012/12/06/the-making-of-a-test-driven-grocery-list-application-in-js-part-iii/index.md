@@ -1,21 +1,21 @@
 ---
 title: 'The Making of a Test-Driven Grocery List Application in JS: Part III'
-url: 'http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/'
+url: 'https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/'
 author:
   name: 'todd anderson'
 date: '2012-12-06'
 ---
 
-_This is the third installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
+_This is the third installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
 —
 
 # Introduction
 
-In the [previous article](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/), I addressed adding the first feature to the **Grocery List** application: _Add Item_. Trying my best to adhere to the TDD/BDD philosophy, a story and a couple scenarios were drummed up prior to implementation development using language similar to that described in [Dan Worth’s Introducing BDD article](http://dannorth.net/introducing-bdd/). Once passing, the code written within the test was moved to its own file(s) with dependencies updated in the specs and tests run again to confirm passing against the implementations.
+In the [previous article](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/), I addressed adding the first feature to the **Grocery List** application: _Add Item_. Trying my best to adhere to the TDD/BDD philosophy, a story and a couple scenarios were drummed up prior to implementation development using language similar to that described in [Dan Worth’s Introducing BDD article](http://dannorth.net/introducing-bdd/). Once passing, the code written within the test was moved to its own file(s) with dependencies updated in the specs and tests run again to confirm passing against the implementations.
 
 I will take the same approach in adding a new feature in this article: _Mark-Off Item_. 
 
-I suspect, however, that I may actually end up creating stories for more of what can be considered _integration_. Since the last post, I stumbled upon a [great blog from Chris Parsons](http://chrismdp.com) that covers BDD (with a bend toward Cucumber), and in particular the article [Cucumber: the integration test trap](http://chrismdp.com/2012/11/the-integration-testing-trap/) provided some great insight into the difference between acceptance and integration testing. In the previous article, I suppose more of what was done could be considered acceptance testing. Some implementation details are testing against in the _Add-Item_ feature (for instance, the item API on the list-controller), but I sort of threw in extra code and UX/UI implementation details at the end just so I could make sure the code was actually usable in a real-life scenario. At the time, I felt that writing specs for the integration of features – what i consider more fine-grained in testing that an element is added to the DOM upon an API call – would muddle down the intent of this series. I might take back that assumption. That may lead to longer posts… you have been forewarned ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+I suspect, however, that I may actually end up creating stories for more of what can be considered _integration_. Since the last post, I stumbled upon a [great blog from Chris Parsons](http://chrismdp.com) that covers BDD (with a bend toward Cucumber), and in particular the article [Cucumber: the integration test trap](http://chrismdp.com/2012/11/the-integration-testing-trap/) provided some great insight into the difference between acceptance and integration testing. In the previous article, I suppose more of what was done could be considered acceptance testing. Some implementation details are testing against in the _Add-Item_ feature (for instance, the item API on the list-controller), but I sort of threw in extra code and UX/UI implementation details at the end just so I could make sure the code was actually usable in a real-life scenario. At the time, I felt that writing specs for the integration of features – what i consider more fine-grained in testing that an element is added to the DOM upon an API call – would muddle down the intent of this series. I might take back that assumption. That may lead to longer posts… you have been forewarned ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 # Mark-Off Feature
 
@@ -27,7 +27,7 @@ There are basically 3 states to an item in the grocery store:
 
 Once owned… well it either gets eaten or is freed into the wild – through those seemingly impenetrable automatic doors of unpurchased state, into the world of natural lighting. As well, prior to own-ed-ship, the item is in limbo as to whether or not it can reach that state – it might be placed back on the shelf to be forever unpossessed again. (You don’t want me to go over the possessed state.) Not unlike the life a a loaf of bread in a store, so too are the states of the grocery list items of the **Grocery List** application.
 
-By adding an item – the feature completed in the [previous article](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/) – a User has essentially identified an item not in possession, with the end goal of being owned. As a User of the application, we want to be able to denote the item as being in possession, but not purchased. The unpurchased state will notify other Users of the list that it no longer needs to be obtained. However, it will still be allowed to be unmarked and back to unpossessed – say if someone got **Miracle Whip** mayo instead of **Helmann’s** (whole ‘nother argument).
+By adding an item – the feature completed in the [previous article](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/) – a User has essentially identified an item not in possession, with the end goal of being owned. As a User of the application, we want to be able to denote the item as being in possession, but not purchased. The unpurchased state will notify other Users of the list that it no longer needs to be obtained. However, it will still be allowed to be unmarked and back to unpossessed – say if someone got **Miracle Whip** mayo instead of **Helmann’s** (whole ‘nother argument).
 
 So we have essentially defined the feature for this post in the series: being able to mark and unmark an item added to the grocery list.
 
@@ -69,7 +69,7 @@ Basically, we are defining an item of the **Grocery List** application as a togg
 
 ## Test
 
-To start, the story in question and described above adds to the API of the _list-controller_ we defined and created in the [previous article](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii). The _list-controller_ will need to expose a way to mark off an item that is saved to the list, and a way to unmark an item that was previously marked. As I see it, that’s two new methods – let’s call them _markOffItem_ and _unmarkOffItem_. Let’s flesh them out and their signatures in a new spec for this feature:
+To start, the story in question and described above adds to the API of the _list-controller_ we defined and created in the [previous article](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii). The _list-controller_ will need to expose a way to mark off an item that is saved to the list, and a way to unmark an item that was previously marked. As I see it, that’s two new methods – let’s call them _markOffItem_ and _unmarkOffItem_. Let’s flesh them out and their signatures in a new spec for this feature:
 
 _/test/jasmine/spec/markitem.spec.js_
     
@@ -355,8 +355,8 @@ _/script/model/grocery-ls-item.js_
     
       };
 
-![passing mark-off item spec](http://custardbelly.com/blog/images/tdd_js/part_iii_1.png)  
-![grocery list app with mark off](http://custardbelly.com/blog/images/tdd_js/part_iii_app_1.png)
+![passing mark-off item spec](https://custardbelly.com/blog/images/tdd_js/part_iii_1.png)  
+![grocery list app with mark off](https://custardbelly.com/blog/images/tdd_js/part_iii_app_1.png)
 
 **Tagged**: 0.1.3 [https://github.com/bustardcelly/grocery-ls/tree/0.1.3](https://github.com/bustardcelly/grocery-ls/tree/0.1.3)
 
@@ -375,16 +375,16 @@ Until then, you have passing tests and a functioning **Grocery List** applicatio
 ## Post Series
 
 [grocery-ls github repo](https://github.com/bustardcelly/grocery-ls)  
-[Part I – Introduction](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i)  
-[Part II – Feature: Add Item](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii)  
-[Part III – Feature: Mark-Off Item](http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii)  
-[Part IV – Feature: List-Item-Controller](http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv)  
-[Part V – Feature: List-Controller Refactoring](http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/)  
-[Part VI – Back to Passing](http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/)  
-[Part VII – Remove Item](http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)  
-[Part VIII – Bug Fixing](http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)  
-[Part IX – Persistence](http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/)  
-[Part X – It Lives!](http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
+[Part I – Introduction](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i)  
+[Part II – Feature: Add Item](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii)  
+[Part III – Feature: Mark-Off Item](https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii)  
+[Part IV – Feature: List-Item-Controller](https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv)  
+[Part V – Feature: List-Controller Refactoring](https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/)  
+[Part VI – Back to Passing](https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/)  
+[Part VII – Remove Item](https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)  
+[Part VIII – Bug Fixing](https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)  
+[Part IX – Persistence](https://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/)  
+[Part X – It Lives!](https://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
 
 ## Reference
 
@@ -399,4 +399,4 @@ Testing spies for [Jasmine](https://github.com/pivotal/jasmine/wiki/Spies) and [
 [Jasmine.Async](https://github.com/derickbailey/jasmine.async)  
 the [infamous](http://www.flickr.com/photos/unitzeroone/4721521533/) [eye-roller](http://bit-101.com)
 
-Posted in [JavaScript](http://custardbelly.com/blog/category/javascript/), [RequireJS](http://custardbelly.com/blog/category/requirejs/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/), [unit-testing](http://custardbelly.com/blog/category/unit-testing/).
+Posted in [JavaScript](https://custardbelly.com/blog/category/javascript/), [RequireJS](https://custardbelly.com/blog/category/requirejs/), [grocery-ls](https://custardbelly.com/blog/category/grocery-ls/), [jasmine](https://custardbelly.com/blog/category/jasmine/), [unit-testing](https://custardbelly.com/blog/category/unit-testing/).

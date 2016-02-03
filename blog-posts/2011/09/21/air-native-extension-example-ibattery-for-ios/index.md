@@ -1,6 +1,6 @@
 ---
 title: 'AIR Native Extension Example: iBattery for iOS'
-url: 'http://custardbelly.com/blog/2011/09/21/air-native-extension-example-ibattery-for-ios/'
+url: 'https://custardbelly.com/blog/2011/09/21/air-native-extension-example-ibattery-for-ios/'
 author:
   name: 'todd anderson'
 date: '2011-09-21'
@@ -353,4 +353,4 @@ Hopefully this article provided some insight on how to quickly get up and runnin
 
 The source discussed in this article can be found on **github** at [http://github.com/bustardcelly/iBattery](https://github.com/bustardcelly/iBattery) and the [ibatteryextension.ane](http://www.custardbelly.com/downloads/air/ane/ibatteryextension.ane.zip) itself (if you’d like to use it in your application) can be downloaded from this link.
 
-Posted in [AIR](http://custardbelly.com/blog/category/air/), [AS3](http://custardbelly.com/blog/category/as3/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4.5](http://custardbelly.com/blog/category/flex-4-5/), [Native Extension for Adobe AIR](http://custardbelly.com/blog/category/native-extension-for-adobe-air/).
+Posted in [AIR](https://custardbelly.com/blog/category/air/), [AS3](https://custardbelly.com/blog/category/as3/), [Flex](https://custardbelly.com/blog/category/flex/), [Flex 4.5](https://custardbelly.com/blog/category/flex-4-5/), [Native Extension for Adobe AIR](https://custardbelly.com/blog/category/native-extension-for-adobe-air/).

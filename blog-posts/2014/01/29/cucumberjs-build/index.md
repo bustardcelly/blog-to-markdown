@@ -4,7 +4,7 @@ author:
   name: 'todd anderson'
 date: '2014-01-29'
 ---
-In my [previous post](http://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html) I addressed the concepts of the __World__ context and __Background__ scenario. I am going to pause in actually working with [CucumberJS](https://github.com/cucumber/cucumber-js) in delivering code in a BDD manner for this article and address another vital part of the development process: __Automation__.
+In my [previous post](https://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html) I addressed the concepts of the __World__ context and __Background__ scenario. I am going to pause in actually working with [CucumberJS](https://github.com/cucumber/cucumber-js) in delivering code in a BDD manner for this article and address another vital part of the development process: __Automation__.
 
 ### &gt; code
 Supported files related to this and any subsequent posts on this topic will be available at:  

@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - BDD in JavaScript: CucumberJS</title>
   </head>
   <body>
@@ -58,7 +58,7 @@
     </p>
   </div>
   <section>
-    <p>I have previously written about <strong>TDD</strong> in JavaScript, most notably using the BDD-style library <a href="https://github.com/pivotal/jasmine">Jasmine</a> in a series on <a href="http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">building a Test-Driven Grocery List Application</a>. In that posts series I went through thinking of User Stories for Features and Scenarios as actual development tasks, and - reading back on it - it&#39;s all very green (no pun intended) in my finding a way to deliver test-driven code. Nothing wrong with that and I will most likely look upon this and subsequent posts in the same manner. That said, I still hold true that TDD is the best way to deliver concise, tested and well thought-out code.</p>
+    <p>I have previously written about <strong>TDD</strong> in JavaScript, most notably using the BDD-style library <a href="https://github.com/pivotal/jasmine">Jasmine</a> in a series on <a href="https://custardbelly.com/blog/blog-pages/category/grocery-ls.html">building a Test-Driven Grocery List Application</a>. In that posts series I went through thinking of User Stories for Features and Scenarios as actual development tasks, and - reading back on it - it&#39;s all very green (no pun intended) in my finding a way to deliver test-driven code. Nothing wrong with that and I will most likely look upon this and subsequent posts in the same manner. That said, I still hold true that TDD is the best way to deliver concise, tested and well thought-out code.</p>
 <p>Since that time, however, I have incorporated a different tool into my <strong>TDD</strong> workflow for JavaScript-based projects that affords me the integration of Feature specs more closely to my development and truly encompasses my current ideal of <strong>Behaviour Driven Development</strong>: <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. Essentially, it allows me to truly adhere to <strong>TDD</strong> while developing from the outside in - running automated tests that fail until I have written code that supports a feature.</p>
 <h3 id="-gt-assumptions-and-notes">&gt; assumptions and notes</h3>
 <p>For the examples in this post, it is assumed that you are familiar with <a href="http://nodejs.org">NodeJS</a>, <a href="https://npmjs.org/">npm</a>, developing node modules and common unit testing practices as these topics too large to discuss in this post.</p>
@@ -70,8 +70,8 @@
 <p>You can install <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in your project using <a href="https://npmjs.org/">npm</a>:</p>
 <pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">npm</span> <span class="hljs-comment">install</span> <span class="hljs-comment">cucumber</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">save</span><span class="hljs-literal">-</span><span class="hljs-comment">dev</span>
 </code></pre><h2 id="gherkin">Gherkin</h2>
-<p>If you had followed along in the previous <a href="http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">TDD Series</a>, you will find the specs defined in that series similar to <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin</a>. In fact, I will be re-hashing a feature spec from that series to demonstrate working through your first cuke (aka, passing feature spec).</p>
-<p>If we were to remake the <a href="(http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">Grocery List</a> application under TDD/BDD using <strong>Cucumber</strong>, we would first start with a feature using the <strong>Gherkin</strong> syntax:</p>
+<p>If you had followed along in the previous <a href="https://custardbelly.com/blog/blog-pages/category/grocery-ls.html">TDD Series</a>, you will find the specs defined in that series similar to <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin</a>. In fact, I will be re-hashing a feature spec from that series to demonstrate working through your first cuke (aka, passing feature spec).</p>
+<p>If we were to remake the <a href="(https://custardbelly.com/blog/blog-pages/category/grocery-ls.html">Grocery List</a> application under TDD/BDD using <strong>Cucumber</strong>, we would first start with a feature using the <strong>Gherkin</strong> syntax:</p>
 <p><em>/features/add-item.feature</em></p>
 <pre><code>Feature: Shopper can <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> their Grocery List
   As <span class="hljs-operator">a</span> grocery shopper
@@ -473,7 +473,7 @@ module.exports = {
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html";
         window.disqus_title="BDD in JavaScript: CucumberJS";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

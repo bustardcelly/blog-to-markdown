@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - An ImagesLoader in Flash8</title>
   </head>
   <body>
@@ -63,12 +63,12 @@
 <p>Seeing as Flash doesn’t have a BufferedImage, I drummed up a little implementation of buffering images offscreen and here it is.<br>The prominant class file that the different buffers (Single, Strip, Multi) use is the ImageLoader – which does pretty much what i said in the first sentence.<br>The different buffers know what to do with the bitmapdata passed from ImageLoader, but perhaps more importantly they have a queue system set up so that you can hit these Singletons with numerous filepaths to images and the loading of one won’t get overwritten by the loading of another.</p>
 <p>The ImageLoader and buffers can be used seperately from the ImagesLoader, but the ImagesLoader class is there if you want a sort of buffered image manager. It holds basically an image map from which another class can grab the bitmap data of anything loaded. As well, taking a cue from <a href="http://fivedots.coe.psu.ac.th/~ad/">Andrew Davison’s</a> ImageLoader.java, ImagesLoader can read a text file that lists all the images you want loaded and buffered in your app, choosing buffers dependant on a preceding signifier (single, strip, group, number).<br>I find it helpful and it probably could use some optimization, but hopefully you can get something out of it… And please don’t forget to call ImagesLoader.dispose() when you’re done with it.</p>
 <p>In the <a href="http://www.custardbelly.com/downloads/ImagesLoader.zip">zip</a> are the files, a sample FLA, some images and an image.txt file. I realized that some of the images don’t really illustrate the point because they’re simple and you’d probably use the drawing API instead, but you get the idea of how the ImagesLoader works.</p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/flash/">Flash</a>, <a href="https://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2006/02/24/that-one-dream-variable/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2005/11/09/pixel-perfect-collision-detection-in-flash8/index.html">&#8672;&nbsp;newer</a></span>
       
       
         <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2005/11/06/keith-peters-actionscript-animation/index.html">older&nbsp;&#8674;</a></span>
@@ -82,7 +82,7 @@
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2005/11/07/an-imagesloader-in-flash8/index.html";
         window.disqus_title="An ImagesLoader in Flash8";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

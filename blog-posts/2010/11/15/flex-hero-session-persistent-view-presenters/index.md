@@ -1,20 +1,20 @@
 ---
 title: 'Flex 4.5 (Hero) – Session-Persistent View Presenters'
-url: 'http://custardbelly.com/blog/2010/11/15/flex-hero-session-persistent-view-presenters/'
+url: 'https://custardbelly.com/blog/2010/11/15/flex-hero-session-persistent-view-presenters/'
 author:
   name: 'todd anderson'
 date: '2010-11-15'
 ---
 
-As I had hinted at in my [previous post](http://custardbelly.com/blog/?p=220), before i went down the rabbit-hole of state data with regards to the life-cycle of a **View** object, I had intended to write about persisting [Supervising Presenters](http://martinfowler.com/eaaDev/SupervisingPresenter.html) for **View**s within an application session. Before I go much farther, i do want to note that [Paul Williams](http://blogs.adobe.com/paulw/) has some excellent posts up on different presenter patterns within the context of a Flex application which can be found at [http://blogs.adobe.com/paulw/](http://blogs.adobe.com/paulw/). Specifically, I am taken by the [Supervising Presenter](http://blogs.adobe.com/paulw/archives/2007/10/presentation_pa_2.html), though i am not totally sold… which I hope to address in this post, but my main intent here is to show how I re-use a presenter for a View object to cut down on memory within an application session.
+As I had hinted at in my [previous post](https://custardbelly.com/blog/?p=220), before i went down the rabbit-hole of state data with regards to the life-cycle of a **View** object, I had intended to write about persisting [Supervising Presenters](http://martinfowler.com/eaaDev/SupervisingPresenter.html) for **View**s within an application session. Before I go much farther, i do want to note that [Paul Williams](http://blogs.adobe.com/paulw/) has some excellent posts up on different presenter patterns within the context of a Flex application which can be found at [http://blogs.adobe.com/paulw/](http://blogs.adobe.com/paulw/). Specifically, I am taken by the [Supervising Presenter](http://blogs.adobe.com/paulw/archives/2007/10/presentation_pa_2.html), though i am not totally sold… which I hope to address in this post, but my main intent here is to show how I re-use a presenter for a View object to cut down on memory within an application session.
 
-I may touch upon the life-cycle of a **View** and how state data is maintained in this post, but not to the extent in my [previous article](http://custardbelly.com/blog/?p=220). I want to talk more about moving away from “_code behind_” in Flex-based mobile applications and implementing session-persistent presenters for **View**s.
+I may touch upon the life-cycle of a **View** and how state data is maintained in this post, but not to the extent in my [previous article](https://custardbelly.com/blog/?p=220). I want to talk more about moving away from “_code behind_” in Flex-based mobile applications and implementing session-persistent presenters for **View**s.
 
 If you want to skip the yammering, you can view the source of an example here: [Mobile (Hero) Supervising Presenter Example](http://www.custardbelly.com/downloads/hero/supervisor/)
 
 ### New View instance on each request
 
-Due to the instantiation of a new **View** instance upon each request from the **ViewNavigator** within a **MobileApplication** as discussed in my [previous post](http://custardbelly.com/blog/?p=220), I started really considering my choice to always use what is loosely called [“_code behind_” in Flex](http://ted.onflash.org/2007/02/code-behind-in-flex-2.php). I’ve always had somewhat of a problem with the implementation but just kept at it because it worked – separated logic into AS file from view mark-up in MXML – and (not always a fast and hard rule) don’t utilize another micro-architecture framework in projects. I’m not going to get into an argument about frameworks, but let’s leave it that i don’t always agree on their necessity when weighed against project requirements, deadlines and multi-developer teams.
+Due to the instantiation of a new **View** instance upon each request from the **ViewNavigator** within a **MobileApplication** as discussed in my [previous post](https://custardbelly.com/blog/?p=220), I started really considering my choice to always use what is loosely called [“_code behind_” in Flex](http://ted.onflash.org/2007/02/code-behind-in-flex-2.php). I’ve always had somewhat of a problem with the implementation but just kept at it because it worked – separated logic into AS file from view mark-up in MXML – and (not always a fast and hard rule) don’t utilize another micro-architecture framework in projects. I’m not going to get into an argument about frameworks, but let’s leave it that i don’t always agree on their necessity when weighed against project requirements, deadlines and multi-developer teams.
 
 So “_code behind_” always was a minor sore point, but it got the job done and got it done in an organized fashion. But I am really taking it into consideration when optimizing applications for the mobile paradigm, mainly inheritance chain. To extend **View** for logic and then extend that view-controller for display again just seems like the wrong choice, especially when **View** is an nth extension of **UIComponent** already and taking in the inheritance memory point described here: [http://help.adobe.com/en_US/flash/cs/using/WSD7F8E1A9-680A-4000-9BA9-D7B01FDD7ECD.html](http://help.adobe.com/en_US/flash/cs/using/WSD7F8E1A9-680A-4000-9BA9-D7B01FDD7ECD.html)
 
@@ -205,6 +205,6 @@ The **Supervising Presenter** reference is persisted through the current session
 
 [Mobile (Hero) Supervising Presenter Example](http://www.custardbelly.com/downloads/hero/supervisor/)
 
-Now… i gotta think about getting that **Script** outta my MXML ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+Now… i gotta think about getting that **Script** outta my MXML ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
-Posted in [AIR](http://custardbelly.com/blog/category/air/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4.5](http://custardbelly.com/blog/category/flex-4-5/).
+Posted in [AIR](https://custardbelly.com/blog/category/air/), [Flex](https://custardbelly.com/blog/category/flex/), [Flex 4.5](https://custardbelly.com/blog/category/flex-4-5/).

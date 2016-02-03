@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - Customizing the Apollo NativeWindow</title>
   </head>
   <body>
@@ -60,7 +60,7 @@
   <section>
     <p><a href="http://www.danieldura.com/">Daniel Dura</a> wrote up a <a href="http://www.danieldura.com/archive/apollo-multi-window-support-using-flex">great post</a> on adding Flex components to NativeWindows. If you are looking to add Flex components to your NativeWindow instance, you will need to follow what Daniel described. As Daniel has mentioned, this is an issue concerning the <a href="http://www.adobe.com/go/apollo">alpha version of Apollo</a> and may be cleared up in the next release, but if you can’t wait and are looking to add custom ActionScript components that extend Flex components, there is another option. </p>
 <p>I don’t pretend to know enough about the architecture (so someone speak up if i am off track), but adding components to NativeWindows – without Daniel’s or the proceeding example- fails due to the reference to your main ApolloApplication’s stage when displaying components within the Flex framework. You can add all the displays existent in the AS3 library (Sprite, TextField, etc.) to the stage of your NativeWindow instance, but any in the Flex framework need a little push. Adding MXML components to your NativeWindows will still have to follow the formula Daniel laid out using the addChild/removeChild methods, yet there is a workaround to this for ActionScript components by adding an ADDED_TO_STAGE event listener within its constructor.</p>
-<p>I have a tendency to try and word things right and it comes out all mush, so i’ll just show some code. <em>You can alternatively look at<a href="http://custardbelly.com/downloads/apollo/NativeWindowExample"> source view</a></em>. </p>
+<p>I have a tendency to try and word things right and it comes out all mush, so i’ll just show some code. <em>You can alternatively look at<a href="https://custardbelly.com/downloads/apollo/NativeWindowExample"> source view</a></em>. </p>
 <p>The CustomLabel (CustomLabel.as) component that will be added to our NativeWindow:</p>
 <pre><code>        <span class="hljs-preprocessor"><span class="hljs-keyword">import</span> flash.events.Event;</span>
     <span class="hljs-preprocessor"><span class="hljs-keyword">import</span> flash.text.TextField;</span>
@@ -153,22 +153,22 @@
         label=<span class="hljs-string">"open custom window"</span>
         click=<span class="hljs-string">"openCustomWindow( event );"</span>&gt;
     &lt;/mx&gt;
-</code></pre><p><strong>NOTE:</strong> _the preceding code has some major problems due to mx tags in wordpress, so disregard all affending close tags <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> _</p>
+</code></pre><p><strong>NOTE:</strong> _the preceding code has some major problems due to mx tags in wordpress, so disregard all affending close tags <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> _</p>
 <p>— As well, you could extend NativeWindow and add the AS components to its stage to bypass adding them in the main app. –</p>
 <p>In the main app file we are just creating a new NativeWindow instance and adding the custom AS component, CustomLabel, to it’s display.</p>
 <pre><code>_customWindow<span class="hljs-preprocessor">.stage</span><span class="hljs-preprocessor">.addChild</span>( new CustomLabel() )<span class="hljs-comment">;</span>
-</code></pre><p>What is happening in the constructor of the CustomLabel is of importance in this example, as it listens for its event of being added to a clients stage. From there we can call the override of UIComponent:createChildren, and add whatever we want to the display. When creating AS components NOT to be added to the NativeWindow, that method (createChildren) would be called as long as you call the super constructor. That is not the case when adding components extending the Flex framework in NativeWindow. Again, if i am missing something crucial or if you have more insight, please leave a comment. So that’s it. Once it has been added to the stage, we can go about our business. Of course, when using ActionScript components you lose the inherent layout capabilities within MXML components, but that is why we’ve added the override of #updateDisplayList.<br>Until Flex came around, i know i spent more than my fair share nailing down layouts for applications- so this is like going back home… <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+</code></pre><p>What is happening in the constructor of the CustomLabel is of importance in this example, as it listens for its event of being added to a clients stage. From there we can call the override of UIComponent:createChildren, and add whatever we want to the display. When creating AS components NOT to be added to the NativeWindow, that method (createChildren) would be called as long as you call the super constructor. That is not the case when adding components extending the Flex framework in NativeWindow. Again, if i am missing something crucial or if you have more insight, please leave a comment. So that’s it. Once it has been added to the stage, we can go about our business. Of course, when using ActionScript components you lose the inherent layout capabilities within MXML components, but that is why we’ve added the override of #updateDisplayList.<br>Until Flex came around, i know i spent more than my fair share nailing down layouts for applications- so this is like going back home… <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>To find out more about extending ActionScript components, visit<a href="http://blog.flashgen.com/2006/11/08/base-component-methods-actionscript-20-to-30/"> this post</a> on FlashGen and <a href="http://download.macromedia.com/pub/documentation/en/flex/2/flex2_createextendcomponents.pdf">this doc</a> from <a href="http://labs.adobe.com/">the labs</a>.</p>
 <p>PS. I’ve been a little lacking in the post area, and though i have the usual excuses- family, work, beer… – i could be more on top of it and you should be seeing more Flex and Apollo thoughts in the near future, but no promises because i love those excuses. I also am working on something that i hope to announce here a little later if all goes well…</p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/apollo/">Apollo</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>.</p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/as3/">AS3</a>, <a href="https://custardbelly.com/blog/category/apollo/">Apollo</a>, <a href="https://custardbelly.com/blog/category/flex/">Flex</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2008/12/11/flex-ant-tasks-and-flexfileset-error/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2007/08/03/wrox-air-instant-results-book/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2007/08/03/wrox-air-instant-results-book/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2007/01/15/beer-list-amsterdam-new-years/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -179,7 +179,7 @@
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2007/04/06/customizing-the-apollo-nativewindow/index.html";
         window.disqus_title="Customizing the Apollo NativeWindow";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

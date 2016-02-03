@@ -10,7 +10,7 @@ As is expected from a big move, we have found outselves in different surrounding
 
 While the extra space of a house is wonderful, tit comes with additional maintenance and care over renting an apartment. For instance, we never had a basement in our previous apartments and never had to worry about flooding or failures in a sump pump. Now we do. And we have had a handful of instances when it has occurred. While it is true that we have and will continue to have qualified people locate the source of the problem, I thought - in the meantime - it would be a fun little project to setup something that could alert me to possible water starting to accumulate in the basement.
 
-![a flood!](http://custardbelly.com/images/flood_pi_flood.jpg)
+![a flood!](https://custardbelly.com/images/flood_pi_flood.jpg)
 
 And from that [flood-pi](https://github.com/bustardcelly/flood-pi) was born!
 
@@ -28,24 +28,24 @@ Here's some pictures of the project:
 
 The leads.
 
-![leads](http://custardbelly.com/images/flood_pi_leads.jpg)
+![leads](https://custardbelly.com/images/flood_pi_leads.jpg)
 
 [Raspberry Pi](http://www.raspberrypi.org/), running [Debian-Wheezy](http://www.raspberrypi.org/downloads/) with the [flood-pi](https://github.com/bustardcelly/flood-pi) program running as a daemon. [Edimax WiFi adapter](http://www.edimax.com/edimax/merchandise/merchandise_detail/data/edimax/global/wireless_adapters_n150/ew-7811un) for the interweb-bings and email-ery.
 
-![pi](http://custardbelly.com/images/flood_pi_rasp.jpg)
+![pi](https://custardbelly.com/images/flood_pi_rasp.jpg)
 
 The mcp3008 on its own breakout. (__i soldered it up all by myself!__)
 
-![mcp3008](http://custardbelly.com/images/flood_pi_mcp3008.jpg)
+![mcp3008](https://custardbelly.com/images/flood_pi_mcp3008.jpg)
 
 ### installation
 Here's some pictures of its installation in the basement:
 
-![full install](http://custardbelly.com/images/flood_pi_install3.jpg)
+![full install](https://custardbelly.com/images/flood_pi_install3.jpg)
 
-![module install](http://custardbelly.com/images/flood_pi_install1.jpg)
+![module install](https://custardbelly.com/images/flood_pi_install1.jpg)
 
-![lead install](http://custardbelly.com/images/flood_pi_install2.jpg)
+![lead install](https://custardbelly.com/images/flood_pi_install2.jpg)
 
 We, thankfully, haven't been able to get a _true_ "positive" reading since its installation, but I have submersed the leads in water for a short time to ensure i was being sent emails :)
 
@@ -64,14 +64,14 @@ __It's pretty bare-bones at the moment, but i plan to add new features as they a
 ### charts
 The landing page and _/level?range=(day|week|year|all)_ provide chart data with the level readings:
 
-![chart data](http://custardbelly.com/images/flood_pi_chart.png)
+![chart data](https://custardbelly.com/images/flood_pi_chart.png)
 
 The red band across the middle of the chart is the "positive" value range provided from the __flood-pi__ and should be considered possible flood detection. As mentioned previously, lower values may come in but not high enough to be considered "positive"; additionally, high values may come in which may actually mean that the leads have somehow started touching each other rather than completing the circuit with water.
 
 ### isitflooded
 There is also a direct page at _/isitflooded_ that will let you know if it is currently considered flooded or not:
 
-![current detection](http://custardbelly.com/images/flood_pi_no.png)
+![current detection](https://custardbelly.com/images/flood_pi_no.png)
 
 It also reports last reporting time and whether or not it should alert you to the [flood-pi](https://github.com/bustardcelly/flood-pi) no longer reporting information.
 

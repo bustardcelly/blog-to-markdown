@@ -6,7 +6,7 @@ date: '2014-02-12'
 ---
 _"Whoa. Whoa. Whoa. You can't just use roman numerals all over the place in your post titles..."_
 
-In the [previous article](http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html) I addressed the available libraries and practices to have your [CucumberJS](https://github.com/cucumber/cucumber-js) specs running in a browser environment, as well as introduced a new project begun by me: [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser).
+In the [previous article](https://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html) I addressed the available libraries and practices to have your [CucumberJS](https://github.com/cucumber/cucumber-js) specs running in a browser environment, as well as introduced a new project begun by me: [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser).
 
 I had originally had the entirety of this post in the previous post, but felt that it was a little bit of information overload. As such, I decided to split them into two posts.
 
@@ -228,18 +228,18 @@ $ cucumberjs-browser -o test --tmpl template/testrunner.html -f ui
 We would see those same <span style="color:red;">failing</span> tests, but this time on the DOM.
 
 <div style="width: 100%; overflow-x: scroll; background-color:#fff; text-align: center;">
-  <img src="http://custardbelly.com/blog/images/cucumberjs-browser-2.png" alt="cucumberjs in the browser, failing">
+  <img src="https://custardbelly.com/blog/images/cucumberjs-browser-2.png" alt="cucumberjs in the browser, failing">
 </div>
 
 We have gone from failing on the command line to failing in the browser... isn't it glorious :)
 
 ## Automate all the things
-We had [previously automated our testing](http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html) under the node-based environment; it was a simple as setting up a file watcher and issuing a command to run the [CucumberJS](https://github.com/cucumber/cucumber-js) CLI tool on change.
+We had [previously automated our testing](https://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html) under the node-based environment; it was a simple as setting up a file watcher and issuing a command to run the [CucumberJS](https://github.com/cucumber/cucumber-js) CLI tool on change.
 
 Our process has now become a little more involved, but not anything too complex (_thanks to the wonderful [npm](https://www.npmjs.org/) community!_) that an automated build and test procedure couldn't be implemented. The only difference is that feedback will now reside in the DOM and/or Console of a browser - so instead of coding in an editor and watching it fail on the command line, we are now going to need to focus on failures reported in the browser as we TDD.
 
 ### watch script
-Just as we had done in a [previous article](http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html), we are going to create a new script that will essentially do the following:
+Just as we had done in a [previous article](https://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html), we are going to create a new script that will essentially do the following:
 
 1. start a livereload server
 2. start a local server to serve the testrunner
@@ -1006,7 +1006,7 @@ var application = {
 In adding a call to `list.add()` in the button handler within we just defined an update to the view, we bring ourselves to full <span style="color: green;">green</span>!
 
 <div style="width: 100%; overflow-x: scroll; background-color:#fff; text-align: center;">
-  <img src="http://custardbelly.com/blog/images/cucumberjs-browser-3.png" alt="cucumberjs in the browser, passing">
+  <img src="https://custardbelly.com/blog/images/cucumberjs-browser-3.png" alt="cucumberjs in the browser, passing">
 </div>
 
 ## Considerations
@@ -1030,7 +1030,7 @@ Source for examples related to this post can be found in the [0.5.0.post tag on 
 ## To Come
 There are a few extra productivity tidbits I have picked up while working with the wondeful [CucumberJS](https://github.com/cucumber/cucumber-js) tool in developing several applications for both the web and server.
 
-Who knows... I have had a blast going through the articles in this series demonstrating TDD using the BDD tool, [CucumberJS](https://github.com/cucumber/cucumber-js). I might just continue to evolve the example to a fully-functional application just as I had done in the [Making of a Test-Driven Grocery List Application](http://custardbelly.com/blog/blog-pages/category/grocery-ls.html) series which focused on the [Jasmine](http://jasmine.github.io/2.0/introduction.html) library.
+Who knows... I have had a blast going through the articles in this series demonstrating TDD using the BDD tool, [CucumberJS](https://github.com/cucumber/cucumber-js). I might just continue to evolve the example to a fully-functional application just as I had done in the [Making of a Test-Driven Grocery List Application](https://custardbelly.com/blog/blog-pages/category/grocery-ls.html) series which focused on the [Jasmine](http://jasmine.github.io/2.0/introduction.html) library.
 
 Additionally, I am invested in the [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) I created during (and as a result) of this series and hope to write some more articles on its structure, usage and any additions/fixes that are made and I welcome you to help me in making [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) a great tool in being able run your specs in a real browser environment without having to change your current workflow in defining __Features__, __Step Definitions__ and support files.
 

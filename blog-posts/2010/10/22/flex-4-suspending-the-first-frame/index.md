@@ -1,6 +1,6 @@
 ---
 title: 'Flex 4: Suspending the first frame'
-url: 'http://custardbelly.com/blog/2010/10/22/flex-4-suspending-the-first-frame/'
+url: 'https://custardbelly.com/blog/2010/10/22/flex-4-suspending-the-first-frame/'
 author:
   name: 'todd anderson'
 date: '2010-10-22'
@@ -152,7 +152,7 @@ Meaning that you can’t define **[Frame]** in the _<Metadata/>_ declaration. Yo
 
 There you go, you are all set. **CustomSystemManager** is now your stand-in for the initialization process and suspends the first frame, notifying the _concrete_ **CustomPreloader** to perform some extra tasks, which in turn tells the **CustomSystemManager** that is okay to continue onto the next frame once it has finished its task(s).
 
-I would have posted an example SWF here, but it would have been a moot point as it would have loaded already by the time you arrived all the way down here ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) So one is available here: [http://www.custardbelly.com/examples/csm/index.html](http://www.custardbelly.com/examples/csm/index.html) with source view here: [http://www.custardbelly.com/examples/csm/srcview/](http://www.custardbelly.com/examples/csm/srcview/).
+I would have posted an example SWF here, but it would have been a moot point as it would have loaded already by the time you arrived all the way down here ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) So one is available here: [http://www.custardbelly.com/examples/csm/index.html](http://www.custardbelly.com/examples/csm/index.html) with source view here: [http://www.custardbelly.com/examples/csm/srcview/](http://www.custardbelly.com/examples/csm/srcview/).
 
 It’s not terribly exciting, but in that example i am basically loading a [Spring ActionScript](http://www.springactionscript.org/) application context file. I wanted to hook into the initial load progress as the** IoC container** was an essential part of my application. And, as i said before, i hate seeing the initial progress bar and then another progress bar after application create. I just want one.
 
@@ -164,4 +164,4 @@ Also, if i am totally off-base on all this, please leave a comment and let me kn
 
 The files for all this, including the example, can be found on github: [http://github.com/bustardcelly/custom-system-manager](http://github.com/bustardcelly/custom-system-manager)
 
-Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4](http://custardbelly.com/blog/category/flex-4/).
+Posted in [AS3](https://custardbelly.com/blog/category/as3/), [Flash](https://custardbelly.com/blog/category/flash/), [Flex](https://custardbelly.com/blog/category/flex/), [Flex 4](https://custardbelly.com/blog/category/flex-4/).

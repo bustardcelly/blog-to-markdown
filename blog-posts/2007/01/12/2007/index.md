@@ -1,6 +1,6 @@
 ---
 title: '2007'
-url: 'http://custardbelly.com/blog/2007/01/12/2007/'
+url: 'https://custardbelly.com/blog/2007/01/12/2007/'
 author:
   name: 'todd anderson'
 date: '2007-01-12'
@@ -16,4 +16,4 @@ I dunno. I’m just searching for something… and part of it probably has to do
 
 Now i’m gonna shut up and spin some records.
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/), [General](http://custardbelly.com/blog/category/general/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/), [General](https://custardbelly.com/blog/category/general/).

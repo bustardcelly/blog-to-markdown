@@ -27,7 +27,7 @@
         window.disqus_url="<%= site.url+"/"+post.htmlPath() %>";
         window.disqus_title="<%= post.title() %>";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/<%= site.disqus %>/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/<%= site.disqus %>/embed.js"></script>
         <noscript><a href="http://<%= site.disqus %>.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     <% } %>
   </section>

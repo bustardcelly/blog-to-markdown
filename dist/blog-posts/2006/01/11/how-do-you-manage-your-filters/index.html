@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - How do you manage your filters?</title>
   </head>
   <body>
@@ -58,7 +58,7 @@
     </p>
   </div>
   <section>
-    <p><strong>[Update: 2/24/2006]</strong><br>I’ve updated my workings of a management system for a movieclip’s filters after Lars Schwarz brought up some interesting thoughts. <a href="http://custardbelly.com/downloads/ManagedFilterMap.zip">Here are the new files.</a> I basically pushed some management methods through a Singleton (McFilterManager), that registers/unregisters managed clips ( FilterManagedClip ). It’s not that necessary and the FilterManagedClip class can be used by itself, but if you want to hold references for all the clips that have filters, then it could be useful and expanded upon.</p>
+    <p><strong>[Update: 2/24/2006]</strong><br>I’ve updated my workings of a management system for a movieclip’s filters after Lars Schwarz brought up some interesting thoughts. <a href="https://custardbelly.com/downloads/ManagedFilterMap.zip">Here are the new files.</a> I basically pushed some management methods through a Singleton (McFilterManager), that registers/unregisters managed clips ( FilterManagedClip ). It’s not that necessary and the FilterManagedClip class can be used by itself, but if you want to hold references for all the clips that have filters, then it could be useful and expanded upon.</p>
 <p>FilterManagedClip really does all the managing, and as Lars suggested, it now holds a reference to a unique id supplied, instead of using a instanceof check on the filter list.</p>
 <p>plus i fixed that bug in removeFilter – sorry about that.<br><strong>[End Update.]</strong></p>
 <p>I’ve been playing around with filters in Flash 8, and started to get annoyed that if i wanted to update a filter’s settings i had to grab an instance from the movieclip’s filter array, change the properties and then reassign the filter array- particualarly because this caused problems if i had more than one type of filter and only wanted to change one propetry from one filter. Just seemed like too much code to change one thing.</p>
@@ -69,12 +69,12 @@
 <p>I could be totally off the mark here and am missing some operation which i haven’t found and suits this very purpose… but i was just wondering what other people do to manage their filters.</p>
 <p>suggestions? </p>
 <p>feel free to use the <a href="http://www.custardbelly.com/downloads/McFilterMap.as">McFilterMap class</a>.</p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/flash/">Flash</a>, <a href="https://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2005/11/06/keith-peters-actionscript-animation/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2006/04/09/state-behavior-system-for-sprites/index.html">&#8672;&nbsp;newer</a></span>
       
       
         <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2005/10/20/as3-follow-up/index.html">older&nbsp;&#8674;</a></span>
@@ -88,7 +88,7 @@
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2006/01/11/how-do-you-manage-your-filters/index.html";
         window.disqus_title="How do you manage your filters?";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - Viewstack in Flex 4?</title>
   </head>
   <body>
@@ -62,20 +62,20 @@
 <p>As well, <a href="http://www.tink.ws/blog/">Tink</a> has done some <a href="http://www.tink.ws/blog/spark-datanavigators/">amazing work on bring Spark equivalents (and additions) to containers</a>. If you have not done so, please check out some of his work.<br><strong>[/UPDATE]</strong></p>
 <p>I’ll start off by saying that i love what is happening with the Spark architecture in the Flex SDK. When the time comes that we at IR5 are given the green-light to use it in production for clients, i will be giddy. That said, I am aware that a lot of people have gripes about the lack of complete parity between the Halo and Spark sets, and particularly the lack of Spark equivalents for the Halo navigation containers such as Accordion and ViewStack. </p>
 <p>Truth be told, they probably have good reason to not hop on board, and without raising your voice you can’t raise concerns to the owners of the Platform to make informed decisions based on feedback. However, I feel the Platform developed because people started doing things it was never intended to do and (while at times complaining) developers just rolled up their sleeves and bent the code to their will. Now this is going into a whole ‘nother discussion that was the intent of the post, so we’ll just leave the discussion at that and ask, ‘Why not make what is not there?’ The answer is a whole ‘nother discussion and I am fully aware that the SDK is not <em>perfect</em> for this, but it is available to make something work somehow… that’s how we all got here.</p>
-<p>Enough jibber-jabber… I set apart a couple hours to make a ViewStack for Flex 4 just to see how easy it would be with the Spark architecture. Honestly, I never really use the Halo navigation containers much – maybe some quick prototypes here and there, but have always found that in a medium to large application they provide no benefits that go along with their overhead. But still, I thought i would choose one (and yes i know it is probably the easiest one <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ) just to see what all the fuss was about.</p>
+<p>Enough jibber-jabber… I set apart a couple hours to make a ViewStack for Flex 4 just to see how easy it would be with the Spark architecture. Honestly, I never really use the Halo navigation containers much – maybe some quick prototypes here and there, but have always found that in a medium to large application they provide no benefits that go along with their overhead. But still, I thought i would choose one (and yes i know it is probably the easiest one <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ) just to see what all the fuss was about.</p>
 <p><del><br>My first step was getting excited about the mxmlContent and mxmlContentFactory properties available on Spark containers. ‘think of the possiblities,’ my mind said, ‘this probably contains all the declared children within the markup!’ Oh with that i can stop instantiation of them and deferred until requested. Case closed. Viewstack done. Until i realized that most everything that handles these values is private. bugger.</del></p>
 <p><strong>[Update 2009-09-03]</strong><br>Event though i did start down the path of mxmlContent and mxmlContentFactory and came up empty, thanks to the brain on <a href="http://www.razorberry.com/blog/">Ash Atkins</a> for pointing out that i coudl use the [DefaultProperty] metatag to still allow inline declaration of child elements for the ViewStack. The inline code has been updated. Thanks, <a href="http://www.razorberry.com/blog/">Ash</a>!<br><strong>[/Update]</strong></p>
 <p>Next step was extending SkinnableContainer and just exposing a property on which you can pass an array of IVisualElement instances, along with the standard selectedIndex and selectedChildren. With the new Flex 4 <em>Declarations</em> tag, this solution was made sweeter in that I could declare my children without instantiating them directly and could pass them along for the Flex 4 Viewstack to handle them as seen fit, allowing for deferred instantation. Making sure set selectedIndex and selectedChild work accordingly and dispatch an event on change of index, i called it a day. It took a couple hours and I called it a day… until Keith walked into my office and started yammering about me not working.</p>
 <p>Example. Made with Flex 4 SDK build 9864. You will need the latest player:</p>
 <p><a href="http://adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player"></a></p>
-<p><a href="http://custardbelly.com/downloads/viewstack/srcview/index.html">view source</a> . There seems to be bug in the view source code in the nightly builds, so i will post the code here as well if you don’t feel like Right Click&gt; View Source and downloading the zip…</p>
+<p><a href="https://custardbelly.com/downloads/viewstack/srcview/index.html">view source</a> . There seems to be bug in the view source code in the nightly builds, so i will post the code here as well if you don’t feel like Right Click&gt; View Source and downloading the zip…</p>
 <p>Here is the implementation i came up with:</p>
 <pre><code><span class="hljs-comment">// </span>
 </code></pre>
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2010/03/24/flex-4-cookbook-coming-soon/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2008/02/24/looking-back-and-looking-forward/index.html">&#8672;&nbsp;newer</a></span>
       
       
         <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2009/04/08/flash-on-tap-boston-ill-be-there/index.html">older&nbsp;&#8674;</a></span>
@@ -89,7 +89,7 @@
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2009/09/02/viewstack-in-flex-4/index.html";
         window.disqus_title="Viewstack in Flex 4?";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

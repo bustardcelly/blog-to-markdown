@@ -1,6 +1,6 @@
 ---
 title: 'Viewstack in Flex 4?'
-url: 'http://custardbelly.com/blog/2009/09/02/viewstack-in-flex-4/'
+url: 'https://custardbelly.com/blog/2009/09/02/viewstack-in-flex-4/'
 author:
   name: 'todd anderson'
 date: '2009-09-02'
@@ -16,7 +16,7 @@ I’ll start off by saying that i love what is happening with the Spark architec
 
 Truth be told, they probably have good reason to not hop on board, and without raising your voice you can’t raise concerns to the owners of the Platform to make informed decisions based on feedback. However, I feel the Platform developed because people started doing things it was never intended to do and (while at times complaining) developers just rolled up their sleeves and bent the code to their will. Now this is going into a whole ‘nother discussion that was the intent of the post, so we’ll just leave the discussion at that and ask, ‘Why not make what is not there?’ The answer is a whole ‘nother discussion and I am fully aware that the SDK is not *perfect* for this, but it is available to make something work somehow… that’s how we all got here.
 
-Enough jibber-jabber… I set apart a couple hours to make a ViewStack for Flex 4 just to see how easy it would be with the Spark architecture. Honestly, I never really use the Halo navigation containers much – maybe some quick prototypes here and there, but have always found that in a medium to large application they provide no benefits that go along with their overhead. But still, I thought i would choose one (and yes i know it is probably the easiest one ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) ) just to see what all the fuss was about.
+Enough jibber-jabber… I set apart a couple hours to make a ViewStack for Flex 4 just to see how easy it would be with the Spark architecture. Honestly, I never really use the Halo navigation containers much – maybe some quick prototypes here and there, but have always found that in a medium to large application they provide no benefits that go along with their overhead. But still, I thought i would choose one (and yes i know it is probably the easiest one ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) ) just to see what all the fuss was about.
 
 <del>  
 My first step was getting excited about the mxmlContent and mxmlContentFactory properties available on Spark containers. ‘think of the possiblities,’ my mind said, ‘this probably contains all the declared children within the markup!’ Oh with that i can stop instantiation of them and deferred until requested. Case closed. Viewstack done. Until i realized that most everything that handles these values is private. bugger.</del>
@@ -31,7 +31,7 @@ Example. Made with Flex 4 SDK build 9864. You will need the latest player:
 
 [![Get Adobe Flash player](http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif)](http://adobe.com/go/getflashplayer)
 
-[view source](http://custardbelly.com/downloads/viewstack/srcview/index.html) . There seems to be bug in the view source code in the nightly builds, so i will post the code here as well if you don’t feel like Right Click> View Source and downloading the zip…
+[view source](https://custardbelly.com/downloads/viewstack/srcview/index.html) . There seems to be bug in the view source code in the nightly builds, so i will post the code here as well if you don’t feel like Right Click> View Source and downloading the zip…
 
 Here is the implementation i came up with:
     
@@ -315,6 +315,6 @@ and its usage:
 
 So that is basically it. Allow for skinning of the Viewstack by extending SkinnableContainer. Expose content, selectedIndex and selectedChild properties. Dispatch and index change event. Optionally wrap CVBViewStack in a Scroller to enable child content that extends the viewport of the viewstack. I know it probably won’t serve every need, but in a few short hours I made Viewstakc in Flex 4 for the purposes i mainly use it for in prototypes. I haven’t put it through the ringer in testing, but feel free to. There’s no license, completely free. Modify, take, steal, have fun.
 
-*Note: Seems as though the generated ‘View Source’ files in the nightly build from September 1st (of which i mad the example) has some bugs. So feel free to click this link -> [view source](http://custardbelly.com/downloads/viewstack/srcview/index.html) < - but be aware that you won't actually be able to view the class files in the browser. You will need to download the zip file.
+*Note: Seems as though the generated ‘View Source’ files in the nightly build from September 1st (of which i mad the example) has some bugs. So feel free to click this link -> [view source](https://custardbelly.com/downloads/viewstack/srcview/index.html) < - but be aware that you won't actually be able to view the class files in the browser. You will need to download the zip file.
 
-Posted in [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4](http://custardbelly.com/blog/category/flex-4/).
+Posted in [Flex](https://custardbelly.com/blog/category/flex/), [Flex 4](https://custardbelly.com/blog/category/flex-4/).

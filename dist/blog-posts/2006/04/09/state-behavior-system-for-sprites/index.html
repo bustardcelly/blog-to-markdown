@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - State behavior system for sprites</title>
   </head>
   <body>
@@ -62,8 +62,8 @@
 <p>Here’s a little example of what i’ve progressed to since i went down the path of changing my thought process of what a user-controlled sprite is.<br>Hit the block to produce a bonus ( or the hammer-fountain ) and collect the bonus by running into it. You can become big, a racoon or a frog. When you’re the racoon, once you reach max acceleration, the screen will display “tap spacebar” – tap that spacebar fast and you’ll be able to fly.</p>
 <p>What’s happening:<br>My implementation of a user-controlled sprite has been reduced to a simple particle with a display movieclip inside and reacts to key controls. Upon pixel collision of a “bonus” not of current sprite type, the display bitmap is updated with a different graphics source, and the sprite model is changed accordingly.<br>Each sprite model has a set of behaviors that respond to key controls – and in the case of the racoon, those behaviors are switch out on recognition of maximum acceleration; meaning you can fly if you tap the space bar fast enough once you are at max speed. Another neat thing is that the Fly Behavior is on a timer, so after about 5 seconds, it’s switched back to your previous behavior. The frog is interesting to see the difference in behaviors – when you move left or right, the hop behavior is called, as opposed to the basic roam ( or walk/run ) behavior of the others.</p>
 <p>I’m also employing the particle sytem structure i had before, and switch action policies based on whether the sprite is “hurt” or not. A visual clue to let you know that the sprite responds to key controls again is once the stars start falling and turning red.</p>
-<p>I think this is going to be the last in my Flash8 experiments of sprites and effects, and start porting what i have over to <a href="http://labs.macromedia.com/">AS3</a>- cleaning and documenting as i go. Hopefully i’ll have something up soon, but seeing as i’m a newly proud owner of a DS, my productiveness may wane for a bit <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
+<p>I think this is going to be the last in my Flash8 experiments of sprites and effects, and start porting what i have over to <a href="http://labs.macromedia.com/">AS3</a>- cleaning and documenting as i go. Hopefully i’ll have something up soon, but seeing as i’m a newly proud owner of a DS, my productiveness may wane for a bit <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/flash/">Flash</a>, <a href="https://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
 
   </section>
   <section class="navigation">
@@ -71,7 +71,7 @@
         <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2006/04/28/an-imagesloader-in-as3/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2006/03/26/particle-pixel-collision/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2006/01/11/how-do-you-manage-your-filters/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -82,7 +82,7 @@
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2006/04/09/state-behavior-system-for-sprites/index.html";
         window.disqus_title="State behavior system for sprites";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

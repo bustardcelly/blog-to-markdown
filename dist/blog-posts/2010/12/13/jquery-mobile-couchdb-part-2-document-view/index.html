@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jQuery Mobile + CouchDB: Part 2 – Document View</title>
   </head>
   <body>
@@ -58,7 +58,7 @@
     </p>
   </div>
   <section>
-    <p>In the <a href="http://custardbelly.com/blog/?p=244">previous post</a> for this series, I covered getting up and running with <a href="http://jquerymobile.com/">jQuery Mobile</a> as a client-side application for a <a href="http://couchdb.apache.org/">CouchDB</a> database. Along with examples for the <strong>DHTML</strong> documents, I also covered/talked about some great tools that help along with the workflow of creating a client-side application and working with a <strong>CouchDB</strong> instance. I am going to continue using those tools – mainly <a href="http://couchapp.org/page/index">CouchApp</a> – and cover the differences between local and external jQuery Mobile pages and how to show a single document from the albums list. If you have not already, I recommend checking out the first part in this series: <a href="http://custardbelly.com/blog/?p=244">jQuery Mobile + CouchDB: Part 1 – Getting Started</a>. Some tools and directory structures are discussed in that post that will not be explained in this post.</p>
+    <p>In the <a href="https://custardbelly.com/blog/?p=244">previous post</a> for this series, I covered getting up and running with <a href="http://jquerymobile.com/">jQuery Mobile</a> as a client-side application for a <a href="http://couchdb.apache.org/">CouchDB</a> database. Along with examples for the <strong>DHTML</strong> documents, I also covered/talked about some great tools that help along with the workflow of creating a client-side application and working with a <strong>CouchDB</strong> instance. I am going to continue using those tools – mainly <a href="http://couchapp.org/page/index">CouchApp</a> – and cover the differences between local and external jQuery Mobile pages and how to show a single document from the albums list. If you have not already, I recommend checking out the first part in this series: <a href="https://custardbelly.com/blog/?p=244">jQuery Mobile + CouchDB: Part 1 – Getting Started</a>. Some tools and directory structures are discussed in that post that will not be explained in this post.</p>
 <h2 id="introduction">Introduction</h2>
 <p>Looking at the current state of the client-side application created for communicating with a <a href="http://couchdb.apache.org/">CouchDB</a> instance, the landing page loads all the documents from a target database and displays them in a <a href="http://jquerymobile.com/">jQuery Mobile</a> list.</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_three.png" alt=""></p>
@@ -627,7 +627,7 @@
         });
 
 }
-</code></pre><p>… nothing to unfamiliar… and nothing to pretty <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> . </p>
+</code></pre><p>… nothing to unfamiliar… and nothing to pretty <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> . </p>
 <h3 id="deployment">Deployment</h3>
 <p>We can now push our changes to the <a href="http://couchdb.apache.org/">CouchDB</a> database using the <a href="http://couchapp.org/page/index">couchapp</a> utliity. Open a terminal and navigate to the directory where you create your <strong>CouchApp</strong> applications (for me that is <em>/Documents/workspace/custardbelly/couchdb</em> and in there i have a folder named albums which is my <strong>CouchApp</strong> application directory). Enter the following command to push the changes to the <strong>CouchDB</strong> instance:</p>
 <pre><code>couchapp push albums http:<span class="hljs-comment">//127.0.0.1:5984/albums</span>
@@ -804,24 +804,24 @@
 <pre><code>couchapp push albums http:<span class="hljs-comment">//127.0.0.1:5984/albums</span>
 </code></pre><p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>, we’ll still have our old familiar list. Click on an item, and we should be navigated to a detail (or <em>albumview</em>) page somewhat like the following:</p>
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_five.png" alt=""></p>
-<p>I left the browser wide again so you can see the new <strong>URL</strong> for viewing a single <em>album</em> document: <a href="http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/">http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/</a>${doc._id}. Pretty neat. Now you can even copy that <strong>#show</strong> page <strong>URL</strong> and paste it in another window and you should be taken directly to that detail page. You may notice that we still get the back button in the upper left of the header. That is because of the hash (#) in the <strong>URL</strong> which the <a href="http://jquerymobile.com/">jquery Mobile</a> framework interprets as being a page linked from another. So a false history. If you clicked <strong>Back</strong> from the page, it would not go to the <em>index.html</em> page. A minor flaw in our design that we are going to let go for now <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Hey, we just got all this neat stuff working… we’ll work out the kinks later. There’s more fun stuff to work on.</p>
+<p>I left the browser wide again so you can see the new <strong>URL</strong> for viewing a single <em>album</em> document: <a href="http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/">http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/</a>${doc._id}. Pretty neat. Now you can even copy that <strong>#show</strong> page <strong>URL</strong> and paste it in another window and you should be taken directly to that detail page. You may notice that we still get the back button in the upper left of the header. That is because of the hash (#) in the <strong>URL</strong> which the <a href="http://jquerymobile.com/">jquery Mobile</a> framework interprets as being a page linked from another. So a false history. If you clicked <strong>Back</strong> from the page, it would not go to the <em>index.html</em> page. A minor flaw in our design that we are going to let go for now <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Hey, we just got all this neat stuff working… we’ll work out the kinks later. There’s more fun stuff to work on.</p>
 <h2 id="conclusion">Conclusion</h2>
-<p>Well, i said the subsequent posts after the initial <a href="http://custardbelly.com/blog/?p=244">Getting Started</a> would be shorter… i lied <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> In any event, we created a detail page for a single document and offloaded the page loading to an external <a href="http://jquerymobile.com/">jquery Mobile</a> page utilizing the <strong>show function</strong> of the albums design. A nice solution with an ugly<strong>URL</strong> (we can address that later) that can be passed to other people so they can land on that single page without going through the whole application from the beginning. Since I prefer the external page solution, any continuing posts on this example will utilize the <strong>show function</strong> to serve, at least, the album detail page.</p>
+<p>Well, i said the subsequent posts after the initial <a href="https://custardbelly.com/blog/?p=244">Getting Started</a> would be shorter… i lied <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> In any event, we created a detail page for a single document and offloaded the page loading to an external <a href="http://jquerymobile.com/">jquery Mobile</a> page utilizing the <strong>show function</strong> of the albums design. A nice solution with an ugly<strong>URL</strong> (we can address that later) that can be passed to other people so they can land on that single page without going through the whole application from the beginning. Since I prefer the external page solution, any continuing posts on this example will utilize the <strong>show function</strong> to serve, at least, the album detail page.</p>
 <p>Now what if we wanted to edit the fields of that document… I am on the edge of my seat as i write this. Literally. Someone stacked a bunch of wrapping stuff on this chair and left me little room. I could have moved it, but i was just too excited to talk about forms…</p>
 <p><em>[Note] This post was written against the following software versions:</em><br><strong>CouchDB </strong>– 1.0.1<br><strong>CouchApp</strong> – 0.7.2<br><strong>jQuery</strong> – 1.4.4<br><strong>jQuery Mobile</strong> – 1.0a2<br><em>If you have found this post and any piece has moved forward, hopefully the examples are still viable/useful. I will not be updating the examples in this post in parellel with updates to any of the previously mentioned software, unless explicitly noted.</em></p>
 <p><strong>Articles in this series:</strong></p>
 <ol>
-<li><a href="http://custardbelly.com/blog/?p=244">Getting Started</a></li>
-<li><a href="http://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
-<li><a href="http://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
-<li><a href="http://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
-<li><a href="http://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
+<li><a href="https://custardbelly.com/blog/?p=244">Getting Started</a></li>
+<li><a href="https://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
+<li><a href="https://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
+<li><a href="https://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
+<li><a href="https://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
 </ol>
-<p><a href="http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="http://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="http://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
+<p><a href="https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="https://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="https://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
 
   </section>
   <section class="navigation">
@@ -840,7 +840,7 @@
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2010/12/13/jquery-mobile-couchdb-part-2-document-view/index.html";
         window.disqus_title="jQuery Mobile + CouchDB: Part 2 – Document View";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

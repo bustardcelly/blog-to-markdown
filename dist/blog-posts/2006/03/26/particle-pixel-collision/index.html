@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - Particle Pixel Collision</title>
   </head>
   <body>
@@ -61,17 +61,17 @@
     <p><a href="javascript:MM_openBrWindow(&#39;http://www.custardbelly.com/blog/insets/ppColl.html&#39;,&#39;strip&#39;,&#39;resizable=no,width=250,height=130&#39;"><img src="http://www.custardbelly.com/blog/images/ring.gif" alt="click me"></a>;)</p>
 <p>Well, i said i was gonna get into switching action policies for the user-controlled sprite, but i thought it might be cool if i gave a visual clue if the sprite was disabled ( unable to switch actions ). Then i thought, ‘What better clue than a ring of stars around its head?’. Created a rotating-ring particle system. Done…<br>Damn… It rotates, but not around the sprite. I’ve been placing particle systems in their own movieclip – somtimes behind, sometimes atop the sprite… I wasn’t rendering everything in a ‘world’ view with z-buffering, because everything was 2d and i thought ‘…just layer it, jerk’. i still do.</p>
 <p>Let’s see… do i throw a particle system in with the sprite class and swap depths based on z position of particles? No i just want a sprite to be a sprite and not worry about managing anything. Should i have a special particle system that sandwiches movieclips around the emission node, then create and dipose based on z-position? Now with AS3, i could fashion something like that because of the DisplayList ( as <a href="http://blog.pixelconsumption.com/">Sam</a> so <a href="http://www.bfpug.com/?p=19">eloquiantly showed</a>… though i he didn’t strip off an article clothing after every audience question – which was promised ), but in AS2 that would just be too confusing.</p>
-<p>So i went back to my <a href="http://custardbelly.com/blog/?p=28">PixelCollision class</a> and decided to poke around. Well, i did… and royally screwed up that code (that’s what svn is for!), but came out with a nice solution for replacing pixels in one bitmapdata object based on non-alpha collisions.</p>
+<p>So i went back to my <a href="https://custardbelly.com/blog/?p=28">PixelCollision class</a> and decided to poke around. Well, i did… and royally screwed up that code (that’s what svn is for!), but came out with a nice solution for replacing pixels in one bitmapdata object based on non-alpha collisions.</p>
 <p>In the movie link above you can see what’s happening (well kind of, i made it too small i think). It’s actually a rotating-ring system in a layer above the sprite, and it’s applying alpha transparency to the stars based on collision – and/or also pixel replacement of sprite if you click on the stage (that’s my favorite part). It’s a shame it gets a little skippish in a browser, i’ll have to do a little cleaning and see what happens.</p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/flash/">Flash</a>, <a href="https://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2006/04/09/state-behavior-system-for-sprites/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2006/03/20/particle-policies/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2005/11/09/pixel-perfect-collision-detection-in-flash8/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2006/02/01/offloading-rendering-in-a-3d-engine/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -82,7 +82,7 @@
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2006/03/26/particle-pixel-collision/index.html";
         window.disqus_title="Particle Pixel Collision";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

@@ -58,7 +58,7 @@ options:
 
 ## What?
 
-![Caddis Fly Lure](http://custardbelly.com/images/caddis.jpg)  
+![Caddis Fly Lure](https://custardbelly.com/images/caddis.jpg)  
 A caddis is a moth-like insect often used as models for fly lures in fishing.
 
 The [caddis](https://github.com/bustardcelly/caddis) CLI tool is used to start and stop a RESTful JSON service with the ability to POST route configuration and responses, on-the-fly, for mocking and testing purposes.

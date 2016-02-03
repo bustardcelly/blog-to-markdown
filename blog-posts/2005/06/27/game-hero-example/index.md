@@ -1,6 +1,6 @@
 ---
 title: 'Game:: Hero example'
-url: 'http://custardbelly.com/blog/2005/06/27/game-hero-example/'
+url: 'https://custardbelly.com/blog/2005/06/27/game-hero-example/'
 author:
   name: 'todd anderson'
 date: '2005-06-27'
@@ -12,7 +12,7 @@ while i was making another game, i started to realize i had gotten “smarter”
 
 First up: the basic Hero. i only call it the Hero because it reacts to user controls like the keyboard, though i could be proven wrong. 
 
-download it [here](http://custardbelly.com/downloads/hero_trial.zip) and have a look around.  
+download it [here](https://custardbelly.com/downloads/hero_trial.zip) and have a look around.  
 if any of you have a different approach or any questions, leave a comment. i am terrible at commenting my code so…  
 and here is a short list of people and sites you should really check out:
 
@@ -25,4 +25,4 @@ and here is a short list of people and sites you should really check out:
 
 maybe i’ll make a bigger list of resources some day.
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/).

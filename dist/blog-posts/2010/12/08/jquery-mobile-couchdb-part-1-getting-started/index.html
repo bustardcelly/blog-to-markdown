@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jquery Mobile + CouchDB: Part 1 – Getting Started</title>
   </head>
   <body>
@@ -59,9 +59,9 @@
   </div>
   <section>
     <h2 id="intro">Intro</h2>
-<p>I have been digging using <a href="http://couchdb.apache.org/">CouchDB</a> as my back-end choice for personal projects for a while now and truly do believe it is the best solution when choosing a non-relational database management system. While discovering my affinity for <strong>CouchDB</strong>, i started developing <a href="http://custardbelly.com/blog/?page_id=127">as3couchdb</a> – an open-source library written in <strong>ActionScript 3</strong> that allows <strong>Flash</strong> to communicate to a <strong>CouchDB</strong> instance which can be found on <a href="https://github.com/bustardcelly/as3couchdb">github</a>. I think <strong>as3couchdb</strong> is in a pretty stable place at the moment and have built a couple applications and have been happy with it. I am going to continue developing it, and if you do use it and find problems/suggestions please let me know.</p>
-<p>That said, i have never been one to focus on something for too long (without getting paid to, of course <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ), without getting distracted by wanting to learn something new. I knew <strong>CouchDB</strong> shipped with a <a href="http://jquery.com/">jQuery</a> <a href="https://github.com/apache/couchdb/blob/trunk/share/www/script/jquery.couch.js">plugin</a>, so i thought i would play around with making a <strong>DHTML</strong> client for some of my projects. Then i thought, why the hell not throw in the <a href="http://jquerymobile.com/">jquery Mobile</a> framework for the fun of it? If we are gonna do it, let’s do it. </p>
-<p>So that is what i have set out to do. I have finished some basics of an application and am looking to get more into the nitty gritty. I figured what better way to do this than to document it; not only purposed as a storage of how to do something, but <em>hopefully</em> a place for some people to chime in and tell me how to do it better <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>I have been digging using <a href="http://couchdb.apache.org/">CouchDB</a> as my back-end choice for personal projects for a while now and truly do believe it is the best solution when choosing a non-relational database management system. While discovering my affinity for <strong>CouchDB</strong>, i started developing <a href="https://custardbelly.com/blog/?page_id=127">as3couchdb</a> – an open-source library written in <strong>ActionScript 3</strong> that allows <strong>Flash</strong> to communicate to a <strong>CouchDB</strong> instance which can be found on <a href="https://github.com/bustardcelly/as3couchdb">github</a>. I think <strong>as3couchdb</strong> is in a pretty stable place at the moment and have built a couple applications and have been happy with it. I am going to continue developing it, and if you do use it and find problems/suggestions please let me know.</p>
+<p>That said, i have never been one to focus on something for too long (without getting paid to, of course <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ), without getting distracted by wanting to learn something new. I knew <strong>CouchDB</strong> shipped with a <a href="http://jquery.com/">jQuery</a> <a href="https://github.com/apache/couchdb/blob/trunk/share/www/script/jquery.couch.js">plugin</a>, so i thought i would play around with making a <strong>DHTML</strong> client for some of my projects. Then i thought, why the hell not throw in the <a href="http://jquerymobile.com/">jquery Mobile</a> framework for the fun of it? If we are gonna do it, let’s do it. </p>
+<p>So that is what i have set out to do. I have finished some basics of an application and am looking to get more into the nitty gritty. I figured what better way to do this than to document it; not only purposed as a storage of how to do something, but <em>hopefully</em> a place for some people to chime in and tell me how to do it better <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>This happens to be the first in a series of posts that document building a “simple” <strong>DHTML</strong> application using the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework and a <a href="http://couchdb.apache.org/">CouchDB</a> back-end. <em>Here’s to hoping the intro for subsequent posts are not as long.</em></p>
 <h2 id="couchdb">CouchDB</h2>
 <p><a href="http://couchdb.apache.org/">CouchDB</a> is a schema-free document-oriented database HTTP server. If you have not heard the term <a href="http://en.wikipedia.org/wiki/NoSQL">NoSQL</a>, it is used to refer to a database management system (<strong>DBMS</strong>) that differs from the widely-used relational model; started out as meaning a <strong>DBMS</strong> that does not providing a <strong>SQL</strong> interface, but became a term to refer to any non-relational <strong>DBMS</strong>, of which <strong>CouchDB</strong> is often grouped with when talking about <strong>NoSQL</strong>. I won’t go into a lengthy discussion of <strong>CouchDB</strong> – so I will say, in basic terms, <strong>CouchDB</strong> is a document-based <strong>DBMS</strong>. This will make more sense once we start looking at the API for the <strong>CouchDB</strong> <strong>jQuery</strong> plugin.</p>
@@ -98,7 +98,7 @@
 <pre><code>{"<span class="hljs-attribute">artist</span>":<span class="hljs-value"><span class="hljs-string">"Thin Lizzy"</span></span>, "<span class="hljs-attribute">title</span>":<span class="hljs-value"><span class="hljs-string">"Fighting"</span></span>, "<span class="hljs-attribute">description</span>":<span class="hljs-value"><span class="hljs-string">"Bona-fide rock classic."</span></span>}
 
 {"<span class="hljs-attribute">artist</span>":<span class="hljs-value"><span class="hljs-string">"David Bowie"</span></span>, "<span class="hljs-attribute">title</span>":<span class="hljs-value"><span class="hljs-string">"Honky Dory"</span></span>, "<span class="hljs-attribute">description</span>":<span class="hljs-value"><span class="hljs-string">"Doesn't get much better than this."</span></span>}
-</code></pre><p>… and now you know a little bit about my musical tastes <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Any way, we’ve got our database and a few documents residing in it. Lets create a client-side application using <a href="http://couchapp.org/page/index">CouchApp</a> and push it to the <em>albums</em> database. </p>
+</code></pre><p>… and now you know a little bit about my musical tastes <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Any way, we’ve got our database and a few documents residing in it. Lets create a client-side application using <a href="http://couchapp.org/page/index">CouchApp</a> and push it to the <em>albums</em> database. </p>
 <h2 id="our-albums-couchapp">Our Albums CouchApp</h2>
 <p>With <a href="https://github.com/couchapp/couchapp">CouchApp</a> properly installed, we’ll move over to using the command line tools to create our <strong>Albums</strong> application, create views and push the documents to our <strong>CouchDB</strong> database.</p>
 <h3 id="application">Application</h3>
@@ -128,7 +128,7 @@
 <pre><code><span class="hljs-number">2010</span>-<span class="hljs-number">12</span>-<span class="hljs-number">06</span> <span class="hljs-number">17</span><span class="hljs-symbol">:</span><span class="hljs-number">37</span><span class="hljs-symbol">:</span><span class="hljs-number">24</span> [<span class="hljs-constant">INFO</span>] <span class="hljs-constant">Visit</span> your <span class="hljs-constant">CouchApp</span> <span class="hljs-symbol">here:</span>
 
 <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/127.0.0.1:5984/albums</span><span class="hljs-regexp">/_design/albums</span><span class="hljs-regexp">/index.html</span>
-</code></pre><p>If you go and visit <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>, you will notice that shows absolutely no relevance to our application or our database <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> If you go to <a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums">http://127.0.0.1:5984/albums/_design/albums/_view/albums</a> you will now see our full <strong>JSON</strong> object that we will use when we modify that <em>index.html</em>. </p>
+</code></pre><p>If you go and visit <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>, you will notice that shows absolutely no relevance to our application or our database <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> If you go to <a href="http://127.0.0.1:5984/albums/_design/albums/_view/albums">http://127.0.0.1:5984/albums/_design/albums/_view/albums</a> you will now see our full <strong>JSON</strong> object that we will use when we modify that <em>index.html</em>. </p>
 <p>The index file that you were originally directed to is the <em>index.html</em> file in the _/albums/<em>attachments</em> directory. If you open that file up in a text editor, you will see that it is using the <strong>couch.app</strong> <strong>jQuery</strong> plugin to construct the elements on the default page. We can modify this <strong>HTML</strong> document now and use the <strong>jQuery Mobile</strong> plugin to present our list of albums beautifully (no guarantees on the beautiful part:)).</p>
 <h2 id="albums-application-user-interface">Albums Application User Interface</h2>
 <p><a href="http://couchdb.apache.org/">CouchDB</a> ships with a version of <a href="http://jquery.com/">jQuery</a> and a plugin to interact with a <strong>CouchDB</strong> instance. They (and other scripts for serialization and <strong>futon</strong>) can be found in your installation, which on my make is in the following location:</p>
@@ -298,7 +298,7 @@ couchapp_load(<span class="hljs-matrix">[
 <span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
 </code></pre><h3 id="jquery-mobile-page">JQuery Mobile Page</h3>
 <p>This post is already getting pretty long as it is, and i don’t want to discuss the finer parts of <a href="http://jquerymobile.com/">jQuery Mobile</a> so the following modifications might not have the fullest explanations as to why we are adding some elements, but i will try at times to explain. </p>
-<p>To begin, a <strong>jQuery Mobile</strong> application is comprised of <em>pages</em>. You can declare all your <em>pages</em> in a single <strong>HTML</strong> document or load other pages (saved as <strong>HTML</strong> documents) into <em>divs</em>. A page is denoted by a <strong>data-role</strong> attribute with the value of <em>“page”</em>. The <strong>jQuery Mobile</strong> framework handles this pagination and its browser history for you, so there isn’t much to worry about except for how you want you pages to look… well there is more to worry about, but we won’t for the time being <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>To begin, a <strong>jQuery Mobile</strong> application is comprised of <em>pages</em>. You can declare all your <em>pages</em> in a single <strong>HTML</strong> document or load other pages (saved as <strong>HTML</strong> documents) into <em>divs</em>. A page is denoted by a <strong>data-role</strong> attribute with the value of <em>“page”</em>. The <strong>jQuery Mobile</strong> framework handles this pagination and its browser history for you, so there isn’t much to worry about except for how you want you pages to look… well there is more to worry about, but we won’t for the time being <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <p>The landing page for our <em>albums</em> application will display the list of album documents. To do so, modify the <em>index.html</em> file by adding a page <em>div</em> to the <em>body</em> of the <strong>HTML</strong> document:</p>
 <pre><code><span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
 
@@ -630,23 +630,23 @@ couchapp_load(<span class="hljs-matrix">[
 <p><img src="http://www.custardbelly.com/blog/images/couchapp_three.png" alt="couch app mobile application"></p>
 <p>Pretty, no? No. But maybe in later posts we can modify that. For now its up and running. yay!</p>
 <h2 id="conclusion">Conclusion</h2>
-<p>Well, if you made it this far down, you have been a trooper. Hopefully this has been of some help in getting up and started using <a href="http://couchdb.apache.org/">CouchDB</a>, <a href="http://couchapp.org/page/index">CouchApp</a> and <a href="http://jquerymobile.com/">jQuery Mobile</a> to provide a mobile-based <em>User Interface</em> for documents in a <strong>CouchDB</strong> database. Since this is the first in a series of posts in working with <strong>jQuery Mobile</strong> and <strong>CouchDB</strong> it is pretty lengthy as it addresses set-up and the beginning of an application of which we can continue to work. Good news is, later posts on this topic will be shorter <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> and address more of the finer details of <strong>jQuery Mobile</strong> and <strong>CouchDB</strong> communication. At least that is the hope <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> .</p>
+<p>Well, if you made it this far down, you have been a trooper. Hopefully this has been of some help in getting up and started using <a href="http://couchdb.apache.org/">CouchDB</a>, <a href="http://couchapp.org/page/index">CouchApp</a> and <a href="http://jquerymobile.com/">jQuery Mobile</a> to provide a mobile-based <em>User Interface</em> for documents in a <strong>CouchDB</strong> database. Since this is the first in a series of posts in working with <strong>jQuery Mobile</strong> and <strong>CouchDB</strong> it is pretty lengthy as it addresses set-up and the beginning of an application of which we can continue to work. Good news is, later posts on this topic will be shorter <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> and address more of the finer details of <strong>jQuery Mobile</strong> and <strong>CouchDB</strong> communication. At least that is the hope <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> .</p>
 <h2 id="future-topics">Future Topics</h2>
 <p>I am looking forward to adding more posts for this topic as i go about discovering how to create a mobile-based solution for working with documents from a <strong>CouchDB</strong> database. The tentative list is as follows:</p>
 <ol>
-<li><a href="http://custardbelly.com/blog/?p=244">Getting Started</a></li>
-<li><a href="http://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
-<li><a href="http://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
-<li><a href="http://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
-<li><a href="http://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
+<li><a href="https://custardbelly.com/blog/?p=244">Getting Started</a></li>
+<li><a href="https://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
+<li><a href="https://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
+<li><a href="https://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
+<li><a href="https://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
 </ol>
-<p><a href="http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
+<p><a href="https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
 <p>As those post go live, this list will be updated with the related links.</p>
 <p><em>[Note] This post was written against the following software versions:</em><br><strong>CouchDB</strong> – 1.0.1<br><strong>CouchApp</strong> – 0.7.2<br><strong>jQuery</strong> – 1.4.4<br><strong>jQuery Mobile</strong> – 1.0a2<br><em>If you have found this post and any piece has moved forward, hopefully the examples are still viable/useful. I will not be updating the examples in this post in parellel with updates to any of the previously mentioned software, unless explicitly noted.</em></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="http://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="http://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="https://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="https://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
 
   </section>
   <section class="navigation">
@@ -654,7 +654,7 @@ couchapp_load(<span class="hljs-matrix">[
         <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2010/12/13/jquery-mobile-couchdb-part-2-document-view/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2011/02/16/as3flobile-scrollviewport-and-flex-4-containers-from-yeah-to-eh/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-2-authorization-and-validation/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -665,7 +665,7 @@ couchapp_load(<span class="hljs-matrix">[
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2010/12/08/jquery-mobile-couchdb-part-1-getting-started/index.html";
         window.disqus_title="jquery Mobile + CouchDB: Part 1 – Getting Started";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

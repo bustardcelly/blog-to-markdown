@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - BitmapData saturday</title>
   </head>
   <body>
@@ -58,15 +58,15 @@
     </p>
   </div>
   <section>
-    <p>Since i finally got a whole day to fool around, i decided to start learning about the new BitmapData class in flash8.<br>I’ve only just begun, and i’m not really sure if what i worked on today is of any benefit in the end, but i like it.<br>I set out to eliminate having to create a ton of sprite movieclips in the library for games, and instead store the data from an external spritesheet and just have movieclips change their bitmap data when states change.<br>After i banged my desk and racked my brain for an hour to find out why i couldn’t load a bitmap, i decided to actually read the help files instead of going on what i thought should happen <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"><br>Turns out attachBitmap is not like loadMovie, but more like attachMovie (i know it makes sense, but it was early) – you can only attach a bitmap if it’s in the library. So i created a class that would load the image, creates a new BitmapData object and draws to it from the loaded movieclip. then it removes that movieclip, passes the new bitmap object onto a character movieclip which has coordinates of how to “cut-up” the bitmap.<br>So, basically when states change (like if the user presses SPACE for jump) those coordinates are fed the BitmapData’s copyPixel function.<br>I just tried it with the “still” and “jump” states, and it seems to be working pretty well. it will be interesting to see what comes of trying to incorporate a walk-cycle into it. </p>
+    <p>Since i finally got a whole day to fool around, i decided to start learning about the new BitmapData class in flash8.<br>I’ve only just begun, and i’m not really sure if what i worked on today is of any benefit in the end, but i like it.<br>I set out to eliminate having to create a ton of sprite movieclips in the library for games, and instead store the data from an external spritesheet and just have movieclips change their bitmap data when states change.<br>After i banged my desk and racked my brain for an hour to find out why i couldn’t load a bitmap, i decided to actually read the help files instead of going on what i thought should happen <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"><br>Turns out attachBitmap is not like loadMovie, but more like attachMovie (i know it makes sense, but it was early) – you can only attach a bitmap if it’s in the library. So i created a class that would load the image, creates a new BitmapData object and draws to it from the loaded movieclip. then it removes that movieclip, passes the new bitmap object onto a character movieclip which has coordinates of how to “cut-up” the bitmap.<br>So, basically when states change (like if the user presses SPACE for jump) those coordinates are fed the BitmapData’s copyPixel function.<br>I just tried it with the “still” and “jump” states, and it seems to be working pretty well. it will be interesting to see what comes of trying to incorporate a walk-cycle into it. </p>
 <p>Whether or not this is the best thing to do for a game, i’m not quite sure… Whether it takes less time than making movieclips, i don’t know… but it’s another possibility.</p>
 <p>As a side note, the png this swf loads was created by using <a href="http://www.5etdemi.com/blog/archives/2005/03/pixel-tools-v2-available/">Patrick Mineault’s pixel tools</a> (glad they still work in 8!) in the Flash IDE then exported.</p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/flash/">Flash</a>, <a href="https://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2005/09/18/bitmapdata-sunday/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2005/09/26/no-direction-home/index.html">&#8672;&nbsp;newer</a></span>
       
       
         <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2005/09/16/non-existant-8ball-hopefuls-but-i-aint-complaining/index.html">older&nbsp;&#8674;</a></span>
@@ -80,7 +80,7 @@
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2005/09/17/bitmapdata-saturday/index.html";
         window.disqus_title="BitmapData saturday";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

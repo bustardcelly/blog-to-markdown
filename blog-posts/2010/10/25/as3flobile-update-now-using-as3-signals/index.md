@@ -1,6 +1,6 @@
 ---
 title: 'as3flobile update: now using as3-signals'
-url: 'http://custardbelly.com/blog/2010/10/25/as3flobile-update-now-using-as3-signals/'
+url: 'https://custardbelly.com/blog/2010/10/25/as3flobile-update-now-using-as3-signals/'
 author:
   name: 'todd anderson'
 date: '2010-10-25'
@@ -48,4 +48,4 @@ So, a big change, i know. But I think a step in the right direction. If you are 
 **[Robert Penner](http://flashblog.robertpenner.com/)**’s [as3-signals](http://github.com/robertpenner/as3-signals)  
 [as3flobile on github](http://github.com/bustardcelly/as3flobile)
 
-Posted in [General](http://custardbelly.com/blog/category/general/).
+Posted in [General](https://custardbelly.com/blog/category/general/).

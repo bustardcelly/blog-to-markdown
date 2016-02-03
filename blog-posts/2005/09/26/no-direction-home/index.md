@@ -1,6 +1,6 @@
 ---
 title: 'No Direction Home.'
-url: 'http://custardbelly.com/blog/2005/09/26/no-direction-home/'
+url: 'https://custardbelly.com/blog/2005/09/26/no-direction-home/'
 author:
   name: 'todd anderson'
 date: '2005-09-26'
@@ -12,4 +12,4 @@ Still fresh. Still harrowing. Still hopeful. Still making me wish i didn’t tal
 
 Now if we can only get some coverage of [Jim Croce](http://www.jimcroce.com/discography.html)…
 
-Posted in [Music](http://custardbelly.com/blog/category/music/).
+Posted in [Music](https://custardbelly.com/blog/category/music/).

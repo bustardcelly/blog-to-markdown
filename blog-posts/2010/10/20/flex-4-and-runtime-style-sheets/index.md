@@ -1,6 +1,6 @@
 ---
 title: 'Flex 4 and Runtime style sheets'
-url: 'http://custardbelly.com/blog/2010/10/20/flex-4-and-runtime-style-sheets/'
+url: 'https://custardbelly.com/blog/2010/10/20/flex-4-and-runtime-style-sheets/'
 author:
   name: 'todd anderson'
 date: '2010-10-20'
@@ -20,4 +20,4 @@ So, long story long, **[flex-runtime-css](http://github.com/bustardcelly/flex-ru
 
 [flex-runtime-css on github](http://github.com/bustardcelly/flex-runtime-css).
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [flex-runtime-css](http://custardbelly.com/blog/category/flex-runtime-css/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/), [Flex](https://custardbelly.com/blog/category/flex/), [flex-runtime-css](https://custardbelly.com/blog/category/flex-runtime-css/).

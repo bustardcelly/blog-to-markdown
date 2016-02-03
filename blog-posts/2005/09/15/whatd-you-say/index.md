@@ -1,6 +1,6 @@
 ---
 title: 'what’d you say?'
-url: 'http://custardbelly.com/blog/2005/09/15/whatd-you-say/'
+url: 'https://custardbelly.com/blog/2005/09/15/whatd-you-say/'
 author:
   name: 'todd anderson'
 date: '2005-09-15'
@@ -22,4 +22,4 @@ i hope the rest of the tour goes well, and i hope to see them back here soon.
 if you are interested in learning more about the Makers, visit your local library … and for ( in my opinion ) a good introductary album [‘Rock Star God’](http://www.subpop.com/bands/makers/oldsite/bio.html).  
 don’t stop there.
 
-Posted in [Music](http://custardbelly.com/blog/category/music/).
+Posted in [Music](https://custardbelly.com/blog/category/music/).

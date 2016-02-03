@@ -1,6 +1,6 @@
 ---
 title: 'jquery Mobile + CouchDB: Part 1 – Getting Started'
-url: 'http://custardbelly.com/blog/2010/12/08/jquery-mobile-couchdb-part-1-getting-started/'
+url: 'https://custardbelly.com/blog/2010/12/08/jquery-mobile-couchdb-part-1-getting-started/'
 author:
   name: 'todd anderson'
 date: '2010-12-08'
@@ -8,11 +8,11 @@ date: '2010-12-08'
 
 ## Intro
 
-I have been digging using [CouchDB](http://couchdb.apache.org/) as my back-end choice for personal projects for a while now and truly do believe it is the best solution when choosing a non-relational database management system. While discovering my affinity for **CouchDB**, i started developing [as3couchdb](http://custardbelly.com/blog/?page_id=127) – an open-source library written in **ActionScript 3** that allows **Flash** to communicate to a **CouchDB** instance which can be found on [github](https://github.com/bustardcelly/as3couchdb). I think **as3couchdb** is in a pretty stable place at the moment and have built a couple applications and have been happy with it. I am going to continue developing it, and if you do use it and find problems/suggestions please let me know.
+I have been digging using [CouchDB](http://couchdb.apache.org/) as my back-end choice for personal projects for a while now and truly do believe it is the best solution when choosing a non-relational database management system. While discovering my affinity for **CouchDB**, i started developing [as3couchdb](https://custardbelly.com/blog/?page_id=127) – an open-source library written in **ActionScript 3** that allows **Flash** to communicate to a **CouchDB** instance which can be found on [github](https://github.com/bustardcelly/as3couchdb). I think **as3couchdb** is in a pretty stable place at the moment and have built a couple applications and have been happy with it. I am going to continue developing it, and if you do use it and find problems/suggestions please let me know.
 
-That said, i have never been one to focus on something for too long (without getting paid to, of course ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) ), without getting distracted by wanting to learn something new. I knew **CouchDB** shipped with a [jQuery](http://jquery.com/) [plugin](https://github.com/apache/couchdb/blob/trunk/share/www/script/jquery.couch.js), so i thought i would play around with making a **DHTML** client for some of my projects. Then i thought, why the hell not throw in the [jquery Mobile](http://jquerymobile.com/) framework for the fun of it? If we are gonna do it, let’s do it. 
+That said, i have never been one to focus on something for too long (without getting paid to, of course ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) ), without getting distracted by wanting to learn something new. I knew **CouchDB** shipped with a [jQuery](http://jquery.com/) [plugin](https://github.com/apache/couchdb/blob/trunk/share/www/script/jquery.couch.js), so i thought i would play around with making a **DHTML** client for some of my projects. Then i thought, why the hell not throw in the [jquery Mobile](http://jquerymobile.com/) framework for the fun of it? If we are gonna do it, let’s do it. 
 
-So that is what i have set out to do. I have finished some basics of an application and am looking to get more into the nitty gritty. I figured what better way to do this than to document it; not only purposed as a storage of how to do something, but *hopefully* a place for some people to chime in and tell me how to do it better ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+So that is what i have set out to do. I have finished some basics of an application and am looking to get more into the nitty gritty. I figured what better way to do this than to document it; not only purposed as a storage of how to do something, but *hopefully* a place for some people to chime in and tell me how to do it better ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 This happens to be the first in a series of posts that document building a “simple” **DHTML** application using the [jQuery Mobile](http://jquerymobile.com/) framework and a [CouchDB](http://couchdb.apache.org/) back-end. _Here’s to hoping the intro for subsequent posts are not as long._
 
@@ -64,7 +64,7 @@ Create a new database called _albums_… or whatever you want to call it. I will
     
     {"artist":"David Bowie", "title":"Honky Dory", "description":"Doesn't get much better than this."}
 
-… and now you know a little bit about my musical tastes ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) Any way, we’ve got our database and a few documents residing in it. Lets create a client-side application using [CouchApp](http://couchapp.org/page/index) and push it to the _albums_ database. 
+… and now you know a little bit about my musical tastes ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) Any way, we’ve got our database and a few documents residing in it. Lets create a client-side application using [CouchApp](http://couchapp.org/page/index) and push it to the _albums_ database. 
 
 ## Our Albums CouchApp
 
@@ -118,7 +118,7 @@ If successful, that should return:
     
     http://127.0.0.1:5984/albums/_design/albums/index.html
 
-If you go and visit [http://127.0.0.1:5984/albums/_design/albums/index.html](http://127.0.0.1:5984/albums/_design/albums/index.html), you will notice that shows absolutely no relevance to our application or our database ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) If you go to [http://127.0.0.1:5984/albums/_design/albums/_view/albums](http://127.0.0.1:5984/albums/_design/albums/_view/albums) you will now see our full **JSON** object that we will use when we modify that _index.html_. 
+If you go and visit [http://127.0.0.1:5984/albums/_design/albums/index.html](http://127.0.0.1:5984/albums/_design/albums/index.html), you will notice that shows absolutely no relevance to our application or our database ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) If you go to [http://127.0.0.1:5984/albums/_design/albums/_view/albums](http://127.0.0.1:5984/albums/_design/albums/_view/albums) you will now see our full **JSON** object that we will use when we modify that _index.html_. 
 
 The index file that you were originally directed to is the _index.html_ file in the _/albums/_attachments_ directory. If you open that file up in a text editor, you will see that it is using the **couch.app** **jQuery** plugin to construct the elements on the default page. We can modify this **HTML** document now and use the **jQuery Mobile** plugin to present our list of albums beautifully (no guarantees on the beautiful part:)).
 
@@ -311,7 +311,7 @@ Open up the _index.html_ file in the _/albums/_attachments_ directory with your 
 
 This post is already getting pretty long as it is, and i don’t want to discuss the finer parts of [jQuery Mobile](http://jquerymobile.com/) so the following modifications might not have the fullest explanations as to why we are adding some elements, but i will try at times to explain. 
 
-To begin, a **jQuery Mobile** application is comprised of _pages_. You can declare all your _pages_ in a single **HTML** document or load other pages (saved as **HTML** documents) into _divs_. A page is denoted by a **data-role** attribute with the value of _“page”_. The **jQuery Mobile** framework handles this pagination and its browser history for you, so there isn’t much to worry about except for how you want you pages to look… well there is more to worry about, but we won’t for the time being ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+To begin, a **jQuery Mobile** application is comprised of _pages_. You can declare all your _pages_ in a single **HTML** document or load other pages (saved as **HTML** documents) into _divs_. A page is denoted by a **data-role** attribute with the value of _“page”_. The **jQuery Mobile** framework handles this pagination and its browser history for you, so there isn’t much to worry about except for how you want you pages to look… well there is more to worry about, but we won’t for the time being ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 The landing page for our _albums_ application will display the list of album documents. To do so, modify the _index.html_ file by adding a page _div_ to the _body_ of the **HTML** document:
     
@@ -673,22 +673,22 @@ Pretty, no? No. But maybe in later posts we can modify that. For now its up and 
 
 ## Conclusion
 
-Well, if you made it this far down, you have been a trooper. Hopefully this has been of some help in getting up and started using [CouchDB](http://couchdb.apache.org/), [CouchApp](http://couchapp.org/page/index) and [jQuery Mobile](http://jquerymobile.com/) to provide a mobile-based _User Interface_ for documents in a **CouchDB** database. Since this is the first in a series of posts in working with **jQuery Mobile** and **CouchDB** it is pretty lengthy as it addresses set-up and the beginning of an application of which we can continue to work. Good news is, later posts on this topic will be shorter ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) and address more of the finer details of **jQuery Mobile** and **CouchDB** communication. At least that is the hope ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) .
+Well, if you made it this far down, you have been a trooper. Hopefully this has been of some help in getting up and started using [CouchDB](http://couchdb.apache.org/), [CouchApp](http://couchapp.org/page/index) and [jQuery Mobile](http://jquerymobile.com/) to provide a mobile-based _User Interface_ for documents in a **CouchDB** database. Since this is the first in a series of posts in working with **jQuery Mobile** and **CouchDB** it is pretty lengthy as it addresses set-up and the beginning of an application of which we can continue to work. Good news is, later posts on this topic will be shorter ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) and address more of the finer details of **jQuery Mobile** and **CouchDB** communication. At least that is the hope ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) .
 
 ## Future Topics
 
 I am looking forward to adding more posts for this topic as i go about discovering how to create a mobile-based solution for working with documents from a **CouchDB** database. The tentative list is as follows:
 
-  1. [Getting Started](http://custardbelly.com/blog/?p=244)
-  2. [Displaying a page detail of a single album.](http://custardbelly.com/blog/?p=278)
-  3. [Templates and Mustache](http://custardbelly.com/blog/?p=297)
-  4. [Displaying an editable page of an album.](http://custardbelly.com/blog/?p=318)
-  5. [Creating and Adding an album document.](http://custardbelly.com/blog/?p=332)
-  6. [Deleting an album document](http://custardbelly.com/blog/?p=344)
-  7. [Authorization and Validation – Part 1](http://custardbelly.com/blog/?p=360)
-  8. [Authorization and Validation – Part 2](http://custardbelly.com/blog/?p=394)
+  1. [Getting Started](https://custardbelly.com/blog/?p=244)
+  2. [Displaying a page detail of a single album.](https://custardbelly.com/blog/?p=278)
+  3. [Templates and Mustache](https://custardbelly.com/blog/?p=297)
+  4. [Displaying an editable page of an album.](https://custardbelly.com/blog/?p=318)
+  5. [Creating and Adding an album document.](https://custardbelly.com/blog/?p=332)
+  6. [Deleting an album document](https://custardbelly.com/blog/?p=344)
+  7. [Authorization and Validation – Part 1](https://custardbelly.com/blog/?p=360)
+  8. [Authorization and Validation – Part 2](https://custardbelly.com/blog/?p=394)
 
-[Full source for albums couchapp here.](http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
+[Full source for albums couchapp here.](https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
 
 As those post go live, this list will be updated with the related links.
 
@@ -699,4 +699,4 @@ _[Note] This post was written against the following software versions:_
 **jQuery Mobile** – 1.0a2  
 _If you have found this post and any piece has moved forward, hopefully the examples are still viable/useful. I will not be updating the examples in this post in parellel with updates to any of the previously mentioned software, unless explicitly noted._
 
-Posted in [CouchDB](http://custardbelly.com/blog/category/couchdb/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
+Posted in [CouchDB](https://custardbelly.com/blog/category/couchdb/), [jquery](https://custardbelly.com/blog/category/jquery/), [jquery-mobile](https://custardbelly.com/blog/category/jquery-mobile/).

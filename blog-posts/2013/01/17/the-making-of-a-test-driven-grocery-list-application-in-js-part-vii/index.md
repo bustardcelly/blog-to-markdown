@@ -1,17 +1,17 @@
 ---
 title: 'The Making of a Test-Driven Grocery List Application in JS: Part VII'
-url: 'http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/'
+url: 'https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/'
 author:
   name: 'todd anderson'
 date: '2013-01-17'
 ---
 
-_This is the seventh installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
+_This is the seventh installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
 —
 
 ## Introduction
 
-In the [previous article](http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/) we resolved tests for the _Mark Off Item_ feature that were left in a failing state after refactoring the list-controller. The test are all green now and the application usable, but we are not done with implementing the required features. In this article I plan to address another – the _Remove Item_ feature.
+In the [previous article](https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/) we resolved tests for the _Mark Off Item_ feature that were left in a failing state after refactoring the list-controller. The test are all green now and the application usable, but we are not done with implementing the required features. In this article I plan to address another – the _Remove Item_ feature.
 
 Before we begin, let’s drum up a quick story and scenario(s) for the _Remove Item_ feature. I know the feature seems a little simple – just remove an item from the list – and going through and adding stories and scenarios may appear like adding complexity to the situation, but since I have begun to incorporate such a workflow, I feel like it actually gives me more time to think about not only the necessity of the feature but the design; in result, _hopefully*_ cutting down on the complexity of the code.
 
@@ -85,7 +85,7 @@ _/test/jasmine/spec/feature/removeitem.spec.js_
     
     });
 
-Don’t mind the expectation declared in the spec. [Jasmine](http://pivotal.github.com/jasmine/) does not check empty specs and automatically fail them. In fact, if we ran it without any expectations defined, it would be all green. So, I usually drop a failing expectation in quickly when creating new specs in cases where someone/thing comes and interrupts me, I know where to pick back up when i come back. It’s habit. Maybe a little paranoia. Don’t know if it’s right or wrong ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)  
+Don’t mind the expectation declared in the spec. [Jasmine](http://pivotal.github.com/jasmine/) does not check empty specs and automatically fail them. In fact, if we ran it without any expectations defined, it would be all green. So, I usually drop a failing expectation in quickly when creating new specs in cases where someone/thing comes and interrupts me, I know where to pick back up when i come back. It’s habit. Maybe a little paranoia. Don’t know if it’s right or wrong ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)  
   
 If you have been following along in the articles of this series, I typically do my implementation in the tests then move them to their respective modules. It’s a nice workflow for me, and in most cases I feel it gets me more focused on design. In this case, I am just going to declare my expectations, see them fail and move over to implementing the code right in the module, running the spec runner as we go until we see green.  
 
@@ -134,7 +134,7 @@ _/test/jasmine/specrunner.html_
     });
 
 Run that, and we have a big honking failure:  
-![Failing remove spec on collection.](http://custardbelly.com/blog/images/tdd_js/part_vii_1.png)  
+![Failing remove spec on collection.](https://custardbelly.com/blog/images/tdd_js/part_vii_1.png)  
 Good!
 
 In looking at the expectations of the `removeItem()` method on `list-controller`, we are expecting that the item is removed from the collection and returned on invocation. Let’s implement `removeItem` on `list-controller` with this understanding:
@@ -194,7 +194,7 @@ _/script/controller/list-controller.js_
     };
 
 Run it, and we pass!  
-![Passing tests on remove from collection.](http://custardbelly.com/blog/images/tdd_js/part_vii_2.png)  
+![Passing tests on remove from collection.](https://custardbelly.com/blog/images/tdd_js/part_vii_2.png)  
 Well, that was sort of easy and anti-climatic. No drama. A little boring, if I may say so.
 
 But… there’s more! The `list-controller` isn’t just some dumb facade to the underlying **Grocery List** collection – it also manages the associated renderers to the `grocery-ls-item` models. Let’s get back to our tests and add a new spec:
@@ -214,7 +214,7 @@ _/test/jasmine/spec/feature/removeitem.spec.js_
 Just as we had done for the _Add Item_ feature specification, we are inspecting the view reference held by list-controller that is updated based on change to the model. In this case, we are expecting that the list item renderer is removed upon `removeItem()` as well.
 
 Run that, and failure!  
-![Failure of test on removl of item views.](http://custardbelly.com/blog/images/tdd_js/part_vii_3.png)  
+![Failure of test on removl of item views.](https://custardbelly.com/blog/images/tdd_js/part_vii_3.png)  
 It might be important to note the actual print out from the failing expectation. It says that the length of children on the list view is 2 – that is because we now have 2 specs that are defining the expectations of `removeItem()` that are failing to remove the item view from the list.
 
 Let’s switch over the list-controller and get this sorted and back to green. But before we do, let’s think about the relationship of the `list-controller` and its underlying collection. The `list-controller` responds to collection event for `EventKindEnum.ADD` in order to modify the view. So, we will respond to `EventKindEnum.REMOVE` accordingly to modify the view on removal of an item as well, instead of adding more logic to the `removeItem()` method on `list-controller`:
@@ -276,7 +276,7 @@ _/script/controller/list-controller.js_
 In the `EventKindEnum.REMOVE` case, we are grabbing the model provided on the event, using it to access the associated `list-item-controller` instance, and – if defined – removing the list item renderer view from the DOM and the controller from the renderer collection.
 
 Run that, and we are back to green!  
-![Passing tests on removal of item from view.](http://custardbelly.com/blog/images/tdd_js/part_vii_4.png)
+![Passing tests on removal of item from view.](https://custardbelly.com/blog/images/tdd_js/part_vii_4.png)
 
 Tagged **0.1.10**: [https://github.com/bustardcelly/grocery-ls/tree/0.1.10](https://github.com/bustardcelly/grocery-ls/tree/0.1.10)
 
@@ -319,7 +319,7 @@ _/test/jasmine/spec/list-controller.spec.js_
 In this spec, we set up a [spy](https://github.com/pivotal/jasmine/wiki/Spies) to verify that the `removeItem()` method is invoked upon dispatch of `remove` from a `list-item-controller` instance.
 
 Run that and we are back to red, with a message letting us know that `removeItem()` was never called.  
-![Failing implementation of remove event.](http://custardbelly.com/blog/images/tdd_js/part_vii_5.png)  
+![Failing implementation of remove event.](https://custardbelly.com/blog/images/tdd_js/part_vii_5.png)  
 Good. Let’s open up `list-controller` and implement a `remove` event response:
 
 /script/controller/list-controller.js
@@ -389,7 +389,7 @@ Good. Let’s open up `list-controller` and implement a `remove` event response:
 We added the remove handler delegation in the `ADD` case when the collection changes, along with the other implementation of item renderer establishment. And, for good measure and memory management, we are sure to remove the event handler in the `REMOVE` case from the collection change, as well.
 
 Run the test now and we are back to green!  
-![Passing remove event response.](http://custardbelly.com/blog/images/tdd_js/part_vii_6.png)
+![Passing remove event response.](https://custardbelly.com/blog/images/tdd_js/part_vii_6.png)
 
 ### list-item-controller Modification
 
@@ -505,17 +505,17 @@ _/script/controller/list-item-controller.js_
 
 Alright. That should just about do it. Now you may be saying to yourself, _‘Why haven’t we modified any tests in order to support this change in UI and event handling?’_ To which I will respond, _‘Stop bringing that up!’_ In all seriousness, we perhaps should be writing tests to support these changes, however those will get pretty fine grained on the UI design aspect of the application. As you can see, it is constantly changing at this time and we are more concerned with the logical points of how the **Grocery List** application should behave. 
 
-Like with most of my code, future me may look back and shake his head at past me for such a statement – but for right now, present me will live with it ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+Like with most of my code, future me may look back and shake his head at past me for such a statement – but for right now, present me will live with it ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 ### Using the Grocery List Application
 
 Let’s actually _run_ the application and use it. We spend all this time making our tests turn red and green, we barely get to use what we are building.  
-![Grocery list application](http://custardbelly.com/blog/images/tdd_js/part_vii_7.png)
+![Grocery list application](https://custardbelly.com/blog/images/tdd_js/part_vii_7.png)
 
 Oh my… that is ugly to look at. But it works! And it’s backed by tests!
 
-Because I can’t leave well enough alone, I added some quick styling just to make it a little more pleasant on the eyes. I am not designer, so it might not be any more pleasant to you ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) I won’t go into the styling of the application as that could be a whole ‘nother article and discussion of box model, but feel free to mess around with the styling on your own…  
-![Prettier Grocery List application](http://custardbelly.com/blog/images/tdd_js/part_vii_8.png)
+Because I can’t leave well enough alone, I added some quick styling just to make it a little more pleasant on the eyes. I am not designer, so it might not be any more pleasant to you ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) I won’t go into the styling of the application as that could be a whole ‘nother article and discussion of box model, but feel free to mess around with the styling on your own…  
+![Prettier Grocery List application](https://custardbelly.com/blog/images/tdd_js/part_vii_8.png)
 
 Tagged **0.1.11**: [https://github.com/bustardcelly/grocery-ls/tree/0.1.11](https://github.com/bustardcelly/grocery-ls/tree/0.1.11)
 
@@ -544,15 +544,15 @@ Cheers for sticking around!
 ## Post Series
 
 [grocery-ls github repo](https://github.com/bustardcelly/grocery-ls)  
-[Part I – Introduction](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i)  
-[Part II – Feature: Add Item](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii)  
-[Part III – Feature: Mark-Off Item](http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii)  
-[Part IV – Feature: List-Item-Controller](http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv)  
-[Part V – Feature: List-Controller Refactoring](http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/)  
-[Part VI – Back to Passing](http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/)  
-[Part VII – Remove Item](http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)  
-[Part VIII – Bug Fixing](http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)  
-[Part IX – Persistence](http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/)  
-[Part X – It Lives!](http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
+[Part I – Introduction](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i)  
+[Part II – Feature: Add Item](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii)  
+[Part III – Feature: Mark-Off Item](https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii)  
+[Part IV – Feature: List-Item-Controller](https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv)  
+[Part V – Feature: List-Controller Refactoring](https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/)  
+[Part VI – Back to Passing](https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/)  
+[Part VII – Remove Item](https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)  
+[Part VIII – Bug Fixing](https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)  
+[Part IX – Persistence](https://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/)  
+[Part X – It Lives!](https://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
 
-Posted in [AMD](http://custardbelly.com/blog/category/amd/), [JavaScript](http://custardbelly.com/blog/category/javascript/), [RequireJS](http://custardbelly.com/blog/category/requirejs/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/), [unit-testing](http://custardbelly.com/blog/category/unit-testing/).
+Posted in [AMD](https://custardbelly.com/blog/category/amd/), [JavaScript](https://custardbelly.com/blog/category/javascript/), [RequireJS](https://custardbelly.com/blog/category/requirejs/), [grocery-ls](https://custardbelly.com/blog/category/grocery-ls/), [jasmine](https://custardbelly.com/blog/category/jasmine/), [unit-testing](https://custardbelly.com/blog/category/unit-testing/).

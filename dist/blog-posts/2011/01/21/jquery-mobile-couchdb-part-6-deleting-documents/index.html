@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jQuery Mobile + CouchDB: Part 6 – Deleting Documents</title>
   </head>
   <body>
@@ -58,7 +58,7 @@
     </p>
   </div>
   <section>
-    <p>In my <a href="http://custardbelly.com/blog/?p=332">previous article</a>, I addressed adding documents to a <a href="http://couchdb.apache.org/">CouchDB</a> database using the <em>jquery.couch</em> plugin along with a form within the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework. If you have been following along (and have been using with the application that is being built) that database might be filling up with album documents by now… but with no way to remove them!</p>
+    <p>In my <a href="https://custardbelly.com/blog/?p=332">previous article</a>, I addressed adding documents to a <a href="http://couchdb.apache.org/">CouchDB</a> database using the <em>jquery.couch</em> plugin along with a form within the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework. If you have been following along (and have been using with the application that is being built) that database might be filling up with album documents by now… but with no way to remove them!</p>
 <p><em>“Why, late on Friday night, did I ever think I needed to catalog Starship’s ‘Knee Deep in the Hoopla’ as ‘my saving grace’?!”</em></p>
 <p>… is one thing that you may say to yourself because there is currently no way to delete a document from the application we have built within this series. However, we have come to the final piece in basic document operations: the <strong>D</strong> in <strong>CRUD</strong>. Sit back down. I know it is exciting, but I have a lot of long-winded explanations to write so get ready.</p>
 <p>In this article I am going to address adding the ability to delete a document from a <a href="http://couchdb.apache.org/">CouchDB</a> database. While doing so, I will lightly cover the role that dialogs play in <a href="http://jquerymobile.com/">jQuery Mobile</a> and, in the end, hack it to present a <strong>dialog</strong> (our delete confirmation dialog) as an <strong>external page</strong> styled as a <a href="http://jquerymobile.com/">jQuery Mobile</a> dialog.</p>
@@ -668,22 +668,22 @@ $().ready( handlePageViewReady );
 <p><em>[Note] This post was written against the following software versions:</em><br><strong>CouchDB </strong>– 1.0.1<br><strong>CouchApp</strong> – 0.7.2<br><strong>jQuery</strong> – 1.4.4<br><strong>jQuery Mobile</strong> – 1.0a2<br><em>If you have found this post and any piece has moved forward, hopefully the examples are still viable/useful. I will not be updating the examples in this post in parellel with updates to any of the previously mentioned software, unless explicitly noted.</em></p>
 <p><strong>Articles in this series:</strong></p>
 <ol>
-<li><a href="http://custardbelly.com/blog/?p=244">Getting Started</a></li>
-<li><a href="http://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
-<li><a href="http://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
-<li><a href="http://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
-<li><a href="http://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
+<li><a href="https://custardbelly.com/blog/?p=244">Getting Started</a></li>
+<li><a href="https://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
+<li><a href="https://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
+<li><a href="https://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
+<li><a href="https://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
 </ol>
-<p><a href="http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="http://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="http://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
+<p><a href="https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="https://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="https://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2011/02/16/as3flobile-scrollviewport-and-flex-4-containers-from-yeah-to-eh/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-1-authorization-and-validation/index.html">&#8672;&nbsp;newer</a></span>
       
       
         <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2011/01/12/jquery-mobile-couchdb-part-5-adding-documents/index.html">older&nbsp;&#8674;</a></span>
@@ -697,7 +697,7 @@ $().ready( handlePageViewReady );
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2011/01/21/jquery-mobile-couchdb-part-6-deleting-documents/index.html";
         window.disqus_title="jQuery Mobile + CouchDB: Part 6 – Deleting Documents";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

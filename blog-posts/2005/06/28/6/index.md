@@ -1,6 +1,6 @@
 ---
 title: 'Creating a Dynamic Playlist for Progressive Flash Video'
-url: 'http://custardbelly.com/blog/2005/06/28/6/'
+url: 'https://custardbelly.com/blog/2005/06/28/6/'
 author:
   name: 'todd anderson'
 date: '2005-06-28'
@@ -10,4 +10,4 @@ date: '2005-06-28'
 technically, because she is not being offered any money from my family to be my friend, i am hoping that being associated with her in turn makes me look smart ( not like my so called “friend”, Punchy)  
 check out the article [here](http://www.macromedia.com/devnet/mx/flash/articles/prog_download.html)
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/).

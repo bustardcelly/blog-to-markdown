@@ -1,18 +1,18 @@
 ---
 title: 'jQuery Mobile + CouchDB: Part 4 – Editing Documents'
-url: 'http://custardbelly.com/blog/2011/01/04/jquery-mobile-couchdb-part-4-editing-documents/'
+url: 'https://custardbelly.com/blog/2011/01/04/jquery-mobile-couchdb-part-4-editing-documents/'
 author:
   name: 'todd anderson'
 date: '2011-01-04'
 ---
 
-In the [previous post](http://custardbelly.com/blog/?p=297), I addressed using templates to generate the [jQuery Mobile](http://jquerymobile.com/) external pages. Though it addressed a fundamental (imo) part of serving up **HTML** from the [CouchDB](http://couchdb.apache.org/) instance and had a few nice tricks for [jQuery Mobile](http://jquerymobile.com/), it essentially was organization and cleanup so I could move forward in developing the application without it getting to cluttered for my development and workflow.
+In the [previous post](https://custardbelly.com/blog/?p=297), I addressed using templates to generate the [jQuery Mobile](http://jquerymobile.com/) external pages. Though it addressed a fundamental (imo) part of serving up **HTML** from the [CouchDB](http://couchdb.apache.org/) instance and had a few nice tricks for [jQuery Mobile](http://jquerymobile.com/), it essentially was organization and cleanup so I could move forward in developing the application without it getting to cluttered for my development and workflow.
 
-In this article, I am going to take the templating structure established in the [previous post](http://custardbelly.com/blog/?p=297) and add another external page to the[ jQuery Mobile](http://jquerymobile.com/) application – one in which I will be able to edit the document served up from the [CouchDB](http://couchdb.apache.org/) database. Along with this, I’ll discuss assigning event handlers to **DOM** elements using [jQuery](http://jquery.com/), adding buttons to footers and headers, and clearing external [jQuery Mobile](http://jquerymobile.com/) pages from cache to ensure a user is looking at the most recent changes to a document.
+In this article, I am going to take the templating structure established in the [previous post](https://custardbelly.com/blog/?p=297) and add another external page to the[ jQuery Mobile](http://jquerymobile.com/) application – one in which I will be able to edit the document served up from the [CouchDB](http://couchdb.apache.org/) database. Along with this, I’ll discuss assigning event handlers to **DOM** elements using [jQuery](http://jquery.com/), adding buttons to footers and headers, and clearing external [jQuery Mobile](http://jquerymobile.com/) pages from cache to ensure a user is looking at the most recent changes to a document.
 
 ## Edit Template
 
-In the [previous post](http://custardbelly.com/blog/?p=297), we moved from returning **HTML** from [CouchDB](http://couchdb.apache.org/) using a **show function** and string manipulation to moving mark-up over to a **template** and utilizing [Mustache](https://github.com/janl/mustache.js) to render the served up **jQuery Mobile** external page. We are going to use the same technique to deliver another page that will allow a user to edit a target **CouchDB** document, with the option to either cancel or submit their changes.
+In the [previous post](https://custardbelly.com/blog/?p=297), we moved from returning **HTML** from [CouchDB](http://couchdb.apache.org/) using a **show function** and string manipulation to moving mark-up over to a **template** and utilizing [Mustache](https://github.com/janl/mustache.js) to render the served up **jQuery Mobile** external page. We are going to use the same technique to deliver another page that will allow a user to edit a target **CouchDB** document, with the option to either cancel or submit their changes.
 
 Open up your favorite text editor, add the following snippet and save the file as _albumedit.html_ in the _/templates_ directory of your **albums** [couchapp](http://couchapp.org/page/index) (eg. _/Documents/workspace/custardbelly/couchdb/albums/templates/albumedit.html_):
 
@@ -196,7 +196,7 @@ _/templates/albumedit.html_
 
 ## Edit Show Function
 
-If you have been following along with the [previous post](http://custardbelly.com/blog/?p=297), you will remember that we removed the string-manipulated mark-up from the **show function** for the _album view_ page and replaced it with [Mustache](https://github.com/janl/mustache.js) templating. The **show function** we will create for the _album edit_ page will largely look the same as the one created for the _album view_ page. In fact, the only difference will be the target template and partial include.
+If you have been following along with the [previous post](https://custardbelly.com/blog/?p=297), you will remember that we removed the string-manipulated mark-up from the **show function** for the _album view_ page and replaced it with [Mustache](https://github.com/janl/mustache.js) templating. The **show function** we will create for the _album edit_ page will largely look the same as the one created for the _album view_ page. In fact, the only difference will be the target template and partial include.
 
 Open up your favorite text editor, create a new file, add the following snippet and save the file as _album-edit.js_ in the _/shows_ directory of your albums [couchapp](http://couchapp.org/page/index) (eg. _/Documents/workspace/custardbelly/couchdb/albums/shows/album-edit.js_):
 
@@ -235,7 +235,7 @@ _/templates/partials/albumedit/scripts.html_
     
     <script src="../../script/album-edit-page.js"></script>
 
-If you have followed along with create the **show function**, template and partial for the _album view_ page, this again will look similar. We are essentially loading an associated **JavaScript** file for the _album edit_ page. As explained in the [previous post](http://custardbelly.com/blog/?p=297), the script could be included here and not redirected to a **js** file, but for my own organizational habits I create a separate **JavaScript** file and have it residing in the _/_attachments/script/_ directory of my **albums** [couchapp](http://couchapp.org/page/index) (eg. _/Documents/workspace/custardbelly/couchdb/albums/  
+If you have followed along with create the **show function**, template and partial for the _album view_ page, this again will look similar. We are essentially loading an associated **JavaScript** file for the _album edit_ page. As explained in the [previous post](https://custardbelly.com/blog/?p=297), the script could be included here and not redirected to a **js** file, but for my own organizational habits I create a separate **JavaScript** file and have it residing in the _/_attachments/script/_ directory of my **albums** [couchapp](http://couchapp.org/page/index) (eg. _/Documents/workspace/custardbelly/couchdb/albums/  
 _attachments/script/album-edit-page.js_).
 
 ## album-edit-page.js
@@ -244,7 +244,7 @@ If we think about the role of our _album edit_ page in the scheme of the applica
 
 ### AlbumEditPageController
 
-We’ll start by creating a quasi-view-controller for the _album edit_ page in the similar fashion as the one used for the _album view_ page (created in the [previous post](http://custardbelly.com/blog/?p=297)). Initially, it will handle recognizing once the [jQuery Mobile](http://jquerymobile.com/) page **div** is shown and remove it from the page cache once it is hidden (by navigating away from the page).
+We’ll start by creating a quasi-view-controller for the _album edit_ page in the similar fashion as the one used for the _album view_ page (created in the [previous post](https://custardbelly.com/blog/?p=297)). Initially, it will handle recognizing once the [jQuery Mobile](http://jquerymobile.com/) page **div** is shown and remove it from the page cache once it is hidden (by navigating away from the page).
 
 Open your favorite text editor and save the following snippet as _album-edit-page.js_ in the _/_attachments/script/_ directory:
 
@@ -1011,7 +1011,7 @@ That should be it… aside from one thing. Although (once we push our changes) w
 
 ## Accessing the Album Edit Page
 
-I am going to assume that you have been following along with [previous posts](http://custardbelly.com/blog/?p=297) here and that you already have the _/templates/album.html_ and _/_attachments/script/album-page.js_ files. We are going to make modifications to them to include an **edit button** in the _album view_ page and assign a _click_ handler to navigate to the _album edit_ page.
+I am going to assume that you have been following along with [previous posts](https://custardbelly.com/blog/?p=297) here and that you already have the _/templates/album.html_ and _/_attachments/script/album-page.js_ files. We are going to make modifications to them to include an **edit button** in the _album view_ page and assign a _click_ handler to navigate to the _album edit_ page.
 
 ### album.html
 
@@ -1163,7 +1163,7 @@ Our **Albums** application has been modified to allow a user to modify propertie
     
     couchapp push albums http://127.0.0.1:5984/albums
 
-If all was successful and you now go to [http://127.0.0.1:5984/albums/_design/albums/index.html](http://127.0.0.1:5984/albums/_design/albums/index.html), click on an album from the list and select to edit that document. From the _album edit_ page you are able to either cancel any edits or submit the changes to the target **album document**. What a thing of beauty ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) Let’s take a look at the current state of the application:
+If all was successful and you now go to [http://127.0.0.1:5984/albums/_design/albums/index.html](http://127.0.0.1:5984/albums/_design/albums/index.html), click on an album from the list and select to edit that document. From the _album edit_ page you are able to either cancel any edits or submit the changes to the target **album document**. What a thing of beauty ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) Let’s take a look at the current state of the application:
 
 _index.html (aka #home)_:  
 ![index.html](http://www.custardbelly.com/blog/images/couchapp_six.png)
@@ -1176,7 +1176,7 @@ _album edit page_:
 
 ## Conclusion
 
-This post got a lot longer than I had anticipated… which just goes to show what a wind-bag i am ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) All joking aside, I think we covered some good ground, especially about saving modifications to a document back to the [CouchDB](http://couchdb.apache.org/) database. We also covered, again, how to monitor pages so as to remove them from cache and ensure that the user is always presented with the latest document information. We also delved into assigning event listeners to button elements. All good fun… well, hopefully, it was to you.
+This post got a lot longer than I had anticipated… which just goes to show what a wind-bag i am ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) All joking aside, I think we covered some good ground, especially about saving modifications to a document back to the [CouchDB](http://couchdb.apache.org/) database. We also covered, again, how to monitor pages so as to remove them from cache and ensure that the user is always presented with the latest document information. We also delved into assigning event listeners to button elements. All good fun… well, hopefully, it was to you.
 
 _[Note] This post was written against the following software versions:_  
 **CouchDB **– 1.0.1  
@@ -1187,15 +1187,15 @@ _If you have found this post and any piece has moved forward, hopefully the exam
 
 **Articles in this series:**
 
-  1. [Getting Started](http://custardbelly.com/blog/?p=244)
-  2. [Displaying a page detail of a single album.](http://custardbelly.com/blog/?p=278)
-  3. [Templates and Mustache](http://custardbelly.com/blog/?p=297)
-  4. [Displaying an editable page of an album.](http://custardbelly.com/blog/?p=318)
-  5. [Creating and Adding an album document.](http://custardbelly.com/blog/?p=332)
-  6. [Deleting an album document](http://custardbelly.com/blog/?p=344)
-  7. [Authorization and Validation – Part 1](http://custardbelly.com/blog/?p=360)
-  8. [Authorization and Validation – Part 2](http://custardbelly.com/blog/?p=394)
+  1. [Getting Started](https://custardbelly.com/blog/?p=244)
+  2. [Displaying a page detail of a single album.](https://custardbelly.com/blog/?p=278)
+  3. [Templates and Mustache](https://custardbelly.com/blog/?p=297)
+  4. [Displaying an editable page of an album.](https://custardbelly.com/blog/?p=318)
+  5. [Creating and Adding an album document.](https://custardbelly.com/blog/?p=332)
+  6. [Deleting an album document](https://custardbelly.com/blog/?p=344)
+  7. [Authorization and Validation – Part 1](https://custardbelly.com/blog/?p=360)
+  8. [Authorization and Validation – Part 2](https://custardbelly.com/blog/?p=394)
 
-[Full source for albums couchapp here.](http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
+[Full source for albums couchapp here.](https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
 
-Posted in [CouchDB](http://custardbelly.com/blog/category/couchdb/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
+Posted in [CouchDB](https://custardbelly.com/blog/category/couchdb/), [jquery](https://custardbelly.com/blog/category/jquery/), [jquery-mobile](https://custardbelly.com/blog/category/jquery-mobile/).

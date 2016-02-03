@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="<%= rootlocation %>/<%= css %>" media="all" />
     <link rel="stylesheet" type="text/css" href="<%= rootlocation %>/<%= highlightcss %>" media="all" />
     <link rel="alternate" type="application/rss+xml" title="<%= site.title %> - feed" href="<%= rootlocation %>/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title><%= site.title %><%= post ? ' - '+post.title() : '' %></title>
   </head>
   <body>

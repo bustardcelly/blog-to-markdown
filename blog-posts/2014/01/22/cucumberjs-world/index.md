@@ -4,7 +4,7 @@ author:
   name: 'todd anderson'
 date: '2014-01-22'
 ---
-In [my previous post](http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html), I demonstrated how I use [CucumberJS](https://github.com/cucumber/cucumber-js) - the JavaScript port of the [Cucumber](http://cukes.info/) BDD testing tool - in developing Test-Driven code. I walked through going from a <span style="color:red;">failing</span> feature with two scenarios to a <span style="color:green;">passing</span> cuke, while taking care to only add enough code that would make the assertions pass and refactoring as I went along under the assurance of a test harness.
+In [my previous post](https://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html), I demonstrated how I use [CucumberJS](https://github.com/cucumber/cucumber-js) - the JavaScript port of the [Cucumber](http://cukes.info/) BDD testing tool - in developing Test-Driven code. I walked through going from a <span style="color:red;">failing</span> feature with two scenarios to a <span style="color:green;">passing</span> cuke, while taking care to only add enough code that would make the assertions pass and refactoring as I went along under the assurance of a test harness.
 
 There are a few topics that I didn't address in the previous post that I utilize in my testing process that I wanted to touch on in this post as any further articles I may write on the subject of [CucumberJS](https://github.com/cucumber/cucumber-js) most likely will reference them. These are:
 
@@ -18,7 +18,7 @@ Supported files related to this and any subsequent posts on this topic will be a
 ## World
 The __World__ brings context to your __Scenarios__.
 
-In the examples from [my previous post](http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html) variables were declared locally to the module export and available for reference within each __Step__. This may be suitable for some cases, but can cause issues or provide false results if you are not aware that those values last across the life cycle of _all_ the __Steps__ declared in that module. In other words, they are not reset for each __Scenario__.
+In the examples from [my previous post](https://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html) variables were declared locally to the module export and available for reference within each __Step__. This may be suitable for some cases, but can cause issues or provide false results if you are not aware that those values last across the life cycle of _all_ the __Steps__ declared in that module. In other words, they are not reset for each __Scenario__.
 
 To bring context to each __Scenario__, you can use the __World__ constructor within which you can define various properties and methods that may be relevant in setting up the environment under test for each __Scenario__. Additonally, you access the defined __World__ within each __Step__ using the `this` keyword - just as you are familiar to in referencing context scope within JavaScript.
 
@@ -117,7 +117,7 @@ I use __Background__ mainly to provide an environmental context for my __Feature
 
 The point being: __Background__ is useful, in my testing workflow, in setting up a __Feature__ with the context of running the Tests under [node](http://nodejs.org) or in a browser.
 
-We could modify the existing __Feature__ created in the [previous post](http://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html) to include a __Background__ used in defining the environment:
+We could modify the existing __Feature__ created in the [previous post](https://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html) to include a __Background__ used in defining the environment:
 
 _/features/add-item.feature_
 

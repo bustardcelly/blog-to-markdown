@@ -4,7 +4,7 @@ author:
   name: 'todd anderson'
 date: '2014-01-19'
 ---
-I have previously written about __TDD__ in JavaScript, most notably using the BDD-style library [Jasmine](https://github.com/pivotal/jasmine) in a series on [building a Test-Driven Grocery List Application](http://custardbelly.com/blog/blog-pages/category/grocery-ls.html). In that posts series I went through thinking of User Stories for Features and Scenarios as actual development tasks, and - reading back on it - it's all very green (no pun intended) in my finding a way to deliver test-driven code. Nothing wrong with that and I will most likely look upon this and subsequent posts in the same manner. That said, I still hold true that TDD is the best way to deliver concise, tested and well thought-out code.
+I have previously written about __TDD__ in JavaScript, most notably using the BDD-style library [Jasmine](https://github.com/pivotal/jasmine) in a series on [building a Test-Driven Grocery List Application](https://custardbelly.com/blog/blog-pages/category/grocery-ls.html). In that posts series I went through thinking of User Stories for Features and Scenarios as actual development tasks, and - reading back on it - it's all very green (no pun intended) in my finding a way to deliver test-driven code. Nothing wrong with that and I will most likely look upon this and subsequent posts in the same manner. That said, I still hold true that TDD is the best way to deliver concise, tested and well thought-out code.
 
 Since that time, however, I have incorporated a different tool into my __TDD__ workflow for JavaScript-based projects that affords me the integration of Feature specs more closely to my development and truly encompasses my current ideal of __Behaviour Driven Development__: [CucumberJS](https://github.com/cucumber/cucumber-js). Essentially, it allows me to truly adhere to __TDD__ while developing from the outside in - running automated tests that fail until I have written code that supports a feature.
 
@@ -26,9 +26,9 @@ $ npm install cucumber --save-dev
 ```
 
 ## Gherkin
-If you had followed along in the previous [TDD Series](http://custardbelly.com/blog/blog-pages/category/grocery-ls.html), you will find the specs defined in that series similar to [Gherkin](http://docs.behat.org/guides/1.gherkin.html). In fact, I will be re-hashing a feature spec from that series to demonstrate working through your first cuke (aka, passing feature spec).
+If you had followed along in the previous [TDD Series](https://custardbelly.com/blog/blog-pages/category/grocery-ls.html), you will find the specs defined in that series similar to [Gherkin](http://docs.behat.org/guides/1.gherkin.html). In fact, I will be re-hashing a feature spec from that series to demonstrate working through your first cuke (aka, passing feature spec).
 
-If we were to remake the [Grocery List]((http://custardbelly.com/blog/blog-pages/category/grocery-ls.html) application under TDD/BDD using __Cucumber__, we would first start with a feature using the __Gherkin__ syntax:
+If we were to remake the [Grocery List]((https://custardbelly.com/blog/blog-pages/category/grocery-ls.html) application under TDD/BDD using __Cucumber__, we would first start with a feature using the __Gherkin__ syntax:
 
 _/features/add-item.feature_
 ```

@@ -1,6 +1,6 @@
 ---
 title: 'Flex Ant Tasks and FlexFileSet error'
-url: 'http://custardbelly.com/blog/2008/12/11/flex-ant-tasks-and-flexfileset-error/'
+url: 'https://custardbelly.com/blog/2008/12/11/flex-ant-tasks-and-flexfileset-error/'
 author:
   name: 'todd anderson'
 date: '2008-12-11'
@@ -43,4 +43,4 @@ Was I bone-head for 2 hours? Probably…. feel free to leave a comment.
 
 Thanks, Ryan!
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [FlexTasks](http://custardbelly.com/blog/category/flextasks/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/), [Flex](https://custardbelly.com/blog/category/flex/), [FlexTasks](https://custardbelly.com/blog/category/flextasks/).

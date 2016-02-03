@@ -1,6 +1,6 @@
 ---
 title: 'Offloading rendering in a 3d engine'
-url: 'http://custardbelly.com/blog/2006/02/01/offloading-rendering-in-a-3d-engine/'
+url: 'https://custardbelly.com/blog/2006/02/01/offloading-rendering-in-a-3d-engine/'
 author:
   name: 'todd anderson'
 date: '2006-02-01'
@@ -26,4 +26,4 @@ It’s in constant emmision, so when a particle expires, it regenerates itself a
 
 [![click me to view](http://www.custardbelly.com/blog/images/stars.png)](javascript:MM_openBrWindow('insets/psys.html','psystem','resizable=no,width=300,height=288');)
 
-Posted in [General](http://custardbelly.com/blog/category/general/).
+Posted in [General](https://custardbelly.com/blog/category/general/).

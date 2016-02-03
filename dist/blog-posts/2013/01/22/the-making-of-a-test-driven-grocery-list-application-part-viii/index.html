@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - The Making of a Test-Driven Grocery List Application: Part VIII</title>
   </head>
   <body>
@@ -58,10 +58,10 @@
     </p>
   </div>
   <section>
-    <p><em>This is the eighth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
+    <p><em>This is the eighth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
 <h1 id="introduction">Introduction</h1>
-<p>In the past several articles we have sort of have been living in the spec runner. We fiddled about making it turn red and green, and – until <a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">the last article</a> – we never really ran the <strong>Grocery List</strong> application we were building to give it a proper <em>User Testing</em>. If you did play around with the actual application we have been busy writing tests for, you may have found a bug. An unexpected result from supplying no grocery item name before saving it to the list:</p>
-<p><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_1.png" alt="Image for bug ticket with empty item."></p>
+<p>In the past several articles we have sort of have been living in the spec runner. We fiddled about making it turn red and green, and – until <a href="https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">the last article</a> – we never really ran the <strong>Grocery List</strong> application we were building to give it a proper <em>User Testing</em>. If you did play around with the actual application we have been busy writing tests for, you may have found a bug. An unexpected result from supplying no grocery item name before saving it to the list:</p>
+<p><img src="https://custardbelly.com/blog/images/tdd_js/part_viii_1.png" alt="Image for bug ticket with empty item."></p>
 <p>As you can see from the screenshot, there is an empty item in the third entry of the list. While I do think the act of walking into a store and picking up nothing is an accomplishment at times, this <em>Empty Item</em> bug is not an intended feature. In this article, I want to squash that bug… but – in keep with the theme of this series – we are going to do it through tests! Calm down. It is hard to read when you jump up and down like that.</p>
 <h1 id="bug-ticket">Bug Ticket</h1>
 <p>Before we begin fixing the bug, let’s get it down in writing what we think the problem is and how we think the intended behavior should be. To start, we don’t want empty items added to the <strong>Grocery List</strong>. We are currently able to add them – and rather easily – so let’s list out the steps that allows us to do so:</p>
@@ -202,7 +202,7 @@
 });
 </code></pre><p>We marked the spec as asynchronous to support events from the <code>list-item-controller</code> and placed the expectation within the <em>‘commit’</em> event handler.</p>
 <p>Run that, and we’ll be waiting for about 5 seconds until we are told that save() is not a method on the <code>list-item-controller</code> instance:</p>
-<p><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_2.png" alt="Failing save item test with timeout"></p>
+<p><img src="https://custardbelly.com/blog/images/tdd_js/part_viii_2.png" alt="Failing save item test with timeout"></p>
 <p>I have temporarily commented out the other tests in order to remove any noise and focus solely on resolving this bug. This is for local testing and would not commit the spec runner in such a state when committing back to the repo and running latest on a CI server.</p>
 <p>To resolve that, let’s open up <code>list-item-controller</code> and add that method:</p>
 <p><em>/script/controller/list-item-controller.js</em></p>
@@ -232,7 +232,7 @@
 
 };
 </code></pre><p>Run that again, and now we are down to just the timeout failure:</p>
-<p><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_3.png" alt="Timeout failure on list-item-controller save"></p>
+<p><img src="https://custardbelly.com/blog/images/tdd_js/part_viii_3.png" alt="Timeout failure on list-item-controller save"></p>
 <p>To resolve that, we’ll first create a new event factory method and invoke it from <code>save()</code> to dispatch the <em>commit</em> event, of which we have assigned a handler for in the test:</p>
 <p><em>/script/controller/list-item-controller.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createSaveEvent</span><span class="hljs-params">(controller)</span> {</span>
@@ -251,7 +251,7 @@
 
 },
 </code></pre><p>No more timeout!</p>
-<p><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_4.png" alt="Failing expectation on list-item-controller save."></p>
+<p><img src="https://custardbelly.com/blog/images/tdd_js/part_viii_4.png" alt="Failing expectation on list-item-controller save."></p>
 <p>But still failing. Reason is that the item had not been removed from the collection. In previous tests we have verified its addition to the collection from the <code>createNewItem()</code> method on <code>list-controller</code>. Now that we are saving the <code>list-item-controller</code> with a modified model that has an invalid name, we are expecting such an action to remove the item from the collection – the crux of our <em>Empty Item</em> bug.</p>
 <p>Let’s modify the <code>list-controller</code> in order to handle the commit event from a <code>list-item-controller</code>:</p>
 <p><em>/script/controller/list-controller.js</em></p>
@@ -329,9 +329,9 @@
 
 });
 </code></pre><p>We’ve added another event listener to the <code>list-item-controller</code> when it is added to the collection to handle the <em>commit</em> event. Within the handler we check for its validity – which we have predetermined as not being an empty string – and if it does not pass, then we remove it.<br>Note: In shipped code I would hold a single reference to a wrapped non-jQuery object and not wrap it multiple times as is shown here when adding and removing event handlers. I left it in this example to not add extra noise to the task at hand.</p>
-<p>Run that, and we are back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_5.png" alt="Passing test on commit event form list-item-controller"></p>
+<p>Run that, and we are back to green!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_viii_5.png" alt="Passing test on commit event form list-item-controller"></p>
 <h2 id="user-test">User Test</h2>
-<p>Let’s run the application and see if the issue is resolved:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_6.png" alt="Non-resolution of bug in live test"><br>I think that picture says it all…</p>
+<p>Let’s run the application and see if the issue is resolved:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_viii_6.png" alt="Non-resolution of bug in live test"><br>I think that picture says it all…</p>
 <p>The bug is still there because <code>save()</code> is not being called on the <code>list-item-controller</code>. In our test, we explicitly called it after a change to the model, but in the application itself it is not being invoked upon change to the model. </p>
 <p>But before we start adding calls to <code>save()</code> in our code, let’s think about the steps to reproduce the bug… or at least the fourth step – <em>Click the Tab button to save to list</em>. The tab keystroke, internally to the <code>list-item-controller</code>, causes a blur to the input field. If we look at the code from <code>list-item-controller</code>, that <em>blur</em> event performs a change to state:</p>
 <p><em>/script/controller/list-item-controller.js</em></p>
@@ -373,7 +373,7 @@
 
 });
 </code></pre><p>We have already verified the expectation that a <code>list-item-controller</code> is entered into an <code>EDITABLE</code> state from our <em>additem.spec.js</em> tests, so we don’t need to test for that here – just know that setting the <code>list-item-controller</code> instance to an <code>UNEDITABLE</code> state will trigger it to go into non-edit mode.</p>
-<p>Run that, and we get the timeout failure from that test:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_7.png" alt="Timeout failure on non-edit mode commit"></p>
+<p>Run that, and we get the timeout failure from that test:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_viii_7.png" alt="Timeout failure on non-edit mode commit"></p>
 <p>Good! Before you slap me… save that hand for modifying the <code>list-item-controller</code> to invoke the save() method from its state-change handler:</p>
 <p><em>/script/controller/list-item-controller.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleStateChange</span><span class="hljs-params">(controller, event)</span> {</span>
@@ -421,8 +421,8 @@
   }
 
 }
-</code></pre><p>One little addition. Now run the tests:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_8.png" alt="Passing tests on change to non-edit mode and save."></p>
-<p><em>Hooray!</em> Now use that hand you were gonna slap me with and high-five yourself. Now look at yourself… you look silly. Run the application you crazy solo-high-fiver:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_9.png" alt="Application does not save empty item"></p>
+</code></pre><p>One little addition. Now run the tests:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_viii_8.png" alt="Passing tests on change to non-edit mode and save."></p>
+<p><em>Hooray!</em> Now use that hand you were gonna slap me with and high-five yourself. Now look at yourself… you look silly. Run the application you crazy solo-high-fiver:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_viii_9.png" alt="Application does not save empty item"></p>
 <p>That picture doesn’t say much, but – if all has gone well – it conveys that we are no longer able to save an item to the list when nothing has been provided in the input field and we can close the bug.</p>
 <h3 id="can-t-stop-won-t-stop">Can’t Stop. Won’t Stop</h3>
 <p>I would normally stop there, but I do like to sew things up nicely and verify all expectations. Such as:</p>
@@ -492,11 +492,11 @@ async.it(<span class="hljs-string">'should add a valid item to list view upon ch
   itemRenderer.state = itemControllerFactory.state.UNEDITABLE;
 
 });
-</code></pre><p>Those additional specs will pass with flying colors and without having to modify any more application code:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_viii_10.png" alt="Finishing up all expectations for Save Item feature"></p>
+</code></pre><p>Those additional specs will pass with flying colors and without having to modify any more application code:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_viii_10.png" alt="Finishing up all expectations for Save Item feature"></p>
 <p>Tagged <strong>0.1.12</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.12">https://github.com/bustardcelly/grocery-ls/tree/0.1.12</a></p>
 <h1 id="conclusion">Conclusion</h1>
 <p>In this article we tested our way to closing a bug.</p>
-<p>Just as we had done in the <a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">previous article</a>, we adhered more closely to the principles of <strong>TDD</strong> and trudge along making things turn red before green – even when we found the reason and knew the resolution for the <em>Empty Item</em> bug. In doing so, we sort of verified and documented in test a <em>Save Item</em> feature. Now we know where to add or modify tests if the usability in committing an item to the list is changed in our requirements.</p>
+<p>Just as we had done in the <a href="https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">previous article</a>, we adhered more closely to the principles of <strong>TDD</strong> and trudge along making things turn red before green – even when we found the reason and knew the resolution for the <em>Empty Item</em> bug. In doing so, we sort of verified and documented in test a <em>Save Item</em> feature. Now we know where to add or modify tests if the usability in committing an item to the list is changed in our requirements.</p>
 <h2 id="todd-can-t-leave-well-enough-alone">Todd can’t leave well enough alone</h2>
 <p>The application is pretty much ready to use as is to boot! There is just one more thing that is nagging me – persistence. No pun intended. We can create a list of all the items we need at the grocery store just fine, but if we close the browser window… oh-noes. It’s lost. I gotta fix that… next.</p>
 <p>Cheers for sticking around!</p>
@@ -505,16 +505,16 @@ async.it(<span class="hljs-string">'should add a valid item to list view upon ch
 <h2 id="reference">Reference</h2>
 <p><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://cumulative-hypotheses.org/2011/08/30/tdd-as-if-you-meant-it/">TDD as if you Meant it by Keith Braithwaite</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a></p>
 <h2 id="post-series">Post Series</h2>
-<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
+<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="https://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="https://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/amd/">AMD</a>, <a href="https://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="https://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="https://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="https://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="https://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2013/02/04/madmin-for-ease-of-creating-and-documenting-restful-service-uris/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -525,7 +525,7 @@ async.it(<span class="hljs-string">'should add a valid item to list view upon ch
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/index.html";
         window.disqus_title="The Making of a Test-Driven Grocery List Application: Part VIII";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

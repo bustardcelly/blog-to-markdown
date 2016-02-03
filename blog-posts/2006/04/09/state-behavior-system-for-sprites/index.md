@@ -1,6 +1,6 @@
 ---
 title: 'State behavior system for sprites'
-url: 'http://custardbelly.com/blog/2006/04/09/state-behavior-system-for-sprites/'
+url: 'https://custardbelly.com/blog/2006/04/09/state-behavior-system-for-sprites/'
 author:
   name: 'Administrator'
 date: '2006-04-09'
@@ -17,6 +17,6 @@ Each sprite model has a set of behaviors that respond to key controls – and in
 
 I’m also employing the particle sytem structure i had before, and switch action policies based on whether the sprite is “hurt” or not. A visual clue to let you know that the sprite responds to key controls again is once the stars start falling and turning red.
 
-I think this is going to be the last in my Flash8 experiments of sprites and effects, and start porting what i have over to [AS3](http://labs.macromedia.com/)- cleaning and documenting as i go. Hopefully i’ll have something up soon, but seeing as i’m a newly proud owner of a DS, my productiveness may wane for a bit ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+I think this is going to be the last in my Flash8 experiments of sprites and effects, and start porting what i have over to [AS3](http://labs.macromedia.com/)- cleaning and documenting as i go. Hopefully i’ll have something up soon, but seeing as i’m a newly proud owner of a DS, my productiveness may wane for a bit ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/), [Flash8](https://custardbelly.com/blog/category/flash8/).

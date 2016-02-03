@@ -1,6 +1,6 @@
 ---
 title: 'Errata or just a helpful hint?'
-url: 'http://custardbelly.com/blog/2008/09/03/errata-or-just-a-helpful-hint/'
+url: 'https://custardbelly.com/blog/2008/09/03/errata-or-just-a-helpful-hint/'
 author:
   name: 'todd anderson'
 date: '2008-09-03'
@@ -33,4 +33,4 @@ I apologise if anyone had purchased [the book](http://www.amazon.com/Adobe-AIR-C
 
 For those of you have a copy of the book, i hope you are enjoying it. For those who are trying to get the tools up and running and just switched to Leopard i hope this is useful.
 
-Posted in [AIR](http://custardbelly.com/blog/category/air/), [Books](http://custardbelly.com/blog/category/books/), [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/).
+Posted in [AIR](https://custardbelly.com/blog/category/air/), [Books](https://custardbelly.com/blog/category/books/), [Flash](https://custardbelly.com/blog/category/flash/), [Flex](https://custardbelly.com/blog/category/flex/).

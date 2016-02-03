@@ -1,6 +1,6 @@
 ---
 title: 'An ImagesLoader in Flash8'
-url: 'http://custardbelly.com/blog/2005/11/07/an-imagesloader-in-flash8/'
+url: 'https://custardbelly.com/blog/2005/11/07/an-imagesloader-in-flash8/'
 author:
   name: 'todd anderson'
 date: '2005-11-07'
@@ -19,4 +19,4 @@ I find it helpful and it probably could use some optimization, but hopefully you
 
 In the [zip](http://www.custardbelly.com/downloads/ImagesLoader.zip) are the files, a sample FLA, some images and an image.txt file. I realized that some of the images don’t really illustrate the point because they’re simple and you’d probably use the drawing API instead, but you get the idea of how the ImagesLoader works.
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/), [Flash8](https://custardbelly.com/blog/category/flash8/).

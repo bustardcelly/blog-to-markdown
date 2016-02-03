@@ -1,12 +1,12 @@
 ---
 title: 'jQuery Mobile + CouchDB: Part 5 – Adding Documents'
-url: 'http://custardbelly.com/blog/2011/01/12/jquery-mobile-couchdb-part-5-adding-documents/'
+url: 'https://custardbelly.com/blog/2011/01/12/jquery-mobile-couchdb-part-5-adding-documents/'
 author:
   name: 'todd anderson'
 date: '2011-01-12'
 ---
 
-In my [previous post](http://custardbelly.com/blog/?p=318), I addressed editing documents using a form in [jQuery Mobile](http://jquerymobile.com/) and updating the document in the [CouchDB](http://couchdb.apache.org/) database using the _jquery.couch_ plugin. So far, if you have been following along, the posts have only addressed the _RU_ of **CRUD** (**C**reate **R**ead **U**pdate **D**elete) from the client application aspect. The list of albums are read upon launch, with a single album read on detail, and last post addressed updating a target document. Its high-time we start throwing **C** & **D** into that mix… but hold on. One at a time. First one will be fun. The second one will make you cry. That’s not true.
+In my [previous post](https://custardbelly.com/blog/?p=318), I addressed editing documents using a form in [jQuery Mobile](http://jquerymobile.com/) and updating the document in the [CouchDB](http://couchdb.apache.org/) database using the _jquery.couch_ plugin. So far, if you have been following along, the posts have only addressed the _RU_ of **CRUD** (**C**reate **R**ead **U**pdate **D**elete) from the client application aspect. The list of albums are read upon launch, with a single album read on detail, and last post addressed updating a target document. Its high-time we start throwing **C** & **D** into that mix… but hold on. One at a time. First one will be fun. The second one will make you cry. That’s not true.
 
 In this article I am going to address the ability to create a new album document, which in and of itself is not entirely different from editing. While doing so, I will address adding a button bar as a **footer** using [jQuery Mobile](http://jquerymobile.com/) grid layout and a few tidbits here and there to get things to work, as well as continue to gush over the beauty of using a document-oriented database system… because there’s changes ahead!
 
@@ -156,7 +156,7 @@ Essentially, we add a _click_ event handler to the **submit button**, create a n
 
 You may have also noticed that i said “proper fields” and the document object has a property that was not on the previous documents we created from the first post. Where did this **creation_date** property come from? And why won’t it throw an error on save? Short answer: we are working with a document-oriented database, so we are not tied to a schema and a pre-defined set of fields in a table. So anything can be added to any document?! Isn’t that a little wild-west?! Maybe, but we are making a pretty focused client application here where we know what fields we want to present to the user; but it is a good point and a solid argument to not keep your [CouchDB](http://couchdb.apache.org/) instance in [admin-party](http://guide.couchdb.org/draft/security.html) and to create good [validation functions](http://guide.couchdb.org/draft/validation.html). For now, we are not concerned about security or validation and are having some fun.
 
-OK, so why did we add **creation_date**? The reason is related to the **map function** for _/views/albums_. If you remember way back to the [first article](http://custardbelly.com/blog/?p=244), we created a **map function** for our **albums view** that basically returned a key and value. The key being the **_id** of each document. That key is used to sort the returned array of documents. That key is also automatically generated for us when we create a new document. Hence, a case could be made that the order of added documents will not correlate to the descending order of the sorted key list (**_id** of each document in the database). In order to be able to properly present the list of albums in the order that they were added to the database, the **creation_date** property is now being added to each new document. I use the time in milliseconds as the value for **creation_date** because i feel that most (if not all) client-side languages will know how to use that number and format the date as required.
+OK, so why did we add **creation_date**? The reason is related to the **map function** for _/views/albums_. If you remember way back to the [first article](https://custardbelly.com/blog/?p=244), we created a **map function** for our **albums view** that basically returned a key and value. The key being the **_id** of each document. That key is used to sort the returned array of documents. That key is also automatically generated for us when we create a new document. Hence, a case could be made that the order of added documents will not correlate to the descending order of the sorted key list (**_id** of each document in the database). In order to be able to properly present the list of albums in the order that they were added to the database, the **creation_date** property is now being added to each new document. I use the time in milliseconds as the value for **creation_date** because i feel that most (if not all) client-side languages will know how to use that number and format the date as required.
 
 ### Updating albums view
 
@@ -288,9 +288,9 @@ _/_attachments/index.html_
 
 The first thing you may notice is that we have added a **data-position** attribute to the **header** and **footer**. With a value of “_fixed_“, the[ jQuery Mobile](http://jquerymobile.com/) framework will ensure that they are always in place (**header** at top, **footer** at bottom) without regards to scrolling. This will treat the content list as the scrollable area, so when our list grows with all the new album documents that we create a user will always see and be able to access the **header** and **footer** (with the **add button**).
 
-Aside from the **data-position** attribution, we added a **navbar** as the content for the **footer**. The content of the **navbar** is a list with a single item with its navigational reference to the **addAlbum** [jQuery Mobile](http://jquerymobile.com/) page we created previously. Assigning a [grid](http://jquerymobile.com/demos/1.0a2/#docs/content/content-grids.html) class to the list will layout its items in a sequently manner. We set the **width** style rule directly for the list item because styling of list items for a **navbar** are limited to at least 2 items in the [jQuery Mobile](http://jquerymobile.com/). To get around that and have a single button, we just set it to have the width of the **navbar**. Then we also got all fancy with transitions and icons on the link within the list item ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+Aside from the **data-position** attribution, we added a **navbar** as the content for the **footer**. The content of the **navbar** is a list with a single item with its navigational reference to the **addAlbum** [jQuery Mobile](http://jquerymobile.com/) page we created previously. Assigning a [grid](http://jquerymobile.com/demos/1.0a2/#docs/content/content-grids.html) class to the list will layout its items in a sequently manner. We set the **width** style rule directly for the list item because styling of list items for a **navbar** are limited to at least 2 items in the [jQuery Mobile](http://jquerymobile.com/). To get around that and have a single button, we just set it to have the width of the **navbar**. Then we also got all fancy with transitions and icons on the link within the list item ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
-The only drawback to this solution is that we dynamically fill our list upon load. Unfortunately this updates the y position of the **footer** by (_n*list item height_). So if we kept our page like this, we’d lose the **footer** off the page once the list is filled ![:(](http://custardbelly.com/blog/wp-includes/images/smilies/icon_sad.gif) Wait, don’t leave… we can easily fix that!
+The only drawback to this solution is that we dynamically fill our list upon load. Unfortunately this updates the y position of the **footer** by (_n*list item height_). So if we kept our page like this, we’d lose the **footer** off the page once the list is filled ![:(](https://custardbelly.com/blog/wp-includes/images/smilies/icon_sad.gif) Wait, don’t leave… we can easily fix that!
 
 With the _/_attachments/index.html_ file still open in your favorite text editor, add the following line after the list _refresh_():
 
@@ -368,7 +368,7 @@ _/_attachments/index.html_
     
     }
 
-The **fixedToolbars** controller is available from [jQuery Mobile](http://jquerymobile.com/) with several public methods exposed for dealing with the **header** and **footer** toolbars. We are using _show_() to force an update in placement once the list has been refreshed. This will affectively put the **footer** (with its add button) back to the bottom where it belongs and is accessible. Hack? Maybe. But it works for now (see versions at end of post ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) ).
+The **fixedToolbars** controller is available from [jQuery Mobile](http://jquerymobile.com/) with several public methods exposed for dealing with the **header** and **footer** toolbars. We are using _show_() to force an update in placement once the list has been refreshed. This will affectively put the **footer** (with its add button) back to the bottom where it belongs and is accessible. Hack? Maybe. But it works for now (see versions at end of post ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) ).
 
 So that is it… except for one thing. 
 
@@ -723,15 +723,15 @@ _If you have found this post and any piece has moved forward, hopefully the exam
 
 **Articles in this series:**
 
-  1. [Getting Started](http://custardbelly.com/blog/?p=244)
-  2. [Displaying a page detail of a single album.](http://custardbelly.com/blog/?p=278)
-  3. [Templates and Mustache](http://custardbelly.com/blog/?p=297)
-  4. [Displaying an editable page of an album.](http://custardbelly.com/blog/?p=318)
-  5. [Creating and Adding an album document.](http://custardbelly.com/blog/?p=332)
-  6. [Deleting an album document](http://custardbelly.com/blog/?p=344)
-  7. [Authorization and Validation – Part 1](http://custardbelly.com/blog/?p=360)
-  8. [Authorization and Validation – Part 2](http://custardbelly.com/blog/?p=394)
+  1. [Getting Started](https://custardbelly.com/blog/?p=244)
+  2. [Displaying a page detail of a single album.](https://custardbelly.com/blog/?p=278)
+  3. [Templates and Mustache](https://custardbelly.com/blog/?p=297)
+  4. [Displaying an editable page of an album.](https://custardbelly.com/blog/?p=318)
+  5. [Creating and Adding an album document.](https://custardbelly.com/blog/?p=332)
+  6. [Deleting an album document](https://custardbelly.com/blog/?p=344)
+  7. [Authorization and Validation – Part 1](https://custardbelly.com/blog/?p=360)
+  8. [Authorization and Validation – Part 2](https://custardbelly.com/blog/?p=394)
 
-[Full source for albums couchapp here.](http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
+[Full source for albums couchapp here.](https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
 
-Posted in [CouchDB](http://custardbelly.com/blog/category/couchdb/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
+Posted in [CouchDB](https://custardbelly.com/blog/category/couchdb/), [jquery](https://custardbelly.com/blog/category/jquery/), [jquery-mobile](https://custardbelly.com/blog/category/jquery-mobile/).

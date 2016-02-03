@@ -1,6 +1,6 @@
 ---
 title: 'Flex 4.5 Hidden Additions*'
-url: 'http://custardbelly.com/blog/2011/07/15/flex-4-5-hidden-additions/'
+url: 'https://custardbelly.com/blog/2011/07/15/flex-4-5-hidden-additions/'
 author:
   name: 'todd anderson'
 date: '2011-07-15'
@@ -250,4 +250,4 @@ So in any event, I would say it is a great exercise to roll your own linked list
 
 Nothing really to conclude. I just found these while digging around and became intrigued as they were fairly common things that i implemented over and over with varying functionality on projects based on requirements and now they are available in the Flex 4.5 SDK. If you have found some that you really like, let me know.
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flex](http://custardbelly.com/blog/category/flex/), [Flex 4.5](http://custardbelly.com/blog/category/flex-4-5/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/), [Flex](https://custardbelly.com/blog/category/flex/), [Flex 4.5](https://custardbelly.com/blog/category/flex-4-5/).

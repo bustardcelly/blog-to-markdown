@@ -1,6 +1,6 @@
 ---
 title: 'massroute-js: dojo example'
-url: 'http://custardbelly.com/blog/2011/10/04/massroute-js-dojo-example/'
+url: 'https://custardbelly.com/blog/2011/10/04/massroute-js-dojo-example/'
 author:
   name: 'todd anderson'
 date: '2011-10-04'
@@ -321,4 +321,4 @@ All in all, I was pretty impressed by **Dojo** and would recommend trying it out
 [Dojo Toolkit](http://dojotoolkit.org/)  
 [massroute-js/dojo](https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/dojo)
 
-Posted in [JavaScript](http://custardbelly.com/blog/category/javascript/), [dojo](http://custardbelly.com/blog/category/dojo/), [massroute-js](http://custardbelly.com/blog/category/massroute-js/).
+Posted in [JavaScript](https://custardbelly.com/blog/category/javascript/), [dojo](https://custardbelly.com/blog/category/dojo/), [massroute-js](https://custardbelly.com/blog/category/massroute-js/).

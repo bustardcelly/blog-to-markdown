@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - Flex 4: Suspending the first frame</title>
   </head>
   <body>
@@ -180,21 +180,21 @@
     xmlns:mx<span class="hljs-subst">=</span><span class="hljs-string">"library://ns.adobe.com/flex/mx"</span>
     preloader<span class="hljs-subst">=</span><span class="hljs-string">"com.custardbelly.manager.example.CustomContextPreloader"</span><span class="hljs-subst">&amp;</span><span class="hljs-literal">gt</span>;
 </code></pre><p>There you go, you are all set. <strong>CustomSystemManager</strong> is now your stand-in for the initialization process and suspends the first frame, notifying the <em>concrete</em> <strong>CustomPreloader</strong> to perform some extra tasks, which in turn tells the <strong>CustomSystemManager</strong> that is okay to continue onto the next frame once it has finished its task(s).</p>
-<p>I would have posted an example SWF here, but it would have been a moot point as it would have loaded already by the time you arrived all the way down here <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> So one is available here: <a href="http://www.custardbelly.com/examples/csm/index.html">http://www.custardbelly.com/examples/csm/index.html</a> with source view here: <a href="http://www.custardbelly.com/examples/csm/srcview/">http://www.custardbelly.com/examples/csm/srcview/</a>.</p>
+<p>I would have posted an example SWF here, but it would have been a moot point as it would have loaded already by the time you arrived all the way down here <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> So one is available here: <a href="http://www.custardbelly.com/examples/csm/index.html">http://www.custardbelly.com/examples/csm/index.html</a> with source view here: <a href="http://www.custardbelly.com/examples/csm/srcview/">http://www.custardbelly.com/examples/csm/srcview/</a>.</p>
 <p>It’s not terribly exciting, but in that example i am basically loading a <a href="http://www.springactionscript.org/">Spring ActionScript</a> application context file. I wanted to hook into the initial load progress as the<strong> IoC container</strong> was an essential part of my application. And, as i said before, i hate seeing the initial progress bar and then another progress bar after application create. I just want one.</p>
 <p>Once the application code is loaded and the <strong>Flex Application</strong> receives a _CREATION<em>COMPLETE</em> event, a custom style manager defined in the application context is accessed from the <strong>IoC container</strong> and a <a href="http://github.com/bustardcelly/flex-runtime-css">Runtime CSS SWF</a> is loaded, after which the font-size is updated on the <strong>Label</strong> field. Incredible, no? Not really, but you can see where this example can go, hopefully.</p>
 <p>One thing to note, if you will use this to load a <a href="http://www.springactionscript.org/">Spring ActionScript</a> application context file as i have done, you MUST use the <strong>XMLApplicationContext</strong> class and NOT the <strong>FlexXMLApplicationContext</strong> class from <a href="http://www.springactionscript.org/">Spring ActionScript</a>. The reason is that <strong>FlexXMLApplicationContext</strong> accesses a reference to Application upon initialization. Since we haven’t finished loading the Application code in the <strong>CustomSystemManager</strong>, this access will throw a null pointer exception.</p>
 <p>Also, if i am totally off-base on all this, please leave a comment and let me know.</p>
 <p>The files for all this, including the example, can be found on github: <a href="http://github.com/bustardcelly/custom-system-manager">http://github.com/bustardcelly/custom-system-manager</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/as3/">AS3</a>, <a href="http://custardbelly.com/blog/category/flash/">Flash</a>, <a href="http://custardbelly.com/blog/category/flex/">Flex</a>, <a href="http://custardbelly.com/blog/category/flex-4/">Flex 4</a>.</p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/as3/">AS3</a>, <a href="https://custardbelly.com/blog/category/flash/">Flash</a>, <a href="https://custardbelly.com/blog/category/flex/">Flex</a>, <a href="https://custardbelly.com/blog/category/flex-4/">Flex 4</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2010/10/25/as3flobile-update-now-using-as3-signals/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2010/10/20/as3flobile-extension-as3flobile-android/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2010/10/20/flex-4-and-runtime-style-sheets/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2010/10/01/timers-in-android/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -205,7 +205,7 @@
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2010/10/22/flex-4-suspending-the-first-frame/index.html";
         window.disqus_title="Flex 4: Suspending the first frame";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

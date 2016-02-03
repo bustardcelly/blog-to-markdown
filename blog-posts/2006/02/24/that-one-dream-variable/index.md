@@ -1,6 +1,6 @@
 ---
 title: 'That one dream variable.'
-url: 'http://custardbelly.com/blog/2006/02/24/that-one-dream-variable/'
+url: 'https://custardbelly.com/blog/2006/02/24/that-one-dream-variable/'
 author:
   name: 'todd anderson'
 date: '2006-02-24'
@@ -16,4 +16,4 @@ I was thinking more along the lines of something that would only have context in
 
 Leave a comment for what yours is… try to keep it clean.
 
-Posted in [General](http://custardbelly.com/blog/category/general/).
+Posted in [General](https://custardbelly.com/blog/category/general/).

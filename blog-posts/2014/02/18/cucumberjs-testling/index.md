@@ -4,7 +4,7 @@ author:
   name: 'todd anderson'
 date: '2014-02-18'
 ---
-In my [previous](http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html) [posts](http://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html) I discuss bringing [CucumberJS](https://github.com/cucumber/cucumber-js) specs to the browser using the [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) CLI tool. In this post I intend to address how to use the format reporting options of the __cucumberjs-browser__ tool to enable integration with the [testling](https://ci.testling.com/) automated cross-browser testing tool to run your specs in various browser environment targets that you may not have installed on your own system.
+In my [previous](https://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html) [posts](https://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html) I discuss bringing [CucumberJS](https://github.com/cucumber/cucumber-js) specs to the browser using the [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) CLI tool. In this post I intend to address how to use the format reporting options of the __cucumberjs-browser__ tool to enable integration with the [testling](https://ci.testling.com/) automated cross-browser testing tool to run your specs in various browser environment targets that you may not have installed on your own system.
 
 ## Requirements
 For the purposes of this article, it is assumed that you are knowledgable of [node](http://nodejs.org) and [npm](http://npmjs.org) and familiar with creating feature specs for [CucumberJS](https://github.com/cucumber/cucumber-js). 
@@ -139,7 +139,7 @@ To use the remote service that [testling](https://ci.testling.com/) provides, yo
 
 In addition to providing a great service, you also get the option of adding a nice looking badge to your project.
 
-![testling harness output](http://custardbelly.com/blog/images/testling-1.png)
+![testling harness output](https://custardbelly.com/blog/images/testling-1.png)
 
 This badge was produced by pushing an update to the [cucumberjs-examples](https://github.com/bustardcelly/cucumberjs-examples) exampe repo with a defined webhook. (If you followed along in the previous articles, you will note that the failing IE tests are due to the use of `Object.create` in source without a polyfill).
 

@@ -1,6 +1,6 @@
 ---
 title: 'Flash And The City: jQuery Mobile'
-url: 'http://custardbelly.com/blog/2011/06/15/flash-and-the-city-jquery-mobile/'
+url: 'https://custardbelly.com/blog/2011/06/15/flash-and-the-city-jquery-mobile/'
 author:
   name: 'todd anderson'
 date: '2011-06-15'
@@ -55,4 +55,4 @@ http://developer.apple.com/library/safari/#)
 [Infrared5](http://infrared5.com)  
 [me on twitter](https://twitter.com/#!/bustardcelly)
 
-Posted in [Flash and the City](http://custardbelly.com/blog/category/flash-and-the-city/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
+Posted in [Flash and the City](https://custardbelly.com/blog/category/flash-and-the-city/), [jquery](https://custardbelly.com/blog/category/jquery/), [jquery-mobile](https://custardbelly.com/blog/category/jquery-mobile/).

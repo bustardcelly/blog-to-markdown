@@ -1,6 +1,6 @@
 ---
 title: 'massroute-js: knockout example'
-url: 'http://custardbelly.com/blog/2011/11/14/massroute-js-knockout-example/'
+url: 'https://custardbelly.com/blog/2011/11/14/massroute-js-knockout-example/'
 author:
   name: 'todd anderson'
 date: '2011-11-14'
@@ -158,4 +158,4 @@ I encourage you to check out the Knockout home page at [http://knockoutjs.com/](
 
 You can checkout the rest of my massroute-js/knockout example on github here: [https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/knockout](https://github.com/bustardcelly/massroute-js/tree/master/massroute-examples/knockout). Questions, comments and constructive berating are welcome (though not so much the last one).
 
-Posted in [JavaScript](http://custardbelly.com/blog/category/javascript/), [jquery](http://custardbelly.com/blog/category/jquery/), [knockoutjs](http://custardbelly.com/blog/category/knockoutjs/).
+Posted in [JavaScript](https://custardbelly.com/blog/category/javascript/), [jquery](https://custardbelly.com/blog/category/jquery/), [knockoutjs](https://custardbelly.com/blog/category/knockoutjs/).

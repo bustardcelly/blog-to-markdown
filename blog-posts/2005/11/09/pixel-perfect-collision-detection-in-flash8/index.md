@@ -1,6 +1,6 @@
 ---
 title: 'Pixel Collision Detection in Flash8'
-url: 'http://custardbelly.com/blog/2005/11/09/pixel-perfect-collision-detection-in-flash8/'
+url: 'https://custardbelly.com/blog/2005/11/09/pixel-perfect-collision-detection-in-flash8/'
 author:
   name: 'todd anderson'
 date: '2005-11-09'
@@ -55,4 +55,4 @@ If that shows up as 0, it’s transparent. I stink at techinical explanations, s
 
 I’d also like to point out Grant Skinner’s great example of [Shape-Based Collision Detection](http://www.gskinner.com/blog/archives/2005/10/source_code_sha.html), if you haven’t already seen it. 
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/), [Flash8](https://custardbelly.com/blog/category/flash8/).

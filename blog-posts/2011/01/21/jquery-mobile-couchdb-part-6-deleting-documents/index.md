@@ -1,12 +1,12 @@
 ---
 title: 'jQuery Mobile + CouchDB: Part 6 – Deleting Documents'
-url: 'http://custardbelly.com/blog/2011/01/21/jquery-mobile-couchdb-part-6-deleting-documents/'
+url: 'https://custardbelly.com/blog/2011/01/21/jquery-mobile-couchdb-part-6-deleting-documents/'
 author:
   name: 'todd anderson'
 date: '2011-01-21'
 ---
 
-In my [previous article](http://custardbelly.com/blog/?p=332), I addressed adding documents to a [CouchDB](http://couchdb.apache.org/) database using the _jquery.couch_ plugin along with a form within the [jQuery Mobile](http://jquerymobile.com/) framework. If you have been following along (and have been using with the application that is being built) that database might be filling up with album documents by now… but with no way to remove them!
+In my [previous article](https://custardbelly.com/blog/?p=332), I addressed adding documents to a [CouchDB](http://couchdb.apache.org/) database using the _jquery.couch_ plugin along with a form within the [jQuery Mobile](http://jquerymobile.com/) framework. If you have been following along (and have been using with the application that is being built) that database might be filling up with album documents by now… but with no way to remove them!
 
 _“Why, late on Friday night, did I ever think I needed to catalog Starship’s ‘Knee Deep in the Hoopla’ as ‘my saving grace’?!”_
 
@@ -704,15 +704,15 @@ _If you have found this post and any piece has moved forward, hopefully the exam
 
 **Articles in this series:**
 
-  1. [Getting Started](http://custardbelly.com/blog/?p=244)
-  2. [Displaying a page detail of a single album.](http://custardbelly.com/blog/?p=278)
-  3. [Templates and Mustache](http://custardbelly.com/blog/?p=297)
-  4. [Displaying an editable page of an album.](http://custardbelly.com/blog/?p=318)
-  5. [Creating and Adding an album document.](http://custardbelly.com/blog/?p=332)
-  6. [Deleting an album document](http://custardbelly.com/blog/?p=344)
-  7. [Authorization and Validation – Part 1](http://custardbelly.com/blog/?p=360)
-  8. [Authorization and Validation – Part 2](http://custardbelly.com/blog/?p=394)
+  1. [Getting Started](https://custardbelly.com/blog/?p=244)
+  2. [Displaying a page detail of a single album.](https://custardbelly.com/blog/?p=278)
+  3. [Templates and Mustache](https://custardbelly.com/blog/?p=297)
+  4. [Displaying an editable page of an album.](https://custardbelly.com/blog/?p=318)
+  5. [Creating and Adding an album document.](https://custardbelly.com/blog/?p=332)
+  6. [Deleting an album document](https://custardbelly.com/blog/?p=344)
+  7. [Authorization and Validation – Part 1](https://custardbelly.com/blog/?p=360)
+  8. [Authorization and Validation – Part 2](https://custardbelly.com/blog/?p=394)
 
-[Full source for albums couchapp here.](http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
+[Full source for albums couchapp here.](https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
 
-Posted in [CouchDB](http://custardbelly.com/blog/category/couchdb/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
+Posted in [CouchDB](https://custardbelly.com/blog/category/couchdb/), [jquery](https://custardbelly.com/blog/category/jquery/), [jquery-mobile](https://custardbelly.com/blog/category/jquery-mobile/).

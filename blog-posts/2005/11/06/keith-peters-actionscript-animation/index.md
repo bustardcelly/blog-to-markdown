@@ -1,6 +1,6 @@
 ---
 title: 'Keith Peters’ Actionscript Animation'
-url: 'http://custardbelly.com/blog/2005/11/06/keith-peters-actionscript-animation/'
+url: 'https://custardbelly.com/blog/2005/11/06/keith-peters-actionscript-animation/'
 author:
   name: 'todd anderson'
 date: '2005-11-06'
@@ -15,4 +15,4 @@ To sum it up… go pick up this book.
 
 To draw it out… go pick up this book now. The formula summary for each chapter and the Tips and Tricks Section is enough to make this an essential reference book for Flash Animation, but the explanations of the concepts behind them in each chapter make this an essential book to have in my library.
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/).

@@ -1,6 +1,6 @@
 ---
 title: 'AS3 Pixel Collision Detection'
-url: 'http://custardbelly.com/blog/2005/11/11/as3-pixel-collision-detection/'
+url: 'https://custardbelly.com/blog/2005/11/11/as3-pixel-collision-detection/'
 author:
   name: 'todd anderson'
 date: '2005-11-11'
@@ -14,7 +14,7 @@ One thing i found that may be helpful to others… i spent about 10 minutes tryi
 
 I guess i have some new visual learning to go along with the new code.
 
-Here’s a little snippet of how you do startDrag/stopDrag in AS3. It can be found in the online docs… if i had bothered to read them ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) .  
+Here’s a little snippet of how you do startDrag/stopDrag in AS3. It can be found in the online docs… if i had bothered to read them ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) .  
 If you want to see the hand cursor, you have to set buttonMode to true (as far as i know)- which will turn on useHandCursor with the default value of true.
     
       
@@ -74,4 +74,4 @@ i’m looking to put up the code for the Pixel Collision Detection for both Flas
 
 [Here’s a “30-Colby at 30FPS” trial](javascript:MM_openBrWindow('http://www.custardbelly.com/flash8/PixelHit.html','coll_trial','resizable=no,width=415,height=415');) in flash8, but it seems to take a huge hit on a Mac for all browsers… don’t know what’s up with that. Does drop about 10 frames on a PC even with a proximity detector, but as i said in the previous post, i probably wouldn’t use this detection for large amounts of objects.
 
-Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/).
+Posted in [AS3](https://custardbelly.com/blog/category/as3/), [Flash](https://custardbelly.com/blog/category/flash/).

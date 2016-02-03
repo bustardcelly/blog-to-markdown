@@ -1,12 +1,12 @@
 ---
 title: 'i’m not gonna keep putting the name of the day on the end…'
-url: 'http://custardbelly.com/blog/2005/09/21/im-not-gonna-keep-putting-the-name-of-the-day-on-the-end/'
+url: 'https://custardbelly.com/blog/2005/09/21/im-not-gonna-keep-putting-the-name-of-the-day-on-the-end/'
 author:
   name: 'todd anderson'
 date: '2005-09-21'
 ---
 
-![](http://custardbelly.com/blog/images/bitmap_trial3.gif)
+![](https://custardbelly.com/blog/images/bitmap_trial3.gif)
 
 _Following up on my past two posts._
 
@@ -41,4 +41,4 @@ I kept the dropShadow in there to see if it still applied afterward, and lo and 
 One thought… for some reason when i set the color and mask arguments both to white, it didn’t mask- don’t know why, but i didn’t investigate too hard.  
 Two thought… if my states held that same offending color (say in the eyes), it will remove it – i’ll have to work on that.
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/), [Flash8](https://custardbelly.com/blog/category/flash8/).

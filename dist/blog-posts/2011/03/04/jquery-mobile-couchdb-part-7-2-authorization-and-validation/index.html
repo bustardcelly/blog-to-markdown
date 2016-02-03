@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jQuery Mobile + CouchDB: Part 7.2 – Authorization and Validation</title>
   </head>
   <body>
@@ -58,7 +58,7 @@
     </p>
   </div>
   <section>
-    <p>In my <a href="http://custardbelly.com/blog/?p=360">previous post</a>, I covered authorization and validation on the <a href="http://couchdb.apache.org/">CouchDB</a> side. We set up an administrator, created a user or two and established a <strong>user-role</strong> for our <strong>albums</strong> database that will be used in validation on document operations based on the user context of a session. We got to write some code – our <strong>validate_doc_update</strong> – but mainly it was all clicking around and filling in fields in <a href="http://127.0.0.1:5984/_utils/">Futon</a>. Necessary stuff, mind you… but let’s get back to code. More importantly, let’s get back to our <a href="http://jquerymobile.com/">jQuery Mobile</a> application. We didn’t even touch it in the last mini-series in a series.</p>
+    <p>In my <a href="https://custardbelly.com/blog/?p=360">previous post</a>, I covered authorization and validation on the <a href="http://couchdb.apache.org/">CouchDB</a> side. We set up an administrator, created a user or two and established a <strong>user-role</strong> for our <strong>albums</strong> database that will be used in validation on document operations based on the user context of a session. We got to write some code – our <strong>validate_doc_update</strong> – but mainly it was all clicking around and filling in fields in <a href="http://127.0.0.1:5984/_utils/">Futon</a>. Necessary stuff, mind you… but let’s get back to code. More importantly, let’s get back to our <a href="http://jquerymobile.com/">jQuery Mobile</a> application. We didn’t even touch it in the last mini-series in a series.</p>
 <p>In this article I am going to address showing a <strong>Log In/Sign Up</strong> dialog in our <a href="http://jquerymobile.com/">jQuery Mobile</a> application. Instead of forcing a user to log in upon first landing on our application (as we saw when setting up <strong>Security</strong> on our database in the past article), we are going to present the dialog when a user tries to perform an operation that requires session and user validation. The way we have set up the <strong>albums</strong> database in <a href="http://couchdb.apache.org/">CouchDB</a> is that everyone can view all the <strong>album</strong> documents, but only users of the <strong>albums</strong> database (those assigned with a <strong>user-role</strong> of “<em>albums-user</em>“) are allowed to add new <strong>album</strong> documents and only those associated users of a document are allowed to edit and delete their <strong>album</strong> document. So, from a client-side perspective, the dialog will be shown on <strong>Add</strong>, <strong>Edit</strong> and <strong>Delete</strong> if a previous session for the user has not been established.</p>
 <p>Actually, it is probably a little misleading to say we will be doing all this in <a href="http://jquerymobile.com/">jQuery Mobile</a>. I am actually going to incorporate <a href="http://jquery.com/">jQuery</a> concepts into our <a href="http://jquerymobile.com/">jQuery Mobile</a> application. We are going to present the dialog as a <a href="http://jquery.com/">jQuery</a> <strong>widget</strong> and manage the communication through a <a href="http://jquery.com/">jQuery</a> <strong>plugin</strong> for our application. So as far as the <a href="http://jquerymobile.com/">jQuery Mobile</a> framework is concerned, we won’t be learning anything new per se – we’ll be learning how to incorporate <a href="http://jquery.com/">jQuery</a> <strong>widgets</strong> and <strong>plugins</strong> into our application. In previous articles, the main bulk of <a href="http://jquery.com/">jQuery</a> we have employed has been using accessors and modifiers for elements/events within our <a href="http://jquerymobile.com/">jQuery Mobile</a> application. We have also gotten familiar with the <em>jquery.couch</em> plugin that comes with <a href="http://couchdb.apache.org/">CouchDB</a> and handles most (if not all) the communication points we need for our application. So working with the <a href="http://jquery.com/">jQuery</a> library is not all that unfamiliar.</p>
 <p>Right. Didn’t i say there will be more coding in this article? What am i doing yammering on? Its time to put your <a href="http://jquery.com/">jQuery</a> hats on, because its about to get a whole lot more fun*!</p>
@@ -432,7 +432,7 @@ couchapp_load(<span class="hljs-matrix">[
 
 
 })</span><span class="hljs-list">(<span class="hljs-title">jQuery</span>)</span>
-</code></pre><p>You wanted code? You got it <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> I am not going to go into explaining the under-workings of <strong>$.widget</strong> or <strong>$.Widget</strong> but more the work we have here that relates to <a href="http://jquerymobile.com/">jQuery Mobile</a> and our application. Again, if you are curious, <a href="http://jqueryui.com/">jQuery UI</a> has some great documentation at <a href="http://jqueryui.com/docs/Developer_Guide">http://jqueryui.com/docs/Developer_Guide</a> and you can also look at the <strong>JavaScript</strong> source for <a href="http://jquerymobile.com/">jQuery Mobile</a>. That is chock full of widgets. And then there is this awesome write up by <a href="http://www.erichynds.com">Eric Hynds</a>: <a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/">http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/</a>.</p>
+</code></pre><p>You wanted code? You got it <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> I am not going to go into explaining the under-workings of <strong>$.widget</strong> or <strong>$.Widget</strong> but more the work we have here that relates to <a href="http://jquerymobile.com/">jQuery Mobile</a> and our application. Again, if you are curious, <a href="http://jqueryui.com/">jQuery UI</a> has some great documentation at <a href="http://jqueryui.com/docs/Developer_Guide">http://jqueryui.com/docs/Developer_Guide</a> and you can also look at the <strong>JavaScript</strong> source for <a href="http://jquerymobile.com/">jQuery Mobile</a>. That is chock full of widgets. And then there is this awesome write up by <a href="http://www.erichynds.com">Eric Hynds</a>: <a href="http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/">http://www.erichynds.com/jquery/tips-for-developing-jquery-ui-widgets/</a>.</p>
 <p>Now, let’s step through it… If you are being introduced to <a href="http://jquery.com/">jQuery</a> by this article series: <strong>a)</strong> i hope i have not mislead you in my explanations and <strong>b)</strong> this might be the first time you have seen this anonymous function declaration:</p>
 <pre><code>(<span class="hljs-keyword">function</span>( $ ) {
 
@@ -1389,7 +1389,7 @@ couchapp_load(<span class="hljs-matrix">[
   <span class="hljs-string">"script/jquery.albums.loginDialog.js"</span>
 
 ]</span>);
-</code></pre><p>We’ve just added the last three files we have been working on: the _command<em>queue</em> script and our <strong>$.albums</strong> plugin and <strong>loginDialog</strong> widget. Now we’re going to make some modifications to the inline script on our <em>index.html</em> document. In a <a href="http://custardbelly.com/blog/?p=332">previous article</a> we hooked up the saving of a new album document to the internal <a href="http://jquerymobile.com/">jQuery Mobile</a> <strong>addAlbum</strong> page, and were using the <em>jquery.couch</em> plugin directly to save the document. Now we are just going to go through our <strong>$.albums</strong> plugin to perform that action which will open the <strong>loginDialog</strong> if a session is currently not available on our client. Open the _/<em>attachments/index.html</em> file in your favorite editor and save the following modifications in the <em>handleDocumentReady</em>() function:</p>
+</code></pre><p>We’ve just added the last three files we have been working on: the _command<em>queue</em> script and our <strong>$.albums</strong> plugin and <strong>loginDialog</strong> widget. Now we’re going to make some modifications to the inline script on our <em>index.html</em> document. In a <a href="https://custardbelly.com/blog/?p=332">previous article</a> we hooked up the saving of a new album document to the internal <a href="http://jquerymobile.com/">jQuery Mobile</a> <strong>addAlbum</strong> page, and were using the <em>jquery.couch</em> plugin directly to save the document. Now we are just going to go through our <strong>$.albums</strong> plugin to perform that action which will open the <strong>loginDialog</strong> if a session is currently not available on our client. Open the _/<em>attachments/index.html</em> file in your favorite editor and save the following modifications in the <em>handleDocumentReady</em>() function:</p>
 <p><em>/attachments/index.html</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleDocumentReady</span><span class="hljs-params">()</span>
 
@@ -1553,22 +1553,22 @@ couchapp_load(<span class="hljs-matrix">[
 <p><em>[Note] This post was written against the following software versions:</em><br><strong>CouchDB </strong>– 1.0.1<br><strong>CouchApp</strong> – 0.7.2<br><strong>jQuery</strong> – 1.4.4<br><strong>jQuery Mobile</strong> – 1.0a2<br><strong>jQuery Templates Plugin</strong> 1.0.0pre<br><em>If you have found this post and any piece has moved forward, hopefully the examples are still viable/useful. I will not be updating the examples in this post in parellel with updates to any of the previously mentioned software, unless explicitly noted.</em></p>
 <p><strong>Articles in this series:</strong></p>
 <ol>
-<li><a href="http://custardbelly.com/blog/?p=244">Getting Started</a></li>
-<li><a href="http://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
-<li><a href="http://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
-<li><a href="http://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
-<li><a href="http://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
+<li><a href="https://custardbelly.com/blog/?p=244">Getting Started</a></li>
+<li><a href="https://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
+<li><a href="https://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
+<li><a href="https://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
+<li><a href="https://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
 </ol>
-<p><a href="http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp available here</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="http://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="http://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
+<p><a href="https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp available here</a></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="https://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="https://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2011/06/15/flash-and-the-city-jquery-mobile/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2010/12/08/jquery-mobile-couchdb-part-1-getting-started/index.html">&#8672;&nbsp;newer</a></span>
       
       
         <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-1-authorization-and-validation/index.html">older&nbsp;&#8674;</a></span>
@@ -1582,7 +1582,7 @@ couchapp_load(<span class="hljs-matrix">[
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-2-authorization-and-validation/index.html";
         window.disqus_title="jQuery Mobile + CouchDB: Part 7.2 – Authorization and Validation";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - BDD in JavaScript V: CucumberJS and The Browser, II</title>
   </head>
   <body>
@@ -59,7 +59,7 @@
   </div>
   <section>
     <p><em>&quot;Whoa. Whoa. Whoa. You can&#39;t just use roman numerals all over the place in your post titles...&quot;</em></p>
-<p>In the <a href="http://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous article</a> I addressed the available libraries and practices to have your <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs running in a browser environment, as well as introduced a new project begun by me: <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a>.</p>
+<p>In the <a href="https://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous article</a> I addressed the available libraries and practices to have your <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs running in a browser environment, as well as introduced a new project begun by me: <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a>.</p>
 <p>I had originally had the entirety of this post in the previous post, but felt that it was a little bit of information overload. As such, I decided to split them into two posts.</p>
 <p>The intent of this article is to address incorporating <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> into our current Grocery List Application example and continue developing features that involve User Interaction with the DOM.</p>
 <h3 id="-gt-code">&gt; code</h3>
@@ -209,15 +209,15 @@ Failing scenarios:
 <pre><code>$ cucumberjs<span class="hljs-attribute">-browser</span> <span class="hljs-attribute">-o</span> test <span class="hljs-subst">--</span>tmpl template/testrunner<span class="hljs-built_in">.</span>html <span class="hljs-attribute">-f</span> ui
 </code></pre><p>We would see those same <span style="color:red;">failing</span> tests, but this time on the DOM.</p>
 <div style="width: 100%; overflow-x: scroll; background-color:#fff; text-align: center;">
-  <img src="http://custardbelly.com/blog/images/cucumberjs-browser-2.png" alt="cucumberjs in the browser, failing">
+  <img src="https://custardbelly.com/blog/images/cucumberjs-browser-2.png" alt="cucumberjs in the browser, failing">
 </div>
 
 <p>We have gone from failing on the command line to failing in the browser... isn&#39;t it glorious :)</p>
 <h2 id="automate-all-the-things">Automate all the things</h2>
-<p>We had <a href="http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">previously automated our testing</a> under the node-based environment; it was a simple as setting up a file watcher and issuing a command to run the <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> CLI tool on change.</p>
+<p>We had <a href="https://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">previously automated our testing</a> under the node-based environment; it was a simple as setting up a file watcher and issuing a command to run the <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> CLI tool on change.</p>
 <p>Our process has now become a little more involved, but not anything too complex (<em>thanks to the wonderful <a href="https://www.npmjs.org/">npm</a> community!</em>) that an automated build and test procedure couldn&#39;t be implemented. The only difference is that feedback will now reside in the DOM and/or Console of a browser - so instead of coding in an editor and watching it fail on the command line, we are now going to need to focus on failures reported in the browser as we TDD.</p>
 <h3 id="watch-script">watch script</h3>
-<p>Just as we had done in a <a href="http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">previous article</a>, we are going to create a new script that will essentially do the following:</p>
+<p>Just as we had done in a <a href="https://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">previous article</a>, we are going to create a new script that will essentially do the following:</p>
 <ol>
 <li>start a livereload server</li>
 <li>start a local server to serve the testrunner</li>
@@ -855,7 +855,7 @@ var application = {
 <span class="hljs-keyword">...</span>
 </code></pre><p>In adding a call to <code>list.add()</code> in the button handler within we just defined an update to the view, we bring ourselves to full <span style="color: green;">green</span>!</p>
 <div style="width: 100%; overflow-x: scroll; background-color:#fff; text-align: center;">
-  <img src="http://custardbelly.com/blog/images/cucumberjs-browser-3.png" alt="cucumberjs in the browser, passing">
+  <img src="https://custardbelly.com/blog/images/cucumberjs-browser-3.png" alt="cucumberjs in the browser, passing">
 </div>
 
 <h2 id="considerations">Considerations</h2>
@@ -873,17 +873,17 @@ var application = {
 <p>Source for examples related to this post can be found in the <a href="https://github.com/bustardcelly/cucumberjs-examples/tree/0.5.0.post">0.5.0.post tag on my Github account</a>.</p>
 <h2 id="to-come">To Come</h2>
 <p>There are a few extra productivity tidbits I have picked up while working with the wondeful <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> tool in developing several applications for both the web and server.</p>
-<p>Who knows... I have had a blast going through the articles in this series demonstrating TDD using the BDD tool, <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. I might just continue to evolve the example to a fully-functional application just as I had done in the <a href="http://custardbelly.com/blog/blog-pages/category/grocery-ls.html">Making of a Test-Driven Grocery List Application</a> series which focused on the <a href="http://jasmine.github.io/2.0/introduction.html">Jasmine</a> library.</p>
+<p>Who knows... I have had a blast going through the articles in this series demonstrating TDD using the BDD tool, <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. I might just continue to evolve the example to a fully-functional application just as I had done in the <a href="https://custardbelly.com/blog/blog-pages/category/grocery-ls.html">Making of a Test-Driven Grocery List Application</a> series which focused on the <a href="http://jasmine.github.io/2.0/introduction.html">Jasmine</a> library.</p>
 <p>Additionally, I am invested in the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> I created during (and as a result) of this series and hope to write some more articles on its structure, usage and any additions/fixes that are made and I welcome you to help me in making <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> a great tool in being able run your specs in a real browser environment without having to change your current workflow in defining <strong>Features</strong>, <strong>Step Definitions</strong> and support files.</p>
 <p>Cheers!</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2014/02/18/cucumberjs-testling/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2011/07/15/flex-4-5-hidden-additions/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -894,7 +894,7 @@ var application = {
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html";
         window.disqus_title="BDD in JavaScript V: CucumberJS and The Browser, II";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

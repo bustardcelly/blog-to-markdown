@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jQuery Mobile + CouchDB: Part 4 – Editing Documents</title>
   </head>
   <body>
@@ -58,10 +58,10 @@
     </p>
   </div>
   <section>
-    <p>In the <a href="http://custardbelly.com/blog/?p=297">previous post</a>, I addressed using templates to generate the <a href="http://jquerymobile.com/">jQuery Mobile</a> external pages. Though it addressed a fundamental (imo) part of serving up <strong>HTML</strong> from the <a href="http://couchdb.apache.org/">CouchDB</a> instance and had a few nice tricks for <a href="http://jquerymobile.com/">jQuery Mobile</a>, it essentially was organization and cleanup so I could move forward in developing the application without it getting to cluttered for my development and workflow.</p>
-<p>In this article, I am going to take the templating structure established in the <a href="http://custardbelly.com/blog/?p=297">previous post</a> and add another external page to the<a href="http://jquerymobile.com/"> jQuery Mobile</a> application – one in which I will be able to edit the document served up from the <a href="http://couchdb.apache.org/">CouchDB</a> database. Along with this, I’ll discuss assigning event handlers to <strong>DOM</strong> elements using <a href="http://jquery.com/">jQuery</a>, adding buttons to footers and headers, and clearing external <a href="http://jquerymobile.com/">jQuery Mobile</a> pages from cache to ensure a user is looking at the most recent changes to a document.</p>
+    <p>In the <a href="https://custardbelly.com/blog/?p=297">previous post</a>, I addressed using templates to generate the <a href="http://jquerymobile.com/">jQuery Mobile</a> external pages. Though it addressed a fundamental (imo) part of serving up <strong>HTML</strong> from the <a href="http://couchdb.apache.org/">CouchDB</a> instance and had a few nice tricks for <a href="http://jquerymobile.com/">jQuery Mobile</a>, it essentially was organization and cleanup so I could move forward in developing the application without it getting to cluttered for my development and workflow.</p>
+<p>In this article, I am going to take the templating structure established in the <a href="https://custardbelly.com/blog/?p=297">previous post</a> and add another external page to the<a href="http://jquerymobile.com/"> jQuery Mobile</a> application – one in which I will be able to edit the document served up from the <a href="http://couchdb.apache.org/">CouchDB</a> database. Along with this, I’ll discuss assigning event handlers to <strong>DOM</strong> elements using <a href="http://jquery.com/">jQuery</a>, adding buttons to footers and headers, and clearing external <a href="http://jquerymobile.com/">jQuery Mobile</a> pages from cache to ensure a user is looking at the most recent changes to a document.</p>
 <h2 id="edit-template">Edit Template</h2>
-<p>In the <a href="http://custardbelly.com/blog/?p=297">previous post</a>, we moved from returning <strong>HTML</strong> from <a href="http://couchdb.apache.org/">CouchDB</a> using a <strong>show function</strong> and string manipulation to moving mark-up over to a <strong>template</strong> and utilizing <a href="https://github.com/janl/mustache.js">Mustache</a> to render the served up <strong>jQuery Mobile</strong> external page. We are going to use the same technique to deliver another page that will allow a user to edit a target <strong>CouchDB</strong> document, with the option to either cancel or submit their changes.</p>
+<p>In the <a href="https://custardbelly.com/blog/?p=297">previous post</a>, we moved from returning <strong>HTML</strong> from <a href="http://couchdb.apache.org/">CouchDB</a> using a <strong>show function</strong> and string manipulation to moving mark-up over to a <strong>template</strong> and utilizing <a href="https://github.com/janl/mustache.js">Mustache</a> to render the served up <strong>jQuery Mobile</strong> external page. We are going to use the same technique to deliver another page that will allow a user to edit a target <strong>CouchDB</strong> document, with the option to either cancel or submit their changes.</p>
 <p>Open up your favorite text editor, add the following snippet and save the file as <em>albumedit.html</em> in the <em>/templates</em> directory of your <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> (eg. <em>/Documents/workspace/custardbelly/couchdb/albums/templates/albumedit.html</em>):</p>
 <p><em>/templates/albumedit.html</em></p>
 <pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-role</span>=<span class="hljs-value">"page"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"albumedit"</span> <span class="hljs-attribute">data-nobackbtn</span>=<span class="hljs-value">"true"</span>&gt;</span>
@@ -220,7 +220,7 @@
 <pre><code><span class="xml"></span><span class="hljs-expression">{{&gt;<span class="hljs-variable">scripts</span>}}</span><span class="xml"></span>
 </code></pre><p>… and let’s dive into creating our <strong>show function</strong> for editable album pages.</p>
 <h2 id="edit-show-function">Edit Show Function</h2>
-<p>If you have been following along with the <a href="http://custardbelly.com/blog/?p=297">previous post</a>, you will remember that we removed the string-manipulated mark-up from the <strong>show function</strong> for the <em>album view</em> page and replaced it with <a href="https://github.com/janl/mustache.js">Mustache</a> templating. The <strong>show function</strong> we will create for the <em>album edit</em> page will largely look the same as the one created for the <em>album view</em> page. In fact, the only difference will be the target template and partial include.</p>
+<p>If you have been following along with the <a href="https://custardbelly.com/blog/?p=297">previous post</a>, you will remember that we removed the string-manipulated mark-up from the <strong>show function</strong> for the <em>album view</em> page and replaced it with <a href="https://github.com/janl/mustache.js">Mustache</a> templating. The <strong>show function</strong> we will create for the <em>album edit</em> page will largely look the same as the one created for the <em>album view</em> page. In fact, the only difference will be the target template and partial include.</p>
 <p>Open up your favorite text editor, create a new file, add the following snippet and save the file as <em>album-edit.js</em> in the <em>/shows</em> directory of your albums <a href="http://couchapp.org/page/index">couchapp</a> (eg. <em>/Documents/workspace/custardbelly/couchdb/albums/shows/album-edit.js</em>):</p>
 <p><em>/shows/album-edit.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(doc, req)</span> {</span>
@@ -248,11 +248,11 @@
 <p>Open up your favorite text editor and save the following snippet as <em>scripts.html</em> in <em>/templates/partials/albumedit</em>:</p>
 <p><em>/templates/partials/albumedit/scripts.html</em></p>
 <pre><code><span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"../../script/album-edit-page.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-</code></pre><p>If you have followed along with create the <strong>show function</strong>, template and partial for the <em>album view</em> page, this again will look similar. We are essentially loading an associated <strong>JavaScript</strong> file for the <em>album edit</em> page. As explained in the <a href="http://custardbelly.com/blog/?p=297">previous post</a>, the script could be included here and not redirected to a <strong>js</strong> file, but for my own organizational habits I create a separate <strong>JavaScript</strong> file and have it residing in the _/<em>attachments/script/</em> directory of my <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> (eg. _/Documents/workspace/custardbelly/couchdb/albums/<br><em>attachments/script/album-edit-page.js</em>).</p>
+</code></pre><p>If you have followed along with create the <strong>show function</strong>, template and partial for the <em>album view</em> page, this again will look similar. We are essentially loading an associated <strong>JavaScript</strong> file for the <em>album edit</em> page. As explained in the <a href="https://custardbelly.com/blog/?p=297">previous post</a>, the script could be included here and not redirected to a <strong>js</strong> file, but for my own organizational habits I create a separate <strong>JavaScript</strong> file and have it residing in the _/<em>attachments/script/</em> directory of my <strong>albums</strong> <a href="http://couchapp.org/page/index">couchapp</a> (eg. _/Documents/workspace/custardbelly/couchdb/albums/<br><em>attachments/script/album-edit-page.js</em>).</p>
 <h2 id="album-edit-page-js">album-edit-page.js</h2>
 <p>If we think about the role of our <em>album edit</em> page in the scheme of the application, we want to present the user with the ability to edit the album document from the <a href="http://couchdb.apache.org/">CouchDB</a> <strong>albums</strong> database. The form will initially be filled with the latest editable values and the user has the ability to either submit changes or cancel any pending changes. A <strong>Cancel</strong> action will return the fields back to the original values and return the user to the <em>album view</em> page. To ensure that the user is presented with the latest changes to the document from the database, we will also need to clear the page from the page cache just as we have done with the <em>album view</em> page. With these requirements in mind, let’s start creating the associated script for the album edit <a href="http://jquerymobile.com/">jQuery Mobile</a> page served up from the <em>album-edit</em> <strong>show function</strong>.</p>
 <h3 id="albumeditpagecontroller">AlbumEditPageController</h3>
-<p>We’ll start by creating a quasi-view-controller for the <em>album edit</em> page in the similar fashion as the one used for the <em>album view</em> page (created in the <a href="http://custardbelly.com/blog/?p=297">previous post</a>). Initially, it will handle recognizing once the <a href="http://jquerymobile.com/">jQuery Mobile</a> page <strong>div</strong> is shown and remove it from the page cache once it is hidden (by navigating away from the page).</p>
+<p>We’ll start by creating a quasi-view-controller for the <em>album edit</em> page in the similar fashion as the one used for the <em>album view</em> page (created in the <a href="https://custardbelly.com/blog/?p=297">previous post</a>). Initially, it will handle recognizing once the <a href="http://jquerymobile.com/">jQuery Mobile</a> page <strong>div</strong> is shown and remove it from the page cache once it is hidden (by navigating away from the page).</p>
 <p>Open your favorite text editor and save the following snippet as <em>album-edit-page.js</em> in the _/<em>attachments/script/</em> directory:</p>
 <p>_/<em>attachments/script/album-edit-page.js</em></p>
 <pre><code><span class="hljs-keyword">var</span> AlbumEditPageController = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
@@ -992,7 +992,7 @@ $().ready( handleEditPageReady )
 </code></pre><p>In <em>navigateToAlbumPage()</em> we use <strong>$.mobile</strong>.<em>changePage()</em> to navigate the user to the external <em>album view</em> page using the <strong>show function</strong> of our <a href="http://couchdb.apache.org/">CouchDB</a> application based on the <strong>_id</strong> of the target document that is loaded in the <em>album edit</em> page.</p>
 <p>That should be it… aside from one thing. Although (once we push our changes) we can access the page using the <strong>#_show/album-edit/${id}</strong> location, as the application currently stands, there is no way to access the <em>album edit</em> page from any other page in the application. To remedy that, we will make some modifications to the <em>album.html</em> template and the <em>album-page.js</em> script to navigate the user to the <em>album edit</em> page.</p>
 <h2 id="accessing-the-album-edit-page">Accessing the Album Edit Page</h2>
-<p>I am going to assume that you have been following along with <a href="http://custardbelly.com/blog/?p=297">previous posts</a> here and that you already have the <em>/templates/album.html</em> and _/<em>attachments/script/album-page.js</em> files. We are going to make modifications to them to include an <strong>edit button</strong> in the <em>album view</em> page and assign a <em>click</em> handler to navigate to the <em>album edit</em> page.</p>
+<p>I am going to assume that you have been following along with <a href="https://custardbelly.com/blog/?p=297">previous posts</a> here and that you already have the <em>/templates/album.html</em> and _/<em>attachments/script/album-page.js</em> files. We are going to make modifications to them to include an <strong>edit button</strong> in the <em>album view</em> page and assign a <em>click</em> handler to navigate to the <em>album edit</em> page.</p>
 <h3 id="album-html">album.html</h3>
 <p>Open up the <em>/templates/album.html</em> file in your favorite text editor and save the following modifications:</p>
 <p><em>/templates/album.html</em></p>
@@ -1129,34 +1129,34 @@ $().ready( handlePageViewReady );
 <h2 id="deployment">Deployment</h2>
 <p>Our <strong>Albums</strong> application has been modified to allow a user to modify properties of an <strong>album document</strong> from an <em>album edit</em> page. That page can be accessed by clicking an <strong>Edit</strong> button from the <em>album view</em> page accessible from a selection of an album from the list presented on the landing <em>index.html</em>. With these modifications saved, we can now push to the <a href="http://couchdb.apache.org/">CouchDB</a> database using the <a href="http://couchapp.org/page/index">couchapp</a> utility. Open a terminal and navigate to the directory where you create your <strong>CouchApp</strong> applications (for me that is <em>/Documents/workspace/custardbelly/couchdb</em> and in there i have a folder named <em>albums</em> which is the <strong>CouchApp</strong> application directory for these examples). Enter the following command to push the changes to the <strong>CouchDB</strong> instance:</p>
 <pre><code>couchapp push albums http:<span class="hljs-comment">//127.0.0.1:5984/albums</span>
-</code></pre><p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>, click on an album from the list and select to edit that document. From the <em>album edit</em> page you are able to either cancel any edits or submit the changes to the target <strong>album document</strong>. What a thing of beauty <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Let’s take a look at the current state of the application:</p>
+</code></pre><p>If all was successful and you now go to <a href="http://127.0.0.1:5984/albums/_design/albums/index.html">http://127.0.0.1:5984/albums/_design/albums/index.html</a>, click on an album from the list and select to edit that document. From the <em>album edit</em> page you are able to either cancel any edits or submit the changes to the target <strong>album document</strong>. What a thing of beauty <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Let’s take a look at the current state of the application:</p>
 <p><em>index.html (aka #home)</em>:<br><img src="http://www.custardbelly.com/blog/images/couchapp_six.png" alt="index.html"></p>
 <p><em>album view page</em>:<br><img src="http://www.custardbelly.com/blog/images/couchapp_seven.png" alt="album view page"></p>
 <p><em>album edit page</em>:<br><img src="http://www.custardbelly.com/blog/images/couchapp_eight.png" alt="album edit page"></p>
 <h2 id="conclusion">Conclusion</h2>
-<p>This post got a lot longer than I had anticipated… which just goes to show what a wind-bag i am <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> All joking aside, I think we covered some good ground, especially about saving modifications to a document back to the <a href="http://couchdb.apache.org/">CouchDB</a> database. We also covered, again, how to monitor pages so as to remove them from cache and ensure that the user is always presented with the latest document information. We also delved into assigning event listeners to button elements. All good fun… well, hopefully, it was to you.</p>
+<p>This post got a lot longer than I had anticipated… which just goes to show what a wind-bag i am <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> All joking aside, I think we covered some good ground, especially about saving modifications to a document back to the <a href="http://couchdb.apache.org/">CouchDB</a> database. We also covered, again, how to monitor pages so as to remove them from cache and ensure that the user is always presented with the latest document information. We also delved into assigning event listeners to button elements. All good fun… well, hopefully, it was to you.</p>
 <p><em>[Note] This post was written against the following software versions:</em><br><strong>CouchDB </strong>– 1.0.1<br><strong>CouchApp</strong> – 0.7.2<br><strong>jQuery</strong> – 1.4.4<br><strong>jQuery Mobile</strong> – 1.0a2<br><em>If you have found this post and any piece has moved forward, hopefully the examples are still viable/useful. I will not be updating the examples in this post in parellel with updates to any of the previously mentioned software, unless explicitly noted.</em></p>
 <p><strong>Articles in this series:</strong></p>
 <ol>
-<li><a href="http://custardbelly.com/blog/?p=244">Getting Started</a></li>
-<li><a href="http://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
-<li><a href="http://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
-<li><a href="http://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
-<li><a href="http://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
+<li><a href="https://custardbelly.com/blog/?p=244">Getting Started</a></li>
+<li><a href="https://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
+<li><a href="https://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
+<li><a href="https://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
+<li><a href="https://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
 </ol>
-<p><a href="http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="http://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="http://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
+<p><a href="https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="https://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="https://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
 
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2011/01/12/jquery-mobile-couchdb-part-5-adding-documents/index.html">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2011/02/16/as3flobile-scrollviewport-and-flex-4-containers-from-yeah-to-eh/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2010/10/25/as3flobile-update-now-using-as3-signals/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2010/11/17/flex-hero-pausing-session-restoration/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -1167,7 +1167,7 @@ $().ready( handlePageViewReady );
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2011/01/04/jquery-mobile-couchdb-part-4-editing-documents/index.html";
         window.disqus_title="jQuery Mobile + CouchDB: Part 4 – Editing Documents";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

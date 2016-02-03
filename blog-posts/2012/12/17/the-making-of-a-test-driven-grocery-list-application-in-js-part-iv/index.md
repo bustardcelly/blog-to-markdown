@@ -1,17 +1,17 @@
 ---
 title: 'The Making of a Test-Driven Grocery List Application in JS: Part IV'
-url: 'http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv/'
+url: 'https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv/'
 author:
   name: 'todd anderson'
 date: '2012-12-17'
 ---
 
-_This is the fourth installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
+_This is the fourth installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
 —
 
 # Introduction
 
-In the [previous](http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/) article we developed a new feature for the **Grocery List** application: _Mark Off Item_. In the process of doing so, or at least when we went from the tests to implementation, we added more responsibility to the _list-controller_ as it pertained to individual view and model items.
+In the [previous](https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/) article we developed a new feature for the **Grocery List** application: _Mark Off Item_. In the process of doing so, or at least when we went from the tests to implementation, we added more responsibility to the _list-controller_ as it pertained to individual view and model items.
 
 In this article, we are going to refactor out that responsibility into its own _list-item-controller_ that will be responsible for managing the relationship of a list item view to a single _grocery-ls-item_ model.
 
@@ -45,7 +45,7 @@ These declarations and management of view will be moved to the _list-item-contro
 
 We currently created specs for _Add Item_ and _Mark Off Item_ features. These were a little high-level in that they described features using the BDD syntax of [Jasmine](http://pivotal.github.com/jasmine/) but did involve tests around how to interact with the _list-controller_ API; so they do involve integration to some respect – we kind of ignore the whole UI and User Interaction aspect within the tests. 
 
-Now here is where I have an internal struggle with writing specs: should the tests we need for the _list-item-controller_ be added to these specs? Or should a new spec focused on _list-item-controller_ API and usability be born? I ask, because from outside-looking-in, the creation, editability and mark-off of an item will still be feasible through the _list-controller_ and to any other third parties – that API provides a facade to modifying a grocery list. So, the current specs we have serve as a nice example of how to interact with the application from the outside… and if they are passing, we know that from higher-level things _should_* work ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+Now here is where I have an internal struggle with writing specs: should the tests we need for the _list-item-controller_ be added to these specs? Or should a new spec focused on _list-item-controller_ API and usability be born? I ask, because from outside-looking-in, the creation, editability and mark-off of an item will still be feasible through the _list-controller_ and to any other third parties – that API provides a facade to modifying a grocery list. So, the current specs we have serve as a nice example of how to interact with the application from the outside… and if they are passing, we know that from higher-level things _should_* work ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 When we get down to the implementation of the _list-item-controller_, from a design perspective we know that a dependency will be introduced: _list-controller_ will have n-number of _list-item-controller_ instances, and will be responsible for the creation and maintenance of each _list-item-controller_. The state and _grocery-ls-item_ model maintenance which we established in the previous articles as the responsibility of the _list-controller_ will, as well, become the responsibility of the _list-item-controller_.
 
@@ -157,13 +157,13 @@ The object declared – _itemControllerFactory_ – is a factory instance that w
 
 We have designed the _state_ property a little differently than you may have seen before, at least in this series. We declared the implicit getter/setters so as to keep track of state internally and dispatch an event of _’state-change’_. By ‘_internally_‘, I mean I used an [IIFE](http://benalman.com/news/2010/11/immediately-invoked-function-expression/) to enclose a ‘_private_‘ member storing state.
 
-If you know of event-driven design – whether or not you are familiar with [jQuery Events](http://api.jquery.com/category/Events/?rdfrom=http%3A%2F%2Fdocs.jquery.com%2Fmw%2Findex.php%3Ftitle%3DAPI%2F1.3%2FEvents%26redirect%3Dno), which the _state_ property employs – then this will look familiar. Essentially, we want to allow any client who wants to know about the change of state to a _list-item-controller_ instance to be notified through an event of _’state-change’_. This will become more apparent later on in development, but just keep in mind that it is the responsibility of the _list-controller_ to maintain n-number of _list-item-controller_s; and part of that maintenance is being aware of each _list-item-controller_’s state – and since binding is not inherently available in JavaScript, and I don’t want to introduce any new libraries that could handle binding, listening on events is an easy way to go about tracking state. _You feel adventurous enough, we can build a binding mechanism on top of this event system… just make sure it’s got tests ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) _
+If you know of event-driven design – whether or not you are familiar with [jQuery Events](http://api.jquery.com/category/Events/?rdfrom=http%3A%2F%2Fdocs.jquery.com%2Fmw%2Findex.php%3Ftitle%3DAPI%2F1.3%2FEvents%26redirect%3Dno), which the _state_ property employs – then this will look familiar. Essentially, we want to allow any client who wants to know about the change of state to a _list-item-controller_ instance to be notified through an event of _’state-change’_. This will become more apparent later on in development, but just keep in mind that it is the responsibility of the _list-controller_ to maintain n-number of _list-item-controller_s; and part of that maintenance is being aware of each _list-item-controller_’s state – and since binding is not inherently available in JavaScript, and I don’t want to introduce any new libraries that could handle binding, listening on events is an easy way to go about tracking state. _You feel adventurous enough, we can build a binding mechanism on top of this event system… just make sure it’s got tests ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) _
 
 ## Tests
 
 Before we begin creating the tests for the _list-item-controller_, you may be wondering where the feature stories and scenarios are. We could definitely define those, however – and of course, I can always be wrong – I feel those are more business-facing… well, stories at least. They are used to define some type of behaviour that is accepted as part of the software, with scenarios describing the various outcomes of a behaviour. Still valid for the case in hand of integrating the _list-item-controller_, but I tend to think this closer to testing on the implementation of behaviour. It’s a gray area to me, as well, if this all sounds confusing – I invite someone to step in and either clarify my understanding to set me straight. 
 
-Basically, our goal here is to verify the design and implementation of _list-item-controller_. If done properly this will pass, as well as the specs for the _Add Item_ and _Mark Off Item_ features we created in [previous](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/) [articles](http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/).
+Basically, our goal here is to verify the design and implementation of _list-item-controller_. If done properly this will pass, as well as the specs for the _Add Item_ and _Mark Off Item_ features we created in [previous](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/) [articles](https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/).
 
 That said, let’s flesh out some tests that verify:
 
@@ -331,7 +331,7 @@ _/test/jasmine/specrunner.html_
     
     });
 
-![passing list-item-controller spec](http://custardbelly.com/blog/images/tdd_js/part_iv_1.png)
+![passing list-item-controller spec](https://custardbelly.com/blog/images/tdd_js/part_iv_1.png)
 
 ## list-item-controller implementation
 
@@ -649,7 +649,7 @@ Again, we are using an **IIFE**, and in this case to pass in a reference to the 
     
     var self = this;
 
-but that always makes me cry a little inside. Anyway, so we are listening on click of the uneditable view item in order to update value of the _marked_ property on the model and we have assigned a _blur_ handler on the input of the editable view item that updates the value of the _name_ property of the model and flips the state. Now we have to respond to those changes ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+but that always makes me cry a little inside. Anyway, so we are listening on click of the uneditable view item in order to update value of the _marked_ property on the model and we have assigned a _blur_ handler on the input of the editable view item that updates the value of the _name_ property of the model and flips the state. Now we have to respond to those changes ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 _/script/controller/list-item-controller.js_
     
@@ -1101,18 +1101,18 @@ _/script/model/grocery-ls-item.js_
     
     });
 
-The modification to _grocery-ls-item_ was perhaps our first introduction to writing failing tests due to a change in design prior to actually modifying the implementation. That feeling you’re feeling right now… that’s what makes this all worth it ![;)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif)
+The modification to _grocery-ls-item_ was perhaps our first introduction to writing failing tests due to a change in design prior to actually modifying the implementation. That feeling you’re feeling right now… that’s what makes this all worth it ![;)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_wink.gif)
 
-Anyway… hold on to that feeling until the next post, because we are not done and it will go away quickly… just kidding ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+Anyway… hold on to that feeling until the next post, because we are not done and it will go away quickly… just kidding ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 **Tagged**: 0.1.5 [https://github.com/bustardcelly/grocery-ls/tree/0.1.5](https://github.com/bustardcelly/grocery-ls/tree/0.1.5)
 
 ## Blinders
 
 If you were to run the tests again… they still pass!  
-![passing grocery-ls-item spec](http://custardbelly.com/blog/images/tdd_js/part_iv_2.png)
+![passing grocery-ls-item spec](https://custardbelly.com/blog/images/tdd_js/part_iv_2.png)
 
-That is because we have not changed _list-controller_ at all ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+That is because we have not changed _list-controller_ at all ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 Our _list-item-controller.spec.js_ is happily oblivious to our recent additions and modifications, and the tests we wrote previously for the _Add Item_ and _Mark Off Item_ features still pass. 
 
@@ -1136,15 +1136,15 @@ Before we just start chopping out and inserting code from _list-controller_, I w
 ## Post Series
 
 [grocery-ls github repo](https://github.com/bustardcelly/grocery-ls)  
-[Part I – Introduction](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i)  
-[Part II – Feature: Add Item](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii)  
-[Part III – Feature: Mark-Off Item](http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii)  
-[Part IV – Feature: List-Item-Controller](http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv)  
-[Part V – Feature: List-Controller Refactoring](http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/)  
-[Part VI – Back to Passing](http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/)  
-[Part VII – Remove Item](http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)  
-[Part VIII – Bug Fixing](http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)  
-[Part IX – Persistence](http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/)  
-[Part X – It Lives!](http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
+[Part I – Introduction](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i)  
+[Part II – Feature: Add Item](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii)  
+[Part III – Feature: Mark-Off Item](https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii)  
+[Part IV – Feature: List-Item-Controller](https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv)  
+[Part V – Feature: List-Controller Refactoring](https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/)  
+[Part VI – Back to Passing](https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/)  
+[Part VII – Remove Item](https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)  
+[Part VIII – Bug Fixing](https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)  
+[Part IX – Persistence](https://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/)  
+[Part X – It Lives!](https://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
 
-Posted in [AMD](http://custardbelly.com/blog/category/amd/), [JavaScript](http://custardbelly.com/blog/category/javascript/), [RequireJS](http://custardbelly.com/blog/category/requirejs/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/), [unit-testing](http://custardbelly.com/blog/category/unit-testing/).
+Posted in [AMD](https://custardbelly.com/blog/category/amd/), [JavaScript](https://custardbelly.com/blog/category/javascript/), [RequireJS](https://custardbelly.com/blog/category/requirejs/), [grocery-ls](https://custardbelly.com/blog/category/grocery-ls/), [jasmine](https://custardbelly.com/blog/category/jasmine/), [unit-testing](https://custardbelly.com/blog/category/unit-testing/).

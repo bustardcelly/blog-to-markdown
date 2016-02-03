@@ -1,6 +1,6 @@
 ---
 title: 'Back from MAX'
-url: 'http://custardbelly.com/blog/2008/11/23/back-from-max/'
+url: 'https://custardbelly.com/blog/2008/11/23/back-from-max/'
 author:
   name: 'todd anderson'
 date: '2008-11-23'
@@ -10,7 +10,7 @@ Just got back from [Adobe MAX](http://max.adobe.com/) and a sweet short vacation
 
 I was overjoyed to be able to sit on the Flex Architecture Face-Off panel with [Chafic Kazoun](http://rewindlife.com/), [Josh Noble](http://thefactoryfactory.com/wordpress/) and [Yakov Fain](http://flexblog.faratasystems.com/). They are amazing architects with strong beliefs and open ears. We had a pretty good turnout and the session ended up being sold out. Only noticed one person walk out, but as it turns out they were over-caffeinated…
 
-It was my first MAX and i didn’t know what to expect with the record-breaking attendance and my bundle of nerves. All said, i really enjoyed it and renewed my interest in the software platform that constantly evolves and inspires me to keep digging even after the workday is over. Of course it was centered around Adobe products, but i truly got the sense of it being a presentation rather than being force-fed. A lot of great things are on the horizon and even though i am a mark-up snob in a sense, i love the direction that the Flex platform is taking. Would have liked more ‘inspire’ sessions, but [Ryan Taylor](http://www.boostworthy.com/blog/), [Andre Michelle](http://blog.andre-michelle.com/) and [Mario Klingemann](http://www.quasimondo.com/) kept me wide-eyed and ready to go back to my room to code… although there always seemed to be free beer that blocked the exit ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+It was my first MAX and i didn’t know what to expect with the record-breaking attendance and my bundle of nerves. All said, i really enjoyed it and renewed my interest in the software platform that constantly evolves and inspires me to keep digging even after the workday is over. Of course it was centered around Adobe products, but i truly got the sense of it being a presentation rather than being force-fed. A lot of great things are on the horizon and even though i am a mark-up snob in a sense, i love the direction that the Flex platform is taking. Would have liked more ‘inspire’ sessions, but [Ryan Taylor](http://www.boostworthy.com/blog/), [Andre Michelle](http://blog.andre-michelle.com/) and [Mario Klingemann](http://www.quasimondo.com/) kept me wide-eyed and ready to go back to my room to code… although there always seemed to be free beer that blocked the exit ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 Adobe also sponsored a party on Tuesday night at the [de Young](http://www.famsf.org/deyoung/) and [Science Academy](http://www.calacademy.org/). I thought that these were venerable institutions in Golden Gate park, but it was dark and as I later found out after going with the missus again later in the week that the are relatively new. If you are in the SF area anytime soon, i highly recommend checking them out. That was a great night with two great museums and some really great friends… plus me and [Josh](http://thefactoryfactory.com/wordpress/) schooled some poor saps in Foosball… after i got schooled in NBA Jams by [Ash](http://www.razorberry.com/blog/) – rematch, all i’ll say.
 
@@ -24,4 +24,4 @@ Some people found me after our panel and had some questions about things i broug
 
 In any event, if you sat in on the panel, I would love to hear your thoughts – good, bad and ugly. Leave a comment… and bundle up, it’s cold here in boston.
 
-Posted in [Conferences](http://custardbelly.com/blog/category/conferences/), [Flex](http://custardbelly.com/blog/category/flex/), [Infrared5](http://custardbelly.com/blog/category/infrared5/), [Prana](http://custardbelly.com/blog/category/prana/).
+Posted in [Conferences](https://custardbelly.com/blog/category/conferences/), [Flex](https://custardbelly.com/blog/category/flex/), [Infrared5](https://custardbelly.com/blog/category/infrared5/), [Prana](https://custardbelly.com/blog/category/prana/).

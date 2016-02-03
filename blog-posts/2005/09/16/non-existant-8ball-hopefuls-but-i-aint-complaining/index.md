@@ -1,6 +1,6 @@
 ---
 title: 'non-existant 8ball hopefuls… but i ain’t complaining!'
-url: 'http://custardbelly.com/blog/2005/09/16/non-existant-8ball-hopefuls-but-i-aint-complaining/'
+url: 'https://custardbelly.com/blog/2005/09/16/non-existant-8ball-hopefuls-but-i-aint-complaining/'
 author:
   name: 'todd anderson'
 date: '2005-09-16'
@@ -20,4 +20,4 @@ I really wish that presented a check list of library items that have conflicting
 
 that said, these perform the same as before… nothing new here… and there are a lot of new things that need to be explored with Flash8!
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/), [Flash8](http://custardbelly.com/blog/category/flash8/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/), [Flash8](https://custardbelly.com/blog/category/flash8/).

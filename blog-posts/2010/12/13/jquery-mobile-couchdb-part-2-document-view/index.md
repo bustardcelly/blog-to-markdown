@@ -1,12 +1,12 @@
 ---
 title: 'jQuery Mobile + CouchDB: Part 2 – Document View'
-url: 'http://custardbelly.com/blog/2010/12/13/jquery-mobile-couchdb-part-2-document-view/'
+url: 'https://custardbelly.com/blog/2010/12/13/jquery-mobile-couchdb-part-2-document-view/'
 author:
   name: 'todd anderson'
 date: '2010-12-13'
 ---
 
-In the [previous post](http://custardbelly.com/blog/?p=244) for this series, I covered getting up and running with [jQuery Mobile](http://jquerymobile.com/) as a client-side application for a [CouchDB](http://couchdb.apache.org/) database. Along with examples for the **DHTML** documents, I also covered/talked about some great tools that help along with the workflow of creating a client-side application and working with a **CouchDB** instance. I am going to continue using those tools – mainly [CouchApp](http://couchapp.org/page/index) – and cover the differences between local and external jQuery Mobile pages and how to show a single document from the albums list. If you have not already, I recommend checking out the first part in this series: [jQuery Mobile + CouchDB: Part 1 – Getting Started](http://custardbelly.com/blog/?p=244). Some tools and directory structures are discussed in that post that will not be explained in this post.
+In the [previous post](https://custardbelly.com/blog/?p=244) for this series, I covered getting up and running with [jQuery Mobile](http://jquerymobile.com/) as a client-side application for a [CouchDB](http://couchdb.apache.org/) database. Along with examples for the **DHTML** documents, I also covered/talked about some great tools that help along with the workflow of creating a client-side application and working with a **CouchDB** instance. I am going to continue using those tools – mainly [CouchApp](http://couchapp.org/page/index) – and cover the differences between local and external jQuery Mobile pages and how to show a single document from the albums list. If you have not already, I recommend checking out the first part in this series: [jQuery Mobile + CouchDB: Part 1 – Getting Started](https://custardbelly.com/blog/?p=244). Some tools and directory structures are discussed in that post that will not be explained in this post.
 
 ## Introduction
 
@@ -620,7 +620,7 @@ This will invoke _openAlbum()_ prior to transitioning to the _albumview_ page, a
     
     }
 
-… nothing to unfamiliar… and nothing to pretty ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) . 
+… nothing to unfamiliar… and nothing to pretty ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) . 
 
 ### Deployment
 
@@ -824,11 +824,11 @@ If all was successful and you now go to [http://127.0.0.1:5984/albums/_design/al
 
 ![](http://www.custardbelly.com/blog/images/couchapp_five.png)
 
-I left the browser wide again so you can see the new **URL** for viewing a single _album_ document: [http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/](http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/)${doc._id}. Pretty neat. Now you can even copy that **#show** page **URL** and paste it in another window and you should be taken directly to that detail page. You may notice that we still get the back button in the upper left of the header. That is because of the hash (#) in the **URL** which the [jquery Mobile](http://jquerymobile.com/) framework interprets as being a page linked from another. So a false history. If you clicked **Back** from the page, it would not go to the _index.html_ page. A minor flaw in our design that we are going to let go for now ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) Hey, we just got all this neat stuff working… we’ll work out the kinks later. There’s more fun stuff to work on.
+I left the browser wide again so you can see the new **URL** for viewing a single _album_ document: [http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/](http://127.0.0.1:5984/albums/_design/albums/index.html#_show/album/)${doc._id}. Pretty neat. Now you can even copy that **#show** page **URL** and paste it in another window and you should be taken directly to that detail page. You may notice that we still get the back button in the upper left of the header. That is because of the hash (#) in the **URL** which the [jquery Mobile](http://jquerymobile.com/) framework interprets as being a page linked from another. So a false history. If you clicked **Back** from the page, it would not go to the _index.html_ page. A minor flaw in our design that we are going to let go for now ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) Hey, we just got all this neat stuff working… we’ll work out the kinks later. There’s more fun stuff to work on.
 
 ## Conclusion
 
-Well, i said the subsequent posts after the initial [Getting Started](http://custardbelly.com/blog/?p=244) would be shorter… i lied ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) In any event, we created a detail page for a single document and offloaded the page loading to an external [jquery Mobile](http://jquerymobile.com/) page utilizing the **show function** of the albums design. A nice solution with an ugly**URL** (we can address that later) that can be passed to other people so they can land on that single page without going through the whole application from the beginning. Since I prefer the external page solution, any continuing posts on this example will utilize the **show function** to serve, at least, the album detail page.
+Well, i said the subsequent posts after the initial [Getting Started](https://custardbelly.com/blog/?p=244) would be shorter… i lied ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) In any event, we created a detail page for a single document and offloaded the page loading to an external [jquery Mobile](http://jquerymobile.com/) page utilizing the **show function** of the albums design. A nice solution with an ugly**URL** (we can address that later) that can be passed to other people so they can land on that single page without going through the whole application from the beginning. Since I prefer the external page solution, any continuing posts on this example will utilize the **show function** to serve, at least, the album detail page.
 
 Now what if we wanted to edit the fields of that document… I am on the edge of my seat as i write this. Literally. Someone stacked a bunch of wrapping stuff on this chair and left me little room. I could have moved it, but i was just too excited to talk about forms…
 
@@ -841,15 +841,15 @@ _If you have found this post and any piece has moved forward, hopefully the exam
 
 **Articles in this series:**
 
-  1. [Getting Started](http://custardbelly.com/blog/?p=244)
-  2. [Displaying a page detail of a single album.](http://custardbelly.com/blog/?p=278)
-  3. [Templates and Mustache](http://custardbelly.com/blog/?p=297)
-  4. [Displaying an editable page of an album.](http://custardbelly.com/blog/?p=318)
-  5. [Creating and Adding an album document.](http://custardbelly.com/blog/?p=332)
-  6. [Deleting an album document](http://custardbelly.com/blog/?p=344)
-  7. [Authorization and Validation – Part 1](http://custardbelly.com/blog/?p=360)
-  8. [Authorization and Validation – Part 2](http://custardbelly.com/blog/?p=394)
+  1. [Getting Started](https://custardbelly.com/blog/?p=244)
+  2. [Displaying a page detail of a single album.](https://custardbelly.com/blog/?p=278)
+  3. [Templates and Mustache](https://custardbelly.com/blog/?p=297)
+  4. [Displaying an editable page of an album.](https://custardbelly.com/blog/?p=318)
+  5. [Creating and Adding an album document.](https://custardbelly.com/blog/?p=332)
+  6. [Deleting an album document](https://custardbelly.com/blog/?p=344)
+  7. [Authorization and Validation – Part 1](https://custardbelly.com/blog/?p=360)
+  8. [Authorization and Validation – Part 2](https://custardbelly.com/blog/?p=394)
 
-[Full source for albums couchapp here.](http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
+[Full source for albums couchapp here.](https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip)
 
-Posted in [CouchDB](http://custardbelly.com/blog/category/couchdb/), [jquery](http://custardbelly.com/blog/category/jquery/), [jquery-mobile](http://custardbelly.com/blog/category/jquery-mobile/).
+Posted in [CouchDB](https://custardbelly.com/blog/category/couchdb/), [jquery](https://custardbelly.com/blog/category/jquery/), [jquery-mobile](https://custardbelly.com/blog/category/jquery-mobile/).

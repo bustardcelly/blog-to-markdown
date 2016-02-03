@@ -1,12 +1,12 @@
 ---
 title: 'The Making of a Test-Driven Grocery List Application in JS: Part X'
-url: 'http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/'
+url: 'https://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/'
 author:
   name: 'todd anderson'
 date: '2013-03-06'
 ---
 
-_This is the tenth installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
+_This is the tenth installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
 —
 
 ## Introduction
@@ -70,7 +70,7 @@ _/test/jasmine/spec/list-controller.spec.js_
     });
 
 This simple first spec tells us that an array of items can be provided to the `list-controller` using `setItems()` and should be accessible by its collection. And we fail with no surprises:  
-![Failing on setItems of list-controller](http://custardbelly.com/blog/images/tdd_js/part_ix_17.png)
+![Failing on setItems of list-controller](https://custardbelly.com/blog/images/tdd_js/part_ix_17.png)
 
 ### list-controller modification
 
@@ -143,7 +143,7 @@ _/script/controller/list-controller.js_
     };
 
 Well, that was easy enough!  
-![Passing on setItems() of list-controller](http://custardbelly.com/blog/images/tdd_js/part_ix_18.png)
+![Passing on setItems() of list-controller](https://custardbelly.com/blog/images/tdd_js/part_ix_18.png)
 
 ### Tests
 
@@ -172,7 +172,7 @@ _/test/jasmine/spec/list-controller.spec.js_
     });
 
 This spec tells us that changes to an item should be notified through the `list-controller` – basically the work we had done previously in getting the `list-controller` to dispatch events related to its underlying collection so as to be captured by observing parties.  
-![Failing on async timeout of event from item](http://custardbelly.com/blog/images/tdd_js/part_ix_19.png)
+![Failing on async timeout of event from item](https://custardbelly.com/blog/images/tdd_js/part_ix_19.png)
 
 This test actually reveals some refactoring that is required within the `list-controller`. In essence, creating a new collection from the provided items in `setItems()` is not enough to have the application work as expected – each individual item needs to be managed by a `list-item-controller` which responds and notifies of changes accordingly. We had previously paired an item with a item controller within the `collection-change` event handler of the collection in `list-controller`:
 
@@ -397,7 +397,7 @@ _/script/controller/list-controller.js_
     }
 
 Now if we run the tests again:  
-![Passing on modifications to item management in list-controller](http://custardbelly.com/blog/images/tdd_js/part_ix_20.png)
+![Passing on modifications to item management in list-controller](https://custardbelly.com/blog/images/tdd_js/part_ix_20.png)
 
 Passing! 
 
@@ -427,7 +427,7 @@ This test ensures that the `list-controller` should still be responding to and n
 
 ### list-controller refactoring
 
-To save you some time in downloading more images, believe me when I tell you I just put us back in red ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) The reason being that dang `assignCollectionHandlers` [IIFE](http://benalman.com/news/2010/11/immediately-invoked-function-expression/). The collection that is created in `setItems()` is not being observed. The **IIFE** to assign events handlers is only run upon load of the module and only targets the collection instantiated in its declaration. In other words, any new collections will not be observed.
+To save you some time in downloading more images, believe me when I tell you I just put us back in red ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) The reason being that dang `assignCollectionHandlers` [IIFE](http://benalman.com/news/2010/11/immediately-invoked-function-expression/). The collection that is created in `setItems()` is not being observed. The **IIFE** to assign events handlers is only run upon load of the module and only targets the collection instantiated in its declaration. In other words, any new collections will not be observed.
 
 I say we move that **IIFE** out into its own expression:
 
@@ -552,7 +552,7 @@ _/script/controller/list-controller.js_
     return listController;
 
 With those changes we are still failing on the last spec we created, but more importantly we have not caused any other tests to fail!  
-![Still failing, but failing well!](http://custardbelly.com/blog/images/tdd_js/part_ix_21.png)
+![Still failing, but failing well!](https://custardbelly.com/blog/images/tdd_js/part_ix_21.png)
 
 Let’s get that last spec to pass:
 
@@ -577,7 +577,7 @@ _/script/controller/list-controller.js_
     }
 
 Hurrah!  
-![Passing again!](http://custardbelly.com/blog/images/tdd_js/part_ix_22.png)
+![Passing again!](https://custardbelly.com/blog/images/tdd_js/part_ix_22.png)
 
 Tagged **0.1.13**: [https://github.com/bustardcelly/grocery-ls/tree/0.1.13](https://github.com/bustardcelly/grocery-ls/tree/0.1.13)
 
@@ -677,7 +677,7 @@ Just a slight modification to the main file. We added `storage-service` as an in
 
 If we run the application now, we can add, mark-off, remove items from the list. Same as before, but now, if we refresh the page, items and their state a persisted!
 
-![Grocery list application](http://custardbelly.com/blog/images/tdd_js/part_ix_27.png)
+![Grocery list application](https://custardbelly.com/blog/images/tdd_js/part_ix_27.png)
 
 It may look a little different than your if you have been following along in the code. I added some nice styling and committed it to the repo.
 
@@ -685,7 +685,7 @@ Tagged **0.2.0** : [https://github.com/bustardcelly/grocery-ls/tree/0.2.0](https
 
 ## Conclusion
 
-We have completed our **Grocery List** application and have it fully tested (well, hopefully ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) ). We now have a grocery list that we can curate and is persisted in the browser. It should be noted that it is not persistent across browser**s**, plural – so make sure to open it in the same browser on your mobile device when creating the list and shopping. I am most likely going to whip up a little server to persist the list remotely, but am not going to document that in this series. It may end up in the [github repo](https://github.com/bustardcelly/grocery-ls) eventually, however, so keep an eye out.
+We have completed our **Grocery List** application and have it fully tested (well, hopefully ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) ). We now have a grocery list that we can curate and is persisted in the browser. It should be noted that it is not persistent across browser**s**, plural – so make sure to open it in the same browser on your mobile device when creating the list and shopping. I am most likely going to whip up a little server to persist the list remotely, but am not going to document that in this series. It may end up in the [github repo](https://github.com/bustardcelly/grocery-ls) eventually, however, so keep an eye out.
 
 Thanks for sticking around in this long series (_ten parts!_) of building an application by trying to adhere to **TDD**. I may have gone off course here and there, but I hope it was informative in any way.
 
@@ -709,15 +709,15 @@ Cheers!
 ## Post Series
 
 [grocery-ls github repo](https://github.com/bustardcelly/grocery-ls)  
-[Part I – Introduction](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i)  
-[Part II – Feature: Add Item](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii)  
-[Part III – Feature: Mark-Off Item](http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii)  
-[Part IV – Feature: List-Item-Controller](http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv)  
-[Part V – Feature: List-Controller Refactoring](http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/)  
-[Part VI – Back to Passing](http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/)  
-[Part VII – Remove Item](http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)  
-[Part VIII – Bug Fixing](http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)  
-[Part IX – Persistence](http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/)  
-[Part X – It Lives!](http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
+[Part I – Introduction](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i)  
+[Part II – Feature: Add Item](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii)  
+[Part III – Feature: Mark-Off Item](https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii)  
+[Part IV – Feature: List-Item-Controller](https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv)  
+[Part V – Feature: List-Controller Refactoring](https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/)  
+[Part VI – Back to Passing](https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/)  
+[Part VII – Remove Item](https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)  
+[Part VIII – Bug Fixing](https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)  
+[Part IX – Persistence](https://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/)  
+[Part X – It Lives!](https://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
 
-Posted in [AMD](http://custardbelly.com/blog/category/amd/), [JavaScript](http://custardbelly.com/blog/category/javascript/), [RequireJS](http://custardbelly.com/blog/category/requirejs/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/).
+Posted in [AMD](https://custardbelly.com/blog/category/amd/), [JavaScript](https://custardbelly.com/blog/category/javascript/), [RequireJS](https://custardbelly.com/blog/category/requirejs/), [grocery-ls](https://custardbelly.com/blog/category/grocery-ls/), [jasmine](https://custardbelly.com/blog/category/jasmine/).

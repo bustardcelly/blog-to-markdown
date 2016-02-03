@@ -1,6 +1,6 @@
 ---
 title: 'return class; = [type Function] ?'
-url: 'http://custardbelly.com/blog/2005/06/28/return-class-type-function/'
+url: 'https://custardbelly.com/blog/2005/06/28/return-class-type-function/'
 author:
   name: 'todd anderson'
 date: '2005-06-28'
@@ -96,4 +96,4 @@ Using this:
 Now this makes sense to me, since when you create an instance of a class you use new most of the time. But i guess i’m wondering why it would return [type Function] before, and not even [object Object], or something else. and if this is always true, can i not create a Singleton from here, or should i make a _CharacterSingletonManager_ class and **return __classList[ classNameStr].getInstance();** ?  
 The answer is probably simple and can be summed up in one line, and here i write a novel out of a question.. but oh well.
 
-Posted in [Flash](http://custardbelly.com/blog/category/flash/).
+Posted in [Flash](https://custardbelly.com/blog/category/flash/).

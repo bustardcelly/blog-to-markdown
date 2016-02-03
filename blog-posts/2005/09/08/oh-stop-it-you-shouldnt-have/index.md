@@ -1,6 +1,6 @@
 ---
 title: 'oh stop it… you shouldn’t have'
-url: 'http://custardbelly.com/blog/2005/09/08/oh-stop-it-you-shouldnt-have/'
+url: 'https://custardbelly.com/blog/2005/09/08/oh-stop-it-you-shouldnt-have/'
 author:
   name: 'Administrator'
 date: '2005-09-08'
@@ -12,4 +12,4 @@ i might keep the comments up for another day or two, just until my strut starts 
 
 [Edit 9-16-05(i have removed the wonderful comments... the rain today aggrevated the old leg-bender)]
 
-Posted in [General](http://custardbelly.com/blog/category/general/).
+Posted in [General](https://custardbelly.com/blog/category/general/).

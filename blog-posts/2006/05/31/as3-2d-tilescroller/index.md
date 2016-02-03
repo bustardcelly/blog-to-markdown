@@ -1,6 +1,6 @@
 ---
 title: 'AS3 2D Tilescroller'
-url: 'http://custardbelly.com/blog/2006/05/31/as3-2d-tilescroller/'
+url: 'https://custardbelly.com/blog/2006/05/31/as3-2d-tilescroller/'
 author:
   name: 'todd anderson'
 date: '2006-05-31'
@@ -18,4 +18,4 @@ They don’t move at all – instead they are offscreen and are updated based on
 
 In the coming days, i hope to strip out a little code and throw the source ( and maybe some drawings that will clear up my terrible explanation ) up here… just wanted to do a quick post for proof of concept.
 
-Posted in [AS3](http://custardbelly.com/blog/category/as3/), [Flash](http://custardbelly.com/blog/category/flash/).
+Posted in [AS3](https://custardbelly.com/blog/category/as3/), [Flash](https://custardbelly.com/blog/category/flash/).

@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - jQuery Mobile + CouchDB: Part 7.1 – Authorization and Validation</title>
   </head>
   <body>
@@ -58,7 +58,7 @@
     </p>
   </div>
   <section>
-    <p>In my <a href="http://custardbelly.com/blog/?p=344">previous article</a> I addressed deleting documents from the <strong>albums</strong> database within <a href="http://couchdb.apache.org/">CouchDB</a> using the <em>jquery.couch</em> plugin and hacked around <a href="http://jquerymobile.com/">jQuery Mobile</a> a bit to get an external page to act as a dialog without updating the hash location. All great stuff, and we ended off having an application that provided the basics when working with documents – <strong>C</strong>reate <strong>R</strong>ead <strong>U</strong>pdate and <strong>D</strong>elete. After that post, I decided it was high time to throw a wrench into the mix and lock down the <strong>admin party</strong> we have been having. It’s been a good run…</p>
+    <p>In my <a href="https://custardbelly.com/blog/?p=344">previous article</a> I addressed deleting documents from the <strong>albums</strong> database within <a href="http://couchdb.apache.org/">CouchDB</a> using the <em>jquery.couch</em> plugin and hacked around <a href="http://jquerymobile.com/">jQuery Mobile</a> a bit to get an external page to act as a dialog without updating the hash location. All great stuff, and we ended off having an application that provided the basics when working with documents – <strong>C</strong>reate <strong>R</strong>ead <strong>U</strong>pdate and <strong>D</strong>elete. After that post, I decided it was high time to throw a wrench into the mix and lock down the <strong>admin party</strong> we have been having. It’s been a good run…</p>
 <p><em>Wait… so what’s with the versioning of <strong>Part 7</strong> in the title?! Its a multipart article of an article series. Barring i don’t break the space-time continuum for breaking up an article into sections, introducing authorization and validation will be spread over a couple posts. There is a lot of information involving set-up and development, plus we will jump into some new concepts – such as <strong>jQuery widgets and plugins</strong> – that may be a little too much information to digest in a single article.</em></p>
 <p>In the first installment of this multi-part article I intend to address authorization and validation of our document operations so as to not let any old joey-bagadonuts hit the application and start adding, deleting and modifying our precious album list we have been painstakingly curating. If you have been following along, you may have noticed that we have thrown security and user-permitted actions out the window. This article won’t address the real breadth of security that your <a href="http://couchdb.apache.org/">CouchDB</a> instance should employ, but I will cover moving away from our <strong>admin party</strong> (anybody can do anything) and introduce the concept of user contexts, as well as how they can be used to validate operations requested for documents in the <strong>albums</strong> database of our <a href="http://couchdb.apache.org/">CouchDB</a> instance.</p>
 <h2 id="light-reading">Light Reading</h2>
@@ -105,7 +105,7 @@
 <p>When operations to a document are requested, <a href="http://couchdb.apache.org/">CouchDB</a> performs, or rather invokes, validation based on the presence of a <strong>validate_doc_update</strong> script in each _/<em>design</em> document of a database. If the script is not present, there is no validation and anyone (barring the security level assigned to the database) can do whatever they want. So we took <a href="http://couchdb.apache.org/">CouchDB</a> out of <strong>admin party</strong>, but that only puts restrictions on operations that require admin credentials once an <strong>admin</strong> is stored – operations like user creation, user role assignment, database creation, etc, essentially administrative tasks for your <a href="http://couchdb.apache.org/">CouchDB</a> instance. However, without a <strong>validate_doc_updates</strong> script in the _/<em>design</em> of our <strong>albums</strong> <a href="http://couchapp.org/page/index">CouchApp</a>, anyone can still update an <strong>album</strong> document however they see fit.</p>
 <p>Truthfully, i spend my days as a client-side architect/developer. So i can’t speak well enough about how <a href="http://couchdb.apache.org/">CouchDB</a> invokes the <strong>validate_doc_update</strong> and why we are allowed to use <strong>JavaScript</strong>. There is some type of interpreter that intercepts a create or update (/delete) operation and invokes the <strong>validate_update_doc</strong> script. If no exception is thrown from that script, it continues along with the operation. Easy concept to grasp and a beautiful design by the <a href="http://couchdb.apache.org/">CouchDB</a> team… someday i will dig more into how all this comes to happen…</p>
 <p>So, we can use good ol’ familiar <strong>JavaScript</strong> for our validation. When the <strong>validate_doc_update</strong> is invoked, it is passed two document objects – the “if-all-goes-well” new document and old document – and the <strong>user context</strong>. The <strong>user context</strong> object is representative of the current user logged into a session and has property values that can be used for validation on document operations.</p>
-<p>To keep you even further from creating the <strong>validate_update_doc</strong> <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> , let’s take a look at what is returned when you create a session:</p>
+<p>To keep you even further from creating the <strong>validate_update_doc</strong> <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> , let’s take a look at what is returned when you create a session:</p>
 <pre><code>&gt; curl http:<span class="hljs-comment">//toddanderson:6s0jo772c0kcnwg@127.0.0.1:5984/_session</span>
 
 &gt; {<span class="hljs-string">"ok"</span>:<span class="hljs-keyword">true</span>,<span class="hljs-string">"userCtx"</span>:{<span class="hljs-string">"name"</span>:<span class="hljs-string">"toddanderson"</span>,<span class="hljs-string">"roles"</span>:[<span class="hljs-string">"_admin"</span>,<span class="hljs-string">"admin"</span>]},<span class="hljs-string">"info"</span>:{<span class="hljs-string">"authentication_db"</span>:<span class="hljs-string">"_users"</span>,<span class="hljs-string">"authentication_handlers"</span>:[<span class="hljs-string">"oauth"</span>,<span class="hljs-string">"cookie"</span>,<span class="hljs-string">"default"</span>],<span class="hljs-string">"authenticated"</span>:<span class="hljs-string">"default"</span>}}
@@ -265,17 +265,17 @@ http://jquerymobile.com/http://jquerymobile.com/">jQuery Mobile</a> application 
 <p><em>[Note] This post was written against the following software versions:</em><br><strong>CouchDB </strong>– 1.0.1<br><strong>CouchApp</strong> – 0.7.2<br><strong>jQuery</strong> – 1.4.4<br><strong>jQuery Mobile</strong> – 1.0a2<br><em>If you have found this post and any piece has moved forward, hopefully the examples are still viable/useful. I will not be updating the examples in this post in parellel with updates to any of the previously mentioned software, unless explicitly noted.</em></p>
 <p><strong>Articles in this series:</strong></p>
 <ol>
-<li><a href="http://custardbelly.com/blog/?p=244">Getting Started</a></li>
-<li><a href="http://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
-<li><a href="http://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
-<li><a href="http://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
-<li><a href="http://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
-<li><a href="http://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
+<li><a href="https://custardbelly.com/blog/?p=244">Getting Started</a></li>
+<li><a href="https://custardbelly.com/blog/?p=278">Displaying a page detail of a single album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=297">Templates and Mustache</a></li>
+<li><a href="https://custardbelly.com/blog/?p=318">Displaying an editable page of an album.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=332">Creating and Adding an album document.</a></li>
+<li><a href="https://custardbelly.com/blog/?p=344">Deleting an album document</a></li>
+<li><a href="https://custardbelly.com/blog/?p=360">Authorization and Validation – Part 1</a></li>
+<li><a href="https://custardbelly.com/blog/?p=394">Authorization and Validation – Part 2</a></li>
 </ol>
-<p><a href="http://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="http://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="http://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
+<p><a href="https://custardbelly.com/downloads/couchapp/jqm_couchdb_albums.zip">Full source for albums couchapp here.</a></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/couchdb/">CouchDB</a>, <a href="https://custardbelly.com/blog/category/jquery/">jquery</a>, <a href="https://custardbelly.com/blog/category/jquery-mobile/">jquery-mobile</a>.</p>
 
   </section>
   <section class="navigation">
@@ -283,7 +283,7 @@ http://jquerymobile.com/http://jquerymobile.com/">jQuery Mobile</a> application 
         <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-2-authorization-and-validation/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2010/11/17/flex-hero-pausing-session-restoration/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2011/01/21/jquery-mobile-couchdb-part-6-deleting-documents/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -294,7 +294,7 @@ http://jquerymobile.com/http://jquerymobile.com/">jQuery Mobile</a> application 
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2011/03/04/jquery-mobile-couchdb-part-7-1-authorization-and-validation/index.html";
         window.disqus_title="jQuery Mobile + CouchDB: Part 7.1 – Authorization and Validation";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

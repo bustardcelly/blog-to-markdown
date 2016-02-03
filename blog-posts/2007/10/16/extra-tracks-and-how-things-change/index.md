@@ -1,6 +1,6 @@
 ---
 title: 'Extra tracks and how things change'
-url: 'http://custardbelly.com/blog/2007/10/16/extra-tracks-and-how-things-change/'
+url: 'https://custardbelly.com/blog/2007/10/16/extra-tracks-and-how-things-change/'
 author:
   name: 'todd anderson'
 date: '2007-10-16'
@@ -22,9 +22,9 @@ Anyway, I got to thinking… a) what happened to that suprise? is it that they s
 
 The answer to a) is probably yes and the fact that it was a fad. There was a time i couldn’t buy a CD without expecting an extra track hidden at the end, and i would spend my time hitting the seek button until i heard something. Was i disappointed if their was no extra track? Only if the rest of the album sucked and i felt i was suckered in by one song to buy it – looking at you Live. (remember this was a time before you could preview anything on the internet and it was a godsend if a record store had opened CDs you could pre-listen to…)
 
-The answer to b)… hmm. Don’t know. I am always tempted to say ’skip intro’. But i don’t know… that wasn’t really a treat most times ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)  
+The answer to b)… hmm. Don’t know. I am always tempted to say ’skip intro’. But i don’t know… that wasn’t really a treat most times ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)  
 And, aside from obvious design and nomenclature, i am wondering if there was something that was prevalent on applications or websites that you couldn’t get away from whether you were interested or not… kind of like how you can’t buy a decent glam album nowadays without it being remastered with more extra tracks than the original album had. Good and bad and leaves you wondering how long it will last and if you really care if it’s gone… but you’ll write a blog about it 10+ years fter the fact.
 
 I don’t know where i am going with this. Just rambling and looking at the crates of LP’s and stacks of CDs for something new to listen to…
 
-Posted in [General](http://custardbelly.com/blog/category/general/), [Music](http://custardbelly.com/blog/category/music/).
+Posted in [General](https://custardbelly.com/blog/category/general/), [Music](https://custardbelly.com/blog/category/music/).

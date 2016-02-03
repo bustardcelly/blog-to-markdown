@@ -1,17 +1,17 @@
 ---
 title: 'The Making of a Test-Driven Grocery List Application in JS: Part II'
-url: 'http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/'
+url: 'https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii/'
 author:
   name: 'todd anderson'
 date: '2012-11-26'
 ---
 
-_This is the second installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
+_This is the second installment in a series of building a Test-Driven Grocery List application using [Jasmine](http://pivotal.github.com/jasmine/) and [RequireJS](http://requirejs.org). To learn more about the intent and general concept of the series please visit [The Making of a Test-Driven Grocery List Application in JavaScript: Part I](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/)_  
 —
 
 # Introduction
 
-In the [previous article](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i), I covered the intent of developing a Test-Driven **Grocery List** application using [Jasmine](http://pivotal.github.com/jasmine/), the [BDD](http://dannorth.net/introducing-bdd/) testing framework for JavaScript.
+In the [previous article](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i), I covered the intent of developing a Test-Driven **Grocery List** application using [Jasmine](http://pivotal.github.com/jasmine/), the [BDD](http://dannorth.net/introducing-bdd/) testing framework for JavaScript.
 
 In this article, I want to address a single [User Story](http://en.wikipedia.org/wiki/User_story) with a couple scenarios, using language similar to that describe in [Dan Worth’s _Introducing BDD_ article](http://dannorth.net/introducing-bdd/), that will describe the specifications and expectations of one piece of the **Grocery List** application: adding an item.
 
@@ -61,9 +61,9 @@ What I do find interesting from just these basic scenarios is that it does revea
 
 #### design note
 
-It should be noted that I do prefer the design concept of [Supervising Presenter](http://martinfowler.com/eaaDev/SupervisingPresenter.html) and will employ it within the tests and application, so you are forewarned ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) If you are unfamiliar, a **Supervising Presenter** is knowledgable of the view and model and provides an API that allows for an outside party to affect each, but mostly in affecting the attributes on the model that are observed by the view. Consequently, it will also allow us to not worry to much about the view implementation and User-based events when resolving logical requirements. I don’t plan to incorporate any application framework that provides such a pattern, so a basic view controller (supervising presenter) will essentially be in charge of modifying the view and model in the **Grocery List** application that will be built. 
+It should be noted that I do prefer the design concept of [Supervising Presenter](http://martinfowler.com/eaaDev/SupervisingPresenter.html) and will employ it within the tests and application, so you are forewarned ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) If you are unfamiliar, a **Supervising Presenter** is knowledgable of the view and model and provides an API that allows for an outside party to affect each, but mostly in affecting the attributes on the model that are observed by the view. Consequently, it will also allow us to not worry to much about the view implementation and User-based events when resolving logical requirements. I don’t plan to incorporate any application framework that provides such a pattern, so a basic view controller (supervising presenter) will essentially be in charge of modifying the view and model in the **Grocery List** application that will be built. 
 
-Architecture, design patterns and the pros and cons of frameworks are things I am more than willing to discuss over beers ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) I just wanted to give you a heads up.
+Architecture, design patterns and the pros and cons of frameworks are things I am more than willing to discuss over beers ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) I just wanted to give you a heads up.
 
 ## Test
 
@@ -151,7 +151,7 @@ Here is an example of the **specrunner.html** from _/test/jasmine_ directory of 
     
     </html>
 
-In the spec runner, we have included the library scripts described previously in the [previous post](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i). One thing to note, is the use of [RequireJS](http://requirejs.org/). In order to support [AMD](https://github.com/amdjs/amdjs-api/wiki/AMD), we instruct **RequireJS** to load the **Jasmine** specs defined in JavaScript files prior to setting the environment and executing the specs. Normally, when not incorporating **RequireJS**, you would just add the specs as script tags in the head. An important part of using **RequireJS** is setting the proper paths in the configuration. This allows **RequireJS** to find the proper dependencies not only in the spec itself, but in any concrete implementations separate from the specs. In this example we have set the _baseURL_ to the root of the project directory and define the keyword “_spec_” as pointing to the **Jasmine** spec directory we have set up. If you checkout the [project from the repo](https://github.com/bustardcelly/grocery-ls), the directory structure and the **RequireJS** configuration paths hopefully will make things clearer.
+In the spec runner, we have included the library scripts described previously in the [previous post](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i). One thing to note, is the use of [RequireJS](http://requirejs.org/). In order to support [AMD](https://github.com/amdjs/amdjs-api/wiki/AMD), we instruct **RequireJS** to load the **Jasmine** specs defined in JavaScript files prior to setting the environment and executing the specs. Normally, when not incorporating **RequireJS**, you would just add the specs as script tags in the head. An important part of using **RequireJS** is setting the proper paths in the configuration. This allows **RequireJS** to find the proper dependencies not only in the spec itself, but in any concrete implementations separate from the specs. In this example we have set the _baseURL_ to the root of the project directory and define the keyword “_spec_” as pointing to the **Jasmine** spec directory we have set up. If you checkout the [project from the repo](https://github.com/bustardcelly/grocery-ls), the directory structure and the **RequireJS** configuration paths hopefully will make things clearer.
 
 That’s just a quick introduction to the spec runner. I may not discuss it further in later posts aside from appending specs to the _require()_ invocation. Without additional headless tooling (which may be covered later), when I run the tests I will simply load the spec runner in a browser.
 
@@ -384,7 +384,7 @@ In this specification, we are requesting to create and save a new item through t
 ## Passing
 
 If we ran the spec runner, we would see our specifications pass:  
-![new item passing spec](http://custardbelly.com/blog/images/jasmine_1.png)
+![new item passing spec](https://custardbelly.com/blog/images/jasmine_1.png)
 
 Whoopee! The following is the whole spec file:
 
@@ -752,7 +752,7 @@ Now is where, typically, as modifications to _list-controller_ are made in respo
 
 ### Usability
 
-Because I can’t leave well-enough alone, I want to hook up this functionality to User response ![:)](http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
+Because I can’t leave well-enough alone, I want to hook up this functionality to User response ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif)
 
 Available in the repo at the current revision up to this point (tagged [0.1.1](https://github.com/bustardcelly/grocery-ls/tree/0.1.1)), there is a main index file that I have not addressed in this post:
 
@@ -1022,7 +1022,7 @@ _/script/model/grocery-ls-item.js_
 
 The modifications to the _list-controller_ from it’s previous implementation mainly involve access and modification of the DOM in response to requests on its API. If we ran the [Jasmine](http://pivotal.github.com/jasmine/) spec we previously created – **newitem.spec.js** – it would still pass. If the main **index.html** file is loaded in a browser, you will be able to add an item by clicking the button and as long as you provide a name in the input field, it will be added to the list.
 
-![grocery list app version 0.1.2](http://custardbelly.com/blog/images/jasmine1_app.png)
+![grocery list app version 0.1.2](https://custardbelly.com/blog/images/jasmine1_app.png)
 
 We could (and perhaps some readers would say that I _should_ have) created more specs that defined the usability and expectations of DOM manipulation on response to API invocations on the _list-controller_. It is a valid point and I totally agree. At this point I don’t want to add noise with the user interface implementations in the specifications; the view implementation is subject to change and the API on the _list-controller_ currently supports the modification of the grocery list. We can be assured at the current moment that the _list-controller_ knows how to manage the list and we should not worry about what User impetus invokes the API.
 
@@ -1043,16 +1043,16 @@ Thanks for sticking around. I hope this series proves to be helpful in some way.
 ## Post Series
 
 [grocery-ls github repo](https://github.com/bustardcelly/grocery-ls)  
-[Part I – Introduction](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i)  
-[Part II – Feature: Add Item](http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii)  
-[Part III – Feature: Mark-Off Item](http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii)  
-[Part IV – Feature: List-Item-Controller](http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv)  
-[Part V – Feature: List-Controller Refactoring](http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/)  
-[Part VI – Back to Passing](http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/)  
-[Part VII – Remove Item](http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)  
-[Part VIII – Bug Fixing](http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)  
-[Part IX – Persistence](http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/)  
-[Part X – It Lives!](http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
+[Part I – Introduction](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i)  
+[Part II – Feature: Add Item](https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii)  
+[Part III – Feature: Mark-Off Item](https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii)  
+[Part IV – Feature: List-Item-Controller](https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv)  
+[Part V – Feature: List-Controller Refactoring](https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/)  
+[Part VI – Back to Passing](https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/)  
+[Part VII – Remove Item](https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/)  
+[Part VIII – Bug Fixing](https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/)  
+[Part IX – Persistence](https://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/)  
+[Part X – It Lives!](https://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/)
 
 ## Reference
 
@@ -1065,4 +1065,4 @@ Thanks for sticking around. I hope this series proves to be helpful in some way.
 [Sinon](http://sinonjs.org/)  
 [Jasmine.Async](https://github.com/derickbailey/jasmine.async)
 
-Posted in [JavaScript](http://custardbelly.com/blog/category/javascript/), [grocery-ls](http://custardbelly.com/blog/category/grocery-ls/), [jasmine](http://custardbelly.com/blog/category/jasmine/), [unit-testing](http://custardbelly.com/blog/category/unit-testing/).
+Posted in [JavaScript](https://custardbelly.com/blog/category/javascript/), [grocery-ls](https://custardbelly.com/blog/category/grocery-ls/), [jasmine](https://custardbelly.com/blog/category/jasmine/), [unit-testing](https://custardbelly.com/blog/category/unit-testing/).

@@ -4,7 +4,7 @@ author:
   name: 'todd anderson'
 date: '2014-02-10'
 ---
-In my [previous post](http://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html) in this series detailing how I use [CucumberJS](https://github.com/cucumber/cucumber-js), I addressed a few common build tools in JavaScript to automate the watching and running of tests. While beneficial to a proper agile workflow, I did not introduce any new concepts or development information directly associated with using CucumberJS, itself.
+In my [previous post](https://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html) in this series detailing how I use [CucumberJS](https://github.com/cucumber/cucumber-js), I addressed a few common build tools in JavaScript to automate the watching and running of tests. While beneficial to a proper agile workflow, I did not introduce any new concepts or development information directly associated with using CucumberJS, itself.
 
 In this article, I intend to take on a pretty meaty subject - running your cukes in the browser. It is a subject I have grappled with for some time and have tried different solutions, eventually [creating my own](https://github.com/bustardcelly/cucumberjs-browser). 
 
@@ -74,7 +74,7 @@ There are defaults for each of these options and you most likely will only reall
 If we were to run [cucumberjs-browser](https://github.com/bustardcelly/cucumberjs-browser) against the current work we have been doing in this series and then open any browser, we would be presented with something like the following:
 
 <div style="width: 100%; overflow-x: scroll; background-color:#fff; text-align: center;">
-  <img src="http://custardbelly.com/blog/images/cucumberjs-browser-1.png" alt="cucumberjs in the browser">
+  <img src="https://custardbelly.com/blog/images/cucumberjs-browser-1.png" alt="cucumberjs in the browser">
 </div>
 
 ## Conclusion

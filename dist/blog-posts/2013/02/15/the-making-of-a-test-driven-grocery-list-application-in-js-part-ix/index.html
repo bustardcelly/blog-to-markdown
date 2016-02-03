@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/style/main.css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
     <title>Todd Anderson - The Making of a Test-Driven Grocery List Application in JS: Part IX</title>
   </head>
   <body>
@@ -58,13 +58,13 @@
     </p>
   </div>
   <section>
-    <p><em>This is the ninth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
+    <p><em>This is the ninth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
 <h1 id="introduction">Introduction</h1>
-<p>In the <a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">previous article</a>, we pretty much wrapped up all the user-based functionality and ended with a working <strong>Grocery List</strong> application that we could start using. There is one little snag though… no persistance. If you made this gloriously elaborate list that detailed everything you needed at the store, then closed the browser and reopened it, the list was gone! That will not do.</p>
-<p>There are many factors and paradigms to consider in choosing the level of persistence when it comes to handling session and user based applications. Without introducing a discussion about authentication, when approaching the integration persistence you have to take into account system-based vs user-based persistence, client-side vs server-side storage, and – nowadays, more commonly – the cross pollination of the two: <a href="http://en.wikipedia.org/wiki/Occasionally_connected_computing">occasional-connectivity</a>. (<em>not to mention browser support in all this</em>) We won’t be getting into all of that <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> We’ll be using the <code>localStorage</code> of today’s modern browser.</p>
-<p>The intent of this article in the series is to implement client-side, browser-based persistence for the <strong>Grocery List</strong> application. It would be nice to store our list remotely so it can be accessed by all browsers on all devices, but I feel it would introduce too many new libraries, software and concepts to this series. I will most likely add it personally after this series is over, and I invite you to as well – keeping in mind to do it using TDD <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> The most I can offer at this point, is to keep the code we will write clean enough to support such future endeavours.</p>
+<p>In the <a href="https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">previous article</a>, we pretty much wrapped up all the user-based functionality and ended with a working <strong>Grocery List</strong> application that we could start using. There is one little snag though… no persistance. If you made this gloriously elaborate list that detailed everything you needed at the store, then closed the browser and reopened it, the list was gone! That will not do.</p>
+<p>There are many factors and paradigms to consider in choosing the level of persistence when it comes to handling session and user based applications. Without introducing a discussion about authentication, when approaching the integration persistence you have to take into account system-based vs user-based persistence, client-side vs server-side storage, and – nowadays, more commonly – the cross pollination of the two: <a href="http://en.wikipedia.org/wiki/Occasionally_connected_computing">occasional-connectivity</a>. (<em>not to mention browser support in all this</em>) We won’t be getting into all of that <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> We’ll be using the <code>localStorage</code> of today’s modern browser.</p>
+<p>The intent of this article in the series is to implement client-side, browser-based persistence for the <strong>Grocery List</strong> application. It would be nice to store our list remotely so it can be accessed by all browsers on all devices, but I feel it would introduce too many new libraries, software and concepts to this series. I will most likely add it personally after this series is over, and I invite you to as well – keeping in mind to do it using TDD <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> The most I can offer at this point, is to keep the code we will write clean enough to support such future endeavours.</p>
 <h1 id="what-tests-to-modify-to-get-us-there-">What Tests to Modify to Get Us There?</h1>
-<p>Good question. Let’s first think about what actions will prompt an update to the list in storage. Actually, if we look at the feature specs we have created throughout this series and separated out into the <code>/feature</code> directory itself, we pretty much have all the defined actions that will trigger an update to the stored list:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_1.png" alt="Spec listing"></p>
+<p>Good question. Let’s first think about what actions will prompt an update to the list in storage. Actually, if we look at the feature specs we have created throughout this series and separated out into the <code>/feature</code> directory itself, we pretty much have all the defined actions that will trigger an update to the stored list:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_1.png" alt="Spec listing"></p>
 <p>All of these features are a result from interacting with the <code>list-controller</code>. My first inkling is to add responsibility to the <code>list-controller</code> so that, along with the other operations it handles in list management, it communicates with a service layer to update the <strong>Grocery List</strong> in storage. However, I think that would add too much burden on the <code>list-controller</code> and, when taking into account that requirements around storage may change, the introduction of such complexity into the <code>list-controller</code> may quickly make our tests feel chaotic.</p>
 <p>As such, I propose that we should start off with the expectation that the <code>list-controller</code> will notify of its underlying collection having been modified, not only upon its change in length, but of the items within the collection, as well. We can then capture those events and forward them on to whichever service implementation we have without having to pass that dependency into the <code>list-controller</code> and burdening it with such communication.</p>
 <h2 id="new-expectation-for-add-item">New Expectation for Add Item</h2>
@@ -90,7 +90,7 @@
 
 });
 </code></pre><p>In creating this expectation, we have also begun to define the actual make-up of the event we intend to receive: the event type being <code>save-item</code> and the access of the <code>item</code> that was saved.</p>
-<p>Run it and we are red, as expected:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_2.png" alt="Failing test on add item event response"></p>
+<p>Run it and we are red, as expected:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_2.png" alt="Failing test on add item event response"></p>
 <p>Taking what we have defined as our expectation when an item is added, we’ll modify the list-controller to get this passing. First we’ll add a factory method to generate <code>save-item</code> events:</p>
 <p><em>/script/controller/list-controller.js</em></p>
 <pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createSaveEvent</span><span class="hljs-params">(item)</span> {</span>
@@ -111,7 +111,7 @@ rendererList<span class="hljs-preprocessor">.addItem</span>(itemController)<span
 $(listController)<span class="hljs-preprocessor">.trigger</span>(createSaveEvent(model))<span class="hljs-comment">;</span>
 
 itemController<span class="hljs-preprocessor">.state</span> = itemControllerFactory<span class="hljs-preprocessor">.state</span><span class="hljs-preprocessor">.EDITABLE</span><span class="hljs-comment">;</span>
-</code></pre><p>Back in business.<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_3.png" alt="Passing test on add item event response"></p>
+</code></pre><p>Back in business.<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_3.png" alt="Passing test on add item event response"></p>
 <h2 id="new-expectation-for-remove-item">New Expectation for Remove Item</h2>
 <p>Let’s quickly just do a similar modification to the <code>list-controller</code> with regards to the <em>Remove Item</em> feature. First we’ll append a spec in the <em>removeitem.spec</em> suite with an expectation of being notified on <code>remove-item</code>:</p>
 <p><em>/test/jasmine/spec/feature/removeitem.spec.js</em></p>
@@ -176,9 +176,9 @@ itemController<span class="hljs-preprocessor">.state</span> = itemControllerFact
   }
 
 <span class="hljs-keyword">break</span>;
-</code></pre><p>Run the tests, and we are back to passing:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_4.png" alt="Passing on removal event from list-controller"></p>
+</code></pre><p>Run the tests, and we are back to passing:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_4.png" alt="Passing on removal event from list-controller"></p>
 <h2 id="new-expectation-for-save-item">New Expectation for Save Item</h2>
-<p>Sort of repetitive, but we are on a roll… let’s go through the similar process to ensure that a notification for <code>save-item</code> is dispatched when the user has modified its name and committed it to the list – the <em>Save Item</em> feature we added in the <a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">last article</a>.</p>
+<p>Sort of repetitive, but we are on a roll… let’s go through the similar process to ensure that a notification for <code>save-item</code> is dispatched when the user has modified its name and committed it to the list – the <em>Save Item</em> feature we added in the <a href="https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">last article</a>.</p>
 <p><em>/test/jasmine/spec/feature/saveitem.spec.js</em></p>
 <pre><code>async.it(<span class="hljs-string">'should dispatch a save-item event'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
 
@@ -218,13 +218,13 @@ itemController<span class="hljs-preprocessor">.state</span> = itemControllerFact
   }</span>
 
 });
-</code></pre><p>Back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_5.png" alt="Passing on commital of item form list-item-controller"></p>
+</code></pre><p>Back to green!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_5.png" alt="Passing on commital of item form list-item-controller"></p>
 <p>The amount of those little dots just keeps growing. Makes you feel all warm inside. Cherish that, ’cause it will go away…</p>
 <h3 id="hold-up">Hold Up</h3>
 <p>Just stepping back, it may seem a little odd that we are calling <code>save-item</code> when we add and commit the item to the list; after all they are the same item, we do we need to notify on save multiple times? The reason being is that upon any modification to an item – including its existence – the store needs to be modified. We haven’t gotten into the service layer for storage yet, but it will be abstracted out that a response from save-item will be internally handled as whether to append the item (from add) or to update an item already existant (from commit). Until we get to that service layer implementation for <code>localStorage</code>, we’ll go about setting expectations of <code>save-item</code> notification on modification to an item.</p>
 <p>Which actually brings up a good point… what about marking off an item? We will need to notify on change of an item being marked off, as well.</p>
 <h2 id="new-expectation-for-mark-off-item">New Expectation for Mark-Off Item</h2>
-<p>We tackled the <em>Mark-Off Item</em> feature a <a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/">while back</a> in this series. Just a quick refresher on the story:</p>
+<p>We tackled the <em>Mark-Off Item</em> feature a <a href="https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii/">while back</a> in this series. Just a quick refresher on the story:</p>
 <p><em>// story</em><br>—<br><strong>Story</strong>: Item is marked off on grocery list</p>
 <p><strong>In order to</strong> remember what items have already made it to the cart<br><strong>As a</strong> grocery shopper<br><strong>I want to</strong> mark an item as being attained on the grocery list.<br>—</p>
 <p>We implemented the feature, and upon user press of the item while in non-edit mode, it toggles its <code>marked</code> property on the model and updates the UI to add or remove a <del>strikethrough</del> on the label.</p>
@@ -291,8 +291,8 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
   };
 
 }(<span class="hljs-keyword">this</span>)));
-</code></pre><p>Run the specrunner again…<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_5_fail.png" alt="We broke it"></p>
-<p>… and we broke it <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_sad.gif" alt=":("></p>
+</code></pre><p>Run the specrunner again…<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_5_fail.png" alt="We broke it"></p>
+<p>… and we broke it <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_sad.gif" alt=":("></p>
 <p>The reason for those X’s is due to the logic we have held in <code>list-controller</code> on save of an item: it checks it’s <code>name</code> property and removes it from the list if considered an invalid value – which an empty string is.</p>
 <p>I sense some modification to such logic in the future, but for now we can get the tests back to passing by providing a <code>name</code> property value to the created item in our mark-item spec:</p>
 <p>/tests/jasmine/spec/feature/markitem.spec.js</p>
@@ -303,7 +303,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
   item.name = <span class="hljs-string">'apples'</span>;
 
 });
-</code></pre><p><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_6.png" alt="Passing on model property update"></p>
+</code></pre><p><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_6.png" alt="Passing on model property update"></p>
 <p>We’re green!</p>
 <p>Tagged <strong>0.1.13</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.13">https://github.com/bustardcelly/grocery-ls/tree/0.1.13</a></p>
 <h3 id="settle-down">Settle Down</h3>
@@ -441,7 +441,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 })</span>;
 </code></pre><p>In the <code>beforeEach()</code>, we’re using anonymous stubs from <a href="http://sinonjs.org/">SinonJS</a>, which allow us to stub out methods that may not necessarily already exist on an object. I have used it previously in this series, but we’ll be using it pretty much exclusively while we stub out the API for the <code>storage-service</code>.</p>
 <p>Staying true to our idea that the service will provide an asynchronous communication layer, <code>getItems()</code> returns a deferred which has resolved to a listing of two <code>grocery-ls-item</code> instances in our tests.</p>
-<p>Sometimes when working with a single feature, I like to isolate it out from my tests for a bit. Here is what the specrunner reports with running just <strong>storage-service.spec</strong>:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_7.png" alt="Passing on succss of getItems() in service"></p>
+<p>Sometimes when working with a single feature, I like to isolate it out from my tests for a bit. Here is what the specrunner reports with running just <strong>storage-service.spec</strong>:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_7.png" alt="Passing on succss of getItems() in service"></p>
 <p>We could move that implementation to <code>storage-service</code> module now, but we are sort of in a <a href="http://en.wikipedia.org/wiki/Chicken_or_the_egg">chicken-or-the-egg</a> scenario. We’ve canned the resolved <code>grocery-ls-item</code> list in the test, but how does the list get filled up in an actual scenario for <code>storage-service</code>? It’s an excellent question, and something I often puzzle myself with. I mean, we’ll need a <code>saveItem()</code> method no doubt in order to add items to the store. But shouldn’t that method now be stubbed out in a new test? And how do I test that <code>saveItem()</code> works without <code>getItems()</code> being already tested and verified? I could go in circles…</p>
 <p>Let’s just stub out an <code>saveItem()</code> method on <code>storage-service</code> and, afterward, set expectations in another spec suite:</p>
 <p><em>/test/jasmine/spec/storage-service.spec.js</em></p>
@@ -488,7 +488,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 })<span class="hljs-comment">;</span>
 </code></pre><p>With these modifications, we have assigned an anonymous stub – <code>saveStub</code> – as the <code>saveItem</code> method on the <code>store</code> and specified that the function-local <code>appendItem</code> method should be invoked, appending items to the list prior to each of our tests. </p>
 <p>A little more work in setup and slightly unrealistic in telling of the arguments to be given to <code>saveItem()</code>, but it kept us on green without having to hard code the result; it’s a litte truer to life than the previous setup, and still passes:</p>
-<p><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_7.png" alt="Passing on succss of getItems() in service"></p>
+<p><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_7.png" alt="Passing on succss of getItems() in service"></p>
 <h3 id="implementation">Implementation</h3>
 <p>Alright, so I think we should move this out to <code>storage-service</code> now and trash the stubbing in the test – we’ve got our expectations:</p>
 <p><em>/script/service/storage-service.js</em></p>
@@ -591,7 +591,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 
 
 })</span>;
-</code></pre><p>Run that, and we are still green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_7.png" alt="Passing on succss of getItems() in service"></p>
+</code></pre><p>Run that, and we are still green!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_7.png" alt="Passing on succss of getItems() in service"></p>
 <h3 id="tests">Tests</h3>
 <p>Now that we can verify that <code>saveItem()</code> is working enough for our <code>getItem</code> spec, let’s properly set the expectations for <code>saveItem</code>, as well, in our tests:</p>
 <p><em>/test/jasmine/spec/storage-service.spec.js</em></p>
@@ -638,7 +638,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 
 
 });
-</code></pre><p>Simple enough. Back to the specrunner:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_8.png" alt="Failing on saveItem of storage-service"></p>
+</code></pre><p>Simple enough. Back to the specrunner:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_8.png" alt="Failing on saveItem of storage-service"></p>
 <p>Oh noes! Our expectation is that the length of items is only 1. We have only specified one addition of an item in the setup… where did the length of 5 come from!? Put down the abacus – there are better things to throw. But before that, I have an explanation: we haven’t been cleaning up. We have let <code>afterEach()</code> just quietly be invoked without a job to do.</p>
 <p>To do just enough in getting our tests pass, we can update the <code>afterEach()</code> declarations in each spec suite to the following:</p>
 <pre><code><span class="hljs-transposed_variable">async.</span>afterEach( <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
@@ -652,7 +652,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
   });
 
 });
-</code></pre><p>That will get us back to passing:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_9.png" alt="Passing on saveItem spec."></p>
+</code></pre><p>That will get us back to passing:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_9.png" alt="Passing on saveItem spec."></p>
 <p>I am not particularly fond of that solution, however. Mainly because I think it conveys a usage of the API on <code>storage-service</code> that I would not condone: directly mutating the underlying list of <code>storage-service</code> from another party. </p>
 <p>I’m not gonna get crazy with the lock-down and privacy of properties and start introducing the latest-and-greatest framework that tries to tout that they really are just a library all in the attempt to stop someone from directly accessing the underlying array of items on <code>storage-service</code>. If some developers gonna go crazy and do so, hopefully we can find it in more tests later or they can look at our tests as a guideline of how to do what they want. </p>
 <p>As such, I think we should add a method to <code>storage-service</code> that simply allows for emptying the list. First the expectation:</p>
@@ -702,7 +702,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 
 
 })</span>;
-</code></pre><p><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_10.png" alt="Failing on empty()"></p>
+</code></pre><p><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_10.png" alt="Failing on empty()"></p>
 <p><em>/script/service/storage-service.js</em></p>
 <pre><code>define([<span class="hljs-string">'jquery'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($)</span> {</span>
 
@@ -751,7 +751,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
   <span class="hljs-keyword">return</span> store;
 
 });
-</code></pre><p><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_11.png" alt="Passing on empty()"></p>
+</code></pre><p><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_11.png" alt="Passing on empty()"></p>
 <p>Alright! We are passing expectations on three parts of the API for <code>storage-service</code>. Now let’s think of what else we need… I think only a <code>removeItem()</code> method will suffice. In working as we have previously in this article – stubbing out methods to be added to the <code>storage-service</code> implementation – we can add a spec suite for <code>removeItem()</code> such as the following:</p>
 <p><em>/test/jasmine/spec/storage-service.spec.js</em></p>
 <pre><code><span class="hljs-function">describe(<span class="hljs-string">'removeItem()'</span>, <span class="hljs-function">function()</span> {
@@ -827,7 +827,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 
 
 })</span>;
-</code></pre><p><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_12.png" alt="Passing on initial removeItem()"></p>
+</code></pre><p><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_12.png" alt="Passing on initial removeItem()"></p>
 <p>I think there are more expectations to assert for the <code>removeItem()</code> spec suite, but for now we are passing and we’ll move the implementation over to <code>storage-service</code>:</p>
 <p><em>/script/service/storage-service.js</em></p>
 <pre><code>define([<span class="hljs-string">'jquery'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($)</span> {</span>
@@ -1000,7 +1000,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 
 
 })</span>;
-</code></pre><p>… and we’re still in business!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_13.png" alt="Complete and passing removeItem specs"></p>
+</code></pre><p>… and we’re still in business!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_13.png" alt="Complete and passing removeItem specs"></p>
 <h3 id="revisiting-saveitem-">Revisiting saveItem()</h3>
 <p>When we setup the <code>saveItem</code> stub for our <code>getItem()</code> spec suite, we really only focused on getting the expectations to pass. To get back to green – at the time – we were only concerned with appending items to the list. I think this needs to be looked at again.</p>
 <p>If we remember back to the notifications we set up for the <code>list-controller</code>, it will dispatch a <code>save-item</code> event upon the existence of a new item, as well as the modification to an existing item. So we will pass that item through the <code>storage-service</code> using <code>saveItem()</code> but we don’t want to continually append items that are previously stored to the list – if so, we’d be buying a lot of <del>spinich</del> <del>spinnash</del> spinach.</p>
@@ -1070,8 +1070,8 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 
 })</span>;
 </code></pre><p>We modified the description of the original expectation to state that the items list should only grow on new existence and added a new expectation that previously stored items do not get appended to the stored list:</p>
-<p><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_14.png" alt="Failing update to saveItem() specs."></p>
-<p>As expected <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Let’s update <code>saveItem()</code> on the <code>storage-service</code> to account for this:</p>
+<p><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_14.png" alt="Failing update to saveItem() specs."></p>
+<p>As expected <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> Let’s update <code>saveItem()</code> on the <code>storage-service</code> to account for this:</p>
 <p><em>/script/service/storage-service.js</em></p>
 <pre><code><span class="hljs-attribute">saveItem</span>: <span class="hljs-string">function(item) {</span>
 
@@ -1088,7 +1088,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
   return</span> deferred.resolve(<span class="hljs-property">item</span>);
 
 }</span>
-</code></pre><p><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_15.png" alt="Passing on new expectation for saveItem()"></p>
+</code></pre><p><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_15.png" alt="Passing on new expectation for saveItem()"></p>
 <p>Not leaving any to chance, let’s add a couple more expectations as to how items are placed and how they remain in their places:</p>
 <p><em>/test/jasmine/spec/storage-service.spec.js</em></p>
 <pre><code><span class="hljs-function">describe(<span class="hljs-string">'saveItem() multiples'</span>, <span class="hljs-function">function()</span> {
@@ -1157,7 +1157,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 
 })</span>;
 </code></pre><p>I had begun to add these expectations for multiple items in the list to the <code>saveItem()</code> spec suite, but I saw a similar setup for them both that differed from the origin setup for the <code>saveItem()</code> suite. As such, I moved these expectations to their own spec suite and particular setup.</p>
-<p>Without any new modification to <code>storage-service</code> implementation, run that and we are still green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_16.png" alt="Passing with new expectations for saveItem()"></p>
+<p>Without any new modification to <code>storage-service</code> implementation, run that and we are still green!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_16.png" alt="Passing with new expectations for saveItem()"></p>
 <p>Tagged <strong>0.1.14</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.14">https://github.com/bustardcelly/grocery-ls/tree/0.1.14</a></p>
 <h2 id="this-is-all-great-but-we-still-haven-t-done-anything">This Is All Great But We Still Haven’t Done Anything</h2>
 <p>In other words, what this subsection header is trying to say, the <code>storage-service</code> – even after we hook up communication to it from <code>list-controller</code> events – will do <em>nothing</em> but keep a session-cache of items: <strong>there still is no persistence across sessions</strong>.</p>
@@ -1279,7 +1279,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 
 
 });
-</code></pre><p>That will light up our tests in pretty red… but that was expected. Actually, if it didn’t make our tests fail horribly, I would have been worried.<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_23.png" alt="Failing on sotrage modification."></p>
+</code></pre><p>That will light up our tests in pretty red… but that was expected. Actually, if it didn’t make our tests fail horribly, I would have been worried.<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_23.png" alt="Failing on sotrage modification."></p>
 <p>There are a couple things going on in this modification to <code>storage-service</code> that we should go over, however – the first being <code>parseToCollection()</code>:</p>
 <p><em>/script/service/storage-service.js</em></p>
 <pre><code>parseToCollection = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(json)</span> {</span>
@@ -1440,7 +1440,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 
 });
 </code></pre><p><code>saveItem()</code> was modified to access the held list using <code>getItems()</code>, operate on that list as it had done previously and then try to serialize the list back to storage. Fairly simple. It’s important to note that we don’t access the <code>itemCache</code> directly in saveItem(), the reason being that we can’t ensure that <code>saveItem()</code> will only be called after a request to <code>getItems()</code>. As such, we need to be sure we’re always working with the same data and do so by requesting that cached list from <code>getItems()</code> within <code>saveItem()</code>.</p>
-<p>That gets us closer to green, but we still have some work to do…<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_24.png" alt="Closer to green for storage-service modifications."></p>
+<p>That gets us closer to green, but we still have some work to do…<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_24.png" alt="Closer to green for storage-service modifications."></p>
 <p>Let’s modify <code>removeItem()</code> and <code>empty()</code> to work with the cached list returned from <code>getItems()</code> just as the modification to <code>saveItems()</code> has:</p>
 <p><em>/script/service/storage-service.js</em></p>
 <pre><code>removeItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
@@ -1511,11 +1511,11 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 
 }
 </code></pre><p>That oughta do. Basically doing the same as we had done with <code>saveItem()</code>: accessing the cached list through <code>getItems()</code>, then modifying that list and serializing back done to <code>localStorage</code>.</p>
-<p>Run those tests again, and we are back to green!<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_25.png" alt="Passing storage-service tests after modification!"></p>
-<p>… at least for our <code>storage-service</code>. Let’s turn on all our tests again and see if our previous expectations are met:<br><img src="http://custardbelly.com/blog/images/tdd_js/part_ix_26.png" alt="Passing tests!"></p>
+<p>Run those tests again, and we are back to green!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_25.png" alt="Passing storage-service tests after modification!"></p>
+<p>… at least for our <code>storage-service</code>. Let’s turn on all our tests again and see if our previous expectations are met:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_26.png" alt="Passing tests!"></p>
 <p>Whoopie!</p>
 <p>Tagged <strong>0.1.15</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.15">https://github.com/bustardcelly/grocery-ls/tree/0.1.15</a></p>
-<p>We’re not done yet: we have still to hook up <code>list-controller</code> notification to <code>storage-service</code> operations. However, I want to end this article here on a good note <img src="http://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
+<p>We’re not done yet: we have still to hook up <code>list-controller</code> notification to <code>storage-service</code> operations. However, I want to end this article here on a good note <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"></p>
 <h2 id="conclusion">Conclusion</h2>
 <p>We have yet to reach our goal of incorporating session persistence within our <strong>Grocery List</strong> application – but that is not to say we have gotten nowhere. We implemented our <code>storage-service</code> layer for <code>localStorage</code> communication and modified the <code>list-controller</code> to notify of change events to its collection related to <code>grocery-ls-item</code> existence. Not to shabby. </p>
 <p>I know we want to get a finished product out the door, but we’ll get there… just a few more things to tie up in the next article…</p>
@@ -1525,8 +1525,8 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
 <h2 id="reference">Reference</h2>
 <p><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://cumulative-hypotheses.org/2011/08/30/tdd-as-if-you-meant-it/">TDD as if you Meant it by Keith Braithwaite</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a></p>
 <h2 id="post-series">Post Series</h2>
-<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="http://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="http://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="http://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="http://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="http://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="http://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="http://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="http://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="http://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
-<p>Posted in <a href="http://custardbelly.com/blog/category/amd/">AMD</a>, <a href="http://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="http://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="http://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="http://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="http://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
+<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="https://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="https://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/amd/">AMD</a>, <a href="https://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="https://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="https://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="https://custardbelly.com/blog/category/jasmine/">jasmine</a>, <a href="https://custardbelly.com/blog/category/unit-testing/">unit-testing</a>.</p>
 
   </section>
   <section class="navigation">
@@ -1534,7 +1534,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
         <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/index.html">&#8672;&nbsp;newer</a></span>
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2013/02/04/madmin-for-ease-of-creating-and-documenting-restful-service-uris/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -1545,7 +1545,7 @@ if(event<span class="hljs-preprocessor">.newState</span> === stateEnum<span clas
         window.disqus_url="http://custardbelly.com/blog/blog-posts/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/index.html";
         window.disqus_title="The Making of a Test-Driven Grocery List Application in JS: Part IX";
       </script>
-        <script type="text/javascript" src="http://disqus.com/forums/custardbelly/embed.js"></script>
+        <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>
     
   </section>

@@ -22,7 +22,8 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "all": "gulp build"
+    "all": "gulp build",
+    "dist": "gulp build-remote"
   },
   "devDependencies": {
     "gulp": "~3.2.4",

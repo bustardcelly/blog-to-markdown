@@ -100,7 +100,7 @@ var siteContext = {
         olderPost: function(post) {
           var index = getPostIndex(post.filepath);
           if(index > 0) {
-            return contextMap[siteMap[index-1]]; 
+            return contextMap[siteMap[index-1]];
           }
           return undefined;
         }
@@ -235,7 +235,7 @@ gulp.task('build-pages', function() {
 gulp.task('build-index', function() {
   var filepath = _(siteContext.site.posts).last().htmlPath();
   // Added timeout.
-  // Even though the build-posts task is async and this is run afterward, 
+  // Even though the build-posts task is async and this is run afterward,
   // sometimes the stream for the last post is not complete.
   var timeout = setTimeout(function() {
     clearTimeout(timeout);
@@ -268,7 +268,7 @@ gulp.task('build-rss', function() {
         path: filepath,
         contents: new Buffer('<?xml version="1.0" encoding="UTF-8"?>')
       });
-  
+
   file.pipe(fs.createWriteStream(filepath));
   gulp.src(filepath)
       .pipe(rssize(siteContext.site.posts, extend({length:siteContext.site.rssCount}, siteContext)))
@@ -318,22 +318,7 @@ gulp.task('build-remote', function() {
 });
 
 gulp.task('watch', function() {
-  defineEnvironment(ENV_LOCAL);
-  gulp.src('blog-posts/**/*.md')
-      .pipe(watch(function() {
-        gulp.run('build-posts');
-      }));
-
+  gulp.watch('blog-posts/**/*.md', ['build-local']);
 });
 
-gulp.task('deploy', function() {
-  ssh.exec({
-    command: ['uptime', 'ls -a'],
-    sshConfig: {
-      host: 'xxx.xx.xx.xx',
-      port: 22,
-      username: 'xxx',
-      password: 'xxx'
-    }
-  });
-});
+gulp.task('default', ['watch', 'build-local']);

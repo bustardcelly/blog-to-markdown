@@ -23,7 +23,8 @@
   },
   "scripts": {
     "all": "gulp build",
-    "dist": "gulp build-remote"
+    "dist": "gulp build-remote",
+    "watch": "gulp"
   },
   "devDependencies": {
     "gulp": "~3.2.4",

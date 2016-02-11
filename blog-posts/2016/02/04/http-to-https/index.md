@@ -7,11 +7,11 @@ date: '2016-02-04'
 # Introduction
 I recently decided to put this site under HTTPS after reading this article/interview with [Anselm Hannemann](https://helloanselm.com/) on __CSS-Tricks__:
 
-&gt; [https://css-tricks.com/interview-web-security/](https://css-tricks.com/interview-web-security/)
+&gt; <a href="https://css-tricks.com/interview-web-security" target="_blank">https://css-tricks.com/interview-web-security/</a>
 
 I had already been interested in moving to HTTPS with the advent of an open Certificate Authority, [Let's Encrypt](https://letsencrypt.org/), and my growing fascination with [Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API), which will only work under HTTPS. Not sure if I would ever have a need for offline support for this site, but it never could hurt to mess around.
 
-In any event, I had decided it was time to explore putting [custardbelly.com](https://www.custardbelly.com/blog) under HTTPS - please don't poke around, it needs a major update - and as I went about trying to set [Let's Encrypt](https://letsencrypt.org/) up on my current (_now old_) VPS host I was running into road blocks of predetermined OS'es and dependencies that were beyond my control, which can happen if you entrust hosting your domains through a general VPS provider.
+In any event, I had decided it was time to explore putting <a href="https://www.custardbelly.com/blog" target="_blank">custardbelly.com</a> under HTTPS - please don't poke around, it needs a major update - and as I went about trying to set <a href="https://letsencrypt.org/" target="_blank">Let's Encrypt</a> up on my current (_now old_) VPS host I was running into road blocks of predetermined OS'es and dependencies that were beyond my control, which can happen if you entrust hosting your domains through a general VPS provider.
 
 To have more control over my environment, I decided to use the Amazon Web Services (__AWS__) knowledge I have gained from working intimately with it in my current job/role and spin up an EC2 instance to dedicate to my site - moving it off the VPS I previously had.
 
@@ -30,7 +30,7 @@ In doing so, I wanted to share my process and experiences to any of you that may
 This series of steps is essentially moving any files served by my previous VPS host to an EC2 instance on AWS. Because the site and its blog are all static files, it was a simple matter of moving - or rather pulling - my files to a new server.
 
 ## Setting up an EC2 Instance
-If you don't already have an Amazon Web Services (AWS) account, you can sign up for one here: [https://aws.amazon.com/](https://aws.amazon.com/).
+If you don't already have an Amazon Web Services (AWS) account, you can sign up for one here: <a href="https://aws.amazon.com/" target="_blank">https://aws.amazon.com/</a>.
 
 > I wont go into any detail about what AWS is, how to set up an account and the pricing models, so please review all documentation if you are curious.
 
@@ -60,7 +60,7 @@ We'll wait until that is finished initializing before SSH'ing into it, but befor
 ## Defining an Elastic IP
 By associating an Elastic IP to an AWS instance, you are essentially reserving a static IP for your instance that won't change as long as it is associated in your account.
 
-> I won't go into detail about Elastic IPs, so please refer to the documentation if interested: [http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html).
+> I won't go into detail about Elastic IPs, so please refer to the documentation if interested: <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html" target="_blank">http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html</a>.
 
 To assign an Elastic IP to your newly launched instance:
 
@@ -78,7 +78,7 @@ To assign an Elastic IP to your newly launched instance:
 At this point, if you navigate back to __Instances:Instances__ from the _EC2 Dashboard_, tou should see your newly launched instance listed, and the __Public IP__ field should display the associated Elastic IP and appear in blue.
 
 ## Site Files
-The main site files are hand curated and live in a [github repo](https://github.com/bustardcelly/custardbelly-dot-com). The blog site is generated from markdown and has its own [github repo](https://github.com/bustardcelly/blog-to-markdown), as well; its a bit overblown for its purpose now, but at the time it was used as a tooling system to generate markdown from Wordpress post as described in [a previous article](https://www.custardbelly.com/blog/blog-posts/2014/01/03/so-long-wordpress/index.html).
+The main site files are hand curated and live in a <a href="https://github.com/bustardcelly/custardbelly-dot-com" target="_blank">github repo</a>. The blog site is generated from markdown and has its own <a href="https://github.com/bustardcelly/blog-to-markdown" target="_blank">github repo</a>, as well; its a bit overblown for its purpose now, but at the time it was used as a tooling system to generate markdown from Wordpress post as described in <a href="https://www.custardbelly.com/blog/blog-posts/2014/01/03/so-long-wordpress/index.html" target="_blank">a previous article</a>.
 
 Using the newly associated IP for the instance and the key generated, I SSH'd into the box and pulled down my site sources. For example:
 
@@ -95,7 +95,7 @@ $ sudo apt-get install git
 
 Once I installed __git__ and pulled down my repos, I moved the main site files to `/var/www/custardbelly.com/public_html` and the blog files to `/var/www/blog`. Then I added a sym-link from `/var/www/custardbelly.com/public_html/blog` to `/var/www/blog`, so that whenever I needed to get updates to the blog on my server, I didn't have to fuddle about in the main site's directory.
 
-> This was a rudimentary first pass on getting my site and blog set up. In the future, I will add deployment strategies to these repositories, either in the form of a Continuous Integration server or with tools such as [shipit](https://github.com/shipitjs/shipit). Props to [Kyle Kellogg](https://twitter.com/kylekellogg) on opening my eyes to it.
+> This was a rudimentary first pass on getting my site and blog set up. In the future, I will add deployment strategies to these repositories, either in the form of a Continuous Integration server or with tools such as <a href="https://github.com/shipitjs/shipit" target="_blank">shipit</a>. Props to <a href="https://twitter.com/kylekellogg" target="_blank">Kyle Kellogg</a> on opening my eyes to it.
 
 _If you do not maintain your site in a Version Control System (VCS), you may need to go through other avenues to get your site files onto the instance..._
 
@@ -104,15 +104,143 @@ With the site and blog files up on the new instance, it was time to tell the wor
 ---
 
 # Transferring DNS Records
+When defining DNS Records for my website, I had used the administrative control panel provided by my previous VPS host to register my domain; it was pretty straight-forward and allowed me to easily enter in the records to my domain name provider.
+
+Now, when broaching the subject of Domain Name Servers (DNS) and how your browser actually resolves a request with a domain name to an IP, my eyes start to glaze over and the mind wonders. In other words, I am of no authority to actually speak on the topic so I hope you check out some of these articles for a better understanding:
+
+* <a href="https://en.wikipedia.org/wiki/Domain_Name_System" target="_blank">https://en.wikipedia.org/wiki/Domain_Name_System</a>
+* <a href="https://webhostinggeeks.com/guides/dns/" target="_blank">https://webhostinggeeks.com/guides/dns/</a>
+* <a href="https://pressable.com/blog/2014/12/23/dns-record-types-explained/" target="_blank">https://pressable.com/blog/2014/12/23/dns-record-types-explained/</a>
+* <a href="https://www.youtube.com/watch?v=3EvjwlQ43_4" target="_blank">DNS Resolution, Step By Step (video)</a>
+
+That said, with what little I do understand, I know I needed to associate DNS records - specifically NS values - with my domain name purchased from my current Domain Name Provider.
+
+> I use <a href="https://directnic.com/" target="_blank">directnic</a> to buy my domains, but I won't go into how you define the DNS values for your domain because I am certain it will differ from provider to provider.
+
+Neverless, I had to go into the administrative console of my Domain Name Provider account and assign the DNS records created in the next sections using __Amazon Route 53__.
 
 ## Amazon Route 53
+Until I started investigating moving my site to an EC2 Instance so I had more control over how my site is served, I honestly never heard of __Amazon Route 53__. The [dcoumentation for Amazon Route 53](http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html) states that it provides three main functions:
+
+* Domain Registration
+* Domain Name System (DNS) service
+* Health checking
+
+I am only concerned about the DNS service side of the Route 53 as I have already purchased my domain and don't consider my site _critical_ enough to set up CloudWatch for alarms on my site not being available.
+
+> When I went about moving my domain service to Amazon Route 53, I referred to the following documentation: <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html" target="_blank">http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html</a>.
+
+I won't rehash the listing of steps for what I performed from the link above, because they are pretty much what I followed. The only difference was I didn't obtain a DNS configuration from my DNS Provider and import it. Instead I:
+
+1. Created a new _Hosted Zone_
+2. Upon creation, selected _Create Record Set_
+3. Created a Record Set with __Type: A - IPv4 Address__ with a value of the Elastic IP of the AWS Instance set up previously
+4. Clicked _Create_
+5. Created a Record Set with __Type: CNAME__ with the `www` name and a value of the naked domain
+6. Clicked _Create_
+
+I then had a _Hosted Zone_ for `custardbelly.com` with 3 record entries for: __NS__, __A__ and __CNAME__.
+
+After creating a _Hosted Zone_ in Amazon Route 53, I took the auto-generated __NS__ values (there were 4 in total) and set those as the the _Nameserver_ records for my domain on my Domain Name registrar.
+
+![DNS records in DNR](https://custardbelly.com/images/https_dns_records.jpg)
 
 ## Check with dig
+The new DNS for my domain got resolved rather quickly compared to the many times I have done this for domains before; it look about 3 minutes, but I think I got lucky. Anyway, I checked using the `dig` utility to make sure it was up and associated with the Elastic IP I assigned:
+
+```
+$ dig custardbelly.com
+```
+
+Response:
+
+```
+; <<>> DiG 9.8.3-P1 <<>> custardbelly.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 58244
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;custardbelly.com.    IN  A
+
+;; ANSWER SECTION:
+custardbelly.com. 300 IN  A xxx.xxx.xxx.xxx
+
+;; Query time: 105 msec
+;; SERVER: 75.75.75.75#53(75.75.75.75)
+;; WHEN: Wed Feb 10 20:39:01 2016
+;; MSG SIZE  rcvd: 50
+```
+
+The Elastic IP associated with the AWS Instance I set up for my site is now shown as the __A__ response from a `dig` request - the same I defined in the __A__ field of my _Hosted Zone_ record in Amazon Route 53.
 
 ---
 
 # Setting Up nginx
+Even though the DNS resolves the domain to the IP assocated with the AWS Instance, there is nothing - at the moment, during this setup - to be displayed when making a request from a browser.
 
 ## Installation
+To install __nginx__ on the new box, I ssh'd into the box and issued the following:
+
+```
+$ sudo apt-get install nginx
+```
+
+That should install __nginx__ and start the service, with its default configuration on port 80. I visited my site again - at [http://custardbelly.com](http://custardbelly.com) - and saw the following page:
+
+![Default nginx page](https://custardbelly.com/images/https_nginx_page.jpg)
+
+In order to point to the files I uploaded for my site, I needed to then add `custardbelly.com` to the _sites-available_ and _sites-enabled_ directories of the __nginx__ configuration install.
 
 ## Configuration
+By default, __nginx__ sets up the site on port 80 by defining a _default_ configuration defined in __/etc/nginx/sites-available__ and exposed in __/etc/nginx/sites-enabled__. In order to get nginx to point to the site files I uploaded to __/var/www/custardbelly.com/public_html__ in a previous section of this post, I need to add a new file to __/etc/nginx/sites-available__ and sym-link it in __/etc/nginx/sites-enabled__.
+
+To do that, I ssh'd into my box and:
+
+```
+$ sudo service nginx stop
+$ sudo touch /etc/nginx/sites-available/custardbelly.com
+$ sudo vim /etc/nginx/sites-available/custardbelly.com
+```
+
+And in __vim__ editor, entered the following:
+
+```
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+
+  server_name custardbelly.com www.custardbelly.com;
+
+  root /var/www/custardbelly.com/public_html;
+  index index.html index.htm;
+}
+```
+
+I wrote and quit out of the __vim__ editor, then removed the _default_ and added _custardbelly.com_ to the __sites-enabled__:
+
+```
+$ sudo rm -f /etc/nginx/sites-enabled/default
+$ sudo ln -s /etc/nginx/sites-available/custardbelly.com /etc/nginx/sites-enabled/custardbelly.com
+```
+
+After adding `custardbelly.com` to the enabled site for __nginx__ and exposed on port 80, I restarted __nginx__:
+
+```
+$ sudo service nginx start
+```
+
+Now navigating in a browser to [http://custardbelly.com](http://custardbelly.com) - or its _www_ domain - resulted in being served up the index page moved to __/var/www/custardbelly.com/public_html/index.html__.
+
+With the non-secure site files setup under __nginx__, it was time to generate a certificate and serve the site under __https__.
+
+---
+
+# References
+
+* [https://https.cio.gov/](https://https.cio.gov/)
+* [https://www.smashingmagazine.com/2016/02/breaking-it-down-to-the-bits-how-the-internet-dns-and-https-work/](https://www.smashingmagazine.com/2016/02/breaking-it-down-to-the-bits-how-the-internet-dns-and-https-work/)
+* [http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html](http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html)
+* [http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html](http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html)
+* [https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts)

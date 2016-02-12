@@ -2,7 +2,7 @@
 title: 'Getting Secure:  Transfering a domain to AWS and enabling HTTPS under nginx'
 author:
   name: 'todd anderson'
-date: '2016-02-04'
+date: '2016-02-10'
 ---
 # Introduction
 I recently decided to put this site under HTTPS after reading this article/interview with [Anselm Hannemann](https://helloanselm.com/) on __CSS-Tricks__:
@@ -20,9 +20,9 @@ In doing so, I wanted to share my process and experiences to any of you that may
 * [Moving a domain to an EC2 instance](#moving-a-domain-to-an-ec2-instance)
 * [Transferring DNS records from a VPS to Amazon Route 53](#transferring-dns-records)
 * [Setting up nginx to serve my site](#setting-up-nginx)
-* Generating certificates from [Let's Encrypt](https://letsencrypt.org/)
+* [Generating certificates from](#generating-certificates-from-lets-encrypt) [Let's Encrypt](https://letsencrypt.org/)
 * Setting up my site to be served under HTTPS
-* References
+* [References](#references)
 
 ---
 
@@ -237,6 +237,78 @@ With the non-secure site files setup under __nginx__, it was time to generate a 
 
 ---
 
+# Generating Certificates from Let's Enrypt
+[Let's Encrypt](https://letsencrypt.org/) is a relatively recent Certificate Authority (CA) that boasts being free, automated and open. Essentially, it allows you to manage certificates for your site - to be hosted under HTTPS - without having to go through a 3rd-party vendor.
+
+To generate a certificate through [Let's Encrypt](https://letsencrypt.org/) for my domain - both naked and __www__ - I cloned the repo and issued a cert for my "standalone" webserver... but first I stopped __nginx__ again:
+
+```
+$ sudo service nginx stop
+```
+
+... then:
+
+```
+$ git clone https://github.com/letsencrypt/letsencrypt
+$ cd letsencrypt
+$ ./letsencrypt-auto certonly --standalone --email support@yourdomain.com -d custardbelly.com -d www.custardbelly.com
+```
+
+> `support@yourdomain.com` should be an actual email address at which you want to be notified in case of certificate expiration.
+
+I then verified that the cert for `custardbelly.com` was created by issuing:
+
+```
+$ sudo ls /etc/letsencrypt/live/
+
+---
+
+> root root 4096 Feb  10 19:39 custardbelly.com
+```
+
+The `custardbelly.com` is a directory with key files to be used in defining how to provide SSL for your server in the configurations, as described in the next section.
+
+## Updating nginx Site Configuration
+Now that I generated a cert using [Let's Encrypt](https://letsencrypt.org/) to be able to serve my site under HTTPS, it was time to update the site configuration for __nginx__.
+
+I opened up my __/etc/nginx/sites-available/custardbelly.com__ file and edited it to include a redirect to HTTPS:
+
+```
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server ipv6only=on;
+
+  server_name www.custardbelly.com custardbelly.com;
+
+  return 301 https://www.custardbelly.com$request_uri;
+}
+
+server {
+  listen [::]:443 ssl;
+  listen 443 ssl;
+
+  ssl_certificate /etc/letsencrypt/live/custardbelly.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/custardbelly.com/privkey.pem;
+
+  root /var/www/custardbelly.com/public_html;
+  index index.html index.htm;
+}
+```
+
+Essentially, I am forwarding all requests on port __80__ to __443__. You will also note the entries for `ssl_certificate` and `ssl_certificate_key` which point to the cert generated using [Let's Encrypt](https://letsencrypt.org/).
+
+> This is a very rudmentary example of what your site configuration should look like under nginx, but am keeping the minimum in relation to the task at hand.
+
+I then restarted __nginx__:
+
+```
+$ sudo service nginx start
+```
+
+Navigating to [https://www.custardbelly.com/blog](https://www.custardbelly.com/blog) in a browser and it showed up! Checked to make sure that the redirect under HTTP request worked as well and, sure enough, my site is now accessible under HTTPS :)
+
+Now the only issue at this point is that a lot of my resources in pages point to HTTP endpoints directly... that is a sore point for a lot of browsers - the dreaded __Blocked Mixed__.
+
 # References
 
 * [https://https.cio.gov/](https://https.cio.gov/)
@@ -244,3 +316,4 @@ With the non-secure site files setup under __nginx__, it was time to generate a 
 * [http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html](http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html)
 * [http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html](http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html)
 * [https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts)
+* [https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04)

@@ -25,7 +25,7 @@ In doing so, I wanted to share my process and experiences to any of you that may
 * [Conclusion](#conclusion)
 * [References](#references)
 
----
+<hr>
 
 # Moving a Domain to an EC2 Instance
 This series of steps is essentially moving any files served by my previous VPS host to an EC2 instance on AWS. Because the site and its blog are all static files, it was a simple matter of moving - or rather pulling - my files to a new server.
@@ -37,7 +37,7 @@ If you don't already have an Amazon Web Services (AWS) account, you can sign up 
 
 Once you have signed in:
 1. Navigate to the __Compute:EC2__ space
-2. Once the _EC2 Dashboard_ select __Launch Instance__
+2. Once the _EC2 Dashboard_ select __Launch Instance__  
     <img src="https://www.custardbelly.com/images/https_ec2_launch_instance.png" alt="EC2 Launch Instance">
 3. Select the __Ubuntu Server 14.04 LTS (HVM)__ instance from the list of AMIs
 4. Choose the __t2.micro__ item from the _Instance Type_ selection screen
@@ -48,7 +48,7 @@ Once you have signed in:
 9. Click __Next: Configure Security Group__
 10. Under _Assign a security group_, select __Create new security group__
     * You will need to create security group with - at least - the following ports available: `22`, `80`, `443`
-11. Use the __Add Rule__ button to add protocol types and ports
+11. Use the __Add Rule__ button to add protocol types and ports  
     <img src="https://www.custardbelly.com/images/https_security_group.png" alt="EC2 Security Groups">
 12. Click __Review and Launch__
 13. On the next page, accept the review and click __Launch__
@@ -76,7 +76,7 @@ To assign an Elastic IP to your newly launched instance:
 8. Click __Associate__
 9. Upon association of the new Elastic IP, you should see your __Instance__ show up in the listing entry
 
-At this point, if you navigate back to __Instances:Instances__ from the _EC2 Dashboard_, tou should see your newly launched instance listed, and the __Public IP__ field should display the associated Elastic IP and appear in blue.
+At this point, if you navigate back to __Instances:Instances__ from the _EC2 Dashboard_, you should see your newly launched instance listed, and the __Public IP__ field should display the associated Elastic IP and appear in blue.
 
 ## Site Files
 The main site files are hand curated and live in a <a href="https://github.com/bustardcelly/custardbelly-dot-com" target="_blank">github repo</a>. The blog site is generated from markdown and has its own <a href="https://github.com/bustardcelly/blog-to-markdown" target="_blank">github repo</a>, as well; its a bit overblown for its purpose now, but at the time it was used as a tooling system to generate markdown from Wordpress post as described in <a href="https://www.custardbelly.com/blog/blog-posts/2014/01/03/so-long-wordpress/index.html" target="_blank">a previous article</a>.
@@ -102,7 +102,7 @@ _If you do not maintain your site in a Version Control System (VCS), you may nee
 
 With the site and blog files up on the new instance, it was time to tell the world to look there when they requested it.
 
----
+<hr>
 
 # Transferring DNS Records
 When defining DNS Records for my website, I had used the administrative control panel provided by my previous VPS host to register my domain; it was pretty straight-forward and allowed me to easily enter in the records to my domain name provider.
@@ -176,7 +176,7 @@ custardbelly.com. 300 IN  A xxx.xxx.xxx.xxx
 
 The Elastic IP associated with the AWS Instance I set up for my site is now shown as the __A__ response from a `dig` request - the same I defined in the __A__ field of my _Hosted Zone_ record in Amazon Route 53.
 
----
+<hr>
 
 # Setting Up nginx
 Even though the DNS resolves the domain to the IP assocated with the AWS Instance, there is nothing - at the moment, during this setup - to be displayed when making a request from a browser.
@@ -236,7 +236,7 @@ Now navigating in a browser to [http://custardbelly.com](http://custardbelly.com
 
 With the non-secure site files setup under __nginx__, it was time to generate a certificate and serve the site under __https__.
 
----
+<hr>
 
 # Generating Certificates from Let's Enrypt
 [Let's Encrypt](https://letsencrypt.org/) is a relatively recent Certificate Authority (CA) that boasts being free, automated and open. Essentially, it allows you to manage certificates for your site - to be hosted under HTTPS - without having to go through a 3rd-party vendor.
@@ -262,7 +262,7 @@ I then verified that the cert for `custardbelly.com` was created by issuing:
 ```
 $ sudo ls /etc/letsencrypt/live/
 
----
+...
 
 > root root 4096 Feb  10 19:39 custardbelly.com
 ```
@@ -310,6 +310,8 @@ Navigating to [https://www.custardbelly.com/blog](https://www.custardbelly.com/b
 
 Now the only issue at this point is that a lot of my resources in pages point to HTTP endpoints directly... that is a sore point for a lot of browsers and results in the dreaded <span style="color: #ff0000;"><strong>Mixed Content</strong></span>.
 
+<hr>
+
 # Setting up my site to be served under HTTPS
 Once you move your site to be served up under HTTPS and then point your favorite browser to your site, you may find that it does not look or function as it did previously - as it did for me. That was because a lot of the resources on the pages of my site were being blocked because the site under HTTPS was trying to make requests for content under HTTPS; such resources were CSS files, Javascript files, images, etc.
 
@@ -319,10 +321,14 @@ Luckily enough, for me, I was using templates for my blog and only had to change
 
 > Read more about Mixed Content and Google Chrome [here](https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content).
 
+<hr>
+
 # Conclusion
 Getting this site under HTTPS using using [Amazon Web Services](https://aws.amazon.com/) to host and [Let's Encrypt](https://letsencrypt.org/) to secure was quick and painless - in just a few hours I was up and running!
 
 Hopefully this article will help anyone else out there interested in moving their site from HTTP to HTTPS. Good luck!
+
+<hr>
 
 # References
 

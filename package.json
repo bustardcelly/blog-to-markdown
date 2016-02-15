@@ -21,11 +21,6 @@
   "engines": {
     "node": ">= 0.10.0"
   },
-  "scripts": {
-    "all": "gulp build",
-    "dist": "gulp build-remote",
-    "watch": "gulp"
-  },
   "devDependencies": {
     "gulp": "~3.2.4",
     "gulp-jshint": "~1.3.4",
@@ -48,5 +43,10 @@
     "toddanderson",
     "wordpress",
     "markdown"
-  ]
+  ],
+  "scripts": {
+    "all": "gulp build",
+    "dist": "gulp build-remote",
+    "watch": "gulp"
+  }
 }

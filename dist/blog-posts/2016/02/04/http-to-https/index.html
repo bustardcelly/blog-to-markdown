@@ -51,7 +51,7 @@
   <div class="title">
     <h1><a href="https://www.custardbelly.com/blog/blog-posts/2016/02/04/http-to-https/index.html">Getting Secure:  Transfering a domain to AWS and enabling HTTPS under nginx</a></h1>
     <p>
-      2016 February 10th
+      2016 February 15th
       
         by todd anderson
       
@@ -86,7 +86,7 @@
 <p>Once you have signed in:</p>
 <ol>
 <li>Navigate to the <strong>Compute:EC2</strong> space</li>
-<li>Once the <em>EC2 Dashboard</em> select <strong>Launch Instance</strong><br> <img src="https://www.custardbelly.com/images/https_ec2_launch_instance.png" alt="EC2 Launch Instance"></li>
+<li>Once the <em>EC2 Dashboard</em> select <strong>Launch Instance</strong><br> <img style="max-width: 280px" src="https://www.custardbelly.com/images/https_ec2_launch_instance.png" alt="EC2 Launch Instance"></li>
 <li>Select the <strong>Ubuntu Server 14.04 LTS (HVM)</strong> instance from the list of AMIs</li>
 <li>Choose the <strong>t2.micro</strong> item from the <em>Instance Type</em> selection screen</li>
 <li>Click <strong>Next: Configure Instance Details</strong></li>
@@ -98,7 +98,7 @@
 <li>You will need to create security group with - at least - the following ports available: <code>22</code>, <code>80</code>, <code>443</code></li>
 </ul>
 </li>
-<li>Use the <strong>Add Rule</strong> button to add protocol types and ports<br><img src="https://www.custardbelly.com/images/https_security_group.png" alt="EC2 Security Groups"></li>
+<li>Use the <strong>Add Rule</strong> button to add protocol types and ports<br><img style="max-width: 280px" src="https://www.custardbelly.com/images/https_security_group.png" alt="EC2 Security Groups"></li>
 <li>Click <strong>Review and Launch</strong></li>
 <li>On the next page, accept the review and click <strong>Launch</strong></li>
 <li>If you do not already have a key pair on your system through your AWS account that you want to associated with your site, then <strong>Create a new key pair</strong>; otherwise, <strong>Choose an existin key pair</strong>.</li>
@@ -177,7 +177,7 @@ $ <span class="hljs-built_in">sudo</span> apt-get install git
 </ol>
 <p>I then had a <em>Hosted Zone</em> for <code>custardbelly.com</code> with 3 record entries for: <strong>NS</strong>, <strong>A</strong> and <strong>CNAME</strong>.</p>
 <p>After creating a <em>Hosted Zone</em> in Amazon Route 53, I took the auto-generated <strong>NS</strong> values (there were 4 in total) and set those as the the <em>Nameserver</em> records for my domain on my Domain Name registrar.</p>
-<p><img src="https://custardbelly.com/images/https_dns_records.jpg" alt="DNS records in DNR"></p>
+<p><img style="max-width: 280px" alt="DNS records in DNR" src="https://custardbelly.com/images/https_dns_records.png"></p>
 <h2 id="check-with-dig">Check with dig</h2>
 <p>The new DNS for my domain got resolved rather quickly compared to the many times I have done this for domains before; it look about 3 minutes, but I think I got lucky. Anyway, I checked using the <code>dig</code> utility to make sure it was up and associated with the Elastic IP I assigned:</p>
 <pre><code><span class="hljs-variable">$ </span>dig custardbelly.com
@@ -207,7 +207,7 @@ custardbelly.com. <span class="hljs-number">300</span> IN  A xxx.xxx.xxx.xxx
 <p>To install <strong>nginx</strong> on the new box, I ssh&#39;d into the box and issued the following:</p>
 <pre><code>$ <span class="hljs-built_in">sudo</span> apt-get install nginx
 </code></pre><p>That should install <strong>nginx</strong> and start the service, with its default configuration on port 80. I visited my site again - at <a href="http://custardbelly.com">http://custardbelly.com</a> - and saw the following page:</p>
-<p><img src="https://custardbelly.com/images/https_nginx_page.jpg" alt="Default nginx page"></p>
+<p><img style="max-width: 280px" alt="Default nginx page" src="https://custardbelly.com/images/https_nginx_page.png"></p>
 <p>In order to point to the files I uploaded for my site, I needed to then add <code>custardbelly.com</code> to the <em>sites-available</em> and <em>sites-enabled</em> directories of the <strong>nginx</strong> configuration install.</p>
 <h2 id="configuration">Configuration</h2>
 <p>By default, <strong>nginx</strong> sets up the site on port 80 by defining a <em>default</em> configuration defined in <strong>/etc/nginx/sites-available</strong> and exposed in <strong>/etc/nginx/sites-enabled</strong>. In order to get nginx to point to the site files I uploaded to <strong>/var/www/custardbelly.com/public_html</strong> in a previous section of this post, I need to add a new file to <strong>/etc/nginx/sites-available</strong> and sym-link it in <strong>/etc/nginx/sites-enabled</strong>.</p>

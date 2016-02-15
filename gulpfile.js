@@ -233,7 +233,7 @@ gulp.task('build-pages', function() {
 });
 
 gulp.task('build-index', function() {
-  var filepath = _(siteContext.site.posts).last().htmlPath();
+  var filepath = siteContext.site.posts[siteContext.site.posts.length -1].htmlPath();
   // Added timeout.
   // Even though the build-posts task is async and this is run afterward,
   // sometimes the stream for the last post is not complete.

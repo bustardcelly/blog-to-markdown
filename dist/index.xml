@@ -1,5 +1,258 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Mon, 15 Feb 2016 22:39:37 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[flood-pi: Flood detection on Raspberry Pi]]></title><description><![CDATA[<p>A lot has happened over the course current year. Among the biggest changes, we left Boston for Vermont! We have begun to settle in here in the beatuiful Champlain Valley and, of course, my oldest is enrolled in hockey lessons - a sport i know very little about, but am excited to learn from him.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Mon, 15 Feb 2016 23:14:06 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[Getting Secure:  Transferring a domain to AWS and enabling HTTPS under nginx]]></title><description><![CDATA[<h1 id="introduction">Introduction</h1>
+<p>I recently decided to put this site under HTTPS after reading this article/interview with <a href="https://helloanselm.com/">Anselm Hannemann</a> on <strong>CSS-Tricks</strong>:</p>
+<p>&gt; <a href="https://css-tricks.com/interview-web-security" target="_blank">https://css-tricks.com/interview-web-security/</a></p>
+<p>I had already been interested in moving to HTTPS with the advent of an open Certificate Authority, <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a>, and my growing fascination with <a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API">Service Workers</a>, which will only work under HTTPS. Not sure if I would ever have a need for offline support for this site, but it never could hurt to mess around.</p>
+<p>In any event, I had decided it was time to explore putting <a href="https://www.custardbelly.com/blog" target="_blank">custardbelly.com</a> under HTTPS - please don&#39;t poke around, it needs a major update - and as I went about trying to set <a href="https://letsencrypt.org/" target="_blank">Let&#39;s Encrypt</a> up on my current (<em>now old</em>) VPS host I was running into road blocks of predetermined OS&#39;es and dependencies that were beyond my control, which can happen if you entrust hosting your domains through a general VPS provider.</p>
+<p>To have more control over my environment, I decided to use the Amazon Web Services (<strong>AWS</strong>) knowledge I have gained from working intimately with it in my current job/role and spin up an EC2 instance to dedicate to my site - moving it off the VPS I previously had.</p>
+<p>In doing so, I wanted to share my process and experiences to any of you that may be wondering how to do the same. As the title suggests but does not entirely convey, my process involved:</p>
+<ul>
+<li><a href="#moving-a-domain-to-an-ec2-instance">Moving a domain to an EC2 instance</a></li>
+<li><a href="#transferring-dns-records">Transferring DNS records from a VPS to Amazon Route 53</a></li>
+<li><a href="#setting-up-nginx">Setting up nginx to serve my site</a></li>
+<li><a href="#generating-certificates-from-lets-encrypt">Generating certificates from</a> <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a></li>
+<li><a href="#setting-up-my-site-to-be-served-under-https">Setting up my site to be served under HTTPS</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<hr>
+
+<h1 id="moving-a-domain-to-an-ec2-instance">Moving a Domain to an EC2 Instance</h1>
+<p>This series of steps is essentially moving any files served by my previous VPS host to an EC2 instance on AWS. Because the site and its blog are all static files, it was a simple matter of moving - or rather pulling - my files to a new server.</p>
+<h2 id="setting-up-an-ec2-instance">Setting up an EC2 Instance</h2>
+<p>If you don&#39;t already have an Amazon Web Services (AWS) account, you can sign up for one here: <a href="https://aws.amazon.com/" target="_blank">https://aws.amazon.com/</a>.</p>
+<blockquote>
+<p>I wont go into any detail about what AWS is, how to set up an account and the pricing models, so please review all documentation if you are curious.</p>
+</blockquote>
+<p>Once you have signed in:</p>
+<ol>
+<li>Navigate to the <strong>Compute:EC2</strong> space</li>
+<li>Once the <em>EC2 Dashboard</em> select <strong>Launch Instance</strong><br> <img style="max-width: 240px; border: 1px solid #999; padding: 10px;" src="https://www.custardbelly.com/images/https_ec2_launch_instance.png" alt="EC2 Launch Instance"></li>
+<li>Select the <strong>Ubuntu Server 14.04 LTS (HVM)</strong> instance from the list of AMIs</li>
+<li>Choose the <strong>t2.micro</strong> item from the <em>Instance Type</em> selection screen</li>
+<li>Click <strong>Next: Configure Instance Details</strong></li>
+<li>Leave the default form entries and click <strong>Next: Add Storage</strong></li>
+<li>Leave the default form entries and click <strong>Next: Tag Instance</strong></li>
+<li>From the <em>Key/Value</em> form, enter in the name related to your site into the <strong>Value</strong> field. In my case, I entered <code>custardbelly.com</code>, but it does not have to specifically be your domain name.</li>
+<li>Click <strong>Next: Configure Security Group</strong></li>
+<li>Under <em>Assign a security group</em>, select <strong>Create new security group</strong><ul>
+<li>You will need to create security group with - at least - the following ports available: <code>22</code>, <code>80</code>, <code>443</code></li>
+</ul>
+</li>
+<li>Use the <strong>Add Rule</strong> button to add protocol types and ports<br><img style="max-width: 360px; border: 1px solid #999; padding: 10px;" src="https://www.custardbelly.com/images/https_security_group.png" alt="EC2 Security Groups"></li>
+<li>Click <strong>Review and Launch</strong></li>
+<li>On the next page, accept the review and click <strong>Launch</strong></li>
+<li>If you do not already have a key pair on your system through your AWS account that you want to associated with your site, then <strong>Create a new key pair</strong>; otherwise, <strong>Choose an existin key pair</strong>.</li>
+</ol>
+<p>Once accepting the license agreement, you should be redirected to the <em>EC2 Dashboard:Instances</em> page and see your new instance listed - most likely spinning up with an <em>Initializing...</em> note.</p>
+<p>We&#39;ll wait until that is finished initializing before SSH&#39;ing into it, but before we do that, we can assign an Elastic IP to the instance so that the IP is not potentially change by AWS at any time.</p>
+<h2 id="defining-an-elastic-ip">Defining an Elastic IP</h2>
+<p>By associating an Elastic IP to an AWS instance, you are essentially reserving a static IP for your instance that won&#39;t change as long as it is associated in your account.</p>
+<blockquote>
+<p>I won&#39;t go into detail about Elastic IPs, so please refer to the documentation if interested: <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html" target="_blank">http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html</a>.</p>
+</blockquote>
+<p>To assign an Elastic IP to your newly launched instance:</p>
+<ol>
+<li>From the <em>EC2 Dashboard</em> select the <strong>Network &amp; Security: Elastic IPs</strong> from the left-hand tree menu</li>
+<li>Select <strong>Allocate New Address</strong></li>
+<li>From the modal window, click <strong>Yes, Allocate</strong></li>
+<li>Click on the newlly added address in the listing</li>
+<li>From the <em>Actions</em> button, above the listing_, select <strong>Associate Address</strong></li>
+<li>In the <em>Associate Address</em> dialog, start typing the name Value giving to the newly launched instance in the <strong>Instance</strong> field</li>
+<li>Once you see the entry for your newly launched instance from the previous section, select it and fill the <strong>Instance</strong> field value<ul>
+<li>In my case, that is <code>custardbelly.com</code></li>
+</ul>
+</li>
+<li>Click <strong>Associate</strong></li>
+<li>Upon association of the new Elastic IP, you should see your <strong>Instance</strong> show up in the listing entry</li>
+</ol>
+<p>At this point, if you navigate back to <strong>Instances:Instances</strong> from the <em>EC2 Dashboard</em>, you should see your newly launched instance listed, and the <strong>Public IP</strong> field should display the associated Elastic IP and appear in blue.</p>
+<h2 id="site-files">Site Files</h2>
+<p>The main site files are hand curated and live in a <a href="https://github.com/bustardcelly/custardbelly-dot-com" target="_blank">github repo</a>. The blog site is generated from markdown and has its own <a href="https://github.com/bustardcelly/blog-to-markdown" target="_blank">github repo</a>, as well; its a bit overblown for its purpose now, but at the time it was used as a tooling system to generate markdown from Wordpress post as described in <a href="https://www.custardbelly.com/blog/blog-posts/2014/01/03/so-long-wordpress/index.html" target="_blank">a previous article</a>.</p>
+<p>Using the newly associated IP for the instance and the key generated, I SSH&#39;d into the box and pulled down my site sources. For example:</p>
+<pre><code>$ ssh ~/<span class="hljs-preprocessor">.ssh</span>/custardbelly<span class="hljs-preprocessor">.pem</span> ubuntu@xxx<span class="hljs-preprocessor">.xxx</span><span class="hljs-preprocessor">.xxx</span><span class="hljs-preprocessor">.xxx</span>
+</code></pre><p>Since this blog and the main site are static files and all it took was to do some <code>git clone</code>&#39;s on my new instance and move some things to their respective places. But first I had to install <code>git</code>:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> apt-get update
+$ <span class="hljs-built_in">sudo</span> apt-get install git
+</code></pre><p>Once I installed <strong>git</strong> and pulled down my repos, I moved the main site files to <code>/var/www/custardbelly.com/public_html</code> and the blog files to <code>/var/www/blog</code>. Then I added a sym-link from <code>/var/www/custardbelly.com/public_html/blog</code> to <code>/var/www/blog</code>, so that whenever I needed to get updates to the blog on my server, I didn&#39;t have to fuddle about in the main site&#39;s directory.</p>
+<blockquote>
+<p>This was a rudimentary first pass on getting my site and blog set up. In the future, I will add deployment strategies to these repositories, either in the form of a Continuous Integration server or with tools such as <a href="https://github.com/shipitjs/shipit" target="_blank">shipit</a>. Props to <a href="https://twitter.com/kylekellogg" target="_blank">Kyle Kellogg</a> on opening my eyes to it.</p>
+</blockquote>
+<p><em>If you do not maintain your site in a Version Control System (VCS), you may need to go through other avenues to get your site files onto the instance...</em></p>
+<p>With the site and blog files up on the new instance, it was time to tell the world to look there when they requested it.</p>
+<hr>
+
+<h1 id="transferring-dns-records">Transferring DNS Records</h1>
+<p>When defining DNS Records for my website, I had used the administrative control panel provided by my previous VPS host to register my domain; it was pretty straight-forward and allowed me to easily enter in the records to my domain name provider.</p>
+<p>Now, when broaching the subject of Domain Name Servers (DNS) and how your browser actually resolves a request with a domain name to an IP, my eyes start to glaze over and the mind wonders. In other words, I am of no authority to actually speak on the topic so I hope you check out some of these articles for a better understanding:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Domain_Name_System" target="_blank">https://en.wikipedia.org/wiki/Domain_Name_System</a></li>
+<li><a href="https://webhostinggeeks.com/guides/dns/" target="_blank">https://webhostinggeeks.com/guides/dns/</a></li>
+<li><a href="https://pressable.com/blog/2014/12/23/dns-record-types-explained/" target="_blank">https://pressable.com/blog/2014/12/23/dns-record-types-explained/</a></li>
+<li><a href="https://www.youtube.com/watch?v=3EvjwlQ43_4" target="_blank">DNS Resolution, Step By Step (video)</a></li>
+</ul>
+<p>That said, with what little I do understand, I know I needed to associate DNS records - specifically NS values - with my domain name purchased from my current Domain Name Provider.</p>
+<blockquote>
+<p>I use <a href="https://directnic.com/" target="_blank">directnic</a> to buy my domains, but I won&#39;t go into how you define the DNS values for your domain because I am certain it will differ from provider to provider.</p>
+</blockquote>
+<p>Neverless, I had to go into the administrative console of my Domain Name Provider account and assign the DNS records created in the next sections using <strong>Amazon Route 53</strong>.</p>
+<h2 id="amazon-route-53">Amazon Route 53</h2>
+<p>Until I started investigating moving my site to an EC2 Instance so I had more control over how my site is served, I honestly never heard of <strong>Amazon Route 53</strong>. The <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html">dcoumentation for Amazon Route 53</a> states that it provides three main functions:</p>
+<ul>
+<li>Domain Registration</li>
+<li>Domain Name System (DNS) service</li>
+<li>Health checking</li>
+</ul>
+<p>I am only concerned about the DNS service side of the Route 53 as I have already purchased my domain and don&#39;t consider my site <em>critical</em> enough to set up CloudWatch for alarms on my site not being available.</p>
+<blockquote>
+<p>When I went about moving my domain service to Amazon Route 53, I referred to the following documentation: <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html" target="_blank">http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html</a>.</p>
+</blockquote>
+<p>I won&#39;t rehash the listing of steps for what I performed from the link above, because they are pretty much what I followed. The only difference was I didn&#39;t obtain a DNS configuration from my DNS Provider and import it. Instead I:</p>
+<ol>
+<li>Created a new <em>Hosted Zone</em></li>
+<li>Upon creation, selected <em>Create Record Set</em></li>
+<li>Created a Record Set with <strong>Type: A - IPv4 Address</strong> with a value of the Elastic IP of the AWS Instance set up previously</li>
+<li>Clicked <em>Create</em></li>
+<li>Created a Record Set with <strong>Type: CNAME</strong> with the <code>www</code> name and a value of the naked domain</li>
+<li>Clicked <em>Create</em></li>
+</ol>
+<p>I then had a <em>Hosted Zone</em> for <code>custardbelly.com</code> with 3 record entries for: <strong>NS</strong>, <strong>A</strong> and <strong>CNAME</strong>.</p>
+<p>After creating a <em>Hosted Zone</em> in Amazon Route 53, I took the auto-generated <strong>NS</strong> values (there were 4 in total) and set those as the the <em>Nameserver</em> records for my domain on my Domain Name registrar.</p>
+<p><img style="max-width: 280px; border: 1px solid #999; padding: 10px;" alt="DNS records in DNR" src="https://custardbelly.com/images/https_dns_records.png"></p>
+<h2 id="check-with-dig">Check with dig</h2>
+<p>The new DNS for my domain got resolved rather quickly compared to the many times I have done this for domains before; it look about 3 minutes, but I think I got lucky. Anyway, I checked using the <code>dig</code> utility to make sure it was up and associated with the Elastic IP I assigned:</p>
+<pre><code><span class="hljs-variable">$ </span>dig custardbelly.com
+</code></pre><p>Response:</p>
+<pre><code>; &lt;&lt;&gt;&gt; DiG 9<span class="hljs-class">.8</span><span class="hljs-class">.3-P1</span> &lt;&lt;&gt;&gt; custardbelly<span class="hljs-class">.com</span>
+;; global options<span class="hljs-value">: +cmd
+;</span>; Got answer<span class="hljs-value">:
+;</span>; -&gt;&gt;<span class="hljs-tag">HEADER</span>&lt;&lt;- opcode<span class="hljs-value">: QUERY, status: NOERROR, id: <span class="hljs-number">58244</span>
+;</span>; flags<span class="hljs-value">: qr rd ra;</span> QUERY<span class="hljs-value">: <span class="hljs-number">1</span>, ANSWER: <span class="hljs-number">1</span>, AUTHORITY: <span class="hljs-number">0</span>, ADDITIONAL: <span class="hljs-number">0</span>
+
+;</span>; QUESTION <span class="hljs-tag">SECTION</span><span class="hljs-value">:
+;</span>custardbelly<span class="hljs-class">.com</span>.    IN  <span class="hljs-tag">A</span>
+
+;; ANSWER <span class="hljs-tag">SECTION</span><span class="hljs-value">:
+custardbelly.com. <span class="hljs-number">300</span> IN  A xxx.xxx.xxx.xxx
+
+;</span>; Query <span class="hljs-tag">time</span><span class="hljs-value">: <span class="hljs-number">105</span> msec
+;</span>; SERVER<span class="hljs-value">: <span class="hljs-number">75.75</span>.<span class="hljs-number">75.75</span><span class="hljs-hexcolor">#53</span>(<span class="hljs-number">75.75</span>.<span class="hljs-number">75.75</span>)
+;</span>; WHEN<span class="hljs-value">: Wed Feb <span class="hljs-number">10</span> <span class="hljs-number">20</span>:<span class="hljs-number">39</span>:<span class="hljs-number">01</span> <span class="hljs-number">2016</span>
+;</span>; MSG SIZE  rcvd<span class="hljs-value">: <span class="hljs-number">50</span></span>
+</code></pre><p>The Elastic IP associated with the AWS Instance I set up for my site is now shown as the <strong>A</strong> response from a <code>dig</code> request - the same I defined in the <strong>A</strong> field of my <em>Hosted Zone</em> record in Amazon Route 53.</p>
+<hr>
+
+<h1 id="setting-up-nginx">Setting Up nginx</h1>
+<p>Even though the DNS resolves the domain to the IP assocated with the AWS Instance, there is nothing - at the moment, during this setup - to be displayed when making a request from a browser.</p>
+<h2 id="installation">Installation</h2>
+<p>To install <strong>nginx</strong> on the new box, I ssh&#39;d into the box and issued the following:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> apt-get install nginx
+</code></pre><p>That should install <strong>nginx</strong> and start the service, with its default configuration on port 80. I visited my site again - at <a href="http://custardbelly.com">http://custardbelly.com</a> - and saw the following page:</p>
+<p><img style="max-width: 340px; border: 1px solid #999; padding: 10px;" alt="Default nginx page" src="https://custardbelly.com/images/https_nginx_page.png"></p>
+<p>In order to point to the files I uploaded for my site, I needed to then add <code>custardbelly.com</code> to the <em>sites-available</em> and <em>sites-enabled</em> directories of the <strong>nginx</strong> configuration install.</p>
+<h2 id="configuration">Configuration</h2>
+<p>By default, <strong>nginx</strong> sets up the site on port 80 by defining a <em>default</em> configuration defined in <strong>/etc/nginx/sites-available</strong> and exposed in <strong>/etc/nginx/sites-enabled</strong>. In order to get nginx to point to the site files I uploaded to <strong>/var/www/custardbelly.com/public_html</strong> in a previous section of this post, I need to add a new file to <strong>/etc/nginx/sites-available</strong> and sym-link it in <strong>/etc/nginx/sites-enabled</strong>.</p>
+<p>To do that, I ssh&#39;d into my box and:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> service nginx stop
+$ <span class="hljs-built_in">sudo</span> touch /etc/nginx/sites-available/custardbelly.com
+$ <span class="hljs-built_in">sudo</span> vim /etc/nginx/sites-available/custardbelly.com
+</code></pre><p>And in <strong>vim</strong> editor, entered the following:</p>
+<pre><code>server {
+  listen <span class="hljs-number">80</span> default_server<span class="hljs-comment">;</span>
+  listen [::]:<span class="hljs-number">80</span> default_server<span class="hljs-comment">;</span>
+
+  server_name custardbelly<span class="hljs-preprocessor">.com</span> www<span class="hljs-preprocessor">.custardbelly</span><span class="hljs-preprocessor">.com</span><span class="hljs-comment">;</span>
+
+  root /var/www/custardbelly<span class="hljs-preprocessor">.com</span>/public_html<span class="hljs-comment">;</span>
+  index index<span class="hljs-preprocessor">.html</span> index<span class="hljs-preprocessor">.htm</span><span class="hljs-comment">;</span>
+}
+</code></pre><p>I wrote and quit out of the <strong>vim</strong> editor, then removed the <em>default</em> and added <em>custardbelly.com</em> to the <strong>sites-enabled</strong>:</p>
+<pre><code>$ sudo rm <span class="hljs-attribute">-f</span> /etc/nginx/sites<span class="hljs-attribute">-enabled</span>/default
+$ sudo ln <span class="hljs-attribute">-s</span> /etc/nginx/sites<span class="hljs-attribute">-available</span>/custardbelly<span class="hljs-built_in">.</span>com /etc/nginx/sites<span class="hljs-attribute">-enabled</span>/custardbelly<span class="hljs-built_in">.</span>com
+</code></pre><p>After adding <code>custardbelly.com</code> to the enabled site for <strong>nginx</strong> and exposed on port 80, I restarted <strong>nginx</strong>:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> service nginx start
+</code></pre><p>Now navigating in a browser to <a href="http://custardbelly.com">http://custardbelly.com</a> - or its <em>www</em> domain - resulted in being served up the index page moved to <strong>/var/www/custardbelly.com/public_html/index.html</strong>.</p>
+<p>With the non-secure site files setup under <strong>nginx</strong>, it was time to generate a certificate and serve the site under <strong>https</strong>.</p>
+<hr>
+
+<h1 id="generating-certificates-from-let-s-enrypt">Generating Certificates from Let&#39;s Enrypt</h1>
+<p><a href="https://letsencrypt.org/">Let&#39;s Encrypt</a> is a relatively recent Certificate Authority (CA) that boasts being free, automated and open. Essentially, it allows you to manage certificates for your site - to be hosted under HTTPS - without having to go through a 3rd-party vendor.</p>
+<p>To generate a certificate through <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a> for my domain - both naked and <strong>www</strong> - I cloned the repo and issued a cert for my &quot;standalone&quot; webserver... but first I stopped <strong>nginx</strong> again:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> service nginx stop
+</code></pre><p>... then:</p>
+<pre><code>$ git clone https://github<span class="hljs-preprocessor">.com</span>/letsencrypt/letsencrypt
+$ cd letsencrypt
+$ ./letsencrypt-auto certonly --standalone --email support@yourdomain<span class="hljs-preprocessor">.com</span> -d custardbelly<span class="hljs-preprocessor">.com</span> -d www<span class="hljs-preprocessor">.custardbelly</span><span class="hljs-preprocessor">.com</span>
+</code></pre><blockquote>
+<p><code>support@yourdomain.com</code> should be an actual email address at which you want to be notified in case of certificate expiration.</p>
+</blockquote>
+<p>I then verified that the cert for <code>custardbelly.com</code> was created by issuing:</p>
+<pre><code>$ sudo ls /etc/letsencrypt/live/
+
+<span class="hljs-keyword">...</span>
+
+&gt; root root <span class="hljs-number">4096</span> Feb  <span class="hljs-number">10</span> <span class="hljs-number">19</span>:<span class="hljs-number">39</span> custardbelly.com
+</code></pre><p>The <code>custardbelly.com</code> is a directory with key files to be used in defining how to provide SSL for your server in the configurations, as described in the next section.</p>
+<h2 id="updating-nginx-site-configuration">Updating nginx Site Configuration</h2>
+<p>Now that I generated a cert using <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a> to be able to serve my site under HTTPS, it was time to update the site configuration for <strong>nginx</strong>.</p>
+<p>I opened up my <strong>/etc/nginx/sites-available/custardbelly.com</strong> file and edited it to include a redirect to HTTPS:</p>
+<pre><code>server {
+  listen <span class="hljs-number">80</span> default_server<span class="hljs-comment">;</span>
+  listen [::]:<span class="hljs-number">80</span> default_server ipv6only=on<span class="hljs-comment">;</span>
+
+  server_name www<span class="hljs-preprocessor">.custardbelly</span><span class="hljs-preprocessor">.com</span> custardbelly<span class="hljs-preprocessor">.com</span><span class="hljs-comment">;</span>
+
+  return <span class="hljs-number">301</span> https://www<span class="hljs-preprocessor">.custardbelly</span><span class="hljs-preprocessor">.com</span>$request_uri<span class="hljs-comment">;</span>
+}
+
+server {
+  listen [::]:<span class="hljs-number">443</span> ssl<span class="hljs-comment">;</span>
+  listen <span class="hljs-number">443</span> ssl<span class="hljs-comment">;</span>
+
+  ssl_certificate /etc/letsencrypt/live/custardbelly<span class="hljs-preprocessor">.com</span>/fullchain<span class="hljs-preprocessor">.pem</span><span class="hljs-comment">;</span>
+  ssl_certificate_key /etc/letsencrypt/live/custardbelly<span class="hljs-preprocessor">.com</span>/privkey<span class="hljs-preprocessor">.pem</span><span class="hljs-comment">;</span>
+
+  root /var/www/custardbelly<span class="hljs-preprocessor">.com</span>/public_html<span class="hljs-comment">;</span>
+  index index<span class="hljs-preprocessor">.html</span> index<span class="hljs-preprocessor">.htm</span><span class="hljs-comment">;</span>
+}
+</code></pre><p>Essentially, I am forwarding all requests on port <strong>80</strong> to <strong>443</strong>. You will also note the entries for <code>ssl_certificate</code> and <code>ssl_certificate_key</code> which point to the cert generated using <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a>.</p>
+<blockquote>
+<p>This is a very rudmentary example of what your site configuration should look like under nginx, but am keeping the minimum in relation to the task at hand.</p>
+</blockquote>
+<p>I then restarted <strong>nginx</strong>:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> service nginx start
+</code></pre><p>Navigating to <a href="https://www.custardbelly.com/blog">https://www.custardbelly.com/blog</a> in a browser and it showed up! Checked to make sure that the redirect under HTTP request worked as well and, sure enough, my site is now accessible under HTTPS :)</p>
+<p>Now the only issue at this point is that a lot of my resources in pages point to HTTP endpoints directly... that is a sore point for a lot of browsers and results in the dreaded <span style="color: #ff0000;"><strong>Mixed Content</strong></span>.</p>
+<hr>
+
+<h1 id="setting-up-my-site-to-be-served-under-https">Setting up my site to be served under HTTPS</h1>
+<p>Once you move your site to be served up under HTTPS and then point your favorite browser to your site, you may find that it does not look or function as it did previously - as it did for me. That was because a lot of the resources on the pages of my site were being blocked because the site under HTTPS was trying to make requests for content under HTTPS; such resources were CSS files, Javascript files, images, etc.</p>
+<p>If you were to open up Console panel of the developer tools in your browser when pointing to your site under HTTPS, you most likely will see a lot of <span style="color: #ff0000;"><strong>Mixed Content</strong></span> entries. In my case, Google Chrome was blocking requests over differing protocols, even if I was making calls relative to the page (i.e., not cross-site).</p>
+<p>Luckily enough, for me, I was using templates for my blog and only had to change the link references in a single template and regenerate all my posts. Once I had done that, all the pages rendered as they did previously when served under HTTP.</p>
+<blockquote>
+<p>Read more about Mixed Content and Google Chrome <a href="https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content">here</a>.</p>
+</blockquote>
+<hr>
+
+<h1 id="conclusion">Conclusion</h1>
+<p>Getting this site under HTTPS using using <a href="https://aws.amazon.com/">Amazon Web Services</a> to host and <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a> to secure was quick and painless - in just a few hours I was up and running!</p>
+<p>Hopefully this article will help anyone else out there interested in moving their site from HTTP to HTTPS. Good luck!</p>
+<blockquote>
+<p>If you do find any content no longer available, please let me know in the comments. Much appreciated!</p>
+</blockquote>
+<hr>
+
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://https.cio.gov/">https://https.cio.gov/</a></li>
+<li><a href="https://www.smashingmagazine.com/2016/02/breaking-it-down-to-the-bits-how-the-internet-dns-and-https-work/">https://www.smashingmagazine.com/2016/02/breaking-it-down-to-the-bits-how-the-internet-dns-and-https-work/</a></li>
+<li><a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html">http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html</a></li>
+<li><a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html">http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts">https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04">https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content">https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content</a></li>
+</ul>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2016/02/04/http-to-https/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2016/02/04/http-to-https/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[flood-pi: Flood detection on Raspberry Pi]]></title><description><![CDATA[<p>A lot has happened over the course current year. Among the biggest changes, we left Boston for Vermont! We have begun to settle in here in the beatuiful Champlain Valley and, of course, my oldest is enrolled in hockey lessons - a sport i know very little about, but am excited to learn from him.</p>
 <p>As is expected from a big move, we have found outselves in different surroundings and different living spaces. We are no longer 4 people cramped in a tiny 2-bedroom condo along the train line in Brighton, MA; we are now 4 people in a ranch house with noone above or below us to complain about taking off their loud shoes when the baby is sleeping. </p>
 <p>While the extra space of a house is wonderful, tit comes with additional maintenance and care over renting an apartment. For instance, we never had a basement in our previous apartments and never had to worry about flooding or failures in a sump pump. Now we do. And we have had a handful of instances when it has occurred. While it is true that we have and will continue to have qualified people locate the source of the problem, I thought - in the meantime - it would be a fun little project to setup something that could alert me to possible water starting to accumulate in the basement.</p>
 <p><img src="https://custardbelly.com/images/flood_pi_flood.jpg" alt="a flood!"></p>
@@ -165,7 +418,104 @@ options:
 </code></pre><h2 id="conclusion">Conclusion</h2>
 <p>I hope this was a useful introduction to what <a href="https://github.com/bustardcelly/caddis">caddis</a> has to offer and that you may find it beneficial in your testing in some way.</p>
 <p>You can visit the project on github at: <a href="https://github.com/bustardcelly/caddis">https://github.com/bustardcelly/caddis</a></p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/02/25/introducing-caddis/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/02/25/introducing-caddis/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript V: CucumberJS and The Browser, II]]></title><description><![CDATA[<p><em>&quot;Whoa. Whoa. Whoa. You can&#39;t just use roman numerals all over the place in your post titles...&quot;</em></p>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/02/25/introducing-caddis/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/02/25/introducing-caddis/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[Running Browser-Based CucumberJS Specs in Testling]]></title><description><![CDATA[<p>In my <a href="https://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous</a> <a href="https://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html">posts</a> I discuss bringing <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs to the browser using the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool. In this post I intend to address how to use the format reporting options of the <strong>cucumberjs-browser</strong> tool to enable integration with the <a href="https://ci.testling.com/">testling</a> automated cross-browser testing tool to run your specs in various browser environment targets that you may not have installed on your own system.</p>
+<h2 id="requirements">Requirements</h2>
+<p>For the purposes of this article, it is assumed that you are knowledgable of <a href="http://nodejs.org">node</a> and <a href="http://npmjs.org">npm</a> and familiar with creating feature specs for <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. </p>
+<p>To view examples of features and step definitions for a browser-based application, please visit the <a href="https://github.com/bustardcelly/cucumberjs-examples">cucumberjs-examples</a> repo, from which this post will use to demonstrate integrating the generated testrunner from <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> with <a href="https://ci.testling.com/">testling</a>.</p>
+<h2 id="cucumberjs-browser">cucumberjs-browser</h2>
+<p>The <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool provides the ability to run your feature specs in the browser by bundling your features, steps and support files - written in the usual way you would - to be run and evaluated at runtime by the browser-based <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> testrunner</p>
+<p>To install <strong>cucumberjs-browser</strong>:</p>
+<pre><code>$ npm install <span class="hljs-attribute">-g</span> cucumberjs<span class="hljs-attribute">-browser</span>
+</code></pre><p><em>you may need to <code>sudo</code></em></p>
+<p>After installation, the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> will be accessible on the command-line using <code>cucumberjs-browser</code> and can be run within any directory that has <strong>Features</strong> and <strong>Step Definitions</strong> (along with optional support files) that can be consumed by <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>.</p>
+<p>The <strong>cucumberjs-browser</strong> CLI tool can be run with the following options:</p>
+<pre><code>$ <span class="hljs-tag">cucumberjs-browser</span> <span class="hljs-attr_selector">[-o outdir]</span> <span class="hljs-attr_selector">[-f format]</span> <span class="hljs-attr_selector">[--tmpl template]</span> <span class="hljs-attr_selector">[--features features]</span>
+</code></pre><p>Though it is strongly encouraged to provide a custom template using the <code>--tmpl</code> option, for the purpose of this article, we will focus on the format (<code>-f</code>) option. As of the writing of this article, the following format options are available:</p>
+<ul>
+<li>ui</li>
+<li>tap</li>
+<li>testem</li>
+<li>saucelabs</li>
+</ul>
+<p>For the purpose of this article, we will be discussing the <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> format option value.</p>
+<p><em>For more infromation about other format options, please visit the latest <a href="https://github.com/bustardcelly/cucumberjs-browser/wiki/Formats">documentation regarding formats</a> on the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a>.</em></p>
+<h2 id="tap">TAP</h2>
+<p>The <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">Test Anything Protocol</a> is a specification for reporting test information. The benefit of using such a specification is that it can be consumed by any test harness that recognizes it.</p>
+<p>You can output <strong>TAP</strong> reports from <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> using the <code>tap</code> value for the foromat option:</p>
+<pre><code>$ cucumberjs<span class="hljs-attribute">-browser</span> <span class="hljs-attribute">-f</span> tap
+</code></pre><p>Running this command will generate the necessary files to print <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> test results in the console when loaded by a browser.</p>
+<p>If you were to open the generated testrunner file in a browser using the example from <a href="https://github.com/bustardcelly/cucumberjs-examples">cucumberjs-examples</a>, you would see something like the following if you were to open the browser console:</p>
+<pre><code>TAP <span class="hljs-property">version</span> <span class="hljs-number">13</span>
+<span class="hljs-comment"># Submit of valid item adds item to list</span>
+ok <span class="hljs-number">1</span> I have opened <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> <span class="hljs-type">application</span>
+ok <span class="hljs-number">2</span> I have an empty grocery <span class="hljs-type">list</span> view
+ok <span class="hljs-number">3</span> I provide a valid grocery <span class="hljs-type">list</span> <span class="hljs-property">item</span> <span class="hljs-property">name</span>
+ok <span class="hljs-number">4</span> I select <span class="hljs-keyword">to</span> add an <span class="hljs-property">item</span>
+ok <span class="hljs-number">5</span> The <span class="hljs-property">item</span> <span class="hljs-keyword">is</span> added <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> view
+<span class="hljs-comment"># Submit of valid item adds item to collection</span>
+ok <span class="hljs-number">6</span> I have opened <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> <span class="hljs-type">application</span>
+ok <span class="hljs-number">7</span> I have an empty grocery <span class="hljs-type">list</span> view
+ok <span class="hljs-number">8</span> I provide a valid grocery <span class="hljs-type">list</span> <span class="hljs-property">item</span> <span class="hljs-property">name</span>
+ok <span class="hljs-number">9</span> I select <span class="hljs-keyword">to</span> add an <span class="hljs-property">item</span>
+ok <span class="hljs-number">10</span> The <span class="hljs-property">item</span> <span class="hljs-keyword">is</span> accessible <span class="hljs-keyword">from</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> collection
+<span class="hljs-comment"># Item added to grocery list</span>
+ok <span class="hljs-number">11</span> I have opened <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> <span class="hljs-type">application</span>
+ok <span class="hljs-number">12</span> I have an empty grocery <span class="hljs-type">list</span>
+ok <span class="hljs-number">13</span> I add an <span class="hljs-property">item</span> <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> <span class="hljs-type">list</span>
+ok <span class="hljs-number">14</span> The grocery <span class="hljs-type">list</span> <span class="hljs-keyword">contains</span> a single <span class="hljs-property">item</span>
+<span class="hljs-comment"># Item accessible from grocery list</span>
+ok <span class="hljs-number">15</span> I have opened <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> <span class="hljs-type">application</span>
+ok <span class="hljs-number">16</span> I have an empty grocery <span class="hljs-type">list</span>
+ok <span class="hljs-number">17</span> I add an <span class="hljs-property">item</span> <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> <span class="hljs-type">list</span>
+ok <span class="hljs-number">18</span> I can access <span class="hljs-keyword">that</span> <span class="hljs-property">item</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span>
+
+<span class="hljs-number">1.</span><span class="hljs-number">.18</span>
+<span class="hljs-comment"># tests 18</span>
+<span class="hljs-comment"># pass  18</span>
+
+<span class="hljs-comment"># ok</span>
+</code></pre><p>It should be noted that the <code>tap</code> listener for <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> uses the excellent <a href="https://github.com/substack/tape">tape</a> module.</p>
+<h2 id="testling">testling</h2>
+<p>I can&#39;t say enough how much I appreciate <a href="https://ci.testling.com/">testling</a>. You can install <strong>testling</strong> locally to run tests on the browsers installed on your system or use their remote service to run tests against various browsers that may not be available to you, yet are required as targets for your current project.</p>
+<h3 id="local">local</h3>
+<p>You can install <a href="https://ci.testling.com/">testling</a> to be run locally:</p>
+<pre><code><span class="hljs-variable">$ </span>npm install -g testling
+</code></pre><p>To run it, change directories into the generated files from <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> and run the following command:</p>
+<pre><code><span class="hljs-variable">$ </span>cd browser-test
+<span class="hljs-variable">$ </span>testling
+</code></pre><p>That will consume a local <code>package.json</code> file and read a <code>testling</code> entry with options associated with running the generated html file againsta installed browsers on your system:</p>
+<p><em>/browser-test/package.json</em></p>
+<pre><code>{
+<span class="hljs-keyword">...</span>
+
+  <span class="hljs-string">"testling"</span> : {
+    <span class="hljs-string">"html"</span> : <span class="hljs-string">"cucumber-testrunner.html"</span>,
+    <span class="hljs-string">"browsers"</span> : [
+        <span class="hljs-string">"chrome/latest"</span>,
+        <span class="hljs-string">"firefox/latest"</span>,
+        <span class="hljs-string">"safari/latest"</span>
+    ]
+  },
+
+<span class="hljs-keyword">...</span>
+}
+<span class="hljs-keyword">...</span>
+</code></pre><p>Truthfully, I never run <a href="https://ci.testling.com/">testling</a> locally. The main reasons being </p>
+<p><strong>a)</strong> I can automate the running of specs on locally installed browsers easier with other tools (this is for another post :) )<br><strong>b)</strong> Testling provides a bigger benefit in providing tests against browsers I would otherwise have to install VMs for.</p>
+<p>That said, I don&#39;t want ot pursuade you from using <strong>testling</strong> locally if it provides benefit in your workflow.</p>
+<h3 id="remote">remote</h3>
+<p>To use the remote service that <a href="https://ci.testling.com/">testling</a> provides, you still define the <code>testling</code> property in your <code>package.json</code> for the project as described above, but you additionally have to provide a webhook for your <strong>git</strong> repo in order to invoke the test harness. Upon a <code>PUSH</code> to your repository, <a href="https://ci.testling.com/">testling</a> will run the specified HTML file under the listed target browsers and report results based on the <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">Test Anything Protocol</a> output printed to <code>console</code>.</p>
+<p>In addition to providing a great service, you also get the option of adding a nice looking badge to your project.</p>
+<p><img src="https://custardbelly.com/blog/images/testling-1.png" alt="testling harness output"></p>
+<p>This badge was produced by pushing an update to the <a href="https://github.com/bustardcelly/cucumberjs-examples">cucumberjs-examples</a> exampe repo with a defined webhook. (If you followed along in the previous articles, you will note that the failing IE tests are due to the use of <code>Object.create</code> in source without a polyfill).</p>
+<p>_The process of adding a webhook to your project is described in better detail in the <a href="https://ci.testling.com/guide/quick_start">testling documentation</a>._</p>
+<h3 id="donate">donate</h3>
+<p>If you do use <a href="https://ci.testling.com/">testling</a> in any fashion, I implore you to <a href="https://ci.testling.com/donate">donate to the cause</a> :)</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this article I introduced how the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool can be used to generate a browser-based testrunner to report tests in <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> format and integrate the invaluable <a href="https://ci.testling.com/">testling</a> service to run the tests on various browsers that may not be at your disposal otherwise.</p>
+<p>While <a href="https://ci.testling.com/">testling</a> provides one consumer endpoint, using the <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> specification in reporting test results can easily be consumed by another test harness of your choice.</p>
+<p>For more information on running <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in the browser and/or to report any issues, please visit the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> repository.</p>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/02/18/cucumberjs-testling/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/02/18/cucumberjs-testling/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript V: CucumberJS and The Browser, II]]></title><description><![CDATA[<p><em>&quot;Whoa. Whoa. Whoa. You can&#39;t just use roman numerals all over the place in your post titles...&quot;</em></p>
 <p>In the <a href="https://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous article</a> I addressed the available libraries and practices to have your <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs running in a browser environment, as well as introduced a new project begun by me: <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a>.</p>
 <p>I had originally had the entirety of this post in the previous post, but felt that it was a little bit of information overload. As such, I decided to split them into two posts.</p>
 <p>The intent of this article is to address incorporating <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> into our current Grocery List Application example and continue developing features that involve User Interaction with the DOM.</p>
@@ -983,104 +1333,7 @@ var application = {
 <p>Who knows... I have had a blast going through the articles in this series demonstrating TDD using the BDD tool, <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. I might just continue to evolve the example to a fully-functional application just as I had done in the <a href="https://custardbelly.com/blog/blog-pages/category/grocery-ls.html">Making of a Test-Driven Grocery List Application</a> series which focused on the <a href="http://jasmine.github.io/2.0/introduction.html">Jasmine</a> library.</p>
 <p>Additionally, I am invested in the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> I created during (and as a result) of this series and hope to write some more articles on its structure, usage and any additions/fixes that are made and I welcome you to help me in making <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> a great tool in being able run your specs in a real browser environment without having to change your current workflow in defining <strong>Features</strong>, <strong>Step Definitions</strong> and support files.</p>
 <p>Cheers!</p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[Running Browser-Based CucumberJS Specs in Testling]]></title><description><![CDATA[<p>In my <a href="https://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous</a> <a href="https://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html">posts</a> I discuss bringing <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs to the browser using the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool. In this post I intend to address how to use the format reporting options of the <strong>cucumberjs-browser</strong> tool to enable integration with the <a href="https://ci.testling.com/">testling</a> automated cross-browser testing tool to run your specs in various browser environment targets that you may not have installed on your own system.</p>
-<h2 id="requirements">Requirements</h2>
-<p>For the purposes of this article, it is assumed that you are knowledgable of <a href="http://nodejs.org">node</a> and <a href="http://npmjs.org">npm</a> and familiar with creating feature specs for <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. </p>
-<p>To view examples of features and step definitions for a browser-based application, please visit the <a href="https://github.com/bustardcelly/cucumberjs-examples">cucumberjs-examples</a> repo, from which this post will use to demonstrate integrating the generated testrunner from <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> with <a href="https://ci.testling.com/">testling</a>.</p>
-<h2 id="cucumberjs-browser">cucumberjs-browser</h2>
-<p>The <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool provides the ability to run your feature specs in the browser by bundling your features, steps and support files - written in the usual way you would - to be run and evaluated at runtime by the browser-based <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> testrunner</p>
-<p>To install <strong>cucumberjs-browser</strong>:</p>
-<pre><code>$ npm install <span class="hljs-attribute">-g</span> cucumberjs<span class="hljs-attribute">-browser</span>
-</code></pre><p><em>you may need to <code>sudo</code></em></p>
-<p>After installation, the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> will be accessible on the command-line using <code>cucumberjs-browser</code> and can be run within any directory that has <strong>Features</strong> and <strong>Step Definitions</strong> (along with optional support files) that can be consumed by <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>.</p>
-<p>The <strong>cucumberjs-browser</strong> CLI tool can be run with the following options:</p>
-<pre><code>$ <span class="hljs-tag">cucumberjs-browser</span> <span class="hljs-attr_selector">[-o outdir]</span> <span class="hljs-attr_selector">[-f format]</span> <span class="hljs-attr_selector">[--tmpl template]</span> <span class="hljs-attr_selector">[--features features]</span>
-</code></pre><p>Though it is strongly encouraged to provide a custom template using the <code>--tmpl</code> option, for the purpose of this article, we will focus on the format (<code>-f</code>) option. As of the writing of this article, the following format options are available:</p>
-<ul>
-<li>ui</li>
-<li>tap</li>
-<li>testem</li>
-<li>saucelabs</li>
-</ul>
-<p>For the purpose of this article, we will be discussing the <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> format option value.</p>
-<p><em>For more infromation about other format options, please visit the latest <a href="https://github.com/bustardcelly/cucumberjs-browser/wiki/Formats">documentation regarding formats</a> on the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a>.</em></p>
-<h2 id="tap">TAP</h2>
-<p>The <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">Test Anything Protocol</a> is a specification for reporting test information. The benefit of using such a specification is that it can be consumed by any test harness that recognizes it.</p>
-<p>You can output <strong>TAP</strong> reports from <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> using the <code>tap</code> value for the foromat option:</p>
-<pre><code>$ cucumberjs<span class="hljs-attribute">-browser</span> <span class="hljs-attribute">-f</span> tap
-</code></pre><p>Running this command will generate the necessary files to print <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> test results in the console when loaded by a browser.</p>
-<p>If you were to open the generated testrunner file in a browser using the example from <a href="https://github.com/bustardcelly/cucumberjs-examples">cucumberjs-examples</a>, you would see something like the following if you were to open the browser console:</p>
-<pre><code>TAP <span class="hljs-property">version</span> <span class="hljs-number">13</span>
-<span class="hljs-comment"># Submit of valid item adds item to list</span>
-ok <span class="hljs-number">1</span> I have opened <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> <span class="hljs-type">application</span>
-ok <span class="hljs-number">2</span> I have an empty grocery <span class="hljs-type">list</span> view
-ok <span class="hljs-number">3</span> I provide a valid grocery <span class="hljs-type">list</span> <span class="hljs-property">item</span> <span class="hljs-property">name</span>
-ok <span class="hljs-number">4</span> I select <span class="hljs-keyword">to</span> add an <span class="hljs-property">item</span>
-ok <span class="hljs-number">5</span> The <span class="hljs-property">item</span> <span class="hljs-keyword">is</span> added <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> view
-<span class="hljs-comment"># Submit of valid item adds item to collection</span>
-ok <span class="hljs-number">6</span> I have opened <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> <span class="hljs-type">application</span>
-ok <span class="hljs-number">7</span> I have an empty grocery <span class="hljs-type">list</span> view
-ok <span class="hljs-number">8</span> I provide a valid grocery <span class="hljs-type">list</span> <span class="hljs-property">item</span> <span class="hljs-property">name</span>
-ok <span class="hljs-number">9</span> I select <span class="hljs-keyword">to</span> add an <span class="hljs-property">item</span>
-ok <span class="hljs-number">10</span> The <span class="hljs-property">item</span> <span class="hljs-keyword">is</span> accessible <span class="hljs-keyword">from</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> collection
-<span class="hljs-comment"># Item added to grocery list</span>
-ok <span class="hljs-number">11</span> I have opened <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> <span class="hljs-type">application</span>
-ok <span class="hljs-number">12</span> I have an empty grocery <span class="hljs-type">list</span>
-ok <span class="hljs-number">13</span> I add an <span class="hljs-property">item</span> <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> <span class="hljs-type">list</span>
-ok <span class="hljs-number">14</span> The grocery <span class="hljs-type">list</span> <span class="hljs-keyword">contains</span> a single <span class="hljs-property">item</span>
-<span class="hljs-comment"># Item accessible from grocery list</span>
-ok <span class="hljs-number">15</span> I have opened <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> <span class="hljs-type">application</span>
-ok <span class="hljs-number">16</span> I have an empty grocery <span class="hljs-type">list</span>
-ok <span class="hljs-number">17</span> I add an <span class="hljs-property">item</span> <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> <span class="hljs-type">list</span>
-ok <span class="hljs-number">18</span> I can access <span class="hljs-keyword">that</span> <span class="hljs-property">item</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span>
-
-<span class="hljs-number">1.</span><span class="hljs-number">.18</span>
-<span class="hljs-comment"># tests 18</span>
-<span class="hljs-comment"># pass  18</span>
-
-<span class="hljs-comment"># ok</span>
-</code></pre><p>It should be noted that the <code>tap</code> listener for <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> uses the excellent <a href="https://github.com/substack/tape">tape</a> module.</p>
-<h2 id="testling">testling</h2>
-<p>I can&#39;t say enough how much I appreciate <a href="https://ci.testling.com/">testling</a>. You can install <strong>testling</strong> locally to run tests on the browsers installed on your system or use their remote service to run tests against various browsers that may not be available to you, yet are required as targets for your current project.</p>
-<h3 id="local">local</h3>
-<p>You can install <a href="https://ci.testling.com/">testling</a> to be run locally:</p>
-<pre><code><span class="hljs-variable">$ </span>npm install -g testling
-</code></pre><p>To run it, change directories into the generated files from <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> and run the following command:</p>
-<pre><code><span class="hljs-variable">$ </span>cd browser-test
-<span class="hljs-variable">$ </span>testling
-</code></pre><p>That will consume a local <code>package.json</code> file and read a <code>testling</code> entry with options associated with running the generated html file againsta installed browsers on your system:</p>
-<p><em>/browser-test/package.json</em></p>
-<pre><code>{
-<span class="hljs-keyword">...</span>
-
-  <span class="hljs-string">"testling"</span> : {
-    <span class="hljs-string">"html"</span> : <span class="hljs-string">"cucumber-testrunner.html"</span>,
-    <span class="hljs-string">"browsers"</span> : [
-        <span class="hljs-string">"chrome/latest"</span>,
-        <span class="hljs-string">"firefox/latest"</span>,
-        <span class="hljs-string">"safari/latest"</span>
-    ]
-  },
-
-<span class="hljs-keyword">...</span>
-}
-<span class="hljs-keyword">...</span>
-</code></pre><p>Truthfully, I never run <a href="https://ci.testling.com/">testling</a> locally. The main reasons being </p>
-<p><strong>a)</strong> I can automate the running of specs on locally installed browsers easier with other tools (this is for another post :) )<br><strong>b)</strong> Testling provides a bigger benefit in providing tests against browsers I would otherwise have to install VMs for.</p>
-<p>That said, I don&#39;t want ot pursuade you from using <strong>testling</strong> locally if it provides benefit in your workflow.</p>
-<h3 id="remote">remote</h3>
-<p>To use the remote service that <a href="https://ci.testling.com/">testling</a> provides, you still define the <code>testling</code> property in your <code>package.json</code> for the project as described above, but you additionally have to provide a webhook for your <strong>git</strong> repo in order to invoke the test harness. Upon a <code>PUSH</code> to your repository, <a href="https://ci.testling.com/">testling</a> will run the specified HTML file under the listed target browsers and report results based on the <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">Test Anything Protocol</a> output printed to <code>console</code>.</p>
-<p>In addition to providing a great service, you also get the option of adding a nice looking badge to your project.</p>
-<p><img src="https://custardbelly.com/blog/images/testling-1.png" alt="testling harness output"></p>
-<p>This badge was produced by pushing an update to the <a href="https://github.com/bustardcelly/cucumberjs-examples">cucumberjs-examples</a> exampe repo with a defined webhook. (If you followed along in the previous articles, you will note that the failing IE tests are due to the use of <code>Object.create</code> in source without a polyfill).</p>
-<p>_The process of adding a webhook to your project is described in better detail in the <a href="https://ci.testling.com/guide/quick_start">testling documentation</a>._</p>
-<h3 id="donate">donate</h3>
-<p>If you do use <a href="https://ci.testling.com/">testling</a> in any fashion, I implore you to <a href="https://ci.testling.com/donate">donate to the cause</a> :)</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>In this article I introduced how the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool can be used to generate a browser-based testrunner to report tests in <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> format and integrate the invaluable <a href="https://ci.testling.com/">testling</a> service to run the tests on various browsers that may not be at your disposal otherwise.</p>
-<p>While <a href="https://ci.testling.com/">testling</a> provides one consumer endpoint, using the <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> specification in reporting test results can easily be consumed by another test harness of your choice.</p>
-<p>For more information on running <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in the browser and/or to report any issues, please visit the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> repository.</p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/02/18/cucumberjs-testling/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/02/18/cucumberjs-testling/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript IV: CucumberJS and The Browser]]></title><description><![CDATA[<p>In my <a href="https://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">previous post</a> in this series detailing how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>, I addressed a few common build tools in JavaScript to automate the watching and running of tests. While beneficial to a proper agile workflow, I did not introduce any new concepts or development information directly associated with using CucumberJS, itself.</p>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript IV: CucumberJS and The Browser]]></title><description><![CDATA[<p>In my <a href="https://custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html">previous post</a> in this series detailing how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>, I addressed a few common build tools in JavaScript to automate the watching and running of tests. While beneficial to a proper agile workflow, I did not introduce any new concepts or development information directly associated with using CucumberJS, itself.</p>
 <p>In this article, I intend to take on a pretty meaty subject - running your cukes in the browser. It is a subject I have grappled with for some time and have tried different solutions, eventually <a href="https://github.com/bustardcelly/cucumberjs-browser">creating my own</a>. </p>
 <h3 id="-gt-code">&gt; code</h3>
 <p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></p>
@@ -1125,7 +1378,198 @@ ok <span class="hljs-number">18</span> I can access <span class="hljs-keyword">t
 <p>For this post, I had originally started updating the example we have been working through in this series to incoprate User Interaction with the application in a browser with <span style="color: red;">failing</span> tests everywhere... it made me smile :) But, I felt it was extending the length of this post to a point in which it was becoming information overload.</p>
 <p>As such, I am in the middle of a follow up post in how to utilize <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> for our current Grocery List Application example in delivering a test-driven browser-based application supported by <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs.</p>
 <p>At the very least, I hope this post highlighted some possible solutions for testing in the browser and will draw you back to the following post where i go more in depth about working with <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a>. &#39;Til then...</p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript II: CucumberJS, the World and Background]]></title><description><![CDATA[<p>In <a href="https://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">my previous post</a>, I demonstrated how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> - the JavaScript port of the <a href="http://cukes.info/">Cucumber</a> BDD testing tool - in developing Test-Driven code. I walked through going from a <span style="color:red;">failing</span> feature with two scenarios to a <span style="color:green;">passing</span> cuke, while taking care to only add enough code that would make the assertions pass and refactoring as I went along under the assurance of a test harness.</p>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript III: CucumberJS and Test Automation]]></title><description><![CDATA[<p>In my <a href="https://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html">previous post</a> I addressed the concepts of the <strong>World</strong> context and <strong>Background</strong> scenario. I am going to pause in actually working with <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in delivering code in a BDD manner for this article and address another vital part of the development process: <strong>Automation</strong>.</p>
+<h3 id="-gt-code">&gt; code</h3>
+<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></p>
+<h2 id="why-automate-">Why Automate?</h2>
+<p>The benefit of automation is in time saved. If we can pinpoint tasks that we do repetitively during development and automate them, we can save large amounts of time that could be put back into doing more coding, thinking, learning, laughing, beering - the list goes on.</p>
+<p>While going through the basics of <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in the previous articles, I was demonstrating how I use the tool to TDD from the outside-in and constantly hopping back and forth from my code editor to the terminal to run this simple command over and over:</p>
+<pre><code><span class="hljs-variable">$ </span>node node_modules/.bin/cucumber-js
+</code></pre><p>Now, I am pretty good at <code>CMD+TAB</code> - not to brag - but I would much prefer to get feedback on my tests instantly as I describe my asserts and modify my code. If we automate the running of <strong>Cucumber</strong> on file change, we can start seeing results quicker and we can take that time removed from manually switching between editor and terminal and running commands and put that time back into thinking how to design our code more cleanly :)</p>
+<p>This automation and instant feedback really shows its worth in the <strong>Refactor</strong> phase in which you have previously implemented code to pass the criteria in a <strong>Feature</strong>.</p>
+<h2 id="task-automation-and-javascript">Task Automation and JavaScript</h2>
+<p>When talking about build tools and task automation for JavaScript projects, there are roughly 3 types of task runners that are brought up:</p>
+<ol>
+<li><a href="http://gruntjs.com/">Grunt</a></li>
+<li><a href="http://gulpjs.com/">Gulp</a></li>
+<li><a href="http://substack.net/task_automation_with_npm_run">npm run</a></li>
+</ol>
+<p>There are additional tools that have been around for some time - particularly, in the past I have used <a href="http://ant.apache.org/">Ant</a> and <a href="http://www.gnu.org/software/make/">Make</a> for my build process - but, generally speaking, these are the prevelant tools of the trade in JavaScript as it stands today. </p>
+<p>Some people think that each oppose each other, but I lean toward utilizing one or the others based on its merits and the requirements of a project. I have several on-going projects, both professional and personal, and each project actually incorporates one of each of these. I will discuss my thoughts on the value of each tool within each section in which I set up automation for our <a href="https://github.com/cucumber/cucumber-js">Cucumber</a> tests.</p>
+<h2 id="npm-run">Npm run</h2>
+<p>I&#39;ll start off with the basics. By basics, I mean that there is no additonal tool required to install and get up and running with our test automation; we have everything already installed that we need: node &amp; npm.</p>
+<h3 id="benifits">Benifits</h3>
+<p><a href="https://twitter.com/substack">James Halliday</a> had previously written a <a href="http://substack.net/task_automation_with_npm_run">great post</a> addressing the use of <code>npm run</code> in task automation, and I agree in so far as keeping things simple. The benefits of defining tasks in the <code>scripts</code> tag of your <code>package.json</code> file are <strong>a) simplicity</strong> and <strong>b) no additional tooling</strong>. I do have the reservations that the &quot;simplicity&quot; vanishes if you have to eventually maintain dozens of tasks - some that may be similar with different arguments - and continually want to run series and parallels. </p>
+<p>When your build process becomes more complex, <a href="https://twitter.com/substack">James Halliday</a> does mention moving it to a bash file, but I would argue to perhaps look at a more robust solution with the tools described previously (and in more detail later in this article).</p>
+<h3 id="usage">Usage</h3>
+<p>If we were to simply take the process of running our tests as we have in previous articles, we can modify our <code>package.json</code> file by adding the following <code>scripts</code> tag and task:</p>
+<p><em>package.json</em></p>
+<pre><code>{
+  <span class="hljs-string">"name"</span>: <span class="hljs-string">"cucumberjs-examples"</span>,
+  <span class="hljs-keyword">...</span>
+  <span class="hljs-string">"scripts"</span>: {
+      <span class="hljs-string">"test"</span>: <span class="hljs-string">"node node_modules/.bin/cucumber-js"</span>
+  }
+  <span class="hljs-keyword">...</span>
+}
+</code></pre><p>Plain and simple. To run it, we&#39;d hop over to our terminal:</p>
+<pre><code>$ npm run test
+
+<span class="hljs-subst">&gt;</span> cucumberjs<span class="hljs-attribute">-examples</span>@<span class="hljs-number">0.1</span><span class="hljs-number">.0</span> test /Users/toddanderson/Documents/workspace/custardbelly/cucumberjs<span class="hljs-attribute">-example</span>
+<span class="hljs-subst">&gt;</span> node node_modules<span class="hljs-subst">/</span><span class="hljs-built_in">.</span>bin/cucumber<span class="hljs-attribute">-js</span>
+<span class="hljs-attribute">...</span><span class="hljs-attribute">...</span><span class="hljs-built_in">..</span>
+
+<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> passed)
+<span class="hljs-number">8</span> steps (<span class="hljs-number">8</span> passed)
+</code></pre><p>Same result. We get to type less now, so that&#39;s good. However, we are not really automating the process for running our tests. As mentioned previously, we are looking for the benefit of automating the running of our tests on change to <strong>Step Definitions</strong> and code.</p>
+<p>As such, we create a simple node script that will watch our <code>script</code> and <code>feature/step_definitions</code> and run the <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> CLI tool on each change:</p>
+<p><strong>cuke-watcher.js</strong></p>
+<pre><code>#!<span class="hljs-regexp">/usr/</span>bin/env node
+<span class="hljs-keyword">var</span> watch = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-watch'</span>);
+<span class="hljs-keyword">var</span> child_process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'child_process'</span>);
+<span class="hljs-keyword">var</span> running = <span class="hljs-literal">false</span>;
+<span class="hljs-keyword">var</span> cucumber;
+
+<span class="hljs-keyword">var</span> JS_EXT = <span class="hljs-regexp">/^.*\.js/i</span>;
+<span class="hljs-keyword">var</span> options = [<span class="hljs-string">'node_modules/.bin/cucumber-js'</span>, 
+               <span class="hljs-string">'features'</span>, 
+               <span class="hljs-string">'-r'</span>, <span class="hljs-string">'features/step_definitions'</span>,
+               <span class="hljs-string">'-f'</span>, <span class="hljs-string">'pretty'</span>];
+
+watch([<span class="hljs-string">'./features/step_definitions'</span>, <span class="hljs-string">'script'</span>], {recursive:<span class="hljs-literal">true</span>}, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(filename)</span> {</span>
+
+  <span class="hljs-keyword">if</span>(!running &amp;&amp; filename.match(JS_EXT)) {
+
+    running = <span class="hljs-literal">true</span>;
+
+    cucumber = child_process.spawn(<span class="hljs-string">'node'</span>, options)
+                    .on(<span class="hljs-string">'exit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+                      running = <span class="hljs-literal">false</span>;
+                    });
+
+    cucumber.stdout.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> {</span>
+      console.log(<span class="hljs-built_in">String</span>(d));
+    });
+
+    cucumber.stderr.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> {</span>
+      console.error(<span class="hljs-built_in">String</span>(d));
+    });
+
+  }
+
+});
+</code></pre><p>We are using the wonderful <a href="https://npmjs.org/package/node-watch">node-watch</a> module that is a convenient wrapper to <code>fs.watch</code>, and upon change, we spawn the <strong>Cucumber</strong> tool as a child process. Running <strong>Cucumber</strong> as a child process allows it to exit its own process without having to exit the <code>watch</code> process, which would kill all automation.</p>
+<p>Modify our <code>package.json</code> to invoke this script:</p>
+<p><em>package.json</em></p>
+<pre><code>{
+  <span class="hljs-string">"name"</span>: <span class="hljs-string">"cucumberjs-examples"</span>,
+  <span class="hljs-keyword">...</span>
+  <span class="hljs-string">"scripts"</span>: {
+      <span class="hljs-string">"test"</span>: <span class="hljs-string">"node node_modules/.bin/cucumber-js"</span>,
+      <span class="hljs-string">"watch"</span>: <span class="hljs-string">"node cuke-watcher.js"</span>
+  }
+  <span class="hljs-keyword">...</span>
+}
+</code></pre><p>And run it in the terminal:</p>
+<pre><code><span class="hljs-variable">$ </span>npm run watch
+</code></pre><p>And you will see the cursor flash with the <code>watch</code> process running. If you were to modify any of the <strong>Step Definition</strong> or source files of our current <a href="https://github.com/bustardcelly/cucumberjs-examples">Grocery List</a> example project, you would see <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> run and produce the same results as before - the only difference is that it is now waiting for you to modify them again so it can run again.</p>
+<p>It will continue to <code>watch</code> and run tests until you exit the process, most commonly done by focusing on the terminal and hitting <code>CTRL+C</code>.</p>
+<h2 id="grunt">Grunt</h2>
+<p>Up until a few years ago, I  stuck with what I knew best and preferred to maintain builds for my JavaScript projects using <a href="http://www.gnu.org/software/make/">Make</a>. After having the fortunate opportunity to hear <a href="http://benalman.com/">Ben Alman</a> speak and demonstrate <a href="http://gruntjs.com/">Grunt</a> at <a href="http://2013.texasjavascript.com/">TXJS</a> in 2012, I decided to give <strong>Grunt</strong> a real try - and I have, for the most part, not looked back.</p>
+<p><a href="http://gruntjs.com/">Grunt</a> is my go-to task automation tool for large projects that involve various complex tasks for developing, testing and deployment. For the most part, if my tasks are not solely based on files, I will incorporate <strong>Grunt</strong> into my project. </p>
+<p>Along with a solid history and great documentation, there is also a very active community that creates task plugins for <strong>Grunt</strong>: <a href="http://gruntjs.com/plugins">http://gruntjs.com/plugins</a>. You can find virtually anything you need, and if for some odd reason you can&#39;t, you can create one: <a href="http://gruntjs.com/creating-plugins">Creating Grunt Plugins Docs</a>.</p>
+<p><em>It is too much for this article to get into a discussion about <strong>Grunt</strong> and its concepts, so please read the <a href="http://gruntjs.com/getting-started">documentation</a> on their site for clarity. In this section I intend to address how to use <strong>Grunt</strong> to automate the tests we have been developing in this series.</em></p>
+<h3 id="usage">Usage</h3>
+<p>Just as we setup a watcher for our <strong>Step Definitions</strong> and scripts for our <code>npm run</code> example, we will be using 2 <a href="http://gruntjs.com/">Grunt</a> plugin tasks provided by the wonderful development community:</p>
+<ul>
+<li><a href="https://github.com/gruntjs/grunt-contrib-watch">grunt-contrib-watch</a> - maintained by the contributors for gruntjs</li>
+<li><a href="https://github.com/s9tpepper/grunt-cucumber-js">grunt-cucumber</a> - maintained by venerable developer <a href="https://twitter.com/s9tpepper">Omar Gonzalez</a></li>
+</ul>
+<p>I will assume you have <a href="http://gruntjs.com/getting-started">Grunt installed properly</a> and start with the <code>Gruntfile</code>:</p>
+<p><em>Gruntfile.js</em></p>
+<pre><code>module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(grunt)</span> {</span>
+<span class="hljs-pi">  'use strict'</span>;
+
+  grunt.initConfig({
+    pkg: grunt.file.readJSON(<span class="hljs-string">'package.json'</span>),
+    watch: {
+      cucumber: {
+        files: [<span class="hljs-string">'features/**/*.js'</span>, <span class="hljs-string">'script/**/*.js'</span>],
+        tasks: [<span class="hljs-string">'cucumberjs'</span>]
+      }
+    },
+    cucumberjs: {
+      src: <span class="hljs-string">'features'</span>,
+      options: {
+        steps: <span class="hljs-string">'features/step_definitions'</span>,
+        format: <span class="hljs-string">'pretty'</span>
+      }
+    }
+  });
+
+  grunt.loadNpmTasks(<span class="hljs-string">'grunt-contrib-watch'</span>);
+  grunt.loadNpmTasks(<span class="hljs-string">'grunt-cucumber'</span>);
+
+  grunt.registerTask(<span class="hljs-string">'watch-tests'</span>, <span class="hljs-string">'Starts a watch for test automation.'</span>, [<span class="hljs-string">'watch:cucumber'</span>]);
+
+};
+</code></pre><p>Within the <code>Gruntfile</code> we have configured <code>cucumberjs</code> task with the same arguments we have been using in previous examples and configured a <code>watch</code> task to listen for changes to JavaScript files in the <em>features</em> and <em>script</em> directories.</p>
+<p>Additionally, we have defined a <code>watch-tests</code> task which we can invoke using <strong>Grunt</strong> from the command line:</p>
+<pre><code><span class="hljs-variable">$ </span>grunt watch-tests
+</code></pre><p>Running that will do, essentially, what we have done using <code>npm run</code> in the previous section: the <code>watch</code> process will be active and execute the <strong>Cucumber</strong> specs upon a change to JavaScript files in the target directories. To stop the task from running, focus on the terminal and <code>CTRL+C</code> to exit the process.</p>
+<h2 id="gulp">Gulp</h2>
+<p><a href="http://gulpjs.com/">Gulp</a> is a (relatively) new-comer to the JavaScript-based task runner ecosystem. Like <a href="http://gruntjs.com/">Grunt</a>, it is a task-based build tool that has <a href="https://github.com/gulpjs/gulp/blob/master/README.md">good documentation</a> and a lively community <a href="http://gratimax.github.io/search-gulp-plugins/">contributing plugins</a>. All good things.</p>
+<p><a href="http://gulpjs.com/">Gulp</a>&#39;s build system uses <a href="http://nodejs.org/api/stream.html">streams</a> which allows you to pipe multiple tasks together. As well, the tasks defined in the <code>gulpfile</code> are the code itself - as opposed to <strong>Grunt</strong> in which you provide a configuration for your tasks that are consumed by <strong>Grunt</strong> and provided to the targetted plugin through a task registry.</p>
+<p>There are <a href="http://blog.ponyfoo.com/2014/01/09/gulp-grunt-whatever">plenty</a> of <a href="http://www.100percentjs.com/just-like-grunt-gulp-browserify-now/">other articles</a> <a href="http://jaysoo.ca/2014/01/27/gruntjs-vs-gulpjs/">contrasting the two</a>, so I won&#39;t rehash them here. I will say that I choose <strong>Gulp</strong> over <strong>Grunt</strong> in projects where the build requirements are strictly focused on files - ie, take these files, do something to them (min, concat) and put them in this directory.</p>
+<p><strong>As a side note: I highly recommend <a href="https://twitter.com/substack">James Halliday</a>&#39;s excellent <a href="https://github.com/substack/stream-handbook">stream-handbook</a> to get a better understanding of streams in <a href="http://nodejs.org">node</a>.</strong></p>
+<h3 id="usage">Usage</h3>
+<p>The <a href="http://gratimax.github.io/search-gulp-plugins/">plugin community</a> for <a href="http://gulpjs.com/">Gulp</a> is fairly active, but as I mentioned previously <strong>Gulp</strong>&#39;s system is really based on streams. As such, I don&#39;t intend to see a plugin for running <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> tests specifically, as we have with <a href="https://github.com/s9tpepper/grunt-cucumber-js">grunt-cucumber</a> - nor do intend to make one or continue to look for one: I don&#39;t think such a plugin is well suited to <strong>Gulp</strong>.</p>
+<p>That&#39;s said, we can certainly set up a <code>watch</code> task on our <strong>Step Definitions</strong> and scripts just as we have in the previous examples!</p>
+<p><strong>gulpfile.js</strong></p>
+<pre><code><span class="hljs-keyword">var</span> gulp = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp'</span>);
+<span class="hljs-keyword">var</span> watch = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-watch'</span>);
+<span class="hljs-keyword">var</span> child_process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'child_process'</span>);
+
+<span class="hljs-keyword">var</span> cucumber;
+<span class="hljs-keyword">var</span> running = <span class="hljs-literal">false</span>;
+<span class="hljs-keyword">var</span> options = [<span class="hljs-string">'node_modules/.bin/cucumber-js'</span>,
+               <span class="hljs-string">'features'</span>, 
+               <span class="hljs-string">'-r'</span>, <span class="hljs-string">'features/step_definitions'</span>,
+               <span class="hljs-string">'-f'</span>, <span class="hljs-string">'pretty'</span>];
+
+gulp.task(<span class="hljs-string">'cucumber'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+  <span class="hljs-keyword">if</span>(!running) {
+    running = <span class="hljs-literal">true</span>;
+    cucumber = child_process.spawn(<span class="hljs-string">'node'</span>, options)
+                    .on(<span class="hljs-string">'exit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+                      running = <span class="hljs-literal">false</span>;
+                    });
+    cucumber.stdout.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> {</span>
+      console.log(<span class="hljs-built_in">String</span>(d));
+    });
+
+    cucumber.stderr.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> {</span>
+      console.error(<span class="hljs-built_in">String</span>(d));
+    });
+  }
+});
+
+gulp.task(<span class="hljs-string">'watch-tests'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+  gulp.src([<span class="hljs-string">'features/**/*.js'</span>, <span class="hljs-string">'script/**/*.js'</span>])
+      .pipe(watch(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        gulp.run(<span class="hljs-string">'cucumber'</span>);
+      }));
+});
+</code></pre><p>Running that is very similar to how we ran our <strong>Grunt</strong> task:</p>
+<pre><code><span class="hljs-variable">$ </span>gulp watch-tests
+</code></pre><p>As you may notice, this example fairly similar to the <code>npm run</code> example shown previously. The main difference is that we pipe the streams through the <code>gulp-watch</code> plugin which triggers <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> as a child process upon change to targetted files.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>So, which one should you use? Whichever! They each have their merits and it should be discussed with your team in alignment with the requirements for the current project.</p>
+<p>It was my intent to showcase how to incoporate automated testing with <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> using the three most popular task runner / build tools so we can devote more time to thinking about design instead of hopping from our code editor to the terminal for each change to our <strong>Step Definitions</strong>.</p>
+<p>I didn&#39;t introduce any new concepts related to <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>, itself, but felt it necessary to address automation at this stage within the series as I feel it is a vital part to Test-Driven Development and the Agile process and something that should be addressed in the early stages of a project.</p>
+<p>That said, I look forward to the next article where we get to write more tests and which I intend to introduce running tests in a browser environment :)</p>
+<p>Source for examples related to this post can be found in the <a href="https://github.com/bustardcelly/cucumberjs-examples/tree/0.3.0.post">0.3.0.post tag on my Github account</a>.</p>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript II: CucumberJS, the World and Background]]></title><description><![CDATA[<p>In <a href="https://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">my previous post</a>, I demonstrated how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> - the JavaScript port of the <a href="http://cukes.info/">Cucumber</a> BDD testing tool - in developing Test-Driven code. I walked through going from a <span style="color:red;">failing</span> feature with two scenarios to a <span style="color:green;">passing</span> cuke, while taking care to only add enough code that would make the assertions pass and refactoring as I went along under the assurance of a test harness.</p>
 <p>There are a few topics that I didn&#39;t address in the previous post that I utilize in my testing process that I wanted to touch on in this post as any further articles I may write on the subject of <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> most likely will reference them. These are:</p>
 <ul>
 <li>the World<del>, chico, and everything in it.</del></li>
@@ -1904,252 +2348,4 @@ module.exports = {
 </ul>
 <p>Additionally, in a following post I want to address how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> to run tests that rely on browser integration - ie, <strong>window</strong> and <strong>document</strong> access.</p>
 <p><em>In the past I have used <a href="http://zombie.labnotes.org/">ZombieJS</a> to much success, but <a href="https://twitter.com/s9tpepper">Omar Gonzalez</a> has tipped me to him <a href="https://github.com/s9tpepper/karma-cucumberjs">Karma solution</a> that I am excited to test-drive.</em></p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript III: CucumberJS and Test Automation]]></title><description><![CDATA[<p>In my <a href="https://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html">previous post</a> I addressed the concepts of the <strong>World</strong> context and <strong>Background</strong> scenario. I am going to pause in actually working with <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in delivering code in a BDD manner for this article and address another vital part of the development process: <strong>Automation</strong>.</p>
-<h3 id="-gt-code">&gt; code</h3>
-<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></p>
-<h2 id="why-automate-">Why Automate?</h2>
-<p>The benefit of automation is in time saved. If we can pinpoint tasks that we do repetitively during development and automate them, we can save large amounts of time that could be put back into doing more coding, thinking, learning, laughing, beering - the list goes on.</p>
-<p>While going through the basics of <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in the previous articles, I was demonstrating how I use the tool to TDD from the outside-in and constantly hopping back and forth from my code editor to the terminal to run this simple command over and over:</p>
-<pre><code><span class="hljs-variable">$ </span>node node_modules/.bin/cucumber-js
-</code></pre><p>Now, I am pretty good at <code>CMD+TAB</code> - not to brag - but I would much prefer to get feedback on my tests instantly as I describe my asserts and modify my code. If we automate the running of <strong>Cucumber</strong> on file change, we can start seeing results quicker and we can take that time removed from manually switching between editor and terminal and running commands and put that time back into thinking how to design our code more cleanly :)</p>
-<p>This automation and instant feedback really shows its worth in the <strong>Refactor</strong> phase in which you have previously implemented code to pass the criteria in a <strong>Feature</strong>.</p>
-<h2 id="task-automation-and-javascript">Task Automation and JavaScript</h2>
-<p>When talking about build tools and task automation for JavaScript projects, there are roughly 3 types of task runners that are brought up:</p>
-<ol>
-<li><a href="http://gruntjs.com/">Grunt</a></li>
-<li><a href="http://gulpjs.com/">Gulp</a></li>
-<li><a href="http://substack.net/task_automation_with_npm_run">npm run</a></li>
-</ol>
-<p>There are additional tools that have been around for some time - particularly, in the past I have used <a href="http://ant.apache.org/">Ant</a> and <a href="http://www.gnu.org/software/make/">Make</a> for my build process - but, generally speaking, these are the prevelant tools of the trade in JavaScript as it stands today. </p>
-<p>Some people think that each oppose each other, but I lean toward utilizing one or the others based on its merits and the requirements of a project. I have several on-going projects, both professional and personal, and each project actually incorporates one of each of these. I will discuss my thoughts on the value of each tool within each section in which I set up automation for our <a href="https://github.com/cucumber/cucumber-js">Cucumber</a> tests.</p>
-<h2 id="npm-run">Npm run</h2>
-<p>I&#39;ll start off with the basics. By basics, I mean that there is no additonal tool required to install and get up and running with our test automation; we have everything already installed that we need: node &amp; npm.</p>
-<h3 id="benifits">Benifits</h3>
-<p><a href="https://twitter.com/substack">James Halliday</a> had previously written a <a href="http://substack.net/task_automation_with_npm_run">great post</a> addressing the use of <code>npm run</code> in task automation, and I agree in so far as keeping things simple. The benefits of defining tasks in the <code>scripts</code> tag of your <code>package.json</code> file are <strong>a) simplicity</strong> and <strong>b) no additional tooling</strong>. I do have the reservations that the &quot;simplicity&quot; vanishes if you have to eventually maintain dozens of tasks - some that may be similar with different arguments - and continually want to run series and parallels. </p>
-<p>When your build process becomes more complex, <a href="https://twitter.com/substack">James Halliday</a> does mention moving it to a bash file, but I would argue to perhaps look at a more robust solution with the tools described previously (and in more detail later in this article).</p>
-<h3 id="usage">Usage</h3>
-<p>If we were to simply take the process of running our tests as we have in previous articles, we can modify our <code>package.json</code> file by adding the following <code>scripts</code> tag and task:</p>
-<p><em>package.json</em></p>
-<pre><code>{
-  <span class="hljs-string">"name"</span>: <span class="hljs-string">"cucumberjs-examples"</span>,
-  <span class="hljs-keyword">...</span>
-  <span class="hljs-string">"scripts"</span>: {
-      <span class="hljs-string">"test"</span>: <span class="hljs-string">"node node_modules/.bin/cucumber-js"</span>
-  }
-  <span class="hljs-keyword">...</span>
-}
-</code></pre><p>Plain and simple. To run it, we&#39;d hop over to our terminal:</p>
-<pre><code>$ npm run test
-
-<span class="hljs-subst">&gt;</span> cucumberjs<span class="hljs-attribute">-examples</span>@<span class="hljs-number">0.1</span><span class="hljs-number">.0</span> test /Users/toddanderson/Documents/workspace/custardbelly/cucumberjs<span class="hljs-attribute">-example</span>
-<span class="hljs-subst">&gt;</span> node node_modules<span class="hljs-subst">/</span><span class="hljs-built_in">.</span>bin/cucumber<span class="hljs-attribute">-js</span>
-<span class="hljs-attribute">...</span><span class="hljs-attribute">...</span><span class="hljs-built_in">..</span>
-
-<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> passed)
-<span class="hljs-number">8</span> steps (<span class="hljs-number">8</span> passed)
-</code></pre><p>Same result. We get to type less now, so that&#39;s good. However, we are not really automating the process for running our tests. As mentioned previously, we are looking for the benefit of automating the running of our tests on change to <strong>Step Definitions</strong> and code.</p>
-<p>As such, we create a simple node script that will watch our <code>script</code> and <code>feature/step_definitions</code> and run the <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> CLI tool on each change:</p>
-<p><strong>cuke-watcher.js</strong></p>
-<pre><code>#!<span class="hljs-regexp">/usr/</span>bin/env node
-<span class="hljs-keyword">var</span> watch = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-watch'</span>);
-<span class="hljs-keyword">var</span> child_process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'child_process'</span>);
-<span class="hljs-keyword">var</span> running = <span class="hljs-literal">false</span>;
-<span class="hljs-keyword">var</span> cucumber;
-
-<span class="hljs-keyword">var</span> JS_EXT = <span class="hljs-regexp">/^.*\.js/i</span>;
-<span class="hljs-keyword">var</span> options = [<span class="hljs-string">'node_modules/.bin/cucumber-js'</span>, 
-               <span class="hljs-string">'features'</span>, 
-               <span class="hljs-string">'-r'</span>, <span class="hljs-string">'features/step_definitions'</span>,
-               <span class="hljs-string">'-f'</span>, <span class="hljs-string">'pretty'</span>];
-
-watch([<span class="hljs-string">'./features/step_definitions'</span>, <span class="hljs-string">'script'</span>], {recursive:<span class="hljs-literal">true</span>}, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(filename)</span> {</span>
-
-  <span class="hljs-keyword">if</span>(!running &amp;&amp; filename.match(JS_EXT)) {
-
-    running = <span class="hljs-literal">true</span>;
-
-    cucumber = child_process.spawn(<span class="hljs-string">'node'</span>, options)
-                    .on(<span class="hljs-string">'exit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-                      running = <span class="hljs-literal">false</span>;
-                    });
-
-    cucumber.stdout.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> {</span>
-      console.log(<span class="hljs-built_in">String</span>(d));
-    });
-
-    cucumber.stderr.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> {</span>
-      console.error(<span class="hljs-built_in">String</span>(d));
-    });
-
-  }
-
-});
-</code></pre><p>We are using the wonderful <a href="https://npmjs.org/package/node-watch">node-watch</a> module that is a convenient wrapper to <code>fs.watch</code>, and upon change, we spawn the <strong>Cucumber</strong> tool as a child process. Running <strong>Cucumber</strong> as a child process allows it to exit its own process without having to exit the <code>watch</code> process, which would kill all automation.</p>
-<p>Modify our <code>package.json</code> to invoke this script:</p>
-<p><em>package.json</em></p>
-<pre><code>{
-  <span class="hljs-string">"name"</span>: <span class="hljs-string">"cucumberjs-examples"</span>,
-  <span class="hljs-keyword">...</span>
-  <span class="hljs-string">"scripts"</span>: {
-      <span class="hljs-string">"test"</span>: <span class="hljs-string">"node node_modules/.bin/cucumber-js"</span>,
-      <span class="hljs-string">"watch"</span>: <span class="hljs-string">"node cuke-watcher.js"</span>
-  }
-  <span class="hljs-keyword">...</span>
-}
-</code></pre><p>And run it in the terminal:</p>
-<pre><code><span class="hljs-variable">$ </span>npm run watch
-</code></pre><p>And you will see the cursor flash with the <code>watch</code> process running. If you were to modify any of the <strong>Step Definition</strong> or source files of our current <a href="https://github.com/bustardcelly/cucumberjs-examples">Grocery List</a> example project, you would see <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> run and produce the same results as before - the only difference is that it is now waiting for you to modify them again so it can run again.</p>
-<p>It will continue to <code>watch</code> and run tests until you exit the process, most commonly done by focusing on the terminal and hitting <code>CTRL+C</code>.</p>
-<h2 id="grunt">Grunt</h2>
-<p>Up until a few years ago, I  stuck with what I knew best and preferred to maintain builds for my JavaScript projects using <a href="http://www.gnu.org/software/make/">Make</a>. After having the fortunate opportunity to hear <a href="http://benalman.com/">Ben Alman</a> speak and demonstrate <a href="http://gruntjs.com/">Grunt</a> at <a href="http://2013.texasjavascript.com/">TXJS</a> in 2012, I decided to give <strong>Grunt</strong> a real try - and I have, for the most part, not looked back.</p>
-<p><a href="http://gruntjs.com/">Grunt</a> is my go-to task automation tool for large projects that involve various complex tasks for developing, testing and deployment. For the most part, if my tasks are not solely based on files, I will incorporate <strong>Grunt</strong> into my project. </p>
-<p>Along with a solid history and great documentation, there is also a very active community that creates task plugins for <strong>Grunt</strong>: <a href="http://gruntjs.com/plugins">http://gruntjs.com/plugins</a>. You can find virtually anything you need, and if for some odd reason you can&#39;t, you can create one: <a href="http://gruntjs.com/creating-plugins">Creating Grunt Plugins Docs</a>.</p>
-<p><em>It is too much for this article to get into a discussion about <strong>Grunt</strong> and its concepts, so please read the <a href="http://gruntjs.com/getting-started">documentation</a> on their site for clarity. In this section I intend to address how to use <strong>Grunt</strong> to automate the tests we have been developing in this series.</em></p>
-<h3 id="usage">Usage</h3>
-<p>Just as we setup a watcher for our <strong>Step Definitions</strong> and scripts for our <code>npm run</code> example, we will be using 2 <a href="http://gruntjs.com/">Grunt</a> plugin tasks provided by the wonderful development community:</p>
-<ul>
-<li><a href="https://github.com/gruntjs/grunt-contrib-watch">grunt-contrib-watch</a> - maintained by the contributors for gruntjs</li>
-<li><a href="https://github.com/s9tpepper/grunt-cucumber-js">grunt-cucumber</a> - maintained by venerable developer <a href="https://twitter.com/s9tpepper">Omar Gonzalez</a></li>
-</ul>
-<p>I will assume you have <a href="http://gruntjs.com/getting-started">Grunt installed properly</a> and start with the <code>Gruntfile</code>:</p>
-<p><em>Gruntfile.js</em></p>
-<pre><code>module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(grunt)</span> {</span>
-<span class="hljs-pi">  'use strict'</span>;
-
-  grunt.initConfig({
-    pkg: grunt.file.readJSON(<span class="hljs-string">'package.json'</span>),
-    watch: {
-      cucumber: {
-        files: [<span class="hljs-string">'features/**/*.js'</span>, <span class="hljs-string">'script/**/*.js'</span>],
-        tasks: [<span class="hljs-string">'cucumberjs'</span>]
-      }
-    },
-    cucumberjs: {
-      src: <span class="hljs-string">'features'</span>,
-      options: {
-        steps: <span class="hljs-string">'features/step_definitions'</span>,
-        format: <span class="hljs-string">'pretty'</span>
-      }
-    }
-  });
-
-  grunt.loadNpmTasks(<span class="hljs-string">'grunt-contrib-watch'</span>);
-  grunt.loadNpmTasks(<span class="hljs-string">'grunt-cucumber'</span>);
-
-  grunt.registerTask(<span class="hljs-string">'watch-tests'</span>, <span class="hljs-string">'Starts a watch for test automation.'</span>, [<span class="hljs-string">'watch:cucumber'</span>]);
-
-};
-</code></pre><p>Within the <code>Gruntfile</code> we have configured <code>cucumberjs</code> task with the same arguments we have been using in previous examples and configured a <code>watch</code> task to listen for changes to JavaScript files in the <em>features</em> and <em>script</em> directories.</p>
-<p>Additionally, we have defined a <code>watch-tests</code> task which we can invoke using <strong>Grunt</strong> from the command line:</p>
-<pre><code><span class="hljs-variable">$ </span>grunt watch-tests
-</code></pre><p>Running that will do, essentially, what we have done using <code>npm run</code> in the previous section: the <code>watch</code> process will be active and execute the <strong>Cucumber</strong> specs upon a change to JavaScript files in the target directories. To stop the task from running, focus on the terminal and <code>CTRL+C</code> to exit the process.</p>
-<h2 id="gulp">Gulp</h2>
-<p><a href="http://gulpjs.com/">Gulp</a> is a (relatively) new-comer to the JavaScript-based task runner ecosystem. Like <a href="http://gruntjs.com/">Grunt</a>, it is a task-based build tool that has <a href="https://github.com/gulpjs/gulp/blob/master/README.md">good documentation</a> and a lively community <a href="http://gratimax.github.io/search-gulp-plugins/">contributing plugins</a>. All good things.</p>
-<p><a href="http://gulpjs.com/">Gulp</a>&#39;s build system uses <a href="http://nodejs.org/api/stream.html">streams</a> which allows you to pipe multiple tasks together. As well, the tasks defined in the <code>gulpfile</code> are the code itself - as opposed to <strong>Grunt</strong> in which you provide a configuration for your tasks that are consumed by <strong>Grunt</strong> and provided to the targetted plugin through a task registry.</p>
-<p>There are <a href="http://blog.ponyfoo.com/2014/01/09/gulp-grunt-whatever">plenty</a> of <a href="http://www.100percentjs.com/just-like-grunt-gulp-browserify-now/">other articles</a> <a href="http://jaysoo.ca/2014/01/27/gruntjs-vs-gulpjs/">contrasting the two</a>, so I won&#39;t rehash them here. I will say that I choose <strong>Gulp</strong> over <strong>Grunt</strong> in projects where the build requirements are strictly focused on files - ie, take these files, do something to them (min, concat) and put them in this directory.</p>
-<p><strong>As a side note: I highly recommend <a href="https://twitter.com/substack">James Halliday</a>&#39;s excellent <a href="https://github.com/substack/stream-handbook">stream-handbook</a> to get a better understanding of streams in <a href="http://nodejs.org">node</a>.</strong></p>
-<h3 id="usage">Usage</h3>
-<p>The <a href="http://gratimax.github.io/search-gulp-plugins/">plugin community</a> for <a href="http://gulpjs.com/">Gulp</a> is fairly active, but as I mentioned previously <strong>Gulp</strong>&#39;s system is really based on streams. As such, I don&#39;t intend to see a plugin for running <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> tests specifically, as we have with <a href="https://github.com/s9tpepper/grunt-cucumber-js">grunt-cucumber</a> - nor do intend to make one or continue to look for one: I don&#39;t think such a plugin is well suited to <strong>Gulp</strong>.</p>
-<p>That&#39;s said, we can certainly set up a <code>watch</code> task on our <strong>Step Definitions</strong> and scripts just as we have in the previous examples!</p>
-<p><strong>gulpfile.js</strong></p>
-<pre><code><span class="hljs-keyword">var</span> gulp = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp'</span>);
-<span class="hljs-keyword">var</span> watch = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-watch'</span>);
-<span class="hljs-keyword">var</span> child_process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'child_process'</span>);
-
-<span class="hljs-keyword">var</span> cucumber;
-<span class="hljs-keyword">var</span> running = <span class="hljs-literal">false</span>;
-<span class="hljs-keyword">var</span> options = [<span class="hljs-string">'node_modules/.bin/cucumber-js'</span>,
-               <span class="hljs-string">'features'</span>, 
-               <span class="hljs-string">'-r'</span>, <span class="hljs-string">'features/step_definitions'</span>,
-               <span class="hljs-string">'-f'</span>, <span class="hljs-string">'pretty'</span>];
-
-gulp.task(<span class="hljs-string">'cucumber'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-  <span class="hljs-keyword">if</span>(!running) {
-    running = <span class="hljs-literal">true</span>;
-    cucumber = child_process.spawn(<span class="hljs-string">'node'</span>, options)
-                    .on(<span class="hljs-string">'exit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-                      running = <span class="hljs-literal">false</span>;
-                    });
-    cucumber.stdout.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> {</span>
-      console.log(<span class="hljs-built_in">String</span>(d));
-    });
-
-    cucumber.stderr.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> {</span>
-      console.error(<span class="hljs-built_in">String</span>(d));
-    });
-  }
-});
-
-gulp.task(<span class="hljs-string">'watch-tests'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-  gulp.src([<span class="hljs-string">'features/**/*.js'</span>, <span class="hljs-string">'script/**/*.js'</span>])
-      .pipe(watch(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-        gulp.run(<span class="hljs-string">'cucumber'</span>);
-      }));
-});
-</code></pre><p>Running that is very similar to how we ran our <strong>Grunt</strong> task:</p>
-<pre><code><span class="hljs-variable">$ </span>gulp watch-tests
-</code></pre><p>As you may notice, this example fairly similar to the <code>npm run</code> example shown previously. The main difference is that we pipe the streams through the <code>gulp-watch</code> plugin which triggers <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> as a child process upon change to targetted files.</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>So, which one should you use? Whichever! They each have their merits and it should be discussed with your team in alignment with the requirements for the current project.</p>
-<p>It was my intent to showcase how to incoporate automated testing with <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> using the three most popular task runner / build tools so we can devote more time to thinking about design instead of hopping from our code editor to the terminal for each change to our <strong>Step Definitions</strong>.</p>
-<p>I didn&#39;t introduce any new concepts related to <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>, itself, but felt it necessary to address automation at this stage within the series as I feel it is a vital part to Test-Driven Development and the Agile process and something that should be addressed in the early stages of a project.</p>
-<p>That said, I look forward to the next article where we get to write more tests and which I intend to introduce running tests in a browser environment :)</p>
-<p>Source for examples related to this post can be found in the <a href="https://github.com/bustardcelly/cucumberjs-examples/tree/0.3.0.post">0.3.0.post tag on my Github account</a>.</p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[A slight obsession over page speed]]></title><description><![CDATA[<p>Lately, several projects (both personal and work-related) have ignited an increasing obsession over page load speed and performance. I wanted to highlight a few tools and resources I find useful in analyzing performance and delivering web pages in production with optimal load time.</p>
-<h2 id="where-d-this-hat-come-from-">Where&#39;d this hat come from?</h2>
-<p>Over the past decade I primarily have been a client-side application developer. Sometimes my business card changes or personal introductions are made that get &#39;engineer&#39; and &#39;architect&#39; thrown in there, but truthfully I spend my days coding applications, regardless of language. I enjoy writing and shipping code under certain practices and methodologies and ocassionally pause to assess my current workflow and modify where bottlenecks are prevelant.</p>
-<p>Up until recent years I was primarily concerned with code performance; rendering pipelines and element lifecycles, user-perceived performance cases for remote or off-loaded operations, optimizing algorithms for sorting, mapping, analyzing data, etc. I still am, but I also have become increasingly focused on delivery and load perfomance - especially in today&#39;s climate of people viewing web content on handheld devices without WiFi available. </p>
-<p>Perhaps it is due the increasing work of web-based clients over desktop or native applications, but - if I am being honest - I never really paid attention to load time for older web-based application projects for several reasons:</p>
-<ul>
-<li>Flash plugin (preload, skip intro)</li>
-<li>Desktop browser targets</li>
-<li>Blind naivete</li>
-</ul>
-<p>However, as an end-user myself (don&#39;t like the term much, either) trying to access web content on my phone while on my bus ride home, my world is consumed with <code>waiting...</code>. As such, I wised up rather quick when I started to think about how someone would be absolutely frustrated and move on after 1/4 second without seeing any visible load response from a web application I lovingly crafted to in some way (hopefully) make their life easier.</p>
-<p>That&#39;s when I started incorporating page load analysis to my deployment workflow.</p>
-<h2 id="best-practices">Best Practices</h2>
-<p>There is excellent documentation out there regarding best practices in delivering web pages with optimal performance. Some of the best known ones are below:</p>
-<p>Yahoo: <a href="http://developer.yahoo.com/performance/rules.html">Best Practices for Speeding Up Your Web Site</a><br>Google: <a href="https://developers.google.com/speed/docs/best-practices/rules_intro">Web Perfomance Best Practices; Google</a><br>Steve Souders: <a href="http://stevesouders.com/hpws/rules.php">14 Rules for Faster-Loading Web Sites</a></p>
-<p>I won&#39;t rehash the tidbits those articles provide, so please visit those links for a wealth of information and follow the following blogs to keep abreast of the latest in research and development of web performance:</p>
-<ul>
-<li><a href="http://stevesouders.com/">Steve Souders</a></li>
-<li><a href="http://calendar.perfplanet.com/">Perfomance Calendar</a>  </li>
-</ul>
-<p>One aspect I find interesting is that a handful of the preferred optimizations described in those articles - such as concatenation, data-uris and script and styles placement on pages - have actually become part of the build phase of my development workflow, especially with the rise of tools such as <a href="http://gruntjs.com">Grunt</a> and the developer community creating post-process tasks. </p>
-<p>It is not taken for granted that I can select tools and code under certain architectural principles I perceive as providing a comfortable development environment and have these tools at my disposal to deliver the end product in an optimal fashion. <em>Another resolution for this year is to contribute more to the libraries and tools I use often - whether through code or monetary donations.</em></p>
-<h2 id="manual-performance-analysis">Manual Performance Analysis</h2>
-<p>There are a few sites and tools I visit that will perform analysis on a site while in development:</p>
-<ul>
-<li><a href="http://www.webpagetest.org/">WebPageTest</a></li>
-<li><a href="http://gtmetrix.com/">GTmetrix</a></li>
-<li><a href="http://tools.pingdom.com/">pingdom</a></li>
-<li><a href="https://developers.google.com/speed/docs/insights/using_chrome">PageSpeed Chrome Developer Tool</a></li>
-</ul>
-<p>Additonally, <a href="http://www.feedthebot.com/tools/">feedthebot</a> has a handful of neat little tools to test some things - specifically if gzip is working on your site.</p>
-<p>They all - along with various other metrics - provide a scoring based on some criteria which, as far as I can tell, are defined either by <strong>Yahoo!</strong> (via <a href="http://developer.yahoo.com/yslow/">yslow</a>) or <strong>Google</strong> (via <a href="https://developers.google.com/speed/pagespeed/?csw=1">PageSpeed</a>).</p>
-<p>Typically I stick to opening and running <a href="https://developers.google.com/speed/pagespeed/?csw=1">PageSpeed</a> when developing in Chrome to get a overall recommndation of optimizations and then visit <a href="http://www.webpagetest.org/">WebPageTest</a> when I want some serious analysis and am busy updating my <strong>.htaccess</strong> file with rewrites and expiries.</p>
-<h2 id="integrating-performance-reporting-in-workflow">Integrating Performance Reporting in Workflow</h2>
-<p>Running analysis using tools described above is a great way to see some metrics and determine what solutions to take to better the load performance of your site/application, but I like to automate all the things when I can as well as provide reporting to Continuous Integration servers so that we can document progress or failures. To provide such value, I am a strong proponent of using <a href="http://www.sitespeed.io/">sitespeed.io</a>.</p>
-<p>I have nothing bad to say about <a href="http://www.sitespeed.io/">sitespeed.io</a>. It&#39;s built on top of <a href="https://github.com/ariya/phantomjs">PhantomJS</a>, <a href="https://github.com/marcelduran/yslow/">yslow</a>, <a href="https://github.com/tobli/browsertime">browsertime</a> and <a href="https://github.com/twbs/bootstrap/">bootstrap</a>. You can alternatively use the <a href="http://yslow.org/phantomjs/">yslow script for PhantomJS</a> if you want something more stripped down, but <a href="http://www.sitespeed.io/">sitespeed.io</a> generates a nice set of web documents that provide performance summaries along with being able to produce a <strong><a href="http://www.sitespeed.io/documentation/#junit">JUnit</a></strong> report for CI.</p>
-<p>The documentation for <strong>sitespeed.io</strong> is thorough and easy to follow along and the <a href="http://www.sitespeed.io/documentation/#configuration">configuration options</a> are insanely helpful in finding possible pages on your site that may be of issue.</p>
-<h3 id="grunt-integration">Grunt integration</h3>
-<p>I am sure there is some <a href="http://gruntjs.com">Grunt</a> task out there in the wild that hooks into running <strong>sitespeed.io</strong> (or I should probably just stop being lazy and make one), but I have yet to find or search for one. I personally just use <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> to run the command during a build and deploy. With the proper <a href="http://www.sitespeed.io/documentation/#installation">installation of sitespeed.io</a>, I have the following subtask under <code>exec</code> task:</p>
-<pre><code>grunt.initConfig({
-  <span class="hljs-keyword">...</span>
-  exec: {
-    sitespeed: {
-      cmd: <span class="hljs-string">'sitspeed.io -u http://staging.mysite.com -r ./doc/metrics'</span>
-    }
-  }
-}
-});
-
-grunt.loadNpmTasks(<span class="hljs-string">'grunt-exec'</span>);
-grunt.registerTask(<span class="hljs-string">'dryrun'</span>, <span class="hljs-string">'Build, deploy and analyze.'</span>,\ 
-  [<span class="hljs-string">'build'</span>, <span class="hljs-string">'deploy:staging'</span>, <span class="hljs-string">'exec:sitespeed'</span>]);
-</code></pre><p>That generates the JUnit report and summary documentation artifacts that can be consumed and presented by your CI server of choice. I also have a tendency to use the <a href="https://github.com/marcelduran/yslow/">yslow</a> script for <a href="https://github.com/ariya/phantomjs">PhantomJS</a> in tandem on the <code>exec</code> task as that will print out my perfomance grade in the console after issuing my <strong>grunt</strong> deployment.</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>Sometimes, especially when working with 3rd party libraries, web fonts, etc, it is unrealistic to hit 100 for your performance grading - who am I kidding, it is damn near impossible. I try to stay above 90 and feel satisfied. </p>
-<p>As well, it should be stated that the final test is actually physically visiting the sites on handheld devices over a data plan. As I mentioned previously, I usually do some perceived perfomance testing while on the bus ride home, ensuring that I don&#39;t get frustrated with the load time on my own work (and I hope I am more critical of my own stuff than others are ;)).</p>
-<p>This is just the tip of the iceberg when it comes to analyzing load performance and with developments coming out of Google, such as <a href="http://www.chromium.org/spdy/spdy-whitepaper">SPDY</a> and <a href="https://code.google.com/p/modpagespeed/">mod_pagespeed</a>, an exciting space to keep an eye on in order to deliver your content faster and keep end-users happily enjoying your sites and applications.</p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/01/06/obsession-over-page-speed/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/01/06/obsession-over-page-speed/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>

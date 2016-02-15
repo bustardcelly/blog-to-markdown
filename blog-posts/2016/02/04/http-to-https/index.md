@@ -38,7 +38,7 @@ If you don't already have an Amazon Web Services (AWS) account, you can sign up 
 Once you have signed in:
 1. Navigate to the __Compute:EC2__ space
 2. Once the _EC2 Dashboard_ select __Launch Instance__  
-    <img style="max-width: 280px" src="https://www.custardbelly.com/images/https_ec2_launch_instance.png" alt="EC2 Launch Instance">
+    <img style="max-width: 240px; border: 1px solid #999; padding: 10px;" src="https://www.custardbelly.com/images/https_ec2_launch_instance.png" alt="EC2 Launch Instance">
 3. Select the __Ubuntu Server 14.04 LTS (HVM)__ instance from the list of AMIs
 4. Choose the __t2.micro__ item from the _Instance Type_ selection screen
 5. Click __Next: Configure Instance Details__
@@ -49,7 +49,7 @@ Once you have signed in:
 10. Under _Assign a security group_, select __Create new security group__
     * You will need to create security group with - at least - the following ports available: `22`, `80`, `443`
 11. Use the __Add Rule__ button to add protocol types and ports  
-    <img style="max-width: 280px" src="https://www.custardbelly.com/images/https_security_group.png" alt="EC2 Security Groups">
+    <img style="max-width: 360px; border: 1px solid #999; padding: 10px;" src="https://www.custardbelly.com/images/https_security_group.png" alt="EC2 Security Groups">
 12. Click __Review and Launch__
 13. On the next page, accept the review and click __Launch__
 14. If you do not already have a key pair on your system through your AWS account that you want to associated with your site, then __Create a new key pair__; otherwise, __Choose an existin key pair__.
@@ -144,7 +144,7 @@ I then had a _Hosted Zone_ for `custardbelly.com` with 3 record entries for: __N
 
 After creating a _Hosted Zone_ in Amazon Route 53, I took the auto-generated __NS__ values (there were 4 in total) and set those as the the _Nameserver_ records for my domain on my Domain Name registrar.
 
-<img style="max-width: 280px" alt="DNS records in DNR" src="https://custardbelly.com/images/https_dns_records.png">
+<img style="max-width: 280px; border: 1px solid #999; padding: 10px;" alt="DNS records in DNR" src="https://custardbelly.com/images/https_dns_records.png">
 
 ## Check with dig
 The new DNS for my domain got resolved rather quickly compared to the many times I have done this for domains before; it look about 3 minutes, but I think I got lucky. Anyway, I checked using the `dig` utility to make sure it was up and associated with the Elastic IP I assigned:
@@ -190,7 +190,7 @@ $ sudo apt-get install nginx
 
 That should install __nginx__ and start the service, with its default configuration on port 80. I visited my site again - at [http://custardbelly.com](http://custardbelly.com) - and saw the following page:
 
-<img style="max-width: 280px" alt="Default nginx page" src="https://custardbelly.com/images/https_nginx_page.png">
+<img style="max-width: 340px; border: 1px solid #999; padding: 10px;" alt="Default nginx page" src="https://custardbelly.com/images/https_nginx_page.png">
 
 In order to point to the files I uploaded for my site, I needed to then add `custardbelly.com` to the _sites-available_ and _sites-enabled_ directories of the __nginx__ configuration install.
 

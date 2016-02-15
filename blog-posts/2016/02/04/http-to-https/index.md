@@ -21,7 +21,8 @@ In doing so, I wanted to share my process and experiences to any of you that may
 * [Transferring DNS records from a VPS to Amazon Route 53](#transferring-dns-records)
 * [Setting up nginx to serve my site](#setting-up-nginx)
 * [Generating certificates from](#generating-certificates-from-lets-encrypt) [Let's Encrypt](https://letsencrypt.org/)
-* Setting up my site to be served under HTTPS
+* [Setting up my site to be served under HTTPS](#setting-up-my-site-to-be-served-under-https)
+* [Conclusion](#conclusion)
 * [References](#references)
 
 ---
@@ -307,7 +308,21 @@ $ sudo service nginx start
 
 Navigating to [https://www.custardbelly.com/blog](https://www.custardbelly.com/blog) in a browser and it showed up! Checked to make sure that the redirect under HTTP request worked as well and, sure enough, my site is now accessible under HTTPS :)
 
-Now the only issue at this point is that a lot of my resources in pages point to HTTP endpoints directly... that is a sore point for a lot of browsers - the dreaded __Blocked Mixed__.
+Now the only issue at this point is that a lot of my resources in pages point to HTTP endpoints directly... that is a sore point for a lot of browsers and results in the dreaded <span style="color: #ff0000;"><strong>Mixed Content</strong></span>.
+
+# Setting up my site to be served under HTTPS
+Once you move your site to be served up under HTTPS and then point your favorite browser to your site, you may find that it does not look or function as it did previously - as it did for me. That was because a lot of the resources on the pages of my site were being blocked because the site under HTTPS was trying to make requests for content under HTTPS; such resources were CSS files, Javascript files, images, etc.
+
+If you were to open up Console panel of the developer tools in your browser when pointing to your site under HTTPS, you most likely will see a lot of <span style="color: #ff0000;"><strong>Mixed Content</strong></span> entries. In my case, Google Chrome was blocking requests over differing protocols, even if I was making calls relative to the page (i.e., not cross-site).
+
+Luckily enough, for me, I was using templates for my blog and only had to change the link references in a single template and regenerate all my posts. Once I had done that, all the pages rendered as they did previously when served under HTTP.
+
+> Read more about Mixed Content and Google Chrome [here](https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content).
+
+# Conclusion
+Getting this site under HTTPS using using [Amazon Web Services](https://aws.amazon.com/) to host and [Let's Encrypt](https://letsencrypt.org/) to secure was quick and painless - in just a few hours I was up and running!
+
+Hopefully this article will help anyone else out there interested in moving their site from HTTP to HTTPS. Good luck!
 
 # References
 
@@ -317,3 +332,4 @@ Now the only issue at this point is that a lot of my resources in pages point to
 * [http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html](http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html)
 * [https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts)
 * [https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04)
+* [https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content](https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content)

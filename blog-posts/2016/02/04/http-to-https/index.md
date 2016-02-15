@@ -1,5 +1,5 @@
 ---
-title: 'Getting Secure:  Transfering a domain to AWS and enabling HTTPS under nginx'
+title: 'Getting Secure:  Transferring a domain to AWS and enabling HTTPS under nginx'
 author:
   name: 'todd anderson'
 date: '2016-02-15'
@@ -327,6 +327,8 @@ Luckily enough, for me, I was using templates for my blog and only had to change
 Getting this site under HTTPS using using [Amazon Web Services](https://aws.amazon.com/) to host and [Let's Encrypt](https://letsencrypt.org/) to secure was quick and painless - in just a few hours I was up and running!
 
 Hopefully this article will help anyone else out there interested in moving their site from HTTP to HTTPS. Good luck!
+
+> If you do find any content no longer available, please let me know in the comments. Much appreciated!
 
 <hr>
 

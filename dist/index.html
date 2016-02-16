@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
-    <title>Todd Anderson - flood-pi: Flood detection on Raspberry Pi</title>
+    <title>Todd Anderson - Getting Secure:  Transferring a domain to AWS and enabling HTTPS under nginx</title>
   </head>
   <body>
     <header>
@@ -49,65 +49,274 @@
 
     <article class="post">
   <div class="title">
-    <h1><a href="https://www.custardbelly.com/blog/blog-posts/2014/12/4/flood-pi/index.html">flood-pi: Flood detection on Raspberry Pi</a></h1>
+    <h1><a href="https://www.custardbelly.com/blog/blog-posts/2016/02/04/http-to-https/index.html">Getting Secure:  Transferring a domain to AWS and enabling HTTPS under nginx</a></h1>
     <p>
-      2014 December 4th
+      2016 February 15th
       
         by todd anderson
       
     </p>
   </div>
   <section>
-    <p>A lot has happened over the course current year. Among the biggest changes, we left Boston for Vermont! We have begun to settle in here in the beatuiful Champlain Valley and, of course, my oldest is enrolled in hockey lessons - a sport i know very little about, but am excited to learn from him.</p>
-<p>As is expected from a big move, we have found outselves in different surroundings and different living spaces. We are no longer 4 people cramped in a tiny 2-bedroom condo along the train line in Brighton, MA; we are now 4 people in a ranch house with noone above or below us to complain about taking off their loud shoes when the baby is sleeping. </p>
-<p>While the extra space of a house is wonderful, tit comes with additional maintenance and care over renting an apartment. For instance, we never had a basement in our previous apartments and never had to worry about flooding or failures in a sump pump. Now we do. And we have had a handful of instances when it has occurred. While it is true that we have and will continue to have qualified people locate the source of the problem, I thought - in the meantime - it would be a fun little project to setup something that could alert me to possible water starting to accumulate in the basement.</p>
-<p><img src="https://custardbelly.com/images/flood_pi_flood.jpg" alt="a flood!"></p>
-<p>And from that <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> was born!</p>
-<h2 id="flood-pi">flood-pi</h2>
-<p><strong>flood-pi</strong> is an open source Python project meant to be run on a <a href="http://www.raspberrypi.org/">Raspberry Pi</a>. The Github repo for <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> has some more technical details, but essential <strong>flood-pi</strong> detects a &quot;flood&quot; by reading an analog value from a circuit completed by water.</p>
-<p>The basic premise is that two leads with copper plates at the end (originally nails in my prototype) are set level to the floor of the basement and spaced about a inch apart from each other. One lead is connected to the power while the other lead is connected to the between the first pin of the mcp3008 and the ground. As water comes between the leads (most likely from the start of a flood), the circuit is complete and a reading from 0 to 1024 is read through the ADC. Some low values may come in but should be considered not a &quot;positive&quot; detection. As well, some high values may come in which typically means that somehow the leads started touching each other and be considered not a &quot;positive&quot; detection, either. In correlation to the distance between the leads, there is a middleground of values that would be considered a &quot;positive&quot; detection.</p>
-<p>When a &quot;positive&quot; detection occurs, <strong>flood-pi</strong> then sends out an email to alert me. Then I can take appropriate action.</p>
-<p><em>There is no analog in on <a href="http://www.raspberrypi.org/">Raspberry Pi</a>, but i have set up projects reading potentiometers using the <a href="https://learn.adafruit.com/reading-a-analog-in-and-controlling-audio-volume-with-the-raspberry-pi">mcp3008 as described here on adafruit</a>, so I knew i could use that setup for this project.</em></p>
-<h3 id="project">project</h3>
-<p>Here&#39;s some pictures of the project:</p>
-<p>The leads.</p>
-<p><img src="https://custardbelly.com/images/flood_pi_leads.jpg" alt="leads"></p>
-<p><a href="http://www.raspberrypi.org/">Raspberry Pi</a>, running <a href="http://www.raspberrypi.org/downloads/">Debian-Wheezy</a> with the <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> program running as a daemon. <a href="http://www.edimax.com/edimax/merchandise/merchandise_detail/data/edimax/global/wireless_adapters_n150/ew-7811un">Edimax WiFi adapter</a> for the interweb-bings and email-ery.</p>
-<p><img src="https://custardbelly.com/images/flood_pi_rasp.jpg" alt="pi"></p>
-<p>The mcp3008 on its own breakout. (<strong>i soldered it up all by myself!</strong>)</p>
-<p><img src="https://custardbelly.com/images/flood_pi_mcp3008.jpg" alt="mcp3008"></p>
-<h3 id="installation">installation</h3>
-<p>Here&#39;s some pictures of its installation in the basement:</p>
-<p><img src="https://custardbelly.com/images/flood_pi_install3.jpg" alt="full install"></p>
-<p><img src="https://custardbelly.com/images/flood_pi_install1.jpg" alt="module install"></p>
-<p><img src="https://custardbelly.com/images/flood_pi_install2.jpg" alt="lead install"></p>
-<p>We, thankfully, haven&#39;t been able to get a <em>true</em> &quot;positive&quot; reading since its installation, but I have submersed the leads in water for a short time to ensure i was being sent emails :)</p>
-<h2 id="flood-pi-admin">flood-pi-admin</h2>
-<p>I couldn&#39;t just stop at getting emails. I am empoyed as a software developer by trade, so I <em>had</em> to keep writing software.</p>
-<p>I wanted to aggregate the readings from <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> and get an overview of its workings (or failure of workings if it may come to that). I don&#39;t know if there could be any patterns found from the data as to when the sump pump fails or whatnot, but more data can&#39;t hurt, can it?</p>
-<p>As such, <a href="https://github.com/bustardcelly/flood-pi-admin">flood-pi-admin</a> was born!</p>
-<h3 id="about-flood-pi-admin">about flood-pi-admin</h3>
-<p><a href="https://github.com/bustardcelly/flood-pi-admin">flood-pi-admin</a> is a NodeJS-based server that provides a RESTful API for POSTing and accessing daatbeing reported by <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a>. There is more detailed information on the <a href="https://github.com/bustardcelly/flood-pi-admin">Github repo for the project</a>, but it has endpoints for the <strong>flood-pi</strong> detector to post confiuguration and reading data as well as two main routes for accessing information about past and current conditions. </p>
-<p><strong>It&#39;s pretty bare-bones at the moment, but i plan to add new features as they are required (or requested).</strong></p>
-<h3 id="charts">charts</h3>
-<p>The landing page and <em>/level?range=(day|week|year|all)</em> provide chart data with the level readings:</p>
-<p><img src="https://custardbelly.com/images/flood_pi_chart.png" alt="chart data"></p>
-<p>The red band across the middle of the chart is the &quot;positive&quot; value range provided from the <strong>flood-pi</strong> and should be considered possible flood detection. As mentioned previously, lower values may come in but not high enough to be considered &quot;positive&quot;; additionally, high values may come in which may actually mean that the leads have somehow started touching each other rather than completing the circuit with water.</p>
-<h3 id="isitflooded">isitflooded</h3>
-<p>There is also a direct page at <em>/isitflooded</em> that will let you know if it is currently considered flooded or not:</p>
-<p><img src="https://custardbelly.com/images/flood_pi_no.png" alt="current detection"></p>
-<p>It also reports last reporting time and whether or not it should alert you to the <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> no longer reporting information.</p>
-<h2 id="conclusion">conclusion</h2>
-<p>I had a lot of fun taking a small idea of being notified the nextr time their is water in the basement and transferring it to an actual physical devices that can send out emails upon completion of a circuit. Plus, i got better at soldering - i know the ADC breakout is a small assembly, but it made me happy the way it turned out.</p>
-<p>If you have occasional water in your basement and have an interest in <a href="http://www.raspberrypi.org/">Raspberry Pi</a>, i hope you check out the <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> program and install it. And if you have yourself a VPS, feel free to also setup the <a href="https://github.com/bustardcelly/flood-pi-admin">flood-pi-admin</a> on it to access level reading data.</p>
-<p>Now, onto the next little pet project i have in mind:)</p>
-<p>Cheers!</p>
+    <h1 id="introduction">Introduction</h1>
+<p>I recently decided to put this site under HTTPS after reading this article/interview with <a href="https://helloanselm.com/">Anselm Hannemann</a> on <strong>CSS-Tricks</strong>:</p>
+<p>&gt; <a href="https://css-tricks.com/interview-web-security" target="_blank">https://css-tricks.com/interview-web-security/</a></p>
+<p>I had already been interested in moving to HTTPS with the advent of an open Certificate Authority, <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a>, and my growing fascination with <a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API">Service Workers</a>, which will only work under HTTPS. Not sure if I would ever have a need for offline support for this site, but it never could hurt to mess around.</p>
+<p>In any event, I had decided it was time to explore putting <a href="https://www.custardbelly.com/blog" target="_blank">custardbelly.com</a> under HTTPS - please don&#39;t poke around, it needs a major update - and as I went about trying to set <a href="https://letsencrypt.org/" target="_blank">Let&#39;s Encrypt</a> up on my current (<em>now old</em>) VPS host I was running into road blocks of predetermined OS&#39;es and dependencies that were beyond my control, which can happen if you entrust hosting your domains through a general VPS provider.</p>
+<p>To have more control over my environment, I decided to use the Amazon Web Services (<strong>AWS</strong>) knowledge I have gained from working intimately with it in my current job/role and spin up an EC2 instance to dedicate to my site - moving it off the VPS I previously had.</p>
+<p>In doing so, I wanted to share my process and experiences to any of you that may be wondering how to do the same. As the title suggests but does not entirely convey, my process involved:</p>
+<ul>
+<li><a href="#moving-a-domain-to-an-ec2-instance">Moving a domain to an EC2 instance</a></li>
+<li><a href="#transferring-dns-records">Transferring DNS records from a VPS to Amazon Route 53</a></li>
+<li><a href="#setting-up-nginx">Setting up nginx to serve my site</a></li>
+<li><a href="#generating-certificates-from-lets-encrypt">Generating certificates from</a> <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a></li>
+<li><a href="#setting-up-my-site-to-be-served-under-https">Setting up my site to be served under HTTPS</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<hr>
+
+<h1 id="moving-a-domain-to-an-ec2-instance">Moving a Domain to an EC2 Instance</h1>
+<p>This series of steps is essentially moving any files served by my previous VPS host to an EC2 instance on AWS. Because the site and its blog are all static files, it was a simple matter of moving - or rather pulling - my files to a new server.</p>
+<h2 id="setting-up-an-ec2-instance">Setting up an EC2 Instance</h2>
+<p>If you don&#39;t already have an Amazon Web Services (AWS) account, you can sign up for one here: <a href="https://aws.amazon.com/" target="_blank">https://aws.amazon.com/</a>.</p>
+<blockquote>
+<p>I wont go into any detail about what AWS is, how to set up an account and the pricing models, so please review all documentation if you are curious.</p>
+</blockquote>
+<p>Once you have signed in:</p>
+<ol>
+<li>Navigate to the <strong>Compute:EC2</strong> space</li>
+<li>Once the <em>EC2 Dashboard</em> select <strong>Launch Instance</strong><br> <img style="width: 100%; max-width: 240px; border: 1px solid #999; padding: 10px;" src="https://www.custardbelly.com/images/https_ec2_launch_instance.png" alt="EC2 Launch Instance"></li>
+<li>Select the <strong>Ubuntu Server 14.04 LTS (HVM)</strong> instance from the list of AMIs</li>
+<li>Choose the <strong>t2.micro</strong> item from the <em>Instance Type</em> selection screen</li>
+<li>Click <strong>Next: Configure Instance Details</strong></li>
+<li>Leave the default form entries and click <strong>Next: Add Storage</strong></li>
+<li>Leave the default form entries and click <strong>Next: Tag Instance</strong></li>
+<li>From the <em>Key/Value</em> form, enter in the name related to your site into the <strong>Value</strong> field. In my case, I entered <code>custardbelly.com</code>, but it does not have to specifically be your domain name.</li>
+<li>Click <strong>Next: Configure Security Group</strong></li>
+<li>Under <em>Assign a security group</em>, select <strong>Create new security group</strong><ul>
+<li>You will need to create security group with - at least - the following ports available: <code>22</code>, <code>80</code>, <code>443</code></li>
+</ul>
+</li>
+<li>Use the <strong>Add Rule</strong> button to add protocol types and ports<br><img style="width: 100%; max-width: 360px; border: 1px solid #999; padding: 10px;" src="https://www.custardbelly.com/images/https_security_group.png" alt="EC2 Security Groups"></li>
+<li>Click <strong>Review and Launch</strong></li>
+<li>On the next page, accept the review and click <strong>Launch</strong></li>
+<li>If you do not already have a key pair on your system through your AWS account that you want to associated with your site, then <strong>Create a new key pair</strong>; otherwise, <strong>Choose an existin key pair</strong>.</li>
+</ol>
+<p>Once accepting the license agreement, you should be redirected to the <em>EC2 Dashboard:Instances</em> page and see your new instance listed - most likely spinning up with an <em>Initializing...</em> note.</p>
+<p>We&#39;ll wait until that is finished initializing before SSH&#39;ing into it, but before we do that, we can assign an Elastic IP to the instance so that the IP is not potentially change by AWS at any time.</p>
+<h2 id="defining-an-elastic-ip">Defining an Elastic IP</h2>
+<p>By associating an Elastic IP to an AWS instance, you are essentially reserving a static IP for your instance that won&#39;t change as long as it is associated in your account.</p>
+<blockquote>
+<p>I won&#39;t go into detail about Elastic IPs, so please refer to the documentation if interested: <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html" target="_blank">http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html</a>.</p>
+</blockquote>
+<p>To assign an Elastic IP to your newly launched instance:</p>
+<ol>
+<li>From the <em>EC2 Dashboard</em> select the <strong>Network &amp; Security: Elastic IPs</strong> from the left-hand tree menu</li>
+<li>Select <strong>Allocate New Address</strong></li>
+<li>From the modal window, click <strong>Yes, Allocate</strong></li>
+<li>Click on the newlly added address in the listing</li>
+<li>From the <em>Actions</em> button, above the listing_, select <strong>Associate Address</strong></li>
+<li>In the <em>Associate Address</em> dialog, start typing the name Value giving to the newly launched instance in the <strong>Instance</strong> field</li>
+<li>Once you see the entry for your newly launched instance from the previous section, select it and fill the <strong>Instance</strong> field value<ul>
+<li>In my case, that is <code>custardbelly.com</code></li>
+</ul>
+</li>
+<li>Click <strong>Associate</strong></li>
+<li>Upon association of the new Elastic IP, you should see your <strong>Instance</strong> show up in the listing entry</li>
+</ol>
+<p>At this point, if you navigate back to <strong>Instances:Instances</strong> from the <em>EC2 Dashboard</em>, you should see your newly launched instance listed, and the <strong>Public IP</strong> field should display the associated Elastic IP and appear in blue.</p>
+<h2 id="site-files">Site Files</h2>
+<p>The main site files are hand curated and live in a <a href="https://github.com/bustardcelly/custardbelly-dot-com" target="_blank">github repo</a>. The blog site is generated from markdown and has its own <a href="https://github.com/bustardcelly/blog-to-markdown" target="_blank">github repo</a>, as well; its a bit overblown for its purpose now, but at the time it was used as a tooling system to generate markdown from Wordpress post as described in <a href="https://www.custardbelly.com/blog/blog-posts/2014/01/03/so-long-wordpress/index.html" target="_blank">a previous article</a>.</p>
+<p>Using the newly associated IP for the instance and the key generated, I SSH&#39;d into the box and pulled down my site sources. For example:</p>
+<pre><code>$ ssh ~/<span class="hljs-preprocessor">.ssh</span>/custardbelly<span class="hljs-preprocessor">.pem</span> ubuntu@xxx<span class="hljs-preprocessor">.xxx</span><span class="hljs-preprocessor">.xxx</span><span class="hljs-preprocessor">.xxx</span>
+</code></pre><p>Since this blog and the main site are static files and all it took was to do some <code>git clone</code>&#39;s on my new instance and move some things to their respective places. But first I had to install <code>git</code>:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> apt-get update
+$ <span class="hljs-built_in">sudo</span> apt-get install git
+</code></pre><p>Once I installed <strong>git</strong> and pulled down my repos, I moved the main site files to <code>/var/www/custardbelly.com/public_html</code> and the blog files to <code>/var/www/blog</code>. Then I added a sym-link from <code>/var/www/custardbelly.com/public_html/blog</code> to <code>/var/www/blog</code>, so that whenever I needed to get updates to the blog on my server, I didn&#39;t have to fuddle about in the main site&#39;s directory.</p>
+<blockquote>
+<p>This was a rudimentary first pass on getting my site and blog set up. In the future, I will add deployment strategies to these repositories, either in the form of a Continuous Integration server or with tools such as <a href="https://github.com/shipitjs/shipit" target="_blank">shipit</a>. Props to <a href="https://twitter.com/kylekellogg" target="_blank">Kyle Kellogg</a> on opening my eyes to it.</p>
+</blockquote>
+<p><em>If you do not maintain your site in a Version Control System (VCS), you may need to go through other avenues to get your site files onto the instance...</em></p>
+<p>With the site and blog files up on the new instance, it was time to tell the world to look there when they requested it.</p>
+<hr>
+
+<h1 id="transferring-dns-records">Transferring DNS Records</h1>
+<p>When defining DNS Records for my website, I had used the administrative control panel provided by my previous VPS host to register my domain; it was pretty straight-forward and allowed me to easily enter in the records to my domain name provider.</p>
+<p>Now, when broaching the subject of Domain Name Servers (DNS) and how your browser actually resolves a request with a domain name to an IP, my eyes start to glaze over and the mind wonders. In other words, I am of no authority to actually speak on the topic so I hope you check out some of these articles for a better understanding:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Domain_Name_System" target="_blank">https://en.wikipedia.org/wiki/Domain_Name_System</a></li>
+<li><a href="https://webhostinggeeks.com/guides/dns/" target="_blank">https://webhostinggeeks.com/guides/dns/</a></li>
+<li><a href="https://pressable.com/blog/2014/12/23/dns-record-types-explained/" target="_blank">https://pressable.com/blog/2014/12/23/dns-record-types-explained/</a></li>
+<li><a href="https://www.youtube.com/watch?v=3EvjwlQ43_4" target="_blank">DNS Resolution, Step By Step (video)</a></li>
+</ul>
+<p>That said, with what little I do understand, I know I needed to associate DNS records - specifically NS values - with my domain name purchased from my current Domain Name Provider.</p>
+<blockquote>
+<p>I use <a href="https://directnic.com/" target="_blank">directnic</a> to buy my domains, but I won&#39;t go into how you define the DNS values for your domain because I am certain it will differ from provider to provider.</p>
+</blockquote>
+<p>Neverless, I had to go into the administrative console of my Domain Name Provider account and assign the DNS records created in the next sections using <strong>Amazon Route 53</strong>.</p>
+<h2 id="amazon-route-53">Amazon Route 53</h2>
+<p>Until I started investigating moving my site to an EC2 Instance so I had more control over how my site is served, I honestly never heard of <strong>Amazon Route 53</strong>. The <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html">dcoumentation for Amazon Route 53</a> states that it provides three main functions:</p>
+<ul>
+<li>Domain Registration</li>
+<li>Domain Name System (DNS) service</li>
+<li>Health checking</li>
+</ul>
+<p>I am only concerned about the DNS service side of the Route 53 as I have already purchased my domain and don&#39;t consider my site <em>critical</em> enough to set up CloudWatch for alarms on my site not being available.</p>
+<blockquote>
+<p>When I went about moving my domain service to Amazon Route 53, I referred to the following documentation: <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html" target="_blank">http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html</a>.</p>
+</blockquote>
+<p>I won&#39;t rehash the listing of steps for what I performed from the link above, because they are pretty much what I followed. The only difference was I didn&#39;t obtain a DNS configuration from my DNS Provider and import it. Instead I:</p>
+<ol>
+<li>Created a new <em>Hosted Zone</em></li>
+<li>Upon creation, selected <em>Create Record Set</em></li>
+<li>Created a Record Set with <strong>Type: A - IPv4 Address</strong> with a value of the Elastic IP of the AWS Instance set up previously</li>
+<li>Clicked <em>Create</em></li>
+<li>Created a Record Set with <strong>Type: CNAME</strong> with the <code>www</code> name and a value of the naked domain</li>
+<li>Clicked <em>Create</em></li>
+</ol>
+<p>I then had a <em>Hosted Zone</em> for <code>custardbelly.com</code> with 3 record entries for: <strong>NS</strong>, <strong>A</strong> and <strong>CNAME</strong>.</p>
+<p>After creating a <em>Hosted Zone</em> in Amazon Route 53, I took the auto-generated <strong>NS</strong> values (there were 4 in total) and set those as the the <em>Nameserver</em> records for my domain on my Domain Name registrar.</p>
+<p><img style="width: 100%; max-width: 280px; border: 1px solid #999; padding: 10px;" alt="DNS records in DNR" src="https://custardbelly.com/images/https_dns_records.png"></p>
+<h2 id="check-with-dig">Check with dig</h2>
+<p>The new DNS for my domain got resolved rather quickly compared to the many times I have done this for domains before; it look about 3 minutes, but I think I got lucky. Anyway, I checked using the <code>dig</code> utility to make sure it was up and associated with the Elastic IP I assigned:</p>
+<pre><code><span class="hljs-variable">$ </span>dig custardbelly.com
+</code></pre><p>Response:</p>
+<pre><code>; &lt;&lt;&gt;&gt; DiG 9<span class="hljs-class">.8</span><span class="hljs-class">.3-P1</span> &lt;&lt;&gt;&gt; custardbelly<span class="hljs-class">.com</span>
+;; global options<span class="hljs-value">: +cmd
+;</span>; Got answer<span class="hljs-value">:
+;</span>; -&gt;&gt;<span class="hljs-tag">HEADER</span>&lt;&lt;- opcode<span class="hljs-value">: QUERY, status: NOERROR, id: <span class="hljs-number">58244</span>
+;</span>; flags<span class="hljs-value">: qr rd ra;</span> QUERY<span class="hljs-value">: <span class="hljs-number">1</span>, ANSWER: <span class="hljs-number">1</span>, AUTHORITY: <span class="hljs-number">0</span>, ADDITIONAL: <span class="hljs-number">0</span>
+
+;</span>; QUESTION <span class="hljs-tag">SECTION</span><span class="hljs-value">:
+;</span>custardbelly<span class="hljs-class">.com</span>.    IN  <span class="hljs-tag">A</span>
+
+;; ANSWER <span class="hljs-tag">SECTION</span><span class="hljs-value">:
+custardbelly.com. <span class="hljs-number">300</span> IN  A xxx.xxx.xxx.xxx
+
+;</span>; Query <span class="hljs-tag">time</span><span class="hljs-value">: <span class="hljs-number">105</span> msec
+;</span>; SERVER<span class="hljs-value">: <span class="hljs-number">75.75</span>.<span class="hljs-number">75.75</span><span class="hljs-hexcolor">#53</span>(<span class="hljs-number">75.75</span>.<span class="hljs-number">75.75</span>)
+;</span>; WHEN<span class="hljs-value">: Wed Feb <span class="hljs-number">10</span> <span class="hljs-number">20</span>:<span class="hljs-number">39</span>:<span class="hljs-number">01</span> <span class="hljs-number">2016</span>
+;</span>; MSG SIZE  rcvd<span class="hljs-value">: <span class="hljs-number">50</span></span>
+</code></pre><p>The Elastic IP associated with the AWS Instance I set up for my site is now shown as the <strong>A</strong> response from a <code>dig</code> request - the same I defined in the <strong>A</strong> field of my <em>Hosted Zone</em> record in Amazon Route 53.</p>
+<hr>
+
+<h1 id="setting-up-nginx">Setting Up nginx</h1>
+<p>Even though the DNS resolves the domain to the IP assocated with the AWS Instance, there is nothing - at the moment, during this setup - to be displayed when making a request from a browser.</p>
+<h2 id="installation">Installation</h2>
+<p>To install <strong>nginx</strong> on the new box, I ssh&#39;d into the box and issued the following:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> apt-get install nginx
+</code></pre><p>That should install <strong>nginx</strong> and start the service, with its default configuration on port 80. I visited my site again - at <a href="http://custardbelly.com">http://custardbelly.com</a> - and saw the following page:</p>
+<p><img style="width: 100%; max-width: 340px; border: 1px solid #999; padding: 10px;" alt="Default nginx page" src="https://custardbelly.com/images/https_nginx_page.png"></p>
+<p>In order to point to the files I uploaded for my site, I needed to then add <code>custardbelly.com</code> to the <em>sites-available</em> and <em>sites-enabled</em> directories of the <strong>nginx</strong> configuration install.</p>
+<h2 id="configuration">Configuration</h2>
+<p>By default, <strong>nginx</strong> sets up the site on port 80 by defining a <em>default</em> configuration defined in <strong>/etc/nginx/sites-available</strong> and exposed in <strong>/etc/nginx/sites-enabled</strong>. In order to get nginx to point to the site files I uploaded to <strong>/var/www/custardbelly.com/public_html</strong> in a previous section of this post, I need to add a new file to <strong>/etc/nginx/sites-available</strong> and sym-link it in <strong>/etc/nginx/sites-enabled</strong>.</p>
+<p>To do that, I ssh&#39;d into my box and:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> service nginx stop
+$ <span class="hljs-built_in">sudo</span> touch /etc/nginx/sites-available/custardbelly.com
+$ <span class="hljs-built_in">sudo</span> vim /etc/nginx/sites-available/custardbelly.com
+</code></pre><p>And in <strong>vim</strong> editor, entered the following:</p>
+<pre><code>server {
+  listen <span class="hljs-number">80</span> default_server<span class="hljs-comment">;</span>
+  listen [::]:<span class="hljs-number">80</span> default_server<span class="hljs-comment">;</span>
+
+  server_name custardbelly<span class="hljs-preprocessor">.com</span> www<span class="hljs-preprocessor">.custardbelly</span><span class="hljs-preprocessor">.com</span><span class="hljs-comment">;</span>
+
+  root /var/www/custardbelly<span class="hljs-preprocessor">.com</span>/public_html<span class="hljs-comment">;</span>
+  index index<span class="hljs-preprocessor">.html</span> index<span class="hljs-preprocessor">.htm</span><span class="hljs-comment">;</span>
+}
+</code></pre><p>I wrote and quit out of the <strong>vim</strong> editor, then removed the <em>default</em> and added <em>custardbelly.com</em> to the <strong>sites-enabled</strong>:</p>
+<pre><code>$ sudo rm <span class="hljs-attribute">-f</span> /etc/nginx/sites<span class="hljs-attribute">-enabled</span>/default
+$ sudo ln <span class="hljs-attribute">-s</span> /etc/nginx/sites<span class="hljs-attribute">-available</span>/custardbelly<span class="hljs-built_in">.</span>com /etc/nginx/sites<span class="hljs-attribute">-enabled</span>/custardbelly<span class="hljs-built_in">.</span>com
+</code></pre><p>After adding <code>custardbelly.com</code> to the enabled site for <strong>nginx</strong> and exposed on port 80, I restarted <strong>nginx</strong>:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> service nginx start
+</code></pre><p>Now navigating in a browser to <a href="http://custardbelly.com">http://custardbelly.com</a> - or its <em>www</em> domain - resulted in being served up the index page moved to <strong>/var/www/custardbelly.com/public_html/index.html</strong>.</p>
+<p>With the non-secure site files setup under <strong>nginx</strong>, it was time to generate a certificate and serve the site under <strong>https</strong>.</p>
+<hr>
+
+<h1 id="generating-certificates-from-let-s-enrypt">Generating Certificates from Let&#39;s Enrypt</h1>
+<p><a href="https://letsencrypt.org/">Let&#39;s Encrypt</a> is a relatively recent Certificate Authority (CA) that boasts being free, automated and open. Essentially, it allows you to manage certificates for your site - to be hosted under HTTPS - without having to go through a 3rd-party vendor.</p>
+<p>To generate a certificate through <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a> for my domain - both naked and <strong>www</strong> - I cloned the repo and issued a cert for my &quot;standalone&quot; webserver... but first I stopped <strong>nginx</strong> again:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> service nginx stop
+</code></pre><p>... then:</p>
+<pre><code>$ git clone https://github<span class="hljs-preprocessor">.com</span>/letsencrypt/letsencrypt
+$ cd letsencrypt
+$ ./letsencrypt-auto certonly --standalone --email support@yourdomain<span class="hljs-preprocessor">.com</span> -d custardbelly<span class="hljs-preprocessor">.com</span> -d www<span class="hljs-preprocessor">.custardbelly</span><span class="hljs-preprocessor">.com</span>
+</code></pre><blockquote>
+<p><code>support@yourdomain.com</code> should be an actual email address at which you want to be notified in case of certificate expiration.</p>
+</blockquote>
+<p>I then verified that the cert for <code>custardbelly.com</code> was created by issuing:</p>
+<pre><code>$ sudo ls /etc/letsencrypt/live/
+
+<span class="hljs-keyword">...</span>
+
+&gt; root root <span class="hljs-number">4096</span> Feb  <span class="hljs-number">10</span> <span class="hljs-number">19</span>:<span class="hljs-number">39</span> custardbelly.com
+</code></pre><p>The <code>custardbelly.com</code> is a directory with key files to be used in defining how to provide SSL for your server in the configurations, as described in the next section.</p>
+<h2 id="updating-nginx-site-configuration">Updating nginx Site Configuration</h2>
+<p>Now that I generated a cert using <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a> to be able to serve my site under HTTPS, it was time to update the site configuration for <strong>nginx</strong>.</p>
+<p>I opened up my <strong>/etc/nginx/sites-available/custardbelly.com</strong> file and edited it to include a redirect to HTTPS:</p>
+<pre><code>server {
+  listen <span class="hljs-number">80</span> default_server<span class="hljs-comment">;</span>
+  listen [::]:<span class="hljs-number">80</span> default_server ipv6only=on<span class="hljs-comment">;</span>
+
+  server_name www<span class="hljs-preprocessor">.custardbelly</span><span class="hljs-preprocessor">.com</span> custardbelly<span class="hljs-preprocessor">.com</span><span class="hljs-comment">;</span>
+
+  return <span class="hljs-number">301</span> https://www<span class="hljs-preprocessor">.custardbelly</span><span class="hljs-preprocessor">.com</span>$request_uri<span class="hljs-comment">;</span>
+}
+
+server {
+  listen [::]:<span class="hljs-number">443</span> ssl<span class="hljs-comment">;</span>
+  listen <span class="hljs-number">443</span> ssl<span class="hljs-comment">;</span>
+
+  ssl_certificate /etc/letsencrypt/live/custardbelly<span class="hljs-preprocessor">.com</span>/fullchain<span class="hljs-preprocessor">.pem</span><span class="hljs-comment">;</span>
+  ssl_certificate_key /etc/letsencrypt/live/custardbelly<span class="hljs-preprocessor">.com</span>/privkey<span class="hljs-preprocessor">.pem</span><span class="hljs-comment">;</span>
+
+  root /var/www/custardbelly<span class="hljs-preprocessor">.com</span>/public_html<span class="hljs-comment">;</span>
+  index index<span class="hljs-preprocessor">.html</span> index<span class="hljs-preprocessor">.htm</span><span class="hljs-comment">;</span>
+}
+</code></pre><p>Essentially, I am forwarding all requests on port <strong>80</strong> to <strong>443</strong>. You will also note the entries for <code>ssl_certificate</code> and <code>ssl_certificate_key</code> which point to the cert generated using <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a>.</p>
+<blockquote>
+<p>This is a very rudmentary example of what your site configuration should look like under nginx, but am keeping the minimum in relation to the task at hand.</p>
+</blockquote>
+<p>I then restarted <strong>nginx</strong>:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> service nginx start
+</code></pre><p>Navigating to <a href="https://www.custardbelly.com/blog">https://www.custardbelly.com/blog</a> in a browser and it showed up! Checked to make sure that the redirect under HTTP request worked as well and, sure enough, my site is now accessible under HTTPS :)</p>
+<p>Now the only issue at this point is that a lot of my resources in pages point to HTTP endpoints directly... that is a sore point for a lot of browsers and results in the dreaded <span style="color: #ff0000;"><strong>Mixed Content</strong></span>.</p>
+<hr>
+
+<h1 id="setting-up-my-site-to-be-served-under-https">Setting up my site to be served under HTTPS</h1>
+<p>Once you move your site to be served up under HTTPS and then point your favorite browser to your site, you may find that it does not look or function as it did previously - as it did for me. That was because a lot of the resources on the pages of my site were being blocked because the site under HTTPS was trying to make requests for content under HTTPS; such resources were CSS files, Javascript files, images, etc.</p>
+<p>If you were to open up Console panel of the developer tools in your browser when pointing to your site under HTTPS, you most likely will see a lot of <span style="color: #ff0000;"><strong>Mixed Content</strong></span> entries. In my case, Google Chrome was blocking requests over differing protocols, even if I was making calls relative to the page (i.e., not cross-site).</p>
+<p>Luckily enough, for me, I was using templates for my blog and only had to change the link references in a single template and regenerate all my posts. Once I had done that, all the pages rendered as they did previously when served under HTTP.</p>
+<blockquote>
+<p>Read more about Mixed Content and Google Chrome <a href="https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content">here</a>.</p>
+</blockquote>
+<hr>
+
+<h1 id="conclusion">Conclusion</h1>
+<p>Getting this site under HTTPS using using <a href="https://aws.amazon.com/">Amazon Web Services</a> to host and <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a> to secure was quick and painless - in just a few hours I was up and running!</p>
+<p>Hopefully this article will help anyone else out there interested in moving their site from HTTP to HTTPS. Good luck!</p>
+<blockquote>
+<p>If you do find any content no longer available, please let me know in the comments. Much appreciated!</p>
+</blockquote>
+<hr>
+
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://https.cio.gov/">https://https.cio.gov/</a></li>
+<li><a href="https://www.smashingmagazine.com/2016/02/breaking-it-down-to-the-bits-how-the-internet-dns-and-https-work/">https://www.smashingmagazine.com/2016/02/breaking-it-down-to-the-bits-how-the-internet-dns-and-https-work/</a></li>
+<li><a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html">http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html</a></li>
+<li><a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html">http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts">https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04">https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content">https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content</a></li>
+</ul>
 
   </section>
   <section class="navigation">
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2016/02/04/http-to-https/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2014/12/4/flood-pi/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -115,8 +324,8 @@
       <div id="disqus_thread"></div>
       <script type="text/javascript">
         window.disqus_identifier="";
-        window.disqus_url="http://custardbelly.com/blog/blog-posts/2014/12/4/flood-pi/index.html";
-        window.disqus_title="flood-pi: Flood detection on Raspberry Pi";
+        window.disqus_url="http://custardbelly.com/blog/blog-posts/2016/02/04/http-to-https/index.html";
+        window.disqus_title="Getting Secure:  Transferring a domain to AWS and enabling HTTPS under nginx";
       </script>
         <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>

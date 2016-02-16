@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Tue, 16 Feb 2016 01:18:42 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[flood-pi: Flood detection on Raspberry Pi]]></title><description><![CDATA[<p>A lot has happened over the course current year. Among the biggest changes, we left Boston for Vermont! We have begun to settle in here in the beatuiful Champlain Valley and, of course, my oldest is enrolled in hockey lessons - a sport i know very little about, but am excited to learn from him.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>http://custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Tue, 16 Feb 2016 01:21:13 GMT</lastBuildDate><atom:link href="http://custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[flood-pi: Flood detection on Raspberry Pi]]></title><description><![CDATA[<p>A lot has happened over the course current year. Among the biggest changes, we left Boston for Vermont! We have begun to settle in here in the beatuiful Champlain Valley and, of course, my oldest is enrolled in hockey lessons - a sport i know very little about, but am excited to learn from him.</p>
 <p>As is expected from a big move, we have found outselves in different surroundings and different living spaces. We are no longer 4 people cramped in a tiny 2-bedroom condo along the train line in Brighton, MA; we are now 4 people in a ranch house with noone above or below us to complain about taking off their loud shoes when the baby is sleeping. </p>
 <p>While the extra space of a house is wonderful, tit comes with additional maintenance and care over renting an apartment. For instance, we never had a basement in our previous apartments and never had to worry about flooding or failures in a sump pump. Now we do. And we have had a handful of instances when it has occurred. While it is true that we have and will continue to have qualified people locate the source of the problem, I thought - in the meantime - it would be a fun little project to setup something that could alert me to possible water starting to accumulate in the basement.</p>
 <p><img src="https://custardbelly.com/images/flood_pi_flood.jpg" alt="a flood!"></p>
@@ -43,7 +43,260 @@
 <p>If you have occasional water in your basement and have an interest in <a href="http://www.raspberrypi.org/">Raspberry Pi</a>, i hope you check out the <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> program and install it. And if you have yourself a VPS, feel free to also setup the <a href="https://github.com/bustardcelly/flood-pi-admin">flood-pi-admin</a> on it to access level reading data.</p>
 <p>Now, onto the next little pet project i have in mind:)</p>
 <p>Cheers!</p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/12/4/flood-pi/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/12/4/flood-pi/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[gulp-rev-append: simple cache-busting plugin]]></title><description><![CDATA[<p>I just released <a href="https://www.npmjs.org/package/gulp-rev-append">gulp-rev-append</a>, a simple cache-busting plugin for <a href="http://gulpjs.org">gulp</a> that appends a query-string file hash to script and stylesheet dependencies in HTML files.</p>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/12/4/flood-pi/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/12/4/flood-pi/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[Getting Secure:  Transferring a domain to AWS and enabling HTTPS under nginx]]></title><description><![CDATA[<h1 id="introduction">Introduction</h1>
+<p>I recently decided to put this site under HTTPS after reading this article/interview with <a href="https://helloanselm.com/">Anselm Hannemann</a> on <strong>CSS-Tricks</strong>:</p>
+<p>&gt; <a href="https://css-tricks.com/interview-web-security" target="_blank">https://css-tricks.com/interview-web-security/</a></p>
+<p>I had already been interested in moving to HTTPS with the advent of an open Certificate Authority, <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a>, and my growing fascination with <a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API">Service Workers</a>, which will only work under HTTPS. Not sure if I would ever have a need for offline support for this site, but it never could hurt to mess around.</p>
+<p>In any event, I had decided it was time to explore putting <a href="https://www.custardbelly.com/blog" target="_blank">custardbelly.com</a> under HTTPS - please don&#39;t poke around, it needs a major update - and as I went about trying to set <a href="https://letsencrypt.org/" target="_blank">Let&#39;s Encrypt</a> up on my current (<em>now old</em>) VPS host I was running into road blocks of predetermined OS&#39;es and dependencies that were beyond my control, which can happen if you entrust hosting your domains through a general VPS provider.</p>
+<p>To have more control over my environment, I decided to use the Amazon Web Services (<strong>AWS</strong>) knowledge I have gained from working intimately with it in my current job/role and spin up an EC2 instance to dedicate to my site - moving it off the VPS I previously had.</p>
+<p>In doing so, I wanted to share my process and experiences to any of you that may be wondering how to do the same. As the title suggests but does not entirely convey, my process involved:</p>
+<ul>
+<li><a href="#moving-a-domain-to-an-ec2-instance">Moving a domain to an EC2 instance</a></li>
+<li><a href="#transferring-dns-records">Transferring DNS records from a VPS to Amazon Route 53</a></li>
+<li><a href="#setting-up-nginx">Setting up nginx to serve my site</a></li>
+<li><a href="#generating-certificates-from-lets-encrypt">Generating certificates from</a> <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a></li>
+<li><a href="#setting-up-my-site-to-be-served-under-https">Setting up my site to be served under HTTPS</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<hr>
+
+<h1 id="moving-a-domain-to-an-ec2-instance">Moving a Domain to an EC2 Instance</h1>
+<p>This series of steps is essentially moving any files served by my previous VPS host to an EC2 instance on AWS. Because the site and its blog are all static files, it was a simple matter of moving - or rather pulling - my files to a new server.</p>
+<h2 id="setting-up-an-ec2-instance">Setting up an EC2 Instance</h2>
+<p>If you don&#39;t already have an Amazon Web Services (AWS) account, you can sign up for one here: <a href="https://aws.amazon.com/" target="_blank">https://aws.amazon.com/</a>.</p>
+<blockquote>
+<p>I wont go into any detail about what AWS is, how to set up an account and the pricing models, so please review all documentation if you are curious.</p>
+</blockquote>
+<p>Once you have signed in:</p>
+<ol>
+<li>Navigate to the <strong>Compute:EC2</strong> space</li>
+<li>Once the <em>EC2 Dashboard</em> select <strong>Launch Instance</strong><br> <img style="width: 100%; max-width: 240px; border: 1px solid #999; padding: 10px;" src="https://www.custardbelly.com/images/https_ec2_launch_instance.png" alt="EC2 Launch Instance"></li>
+<li>Select the <strong>Ubuntu Server 14.04 LTS (HVM)</strong> instance from the list of AMIs</li>
+<li>Choose the <strong>t2.micro</strong> item from the <em>Instance Type</em> selection screen</li>
+<li>Click <strong>Next: Configure Instance Details</strong></li>
+<li>Leave the default form entries and click <strong>Next: Add Storage</strong></li>
+<li>Leave the default form entries and click <strong>Next: Tag Instance</strong></li>
+<li>From the <em>Key/Value</em> form, enter in the name related to your site into the <strong>Value</strong> field. In my case, I entered <code>custardbelly.com</code>, but it does not have to specifically be your domain name.</li>
+<li>Click <strong>Next: Configure Security Group</strong></li>
+<li>Under <em>Assign a security group</em>, select <strong>Create new security group</strong><ul>
+<li>You will need to create security group with - at least - the following ports available: <code>22</code>, <code>80</code>, <code>443</code></li>
+</ul>
+</li>
+<li>Use the <strong>Add Rule</strong> button to add protocol types and ports<br><img style="width: 100%; max-width: 360px; border: 1px solid #999; padding: 10px;" src="https://www.custardbelly.com/images/https_security_group.png" alt="EC2 Security Groups"></li>
+<li>Click <strong>Review and Launch</strong></li>
+<li>On the next page, accept the review and click <strong>Launch</strong></li>
+<li>If you do not already have a key pair on your system through your AWS account that you want to associated with your site, then <strong>Create a new key pair</strong>; otherwise, <strong>Choose an existin key pair</strong>.</li>
+</ol>
+<p>Once accepting the license agreement, you should be redirected to the <em>EC2 Dashboard:Instances</em> page and see your new instance listed - most likely spinning up with an <em>Initializing...</em> note.</p>
+<p>We&#39;ll wait until that is finished initializing before SSH&#39;ing into it, but before we do that, we can assign an Elastic IP to the instance so that the IP is not potentially change by AWS at any time.</p>
+<h2 id="defining-an-elastic-ip">Defining an Elastic IP</h2>
+<p>By associating an Elastic IP to an AWS instance, you are essentially reserving a static IP for your instance that won&#39;t change as long as it is associated in your account.</p>
+<blockquote>
+<p>I won&#39;t go into detail about Elastic IPs, so please refer to the documentation if interested: <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html" target="_blank">http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html</a>.</p>
+</blockquote>
+<p>To assign an Elastic IP to your newly launched instance:</p>
+<ol>
+<li>From the <em>EC2 Dashboard</em> select the <strong>Network &amp; Security: Elastic IPs</strong> from the left-hand tree menu</li>
+<li>Select <strong>Allocate New Address</strong></li>
+<li>From the modal window, click <strong>Yes, Allocate</strong></li>
+<li>Click on the newlly added address in the listing</li>
+<li>From the <em>Actions</em> button, above the listing_, select <strong>Associate Address</strong></li>
+<li>In the <em>Associate Address</em> dialog, start typing the name Value giving to the newly launched instance in the <strong>Instance</strong> field</li>
+<li>Once you see the entry for your newly launched instance from the previous section, select it and fill the <strong>Instance</strong> field value<ul>
+<li>In my case, that is <code>custardbelly.com</code></li>
+</ul>
+</li>
+<li>Click <strong>Associate</strong></li>
+<li>Upon association of the new Elastic IP, you should see your <strong>Instance</strong> show up in the listing entry</li>
+</ol>
+<p>At this point, if you navigate back to <strong>Instances:Instances</strong> from the <em>EC2 Dashboard</em>, you should see your newly launched instance listed, and the <strong>Public IP</strong> field should display the associated Elastic IP and appear in blue.</p>
+<h2 id="site-files">Site Files</h2>
+<p>The main site files are hand curated and live in a <a href="https://github.com/bustardcelly/custardbelly-dot-com" target="_blank">github repo</a>. The blog site is generated from markdown and has its own <a href="https://github.com/bustardcelly/blog-to-markdown" target="_blank">github repo</a>, as well; its a bit overblown for its purpose now, but at the time it was used as a tooling system to generate markdown from Wordpress post as described in <a href="https://www.custardbelly.com/blog/blog-posts/2014/01/03/so-long-wordpress/index.html" target="_blank">a previous article</a>.</p>
+<p>Using the newly associated IP for the instance and the key generated, I SSH&#39;d into the box and pulled down my site sources. For example:</p>
+<pre><code>$ ssh ~/<span class="hljs-preprocessor">.ssh</span>/custardbelly<span class="hljs-preprocessor">.pem</span> ubuntu@xxx<span class="hljs-preprocessor">.xxx</span><span class="hljs-preprocessor">.xxx</span><span class="hljs-preprocessor">.xxx</span>
+</code></pre><p>Since this blog and the main site are static files and all it took was to do some <code>git clone</code>&#39;s on my new instance and move some things to their respective places. But first I had to install <code>git</code>:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> apt-get update
+$ <span class="hljs-built_in">sudo</span> apt-get install git
+</code></pre><p>Once I installed <strong>git</strong> and pulled down my repos, I moved the main site files to <code>/var/www/custardbelly.com/public_html</code> and the blog files to <code>/var/www/blog</code>. Then I added a sym-link from <code>/var/www/custardbelly.com/public_html/blog</code> to <code>/var/www/blog</code>, so that whenever I needed to get updates to the blog on my server, I didn&#39;t have to fuddle about in the main site&#39;s directory.</p>
+<blockquote>
+<p>This was a rudimentary first pass on getting my site and blog set up. In the future, I will add deployment strategies to these repositories, either in the form of a Continuous Integration server or with tools such as <a href="https://github.com/shipitjs/shipit" target="_blank">shipit</a>. Props to <a href="https://twitter.com/kylekellogg" target="_blank">Kyle Kellogg</a> on opening my eyes to it.</p>
+</blockquote>
+<p><em>If you do not maintain your site in a Version Control System (VCS), you may need to go through other avenues to get your site files onto the instance...</em></p>
+<p>With the site and blog files up on the new instance, it was time to tell the world to look there when they requested it.</p>
+<hr>
+
+<h1 id="transferring-dns-records">Transferring DNS Records</h1>
+<p>When defining DNS Records for my website, I had used the administrative control panel provided by my previous VPS host to register my domain; it was pretty straight-forward and allowed me to easily enter in the records to my domain name provider.</p>
+<p>Now, when broaching the subject of Domain Name Servers (DNS) and how your browser actually resolves a request with a domain name to an IP, my eyes start to glaze over and the mind wonders. In other words, I am of no authority to actually speak on the topic so I hope you check out some of these articles for a better understanding:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Domain_Name_System" target="_blank">https://en.wikipedia.org/wiki/Domain_Name_System</a></li>
+<li><a href="https://webhostinggeeks.com/guides/dns/" target="_blank">https://webhostinggeeks.com/guides/dns/</a></li>
+<li><a href="https://pressable.com/blog/2014/12/23/dns-record-types-explained/" target="_blank">https://pressable.com/blog/2014/12/23/dns-record-types-explained/</a></li>
+<li><a href="https://www.youtube.com/watch?v=3EvjwlQ43_4" target="_blank">DNS Resolution, Step By Step (video)</a></li>
+</ul>
+<p>That said, with what little I do understand, I know I needed to associate DNS records - specifically NS values - with my domain name purchased from my current Domain Name Provider.</p>
+<blockquote>
+<p>I use <a href="https://directnic.com/" target="_blank">directnic</a> to buy my domains, but I won&#39;t go into how you define the DNS values for your domain because I am certain it will differ from provider to provider.</p>
+</blockquote>
+<p>Neverless, I had to go into the administrative console of my Domain Name Provider account and assign the DNS records created in the next sections using <strong>Amazon Route 53</strong>.</p>
+<h2 id="amazon-route-53">Amazon Route 53</h2>
+<p>Until I started investigating moving my site to an EC2 Instance so I had more control over how my site is served, I honestly never heard of <strong>Amazon Route 53</strong>. The <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html">dcoumentation for Amazon Route 53</a> states that it provides three main functions:</p>
+<ul>
+<li>Domain Registration</li>
+<li>Domain Name System (DNS) service</li>
+<li>Health checking</li>
+</ul>
+<p>I am only concerned about the DNS service side of the Route 53 as I have already purchased my domain and don&#39;t consider my site <em>critical</em> enough to set up CloudWatch for alarms on my site not being available.</p>
+<blockquote>
+<p>When I went about moving my domain service to Amazon Route 53, I referred to the following documentation: <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html" target="_blank">http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html</a>.</p>
+</blockquote>
+<p>I won&#39;t rehash the listing of steps for what I performed from the link above, because they are pretty much what I followed. The only difference was I didn&#39;t obtain a DNS configuration from my DNS Provider and import it. Instead I:</p>
+<ol>
+<li>Created a new <em>Hosted Zone</em></li>
+<li>Upon creation, selected <em>Create Record Set</em></li>
+<li>Created a Record Set with <strong>Type: A - IPv4 Address</strong> with a value of the Elastic IP of the AWS Instance set up previously</li>
+<li>Clicked <em>Create</em></li>
+<li>Created a Record Set with <strong>Type: CNAME</strong> with the <code>www</code> name and a value of the naked domain</li>
+<li>Clicked <em>Create</em></li>
+</ol>
+<p>I then had a <em>Hosted Zone</em> for <code>custardbelly.com</code> with 3 record entries for: <strong>NS</strong>, <strong>A</strong> and <strong>CNAME</strong>.</p>
+<p>After creating a <em>Hosted Zone</em> in Amazon Route 53, I took the auto-generated <strong>NS</strong> values (there were 4 in total) and set those as the the <em>Nameserver</em> records for my domain on my Domain Name registrar.</p>
+<p><img style="width: 100%; max-width: 280px; border: 1px solid #999; padding: 10px;" alt="DNS records in DNR" src="https://custardbelly.com/images/https_dns_records.png"></p>
+<h2 id="check-with-dig">Check with dig</h2>
+<p>The new DNS for my domain got resolved rather quickly compared to the many times I have done this for domains before; it look about 3 minutes, but I think I got lucky. Anyway, I checked using the <code>dig</code> utility to make sure it was up and associated with the Elastic IP I assigned:</p>
+<pre><code><span class="hljs-variable">$ </span>dig custardbelly.com
+</code></pre><p>Response:</p>
+<pre><code>; &lt;&lt;&gt;&gt; DiG 9<span class="hljs-class">.8</span><span class="hljs-class">.3-P1</span> &lt;&lt;&gt;&gt; custardbelly<span class="hljs-class">.com</span>
+;; global options<span class="hljs-value">: +cmd
+;</span>; Got answer<span class="hljs-value">:
+;</span>; -&gt;&gt;<span class="hljs-tag">HEADER</span>&lt;&lt;- opcode<span class="hljs-value">: QUERY, status: NOERROR, id: <span class="hljs-number">58244</span>
+;</span>; flags<span class="hljs-value">: qr rd ra;</span> QUERY<span class="hljs-value">: <span class="hljs-number">1</span>, ANSWER: <span class="hljs-number">1</span>, AUTHORITY: <span class="hljs-number">0</span>, ADDITIONAL: <span class="hljs-number">0</span>
+
+;</span>; QUESTION <span class="hljs-tag">SECTION</span><span class="hljs-value">:
+;</span>custardbelly<span class="hljs-class">.com</span>.    IN  <span class="hljs-tag">A</span>
+
+;; ANSWER <span class="hljs-tag">SECTION</span><span class="hljs-value">:
+custardbelly.com. <span class="hljs-number">300</span> IN  A xxx.xxx.xxx.xxx
+
+;</span>; Query <span class="hljs-tag">time</span><span class="hljs-value">: <span class="hljs-number">105</span> msec
+;</span>; SERVER<span class="hljs-value">: <span class="hljs-number">75.75</span>.<span class="hljs-number">75.75</span><span class="hljs-hexcolor">#53</span>(<span class="hljs-number">75.75</span>.<span class="hljs-number">75.75</span>)
+;</span>; WHEN<span class="hljs-value">: Wed Feb <span class="hljs-number">10</span> <span class="hljs-number">20</span>:<span class="hljs-number">39</span>:<span class="hljs-number">01</span> <span class="hljs-number">2016</span>
+;</span>; MSG SIZE  rcvd<span class="hljs-value">: <span class="hljs-number">50</span></span>
+</code></pre><p>The Elastic IP associated with the AWS Instance I set up for my site is now shown as the <strong>A</strong> response from a <code>dig</code> request - the same I defined in the <strong>A</strong> field of my <em>Hosted Zone</em> record in Amazon Route 53.</p>
+<hr>
+
+<h1 id="setting-up-nginx">Setting Up nginx</h1>
+<p>Even though the DNS resolves the domain to the IP assocated with the AWS Instance, there is nothing - at the moment, during this setup - to be displayed when making a request from a browser.</p>
+<h2 id="installation">Installation</h2>
+<p>To install <strong>nginx</strong> on the new box, I ssh&#39;d into the box and issued the following:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> apt-get install nginx
+</code></pre><p>That should install <strong>nginx</strong> and start the service, with its default configuration on port 80. I visited my site again - at <a href="http://custardbelly.com">http://custardbelly.com</a> - and saw the following page:</p>
+<p><img style="width: 100%; max-width: 340px; border: 1px solid #999; padding: 10px;" alt="Default nginx page" src="https://custardbelly.com/images/https_nginx_page.png"></p>
+<p>In order to point to the files I uploaded for my site, I needed to then add <code>custardbelly.com</code> to the <em>sites-available</em> and <em>sites-enabled</em> directories of the <strong>nginx</strong> configuration install.</p>
+<h2 id="configuration">Configuration</h2>
+<p>By default, <strong>nginx</strong> sets up the site on port 80 by defining a <em>default</em> configuration defined in <strong>/etc/nginx/sites-available</strong> and exposed in <strong>/etc/nginx/sites-enabled</strong>. In order to get nginx to point to the site files I uploaded to <strong>/var/www/custardbelly.com/public_html</strong> in a previous section of this post, I need to add a new file to <strong>/etc/nginx/sites-available</strong> and sym-link it in <strong>/etc/nginx/sites-enabled</strong>.</p>
+<p>To do that, I ssh&#39;d into my box and:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> service nginx stop
+$ <span class="hljs-built_in">sudo</span> touch /etc/nginx/sites-available/custardbelly.com
+$ <span class="hljs-built_in">sudo</span> vim /etc/nginx/sites-available/custardbelly.com
+</code></pre><p>And in <strong>vim</strong> editor, entered the following:</p>
+<pre><code>server {
+  listen <span class="hljs-number">80</span> default_server<span class="hljs-comment">;</span>
+  listen [::]:<span class="hljs-number">80</span> default_server<span class="hljs-comment">;</span>
+
+  server_name custardbelly<span class="hljs-preprocessor">.com</span> www<span class="hljs-preprocessor">.custardbelly</span><span class="hljs-preprocessor">.com</span><span class="hljs-comment">;</span>
+
+  root /var/www/custardbelly<span class="hljs-preprocessor">.com</span>/public_html<span class="hljs-comment">;</span>
+  index index<span class="hljs-preprocessor">.html</span> index<span class="hljs-preprocessor">.htm</span><span class="hljs-comment">;</span>
+}
+</code></pre><p>I wrote and quit out of the <strong>vim</strong> editor, then removed the <em>default</em> and added <em>custardbelly.com</em> to the <strong>sites-enabled</strong>:</p>
+<pre><code>$ sudo rm <span class="hljs-attribute">-f</span> /etc/nginx/sites<span class="hljs-attribute">-enabled</span>/default
+$ sudo ln <span class="hljs-attribute">-s</span> /etc/nginx/sites<span class="hljs-attribute">-available</span>/custardbelly<span class="hljs-built_in">.</span>com /etc/nginx/sites<span class="hljs-attribute">-enabled</span>/custardbelly<span class="hljs-built_in">.</span>com
+</code></pre><p>After adding <code>custardbelly.com</code> to the enabled site for <strong>nginx</strong> and exposed on port 80, I restarted <strong>nginx</strong>:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> service nginx start
+</code></pre><p>Now navigating in a browser to <a href="http://custardbelly.com">http://custardbelly.com</a> - or its <em>www</em> domain - resulted in being served up the index page moved to <strong>/var/www/custardbelly.com/public_html/index.html</strong>.</p>
+<p>With the non-secure site files setup under <strong>nginx</strong>, it was time to generate a certificate and serve the site under <strong>https</strong>.</p>
+<hr>
+
+<h1 id="generating-certificates-from-let-s-enrypt">Generating Certificates from Let&#39;s Enrypt</h1>
+<p><a href="https://letsencrypt.org/">Let&#39;s Encrypt</a> is a relatively recent Certificate Authority (CA) that boasts being free, automated and open. Essentially, it allows you to manage certificates for your site - to be hosted under HTTPS - without having to go through a 3rd-party vendor.</p>
+<p>To generate a certificate through <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a> for my domain - both naked and <strong>www</strong> - I cloned the repo and issued a cert for my &quot;standalone&quot; webserver... but first I stopped <strong>nginx</strong> again:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> service nginx stop
+</code></pre><p>... then:</p>
+<pre><code>$ git clone https://github<span class="hljs-preprocessor">.com</span>/letsencrypt/letsencrypt
+$ cd letsencrypt
+$ ./letsencrypt-auto certonly --standalone --email support@yourdomain<span class="hljs-preprocessor">.com</span> -d custardbelly<span class="hljs-preprocessor">.com</span> -d www<span class="hljs-preprocessor">.custardbelly</span><span class="hljs-preprocessor">.com</span>
+</code></pre><blockquote>
+<p><code>support@yourdomain.com</code> should be an actual email address at which you want to be notified in case of certificate expiration.</p>
+</blockquote>
+<p>I then verified that the cert for <code>custardbelly.com</code> was created by issuing:</p>
+<pre><code>$ sudo ls /etc/letsencrypt/live/
+
+<span class="hljs-keyword">...</span>
+
+&gt; root root <span class="hljs-number">4096</span> Feb  <span class="hljs-number">10</span> <span class="hljs-number">19</span>:<span class="hljs-number">39</span> custardbelly.com
+</code></pre><p>The <code>custardbelly.com</code> is a directory with key files to be used in defining how to provide SSL for your server in the configurations, as described in the next section.</p>
+<h2 id="updating-nginx-site-configuration">Updating nginx Site Configuration</h2>
+<p>Now that I generated a cert using <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a> to be able to serve my site under HTTPS, it was time to update the site configuration for <strong>nginx</strong>.</p>
+<p>I opened up my <strong>/etc/nginx/sites-available/custardbelly.com</strong> file and edited it to include a redirect to HTTPS:</p>
+<pre><code>server {
+  listen <span class="hljs-number">80</span> default_server<span class="hljs-comment">;</span>
+  listen [::]:<span class="hljs-number">80</span> default_server ipv6only=on<span class="hljs-comment">;</span>
+
+  server_name www<span class="hljs-preprocessor">.custardbelly</span><span class="hljs-preprocessor">.com</span> custardbelly<span class="hljs-preprocessor">.com</span><span class="hljs-comment">;</span>
+
+  return <span class="hljs-number">301</span> https://www<span class="hljs-preprocessor">.custardbelly</span><span class="hljs-preprocessor">.com</span>$request_uri<span class="hljs-comment">;</span>
+}
+
+server {
+  listen [::]:<span class="hljs-number">443</span> ssl<span class="hljs-comment">;</span>
+  listen <span class="hljs-number">443</span> ssl<span class="hljs-comment">;</span>
+
+  ssl_certificate /etc/letsencrypt/live/custardbelly<span class="hljs-preprocessor">.com</span>/fullchain<span class="hljs-preprocessor">.pem</span><span class="hljs-comment">;</span>
+  ssl_certificate_key /etc/letsencrypt/live/custardbelly<span class="hljs-preprocessor">.com</span>/privkey<span class="hljs-preprocessor">.pem</span><span class="hljs-comment">;</span>
+
+  root /var/www/custardbelly<span class="hljs-preprocessor">.com</span>/public_html<span class="hljs-comment">;</span>
+  index index<span class="hljs-preprocessor">.html</span> index<span class="hljs-preprocessor">.htm</span><span class="hljs-comment">;</span>
+}
+</code></pre><p>Essentially, I am forwarding all requests on port <strong>80</strong> to <strong>443</strong>. You will also note the entries for <code>ssl_certificate</code> and <code>ssl_certificate_key</code> which point to the cert generated using <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a>.</p>
+<blockquote>
+<p>This is a very rudmentary example of what your site configuration should look like under nginx, but am keeping the minimum in relation to the task at hand.</p>
+</blockquote>
+<p>I then restarted <strong>nginx</strong>:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> service nginx start
+</code></pre><p>Navigating to <a href="https://www.custardbelly.com/blog">https://www.custardbelly.com/blog</a> in a browser and it showed up! Checked to make sure that the redirect under HTTP request worked as well and, sure enough, my site is now accessible under HTTPS :)</p>
+<p>Now the only issue at this point is that a lot of my resources in pages point to HTTP endpoints directly... that is a sore point for a lot of browsers and results in the dreaded <span style="color: #ff0000;"><strong>Mixed Content</strong></span>.</p>
+<hr>
+
+<h1 id="setting-up-my-site-to-be-served-under-https">Setting up my site to be served under HTTPS</h1>
+<p>Once you move your site to be served up under HTTPS and then point your favorite browser to your site, you may find that it does not look or function as it did previously - as it did for me. That was because a lot of the resources on the pages of my site were being blocked because the site under HTTPS was trying to make requests for content under HTTPS; such resources were CSS files, Javascript files, images, etc.</p>
+<p>If you were to open up Console panel of the developer tools in your browser when pointing to your site under HTTPS, you most likely will see a lot of <span style="color: #ff0000;"><strong>Mixed Content</strong></span> entries. In my case, Google Chrome was blocking requests over differing protocols, even if I was making calls relative to the page (i.e., not cross-site).</p>
+<p>Luckily enough, for me, I was using templates for my blog and only had to change the link references in a single template and regenerate all my posts. Once I had done that, all the pages rendered as they did previously when served under HTTP.</p>
+<blockquote>
+<p>Read more about Mixed Content and Google Chrome <a href="https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content">here</a>.</p>
+</blockquote>
+<hr>
+
+<h1 id="conclusion">Conclusion</h1>
+<p>Getting this site under HTTPS using using <a href="https://aws.amazon.com/">Amazon Web Services</a> to host and <a href="https://letsencrypt.org/">Let&#39;s Encrypt</a> to secure was quick and painless - in just a few hours I was up and running!</p>
+<p>Hopefully this article will help anyone else out there interested in moving their site from HTTP to HTTPS. Good luck!</p>
+<blockquote>
+<p>If you do find any content no longer available, please let me know in the comments. Much appreciated!</p>
+</blockquote>
+<hr>
+
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://https.cio.gov/">https://https.cio.gov/</a></li>
+<li><a href="https://www.smashingmagazine.com/2016/02/breaking-it-down-to-the-bits-how-the-internet-dns-and-https-work/">https://www.smashingmagazine.com/2016/02/breaking-it-down-to-the-bits-how-the-internet-dns-and-https-work/</a></li>
+<li><a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html">http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html</a></li>
+<li><a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html">http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts">https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04">https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content">https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content</a></li>
+</ul>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2016/02/04/http-to-https/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2016/02/04/http-to-https/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[gulp-rev-append: simple cache-busting plugin]]></title><description><![CDATA[<p>I just released <a href="https://www.npmjs.org/package/gulp-rev-append">gulp-rev-append</a>, a simple cache-busting plugin for <a href="http://gulpjs.org">gulp</a> that appends a query-string file hash to script and stylesheet dependencies in HTML files.</p>
 <p>There are <a href="https://www.npmjs.org/search?q=gulp-rev">several other cache-busting plugins</a> currently available by some awesome developers and I suggest you look at those to fit your project&#39;s need.</p>
 <p>For my particular project in which I decided to create the <a href="https://www.npmjs.org/package/gulp-rev-append">gulp-rev-append</a> plugin, I was looking to:</p>
 <ul>
@@ -1125,7 +1378,621 @@ var application = {
 <p>For this post, I had originally started updating the example we have been working through in this series to incoprate User Interaction with the application in a browser with <span style="color: red;">failing</span> tests everywhere... it made me smile :) But, I felt it was extending the length of this post to a point in which it was becoming information overload.</p>
 <p>As such, I am in the middle of a follow up post in how to utilize <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> for our current Grocery List Application example in delivering a test-driven browser-based application supported by <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs.</p>
 <p>At the very least, I hope this post highlighted some possible solutions for testing in the browser and will draw you back to the following post where i go more in depth about working with <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a>. &#39;Til then...</p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript III: CucumberJS and Test Automation]]></title><description><![CDATA[<p>In my <a href="https://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html">previous post</a> I addressed the concepts of the <strong>World</strong> context and <strong>Background</strong> scenario. I am going to pause in actually working with <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in delivering code in a BDD manner for this article and address another vital part of the development process: <strong>Automation</strong>.</p>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[The Making of a Test-Driven Grocery List Application in JS: Part X]]></title><description><![CDATA[<p><em>This is the tenth installment in a series of building a Test-Driven Grocery List application using <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="http://requirejs.org">RequireJS</a>. To learn more about the intent and general concept of the series please visit <a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i/">The Making of a Test-Driven Grocery List Application in JavaScript: Part I</a></em><br>—</p>
+<h2 id="introduction">Introduction</h2>
+<p>When we last left, we properly modified <code>list-controller</code> to support event notification upon change to its collection as well as created a <code>storage-service</code> communication layer with <code>localStorage</code>. That gave us some great passing tests, but nothing to show off as the service was not integrated into the <strong>Grocery List</strong> application. In this article, we’ll do just that, but…</p>
+<h2 id="before-we-hook-up-list-controller-events-to-storage-service-operations-">Before we hook up list-controller events to storage-service operations…</h2>
+<p>We need a way to supply the <code>list-controller</code> with the stored items. The <code>list-controller</code> has a <code>createNewItem()</code> method, but no methods to provide a previously created item. Since we are not burdening the <code>list-controller</code> in communicating with the <code>storage-service</code> directly, we’ll need to open up the API to allow items to be added – at least at the onset.</p>
+<h3 id="tests">Tests</h3>
+<p>First we’ll include all our tests in our <em>specrunner</em> again as changes to <code>list-controller</code> may impact tests across multiple specs. And while we are poking around, let’s add a spec suite for <code>setItems()</code> on the <code>list-controller</code> and watch it fail:</p>
+<p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
+<pre><code><span class="hljs-function">describe(<span class="hljs-string">'setItems()'</span>, <span class="hljs-function">function()</span> {
+
+
+
+  var itemOne = modelFactory.<span class="hljs-function">create()</span>,
+
+      itemTwo = modelFactory.<span class="hljs-function">create()</span>;
+
+
+
+  <span class="hljs-function">beforeEach( <span class="hljs-function">function()</span> {
+
+    itemOne.name = <span class="hljs-string">'apples'</span>;
+
+    itemTwo.name = <span class="hljs-string">'oranges'</span>;
+
+    listController.<span class="hljs-function">setItems([itemOne, itemTwo])</span>;
+
+  })</span>;
+
+
+
+  <span class="hljs-function">afterEach( <span class="hljs-function">function()</span> {
+
+    listController.<span class="hljs-function">getItemList()</span>.<span class="hljs-function">removeAll()</span>;
+
+  })</span>;
+
+
+
+  <span class="hljs-function">it(<span class="hljs-string">'should fill list with provided items'</span>, <span class="hljs-function">function()</span> {
+
+    var items = listController.<span class="hljs-function">getItemList()</span>;
+
+    <span class="hljs-function">expect(items.<span class="hljs-function">itemLength()</span>)</span>.<span class="hljs-function">toEqual(<span class="hljs-number">2</span>)</span>;
+
+    <span class="hljs-function">expect(items.<span class="hljs-function">getItemAt(<span class="hljs-number">0</span>)</span>)</span>.<span class="hljs-function">toBe(itemOne)</span>;
+
+    <span class="hljs-function">expect(items.<span class="hljs-function">getItemAt(<span class="hljs-number">1</span>)</span>)</span>.<span class="hljs-function">toBe(itemTwo)</span>;
+
+  })</span>;
+
+
+
+})</span>;
+</code></pre><p>This simple first spec tells us that an array of items can be provided to the <code>list-controller</code> using <code>setItems()</code> and should be accessible by its collection. And we fail with no surprises:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_17.png" alt="Failing on setItems of list-controller"></p>
+<h3 id="list-controller-modification">list-controller modification</h3>
+<p>Throughout this series I have employed a quasi-<a href="http://coderetreat.org/facilitating/activities/tdd-as-if-you-meant-it"><em>“TDD as if you mean it”</em></a> approach when creating new components and modifying the API on existing ones. With this modification to the <code>list-controller</code>, I am going to stick to getting the tests to pass by modifying the <code>list-controller</code> directly as I feel it is going to get a little more involved and will require some refactoring that would be better suited by focusing on true implementation.</p>
+<p>With that said, let’s modify <code>list-controller</code> to get that new spec passing:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code>listController = {
+
+  $view: <span class="hljs-literal">undefined</span>,
+
+  getItemList: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+
+    <span class="hljs-keyword">return</span> collection;
+
+  },
+
+  getRendererFromItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
+
+    <span class="hljs-keyword">var</span> i = rendererList.itemLength(),
+
+        renderer;
+
+    <span class="hljs-keyword">while</span>( --i &gt; -<span class="hljs-number">1</span> ) {
+
+      renderer = rendererList.getItemAt(i);
+
+      <span class="hljs-keyword">if</span>(renderer.model === item) {
+
+        <span class="hljs-keyword">return</span> renderer;
+
+      }
+
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
+
+  },
+
+  createNewItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+
+    <span class="hljs-keyword">var</span> model = modelFactory.create();
+
+    collection.addItem(model);
+
+    <span class="hljs-keyword">return</span> model;
+
+  },
+
+  removeItem: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
+
+    <span class="hljs-keyword">return</span> collection.removeItem(item);
+
+  },
+
+  setView: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(view)</span> {</span>
+
+    <span class="hljs-keyword">this</span>.$view = (view <span class="hljs-keyword">instanceof</span> $) ? view : $(view);
+
+  },
+
+  setItems: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(items)</span> {</span>
+
+    collection = collectionFactory.create(items);
+
+  }
+
+};
+</code></pre><p>Well, that was easy enough!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_18.png" alt="Passing on setItems() of list-controller"></p>
+<h3 id="tests">Tests</h3>
+<p>Not so fast… I think our single spec may be deceiving our expectations. Let’s add a few more and make sure we are on the right path. To start, we expect changes to these new models to propagate events when it is modified – such as in the work we have done previously.</p>
+<p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
+<pre><code>async.it(<span class="hljs-string">'should dispatch events of property-change from provided items'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
+
+  <span class="hljs-keyword">var</span> items = listController.getItemList(),
+
+      itemOne = items.getItemAt(<span class="hljs-number">0</span>);
+
+  $(listController).on(<span class="hljs-string">'save-item'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
+
+    $(listController).off(<span class="hljs-string">'save-item'</span>);
+
+    expect(event.item).toBe(itemOne);
+
+    done();
+
+  });
+
+  itemOne.marked = <span class="hljs-literal">true</span>;
+
+});
+</code></pre><p>This spec tells us that changes to an item should be notified through the <code>list-controller</code> – basically the work we had done previously in getting the <code>list-controller</code> to dispatch events related to its underlying collection so as to be captured by observing parties.<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_19.png" alt="Failing on async timeout of event from item"></p>
+<p>This test actually reveals some refactoring that is required within the <code>list-controller</code>. In essence, creating a new collection from the provided items in <code>setItems()</code> is not enough to have the application work as expected – each individual item needs to be managed by a <code>list-item-controller</code> which responds and notifies of changes accordingly. We had previously paired an item with a item controller within the <code>collection-change</code> event handler of the collection in <code>list-controller</code>:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code><span class="hljs-list">(<span class="hljs-title">function</span> assignCollectionHandlers<span class="hljs-list">($collection)</span> {
+
+
+
+  var EventKindEnum = collectionFactory.collectionEventKind,
+
+      isValidValue = function<span class="hljs-list">(<span class="hljs-title">value</span>)</span> {
+
+        return value <span class="hljs-keyword">&amp;&amp;</span> <span class="hljs-list">(<span class="hljs-title">value</span>.hasOwnProperty<span class="hljs-list">('length')</span> <span class="hljs-keyword">&amp;&amp;</span> value.length &gt; <span class="hljs-number">0</span>)</span><span class="hljs-comment">;</span>
+
+      }<span class="hljs-comment">;</span>
+
+
+
+  $collection.on<span class="hljs-list">('collection-change', function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> {
+
+    var model,
+
+        itemController,
+
+        $itemController,
+
+        $itemView<span class="hljs-comment">;</span>
+
+    switch<span class="hljs-list">( event.kind )</span> {
+
+      case EventKindEnum.ADD:
+
+        $itemView = $<span class="hljs-list">('&lt;li&gt;')</span><span class="hljs-comment">;</span>
+
+        model = event.items.shift<span class="hljs-list">()</span><span class="hljs-comment">;</span>
+
+        itemController = itemControllerFactory.create<span class="hljs-list">($itemView, model)</span><span class="hljs-comment">;</span>
+
+        $itemController = $<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span><span class="hljs-comment">;</span>
+
+
+
+        $itemView.appendTo<span class="hljs-list">(<span class="hljs-title">listController</span>.$view)</span><span class="hljs-comment">;</span>
+
+        rendererList.addItem<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span><span class="hljs-comment">;</span>
+
+        $<span class="hljs-list">(<span class="hljs-title">listController</span>)</span>.trigger<span class="hljs-list">(<span class="hljs-title">createSaveEvent</span><span class="hljs-list">(<span class="hljs-title">model</span>)</span>)</span><span class="hljs-comment">;</span>
+
+        itemController.state = itemControllerFactory.state.EDITABLE<span class="hljs-comment">;</span>
+
+
+
+        $itemController.on<span class="hljs-list">('remove', function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> {
+
+          listController.removeItem<span class="hljs-list">(<span class="hljs-title">model</span>)</span><span class="hljs-comment">;</span>
+
+        })</span><span class="hljs-comment">;</span>
+
+        $itemController.on<span class="hljs-list">('commit', function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> {
+
+          if<span class="hljs-list">(!isValidValue<span class="hljs-list">(<span class="hljs-title">model</span>.name)</span>)</span> {
+
+            listController.removeItem<span class="hljs-list">(<span class="hljs-title">model</span>)</span><span class="hljs-comment">;</span>
+
+          }
+
+          else {
+
+            $<span class="hljs-list">(<span class="hljs-title">listController</span>)</span>.trigger<span class="hljs-list">(<span class="hljs-title">createSaveEvent</span><span class="hljs-list">(<span class="hljs-title">model</span>)</span>)</span><span class="hljs-comment">;</span>
+
+          }
+
+        })</span><span class="hljs-comment">;</span>
+
+        break<span class="hljs-comment">;</span>
+
+      case EventKindEnum.REMOVE:
+
+        model = event.items.shift<span class="hljs-list">()</span><span class="hljs-comment">;</span>
+
+        itemController = listController.getRendererFromItem<span class="hljs-list">(<span class="hljs-title">model</span>)</span>,
+
+        $itemController = $<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span><span class="hljs-comment">;</span>
+
+
+
+        if<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span> {
+
+          $itemView = itemController.parentView<span class="hljs-comment">;</span>
+
+          $itemView.remove<span class="hljs-list">()</span><span class="hljs-comment">;</span>
+
+          itemController.dispose<span class="hljs-list">()</span><span class="hljs-comment">;</span>
+
+          $itemController.off<span class="hljs-list">('remove')</span><span class="hljs-comment">;</span>
+
+          $itemController.off<span class="hljs-list">('commit')</span><span class="hljs-comment">;</span>
+
+          rendererList.removeItem<span class="hljs-list">(<span class="hljs-title">itemController</span>)</span><span class="hljs-comment">;</span>
+
+          $<span class="hljs-list">(<span class="hljs-title">listController</span>)</span>.trigger<span class="hljs-list">(<span class="hljs-title">createRemoveEvent</span><span class="hljs-list">(<span class="hljs-title">model</span>)</span>)</span><span class="hljs-comment">;</span>
+
+        }
+
+        break<span class="hljs-comment">;</span>
+
+      case EventKindEnum.RESET:
+
+        break<span class="hljs-comment">;</span>
+
+    }
+
+  })</span><span class="hljs-comment">;</span>
+
+
+
+}<span class="hljs-list">($<span class="hljs-list">(<span class="hljs-title">collection</span>)</span>)</span>)</span><span class="hljs-comment">;</span>
+</code></pre><p>That <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a> was run in the module prior to returning the <code>list-controller</code> instance. Now, we could just copy that code from the <code>EventKindEnum.ADD</code> case and shove it into <code>setItems()</code>, applying it to each item in a loop, but that wouldn’t be very efficient, not to mention a cry-inducing solution for anyone (including yourself) which need to revisit your code.</p>
+<h3 id="list-controller-refactor">list-controller refactor</h3>
+<p>I think we are going to have to get rid of this <strong>IIFE</strong>, but let’s do that modification in piecemeal; first, let’s strip out the item management when added to a collection:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code><span class="hljs-keyword">var</span> collection = collectionFactory.create(),
+
+    rendererList = collectionFactory.create(),
+
+    manageItemInList = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item, listController)</span> {</span>
+
+      <span class="hljs-keyword">var</span> <span class="hljs-variable">$itemView</span> = $(<span class="hljs-string">'&lt;li&gt;'</span>),
+
+          itemController = itemControllerFactory.create(<span class="hljs-variable">$itemView</span>, item),
+
+          <span class="hljs-variable">$itemController</span> = $(itemController),
+
+          isValidValue = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value)</span> {</span>
+
+            <span class="hljs-keyword">return</span> value &amp;&amp; (value.hasOwnProperty(<span class="hljs-string">'length'</span>) &amp;&amp; value.length &gt; <span class="hljs-number">0</span>);
+
+          };
+
+
+
+      <span class="hljs-variable">$itemView</span>.appendTo(listController.<span class="hljs-variable">$view</span>);
+
+      rendererList.addItem(itemController);
+
+
+
+      <span class="hljs-variable">$itemController</span>.on(<span class="hljs-string">'remove'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
+
+        listController.removeItem(item);
+
+      });
+
+      <span class="hljs-variable">$itemController</span>.on(<span class="hljs-string">'commit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
+
+        <span class="hljs-keyword">if</span>(!isValidValue(item.name)) {
+
+          listController.removeItem(item);
+
+        }
+
+        <span class="hljs-keyword">else</span> {
+
+          $(listController).trigger(createSaveEvent(item));
+
+        }
+
+      });
+
+      <span class="hljs-keyword">return</span> itemController;
+
+    },
+
+    listController = {
+
+      <span class="hljs-variable">$view</span>: undefined,
+
+      ...
+
+    };
+</code></pre><p>Most of what was held in the <code>EventKindEnum.ADD</code> case of the <code>collection-change</code> handler has been moved to its own function expression – <code>manageItemInList()</code>. If we look at how this case is modified we see that we have left state initialization and event dispatching:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code>case EventKindEnum<span class="hljs-preprocessor">.ADD</span>:
+
+  model = event<span class="hljs-preprocessor">.items</span><span class="hljs-preprocessor">.shift</span>()<span class="hljs-comment">;</span>
+
+  itemController = manageItemInList(model, listController)<span class="hljs-comment">;</span>
+
+  itemController<span class="hljs-preprocessor">.state</span> = itemControllerFactory<span class="hljs-preprocessor">.state</span><span class="hljs-preprocessor">.EDITABLE</span><span class="hljs-comment">;</span>
+
+  $(listController)<span class="hljs-preprocessor">.trigger</span>(createSaveEvent(model))<span class="hljs-comment">;</span>
+
+  <span class="hljs-keyword">break</span><span class="hljs-comment">;</span>
+</code></pre><p>When an item is added to the collection and the list-controller is notified, it creates a new <code>list-item-controller</code> using <code>manageItemInList()</code>, sets the controller’s state to <code>EDITABLE</code> and notifies of its addition. The last two operations are of note, as they only pertain to <em>new</em> additions to the collection – we don’t want such things for existing items being added to the list from <code>setItems()</code>.</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code><span class="hljs-attribute">setItems</span>: <span class="hljs-string">function(items) {</span>
+
+<span class="matlab">  var <span class="hljs-built_in">i</span>, <span class="hljs-built_in">length</span> = <span class="hljs-transposed_variable">items.</span><span class="hljs-built_in">length</span>;
+
+  collection = <span class="hljs-transposed_variable">collectionFactory.</span>create();
+
+  <span class="hljs-keyword">for</span>( <span class="hljs-built_in">i</span> = <span class="hljs-number">0</span>; <span class="hljs-built_in">i</span> &lt; <span class="hljs-built_in">length</span>; <span class="hljs-built_in">i</span>++ ) <span class="hljs-cell">{
+
+    manageItemInList(items[i], this);
+
+    collection.addItem(items[i]);
+
+  }</span>
+
+}</span>
+</code></pre><p>Now if we run the tests again:<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_20.png" alt="Passing on modifications to item management in list-controller"></p>
+<p>Passing! </p>
+<h3 id="tests">Tests</h3>
+<p>I don’t think we are out of the woods yet, however… Let’s continue to add more expectations about setting the collection through <code>setItems()</code>on <code>list-controller</code>:</p>
+<p><em>/test/jasmine/spec/list-controller.spec.js</em></p>
+<pre><code>async.it(<span class="hljs-string">'should dispatch event of remove-item from collection'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
+
+  $(listController).on(<span class="hljs-string">'remove-item'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
+
+    $(listController).off(<span class="hljs-string">'remove-item'</span>);
+
+    expect(event.item).toBe(itemOne);
+
+    done();
+
+  });
+
+  listController.removeItem(itemOne);
+
+});
+</code></pre><p>This test ensures that the <code>list-controller</code> should still be responding to and notifying of changes to the new collection created through <code>setItems()</code> just as it should if the <code>list-controller</code> was only being instructed to modify the collection through calls to <code>createNewItem()</code>.</p>
+<h3 id="list-controller-refactoring">list-controller refactoring</h3>
+<p>To save you some time in downloading more images, believe me when I tell you I just put us back in red <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> The reason being that dang <code>assignCollectionHandlers</code> <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a>. The collection that is created in <code>setItems()</code> is not being observed. The <strong>IIFE</strong> to assign events handlers is only run upon load of the module and only targets the collection instantiated in its declaration. In other words, any new collections will not be observed.</p>
+<p>I say we move that <strong>IIFE</strong> out into its own expression:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code><span class="hljs-keyword">var</span> collection = collectionFactory.create(),
+
+    rendererList = collectionFactory.create(),
+
+    assignCollectionHandlers = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(<span class="hljs-variable">$collection</span>)</span> {</span>
+
+      <span class="hljs-keyword">var</span> EventKindEnum = collectionFactory.collectionEventKind;
+
+      <span class="hljs-variable">$collection</span>.on(<span class="hljs-string">'collection-change'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
+
+        <span class="hljs-keyword">var</span> model,
+
+            itemController,
+
+            <span class="hljs-variable">$itemController</span>,
+
+            <span class="hljs-variable">$itemView</span>;
+
+        <span class="hljs-keyword">switch</span>( event.kind ) {
+
+          <span class="hljs-keyword">case</span> EventKindEnum.ADD:
+
+            model = event.items.shift();
+
+            itemController = manageItemInList(model, listController);
+
+            itemController.state = itemControllerFactory.state.EDITABLE;
+
+            $(listController).trigger(createSaveEvent(model));
+
+            <span class="hljs-keyword">break</span>;
+
+          <span class="hljs-keyword">case</span> EventKindEnum.REMOVE:
+
+            model = event.items.shift();
+
+            itemController = listController.getRendererFromItem(model),
+
+            <span class="hljs-variable">$itemController</span> = $(itemController);
+
+
+
+            <span class="hljs-keyword">if</span>(itemController) {
+
+              <span class="hljs-variable">$itemView</span> = itemController.parentView;
+
+              <span class="hljs-variable">$itemView</span>.remove();
+
+              itemController.dispose();
+
+              <span class="hljs-variable">$itemController</span>.off(<span class="hljs-string">'remove'</span>);
+
+              <span class="hljs-variable">$itemController</span>.off(<span class="hljs-string">'commit'</span>);
+
+              rendererList.removeItem(itemController);
+
+              $(listController).trigger(createRemoveEvent(model));
+
+            }
+
+            <span class="hljs-keyword">break</span>;
+
+          <span class="hljs-keyword">case</span> EventKindEnum.RESET:
+
+            <span class="hljs-keyword">break</span>;
+
+        }
+
+      });
+
+    },
+
+    manageItemInList = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item, listController)</span> {</span>
+
+      <span class="hljs-comment">// implementation removed to reduce noise</span>
+
+    },
+
+    listController = {
+
+      <span class="hljs-comment">// implementation removed to reduce noise</span>
+
+    }
+</code></pre><p>We basically took what was the named <code>assignCollectionHandlers</code> <strong>IIFE</strong> and added it to the variable declarations within the <code>list-controller</code> module. That changes the code between those declarations and the return of the <code>listController</code> instance to:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code><span class="hljs-keyword">var</span> collection = collectionFactory.create(),
+
+    rendererList = collectionFactory.create(),
+
+    assignCollectionHandlers = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($collection)</span> {</span>
+
+      <span class="hljs-comment">// implementation removed to reduce noise</span>
+
+    },
+
+    manageItemInList = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item, listController)</span> {</span>
+
+      <span class="hljs-comment">// implementation removed to reduce noise</span>
+
+    },
+
+    listController = {
+
+      <span class="hljs-comment">// implementation removed to reduce noise</span>
+
+    };
+
+
+
+assignCollectionHandlers($(collection));
+
+
+
+<span class="hljs-keyword">return</span> listController;
+</code></pre><p>With those changes we are still failing on the last spec we created, but more importantly we have not caused any other tests to fail!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_21.png" alt="Still failing, but failing well!"></p>
+<p>Let’s get that last spec to pass:</p>
+<p><em>/script/controller/list-controller.js</em></p>
+<pre><code><span class="hljs-attribute">setItems</span>: <span class="hljs-string">function(items) {</span>
+
+<span class="matlab">  var <span class="hljs-built_in">i</span>, <span class="hljs-built_in">length</span> = <span class="hljs-transposed_variable">items.</span><span class="hljs-built_in">length</span>;
+
+  collection = <span class="hljs-transposed_variable">collectionFactory.</span>create();
+
+  <span class="hljs-keyword">for</span>( <span class="hljs-built_in">i</span> = <span class="hljs-number">0</span>; <span class="hljs-built_in">i</span> &lt; <span class="hljs-built_in">length</span>; <span class="hljs-built_in">i</span>++ ) <span class="hljs-cell">{
+
+    manageItemInList(items[i], this);
+
+    collection.addItem(items[i]);
+
+  }</span>
+
+  assignCollectionHandlers($(collection));
+
+}</span>
+</code></pre><p>Hurrah!<br><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_22.png" alt="Passing again!"></p>
+<p>Tagged <strong>0.1.13</strong>: <a href="https://github.com/bustardcelly/grocery-ls/tree/0.1.13">https://github.com/bustardcelly/grocery-ls/tree/0.1.13</a></p>
+<h2 id="hooking-it-all-together">Hooking it all together</h2>
+<p>We have created our <code>storage-service</code> to communicate with <code>localStorage</code>, modified <code>list-controller</code> to dispatch events and accept initial items for its collection and all our tests are still passing! It’s a wonderous feeling. Now let’s get to actually hooking them up so that the <code>storage-service</code> is told how to handle changes to the list by responding to <code>list-controller</code> events.</p>
+<p>Normally, in such situations I would create another component to the application that would serve as an mediator for such integration, receiving events from <code>list-controller</code> and invoking the <code>storage-service</code>. Naturally, that would also call for more tests in assuring that the mediator did its job correctly. I am not going to do that here. This is a small application meant for our own personal use and this series has gotten quite long; I don’t want to scare you away by adding more dependencies, but I would encourage you to do so on your own if you feel so…. just don’t forget the tests!</p>
+<p>I think modifying the main JavaScript file (<em>/script/grocery-ls.js</em>) that defines the module dependencies and initializes the <strong>Grocery List</strong> application is fine enough for the task at hand:</p>
+<p><em>/script/grocery-ls.js</em></p>
+<pre><code><span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">window</span>, require)</span> <span class="hljs-collection">{
+
+
+
+  require.config<span class="hljs-list">(<span class="hljs-collection">{
+
+    baseUrl: <span class="hljs-string">"."</span>,
+
+    paths: <span class="hljs-collection">{
+
+      <span class="hljs-string">"lib"</span>: <span class="hljs-string">"./lib"</span>,
+
+      <span class="hljs-string">"script"</span>: <span class="hljs-string">"./script"</span>,
+
+      <span class="hljs-string">"jquery"</span>: <span class="hljs-string">"./lib/jquery-1.8.3.min"</span>
+
+    }</span>
+
+  }</span>)</span><span class="hljs-comment">;</span>
+
+
+
+  require<span class="hljs-list">( <span class="hljs-collection">['jquery', 'script/controller/list-controller', 'script/service/storage-service']</span>,
+
+            function<span class="hljs-list">(<span class="hljs-title">$</span>, listController, storageService)</span> <span class="hljs-collection">{
+
+
+
+    var $listController = $<span class="hljs-list">(<span class="hljs-title">listController</span>)</span><span class="hljs-comment">;</span>
+
+    listController.setView<span class="hljs-list">(<span class="hljs-title">$</span><span class="hljs-list">(<span class="hljs-title">'section.groceries</span> ul')</span>)</span><span class="hljs-comment">;</span>
+
+
+
+    storageService.getItems<span class="hljs-list">()</span>.then<span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">items</span>)</span> <span class="hljs-collection">{
+
+      listController.setItems<span class="hljs-list">(<span class="hljs-title">items</span>)</span><span class="hljs-comment">;</span>
+
+    }</span>)</span><span class="hljs-comment">;</span>
+
+    $listController.on<span class="hljs-list">(<span class="hljs-title">'save-item'</span>, function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> <span class="hljs-collection">{
+
+      storageService.saveItem<span class="hljs-list">(<span class="hljs-title">event.item</span>)</span>.then<span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">item</span>)</span> <span class="hljs-collection">{
+
+        console.log<span class="hljs-list">(<span class="hljs-title">'Item</span> saved! ' + item.name)</span><span class="hljs-comment">;</span>
+
+      }</span>, function<span class="hljs-list">(<span class="hljs-title">error</span>)</span> <span class="hljs-collection">{
+
+        console.log<span class="hljs-list">(<span class="hljs-title">'Item</span> not saved: ' + error)</span>
+
+      }</span>)</span><span class="hljs-comment">;</span>
+
+    }</span>)</span><span class="hljs-comment">;</span>
+
+    $listController.on<span class="hljs-list">(<span class="hljs-title">'remove-item'</span>, function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> <span class="hljs-collection">{
+
+      storageService.removeItem<span class="hljs-list">(<span class="hljs-title">event.item</span>)</span>.then<span class="hljs-list">(<span class="hljs-title">function</span><span class="hljs-list">(<span class="hljs-title">item</span>)</span> <span class="hljs-collection">{
+
+        console.log<span class="hljs-list">(<span class="hljs-title">'Item</span> removed! ' + item.name)</span><span class="hljs-comment">;</span>
+
+      }</span>, function<span class="hljs-list">(<span class="hljs-title">error</span>)</span> <span class="hljs-collection">{
+
+        console.log<span class="hljs-list">(<span class="hljs-title">'Item</span> not removed: ' + error)</span><span class="hljs-comment">;</span>
+
+      }</span>)</span><span class="hljs-comment">;</span>
+
+    }</span>)</span><span class="hljs-comment">;</span>
+
+    $<span class="hljs-list">(<span class="hljs-title">'#add-item-button'</span>)</span>.on<span class="hljs-list">(<span class="hljs-title">'click'</span>, function<span class="hljs-list">(<span class="hljs-title">event</span>)</span> <span class="hljs-collection">{
+
+      listController.createNewItem<span class="hljs-list">()</span><span class="hljs-comment">;</span>
+
+    }</span>)</span><span class="hljs-comment">;</span>
+
+
+
+  }</span>)</span><span class="hljs-comment">;</span>
+
+
+
+}</span><span class="hljs-list">(<span class="hljs-title">window</span>, requirejs)</span>)</span><span class="hljs-comment">;</span>
+</code></pre><p>Just a slight modification to the main file. We added <code>storage-service</code> as an initial dependency, request and supply stored items to the list-controller and respond to <code>save-item</code> and <code>remove-item</code> events, forwarding actions along to the <code>storage-service</code> appropriately.</p>
+<p>If we run the application now, we can add, mark-off, remove items from the list. Same as before, but now, if we refresh the page, items and their state a persisted!</p>
+<p><img src="https://custardbelly.com/blog/images/tdd_js/part_ix_27.png" alt="Grocery list application"></p>
+<p>It may look a little different than your if you have been following along in the code. I added some nice styling and committed it to the repo.</p>
+<p>Tagged <strong>0.2.0</strong> : <a href="https://github.com/bustardcelly/grocery-ls/tree/0.2.0">https://github.com/bustardcelly/grocery-ls/tree/0.2.0</a></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We have completed our <strong>Grocery List</strong> application and have it fully tested (well, hopefully <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"> ). We now have a grocery list that we can curate and is persisted in the browser. It should be noted that it is not persistent across browser<strong>s</strong>, plural – so make sure to open it in the same browser on your mobile device when creating the list and shopping. I am most likely going to whip up a little server to persist the list remotely, but am not going to document that in this series. It may end up in the <a href="https://github.com/bustardcelly/grocery-ls">github repo</a> eventually, however, so keep an eye out.</p>
+<p>Thanks for sticking around in this long series (<em>ten parts!</em>) of building an application by trying to adhere to <strong>TDD</strong>. I may have gone off course here and there, but I hope it was informative in any way.</p>
+<p>Cheers!</p>
+<p>—-</p>
+<h1 id="link-dump">Link Dump</h1>
+<h2 id="reference">Reference</h2>
+<p><a href="http://tddjs.com/">Test-Driven JavaScript Development by Christian Johansen</a><br><a href="http://dannorth.net/introducing-bdd/">Introducing BDD by Dan North</a><br><a href="http://cumulative-hypotheses.org/2011/08/30/tdd-as-if-you-meant-it/">TDD as if you Meant it by Keith Braithwaite</a><br><a href="http://requirejs.org/">RequireJS</a><br><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a><br><a href="http://pivotal.github.com/jasmine/">Jasmine</a><br><a href="http://sinonjs.org/">Sinon</a><br><a href="https://github.com/derickbailey/jasmine.async">Jasmine.Async</a></p>
+<h2 id="post-series">Post Series</h2>
+<p><a href="https://github.com/bustardcelly/grocery-ls">grocery-ls github repo</a><br><a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-javascript-part-i">Part I – Introduction</a><br><a href="https://custardbelly.com/blog/2012/11/26/the-making-of-a-test-driven-grocery-list-application-in-js-part-ii">Part II – Feature: Add Item</a><br><a href="https://custardbelly.com/blog/2012/12/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-iii">Part III – Feature: Mark-Off Item</a><br><a href="https://custardbelly.com/blog/2012/12/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-iv">Part IV – Feature: List-Item-Controller</a><br><a href="https://custardbelly.com/blog/2012/12/31/the-making-of-a-test-driven-grocery-list-application-in-js-part-v/">Part V – Feature: List-Controller Refactoring</a><br><a href="https://custardbelly.com/blog/2013/01/08/the-making-of-a-test-driven-grocery-list-application-in-js-part-vi/">Part VI – Back to Passing</a><br><a href="https://custardbelly.com/blog/2013/01/17/the-making-of-a-test-driven-grocery-list-application-in-js-part-vii/">Part VII – Remove Item</a><br><a href="https://custardbelly.com/blog/2013/01/22/the-making-of-a-test-driven-grocery-list-application-part-viii/">Part VIII – Bug Fixing</a><br><a href="https://custardbelly.com/blog/2013/02/15/the-making-of-a-test-driven-grocery-list-application-in-js-part-ix/">Part IX – Persistence</a><br><a href="https://custardbelly.com/blog/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/">Part X – It Lives!</a></p>
+<p>Posted in <a href="https://custardbelly.com/blog/category/amd/">AMD</a>, <a href="https://custardbelly.com/blog/category/javascript/">JavaScript</a>, <a href="https://custardbelly.com/blog/category/requirejs/">RequireJS</a>, <a href="https://custardbelly.com/blog/category/grocery-ls/">grocery-ls</a>, <a href="https://custardbelly.com/blog/category/jasmine/">jasmine</a>.</p>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2013/03/06/the-making-of-a-test-driven-grocery-list-application-in-js-part-x/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript III: CucumberJS and Test Automation]]></title><description><![CDATA[<p>In my <a href="https://custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html">previous post</a> I addressed the concepts of the <strong>World</strong> context and <strong>Background</strong> scenario. I am going to pause in actually working with <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in delivering code in a BDD manner for this article and address another vital part of the development process: <strong>Automation</strong>.</p>
 <h3 id="-gt-code">&gt; code</h3>
 <p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></p>
 <h2 id="why-automate-">Why Automate?</h2>
@@ -1698,458 +2565,4 @@ module.exports.World = World;
 </ul>
 <p>I think the work we went through in this post will be very beneficial when I introduce running tests under a browser. Stay tuned…</p>
 <p>Source for examples related to this post can be found in the <a href="https://github.com/bustardcelly/cucumberjs-examples/tree/0.2.0post">0.2.0.post tag on my Github account</a>.</p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript: CucumberJS]]></title><description><![CDATA[<p>I have previously written about <strong>TDD</strong> in JavaScript, most notably using the BDD-style library <a href="https://github.com/pivotal/jasmine">Jasmine</a> in a series on <a href="https://custardbelly.com/blog/blog-pages/category/grocery-ls.html">building a Test-Driven Grocery List Application</a>. In that posts series I went through thinking of User Stories for Features and Scenarios as actual development tasks, and - reading back on it - it&#39;s all very green (no pun intended) in my finding a way to deliver test-driven code. Nothing wrong with that and I will most likely look upon this and subsequent posts in the same manner. That said, I still hold true that TDD is the best way to deliver concise, tested and well thought-out code.</p>
-<p>Since that time, however, I have incorporated a different tool into my <strong>TDD</strong> workflow for JavaScript-based projects that affords me the integration of Feature specs more closely to my development and truly encompasses my current ideal of <strong>Behaviour Driven Development</strong>: <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. Essentially, it allows me to truly adhere to <strong>TDD</strong> while developing from the outside in - running automated tests that fail until I have written code that supports a feature.</p>
-<h3 id="-gt-assumptions-and-notes">&gt; assumptions and notes</h3>
-<p>For the examples in this post, it is assumed that you are familiar with <a href="http://nodejs.org">NodeJS</a>, <a href="https://npmjs.org/">npm</a>, developing node modules and common unit testing practices as these topics too large to discuss in this post.</p>
-<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></p>
-<h2 id="cucumberjs">CucumberJS</h2>
-<p><a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> is a JavaScript port of the popular BDD tool <a href="http://cukes.info/">Cucumber</a> (which itself was a rewrite of RSpec). It allows you to define Feature Specs in a Domain-Specific-Language (DSL) - called <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin</a> - and run your specs using a command line tool which will report the passing and/or failing of scenarios and the steps they are comprised of.</p>
-<p>It is important to note that <strong>Cucumber</strong> itself does not provide a default assertion library. It is a testing framework providing a command line tool that consumes defined Features and validates Scenarios by running Steps that are written in JavaScript. It is the developers choice to include the desired assertion library used in order to make those steps <span style="color:green;">pass</span> or <span style="color:red;">fail</span>. It is my intent to clarify the process by example through a single Feature with multiple Scenarios in this post.</p>
-<h3 id="installation">Installation</h3>
-<p>You can install <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in your project using <a href="https://npmjs.org/">npm</a>:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">npm</span> <span class="hljs-comment">install</span> <span class="hljs-comment">cucumber</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">save</span><span class="hljs-literal">-</span><span class="hljs-comment">dev</span>
-</code></pre><h2 id="gherkin">Gherkin</h2>
-<p>If you had followed along in the previous <a href="https://custardbelly.com/blog/blog-pages/category/grocery-ls.html">TDD Series</a>, you will find the specs defined in that series similar to <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin</a>. In fact, I will be re-hashing a feature spec from that series to demonstrate working through your first cuke (aka, passing feature spec).</p>
-<p>If we were to remake the <a href="(https://custardbelly.com/blog/blog-pages/category/grocery-ls.html">Grocery List</a> application under TDD/BDD using <strong>Cucumber</strong>, we would first start with a feature using the <strong>Gherkin</strong> syntax:</p>
-<p><em>/features/add-item.feature</em></p>
-<pre><code>Feature: Shopper can <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> their Grocery List
-  As <span class="hljs-operator">a</span> grocery shopper
-  I want <span class="hljs-built_in">to</span> <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> my grocery list
-  So that I can remember <span class="hljs-built_in">to</span> buy that <span class="hljs-keyword">item</span> <span class="hljs-keyword">at</span> <span class="hljs-operator">the</span> grocery store
-
-  Scenario: Item added <span class="hljs-built_in">to</span> grocery list
-    Given I have <span class="hljs-operator">an</span> <span class="hljs-constant">empty</span> grocery list
-    When I <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> list
-    Then The grocery list <span class="hljs-operator">contains</span> <span class="hljs-operator">a</span> single <span class="hljs-keyword">item</span>
-
-  Scenario: Item accessible <span class="hljs-built_in">from</span> grocery list
-    Given I have <span class="hljs-operator">an</span> <span class="hljs-constant">empty</span> grocery list
-    When I <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> list
-    Then I can access that <span class="hljs-keyword">item</span> <span class="hljs-built_in">from</span> <span class="hljs-operator">the</span> grocery list
-</code></pre><p>The <strong>Feature</strong> defines a business value, while the <strong>Scenarios</strong> define the steps that provides that value. Most often, in the software development world, it is from these <strong>Scenarios</strong> that development tasks are taken on and QA tests are defined.</p>
-<p>I stopped at two Scenarios, but we could very easily add more scenarios to this feature; immediately what comes to mind are item insertion rules and validation of properties that allow for an item to be added or rejected. In hindsight, it could make more sense in creating seperate feature specs for such details. We could spend a whole post on such topics, though... let&#39;s get back to the feature already defined.</p>
-<p>Within each <strong>Scenario</strong> is a list of sequential <strong>Steps</strong>: <em>Given</em>, <em>When</em> and <em>Then</em>. It is these steps that <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> will execute after having consume this feature spec. After each of those, you can optionally have <em>And</em> and <em>But</em>, however - though necessary and unavoidable at times - I try to stay away from such additional step clauses.</p>
-<h3 id="running-it">Running it</h3>
-<p>Having saved that down to a file in a <strong>/features</strong> direcory, we can then run it under <strong>Cucumber</strong>:</p>
-<pre><code><span class="hljs-variable">$ </span>node_modules/.bin/cucumber-js
-</code></pre><p>By default, <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> will consume all feature specs found in the relative <strong>/features</strong> directory.</p>
-<p>The current console output will look something like the following which essentially means that all the steps have not been located or defined:</p>
-<pre><code>UUUUUU
-
-<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> <span class="hljs-literal">undefined</span>)
-<span class="hljs-number">6</span> steps (<span class="hljs-number">6</span> <span class="hljs-literal">undefined</span>)
-
-You can implement step definitions <span class="hljs-keyword">for</span> <span class="hljs-literal">undefined</span> steps <span class="hljs-keyword">with</span> these snippets:
-
-<span class="hljs-keyword">this</span>.Given(<span class="hljs-regexp">/^I have an empty grocery list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-  <span class="hljs-comment">// express the regexp above with the code you wish you had</span>
-  callback.pending();
-});
-
-<span class="hljs-keyword">this</span>.When(<span class="hljs-regexp">/^I add an item to the list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-  <span class="hljs-comment">// express the regexp above with the code you wish you had</span>
-  callback.pending();
-});
-
-<span class="hljs-keyword">this</span>.Then(<span class="hljs-regexp">/^The grocery list contains a single item$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-  <span class="hljs-comment">// express the regexp above with the code you wish you had</span>
-  callback.pending();
-});
-
-<span class="hljs-keyword">this</span>.Then(<span class="hljs-regexp">/^I can access that item from the grocery list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-  <span class="hljs-comment">// express the regexp above with the code you wish you had</span>
-  callback.pending();
-});
-</code></pre><p>So we have 6 undefined <strong>Steps</strong> that make up 2 <strong>Scenarios</strong> and the <strong>CucumberJS</strong> ci tool even provides examples of defining them!</p>
-<p>An important part of that snippet to understand is that there are only 4 steps to implement. In our <strong>Feature</strong> we have 2 <strong>Scenerios</strong> each with 3 <strong>Steps</strong>. There are a total of 6 steps, but we only need to define 4. The reason being that each <strong>Scenario</strong> shares the same <em>Given</em> and <em>When</em> step; these only need to be defined once and will be run separately for each <strong>Scenario</strong>. Essentially, if you define similar <strong>Steps</strong> using the same context, it will reuse the &quot;setup&quot; for a single <strong>Step</strong> within each <strong>Scenario</strong>.</p>
-<p><em>I use &quot;setup&quot; in quotes because I mean it more in a role of defining context for <strong>When</strong> and <strong>Then</strong> steps.</em></p>
-<p><em>I don&#39;t want to get it confused with the setup/teardown methods of other unit testing practices - which are known as Before/After support tasks in CucumberJS - and carry more of a context of setting up an environment in which tests are then executed (such as filling a DB of users) and then tearing down that set up.</em></p>
-<h2 id="step-definitions">Step Definitions</h2>
-<p>In the previous section, we saw that running <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> against our Add Item Feature alerted us that we have undefined (and, though not printed in <span style="color:red;">red</span>, failing) scenarios to support the feature. By default <strong>CucumberJS</strong> reads in all features from the <strong>/features</strong> directory relative to where the command was run, but it could not locate the supported step files in which these methods are defined.</p>
-<p>As mentioned previously, <strong>CucumberJS</strong> does not provide an assertion library. The only assumption at this point - since the <strong>CucumberJS</strong> tool is run under <a href="http://nodejs.org/">NodeJS</a> - is that the supported steps will be loaded as node modules with an exported function to be executed. As we start implementing the steps, we will need to decide on the assertion library to use in validating our logic. We&#39;ll put that decision on the shelf at the moment and get the barebones setup to fail :)</p>
-<p>To start, let&#39;s take those step definitions provided by the <strong>CucumberJS</strong> ci tool and drop them into a node module:</p>
-<p>_/features/step<em>definitions/add-item.steps.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-
-module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-  <span class="hljs-keyword">this</span>.Given(<span class="hljs-regexp">/^I have an empty grocery list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    callback.pending();
-  });
-
-  <span class="hljs-keyword">this</span>.When(<span class="hljs-regexp">/^I add an item to the list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    callback.pending();
-  });
-
-  <span class="hljs-keyword">this</span>.Then(<span class="hljs-regexp">/^The grocery list contains a single item$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    callback.pending();
-  });
-
-  <span class="hljs-keyword">this</span>.Then(<span class="hljs-regexp">/^I can access that item from the grocery list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    callback.pending();
-  });
-
-};
-</code></pre><p>By default, <strong>CucumberJS</strong> will look for steps to be loaded within a folder titled <code>step_definitions</code> under the <strong>/features</strong> directory relative to where you issue the command. You can optionally use the <code>-r</code> option to have <strong>CucumberJS</strong> load steps from another location. Running the default is the same as setting the following step definition directory option:</p>
-<pre><code><span class="hljs-built_in">.</span>/node_modules<span class="hljs-subst">/</span><span class="hljs-built_in">.</span>bin/cucumber<span class="hljs-attribute">-js</span> <span class="hljs-attribute">-r</span> features/step_definitions
-</code></pre><p>The console output will now look like the following:</p>
-<pre><code><span class="hljs-comment">P</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">P</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
-
-<span class="hljs-comment">2</span> <span class="hljs-comment">scenarios</span> <span class="hljs-comment">(2</span> <span class="hljs-comment">pending)</span>
-<span class="hljs-comment">6</span> <span class="hljs-comment">steps</span> <span class="hljs-comment">(2</span> <span class="hljs-comment">pending</span><span class="hljs-string">,</span> <span class="hljs-comment">4</span> <span class="hljs-comment">skipped)</span>
-</code></pre><p>Not too suprising seeing as we notify the callback of a <code>pending</code> state. <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> enters the first step (<em>Given</em>) and is immediately returned with a pending notification. As such, it doesn&#39;t bother with entering any subsequent steps and marks them as skipped.</p>
-<p><em>Note: It is too much to get into a discussion about <a href="http://addyosmani.com/writing-modular-js/">client-side modules and AMD vs CommonJS</a>. For the purposes of this example I will be using CommonJS, as I my current interests lie in utilizing <a href="https://github.com/substack/node-browserify">Browserify</a> for client-side development. For a long time, I was a proponent of <a href="http://requirejs.org/">RequireJS</a> and AMD. Again, a whole other discussion :)</em></p>
-<h3 id="given">Given</h3>
-<p><hr/>
-To get closer to <span style="color:green;">green</span>, we&#39;ll tackle the <strong>Given</strong> step first:</p>
-<p>_/features/step<em>definitions/add-item.step.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-
-<span class="hljs-keyword">var</span> GroceryList = <span class="hljs-built_in">require</span>(process.cwd() + <span class="hljs-string">'/script/model/grocery-list'</span>);
-
-module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-  <span class="hljs-keyword">var</span> myList;
-
-  <span class="hljs-keyword">this</span>.Given(<span class="hljs-regexp">/^I have an empty grocery list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    myList = GroceryList.create();
-    callback();
-  });
-  ...
-
-};
-</code></pre><p>If we were to run that again, we&#39;d get an exception right away:</p>
-<pre><code><span class="hljs-variable">$ </span>./node_modules/.bin/cucumber-js
-
-<span class="hljs-class"><span class="hljs-keyword">module</span>.<span class="hljs-title">js</span>:340</span>
-    throw err;
-          ^
-<span class="hljs-constant">Error</span><span class="hljs-symbol">:</span> <span class="hljs-constant">Cannot</span> find <span class="hljs-class"><span class="hljs-keyword">module</span> './<span class="hljs-title">script</span>/<span class="hljs-title">model</span>/<span class="hljs-title">grocery</span>-<span class="hljs-title">list</span>'</span>
-    at <span class="hljs-constant">Function</span>.<span class="hljs-constant">Module</span>._resolveFilename (<span class="hljs-class"><span class="hljs-keyword">module</span>.<span class="hljs-title">js</span>:338:15)</span>
-    at <span class="hljs-constant">Function</span>.<span class="hljs-constant">Module</span>._load (<span class="hljs-class"><span class="hljs-keyword">module</span>.<span class="hljs-title">js</span>:280:25)</span>
-    at <span class="hljs-constant">Module</span>.<span class="hljs-keyword">require</span> (<span class="hljs-class"><span class="hljs-keyword">module</span>.<span class="hljs-title">js</span>:364:17)</span>
-    at <span class="hljs-keyword">require</span> (<span class="hljs-class"><span class="hljs-keyword">module</span>.<span class="hljs-title">js</span>:380:17)</span>
-    at <span class="hljs-constant">Object</span>.&lt;anonymous&gt; (<span class="hljs-regexp">/Users/toddanderson</span><span class="hljs-regexp">/Documents/workspace</span><span class="hljs-regexp">/custardbelly/cucumberjs</span>-example/features/step_definitions/add-item.steps.<span class="hljs-symbol">js:</span><span class="hljs-number">3</span><span class="hljs-symbol">:</span><span class="hljs-number">19</span>)
-</code></pre><p>Which is understandable, we haven&#39;t any other code but this step definition module and are trying to require a module that doesn&#39;t exist. In sticking with TDD, this is a good thing - we know why it&#39;s failing and we expect it; I would be pulling my hair out if it <em>didn&#39;t</em> throw an exception!</p>
-<p>In order to get this to pass, we&#39;ll create a node module in the specified directory and which exports an object with a <code>create</code> method:</p>
-<p><em>/script/model/grocery-list.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-
-module.exports = {
-  create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(<span class="hljs-literal">null</span>);
-  }
-};
-</code></pre><p>We have provided the minimal requirement to get our <em>Given</em> step to pass. We&#39;ll worry about the details as we approach the latter steps.</p>
-<p>Run that again, and <strong>CucumberJS</strong> enters in to the <em>When</em> step of each <strong>Scenario</strong> and aborts due to pending return.</p>
-<pre><code>$ ./node_modules/<span class="hljs-preprocessor">.bin</span>/cucumber-js
-
-<span class="hljs-preprocessor">.P</span>-<span class="hljs-preprocessor">.P</span>-
-
-<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> pending)
-<span class="hljs-number">6</span> steps (<span class="hljs-number">2</span> pending, <span class="hljs-number">2</span> skipped, <span class="hljs-number">2</span> passed)
-</code></pre><h3 id="when">When</h3>
-<p><hr/>
-In the previous section, to make the <em>Given</em> step pass on each <strong>Scenario</strong> we implemented the beginnings of a Grocery List model generated from a factory method, <code>create</code>, from the <code>grocery-list</code> module. I don&#39;t want to get into a debate of object creation, the <strong>new</strong> operator, classes and prototypes - at least not in this post - and will assume that you are familiar and comfortable (at least in reading code) with <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create</a> defined for ECMAScript 5.</p>
-<p>In reviewing the <em>When</em> step for the <strong>Scenarios</strong>:</p>
-<pre><code>When I <span class="hljs-built_in">add</span> <span class="hljs-operator">an</span> <span class="hljs-keyword">item</span> <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> list
-</code></pre><p>we need to provide a way in which to add an item to the Grocery List instance created in the <em>Given</em> - and do so in as little code to make the step pass...</p>
-<p>First, we&#39;ll define our expectation of the make up and <code>add</code> signature of the Grocery List in the step definitions:</p>
-<p>_/features/step<em>definitions/add-item.step.js</em></p>
-<pre><code><span class="hljs-keyword">...</span>
-module.exports = <span class="hljs-keyword">function</span>() {
-
-  var myList,
-      listItem = <span class="hljs-string">'apple'</span>;
-
-  this.Given(/^I have an empty grocery list$/, <span class="hljs-keyword">function</span>(callback) {
-    myList = GroceryList.create();
-    callback();
-  });
-
-  this.When(/^I add an item to the list$/, <span class="hljs-keyword">function</span>(callback) {
-    myList.add(listItem);
-    callback();
-  });
-  <span class="hljs-keyword">...</span>
-
-};
-</code></pre><p>If we run that again:</p>
-<pre><code>$ ./node_modules/.bin/cucumber-js
-
-.F-.F-
-
-(::) failed steps (::)
-
-TypeError: Object object <span class="hljs-keyword">has</span> no <span class="hljs-function"><span class="hljs-keyword">method</span> '<span class="hljs-title">add</span>'</span>
-</code></pre><p>Oooo-weee! Now we&#39;re talking. Big, bright <span style="color:red;">red F&#39;s</span>. :)</p>
-<p>To make that get back to passing, we&#39;ll modify <code>grocery-list</code> with as little code as possible:</p>
-<p><em>/script/model/grocery-list.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-
-<span class="hljs-keyword">var</span> groceryList = {
-  add: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
-    <span class="hljs-comment">//</span>
-  }
-};
-
-module.exports = {
-  create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(groceryList);
-  }
-};
-</code></pre><p>Run again, and <strong>CucumberJS</strong> has progressed to the <em>Then</em> steps which are reporting a <code>pending</code> state.</p>
-<pre><code>$ ./node_modules/<span class="hljs-preprocessor">.bin</span>/cucumber-js
-
-.<span class="hljs-preprocessor">.P</span>.<span class="hljs-preprocessor">.P</span>
-
-<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> pending)
-<span class="hljs-number">6</span> steps (<span class="hljs-number">2</span> pending, <span class="hljs-number">4</span> passed)
-</code></pre><h3 id="then">Then</h3>
-<p><hr/>
-We progressed through our step implementations and have reached the step(s) at which we assert operations and properties that prove that our scenario provides its intended value. As mentioned previously, <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> does not provide an assertion library. My preference in assertion libraries is a combination of <a href="https://github.com/chaijs/chai">Chai</a>, <a href="http://github.com/cjohansen/Sinon.JS">Sinon</a> and <a href="http://github.com/domenic/sinon-chai">Sinon-Chai</a>, but for the examples in this post, I am just going to use the <code>assert</code> module that comes with <a href="http://nodejs.org">NodeJS</a>. I encourage you to check out other assertion libraries and leave a note if you have a favorite; perhaps one of these posts will address how I use <strong>Chai</strong> and <strong>Sinon</strong>.</p>
-<p><em>Note: This section will be a little example heavy as we quickly switch from modifying our code and run the spec runner frequently.</em></p>
-<h3 id="first-scenario">First Scenario</h3>
-<p>In reviewing the first <strong>Scenario</strong>&#39;s <em>Then</em> step:</p>
-<pre><code>Then The grocery list <span class="hljs-operator">contains</span> <span class="hljs-operator">a</span> single <span class="hljs-keyword">item</span>
-</code></pre><p>we will need to prove that the Grocery List instance grows by a factor of 1 for each new item added.</p>
-<p>Update the step to define how we expect that specification to be validated:</p>
-<p>_/feature/step<em>definitions/add-item.step.js</em></p>
-<pre><code><span class="hljs-keyword">...</span>
-var assert = <span class="hljs-keyword">require</span>(<span class="hljs-string">'assert'</span>);
-<span class="hljs-keyword">...</span>
-module.exports = <span class="hljs-keyword">function</span>() {
-<span class="hljs-keyword">...</span>
-
-  this.Then(/^The grocery list contains a single item$/, <span class="hljs-keyword">function</span>(callback) {
-    assert.equal(myList.getAll().length, <span class="hljs-number">1</span>, <span class="hljs-string">'Grocery List should grow by one item.'</span>);
-    callback();
-  });
-
-<span class="hljs-keyword">...</span>
-};
-<span class="hljs-keyword">...</span>
-</code></pre><p>We&#39;ve pulled in the <code>assert</code> module and attempt to validate that the length of the Grocery List has grown by a value of 1 after having run the previous step - <em>When</em> - in adding the item.</p>
-<p>Run that and we&#39;ll get an exception:</p>
-<pre><code>$ ./node_modules/.bin/cucumber-js
-
-..F..P
-
-(::) failed steps (::)
-
-TypeError: Object #&lt;Object&gt; <span class="hljs-keyword">has</span> no <span class="hljs-function"><span class="hljs-keyword">method</span> '<span class="hljs-title">getAll</span>'</span>
-</code></pre><p>Let&#39;s add that method to our Grocery List model:</p>
-<p><em>/script/model/grocery-list.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-
-<span class="hljs-keyword">var</span> groceryList = {
-  add: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
-    <span class="hljs-comment">//</span>
-  },
-  getAll: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-comment">//</span>
-  }
-};
-
-module.exports = {
-  create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(groceryList);
-  }
-};
-</code></pre><p>And back to running our specs:</p>
-<pre><code>$ .<span class="hljs-regexp">/node_modules/</span>.bin/cucumber-js
-
-..F..P
-
-(::) failed steps (::)
-
-<span class="hljs-attribute">TypeError</span>: Cannot read property <span class="hljs-string">'length'</span> <span class="hljs-keyword">of</span> <span class="hljs-literal">undefined</span>
-</code></pre><p>Seeing as the code is not returning anything from <code>getAll()</code>, we can&#39;t access a <code>length</code> property for our assertion test.</p>
-<p>If we modify the code to return an Array:</p>
-<p>_/feature/step<em>definitions/add-item.step.js</em></p>
-<pre><code><span class="hljs-keyword">...</span>
-getAll: <span class="hljs-keyword">function</span>() {
-  <span class="hljs-keyword">return</span> [];
-}
-<span class="hljs-keyword">...</span>
-</code></pre><p>And run the specs again, we&#39;ll get the assertion error message we provided:</p>
-<pre><code>$ ./node_modules/<span class="hljs-preprocessor">.bin</span>/cucumber-js
-
-.<span class="hljs-preprocessor">.F</span>.<span class="hljs-preprocessor">.P</span>
-
-(::) failed steps (::)
-
-<span class="hljs-label">AssertionError:</span> Grocery List should grow by one item.
-</code></pre><p>Now, we have a proper <span style="color:red;">Fail</span> being reported to us from an assertion that causes the step to not pass. Hooray!</p>
-<h3 id="-take-a-breather-">-- take a breather --</h3>
-<p>Let&#39;s pause here for a second before adding more code to get this step to <span style="color:green;">pass</span>. The issue at hand is not actually adding an item to the array being returned, it is more about ensuring that an item is added through the <code>add</code> method and the result from <code>getAll</code> being a list extended with that item.</p>
-<p>Implementation details that are involved in making this test pass is where your team uses their architecture experience, but care is required that only the most essential code is added and not to go overboard in thinking about the internals of the Grocery List collection model. It&#39;s a slippery tight-rope that could easily fall down a rabbit hole - just like that poorly-worded metaphor :)</p>
-<h3 id="-get-back-to-work-">-- get back to work! --</h3>
-<p>For the purposes of this examples, we&#39;ll use the <code>propertiesObject</code> argument of <code>Object.create</code> to define a <code>list</code> getter that will serve as a mutable array for our grocery list items:</p>
-<p><em>/script/model/grocery-list.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-
-<span class="hljs-keyword">var</span> groceryList = {
-  add: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
-    <span class="hljs-keyword">this</span>.list.push(item);
-  },
-  getAll: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.list;
-  }
-};
-
-module.exports = {
-  create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(groceryList, {
-      <span class="hljs-string">'list'</span>: {
-        value: [],
-        writable: <span class="hljs-literal">false</span>,
-        enumerable: <span class="hljs-literal">true</span>  
-      }
-    });
-  }
-};
-</code></pre><p>If we run that, we&#39;ll find that the first <strong>Scenario</strong> is now passing!</p>
-<pre><code>$ ./node_modules/<span class="hljs-preprocessor">.bin</span>/cucumber-js
-
-....<span class="hljs-preprocessor">.P</span>
-
-<span class="hljs-number">2</span> scenarios (<span class="hljs-number">1</span> pending, <span class="hljs-number">1</span> passed)
-<span class="hljs-number">6</span> steps (<span class="hljs-number">1</span> pending, <span class="hljs-number">5</span> passed)
-</code></pre><h3 id="second-scenario">Second Scenario</h3>
-<p>In reviewing the final step of our 2nd <strong>Scenario</strong>, the pending implementation is accessing the added item:</p>
-<pre><code>Then I can access <span class="hljs-keyword">that</span> <span class="hljs-property">item</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span>
-</code></pre><p>To make this step pass we need to verify that we can access the item appended to the Grocery List by invoking <code>add()</code> with an item. </p>
-<p>As with the implementation of accessing the length of the Grocery List, there are several ways in which we could make this test pass in the code. Again, I feel this is where software development experience and taste comes into play with regards to architecture, but I also do prefer <em>trying</em> to produce the least amount of code possible; and I will be the first to admit that sometimes I go a little absent-minded and create more code than is necessary... hence, <em>trying</em> :)</p>
-<p>That said, we also have to take into account language and environment specifications in how we address making the assertion pass - and the browser, with its history, has many to consider. That is not a slight, it is just a forethought in setting expectations for requirements.</p>
-<p>Specifically: suppose we were to say that the step can be verified using the <code>Array.indexOf()</code> method on the collection returned from &#39;getAll()&#39; on the Grocery List object? Without a polyfill, then we are limiting ourselves to passing assertions on <a href="http://kangax.github.io/es5-compat-table/#Array.prototype.indexOf">IE 9 and older</a>. Such considerations are just the tip of the iceberg when deciding about what to introduce into your codebase in order to have your tests pass, and really should be left up to a team discussion on what is considered necessary to get the product to production.</p>
-<p>I could go on and on, but let&#39;s just assume we want to cover all bases when it comes to browsers (IE 6 and up, shudder). In my opinion, to make this second <strong>Scenario</strong> turn green, we will add a <code>getItemIndex()</code> method with the following signature:</p>
-<pre><code>+ getItemIndex(itemValue):<span class="hljs-keyword">int</span>
-</code></pre><p>We&#39;ll first modify the step to fail:</p>
-<p>_/feature/step<em>definitions/add-item.step.js</em></p>
-<pre><code>this.Then(/^I can access <span class="hljs-keyword">that</span> <span class="hljs-property">item</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span>$/, function(callback) {
-  assert.notEqual(myList.getItemIndex(listItem), -<span class="hljs-number">1</span>, 'Added <span class="hljs-property">item</span> should be found <span class="hljs-keyword">at</span> non-negative index.');
-  callback();
-});
-</code></pre><p>The acceptance in order for this test to pass is that the index at which the added item resides in the collection is non-negative. For this scenariom we are not trying to validate a specification as to <em>where</em> new item is added in a list (eg, prepended or appended), but simply that it is accessible.</p>
-<p>Running that will produce an exception:</p>
-<pre><code>$ ./node_modules/.bin/cucumber-js
-
-.....F
-
-(::) failed steps (::)
-
-TypeError: Object #&lt;Object&gt; <span class="hljs-keyword">has</span> no <span class="hljs-function"><span class="hljs-keyword">method</span> '<span class="hljs-title">getItemIndex</span>'</span>
-</code></pre><p>Let&#39;s modify our <strong>Grocery List</strong> object to support the <code>getItemIndex</code> method:</p>
-<p><em>/script/model/grocery-list.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-
-<span class="hljs-keyword">var</span> groceryList = {
-  add: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
-    <span class="hljs-keyword">this</span>.list.push(item);
-  },
-  getAll: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.list;
-  },
-  getItemIndex: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value)</span> {</span>
-    <span class="hljs-keyword">var</span> index = <span class="hljs-keyword">this</span>.list.length;
-    <span class="hljs-keyword">while</span>(--index &gt; -<span class="hljs-number">1</span>) {
-      <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.list[index] === value) {
-        <span class="hljs-keyword">return</span> index;
-      }
-    }
-    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
-  }
-};
-
-module.exports = {
-  create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(groceryList, {
-      <span class="hljs-string">'list'</span>: {
-        value: [],
-        writable: <span class="hljs-literal">false</span>,
-        enumerable: <span class="hljs-literal">true</span>  
-      }
-    });
-  }
-};
-</code></pre><p>In our implementation of <code>getItemIndex</code>, the list is traversed and, if item is found, the index is returned. Otherwise, a value of -1 is returned. Essentially, how the <code>Array.indexOf</code> method works of ECMAScript 5.</p>
-<p><em>Note: I know it seems silly to use Object.create from ECMAScript 5, but not Array.indexOf. The reason - mostly - being that I normally always include a polyfill for Object.create and not for Array.indexOf. I suppose habit.</em></p>
-<p>Now if we run the specs again under <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>:</p>
-<pre><code>$ <span class="hljs-built_in">.</span>/node_modules<span class="hljs-subst">/</span><span class="hljs-built_in">.</span>bin/cucumber<span class="hljs-attribute">-js</span>
-
-<span class="hljs-attribute">...</span><span class="hljs-attribute">...</span>
-
-<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> passed)
-<span class="hljs-number">6</span> steps (<span class="hljs-number">6</span> passed)
-</code></pre><p>Our cukes are <span style="color:green;">GREEN</span>! (This is the point you wipe your brow and slow clap).</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>In this post, I introduce how I use the BDD tool <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in order to adhere to Test Driven Development in JavaScript. I went through using an example of a single <strong>Feature</strong> with two <strong>Scenarios</strong> and turning <span style="color:red;">failing</span> <strong>Steps</strong> to <span style="color:green;">green</span> cukes. If you are unfamiliar with the process with making tests fail first only to produce code to make the test pass, I hope you followed along; I may be wordy and the process could appear to take a lot of time, but development under such practices does start to move smoothly once you get in the groove. Additionally, I think there is a huge reward in having your code under a test harness when it comes to refactoring and bug fixing - both in developer health and business.</p>
-<h2 id="the-future">The Future</h2>
-<p>I was going to cover the following topics in this post but have decided to exclude with the hopes of re-addressing in a later post:</p>
-<ul>
-<li>The <a href="https://github.com/cucumber/cucumber-tck/blob/master/world.feature">World</a> support utility</li>
-<li>Build integration (<a href="http://gruntjs.com/">Grunt</a> and <a href="http://gulpjs.com/">Gulp</a>) and automation</li>
-<li>Report generation for Continuous Integration</li>
-</ul>
-<p>Additionally, in a following post I want to address how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> to run tests that rely on browser integration - ie, <strong>window</strong> and <strong>document</strong> access.</p>
-<p><em>In the past I have used <a href="http://zombie.labnotes.org/">ZombieJS</a> to much success, but <a href="https://twitter.com/s9tpepper">Omar Gonzalez</a> has tipped me to him <a href="https://github.com/s9tpepper/karma-cucumberjs">Karma solution</a> that I am excited to test-drive.</em></p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[A slight obsession over page speed]]></title><description><![CDATA[<p>Lately, several projects (both personal and work-related) have ignited an increasing obsession over page load speed and performance. I wanted to highlight a few tools and resources I find useful in analyzing performance and delivering web pages in production with optimal load time.</p>
-<h2 id="where-d-this-hat-come-from-">Where&#39;d this hat come from?</h2>
-<p>Over the past decade I primarily have been a client-side application developer. Sometimes my business card changes or personal introductions are made that get &#39;engineer&#39; and &#39;architect&#39; thrown in there, but truthfully I spend my days coding applications, regardless of language. I enjoy writing and shipping code under certain practices and methodologies and ocassionally pause to assess my current workflow and modify where bottlenecks are prevelant.</p>
-<p>Up until recent years I was primarily concerned with code performance; rendering pipelines and element lifecycles, user-perceived performance cases for remote or off-loaded operations, optimizing algorithms for sorting, mapping, analyzing data, etc. I still am, but I also have become increasingly focused on delivery and load perfomance - especially in today&#39;s climate of people viewing web content on handheld devices without WiFi available. </p>
-<p>Perhaps it is due the increasing work of web-based clients over desktop or native applications, but - if I am being honest - I never really paid attention to load time for older web-based application projects for several reasons:</p>
-<ul>
-<li>Flash plugin (preload, skip intro)</li>
-<li>Desktop browser targets</li>
-<li>Blind naivete</li>
-</ul>
-<p>However, as an end-user myself (don&#39;t like the term much, either) trying to access web content on my phone while on my bus ride home, my world is consumed with <code>waiting...</code>. As such, I wised up rather quick when I started to think about how someone would be absolutely frustrated and move on after 1/4 second without seeing any visible load response from a web application I lovingly crafted to in some way (hopefully) make their life easier.</p>
-<p>That&#39;s when I started incorporating page load analysis to my deployment workflow.</p>
-<h2 id="best-practices">Best Practices</h2>
-<p>There is excellent documentation out there regarding best practices in delivering web pages with optimal performance. Some of the best known ones are below:</p>
-<p>Yahoo: <a href="http://developer.yahoo.com/performance/rules.html">Best Practices for Speeding Up Your Web Site</a><br>Google: <a href="https://developers.google.com/speed/docs/best-practices/rules_intro">Web Perfomance Best Practices; Google</a><br>Steve Souders: <a href="http://stevesouders.com/hpws/rules.php">14 Rules for Faster-Loading Web Sites</a></p>
-<p>I won&#39;t rehash the tidbits those articles provide, so please visit those links for a wealth of information and follow the following blogs to keep abreast of the latest in research and development of web performance:</p>
-<ul>
-<li><a href="http://stevesouders.com/">Steve Souders</a></li>
-<li><a href="http://calendar.perfplanet.com/">Perfomance Calendar</a>  </li>
-</ul>
-<p>One aspect I find interesting is that a handful of the preferred optimizations described in those articles - such as concatenation, data-uris and script and styles placement on pages - have actually become part of the build phase of my development workflow, especially with the rise of tools such as <a href="http://gruntjs.com">Grunt</a> and the developer community creating post-process tasks. </p>
-<p>It is not taken for granted that I can select tools and code under certain architectural principles I perceive as providing a comfortable development environment and have these tools at my disposal to deliver the end product in an optimal fashion. <em>Another resolution for this year is to contribute more to the libraries and tools I use often - whether through code or monetary donations.</em></p>
-<h2 id="manual-performance-analysis">Manual Performance Analysis</h2>
-<p>There are a few sites and tools I visit that will perform analysis on a site while in development:</p>
-<ul>
-<li><a href="http://www.webpagetest.org/">WebPageTest</a></li>
-<li><a href="http://gtmetrix.com/">GTmetrix</a></li>
-<li><a href="http://tools.pingdom.com/">pingdom</a></li>
-<li><a href="https://developers.google.com/speed/docs/insights/using_chrome">PageSpeed Chrome Developer Tool</a></li>
-</ul>
-<p>Additonally, <a href="http://www.feedthebot.com/tools/">feedthebot</a> has a handful of neat little tools to test some things - specifically if gzip is working on your site.</p>
-<p>They all - along with various other metrics - provide a scoring based on some criteria which, as far as I can tell, are defined either by <strong>Yahoo!</strong> (via <a href="http://developer.yahoo.com/yslow/">yslow</a>) or <strong>Google</strong> (via <a href="https://developers.google.com/speed/pagespeed/?csw=1">PageSpeed</a>).</p>
-<p>Typically I stick to opening and running <a href="https://developers.google.com/speed/pagespeed/?csw=1">PageSpeed</a> when developing in Chrome to get a overall recommndation of optimizations and then visit <a href="http://www.webpagetest.org/">WebPageTest</a> when I want some serious analysis and am busy updating my <strong>.htaccess</strong> file with rewrites and expiries.</p>
-<h2 id="integrating-performance-reporting-in-workflow">Integrating Performance Reporting in Workflow</h2>
-<p>Running analysis using tools described above is a great way to see some metrics and determine what solutions to take to better the load performance of your site/application, but I like to automate all the things when I can as well as provide reporting to Continuous Integration servers so that we can document progress or failures. To provide such value, I am a strong proponent of using <a href="http://www.sitespeed.io/">sitespeed.io</a>.</p>
-<p>I have nothing bad to say about <a href="http://www.sitespeed.io/">sitespeed.io</a>. It&#39;s built on top of <a href="https://github.com/ariya/phantomjs">PhantomJS</a>, <a href="https://github.com/marcelduran/yslow/">yslow</a>, <a href="https://github.com/tobli/browsertime">browsertime</a> and <a href="https://github.com/twbs/bootstrap/">bootstrap</a>. You can alternatively use the <a href="http://yslow.org/phantomjs/">yslow script for PhantomJS</a> if you want something more stripped down, but <a href="http://www.sitespeed.io/">sitespeed.io</a> generates a nice set of web documents that provide performance summaries along with being able to produce a <strong><a href="http://www.sitespeed.io/documentation/#junit">JUnit</a></strong> report for CI.</p>
-<p>The documentation for <strong>sitespeed.io</strong> is thorough and easy to follow along and the <a href="http://www.sitespeed.io/documentation/#configuration">configuration options</a> are insanely helpful in finding possible pages on your site that may be of issue.</p>
-<h3 id="grunt-integration">Grunt integration</h3>
-<p>I am sure there is some <a href="http://gruntjs.com">Grunt</a> task out there in the wild that hooks into running <strong>sitespeed.io</strong> (or I should probably just stop being lazy and make one), but I have yet to find or search for one. I personally just use <a href="https://github.com/jharding/grunt-exec">grunt-exec</a> to run the command during a build and deploy. With the proper <a href="http://www.sitespeed.io/documentation/#installation">installation of sitespeed.io</a>, I have the following subtask under <code>exec</code> task:</p>
-<pre><code>grunt.initConfig({
-  <span class="hljs-keyword">...</span>
-  exec: {
-    sitespeed: {
-      cmd: <span class="hljs-string">'sitspeed.io -u http://staging.mysite.com -r ./doc/metrics'</span>
-    }
-  }
-}
-});
-
-grunt.loadNpmTasks(<span class="hljs-string">'grunt-exec'</span>);
-grunt.registerTask(<span class="hljs-string">'dryrun'</span>, <span class="hljs-string">'Build, deploy and analyze.'</span>,\ 
-  [<span class="hljs-string">'build'</span>, <span class="hljs-string">'deploy:staging'</span>, <span class="hljs-string">'exec:sitespeed'</span>]);
-</code></pre><p>That generates the JUnit report and summary documentation artifacts that can be consumed and presented by your CI server of choice. I also have a tendency to use the <a href="https://github.com/marcelduran/yslow/">yslow</a> script for <a href="https://github.com/ariya/phantomjs">PhantomJS</a> in tandem on the <code>exec</code> task as that will print out my perfomance grade in the console after issuing my <strong>grunt</strong> deployment.</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>Sometimes, especially when working with 3rd party libraries, web fonts, etc, it is unrealistic to hit 100 for your performance grading - who am I kidding, it is damn near impossible. I try to stay above 90 and feel satisfied. </p>
-<p>As well, it should be stated that the final test is actually physically visiting the sites on handheld devices over a data plan. As I mentioned previously, I usually do some perceived perfomance testing while on the bus ride home, ensuring that I don&#39;t get frustrated with the load time on my own work (and I hope I am more critical of my own stuff than others are ;)).</p>
-<p>This is just the tip of the iceberg when it comes to analyzing load performance and with developments coming out of Google, such as <a href="http://www.chromium.org/spdy/spdy-whitepaper">SPDY</a> and <a href="https://code.google.com/p/modpagespeed/">mod_pagespeed</a>, an exciting space to keep an eye on in order to deliver your content faster and keep end-users happily enjoying your sites and applications.</p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/01/06/obsession-over-page-speed/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/01/06/obsession-over-page-speed/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>

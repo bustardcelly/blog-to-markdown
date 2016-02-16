@@ -69,6 +69,11 @@ pre {
 
 a {
   color: #4B7EB6;
+  word-wrap: break-word;
+}
+
+img {
+  width: 100%
 }
 
 footer {

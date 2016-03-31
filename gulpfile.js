@@ -85,7 +85,7 @@ var siteContext = {
         author: 'Todd Anderson',
         title: 'Todd Anderson',
         description: 'ramblings about making things for web, mobile, desktop and land.',
-        url: 'http://custardbelly.com/blog',
+        url: 'https://www.custardbelly.com/blog',
         disqus: 'custardbelly',
         rssCount: 10,
         dateFormat: dateFormat,

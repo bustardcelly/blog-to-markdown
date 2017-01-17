@@ -1,5 +1,5 @@
 ---
-title: 'Same Image, 2017 : Explorations in Drawing the Same Image, Every Day. All Year'
+title: 'Same Image, 2017 : Explorations in Drawing the Same Image, Every Day. All Year.'
 author:
   name: 'todd anderson'
 date: '2017-01-16'
@@ -8,7 +8,7 @@ date: '2017-01-16'
 <p>I am attempting to draw the same image, every day, all year. Check it out: <a href="https://bustardcelly.github.io/same-image-2017/" alt="Same Image 2017" target="_blank">https://bustardcelly.github.io/same-image-2017/</a></p>
 
 # Introduction
-I started this project on the first day of the new year (2017), and I have to confess: on the 16th day of the new year, I already **despise** the picture I chose to draw every day, _ALL YEAR_. That is expected, and truthfully my uneasiness of having to produce something related to this picture start around the 5th day into it; I didn't think it would happen that early... but it was bound to happen.
+I started this project on the first day of the new year (2017), and I have to confess: on the 16th day of the new year, I already **despise** the picture I chose to draw every day, _ALL YEAR_. That is expected, and truthfully my uneasiness of having to produce something related to this picture began around the 5th day into it; I didn't think it would happen that early... but it was bound to happen.
 
 # Why?
 

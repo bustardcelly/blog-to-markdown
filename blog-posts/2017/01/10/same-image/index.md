@@ -5,10 +5,10 @@ author:
 date: '2017-01-16'
 ---
 
-> I am attempting to draw the same image, every day, all year. Check it out: [https://bustardcelly.github.io/same-image-2017/](https://bustardcelly.github.io/same-image-2017/).
+<p>I am attempting to draw the same image, every day, all year. Check it out: <a href="https://bustardcelly.github.io/same-image-2017/" alt="Same Image 2017" target="_blank">https://bustardcelly.github.io/same-image-2017/</a></p>
 
 # Introduction
-I started this project on the first day of the new year (2017), and I have to confess: on the 16th day of the new year, I already *despise* the picture I chose to draw every day, _ALL YEAR_. That is expected, and truthfully my uneasiness of having to produce something related to this picture start around the 5th day into it; I didn't think it would happen that early... but it was bound to happen.
+I started this project on the first day of the new year (2017), and I have to confess: on the 16th day of the new year, I already **despise** the picture I chose to draw every day, _ALL YEAR_. That is expected, and truthfully my uneasiness of having to produce something related to this picture start around the 5th day into it; I didn't think it would happen that early... but it was bound to happen.
 
 # Why?
 
@@ -20,7 +20,7 @@ I get too caught up in everything being perfect before I show something, say som
 
 Art is obviously subjective, and taste is always in the eye of the beholder. What if I am holding stuff I produce to the standard of _only_ what I want to see? What if all these really horrible drawings that I am making are actually "art" to someone else? I doubt that whomever likes my horrible drawings from this experiment will ever find them, but what the hell: I'll put them out there.
 
-All in all, I think it might be a fun way to not be so tied to perfection and also get back into my roots. _Though I have been fascinated with computers and programming for the last 15+ years, I actually old a Fine Arts degree. Go figure._
+All in all, I think it might be a fun way to not be so tied to perfection and also get back into my roots. _Though I have been fascinated with computers and programming for the last 15+ years, I actually hold a Fine Arts degree. Go figure._
 
 # What?
 I really just chose a picture of a memory with my daughter that brings me joy. The picture and memory won't be ruined by my terrible, terrible representation of it. And in some respects, I guess that is why I chose the picture that I did. Perhaps, at the end of the year, I will also post the picture that I have been drawing from.

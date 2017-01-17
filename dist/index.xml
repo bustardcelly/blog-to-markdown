@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>https://www.custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Thu, 31 Mar 2016 02:37:59 GMT</lastBuildDate><atom:link href="https://www.custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[Building a Custom PiRate Radio]]></title><description><![CDATA[<h1 id="introduction">Introduction</h1>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Todd Anderson]]></title><description><![CDATA[ramblings about making things for web, mobile, desktop and land.]]></description><link>https://www.custardbelly.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Tue, 17 Jan 2017 02:40:40 GMT</lastBuildDate><atom:link href="https://www.custardbelly.com/blog/index.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Todd Anderson]]></author><item><title><![CDATA[Same Image, 2017 : Explorations in Drawing the Same Image, Every Day. All Year]]></title><description><![CDATA[<p>I am attempting to draw the same image, every day, all year. Check it out: <a href="https://bustardcelly.github.io/same-image-2017/" alt="Same Image 2017">https://bustardcelly.github.io/same-image-2017/</a></p>
+
+<h1 id="introduction">Introduction</h1>
+<p>I started this project on the first day of the new year (2017), and I have to confess: on the 16th day of the new year, I already <strong>despise</strong> the picture I chose to draw every day, <em>ALL YEAR</em>. That is expected, and truthfully my uneasiness of having to produce something related to this picture start around the 5th day into it; I didn&#39;t think it would happen that early... but it was bound to happen.</p>
+<h1 id="why-">Why?</h1>
+<h2 id="tl-dr">tl;dr</h2>
+<p>It&#39;s an old exercise of being forced to produce something as a result of another, repetitively. It causes waves of fascination and disgust, but hopefully will boil down to its essence through lucidity and loss of ego, at times... that is still yet to be seen at the time of this writing.</p>
+<h2 id="long-version">long version</h2>
+<p>I get too caught up in everything being perfect before I show something, say something, do something. Terrible habit. I am hoping this exercise will allow me to realize: I can&#39;t make it perfect before it goes out the door, but maybe I can learn something to make it better at a later time. I need to make something, no matter how much I dislike it, show it, own up to it, and trust I can learn from it to use that knowledge to create something that I think is of better quality.</p>
+<p>Art is obviously subjective, and taste is always in the eye of the beholder. What if I am holding stuff I produce to the standard of <em>only</em> what I want to see? What if all these really horrible drawings that I am making are actually &quot;art&quot; to someone else? I doubt that whomever likes my horrible drawings from this experiment will ever find them, but what the hell: I&#39;ll put them out there.</p>
+<p>All in all, I think it might be a fun way to not be so tied to perfection and also get back into my roots. <em>Though I have been fascinated with computers and programming for the last 15+ years, I actually old a Fine Arts degree. Go figure.</em></p>
+<h1 id="what-">What?</h1>
+<p>I really just chose a picture of a memory with my daughter that brings me joy. The picture and memory won&#39;t be ruined by my terrible, terrible representation of it. And in some respects, I guess that is why I chose the picture that I did. Perhaps, at the end of the year, I will also post the picture that I have been drawing from.</p>
+<h1 id="how-">How?</h1>
+<p>No rules. I can use whatever medium I want. I can focus on the smallest minutia I decide at the time. It doesn&#39;t even have to be a realistic representation.</p>
+<p>No rules. I just have to think or look at the image every day and produce something. Anything.</p>
+<h1 id="where-">Where?</h1>
+<p><a href="https://bustardcelly.github.io/same-image-2017/">https://bustardcelly.github.io/same-image-2017/</a>. Check daily, if you wish.</p>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2017/01/10/same-image/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2017/01/10/same-image/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[Building a Custom PiRate Radio]]></title><description><![CDATA[<h1 id="introduction">Introduction</h1>
 <p>Some time back - and judging from the post date, literally a couple of years ago - I bookmarked a post from <a href="http://makezine.com/">Make:</a> titled <a href="http://makezine.com/projects/raspberry-pirate-radio/">Raspberry Pirate Radio</a>. I&#39;ve always been interested in custom radio projects with microcontrollers. I&#39;ve built various started kits for FM and AM radios to hone my soldering chops, and my favorite radio project so far has been <a href="http://www.thepublicrad.io/">The Public Radio</a>. <em>I use it daily. Go get one</em>. In fact, I have a personal radio project that I have been working on for longer back then the mentioned post; a bit ambitious for my skill level at the time I started it, but some day I hope to blog about it here...</p>
 <p>In any event, I have had <a href="http://makezine.com/projects/raspberry-pirate-radio/">the Pirate Radio post</a> in the back of my mind for a while, waiting for the resources and time to implement. As of recent, I was able to get it assembled and working and have been very happy! I went a little outside of the steps described here, <a href="http://makezine.com/projects/raspberry-pirate-radio/">http://makezine.com/projects/raspberry-pirate-radio/</a> - more specifically, not using the image they created and manually setting up my system - and wanted to document what I did in case others are curious.</p>
 <iframe width="420" height="315" src="https://www.youtube.com/embed/aBu2tyXOWnU" frameborder="0" allowfullscreen></iframe>
@@ -431,51 +449,7 @@ server {
 <li><a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04">https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04</a></li>
 <li><a href="https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content">https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content</a></li>
 </ul>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2016/02/04/http-to-https/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2016/02/04/http-to-https/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[flood-pi: Flood detection on Raspberry Pi]]></title><description><![CDATA[<p>A lot has happened over the course current year. Among the biggest changes, we left Boston for Vermont! We have begun to settle in here in the beatuiful Champlain Valley and, of course, my oldest is enrolled in hockey lessons - a sport i know very little about, but am excited to learn from him.</p>
-<p>As is expected from a big move, we have found outselves in different surroundings and different living spaces. We are no longer 4 people cramped in a tiny 2-bedroom condo along the train line in Brighton, MA; we are now 4 people in a ranch house with noone above or below us to complain about taking off their loud shoes when the baby is sleeping. </p>
-<p>While the extra space of a house is wonderful, tit comes with additional maintenance and care over renting an apartment. For instance, we never had a basement in our previous apartments and never had to worry about flooding or failures in a sump pump. Now we do. And we have had a handful of instances when it has occurred. While it is true that we have and will continue to have qualified people locate the source of the problem, I thought - in the meantime - it would be a fun little project to setup something that could alert me to possible water starting to accumulate in the basement.</p>
-<p><img src="https://custardbelly.com/images/flood_pi_flood.jpg" alt="a flood!"></p>
-<p>And from that <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> was born!</p>
-<h2 id="flood-pi">flood-pi</h2>
-<p><strong>flood-pi</strong> is an open source Python project meant to be run on a <a href="http://www.raspberrypi.org/">Raspberry Pi</a>. The Github repo for <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> has some more technical details, but essential <strong>flood-pi</strong> detects a &quot;flood&quot; by reading an analog value from a circuit completed by water.</p>
-<p>The basic premise is that two leads with copper plates at the end (originally nails in my prototype) are set level to the floor of the basement and spaced about a inch apart from each other. One lead is connected to the power while the other lead is connected to the between the first pin of the mcp3008 and the ground. As water comes between the leads (most likely from the start of a flood), the circuit is complete and a reading from 0 to 1024 is read through the ADC. Some low values may come in but should be considered not a &quot;positive&quot; detection. As well, some high values may come in which typically means that somehow the leads started touching each other and be considered not a &quot;positive&quot; detection, either. In correlation to the distance between the leads, there is a middleground of values that would be considered a &quot;positive&quot; detection.</p>
-<p>When a &quot;positive&quot; detection occurs, <strong>flood-pi</strong> then sends out an email to alert me. Then I can take appropriate action.</p>
-<p><em>There is no analog in on <a href="http://www.raspberrypi.org/">Raspberry Pi</a>, but i have set up projects reading potentiometers using the <a href="https://learn.adafruit.com/reading-a-analog-in-and-controlling-audio-volume-with-the-raspberry-pi">mcp3008 as described here on adafruit</a>, so I knew i could use that setup for this project.</em></p>
-<h3 id="project">project</h3>
-<p>Here&#39;s some pictures of the project:</p>
-<p>The leads.</p>
-<p><img src="https://custardbelly.com/images/flood_pi_leads.jpg" alt="leads"></p>
-<p><a href="http://www.raspberrypi.org/">Raspberry Pi</a>, running <a href="http://www.raspberrypi.org/downloads/">Debian-Wheezy</a> with the <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> program running as a daemon. <a href="http://www.edimax.com/edimax/merchandise/merchandise_detail/data/edimax/global/wireless_adapters_n150/ew-7811un">Edimax WiFi adapter</a> for the interweb-bings and email-ery.</p>
-<p><img src="https://custardbelly.com/images/flood_pi_rasp.jpg" alt="pi"></p>
-<p>The mcp3008 on its own breakout. (<strong>i soldered it up all by myself!</strong>)</p>
-<p><img src="https://custardbelly.com/images/flood_pi_mcp3008.jpg" alt="mcp3008"></p>
-<h3 id="installation">installation</h3>
-<p>Here&#39;s some pictures of its installation in the basement:</p>
-<p><img src="https://custardbelly.com/images/flood_pi_install3.jpg" alt="full install"></p>
-<p><img src="https://custardbelly.com/images/flood_pi_install1.jpg" alt="module install"></p>
-<p><img src="https://custardbelly.com/images/flood_pi_install2.jpg" alt="lead install"></p>
-<p>We, thankfully, haven&#39;t been able to get a <em>true</em> &quot;positive&quot; reading since its installation, but I have submersed the leads in water for a short time to ensure i was being sent emails :)</p>
-<h2 id="flood-pi-admin">flood-pi-admin</h2>
-<p>I couldn&#39;t just stop at getting emails. I am empoyed as a software developer by trade, so I <em>had</em> to keep writing software.</p>
-<p>I wanted to aggregate the readings from <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> and get an overview of its workings (or failure of workings if it may come to that). I don&#39;t know if there could be any patterns found from the data as to when the sump pump fails or whatnot, but more data can&#39;t hurt, can it?</p>
-<p>As such, <a href="https://github.com/bustardcelly/flood-pi-admin">flood-pi-admin</a> was born!</p>
-<h3 id="about-flood-pi-admin">about flood-pi-admin</h3>
-<p><a href="https://github.com/bustardcelly/flood-pi-admin">flood-pi-admin</a> is a NodeJS-based server that provides a RESTful API for POSTing and accessing daatbeing reported by <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a>. There is more detailed information on the <a href="https://github.com/bustardcelly/flood-pi-admin">Github repo for the project</a>, but it has endpoints for the <strong>flood-pi</strong> detector to post confiuguration and reading data as well as two main routes for accessing information about past and current conditions. </p>
-<p><strong>It&#39;s pretty bare-bones at the moment, but i plan to add new features as they are required (or requested).</strong></p>
-<h3 id="charts">charts</h3>
-<p>The landing page and <em>/level?range=(day|week|year|all)</em> provide chart data with the level readings:</p>
-<p><img src="https://custardbelly.com/images/flood_pi_chart.png" alt="chart data"></p>
-<p>The red band across the middle of the chart is the &quot;positive&quot; value range provided from the <strong>flood-pi</strong> and should be considered possible flood detection. As mentioned previously, lower values may come in but not high enough to be considered &quot;positive&quot;; additionally, high values may come in which may actually mean that the leads have somehow started touching each other rather than completing the circuit with water.</p>
-<h3 id="isitflooded">isitflooded</h3>
-<p>There is also a direct page at <em>/isitflooded</em> that will let you know if it is currently considered flooded or not:</p>
-<p><img src="https://custardbelly.com/images/flood_pi_no.png" alt="current detection"></p>
-<p>It also reports last reporting time and whether or not it should alert you to the <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> no longer reporting information.</p>
-<h2 id="conclusion">conclusion</h2>
-<p>I had a lot of fun taking a small idea of being notified the nextr time their is water in the basement and transferring it to an actual physical devices that can send out emails upon completion of a circuit. Plus, i got better at soldering - i know the ADC breakout is a small assembly, but it made me happy the way it turned out.</p>
-<p>If you have occasional water in your basement and have an interest in <a href="http://www.raspberrypi.org/">Raspberry Pi</a>, i hope you check out the <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> program and install it. And if you have yourself a VPS, feel free to also setup the <a href="https://github.com/bustardcelly/flood-pi-admin">flood-pi-admin</a> on it to access level reading data.</p>
-<p>Now, onto the next little pet project i have in mind:)</p>
-<p>Cheers!</p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/12/4/flood-pi/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/12/4/flood-pi/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[gulp-rev-append: simple cache-busting plugin]]></title><description><![CDATA[<p>I just released <a href="https://www.npmjs.org/package/gulp-rev-append">gulp-rev-append</a>, a simple cache-busting plugin for <a href="http://gulpjs.org">gulp</a> that appends a query-string file hash to script and stylesheet dependencies in HTML files.</p>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2016/02/04/http-to-https/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2016/02/04/http-to-https/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[gulp-rev-append: simple cache-busting plugin]]></title><description><![CDATA[<p>I just released <a href="https://www.npmjs.org/package/gulp-rev-append">gulp-rev-append</a>, a simple cache-busting plugin for <a href="http://gulpjs.org">gulp</a> that appends a query-string file hash to script and stylesheet dependencies in HTML files.</p>
 <p>There are <a href="https://www.npmjs.org/search?q=gulp-rev">several other cache-busting plugins</a> currently available by some awesome developers and I suggest you look at those to fit your project&#39;s need.</p>
 <p>For my particular project in which I decided to create the <a href="https://www.npmjs.org/package/gulp-rev-append">gulp-rev-append</a> plugin, I was looking to:</p>
 <ul>
@@ -535,7 +509,113 @@ gulp.task(<span class="hljs-string">'rev'</span>, <span class="hljs-function"><s
 <h2 id="project">project</h2>
 <p><a href="https://github.com/bustardcelly/gulp-rev-append">gulp-rev-append</a></p>
 <p>Cheers.</p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/03/18/gulp-rev-append/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/03/18/gulp-rev-append/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[Running Browser-Based CucumberJS Specs in Testling]]></title><description><![CDATA[<p>In my <a href="https://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous</a> <a href="https://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html">posts</a> I discuss bringing <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs to the browser using the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool. In this post I intend to address how to use the format reporting options of the <strong>cucumberjs-browser</strong> tool to enable integration with the <a href="https://ci.testling.com/">testling</a> automated cross-browser testing tool to run your specs in various browser environment targets that you may not have installed on your own system.</p>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/03/18/gulp-rev-append/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/03/18/gulp-rev-append/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[flood-pi: Flood detection on Raspberry Pi]]></title><description><![CDATA[<p>A lot has happened over the course current year. Among the biggest changes, we left Boston for Vermont! We have begun to settle in here in the beatuiful Champlain Valley and, of course, my oldest is enrolled in hockey lessons - a sport i know very little about, but am excited to learn from him.</p>
+<p>As is expected from a big move, we have found outselves in different surroundings and different living spaces. We are no longer 4 people cramped in a tiny 2-bedroom condo along the train line in Brighton, MA; we are now 4 people in a ranch house with noone above or below us to complain about taking off their loud shoes when the baby is sleeping. </p>
+<p>While the extra space of a house is wonderful, tit comes with additional maintenance and care over renting an apartment. For instance, we never had a basement in our previous apartments and never had to worry about flooding or failures in a sump pump. Now we do. And we have had a handful of instances when it has occurred. While it is true that we have and will continue to have qualified people locate the source of the problem, I thought - in the meantime - it would be a fun little project to setup something that could alert me to possible water starting to accumulate in the basement.</p>
+<p><img src="https://custardbelly.com/images/flood_pi_flood.jpg" alt="a flood!"></p>
+<p>And from that <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> was born!</p>
+<h2 id="flood-pi">flood-pi</h2>
+<p><strong>flood-pi</strong> is an open source Python project meant to be run on a <a href="http://www.raspberrypi.org/">Raspberry Pi</a>. The Github repo for <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> has some more technical details, but essential <strong>flood-pi</strong> detects a &quot;flood&quot; by reading an analog value from a circuit completed by water.</p>
+<p>The basic premise is that two leads with copper plates at the end (originally nails in my prototype) are set level to the floor of the basement and spaced about a inch apart from each other. One lead is connected to the power while the other lead is connected to the between the first pin of the mcp3008 and the ground. As water comes between the leads (most likely from the start of a flood), the circuit is complete and a reading from 0 to 1024 is read through the ADC. Some low values may come in but should be considered not a &quot;positive&quot; detection. As well, some high values may come in which typically means that somehow the leads started touching each other and be considered not a &quot;positive&quot; detection, either. In correlation to the distance between the leads, there is a middleground of values that would be considered a &quot;positive&quot; detection.</p>
+<p>When a &quot;positive&quot; detection occurs, <strong>flood-pi</strong> then sends out an email to alert me. Then I can take appropriate action.</p>
+<p><em>There is no analog in on <a href="http://www.raspberrypi.org/">Raspberry Pi</a>, but i have set up projects reading potentiometers using the <a href="https://learn.adafruit.com/reading-a-analog-in-and-controlling-audio-volume-with-the-raspberry-pi">mcp3008 as described here on adafruit</a>, so I knew i could use that setup for this project.</em></p>
+<h3 id="project">project</h3>
+<p>Here&#39;s some pictures of the project:</p>
+<p>The leads.</p>
+<p><img src="https://custardbelly.com/images/flood_pi_leads.jpg" alt="leads"></p>
+<p><a href="http://www.raspberrypi.org/">Raspberry Pi</a>, running <a href="http://www.raspberrypi.org/downloads/">Debian-Wheezy</a> with the <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> program running as a daemon. <a href="http://www.edimax.com/edimax/merchandise/merchandise_detail/data/edimax/global/wireless_adapters_n150/ew-7811un">Edimax WiFi adapter</a> for the interweb-bings and email-ery.</p>
+<p><img src="https://custardbelly.com/images/flood_pi_rasp.jpg" alt="pi"></p>
+<p>The mcp3008 on its own breakout. (<strong>i soldered it up all by myself!</strong>)</p>
+<p><img src="https://custardbelly.com/images/flood_pi_mcp3008.jpg" alt="mcp3008"></p>
+<h3 id="installation">installation</h3>
+<p>Here&#39;s some pictures of its installation in the basement:</p>
+<p><img src="https://custardbelly.com/images/flood_pi_install3.jpg" alt="full install"></p>
+<p><img src="https://custardbelly.com/images/flood_pi_install1.jpg" alt="module install"></p>
+<p><img src="https://custardbelly.com/images/flood_pi_install2.jpg" alt="lead install"></p>
+<p>We, thankfully, haven&#39;t been able to get a <em>true</em> &quot;positive&quot; reading since its installation, but I have submersed the leads in water for a short time to ensure i was being sent emails :)</p>
+<h2 id="flood-pi-admin">flood-pi-admin</h2>
+<p>I couldn&#39;t just stop at getting emails. I am empoyed as a software developer by trade, so I <em>had</em> to keep writing software.</p>
+<p>I wanted to aggregate the readings from <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> and get an overview of its workings (or failure of workings if it may come to that). I don&#39;t know if there could be any patterns found from the data as to when the sump pump fails or whatnot, but more data can&#39;t hurt, can it?</p>
+<p>As such, <a href="https://github.com/bustardcelly/flood-pi-admin">flood-pi-admin</a> was born!</p>
+<h3 id="about-flood-pi-admin">about flood-pi-admin</h3>
+<p><a href="https://github.com/bustardcelly/flood-pi-admin">flood-pi-admin</a> is a NodeJS-based server that provides a RESTful API for POSTing and accessing daatbeing reported by <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a>. There is more detailed information on the <a href="https://github.com/bustardcelly/flood-pi-admin">Github repo for the project</a>, but it has endpoints for the <strong>flood-pi</strong> detector to post confiuguration and reading data as well as two main routes for accessing information about past and current conditions. </p>
+<p><strong>It&#39;s pretty bare-bones at the moment, but i plan to add new features as they are required (or requested).</strong></p>
+<h3 id="charts">charts</h3>
+<p>The landing page and <em>/level?range=(day|week|year|all)</em> provide chart data with the level readings:</p>
+<p><img src="https://custardbelly.com/images/flood_pi_chart.png" alt="chart data"></p>
+<p>The red band across the middle of the chart is the &quot;positive&quot; value range provided from the <strong>flood-pi</strong> and should be considered possible flood detection. As mentioned previously, lower values may come in but not high enough to be considered &quot;positive&quot;; additionally, high values may come in which may actually mean that the leads have somehow started touching each other rather than completing the circuit with water.</p>
+<h3 id="isitflooded">isitflooded</h3>
+<p>There is also a direct page at <em>/isitflooded</em> that will let you know if it is currently considered flooded or not:</p>
+<p><img src="https://custardbelly.com/images/flood_pi_no.png" alt="current detection"></p>
+<p>It also reports last reporting time and whether or not it should alert you to the <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> no longer reporting information.</p>
+<h2 id="conclusion">conclusion</h2>
+<p>I had a lot of fun taking a small idea of being notified the nextr time their is water in the basement and transferring it to an actual physical devices that can send out emails upon completion of a circuit. Plus, i got better at soldering - i know the ADC breakout is a small assembly, but it made me happy the way it turned out.</p>
+<p>If you have occasional water in your basement and have an interest in <a href="http://www.raspberrypi.org/">Raspberry Pi</a>, i hope you check out the <a href="https://github.com/bustardcelly/flood-pi">flood-pi</a> program and install it. And if you have yourself a VPS, feel free to also setup the <a href="https://github.com/bustardcelly/flood-pi-admin">flood-pi-admin</a> on it to access level reading data.</p>
+<p>Now, onto the next little pet project i have in mind:)</p>
+<p>Cheers!</p>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/12/4/flood-pi/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/12/4/flood-pi/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[Caddis: The On-The-Fly JSON RESTful Server]]></title><description><![CDATA[<p>Recently I released a new node-based CLI tool called <a href="https://github.com/bustardcelly/caddis">caddis</a>. It allows you to start a server - as a daemon - on localhost and dynamically add routes and JSON responses. Once stopped, any work is wiped; it is purely in-memory, session based. </p>
+<p>The impetus for its creation was a requirement to easily mock service APIs to be called in a test environment without regards to libraries or languages in which the environment is run. </p>
+<p>To be more specific, for a recent project I am using the wonderful <a href="http://calaba.sh/">calabash-ios</a> framework to define <a href="http://cukes.info/">cucumber</a> specs in <a href="https://www.ruby-lang.org/en/">Ruby</a> that drive automated integration tests for an <strong>iOS</strong> project in the simulator. Creating <a href="https://github.com/bustardcelly/caddis">caddis</a> allows me to easily mock service requests that the <strong>iOS</strong> application will make and validate the expected result of scenarios in <a href="http://cukes.info/">cucumber</a>.</p>
+<h2 id="installation-usage">Installation &amp; Usage</h2>
+<p><a href="https://github.com/bustardcelly/caddis">caddis</a> is available through npm. It is recommended that you install globally:</p>
+<pre><code><span class="hljs-variable">$ </span>npm install -g caddis
+</code></pre><p><em>&gt; you may need to <code>sudo</code></em></p>
+<p>To use <a href="https://github.com/bustardcelly/caddis">caddis</a> </p>
+<pre><code>$ caddis start
+$ curl -X POST -d <span class="hljs-string">'{"</span>method<span class="hljs-string">":"</span>GET<span class="hljs-string">", "</span>uri<span class="hljs-string">":"</span>/foo<span class="hljs-string">", "</span>response<span class="hljs-string">":{"</span>bar<span class="hljs-string">":"</span>baz<span class="hljs-string">"}}'</span> http:<span class="hljs-comment">//localhost:3001/api --header "Content-Type:application/json"</span>
+</code></pre><p>Visit <a href="http://localhost:3001/foo">http://localhost:3001/foo</a>, prints:</p>
+<pre><code><span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">bar</span>:<span class="hljs-value"> <span class="hljs-string">'baz'</span>
+</span></span></span>}
+</code></pre><pre><code><span class="hljs-variable">$ </span>caddis stop
+</code></pre><p>Visit <a href="http://localhost:3001/foo">http://localhost:3001/foo</a>, Not Found.</p>
+<h3 id="options">Options</h3>
+<pre><code>$ caddis -h
+
+usage: caddis [action]
+
+Starts <span class="hljs-operator">a</span> server <span class="hljs-keyword">at</span> <span class="hljs-keyword">http</span>://localhost:<span class="hljs-number">3001</span> <span class="hljs-keyword">as</span> <span class="hljs-operator">a</span> daemon, exposing <span class="hljs-operator">an</span> api <span class="hljs-built_in">to</span> <span class="hljs-built_in">post</span> JSON <span class="hljs-built_in">to</span> <span class="hljs-operator">in</span> order <span class="hljs-built_in">to</span> mock <span class="hljs-operator">a</span> RESTful service.
+
+actions:
+  start               Start Caddis <span class="hljs-keyword">at</span> <span class="hljs-keyword">http</span>://localhost:<span class="hljs-number">3001</span>
+  stop                Stop <span class="hljs-operator">a</span> previously started Caddis daemon
+options:
+  -h                  Display this help menu
+</code></pre><h2 id="what-">What?</h2>
+<p><img src="https://custardbelly.com/images/caddis.jpg" alt="Caddis Fly Lure"><br>A caddis is a moth-like insect often used as models for fly lures in fishing.</p>
+<p>The <a href="https://github.com/bustardcelly/caddis">caddis</a> CLI tool is used to start and stop a RESTful JSON service with the ability to POST route configuration and responses, on-the-fly, for mocking and testing purposes.</p>
+<p><em>It may be a stretch, but there&#39;s wit in there somewhere...</em></p>
+<h2 id="why-">Why?</h2>
+<p>There are other projects I have been a part of, such as <a href="https://github.com/infrared5/madmin">madmin</a>, that allow for dynamically creating RESTful APIs through a User Interface and allows for persistance through I/O.</p>
+<p>Recently, I was involved with mocking a service layer for unit testing purposes and found that the manual curation of such an API was too tedious for the task at hand - I wanted the process to be much more fluid and simple.</p>
+<p>In this particular instance I needed to:</p>
+<ol>
+<li>Start a server in setup/before</li>
+<li>Dynamically add a route to the service with mock JSON response</li>
+<li>Run the test</li>
+<li>Shut down the server in teardown/after</li>
+</ol>
+<p>Fairly simple, and most of all I didnt want any artifacts lying around - in other words I didn&#39;t need for any routes that I dynamically created to stick around on my local disk after the tests were done.</p>
+<p>As such, <a href="https://github.com/bustardcelly/caddis">caddis</a> was born.</p>
+<h2 id="how">How</h2>
+<p>As mentioned briefly above, <a href="https://github.com/bustardcelly/caddis">caddis</a> is a CLI tool. It is recommended to install globally:</p>
+<pre><code><span class="hljs-variable">$ </span>npm install -g caddis
+</code></pre><p><em>&gt; you may need to <code>sudo</code></em></p>
+<p>Once installed, you can start the service (currently defaults to <a href="http://localhost:3001">http://localhost:3001</a>) and begin POSTing route configurations in JSON. Here is an example using cUrl that dynamically adds a GET route at <code>/foo</code> with a simple JSON payload of <code>{&quot;bar&quot;:&quot;baz&quot;}</code>:</p>
+<pre><code>$ curl -X POST -d <span class="hljs-string">'{"</span>method<span class="hljs-string">":"</span>GET<span class="hljs-string">", "</span>uri<span class="hljs-string">":"</span>/foo<span class="hljs-string">", "</span>response<span class="hljs-string">":{"</span>bar<span class="hljs-string">":"</span>baz<span class="hljs-string">"}}'</span> http:<span class="hljs-comment">//localhost:3001/api --header "Content-Type:application/json"</span>
+</code></pre><p>You are not confiuned to cUrl - you can use whatever networking library in whatever language you are writing your tests in and the server can handle all modern RESTful methods:</p>
+<ul>
+<li>GET</li>
+<li>POST</li>
+<li>PUT</li>
+<li>DELETE</li>
+</ul>
+<p>When you are finished, simply stop the <a href="https://github.com/bustardcelly/caddis">caddis</a> server:</p>
+<pre><code><span class="hljs-variable">$ </span>caddis stop
+</code></pre><h2 id="conclusion">Conclusion</h2>
+<p>I hope this was a useful introduction to what <a href="https://github.com/bustardcelly/caddis">caddis</a> has to offer and that you may find it beneficial in your testing in some way.</p>
+<p>You can visit the project on github at: <a href="https://github.com/bustardcelly/caddis">https://github.com/bustardcelly/caddis</a></p>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/02/25/introducing-caddis/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/02/25/introducing-caddis/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[Running Browser-Based CucumberJS Specs in Testling]]></title><description><![CDATA[<p>In my <a href="https://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous</a> <a href="https://custardbelly.com/blog/blog-posts/2014/02/12/cucumberjs-browser-update/index.html">posts</a> I discuss bringing <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs to the browser using the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool. In this post I intend to address how to use the format reporting options of the <strong>cucumberjs-browser</strong> tool to enable integration with the <a href="https://ci.testling.com/">testling</a> automated cross-browser testing tool to run your specs in various browser environment targets that you may not have installed on your own system.</p>
 <h2 id="requirements">Requirements</h2>
 <p>For the purposes of this article, it is assumed that you are knowledgable of <a href="http://nodejs.org">node</a> and <a href="http://npmjs.org">npm</a> and familiar with creating feature specs for <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>. </p>
 <p>To view examples of features and step definitions for a browser-based application, please visit the <a href="https://github.com/bustardcelly/cucumberjs-examples">cucumberjs-examples</a> repo, from which this post will use to demonstrate integrating the generated testrunner from <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> with <a href="https://ci.testling.com/">testling</a>.</p>
@@ -632,69 +712,7 @@ ok <span class="hljs-number">18</span> I can access <span class="hljs-keyword">t
 <p>In this article I introduced how the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> CLI tool can be used to generate a browser-based testrunner to report tests in <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> format and integrate the invaluable <a href="https://ci.testling.com/">testling</a> service to run the tests on various browsers that may not be at your disposal otherwise.</p>
 <p>While <a href="https://ci.testling.com/">testling</a> provides one consumer endpoint, using the <a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP</a> specification in reporting test results can easily be consumed by another test harness of your choice.</p>
 <p>For more information on running <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> in the browser and/or to report any issues, please visit the <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> repository.</p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/02/18/cucumberjs-testling/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/02/18/cucumberjs-testling/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[Caddis: The On-The-Fly JSON RESTful Server]]></title><description><![CDATA[<p>Recently I released a new node-based CLI tool called <a href="https://github.com/bustardcelly/caddis">caddis</a>. It allows you to start a server - as a daemon - on localhost and dynamically add routes and JSON responses. Once stopped, any work is wiped; it is purely in-memory, session based. </p>
-<p>The impetus for its creation was a requirement to easily mock service APIs to be called in a test environment without regards to libraries or languages in which the environment is run. </p>
-<p>To be more specific, for a recent project I am using the wonderful <a href="http://calaba.sh/">calabash-ios</a> framework to define <a href="http://cukes.info/">cucumber</a> specs in <a href="https://www.ruby-lang.org/en/">Ruby</a> that drive automated integration tests for an <strong>iOS</strong> project in the simulator. Creating <a href="https://github.com/bustardcelly/caddis">caddis</a> allows me to easily mock service requests that the <strong>iOS</strong> application will make and validate the expected result of scenarios in <a href="http://cukes.info/">cucumber</a>.</p>
-<h2 id="installation-usage">Installation &amp; Usage</h2>
-<p><a href="https://github.com/bustardcelly/caddis">caddis</a> is available through npm. It is recommended that you install globally:</p>
-<pre><code><span class="hljs-variable">$ </span>npm install -g caddis
-</code></pre><p><em>&gt; you may need to <code>sudo</code></em></p>
-<p>To use <a href="https://github.com/bustardcelly/caddis">caddis</a> </p>
-<pre><code>$ caddis start
-$ curl -X POST -d <span class="hljs-string">'{"</span>method<span class="hljs-string">":"</span>GET<span class="hljs-string">", "</span>uri<span class="hljs-string">":"</span>/foo<span class="hljs-string">", "</span>response<span class="hljs-string">":{"</span>bar<span class="hljs-string">":"</span>baz<span class="hljs-string">"}}'</span> http:<span class="hljs-comment">//localhost:3001/api --header "Content-Type:application/json"</span>
-</code></pre><p>Visit <a href="http://localhost:3001/foo">http://localhost:3001/foo</a>, prints:</p>
-<pre><code><span class="hljs-rules">{
-  <span class="hljs-rule"><span class="hljs-attribute">bar</span>:<span class="hljs-value"> <span class="hljs-string">'baz'</span>
-</span></span></span>}
-</code></pre><pre><code><span class="hljs-variable">$ </span>caddis stop
-</code></pre><p>Visit <a href="http://localhost:3001/foo">http://localhost:3001/foo</a>, Not Found.</p>
-<h3 id="options">Options</h3>
-<pre><code>$ caddis -h
-
-usage: caddis [action]
-
-Starts <span class="hljs-operator">a</span> server <span class="hljs-keyword">at</span> <span class="hljs-keyword">http</span>://localhost:<span class="hljs-number">3001</span> <span class="hljs-keyword">as</span> <span class="hljs-operator">a</span> daemon, exposing <span class="hljs-operator">an</span> api <span class="hljs-built_in">to</span> <span class="hljs-built_in">post</span> JSON <span class="hljs-built_in">to</span> <span class="hljs-operator">in</span> order <span class="hljs-built_in">to</span> mock <span class="hljs-operator">a</span> RESTful service.
-
-actions:
-  start               Start Caddis <span class="hljs-keyword">at</span> <span class="hljs-keyword">http</span>://localhost:<span class="hljs-number">3001</span>
-  stop                Stop <span class="hljs-operator">a</span> previously started Caddis daemon
-options:
-  -h                  Display this help menu
-</code></pre><h2 id="what-">What?</h2>
-<p><img src="https://custardbelly.com/images/caddis.jpg" alt="Caddis Fly Lure"><br>A caddis is a moth-like insect often used as models for fly lures in fishing.</p>
-<p>The <a href="https://github.com/bustardcelly/caddis">caddis</a> CLI tool is used to start and stop a RESTful JSON service with the ability to POST route configuration and responses, on-the-fly, for mocking and testing purposes.</p>
-<p><em>It may be a stretch, but there&#39;s wit in there somewhere...</em></p>
-<h2 id="why-">Why?</h2>
-<p>There are other projects I have been a part of, such as <a href="https://github.com/infrared5/madmin">madmin</a>, that allow for dynamically creating RESTful APIs through a User Interface and allows for persistance through I/O.</p>
-<p>Recently, I was involved with mocking a service layer for unit testing purposes and found that the manual curation of such an API was too tedious for the task at hand - I wanted the process to be much more fluid and simple.</p>
-<p>In this particular instance I needed to:</p>
-<ol>
-<li>Start a server in setup/before</li>
-<li>Dynamically add a route to the service with mock JSON response</li>
-<li>Run the test</li>
-<li>Shut down the server in teardown/after</li>
-</ol>
-<p>Fairly simple, and most of all I didnt want any artifacts lying around - in other words I didn&#39;t need for any routes that I dynamically created to stick around on my local disk after the tests were done.</p>
-<p>As such, <a href="https://github.com/bustardcelly/caddis">caddis</a> was born.</p>
-<h2 id="how">How</h2>
-<p>As mentioned briefly above, <a href="https://github.com/bustardcelly/caddis">caddis</a> is a CLI tool. It is recommended to install globally:</p>
-<pre><code><span class="hljs-variable">$ </span>npm install -g caddis
-</code></pre><p><em>&gt; you may need to <code>sudo</code></em></p>
-<p>Once installed, you can start the service (currently defaults to <a href="http://localhost:3001">http://localhost:3001</a>) and begin POSTing route configurations in JSON. Here is an example using cUrl that dynamically adds a GET route at <code>/foo</code> with a simple JSON payload of <code>{&quot;bar&quot;:&quot;baz&quot;}</code>:</p>
-<pre><code>$ curl -X POST -d <span class="hljs-string">'{"</span>method<span class="hljs-string">":"</span>GET<span class="hljs-string">", "</span>uri<span class="hljs-string">":"</span>/foo<span class="hljs-string">", "</span>response<span class="hljs-string">":{"</span>bar<span class="hljs-string">":"</span>baz<span class="hljs-string">"}}'</span> http:<span class="hljs-comment">//localhost:3001/api --header "Content-Type:application/json"</span>
-</code></pre><p>You are not confiuned to cUrl - you can use whatever networking library in whatever language you are writing your tests in and the server can handle all modern RESTful methods:</p>
-<ul>
-<li>GET</li>
-<li>POST</li>
-<li>PUT</li>
-<li>DELETE</li>
-</ul>
-<p>When you are finished, simply stop the <a href="https://github.com/bustardcelly/caddis">caddis</a> server:</p>
-<pre><code><span class="hljs-variable">$ </span>caddis stop
-</code></pre><h2 id="conclusion">Conclusion</h2>
-<p>I hope this was a useful introduction to what <a href="https://github.com/bustardcelly/caddis">caddis</a> has to offer and that you may find it beneficial in your testing in some way.</p>
-<p>You can visit the project on github at: <a href="https://github.com/bustardcelly/caddis">https://github.com/bustardcelly/caddis</a></p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/02/25/introducing-caddis/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/02/25/introducing-caddis/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript V: CucumberJS and The Browser, II]]></title><description><![CDATA[<p><em>&quot;Whoa. Whoa. Whoa. You can&#39;t just use roman numerals all over the place in your post titles...&quot;</em></p>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/02/18/cucumberjs-testling/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/02/18/cucumberjs-testling/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript V: CucumberJS and The Browser, II]]></title><description><![CDATA[<p><em>&quot;Whoa. Whoa. Whoa. You can&#39;t just use roman numerals all over the place in your post titles...&quot;</em></p>
 <p>In the <a href="https://custardbelly.com/blog/blog-posts/2014/02/10/cucumberjs-tests-browser/index.html">previous article</a> I addressed the available libraries and practices to have your <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> specs running in a browser environment, as well as introduced a new project begun by me: <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a>.</p>
 <p>I had originally had the entirety of this post in the previous post, but felt that it was a little bit of information overload. As such, I decided to split them into two posts.</p>
 <p>The intent of this article is to address incorporating <a href="https://github.com/bustardcelly/cucumberjs-browser">cucumberjs-browser</a> into our current Grocery List Application example and continue developing features that involve User Interaction with the DOM.</p>
@@ -1748,386 +1766,4 @@ gulp.task(<span class="hljs-string">'watch-tests'</span>, <span class="hljs-func
 <p>I didn&#39;t introduce any new concepts related to <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>, itself, but felt it necessary to address automation at this stage within the series as I feel it is a vital part to Test-Driven Development and the Agile process and something that should be addressed in the early stages of a project.</p>
 <p>That said, I look forward to the next article where we get to write more tests and which I intend to introduce running tests in a browser environment :)</p>
 <p>Source for examples related to this post can be found in the <a href="https://github.com/bustardcelly/cucumberjs-examples/tree/0.3.0.post">0.3.0.post tag on my Github account</a>.</p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item><item><title><![CDATA[BDD in JavaScript II: CucumberJS, the World and Background]]></title><description><![CDATA[<p>In <a href="https://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">my previous post</a>, I demonstrated how I use <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> - the JavaScript port of the <a href="http://cukes.info/">Cucumber</a> BDD testing tool - in developing Test-Driven code. I walked through going from a <span style="color:red;">failing</span> feature with two scenarios to a <span style="color:green;">passing</span> cuke, while taking care to only add enough code that would make the assertions pass and refactoring as I went along under the assurance of a test harness.</p>
-<p>There are a few topics that I didn&#39;t address in the previous post that I utilize in my testing process that I wanted to touch on in this post as any further articles I may write on the subject of <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a> most likely will reference them. These are:</p>
-<ul>
-<li>the World<del>, chico, and everything in it.</del></li>
-<li>Background</li>
-</ul>
-<h3 id="-gt-code">&gt; code</h3>
-<p>Supported files related to this and any subsequent posts on this topic will be available at:<br><a href="https://github.com/bustardcelly/cucumberjs-examples">https://github.com/bustardcelly/cucumberjs-examples</a></p>
-<h2 id="world">World</h2>
-<p>The <strong>World</strong> brings context to your <strong>Scenarios</strong>.</p>
-<p>In the examples from <a href="https://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">my previous post</a> variables were declared locally to the module export and available for reference within each <strong>Step</strong>. This may be suitable for some cases, but can cause issues or provide false results if you are not aware that those values last across the life cycle of <em>all</em> the <strong>Steps</strong> declared in that module. In other words, they are not reset for each <strong>Scenario</strong>.</p>
-<p>To bring context to each <strong>Scenario</strong>, you can use the <strong>World</strong> constructor within which you can define various properties and methods that may be relevant in setting up the environment under test for each <strong>Scenario</strong>. Additonally, you access the defined <strong>World</strong> within each <strong>Step</strong> using the <code>this</code> keyword - just as you are familiar to in referencing context scope within JavaScript.</p>
-<h3 id="example">Example</h3>
-<p>If I were to take the complete steps module for the <em>Add Item</em> <strong>Feature</strong> from the <a href="https://github.com/bustardcelly/cucumberjs-examples/blob/0.1.0.post/features/step_definitions/add-item.steps.js">previous example</a> and modify it to incorporate a <strong>World</strong> context, it would look something like the following:</p>
-<p>_/features/step<em>definitions/add-item.steps.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-<span class="hljs-keyword">var</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'assert'</span>);
-
-module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-  <span class="hljs-keyword">var</span> listItem;
-
-  <span class="hljs-keyword">this</span>.World = <span class="hljs-built_in">require</span>(process.cwd() + <span class="hljs-string">'/features/support/world'</span>).World;
-
-  <span class="hljs-keyword">this</span>.Given(<span class="hljs-regexp">/^I have an empty grocery list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    <span class="hljs-keyword">this</span>.myList = <span class="hljs-keyword">this</span>.createNewGroceryList();
-    callback();
-  });
-
-  <span class="hljs-keyword">this</span>.When(<span class="hljs-regexp">/^I add an item to the list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    listItem = <span class="hljs-keyword">this</span>.createGroceryItem();
-    <span class="hljs-keyword">this</span>.myList.add(listItem);
-    callback();
-  });
-
-  <span class="hljs-keyword">this</span>.Then(<span class="hljs-regexp">/^The grocery list contains a single item$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    assert.equal(<span class="hljs-keyword">this</span>.myList.getAll().length, <span class="hljs-number">1</span>, <span class="hljs-string">'Grocery List should grow by one item.'</span>);
-    callback();
-  });
-
-  <span class="hljs-keyword">this</span>.Then(<span class="hljs-regexp">/^I can access that item from the grocery list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    assert.notEqual(<span class="hljs-keyword">this</span>.myList.getItemIndex(listItem), -<span class="hljs-number">1</span>, <span class="hljs-string">'Added item should be found at non-negative index.'</span>);
-    callback();
-  });
-
-};
-</code></pre><p>You will notice that in place of the <code>myList</code> variable declaration is a definition of the <strong>World</strong> context that will be the context for each <strong>Step</strong> in a <strong>Scenario</strong>. The <strong>World</strong> constructor is run at the start of each <strong>Scenario</strong>. As such, any properties have a life-cycle within the <strong>Steps</strong> of each <strong>Scenario</strong> that may be defined in this <strong>Feature</strong>. Again, this differs from the previous implementation where <code>myList</code> had a life-cycle through <em>all</em> the <strong>Steps</strong> of the module. </p>
-<p><em>Note: The life of <code>this.myList</code> is realistically the same as the function local <code>myList</code> in the previous example, since it was being reassigned a new instance of <code>GroceryList</code> for each <strong>Scenario</strong>.</em></p>
-<p>Additionally, you may notice that I have offloaded the creation or declaration of items to factory methods on the <strong>World</strong> - it&#39;s just a habit or best practice of mine and allows me to &quot;hide&quot; such implementation details within a single context so I can focus more closely on the assertion rules.</p>
-<p>The <strong>World</strong> that is referenced in this <strong>Steps</strong> module is pulled in from the <em>/features/support</em> directory:</p>
-<p><em>/features/support/world.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-
-<span class="hljs-keyword">var</span> GroceryList = <span class="hljs-built_in">require</span>(process.cwd() + <span class="hljs-string">'/script/model/grocery-list'</span>);
-
-<span class="hljs-keyword">var</span> World = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">World</span><span class="hljs-params">(callback)</span> {</span>
-
-  <span class="hljs-keyword">this</span>.myList = <span class="hljs-literal">undefined</span>;
-  <span class="hljs-keyword">this</span>.createNewGroceryList = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> GroceryList.create();
-  };
-  <span class="hljs-keyword">this</span>.createGroceryItem = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">'apple'</span>;
-  };
-
-  callback();
-
-};
-
-module.exports.World = World;
-</code></pre><p>This defines the <strong>World</strong> constructor on the <code>module.exports</code> and, when is invoked by <a href="https://github.com/cucumber/cucumber-js">CucumberJS</a>, is provided a <code>callback</code> delegate that you invoke when you are done &quot;prepping&quot; your <strong>World</strong> context. There are other support hooks, such as <em>BeforeEach()</em> and <em>AfterEach()</em> that are available, but I won&#39;t discuss them in this article.</p>
-<p>If we were to run our tests now:</p>
-<pre><code>$ node_modules<span class="hljs-subst">/</span><span class="hljs-built_in">.</span>bin/cucumber<span class="hljs-attribute">-js</span>
-
-<span class="hljs-attribute">...</span><span class="hljs-attribute">...</span>
-
-<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> passed)
-<span class="hljs-number">6</span> steps (<span class="hljs-number">6</span> passed)
-</code></pre><p>We arrive at the same result as before: <span style="color:green;">passing</span>.</p>
-<h4 id="-gt-aside">&gt; aside</h4>
-<p>This example may seem a little superfluos in its demonstration of the benefits of a <strong>World</strong> context, but - for the sake of continuity - I wanted to show how I would modify the previous example to incorporate the <strong>World</strong>. As well, we will be building off of this structure when we approach incorporating tests within a browser context.</p>
-<h2 id="background">Background</h2>
-<p>The <strong>Background</strong> is part of the <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin DSL</a> that allows you to provide an overarching context for all <strong>Scenarios</strong> defined in a <strong>Feature</strong>. It is defined in your feature spec and details <strong>Steps</strong> to be run prior to each <strong>Scenario</strong> defined within the same spec. <em>It should be noted that if you use the Before Hooks the <strong>Background</strong> steps are run after those hook methods.</em></p>
-<p>I use <strong>Background</strong> mainly to provide an environmental context for my <strong>Feature</strong>. With the state of JavaScript today - and sometimes wearing the full-stack developer hat - it is not uncommon that I would be writing a <a href="http://nodejs.org">node</a> module for the server-side along with browser-based modules for the client-side within the same project. Additionally, with the various module libraries and build tools available from the community today, I am sometimes developing libraries that provide a module for both the browser and <a href="http://nodejs.org">node</a>! Crazy mixed up world. But I digress...</p>
-<p>The point being: <strong>Background</strong> is useful, in my testing workflow, in setting up a <strong>Feature</strong> with the context of running the Tests under <a href="http://nodejs.org">node</a> or in a browser.</p>
-<p>We could modify the existing <strong>Feature</strong> created in the <a href="https://custardbelly.com/blog/blog-posts/2014/01/08/bdd-in-js-cucumberjs/index.html">previous post</a> to include a <strong>Background</strong> used in defining the environment:</p>
-<p><em>/features/add-item.feature</em></p>
-<pre><code>Feature: Shopper can add an <span class="hljs-property">item</span> <span class="hljs-keyword">to</span> their Grocery List
-  As a shopper
-  I want <span class="hljs-keyword">to</span> add an <span class="hljs-property">item</span> <span class="hljs-keyword">to</span> <span class="hljs-keyword">my</span> grocery <span class="hljs-type">list</span>
-  So <span class="hljs-keyword">that</span> I can remember <span class="hljs-keyword">to</span> buy <span class="hljs-keyword">that</span> <span class="hljs-property">item</span> <span class="hljs-keyword">at</span> <span class="hljs-keyword">the</span> grocery store
-
-  Background:
-    Given I have opened <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span> <span class="hljs-type">application</span>
-
-  Scenario: Item added <span class="hljs-keyword">to</span> grocery <span class="hljs-type">list</span>
-    Given I have an empty grocery <span class="hljs-type">list</span>
-    When I add an <span class="hljs-property">item</span> <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> <span class="hljs-type">list</span>
-    Then The grocery <span class="hljs-type">list</span> <span class="hljs-keyword">contains</span> a single <span class="hljs-property">item</span>
-
-  Scenario: Item accessible <span class="hljs-keyword">from</span> grocery <span class="hljs-type">list</span>
-    Given I have an empty grocery <span class="hljs-type">list</span>
-    When I add an <span class="hljs-property">item</span> <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> <span class="hljs-type">list</span>
-    Then I can access <span class="hljs-keyword">that</span> <span class="hljs-property">item</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">the</span> grocery <span class="hljs-type">list</span>
-</code></pre><p>I have set up my <strong>Background</strong> to explicitly state that I have opened up the application we are building. If you have been following along, we actually had never even created a main application file - we were just testing a collection model. So this brings a little more real-life context to the situation at hand; we are in the process of building an application that people will use and interact with.</p>
-<p>Within the <strong>Background</strong> you can add additional steps, such as <em>And</em>, <em>But</em>, <em>When</em> and <em>Then</em>, yet I try to stick to only having a <em>Given</em> followed by one or two <em>And</em>&#39;s or <em>But</em>&#39;s.</p>
-<p>If we were to run that now:</p>
-<pre><code>$ node_modules/.bin/cucumber-js
-
-U-U-
-
-<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> <span class="hljs-literal">undefined</span>)
-<span class="hljs-number">8</span> steps (<span class="hljs-number">2</span> <span class="hljs-literal">undefined</span>, <span class="hljs-number">6</span> skipped)
-
-You can implement step definitions <span class="hljs-keyword">for</span> <span class="hljs-literal">undefined</span> steps <span class="hljs-keyword">with</span> these snippets:
-
-<span class="hljs-keyword">this</span>.Given(<span class="hljs-regexp">/^I have opened the grocery list application$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-  <span class="hljs-comment">// express the regexp above with the code you wish you had</span>
-  callback.pending();
-});
-</code></pre><p>We&#39;d see that neither of the <em>Scenarios</em> are entered and we are alerted to an undefined step definition.</p>
-<h3 id="background-step-definition">Background Step Definition</h3>
-<p>I have a tendency to separate my background step definitions from my scenario step definitions - in both separate files and file naming convention. In other words, I would not add this step to the _/features/step<em>definitions/add-item.steps.js</em>. The main reason being that I reuse the same background step definitions across many features. As such, I place these steps in a separate file that is prefixed with <strong>background-</strong>:</p>
-<p>_/features/step<em>definitions/background-open-application.steps.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-<span class="hljs-keyword">var</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'assert'</span>);
-
-module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-  <span class="hljs-keyword">this</span>.World = <span class="hljs-built_in">require</span>(process.cwd() + <span class="hljs-string">'/features/support/world'</span>).World;
-
-  <span class="hljs-keyword">this</span>.Given(<span class="hljs-regexp">/^I have opened the grocery list application$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    <span class="hljs-comment">// express the regexp above with the code you wish you had</span>
-    callback.pending();
-  });
-
-};
-</code></pre><p>Similar to how we just modified the Add Item <strong>Feature</strong>, we are defining our world and we now have a pending <strong>Step</strong> to assert as passing. Technically I save the assertions for the <em>Then</em> <strong>Steps</strong>, but when I work with <strong>Background</strong>&#39;s I consider them pretty vital to the <strong>Scenarios</strong> environment. Therefore, most of my <strong>Background</strong>&#39;s have assertions, or in the very least, asynchronous requests which invoke the callback on completion. <em>(A better example of this will be in a following post when I address testing under a browser)</em>.</p>
-<p>Let&#39;s define how we expect the application to be started in the <strong>World</strong> and what sort of validation we expect to assert that, in fact, we have opened the grocery list application so that we can edit its collection:</p>
-<p>_/features/step<em>definitions/background-open-application.steps.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-<span class="hljs-keyword">var</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'assert'</span>);
-
-module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-  <span class="hljs-keyword">this</span>.World = <span class="hljs-built_in">require</span>(process.cwd() + <span class="hljs-string">'/features/support/world'</span>).World;
-
-  <span class="hljs-keyword">this</span>.Given(<span class="hljs-regexp">/^I have opened the grocery list application$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    <span class="hljs-keyword">this</span>.groceryListApplication = <span class="hljs-keyword">this</span>.openGroceryList();
-    assert(<span class="hljs-keyword">this</span>.groceryListApplication, <span class="hljs-string">'Grocery List Application is required to be open for editability.'</span>);
-    callback();
-  });
-
-};
-</code></pre><p>Running that will <span style="color:red;">fail</span> both or our scenarios due to exceptions on the <strong>World</strong>:</p>
-<pre><code>$ node_modules/.bin/cucumber-js
-
-F-F-
-
-(::) failed steps (::)
-
-TypeError: Object #&lt;World&gt; <span class="hljs-keyword">has</span> no <span class="hljs-function"><span class="hljs-keyword">method</span> '<span class="hljs-title">openGroceryList</span>'
-
-<span class="hljs-title">Failing</span> <span class="hljs-title">scenarios</span>:</span>
-/Users/toddanderson/Documents/workspace/custardbelly/cucumberjs-example/features/<span class="hljs-keyword">add</span>-item.feature:<span class="hljs-number">9</span> # Scenario: Item added <span class="hljs-keyword">to</span> grocery list
-/Users/toddanderson/Documents/workspace/custardbelly/cucumberjs-example/features/<span class="hljs-keyword">add</span>-item.feature:<span class="hljs-number">14</span> # Scenario: Item accessible <span class="hljs-keyword">from</span> grocery list
-
-<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> failed)
-<span class="hljs-number">8</span> steps (<span class="hljs-number">2</span> failed, <span class="hljs-number">6</span> skipped)
-</code></pre><p>We&#39;ll modify our <strong>World</strong> to handle such properties and perform operations with regards to how we design the act of &quot;opening&quot; a new grocery list application. </p>
-<p><em>Note: As mentioned previously in this and past articles, such details are really meant for a team discussion in architecture of the application. As such, I am taking liberties here in how I would go about providing as little code as possible to make the tests pass while adhering to my current design principles.</em></p>
-<p><em>/features/support/world.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-
-<span class="hljs-keyword">var</span> application = <span class="hljs-built_in">require</span>(process.cwd() + <span class="hljs-string">'/script/app'</span>);
-<span class="hljs-keyword">var</span> GroceryList = <span class="hljs-built_in">require</span>(process.cwd() + <span class="hljs-string">'/script/model/grocery-list'</span>);
-
-<span class="hljs-keyword">var</span> World = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">World</span><span class="hljs-params">(callback)</span> {</span>
-
-  <span class="hljs-keyword">this</span>.groceryListApplication = <span class="hljs-literal">undefined</span>;
-  <span class="hljs-keyword">this</span>.myList = <span class="hljs-literal">undefined</span>;
-
-  <span class="hljs-keyword">this</span>.openGroceryList = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> application.newSession();
-  };
-  <span class="hljs-keyword">this</span>.createNewGroceryList = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> GroceryList.create();
-  };
-  <span class="hljs-keyword">this</span>.createGroceryItem = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">'apple'</span>;
-  };
-
-  callback();
-
-};
-
-module.exports.World = World;
-</code></pre><p>The <strong>World</strong> has been modified with the previously expected properties from our <strong>Background</strong> step and defines the creation of a new application through the <code>newSession</code> method on the <code>application</code> module. However, that module does not exist:</p>
-<pre><code><span class="hljs-variable">$ </span>node_modules/.bin/cucumber-js
-
-<span class="hljs-class"><span class="hljs-keyword">module</span>.<span class="hljs-title">js</span>:340</span>
-    throw err;
-          ^
-<span class="hljs-constant">Error</span><span class="hljs-symbol">:</span> <span class="hljs-constant">Cannot</span> find <span class="hljs-class"><span class="hljs-keyword">module</span> '/<span class="hljs-title">Users</span>/<span class="hljs-title">toddanderson</span>/<span class="hljs-title">Documents</span>/<span class="hljs-title">workspace</span>/<span class="hljs-title">custardbelly</span>/<span class="hljs-title">cucumberjs</span>-<span class="hljs-title">example</span>/<span class="hljs-title">script</span>/<span class="hljs-title">app</span>'</span>
-</code></pre><p>Let&#39;s quickly create the main application module:</p>
-<p><em>/script/app.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-
-<span class="hljs-keyword">var</span> application = {
-  init: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-comment">// stub.</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
-  }
-};
-
-module.exports = {
-  newSession: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(application).init();
-  }
-};
-</code></pre><p>In this module, we have defined the factory method <code>newSession</code> which generates a new <code>application</code> instance and returns the reference from a call to <code>init()</code>.</p>
-<p>If we were to run our tests again:</p>
-<pre><code>$ node_modules<span class="hljs-subst">/</span><span class="hljs-built_in">.</span>bin/cucumber<span class="hljs-attribute">-js</span>
-
-<span class="hljs-attribute">...</span><span class="hljs-attribute">...</span><span class="hljs-built_in">..</span>
-
-<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> passed)
-<span class="hljs-number">8</span> steps (<span class="hljs-number">8</span> passed)
-</code></pre><p>We are back to <span style="color:green;">green</span>!</p>
-<h3 id="take-a-breather">take a breather</h3>
-<p>Alright, we just added some environment context to our tests using the <strong>Background</strong> and <em>Given</em> step(s), and are bringing more solidarity to the actual testing environment in so much as we have started to address the concept that the grocery list is to be interacted with from an application. This concept was known and assumed before, yet in our previous example, we did not address an actual <strong>User Role</strong> (<em>The Shopper</em>) in context - we simply made sure that our gorcery list collection model was able to receive and retain an item.</p>
-<p>That&#39;s fine, we were getting started; we had some tasks and we are not going to throw away our work.</p>
-<p>However, our previous example and step definitions should be modified to address the <strong>User</strong> interacting with the application, in so much as operations being acted upon in context to an open grocery list application.</p>
-<h3 id="get-back-to-work">get back to work</h3>
-<p>That last section was all very wordy. Basically the whole <code>myList</code> business that is going on the <strong>World</strong> and references in the Add Item <strong>Feature</strong> steps that we just did previously in this article, I want that to go away. I want to interact with a list instance held on the application.</p>
-<h3 id="refactorying">Refactorying</h3>
-<p>The first modification is in the Add Item <strong>Feature</strong> steps:</p>
-<p>_/features/step<em>definitions/add-item.steps.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-<span class="hljs-keyword">var</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'assert'</span>);
-
-module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-
-  <span class="hljs-keyword">var</span> listItem;
-
-  <span class="hljs-keyword">this</span>.World = <span class="hljs-built_in">require</span>(process.cwd() + <span class="hljs-string">'/features/support/world'</span>).World;
-
-  <span class="hljs-keyword">this</span>.Given(<span class="hljs-regexp">/^I have an empty grocery list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    <span class="hljs-keyword">this</span>.groceryListApplication.list.empty();
-    callback();
-  });
-
-  <span class="hljs-keyword">this</span>.When(<span class="hljs-regexp">/^I add an item to the list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    listItem = <span class="hljs-keyword">this</span>.createGroceryItem();
-    <span class="hljs-keyword">this</span>.groceryListApplication.list.add(listItem);
-    callback();
-  });
-
-  <span class="hljs-keyword">this</span>.Then(<span class="hljs-regexp">/^The grocery list contains a single item$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    assert.equal(<span class="hljs-keyword">this</span>.groceryListApplication.list.getAll().length, <span class="hljs-number">1</span>, <span class="hljs-string">'Grocery List should grow by one item.'</span>);
-    callback();
-  });
-
-  <span class="hljs-keyword">this</span>.Then(<span class="hljs-regexp">/^I can access that item from the grocery list$/</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
-    assert.notEqual(<span class="hljs-keyword">this</span>.groceryListApplication.list.getItemIndex(listItem), -<span class="hljs-number">1</span>, <span class="hljs-string">'Added item should be found at non-negative index.'</span>);
-    callback();
-  });
-
-};
-</code></pre><p>We have removed all references to the <code>myList</code> property that we added to <strong>World</strong> and replaced it with references to the <code>groceryListApplication.list</code> property.</p>
-<pre><code>$ node_modules/.bin/cucumber-js
-
-.F-.F-
-
-(::) failed steps (::)
-
-TypeError: Cannot call <span class="hljs-function"><span class="hljs-keyword">method</span> '<span class="hljs-title">empty</span>' <span class="hljs-title">of</span> <span class="hljs-title">undefined</span></span>
-</code></pre><p>Back to <span style="color:red;">failing</span> at the first <strong>Step</strong> in each <strong>Scenario</strong>; the reason being that the application instance has no <code>list</code> property.</p>
-<p><em>/script/app.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-
-<span class="hljs-keyword">var</span> GroceryList = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./model/grocery-list'</span>);
-
-<span class="hljs-keyword">var</span> application = {
-  init: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(list)</span> {</span>
-    <span class="hljs-keyword">this</span>.list = list;
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
-  }
-};
-
-module.exports = {
-  newSession: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">var</span> newList = GroceryList.create();
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(application).init(newList);
-  }
-};
-</code></pre><p>In modifying the <code>app</code> module, we have designed it so that when <code>newSession</code> is invoked, a new instance of <code>GroceryList</code> is passed in.</p>
-<p>Run that:</p>
-<pre><code>$ node_modules/.bin/cucumber-js
-
-.F-.F-
-
-(::) failed steps (::)
-
-TypeError: Object #&lt;Object&gt; <span class="hljs-keyword">has</span> no <span class="hljs-function"><span class="hljs-keyword">method</span> '<span class="hljs-title">empty</span>'</span>
-</code></pre><p>… and we have no <code>empty</code> method on the <code>GroceryList</code>.</p>
-<p><em>/script/model/grocery-list.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-
-<span class="hljs-keyword">var</span> groceryList = {
-  empty: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">this</span>.list.length = <span class="hljs-number">0</span>;
-  },
-  add: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
-    <span class="hljs-keyword">this</span>.list.push(item);
-  },
-  getAll: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.list;
-  },
-  getItemIndex: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value)</span> {</span>
-    <span class="hljs-keyword">var</span> index = <span class="hljs-keyword">this</span>.list.length;
-    <span class="hljs-keyword">while</span>(--index &gt; -<span class="hljs-number">1</span>) {
-      <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.list[index] === value) {
-        <span class="hljs-keyword">return</span> index;
-      }
-    }
-    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
-  }
-};
-
-module.exports = {
-  create: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(groceryList, {
-      <span class="hljs-string">'list'</span>: {
-        value: [],
-        writable: <span class="hljs-literal">false</span>,
-        enumerable: <span class="hljs-literal">true</span>  
-      }
-    });
-  }
-};
-</code></pre><p>We added the <code>empty</code> method to the <code>groceryList</code> object which essentially just clears the underlying <code>Array</code> instance.</p>
-<p>Run the tests again:</p>
-<pre><code>$ node_modules<span class="hljs-subst">/</span><span class="hljs-built_in">.</span>bin/cucumber<span class="hljs-attribute">-js</span>
-
-<span class="hljs-attribute">...</span><span class="hljs-attribute">...</span><span class="hljs-built_in">..</span>
-
-<span class="hljs-number">2</span> scenarios (<span class="hljs-number">2</span> passed)
-<span class="hljs-number">8</span> steps (<span class="hljs-number">8</span> passed)
-</code></pre><p>And we are back to <span style="color:green;">green</span>! Successful reactor… so far :)</p>
-<p>We have carefully moved our collection model that is under test to the application, but we have some lingering and unneccessary code in our <strong>World</strong>. <em>I love removing code.</em></p>
-<p>Here is our now cleaned up <strong>World</strong>:</p>
-<p><em>/features/support/world.js</em></p>
-<pre><code><span class="hljs-pi">'use strict'</span>;
-
-<span class="hljs-keyword">var</span> application = <span class="hljs-built_in">require</span>(process.cwd() + <span class="hljs-string">'/script/app'</span>);
-
-<span class="hljs-keyword">var</span> World = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">World</span><span class="hljs-params">(callback)</span> {</span>
-
-  <span class="hljs-keyword">this</span>.groceryListApplication = <span class="hljs-literal">undefined</span>;
-
-  <span class="hljs-keyword">this</span>.openGroceryList = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> application.newSession();
-  };
-  <span class="hljs-keyword">this</span>.createGroceryItem = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">'apple'</span>;
-  };
-
-  callback();
-
-};
-
-module.exports.World = World;
-</code></pre><p>Woohoo!</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>I set out to address a few concepts associated with CucumberJS that I use regurlarly, but in doing so, I ended up modifying and refactoring the current example :) That wasn&#39;t the original intent when I started this post, but I was having fun.</p>
-<ul>
-<li>The <strong>World</strong> is useful in defining context for each <strong>Scenario</strong>. I often use it to also hold factory and general operation methods that may be called across many different <strong>Scenarios</strong></li>
-<li><strong>Background</strong> is useful in defining environment context across <strong>Scenarios</strong> in separate <strong>Features</strong>. I often use it to assert that the proper environment is available before stepping into the <strong>Scenarios</strong>.</li>
-</ul>
-<p>I think the work we went through in this post will be very beneficial when I introduce running tests under a browser. Stay tuned…</p>
-<p>Source for examples related to this post can be found in the <a href="https://github.com/bustardcelly/cucumberjs-examples/tree/0.2.0post">0.2.0.post tag on my Github account</a>.</p>
-]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/01/22/cucumberjs-world/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>
+]]></description><link>https://www.custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html</link><guid isPermaLink="true">https://www.custardbelly.com/blog/blog-posts/2014/01/29/cucumberjs-build/index.html</guid><dc:creator><![CDATA[Todd Anderson]]></dc:creator><pubDate>Invalid Date</pubDate></item></channel></rss>

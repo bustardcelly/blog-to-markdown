@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
     <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
-    <title>Todd Anderson - Same Image, 2017 : Explorations in Drawing the Same Image, Every Day. All Year</title>
+    <title>Todd Anderson - Building a Custom PiRate Radio</title>
   </head>
   <body>
     <header>
@@ -49,39 +49,200 @@
 
     <article class="post">
   <div class="title">
-    <h1><a href="https://www.custardbelly.com/blog/blog-posts/2017/01/10/same-image/index.html">Same Image, 2017 : Explorations in Drawing the Same Image, Every Day. All Year</a></h1>
+    <h1><a href="https://www.custardbelly.com/blog/blog-posts/2016/03/30/piradio/index.html">Building a Custom PiRate Radio</a></h1>
     <p>
-      2017 January 16th
+      2016 March 30th
       
         by todd anderson
       
     </p>
   </div>
   <section>
-    <p>I am attempting to draw the same image, every day, all year. Check it out: <a href="https://bustardcelly.github.io/same-image-2017/" alt="Same Image 2017">https://bustardcelly.github.io/same-image-2017/</a></p>
+    <h1 id="introduction">Introduction</h1>
+<p>Some time back - and judging from the post date, literally a couple of years ago - I bookmarked a post from <a href="http://makezine.com/">Make:</a> titled <a href="http://makezine.com/projects/raspberry-pirate-radio/">Raspberry Pirate Radio</a>. I&#39;ve always been interested in custom radio projects with microcontrollers. I&#39;ve built various started kits for FM and AM radios to hone my soldering chops, and my favorite radio project so far has been <a href="http://www.thepublicrad.io/">The Public Radio</a>. <em>I use it daily. Go get one</em>. In fact, I have a personal radio project that I have been working on for longer back then the mentioned post; a bit ambitious for my skill level at the time I started it, but some day I hope to blog about it here...</p>
+<p>In any event, I have had <a href="http://makezine.com/projects/raspberry-pirate-radio/">the Pirate Radio post</a> in the back of my mind for a while, waiting for the resources and time to implement. As of recent, I was able to get it assembled and working and have been very happy! I went a little outside of the steps described here, <a href="http://makezine.com/projects/raspberry-pirate-radio/">http://makezine.com/projects/raspberry-pirate-radio/</a> - more specifically, not using the image they created and manually setting up my system - and wanted to document what I did in case others are curious.</p>
+<iframe width="420" height="315" src="https://www.youtube.com/embed/aBu2tyXOWnU" frameborder="0" allowfullscreen></iframe>
 
-<h1 id="introduction">Introduction</h1>
-<p>I started this project on the first day of the new year (2017), and I have to confess: on the 16th day of the new year, I already <strong>despise</strong> the picture I chose to draw every day, <em>ALL YEAR</em>. That is expected, and truthfully my uneasiness of having to produce something related to this picture start around the 5th day into it; I didn&#39;t think it would happen that early... but it was bound to happen.</p>
-<h1 id="why-">Why?</h1>
-<h2 id="tl-dr">tl;dr</h2>
-<p>It&#39;s an old exercise of being forced to produce something as a result of another, repetitively. It causes waves of fascination and disgust, but hopefully will boil down to its essence through lucidity and loss of ego, at times... that is still yet to be seen at the time of this writing.</p>
-<h2 id="long-version">long version</h2>
-<p>I get too caught up in everything being perfect before I show something, say something, do something. Terrible habit. I am hoping this exercise will allow me to realize: I can&#39;t make it perfect before it goes out the door, but maybe I can learn something to make it better at a later time. I need to make something, no matter how much I dislike it, show it, own up to it, and trust I can learn from it to use that knowledge to create something that I think is of better quality.</p>
-<p>Art is obviously subjective, and taste is always in the eye of the beholder. What if I am holding stuff I produce to the standard of <em>only</em> what I want to see? What if all these really horrible drawings that I am making are actually &quot;art&quot; to someone else? I doubt that whomever likes my horrible drawings from this experiment will ever find them, but what the hell: I&#39;ll put them out there.</p>
-<p>All in all, I think it might be a fun way to not be so tied to perfection and also get back into my roots. <em>Though I have been fascinated with computers and programming for the last 15+ years, I actually old a Fine Arts degree. Go figure.</em></p>
-<h1 id="what-">What?</h1>
-<p>I really just chose a picture of a memory with my daughter that brings me joy. The picture and memory won&#39;t be ruined by my terrible, terrible representation of it. And in some respects, I guess that is why I chose the picture that I did. Perhaps, at the end of the year, I will also post the picture that I have been drawing from.</p>
-<h1 id="how-">How?</h1>
-<p>No rules. I can use whatever medium I want. I can focus on the smallest minutia I decide at the time. It doesn&#39;t even have to be a realistic representation.</p>
-<p>No rules. I just have to think or look at the image every day and produce something. Anything.</p>
-<h1 id="where-">Where?</h1>
-<p><a href="https://bustardcelly.github.io/same-image-2017/">https://bustardcelly.github.io/same-image-2017/</a>. Check daily, if you wish.</p>
+<p><em>I like my old school rap. I apologize to Mr. Ness; there was no offense, just showing off the band change...</em></p>
+<h1 id="specs">Specs</h1>
+<p>The ending solution has the following specs:</p>
+<h2 id="hardware">Hardware</h2>
+<ul>
+<li><a href="https://www.raspberrypi.org/products/model-a-plus/">Raspberry Pi A+</a></li>
+<li><a href="http://www.amazon.com/Sandisk-MicroSDHC-Memory-Card-Adapter/dp/B000WH6H1M">8GB MicroSD Card</a></li>
+<li><a href="https://www.pi-supply.com/product/pi-supply-raspberry-pi-power-switch/?v=7516fd43adaa">Pi Supply Switch</a></li>
+</ul>
+<p>I could go down to a <strong>Raspberry Pi A</strong> model and most likely a lower SD Card size if I changed the target OS, but I was using what I already had available to me.</p>
+<p>Additionally, the <a href="https://www.pi-supply.com/product/pi-supply-raspberry-pi-power-switch/?v=7516fd43adaa">Pi Supply Switch</a> is not a requirement - I just wanted a way to safely shutdown the Pi without have to explicitly <em>pull the plug</em>.</p>
+<h2 id="software">Software</h2>
+<ul>
+<li><a href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian Jessie</a></li>
+<li><a href="https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu">ffmpeg</a></li>
+<li><a href="http://www.icrobotics.co.uk/wiki/index.php/Turning_the_Raspberry_Pi_Into_an_FM_Transmitter">PiFM</a> <em>(included in the <a href="https://github.com/Make-Magazine/PirateRadio/blob/master/PirateRadio.py">PirateRadio Gtihub repository</a>)</em>.</li>
+<li><a href="https://github.com/Make-Magazine/PirateRadio/blob/master/PirateRadio.py">PirateRadio</a></li>
+<li><a href="https://www.pi-supply.com/pi-supply-switch-v1-1-code-examples/?v=7516fd43adaa">Pi Supply Soft Shutdown</a></li>
+</ul>
+<h1 id="raspberry-pi-os-set-up">Raspberry Pi OS Set Up</h1>
+<p>I used a <a href="https://www.raspberrypi.org/products/model-b-plus/">Rasbperry Pi B+</a> when setting up the system. Eventually, I moved the SD Card with the necessary software onto a <a href="https://www.raspberrypi.org/products/model-a-plus/">Raspberry Pi A+</a>, but will probably at some point transfer it to a <a href="https://www.raspberrypi.org/products/model-a/">Raspberry Pi A</a>, seeing as the GPIO requirements are a minimum; pin <em>4</em> is used for the antenna and pins <em>7</em> &amp; <em>8</em> are used for the Pi Supply shutdown.</p>
+<p>The exact Pi model that I used to setup the system is not a requirement. However, I did need something that I could connect an ethernet cable - and eventually a WiFi dongle - to, so that I could SSH into the Pi and install the necessary software and test; that meant I needed at least the following on the board:</p>
+<ul>
+<li>An Ethernet port</li>
+<li>2 USB ports - one for the WiFi dongle, the other for the Flash Drive</li>
+</ul>
+<p>I usually have a spare <strong>B</strong> or <strong>B+</strong> lying around for such a purpose.</p>
+<h2 id="raspbian-jessie">Raspbian Jessie</h2>
+<p>In order to get the target OS onto the MicroSD Card, I downloaded an image of <a href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian Jessie</a> image, plugged my SD Card into <a href="https://www.adafruit.com/products/939">this lovely USB MicroSD Card Writer from adafruit</a> and followed the graciously provided script from <a href="https://github.com/RayViljoen/Raspberry-PI-SD-Installer-OS-X">https://github.com/RayViljoen/Raspberry-PI-SD-Installer-OS-X</a>. <em>Be sure to heed the warnings!</em></p>
+<h2 id="expand-the-filesystem">Expand the Filesystem</h2>
+<p>After flashing the image to the MicroSD card, I inserted into my Pi - for this stage in the project, that was the <a href="https://www.raspberrypi.org/products/model-b-plus/">Rasbperry Pi B+</a> - and plugged in both an Ethernet chord and the power supply.</p>
+<p><em>I additionally used a WiFi dongle and setup my WPA configuration so I didn&#39;t have to work so close to my router in the living room, but that is not entirely necessary and such instructions will not be included in this article.</em></p>
+<p>After the Pi powered up, I SSH&#39;d into it:</p>
+<pre><code><span class="hljs-variable">$ </span>ssh pi<span class="hljs-variable">@10</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.x
+</code></pre><p><em>Provide the actually local IP of your Pi in placement of <code>10.0.0.x</code>. You can use tools such as <a href="http://angryip.org/download/#mac">Angry Ip Scanner</a> or <a href="https://itunes.apple.com/us/app/fing-network-scanner/id430921107?mt=8">Fing</a> to find its local IP on your network.</em></p>
+<p>Once logged in, I issued:</p>
+<pre><code><span class="hljs-variable">$ </span>raspi-config
+</code></pre><p>From the console prompt GUI, I clicked <code>Enter/Return</code> on the entry for <em>Expand Filesystem</em>; after which, it asked if I wanted to reboot - I selected <code>Yes</code>.</p>
+<p><em>You can update whichever other configurations you desire, with a recommendation to <code>Change Your User Password</code>.</em></p>
+<h2 id="install-some-required-libs">Install some required libs</h2>
+<p>After the PI reboots, SSH back into it and issue:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> apt-get update
+$ <span class="hljs-built_in">sudo</span> apt-get upgrade
+$ <span class="hljs-built_in">sudo</span> apt-get install git
+</code></pre><p>I additionally installed <code>vim</code>:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> apt-get install vim
+</code></pre><p>but, I have been known to get by with straight <code>vi</code> (which does not require any additional installation) if need be :)</p>
+<h1 id="ffmpeg">FFMPEG</h1>
+<p>The next thing to do is to build and install <a href="https://trac.ffmpeg.org">ffmpeg</a>. If you are unware of <strong>ffmpeg</strong>, it is software that allows for - among other things - playback of audio and video. It is the basis of playback for <a href="http://www.icrobotics.co.uk/wiki/index.php/Turning_the_Raspberry_Pi_Into_an_FM_Transmitter">PiFM</a> which is the C library that is run by the <a href="https://github.com/Make-Magazine/PirateRadio/blob/master/PirateRadio.py">PirateRadio</a> python script.</p>
+<p>I followed the following guide from FFMPEG regarding installation on Ubuntu: <a href="https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu">https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu</a>, knowing I was only concerned with the following assemblers and codecs:</p>
+<ul>
+<li>YASM</li>
+<li>libfdk-aac</li>
+<li>libmp3lame</li>
+</ul>
+<h2 id="building-and-installing">Building and Installing</h2>
+<p>SSH into the Pi and issue:</p>
+<pre><code>$ sudo apt<span class="hljs-attribute">-get</span> <span class="hljs-attribute">-y</span> <span class="hljs-subst">--</span>force<span class="hljs-attribute">-yes</span> install autoconf automake build<span class="hljs-attribute">-essential</span> libass<span class="hljs-attribute">-dev</span> libfreetype6<span class="hljs-attribute">-dev</span> <span class="hljs-subst">\</span>
+  libsdl1<span class="hljs-number">.2</span><span class="hljs-attribute">-dev</span> libtheora<span class="hljs-attribute">-dev</span> libtool libva<span class="hljs-attribute">-dev</span> libvdpau<span class="hljs-attribute">-dev</span> libvorbis<span class="hljs-attribute">-dev</span> libxcb1<span class="hljs-attribute">-dev</span> libxcb<span class="hljs-attribute">-shm0</span><span class="hljs-attribute">-dev</span> <span class="hljs-subst">\</span>
+  libxcb<span class="hljs-attribute">-xfixes0</span><span class="hljs-attribute">-dev</span> pkg<span class="hljs-attribute">-config</span> texinfo zlib1g<span class="hljs-attribute">-dev</span>
+
+$ mkdir ~/ffmpeg_sources
+$ mkdir ~/ffmpeg_build
+
+$ cd /usr/src
+$ sudo git clone git:<span class="hljs-comment">//source.ffmpeg.org/ffmpeg.git</span>
+$ cd ffmpeg
+$ sudo <span class="hljs-built_in">.</span>/configure <span class="hljs-subst">--</span>prefix<span class="hljs-subst">=</span><span class="hljs-string">"$HOME/ffmpeg_build"</span> <span class="hljs-subst">--</span>pkg<span class="hljs-attribute">-config</span><span class="hljs-attribute">-flags</span><span class="hljs-subst">=</span><span class="hljs-string">"--static"</span> <span class="hljs-subst">--</span>extra<span class="hljs-attribute">-cflags</span><span class="hljs-subst">=</span><span class="hljs-string">"-I$HOME/ffmpeg_build/include"</span> <span class="hljs-subst">--</span>extra<span class="hljs-attribute">-ldflags</span><span class="hljs-subst">=</span><span class="hljs-string">"-L$HOME/ffmpeg_build/lib"</span> <span class="hljs-subst">--</span>arch<span class="hljs-subst">=</span>armel <span class="hljs-subst">--</span>target<span class="hljs-attribute">-os</span><span class="hljs-subst">=</span>linux <span class="hljs-subst">--</span>enable<span class="hljs-attribute">-gpl</span> <span class="hljs-subst">--</span>enable<span class="hljs-attribute">-libmp3lame</span> <span class="hljs-subst">--</span>enable<span class="hljs-attribute">-libfdk</span><span class="hljs-attribute">-aac</span> <span class="hljs-subst">--</span>enable<span class="hljs-attribute">-nonfree</span>
+
+$ sudo make
+$ sudo make install
+</code></pre><p>Essentially, we are getting the required dependencies, setting up and defining the <code>source</code> and <code>build</code> directories for our custom FFMPEG install, and then building and installing it.</p>
+<p>Once complete, <strong>and it will take a long while - few hours for me</strong>, you&#39;ll need to update the <code>PATH</code> environment variable to include the new FFMPEG install:</p>
+<pre><code><span class="hljs-variable">$ </span>vim ~<span class="hljs-regexp">/.profile</span>
+</code></pre><p>Add:</p>
+<pre><code><span class="hljs-constant">PATH</span>=<span class="hljs-variable">$PATH</span><span class="hljs-symbol">:/home/pi/ffmpeg_build/bin</span>
+</code></pre><p>Then source:</p>
+<pre><code>$ <span class="hljs-built_in">source</span> ~/.profile
+</code></pre><p>Additionally, you will want to symlink to the <code>usr/bin</code> directory:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> ln <span class="hljs-operator">-s</span> /home/pi/ffmpeg_build/bin/ffmpeg /usr/bin/ffmpeg
+</code></pre><h2 id="checking">Checking</h2>
+<p>To test that <strong>ffmpeg</strong> is available form the command line, do a quick test to find its location:</p>
+<pre><code>which ffmpeg
+</code></pre><p>If a path to your install or symlink directory is printed in the console, you are good to proceed.</p>
+<h1 id="pirateradio">PirateRadio</h1>
+<p>Now it is time to grab and update the <a href="https://github.com/Make-Magazine/PirateRadio">PirateRadio</a> script.</p>
+<h2 id="cloning">Cloning</h2>
+<p>I cloned and modified it in the <code>/opt</code> directory, but you can place it wherever you prefer - just note that the startup script will point to the <code>/opt</code> location when we arrive to that section.</p>
+<pre><code><span class="hljs-variable">$ </span>cd /opt
+<span class="hljs-variable">$ </span>sudo mkdir pirateradio
+<span class="hljs-variable">$ </span>sudo chown -<span class="hljs-constant">R</span> <span class="hljs-symbol">pi:</span>pi pirateradio
+
+<span class="hljs-variable">$ </span>cd /opt/pirateradio
+<span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">https:</span>/<span class="hljs-regexp">/github.com/</span><span class="hljs-constant">Make</span>-<span class="hljs-constant">Magazine</span>/<span class="hljs-constant">PirateRadio</span>.git .
+</code></pre><h2 id="modifying">Modifying</h2>
+<p>Once <code>clone</code>&#39;d, modify a few lines of the <strong>PirateRadio.py</strong> file to conform to our current setup:</p>
+<pre><code><span class="hljs-variable">$ </span>vim <span class="hljs-constant">PirateRadio</span>.py
+</code></pre><p>Modify the following variable declaration to point to the <code>pirateradio.conf</code> of the current directory:</p>
+<pre><code><span class="hljs-setting">config_location = <span class="hljs-value"><span class="hljs-string">"/opt/pirateradio/pirateradio.conf"</span></span></span>
+</code></pre><p>Modify the <em>uncommented</em> <strong>fm_process</strong> defined to point to the relative <strong>pifm</strong> library:</p>
+<pre><code>fm_process = subprocess.Popen([<span class="hljs-string">"./pifm"</span>,<span class="hljs-string">"-"</span>,str(frequency),<span class="hljs-string">"44100"</span>, <span class="hljs-string">"stereo"</span> <span class="hljs-keyword">if</span> play_stereo <span class="hljs-keyword">else</span> <span class="hljs-string">"mono"</span>], <span class="hljs-keyword">stdin</span>=music_pipe_r, <span class="hljs-keyword">stdout</span>=dev_null)
+</code></pre><p>Additionally, I had to <strong>remove all additional <code>fallback=x</code> arguments</strong>.</p>
+<h2 id="configuration-update">Configuration Update</h2>
+<p>Now that we modified the location that the <a href="https://github.com/Make-Magazine/PirateRadio">PirateRadio</a> script is looking for the configuration, we need to update the configuration to look for the appropriate target directory for music files to access and play.</p>
+<pre><code><span class="hljs-variable">$ </span>vim pirateradio.conf
+</code></pre><p>Modify the following line:</p>
+<pre><code><span class="hljs-attribute">music_dir </span>=<span class="hljs-string"> /media/pi</span>
+</code></pre><p>Because we installed <a href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian Jessie</a>, we know that any USB drive installed into a USB port will auto-mount <code>dev/sda1</code> to <code>/media/pi</code>. I additionally, loaded a USB stick with audio files and optionally names the stick <code>RADIOPI</code> - so I extended the <code>music_dir</code> configuraation property as such:</p>
+<pre><code><span class="hljs-attribute">music_dir </span>=<span class="hljs-string"> /media/pi/RADIOPI</span>
+</code></pre><p>As mentioned before, with <a href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian Jessie</a> installed, the USB stick will be auto-mounted if plugged in to a port prior to provided power supply to the board.</p>
+<h1 id="-optional-pi-supply-soft-shutdown">[OPTIONAL] Pi Supply Soft Shutdown</h1>
+<p>I also added a <a href="https://www.pi-supply.com/product/pi-supply-raspberry-pi-power-switch/?v=7516fd43adaa">Pi Supply Switch</a> to my board.</p>
+<p>This is optional, but it allows for shutdown without having to explicitly pull the power supply from my board when I no longer wanted it to run. Something I was interested in with regards to corrupting the mounted USB, and also because I wanted to try it out :) <em>As a side note, I have been pretty happy and would recommend it - only complaints are that it is a bit &quot;bulky&quot;</em>.</p>
+<p>If you decide to add a <a href="https://www.pi-supply.com/product/pi-supply-raspberry-pi-power-switch/?v=7516fd43adaa">Pi Supply Switch</a> as well, follow the instructions from their site - <a href="https://www.pi-supply.com/pi-supply-switch-v1-1-code-examples/?v=7516fd43adaa">https://www.pi-supply.com/pi-supply-switch-v1-1-code-examples/?v=7516fd43adaa</a> - by adding the &quot;soft shutdown&quot; script to your system and follow this instructions to add it to the <code>/etc/rc.local</code> script.</p>
+<h1 id="adding-to-startup">Adding to Startup</h1>
+<p>Add the script to start-up the Pi so that, whenever power is supplied, the broadcast will kick off and be picked up the default <strong>88.9</strong> band by a radio reciever.</p>
+<p>Add it to <code>init.d</code>:</p>
+<pre><code>$ <span class="hljs-built_in">cd</span> /etc/init.d
+$ <span class="hljs-built_in">sudo</span> touch pirateradio
+$ <span class="hljs-built_in">sudo</span> chmod +x pirateradio
+$ <span class="hljs-built_in">sudo</span> vim pirateradio
+</code></pre><p>Paste in the following to <code>/etc/init.d/pirateradio</code>:</p>
+<pre><code><span class="hljs-shebang">#! /bin/sh</span>
+<span class="hljs-comment"># /etc/init.d/pirateradio</span>
+
+<span class="hljs-comment">### BEGIN INIT INFO</span>
+<span class="hljs-comment"># Provides:          pirateradio</span>
+<span class="hljs-comment"># Required-Start:    $network</span>
+<span class="hljs-comment"># Required-Stop:     $network</span>
+<span class="hljs-comment"># Default-Start:     2 3 4 5</span>
+<span class="hljs-comment"># Default-Stop:      0 1 6</span>
+<span class="hljs-comment"># Short-Description: Start PirateRadio at boot</span>
+<span class="hljs-comment"># Description:       PirateRadio script will start / stop a program a boot / shutdown.</span>
+<span class="hljs-comment">### END INIT INFO</span>
+
+<span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> <span class="hljs-keyword">in</span>
+  start)
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Starting PirateRadio"</span>
+    mount /dev/sda1 /media/pi/RADIOPI/
+    <span class="hljs-built_in">cd</span> /opt/pirateradio
+    python PirateRadio.py &amp;&gt;/dev/null
+    ;;
+  stop)
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Stopping PirateRadio"</span>
+    umount /dev/sda1
+    kill `pgrep <span class="hljs-operator">-f</span> ffmpeg\(.*\)\/pi`
+    kill `pgrep <span class="hljs-operator">-f</span> pifm`
+    ;;
+  *)
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: /etc/init.d/pirateradio {start|stop}"</span>
+    <span class="hljs-keyword">exit</span> <span class="hljs-number">1</span>
+    ;;
+<span class="hljs-keyword">esac</span>
+
+<span class="hljs-keyword">exit</span> <span class="hljs-number">0</span>
+</code></pre><p>Then save and add to start-up:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> update-rc.d pirateradio defaults
+$ <span class="hljs-built_in">sudo</span> /etc/init.d/pirateradio start
+</code></pre><h2 id="reboot">Reboot</h2>
+<p>At this point, you could reboot:</p>
+<pre><code>$ <span class="hljs-built_in">sudo</span> shutdown -r now
+</code></pre><p>And once the Pi is up again, and the USB stick has been pointed and the startup script run (takes about 5 - 10 seconds for me):</p>
+<ol>
+<li>Find your favorate radio reciever (for FM frequencies)</li>
+<li>Tune the radio to <strong>88.9</strong></li>
+<li>Get down to your favorite tunes!</li>
+</ol>
+<h3 id="additional-note">Additional Note</h3>
+<p>If you used and setup the <a href="https://www.pi-supply.com/pi-supply-switch-v1-1-code-examples/?v=7516fd43adaa">Pi Supply Shutdown</a> you won&#39;t need to unplug and plug back in the power supply to the Pi when deciding to stop broadcasting music from the USB stick on your PI to the FM frequency - just simply press the soft or hard shutdown buttons.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>I had a lot of fun building this custom &quot;local&quot; radio station based off the <a href="http://makezine.com/projects/raspberry-pirate-radio/">Raspberry Pirate Radio</a> post from a few years back. With a little customization, I was able to set it up the way I wanted while incorporating the <a href="https://www.pi-supply.com/pi-supply-switch-v1-1-code-examples/?v=7516fd43adaa">Pi Supply Shutdown</a> peripheral.</p>
+<p>I love music and talk radio and this project was just a continuation of different presentations of which I can access - and, dare I say, harness - that fascination. Hopefully, I will one day finish my one long standing project and have that posted up here as well :) Time will tell.</p>
+<p>Until then, I submit to you this admission:</p>
+<iframe width="420" height="315" src="https://www.youtube.com/embed/A8HT4kkBjD8" frameborder="0" allowfullscreen></iframe>
 
   </section>
   <section class="navigation">
       
       
-        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2016/03/30/piradio/index.html">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2016/02/04/http-to-https/index.html">older&nbsp;&#8674;</a></span>
       
     </section>
   <section class="comments">
@@ -89,8 +250,8 @@
       <div id="disqus_thread"></div>
       <script type="text/javascript">
         window.disqus_identifier="";
-        window.disqus_url="https://www.custardbelly.com/blog/blog-posts/2017/01/10/same-image/index.html";
-        window.disqus_title="Same Image, 2017 : Explorations in Drawing the Same Image, Every Day. All Year";
+        window.disqus_url="https://www.custardbelly.com/blog/blog-posts/2016/03/30/piradio/index.html";
+        window.disqus_title="Building a Custom PiRate Radio";
       </script>
         <script type="text/javascript" src="https://disqus.com/forums/custardbelly/embed.js"></script>
         <noscript><a href="http://custardbelly.disqus.com/?url=ref">View the discussion thread.</a></noscript>

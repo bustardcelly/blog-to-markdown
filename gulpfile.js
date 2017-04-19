@@ -258,6 +258,8 @@ gulp.task('build-copy', function() {
       .pipe(gulp.dest(deployDest + '/lib/highlight/styles'));
   gulp.src(['app/asset/**/*']).pipe(gulp.dest(deployDest + '/asset'));
   gulp.src(['app/image/**/*']).pipe(gulp.dest(deployDest + '/image'));
+  gulp.src(['app/assets/**/*']).pipe(gulp.dest(deployDest + '/assets'));
+  gulp.src(['app/images/**/*']).pipe(gulp.dest(deployDest + '/images'));
   gulp.src(['app/style/**/*']).pipe(gulp.dest(deployDest + '/style'));
   gulp.src('.htaccess').pipe(gulp.dest(deployDest));
 });

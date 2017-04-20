@@ -1,5 +1,5 @@
 <article id="archives">
-  <h1>archives</h1>
+  <h1>Archives</h1>
   <ul>
   <% _.forEachRight(site.posts, function(post){ %>
     <li>
@@ -8,7 +8,22 @@
         <br/>
         <span class="archive-date"><%= post.date() %></span>
       </p>
+      <hr />
     </li>
   <% }) %>
   </ul>
+  <script>
+     (function (window) {
+        'use strict';
+        try {
+          var latestLink = document.getElementById('latest-link');
+          var archiveLink = document.getElementById('archive-link');
+          latestLink.classList.remove('active');
+          archiveLink.classList.add('active');
+        }
+        catch (e) {
+          // old browser.
+        }
+      })(this);
+  </script>
 </article>

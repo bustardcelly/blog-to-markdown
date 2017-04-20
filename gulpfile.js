@@ -106,7 +106,7 @@ var siteContext = {
         }
       },
       rootlocation: LOCAL_LOCATION,
-      css: 'style/main.css',
+      css: 'style/post.css',
       highlightjs: 'lib/highlight/highlight.pack.js',
       // highlightcss: 'lib/highlight/styles/docco.css'
       highlightcss: 'lib/highlight/styles/github.css'

@@ -8,12 +8,13 @@
     <meta http-equiv="cleartype" content="on">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="<%= rootlocation %>/<%= highlightcss %>" media="all" />
     <link rel="alternate" type="application/rss+xml" title="<%= site.title %> - feed" href="<%= rootlocation %>/index.xml" />
     <title><%= site.title %><%= post ? ' - '+post.title() : '' %></title>
     <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
     <link rel="stylesheet" href="<%= rootlocation %>/assets/css/main.css" />
     <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+    <link rel="stylesheet" href="<%= rootlocation %>/<%= css %>" />
+    <link rel="stylesheet" type="text/css" href="<%= rootlocation %>/<%= highlightcss %>" media="all" />
   </head>
   <body>
 
@@ -53,11 +54,11 @@
               <section id="one">
                 <div class="container">
 
-    							<%= yield %>
-					</div>
-	</section>
-	</div>
-	</div>
+                  <%= yield %>
+                </div>
+              </section>
+          </div>
+      </div>
         <!-- Footer -->
           <section id="footer">
             <div class="container">
@@ -66,7 +67,6 @@
               </ul>
             </div>
           </section>
-
       </div>
 
     <!-- Scripts -->
@@ -77,15 +77,14 @@
       <script src="<%= rootlocation %>/assets/js/util.js"></script>
       <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
       <script src="<%= rootlocation %>/assets/js/main.js"></script>
-	    <script src="<%= rootlocation %>/<%= highlightjs %>"></script>
-		<script>
+      <script src="<%= rootlocation %>/<%= highlightjs %>"></script>
+    <script>
         // custardbelly.com
         var _gaq=[["_setAccount","UA-29061897-1"],["_trackPageview"]];
         (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
         g.src=("https:"==location.protocol?"//ssl":"//www")+".google-analytics.com/ga.js";
         s.parentNode.insertBefore(g,s)}(document,"script"));
-      </script>
-
+   </script>
 
   </body>
 </html>

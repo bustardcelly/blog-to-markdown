@@ -13,12 +13,12 @@
   </section>
   <section class="navigation">
       <% if(site.newerPost(post)) { %>
-        <span class="newer"><a href="<%= rootlocation %>/<%= site.newerPost(post).htmlPath() %>">&#8672;&nbsp;newer</a></span>
+        <span class="newer"><a href="<%= rootlocation %>/<%= site.newerPost(post).htmlPath() %>"><i class="fa fa-arrow-left"></i>&nbsp;newer posts</a></span>
       <% } %>
       <% if(site.olderPost(post)) { %>
-        <span class="older"><a href="<%= rootlocation %>/<%= site.olderPost(post).htmlPath() %>">older&nbsp;&#8674;</a></span>
+        <span class="older"><a href="<%= rootlocation %>/<%= site.olderPost(post).htmlPath() %>">older posts&nbsp;<i class="fa fa-arrow-right"></i></a></span>
       <% } %>
-    </section>
+  </section>
   <section class="comments">
     <% if(site.disqus) { %>
       <div id="disqus_thread"></div>

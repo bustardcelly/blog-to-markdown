@@ -1,0 +1,59 @@
+.title > h1 {
+  font-size: 2em;
+  line-height: 1.5em;
+  color: rgb(74, 202, 168);
+ }
+
+.title a {
+  text-decoration: none;
+}
+
+.title > p {
+  font-size: 0.8rem;
+  color: #A5A1A1;
+}
+
+.post h1 {
+  font-size: 2em;
+  line-height: 1.5em;
+}
+
+.post h2 {
+  font-size: 1.5em;
+  line-height: 1em;
+}
+
+section.navigation {
+  padding-top: 2em;
+  padding-bottom: 2em;
+  border-top: solid 6px #f4f4f4;
+  border-bottom: solid 6px #f4f4f4;
+}
+
+section.navigation > .older {
+  float: right;
+}
+
+section.navigation > .older, section.navigation > .newer {
+  font-size: 1.5em;
+}
+
+p > code {
+  background-color: rgb(253, 229, 193);
+}
+
+pre {
+  font-size: 0.8rem;
+  padding: 10px 15px;
+  background: #fcfcfc;
+  -moz-box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+  -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+  overflow-x: auto;
+}
+
+pre > code {
+  color: #888;
+  background-color: #fcfcfc;
+}
+

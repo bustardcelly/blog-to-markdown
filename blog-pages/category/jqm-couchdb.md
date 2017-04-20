@@ -5,7 +5,7 @@ author:
 date: '2014-01-03'
 ---
 **Warning**  
-_This series is quite old, with the last post being from March of 2011. Follow at your own risk_
+_This series is quite old, with the last post being from March of 2011. Follow at your own risk._
 
 * [jQuery Mobile + CouchDB: Part 1 – Getting Started](http://custardbelly.com/blog/blog-posts/2010/12/08/jquery-mobile-couchdb-part-1-getting-started/index.html)  
 * [jQuery Mobile + CouchDB: Part 2 – Document View](http://custardbelly.com/blog/blog-posts/2010/12/13/jquery-mobile-couchdb-part-2-document-view/index.html)  

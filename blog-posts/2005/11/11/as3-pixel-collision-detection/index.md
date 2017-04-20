@@ -14,7 +14,8 @@ One thing i found that may be helpful to others… i spent about 10 minutes tryi
 
 I guess i have some new visual learning to go along with the new code.
 
-Here’s a little snippet of how you do startDrag/stopDrag in AS3. It can be found in the online docs… if i had bothered to read them ![:)](https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif) .  
+Here’s a little snippet of how you do startDrag/stopDrag in AS3. It can be found in the online docs… if i had bothered to read them&nbsp;<i class="fa fa-smile-o" alt=":)"></i>.
+
 If you want to see the hand cursor, you have to set buttonMode to true (as far as i know)- which will turn on useHandCursor with the default value of true.
     
       

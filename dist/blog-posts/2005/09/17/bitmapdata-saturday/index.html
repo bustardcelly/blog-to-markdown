@@ -8,13 +8,13 @@
     <meta http-equiv="cleartype" content="on">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="/index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Todd Anderson - feed" href="https://www.custardbelly.com/blog/index.xml" />
     <title>Todd Anderson - BitmapData saturday</title>
     <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="https://www.custardbelly.com/blog/assets/css/main.css" />
     <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-    <link rel="stylesheet" href="/style/post.css" />
-    <link rel="stylesheet" type="text/css" href="/lib/highlight/styles/github.css" media="all" />
+    <link rel="stylesheet" href="https://www.custardbelly.com/blog/style/post.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.custardbelly.com/blog/lib/highlight/styles/github.css" media="all" />
   </head>
   <body>
 
@@ -56,7 +56,7 @@
 
                   <article class="post">
   <div class="title">
-    <h1><a href="/blog-posts/2005/09/17/bitmapdata-saturday/index.html">BitmapData saturday</a></h1>
+    <h1><a href="https://www.custardbelly.com/blog/blog-posts/2005/09/17/bitmapdata-saturday/index.html">BitmapData saturday</a></h1>
     <p>
       2005 September 17th
       
@@ -65,7 +65,13 @@
     </p>
   </div>
   <section>
-    <p>Since i finally got a whole day to fool around, i decided to start learning about the new BitmapData class in flash8.<br>I’ve only just begun, and i’m not really sure if what i worked on today is of any benefit in the end, but i like it.<br>I set out to eliminate having to create a ton of sprite movieclips in the library for games, and instead store the data from an external spritesheet and just have movieclips change their bitmap data when states change.<br>After i banged my desk and racked my brain for an hour to find out why i couldn’t load a bitmap, i decided to actually read the help files instead of going on what i thought should happen <img src="https://custardbelly.com/blog/wp-includes/images/smilies/icon_smile.gif" alt=":)"><br>Turns out attachBitmap is not like loadMovie, but more like attachMovie (i know it makes sense, but it was early) – you can only attach a bitmap if it’s in the library. So i created a class that would load the image, creates a new BitmapData object and draws to it from the loaded movieclip. then it removes that movieclip, passes the new bitmap object onto a character movieclip which has coordinates of how to “cut-up” the bitmap.<br>So, basically when states change (like if the user presses SPACE for jump) those coordinates are fed the BitmapData’s copyPixel function.<br>I just tried it with the “still” and “jump” states, and it seems to be working pretty well. it will be interesting to see what comes of trying to incorporate a walk-cycle into it. </p>
+    <p>Since i finally got a whole day to fool around, i decided to start learning about the new BitmapData class in flash8.  </p>
+<p>I’ve only just begun, and i’m not really sure if what i worked on today is of any benefit in the end, but i like it.  </p>
+<p>I set out to eliminate having to create a ton of sprite movieclips in the library for games, and instead store the data from an external spritesheet and just have movieclips change their bitmap data when states change.  </p>
+<p>After i banged my desk and racked my brain for an hour to find out why i couldn’t load a bitmap, i decided to actually read the help files instead of going on what i thought should happen &nbsp;&nbsp;<i class="fa fa-smile-o" alt=":)"></i>&nbsp;&nbsp;  </p>
+<p>Turns out attachBitmap is not like loadMovie, but more like attachMovie (i know it makes sense, but it was early) – you can only attach a bitmap if it’s in the library. So i created a class that would load the image, creates a new BitmapData object and draws to it from the loaded movieclip. then it removes that movieclip, passes the new bitmap object onto a character movieclip which has coordinates of how to “cut-up” the bitmap.  </p>
+<p>So, basically when states change (like if the user presses SPACE for jump) those coordinates are fed the BitmapData’s copyPixel function.</p>
+<p>I just tried it with the “still” and “jump” states, and it seems to be working pretty well. it will be interesting to see what comes of trying to incorporate a walk-cycle into it.</p>
 <p>Whether or not this is the best thing to do for a game, i’m not quite sure… Whether it takes less time than making movieclips, i don’t know… but it’s another possibility.</p>
 <p>As a side note, the png this swf loads was created by using <a href="http://www.5etdemi.com/blog/archives/2005/03/pixel-tools-v2-available/">Patrick Mineault’s pixel tools</a> (glad they still work in 8!) in the Flash IDE then exported.</p>
 <p>Posted in <a href="https://custardbelly.com/blog/category/flash/">Flash</a>, <a href="https://custardbelly.com/blog/category/flash8/">Flash8</a>.</p>
@@ -73,10 +79,10 @@
   </section>
   <section class="navigation">
       
-        <span class="newer"><a href="/blog-posts/2005/09/18/bitmapdata-sunday/index.html"><i class="fa fa-arrow-left"></i>&nbsp;newer posts</a></span>
+        <span class="newer"><a href="https://www.custardbelly.com/blog/blog-posts/2005/09/16/non-existant-8ball-hopefuls-but-i-aint-complaining/index.html"><i class="fa fa-arrow-left"></i>&nbsp;newer posts</a></span>
       
       
-        <span class="older"><a href="/blog-posts/2005/09/16/non-existant-8ball-hopefuls-but-i-aint-complaining/index.html">older posts&nbsp;<i class="fa fa-arrow-right"></i></a></span>
+        <span class="older"><a href="https://www.custardbelly.com/blog/blog-posts/2005/09/15/whatd-you-say/index.html">older posts&nbsp;<i class="fa fa-arrow-right"></i></a></span>
       
   </section>
   <section class="comments">
@@ -107,14 +113,14 @@
       </div>
 
     <!-- Scripts -->
-      <script src="/assets/js/jquery.min.js"></script>
-      <script src="/assets/js/jquery.scrollzer.min.js"></script>
-      <script src="/assets/js/jquery.scrolly.min.js"></script>
-      <script src="/assets/js/skel.min.js"></script>
-      <script src="/assets/js/util.js"></script>
+      <script src="https://www.custardbelly.com/blog/assets/js/jquery.min.js"></script>
+      <script src="https://www.custardbelly.com/blog/assets/js/jquery.scrollzer.min.js"></script>
+      <script src="https://www.custardbelly.com/blog/assets/js/jquery.scrolly.min.js"></script>
+      <script src="https://www.custardbelly.com/blog/assets/js/skel.min.js"></script>
+      <script src="https://www.custardbelly.com/blog/assets/js/util.js"></script>
       <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-      <script src="/assets/js/main.js"></script>
-      <script src="/lib/highlight/highlight.pack.js"></script>
+      <script src="https://www.custardbelly.com/blog/assets/js/main.js"></script>
+      <script src="https://www.custardbelly.com/blog/lib/highlight/highlight.pack.js"></script>
     <script>
         // custardbelly.com
         var _gaq=[["_setAccount","UA-29061897-1"],["_trackPageview"]];

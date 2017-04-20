@@ -1,5 +1,5 @@
 ---
-title: 'about'
+title: 'About'
 author:
   name: 'todd anderson'
 date: '2014-01-18'
@@ -11,5 +11,4 @@ I work with companies in the enterprise and entertainment industries to deliver 
 
 I write frequently about software and technology on my [blog](https://www.custardbelly.com/blog) and give back to the development community by releasing Open Source Software on [GitHub](https://github.com/bustardcelly). I am also a co-author on [several titles](http://www.amazon.com/Todd-Anderson/e/B0037FMULM/ref=ntt_athr_dp_pel_2) from O'Reilly Media and Wiley Wrox publishing.
 
-**Have some crazy ideas or exciting new opportunities? I'd love to hear about them!**    
-[toddanderson [at] taanderson.com](mailto:toddanderson@taanderson.com)
+[Contact](https://github.com/bustardcelly/custardbelly-dot-comv2/tree/master/contact)
